@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Tjenester.Autentisering.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Overforingsstatus\" />
+  </ItemGroup>
+</Project>

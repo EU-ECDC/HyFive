@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Fhi.HelseId.Web" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
+  </ItemGroup>
+</Project>

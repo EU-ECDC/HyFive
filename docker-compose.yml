@@ -1,10 +1,10 @@
 services:
 
   fhi.handhygiene.admin:
-    image: ${DOCKER_REGISTRY-}fhihandhygieneadmin
+    image: ${DOCKER_REGISTRY-}hyfive-admin
     build:
       context: .
-      dockerfile: Fhi.Handhygiene.Admin/Dockerfile
+      dockerfile: HyFive.Admin/Dockerfile
     depends_on:
       database:
         condition: service_healthy
@@ -15,10 +15,10 @@ services:
      - 8081:8080
 
   fhi.handhygiene.observasjon:
-    image: ${DOCKER_REGISTRY-}fhihandhygieneobservasjon
+    image: ${DOCKER_REGISTRY-}hyfive-observation
     build:
       context: .
-      dockerfile: Fhi.Handhygiene.Observasjon/Dockerfile
+      dockerfile: HyFive.Observasjon/Dockerfile
     depends_on:
       database:
         condition: service_healthy

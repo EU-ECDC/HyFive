@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HyFive.Admin</name>
+    </assembly>
+    <members>
+        <member name="M:HyFive.Admin.Controllers.SeedController.SeedKodeverk">
+            <summary>
+            Seeder alle nædvendige statiske kodeverk som skal tl for å få applikasjonen til å kjøre:
+            OverforingstatusTyper, AktivitetTyper, Indikasjoner, HandsmykkeTyper, BeskyttelsesutstyrTyper, BeskyttelsesutstyrsettingTyper,
+            HanskeMedIndikasjonTyper, HanskeUtenIndikasjonType, HandhygieneEtterHanskebrukType.
+            I tillegg seedes det en FHI Admin: Felix Mørk.
+            For å seede kommuner må du kjøre scriptet "HyFive.Dataaksess\Scripts\Kommuner.sql"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.SeedController.SeedInstitusjoner">
+            <summary>
+            Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roller og Brukere.
+            Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.Dataaksess\Scripts\Institusjoner, avdelinger mm.sql".
+            NB! Du må bruke ENTEN denne api-metoden ELLER scriptet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.HentAvdeling(System.Int32)">
+            <summary>
+            Hent avdeling
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdeling(HyFive.Modeller.V1.Institusjon.OpprettAvdelingRequest)">
+            <summary>
+            Opprett avdeling med roller
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdeling(HyFive.Modeller.V1.Institusjon.Avdeling)">
+            <summary>
+            Oppdater avdeling 
+            </summary>
+            <param name="avdeling"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdelingType(HyFive.Modeller.V1.Institusjon.AvdelingType)">
+            <summary>
+            Opprett avdelingstype
+            </summary>
+            <param name="avdelingType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdelingType(HyFive.Modeller.V1.Institusjon.AvdelingType)">
+            <summary>
+            Oppdater avdelingstype
+            </summary>
+            <param name="avdelingType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.HentRoller(System.Int32)">
+            <summary>
+            Hent roller
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.SlettAvdeling(System.Int32)">
+            <summary>
+            Slett avdeling
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.HarOverfortSesjonTilFHI(System.Int32)">
+            <summary>
+            Sjekker om avdeling har sesjoner overført til FHI
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OppdaterObservator(HyFive.Modeller.V1.Bruker.Bruker)">
+            <summary>
+            Oppdaterer en observatør.
+            </summary>
+            <param name="bruker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OpprettObservator(HyFive.Modeller.V1.Bruker.Bruker)">
+            <summary>
+            Oppretter en observatør.
+            </summary>
+            <param name="bruker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.SlettObservator(System.Int32)">
+            <summary>
+            Sletter en observatør.
+            </summary>
+            <param name="observatorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OpprettKoordinator(HyFive.Modeller.V1.Bruker.Bruker)">
+            <summary>
+            Oppretter en koordinator.
+            </summary>
+            <param name="bruker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OppdaterKoordinator(HyFive.Modeller.V1.Bruker.Bruker)">
+            <summary>
+            Oppdaterer en koordinator.
+            </summary>
+            <param name="bruker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.SlettKoordinator(System.Int32)">
+            <summary>
+            Sletter en koordinator.
+            </summary>
+            <param name="koordinatorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.HentFhiAdmin">
+            <summary>
+            Henter alle FhiAdmin.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OpprettFhiAdmin(HyFive.Modeller.V1.Bruker.OpprettFhiAdminRequest)">
+            <summary>
+            Oppretter en FhiAdmin.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BrukerController.OpprettFhiAdmin(HyFive.Modeller.V1.Bruker.Bruker)">
+            <summary>
+            Oppdaterer en FhiAdmin.
+            </summary>
+            <param name="bruker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ForesporselOmBrukertilgangController.HentAlleForesporsler(System.Int32)">
+            <summary>
+            Henter alle Forespørsler om brukertilgang.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ForesporselOmBrukertilgangController.HentForesporslerSomVenterPaGodkjenning(System.Int32)">
+            <summary>
+            Henter Forespørsler som er ikke godkjent.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentInstitusjoner">
+            <summary>
+            Hent alle tilgjengelige institusjoner <see cref="T:HyFive.Modeller.V1.Institusjon.InstitusjonRapport"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentInstitusjon(System.Int32)">
+            <summary>
+            Hent én institusjon
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentAvdelinger(System.Int32)">
+            <summary>
+            Hent alle avdelinger tilhørende institusjon
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentObservatorer(System.Int32)">
+            <summary>
+            Hent alle observatører tilhørende institusjon
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentKoordinatorer(System.Int32)">
+            <summary>
+            Hent alle koordinatorer tilhørende institusjon
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentInstitusjontyper">
+            <summary>
+            Hent  <see cref="T:HyFive.Modeller.V1.Institusjon.InstitusjonType"/>r
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OpprettInstitusjon(HyFive.Modeller.V1.Institusjon.OpprettInstitusjonRequest)">
+            <summary>
+            Opprett institusjon med koordinator
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OppdaterInstitusjon(HyFive.Modeller.V1.Institusjon.Institusjon)">
+            <summary>
+            Oppdaterer en institusjon. Ignorerer eventuelle avdelinger eller roller som sendes med.
+            </summary>
+            <param name="institusjon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.SlettInstitusjon(System.Int32)">
+            <summary>
+            Slett institusjon og alle tilhørende sesjoner, observasjoner, avdelinger, roller og brukere
+            </summary>
+            <param name="institusjonId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.HentKlinikk(System.Int32,System.Int32)">
+            <summary>
+            Hent klinikk
+            </summary>
+            <param name="id"></param>
+            <param name="institusjonsId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.HentKlinikkerForInstitusjon(System.Int32)">
+            <summary>
+            Hent klinikker for institusjon
+            </summary>
+            <param name="institusjonId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OpprettKlinikk(HyFive.Modeller.V1.Institusjon.Klinikk)">
+            <summary>
+            Opprett klinikk
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OppdaterKlinikk(HyFive.Modeller.V1.Institusjon.Klinikk)">
+            <summary>
+            Opprett klinikk
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AktivitettypeController.HentAktivitettyper">
+            <summary>
+            Hent alle tilgjengelige aktivitettyper <see cref="T:HyFive.Modeller.V1.Observasjon.AktivitetType"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.AktivitettypeController.OppdaterAktivitettype(HyFive.Modeller.V1.Observasjon.AktivitetType)">
+            <summary>
+            Oppdaterer en aktivitettype
+            </summary>
+            <param name="aktivitettype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrsettingtyperController.HentBeskyttelsesutstyrsettingTyper">
+            <summary>
+            Hent beskyttelsesutstyrsettingtyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrsettingtyperController.OppdaterBeskyttelsesutstyrsettingType(HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingType)">
+            <summary>
+            Oppdater beskyttelsesutstyrsettingType
+            </summary>
+            <param name="settingType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrtypeController.HentBeskyttelsesutstyrTyper">
+            <summary>
+            Hent beskyttelsesutstyrtyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrtypeController.OppdaterBeskyttelsesutstyrType(HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType)">
+            <summary>
+            Oppdater beskyttelsesutstyrtyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrtypeController.HentFeilbrukTyper(System.Int32)">
+            <summary>
+            Hent feilbruktyper
+            </summary>
+            <param name="utstyrTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrtypeController.OppdaterFeilbrukType(System.Int32,HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr.FeilbrukType)">
+            <summary>
+            Oppdater feilbruktype
+            </summary>
+            <param name="utstyrTypeId"></param>
+            <param name="feilbrukType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.BeskyttelsesutstyrtypeController.OpprettFeilbrukType(System.Int32,HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr.OpprettFeilbrukTypeRequest)">
+            <summary>
+            Opprett feilbruktype
+            </summary>
+            <param name="utstyrTypeId"></param>
+            <param name="feilbrukType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HandhygieneEtterHanskebrukTypeController.HentHandhygieneEtterHanskebrukTyper">
+            <summary>
+            Hent HandhygieneEtterHanskebrukTyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HandhygieneEtterHanskebrukTypeController.OppdaterHandhygieneEtterHanskebrukType(HyFive.Modeller.V1.Observasjon.Hansker.HandhygieneEtterHanskebrukType)">
+            <summary>
+            Oppdater HandhygieneEtterHanskebrukType
+            </summary>
+            <param name="handhygieneEtterHanskebrukType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HandsmykketypeController.HentHandsmykketyper">
+            <summary>
+            Hent alle tilgjengelige handsmykketyper <see cref="T:HyFive.Modeller.V1.Observasjon.HandsmykkeType"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HandsmykketypeController.OppdaterHandsmykketype(HyFive.Modeller.V1.Observasjon.HandsmykkeType)">
+            <summary>
+            Oppdaterer en handsmykketype
+            </summary>
+            <param name="handsmykketype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HanskeMedIndikasjonTypeController.HentHanskeMedIndikasjonTyper">
+            <summary>
+            Hent HanskeMedIndikasjonTyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HanskeMedIndikasjonTypeController.OppdaterHanskeMedIndikasjonType(HyFive.Modeller.V1.Observasjon.Hansker.HanskeMedIndikasjonType)">
+            <summary>
+            Oppdater HanskeVedIndikasjonType
+            </summary>
+            <param name="hanskeMedIndikasjonType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HanskeUtenIndikasjonTypeController.HentHanskeUtenIndikasjonTyper">
+            <summary>
+            Hent HanskeUtenIndikasjonTyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.HanskeUtenIndikasjonTypeController.OppdaterHanskeUtenIndikasjonType(HyFive.Modeller.V1.Observasjon.Hansker.HanskeUtenIndikasjonType)">
+            <summary>
+            Oppdater HanskeUtenIndikasjonType
+            </summary>
+            <param name="hanskeUtenIndikasjonType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HyFive.Admin.Controllers.V1.IndikasjonstyperController">
+            <summary>
+            Indikasjonstyper
+            </summary>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.IndikasjonstyperController.HentIndikasjonstyper">
+            <summary>
+            Hent indikasjonstyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.IndikasjonstyperController.OppdaterIndikasjonstype(HyFive.Modeller.V1.Observasjon.IndikasjonType)">
+            <summary>
+            Oppdater indikasjonstype
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HyFive.Admin.Controllers.V1.InstitusjonstyperController">
+            <summary>
+            Indikasjonstyper
+            </summary>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.HentInstitusjonstyper">
+            <summary>
+            Hent indikasjonstyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OppdaterInstitusjonstype(HyFive.Modeller.V1.Institusjon.InstitusjonType)">
+            <summary>
+            Oppdater indikasjonstype
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OpprettInstitusjonstype(HyFive.Modeller.V1.Institusjon.OpprettInstitusjonstypeRequest)">
+            <summary>
+            Opprett institusjonstype
+            </summary>
+            <param name="institusjonstype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.HentPredefinertKommentar(System.Int32)">
+            <summary>
+            Hent predefinert kommentarer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OppdaterPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institusjon.PredefinertKommentar)">
+            <summary>
+            Oppdater predefinert kommentar
+            </summary>
+            <param name="predefinertKommentar"></param>
+            <param name="institusjonId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OpprettPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institusjon.OpprettPredefinertKommentarRequest)">
+            <summary>
+            Opprett predefinert kommentar
+            </summary>
+            <param name="nyPredefinertKommentar"></param>
+            <param name="institusjonId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentInstitusjonerMedSesjoner(System.String,System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag rapport for institusjon(er) <see cref="T:HyFive.Modeller.V1.Oversikt.InstitusjonOversiktRapport"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilAvdeling(System.Int32,System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Hent alle sesjonene til en avdeling <see cref="T:HyFive.Modeller.V1.Oversikt.SesjonOversiktRapport"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilInstitusjon(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Hent alle sesjonene til en institusjon <see cref="T:HyFive.Modeller.V1.Oversikt.SesjonOversiktRapport"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.OverforSesjonTilFHI(System.Int32,System.Guid)">
+            <summary>
+            Send/overfør sesjon til FHI
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagHanskeRapportSomExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag en Excel-rapport for Hanske-observasjoner for avdeling
+            </summary>
+            <param name="institusjonId"></param>
+            <param name="avdelingId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagHandsmykkeRapportSomExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag en Excel-rapport for Handsmykke-observasjoner for avdeling
+            </summary>
+            <param name="institusjonId"></param>
+            <param name="avdelingId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagBeskyttelsesutstyrRapportSomExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag en Excel-rapport for Beskyttelsesutstyr-observasjoner for avdeling
+            </summary>
+            <param name="institusjonId"></param>
+            <param name="avdelingId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagFireindikasjonerRapportSomExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag en Excel-rapport for Fire Indikasjoner-observasjoner for avdeling
+            </summary>
+            <param name="institusjonId"></param>
+            <param name="avdelingId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <param name="sesjonId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagFireIndikasjnerRapportForAvdelingPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag fire indikasjoner rapport for avdeling på pdf format
+            </summary>
+            <param name="avdelingId"></param>
+            <param name="institusjonId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RapportController.LagHandsmykkeRapportForAvdelingPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Tjenester.AuthorizedRole)">
+            <summary>
+            Lag håndsmykkerapport for avdeling på pdf format
+            </summary>
+            <param name="avdelingId"></param>
+            <param name="institusjonId"></param>
+            <param name="fraTid"></param>
+            <param name="tilTid"></param>
+            <param name="rolle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.HentRegionTyper">
+            <summary>
+            Hent Regiontyper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.HentRegion(System.Int32)">
+            <summary>
+            Hent Regiontype
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OpprettRegionType(HyFive.Modeller.V1.Institusjon.OpprettRegionRequest)">
+            <summary>
+            Opprett Regiontype
+            </summary>
+            <param name="nyRegionsType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OppdaterRegionType(HyFive.Modeller.V1.Institusjon.Region)">
+            <summary>
+            Oppdater Regiontype
+            </summary>
+            <param name="regionType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RolleController.HentRoller">
+            <summary>
+            Hent alle roller i systemet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RolleController.OpprettRolle(HyFive.Modeller.V1.Observasjon.OpprettRolleRequest)">
+            <summary>
+            Opprett rolle
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.RolleController.OppdaterRolle(HyFive.Modeller.V1.Observasjon.OppdaterRolleRequest)">
+            <summary>
+            Oppdaterer en rolle
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

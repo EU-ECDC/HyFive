@@ -1,14 +1,14 @@
 # Beskrivelse 
 
-Digitalisert observasjon av håndhygiene.
-Løsningen består av 2 komponenter: Admin og Observasjon.
+Digitalisert observasjon av hï¿½ndhygiene.
+Lï¿½sningen bestï¿½r av 2 komponenter: Admin og Observasjon.
 
 ## Observasjon
-Et grensesnitt hvor observatører (Observatør) kan logge inn med HelseId og , med mer.
+Et grensesnitt hvor observatï¿½rer (Observatï¿½r) kan logge inn med HelseId og , med mer.
 
-"Observatør" kan:
+"Observatï¿½r" kan:
 - Se sine tilknyttede institusjoner
-- Foreta ulike typer observasjoner (Fire indikasjoner, Hanskebruk, Håndsmykke, Beskyttelsesutstyr) på sine institusjoner avdelinger 
+- Foreta ulike typer observasjoner (Fire indikasjoner, Hanskebruk, Hï¿½ndsmykke, Beskyttelsesutstyr) pï¿½ sine institusjoner avdelinger 
 - Sende inn observasjonene iform av Sesjoner til "Koordinator" for institusjon
 
 
@@ -24,18 +24,18 @@ Et administrativt grensesnitt hvor FHI (FHI Admin) og ulike helseforetak/institu
 "Koordinator" kan:
 - Se sin(e) institusjon(er)s observasjoner
 - Sende observasjonssesjoner videre til FHI
-- Opprette Observatører og Koordinatorer for sin(e) institusjon(er)
+- Opprette Observatï¿½rer og Koordinatorer for sin(e) institusjon(er)
 
 ## Views
 
- En del av datasettet eksponeres read-only i form av views. View'ene ligger i Fhi.Handhygiene.Dataaksess/Views.
+ En del av datasettet eksponeres read-only i form av views. View'ene ligger i HyFive.Dataaksess/Views.
  Disse view'ene tas ibruk direkte i databasen via Azure AD tilgang
  Ved endring av returverdiene i et view: 
-  1. Kjør alle unit-tester for å se at ikke integrasjonen mellom endret view og HandhygieneContext blir ødelagt.
-  2. Husk å oppdater view'ene du endrer i alle miljøer du deployer til. 
+  1. Kjï¿½r alle unit-tester for ï¿½ se at ikke integrasjonen mellom endret view og HandhygieneContext blir ï¿½delagt.
+  2. Husk ï¿½ oppdater view'ene du endrer i alle miljï¿½er du deployer til. 
 
 Ved endring av tabellene som et view bruker:
-Korriger view'et og følg deretter punkt 1-2 over.
+Korriger view'et og fï¿½lg deretter punkt 1-2 over.
 
 
 
@@ -43,63 +43,63 @@ Korriger view'et og følg deretter punkt 1-2 over.
 Autentisering foretas ved bruk av HelseId gjennom komponenten Fhi.HelseId (https://github.com/folkehelseinstituttet/fhi.helseid). 
 
 ## Autorisering
-Autorisering foretas ved bruk av informasjon utstedt i et HelseId-token (HPR-nummer og PidPseudonym) sammen med data lagret i en brukertabell (Bruker) med diskriminerte brukertyper for "FHI Admin", "Koordinator" og "Observatør".
+Autorisering foretas ved bruk av informasjon utstedt i et HelseId-token (HPR-nummer og PidPseudonym) sammen med data lagret i en brukertabell (Bruker) med diskriminerte brukertyper for "FHI Admin", "Koordinator" og "Observatï¿½r".
 Hvert API-endepunkt sikres ved bruk av en policy.
-Der det er nødvendig gjøres ytterligere tilgangskontroll ved å inspisere API-requesten og nekte tilgang basert på query-parametere, f eks. hvis en Koordinator forsøker å spørre om data fra en institusjon den ikke er Koordinator for.
+Der det er nï¿½dvendig gjï¿½res ytterligere tilgangskontroll ved ï¿½ inspisere API-requesten og nekte tilgang basert pï¿½ query-parametere, f eks. hvis en Koordinator forsï¿½ker ï¿½ spï¿½rre om data fra en institusjon den ikke er Koordinator for.
 
 ## Seeding av applikasjon
-Ved første gangs oppsett av applikasjonen må den seedes med data.
-Dette gjøres ved et kall til Seed-metoden i API'et i Fhi.Handhygiene.Observasjon løsningen.
-1. Start opp løsningen Fhi.Handhygiene.Observasjon
-2. Navigér til '/swagger'
-3. Bla deg ned til 'Seed' metoden og kjør denne.
+Ved fï¿½rste gangs oppsett av applikasjonen mï¿½ den seedes med data.
+Dette gjï¿½res ved et kall til Seed-metoden i API'et i HyFive.Observasjon lï¿½sningen.
+1. Start opp lï¿½sningen HyFive.Observasjon
+2. Navigï¿½r til '/swagger'
+3. Bla deg ned til 'Seed' metoden og kjï¿½r denne.
 
 ## Testbrukere inkludert i 'Seed' dataene
-Når du seed'er applikasjonen så opprettes det brukere for FHI Admin, Koordinator og Observatør som du kan logge inn med via HelseId.
-Under følger en oversikt.
+Nï¿½r du seed'er applikasjonen sï¿½ opprettes det brukere for FHI Admin, Koordinator og Observatï¿½r som du kan logge inn med via HelseId.
+Under fï¿½lger en oversikt.
 
-Ved innlogging i både Admin-grensesnitt og Observasjon-grensesnitt så kan du velge "Test IDP" og legge inn "Fødselsnummer" for rollen du ønsker å logge inn med. 
+Ved innlogging i bï¿½de Admin-grensesnitt og Observasjon-grensesnitt sï¿½ kan du velge "Test IDP" og legge inn "Fï¿½dselsnummer" for rollen du ï¿½nsker ï¿½ logge inn med. 
 
-## Testmiljø
+## Testmiljï¿½
 
 ### Admin-grensesnitt
 Adresse: https://test-admin-handhygiene.azurewebsites.net
-Logg på som FHI Admin eller Koordinator. Se innloggingsopplysninger for FHI Admin og Koordinator under.
+Logg pï¿½ som FHI Admin eller Koordinator. Se innloggingsopplysninger for FHI Admin og Koordinator under.
 
 ### Observasjon-grensesnitt
 Adresse: https://test-handhygiene.azurewebsites.net
-Logg på som Observatør. Se innloggingsopplysninger for Observatør under.
+Logg pï¿½ som Observatï¿½r. Se innloggingsopplysninger for Observatï¿½r under.
 
 ### FHI Admin
-Navn: FELIX MØRK  
-Fødselsnummer: 22127113177  
+Navn: FELIX Mï¿½RK  
+Fï¿½dselsnummer: 22127113177  
 HPR-nummer: 0  
 
 ### Koordinator
 Navn: ANNE MARKUSSEN  
-Fødselsnummer: 15037104229  
+Fï¿½dselsnummer: 15037104229  
 HPR-nummer: 4909402  
 
-### Observatør
+### Observatï¿½r
 Navn: LINE DANSER  
-Fødselsnummer: 13116900216  
+Fï¿½dselsnummer: 13116900216  
 HPR-nummer: 9383840  
 
 ## Ikoner
 
-Ved å følge stegene under, kan du legge til custom ikoner i font-awesome biblioteket til applikasjonen, og bruke dem akkurat som et font-awesome ikon.
+Ved ï¿½ fï¿½lge stegene under, kan du legge til custom ikoner i font-awesome biblioteket til applikasjonen, og bruke dem akkurat som et font-awesome ikon.
 
  1. Definer ikon
-    - Ikoner kan kun være en enkel svg path eller flere paths in array (ingen circle, graph osv osv)
-    - Det må eksperimenteres med verdiene til width og height for å finne en passende størrelse på ikonet
+    - Ikoner kan kun vï¿½re en enkel svg path eller flere paths in array (ingen circle, graph osv osv)
+    - Det mï¿½ eksperimenteres med verdiene til width og height for ï¿½ finne en passende stï¿½rrelse pï¿½ ikonet
 
  2. Legg til din tekst-verdi for iconName i typen IconName i filen index.d.ts i pakken @fortawesome/fontawesome-common-types
     - Du kan komme deg til den via IconDefinition
-    - Navnet du velger for ikonet må være unikt, dvs ingen andre font-awesome ikoner eller custom ikoner kan ha det navnet fra før
+    - Navnet du velger for ikonet mï¿½ vï¿½re unikt, dvs ingen andre font-awesome ikoner eller custom ikoner kan ha det navnet fra fï¿½r
 
  3. Legg til ikon-const i biblioteket nederst i denne filen
 
- 4. Kjør denne commandoen i en terminal for å få med de manuelle endringene i node_modulen fra punkt 2:
+ 4. Kjï¿½r denne commandoen i en terminal for ï¿½ fï¿½ med de manuelle endringene i node_modulen fra punkt 2:
     
     ```sh
     npx patch-package @fortawesome/fontawesome-common-types
@@ -107,13 +107,13 @@ Ved å følge stegene under, kan du legge til custom ikoner i font-awesome bibliot
 
     NB: Denne kommandoen oppretter en mappe "patches", og inneholder de manuelle
     endringene i node_moduler slik at CI / CD kan oppdage og legge til disse manuelle endringene etter npm install.
-    Det har derfor blitt lagt til en verdi for "postinstall" i packages.json for å få til dette.
+    Det har derfor blitt lagt til en verdi for "postinstall" i packages.json for ï¿½ fï¿½ til dette.
 
  5. Deploy!
 
-#### I tilfelle du får feil ang. verdier i IconName
- Følg disse stegene:
+#### I tilfelle du fï¿½r feil ang. verdier i IconName
+ Fï¿½lg disse stegene:
     1. Slett node_modules
     2. Unstage/reset alle filer fra ClientApp/patches-mappa i GIT dersom du har noe der
-    3. Kjør ```npm install```
-    4. Kjør opp løsningen på nytt
+    3. Kjï¿½r ```npm install```
+    4. Kjï¿½r opp lï¿½sningen pï¿½ nytt
