@@ -23,6 +23,6 @@ extends:
     k8sManifestFolderNamePath: "hyfive/hyfive-observation" #To Alter the name of the folder / path up to overlays folder. ex K8s_Kustomization_File_Path: /K8s_Manifest_Prod/$(k8sManifestFolderNamePath)/overlays/prod/kustomization.yaml
     Dockerfile_location: "$(Build.Repository.Name)/HyFive.Observasjon/Dockerfile" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
 
-    enable_deployment_to_test_env: "false" #By default enviroment is set to true
+    enable_deployment_to_test_env: "true" #By default enviroment is set to true
     enable_deployment_to_uat_env: "false" #By default enviroment is set to true
     enable_deployment_to_prod_env: "false" #By default enviroment is set to true
