@@ -1,0 +1,24 @@
+trigger:
+  batch: true
+  tags:
+    include:
+    - refs/tags/Release*
+    - refs/tags/Hotfix*
+
+pool:
+  name: az_vmss_WinSrv2019 # Name of a pool.
+  
+resources: 
+  repositories:
+    - repository: "TemplateRef"
+      type: git
+      name: "Infrastructure/Pipeline_Templates"
+      ref: refs/heads/main
+
+extends: 
+  template: PipelineTemplates/template_main_backbone_pipeline.yaml@TemplateRef
+  parameters:
+    #Set Build Stage variables
+    image_repository: "hyfive-observation" #Azure Container Registry repository path and name
+    k8sManifestFolderNamePath: "hyfive/hyfive-observation" #To Alter the name of the folder / path up to overlays folder. ex K8s_Kustomization_File_Path: /K8s_Manifest_Prod/$(k8sManifestFolderNamePath)/overlays/prod/kustomization.yaml
+    Dockerfile_location: "$(Build.Repository.Name)/HyFive.Observasjon/Dockerfile" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
