@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REGISTRY-}hyfive-admin
     build:
       context: .
-      dockerfile: HyFive.Admin/Dockerfile
+      dockerfile: Dockerfile.admin
     depends_on:
       database:
         condition: service_healthy
@@ -18,7 +18,7 @@ services:
     image: ${DOCKER_REGISTRY-}hyfive-observation
     build:
       context: .
-      dockerfile: HyFive.Observasjon/Dockerfile
+      dockerfile: Dockerfile.observation
     depends_on:
       database:
         condition: service_healthy
