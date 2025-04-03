@@ -1,0 +1,20 @@
+trigger: none
+  
+pool:
+  name: az_Ubuntu22.04
+
+resources: 
+  repositories:
+    - repository: "TemplateRef"
+      type: git
+      name: "Infrastructure/Pipeline_Templates"
+      ref: refs/heads/main
+
+extends: 
+  template: PipelineTemplates/template_PR_backbone_pipeline.yaml@TemplateRef
+  parameters:
+    #Set Build Stage variables
+    image_repository: "hyfive-admin" #Azure Container Registry repository path and name
+    k8sManifestFolderNamePath: "hyfive/hyfive-admin" #To Alter the name of the folder / path up to overlays folder. ex K8s_Kustomization_File_Path: /K8s_Manifest_Prod/$(k8sManifestFolderNamePath)/overlays/prod/kustomization.yaml
+    Dockerfile_location: "$(Build.Repository.Name)/Dockerfile.admin" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
+    agentPoolName: "az_vmss_ubuntu22.04" #Use the agent where the stages will be running with.
