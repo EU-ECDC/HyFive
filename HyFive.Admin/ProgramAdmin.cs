@@ -1,9 +1,12 @@
 using System;
 using System.IO;
 using HyFive.Api.Common;
+using HyFive.Dataaksess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace HyFive.Admin
@@ -31,6 +34,14 @@ namespace HyFive.Admin
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    // Add DbContext configuration here
+                    webBuilder.ConfigureServices((context, services) =>
+                    {
+                        var connectionString = context.Configuration.GetConnectionString("HandhygieneConnection");
+                        services.AddDbContext<HandhygieneContext>(options =>
+                            options.UseNpgsql(connectionString)); // Use Npgsql for PostgreSQL
+                    });
+
                     webBuilder.UseStartup<StartupAdmin>();
                 })
                 .UseSerilog();
