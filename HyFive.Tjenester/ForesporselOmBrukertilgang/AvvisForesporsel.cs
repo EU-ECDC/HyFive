@@ -39,7 +39,7 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                 if (bruker == null) return false;
 
                 foresporsel.Status = Domene.Bruker.ForesporselOmBrukertilgangStatus.Avvist;
-                foresporsel.BehandletTidspunkt = DateTime.Now;
+                foresporsel.BehandletTidspunkt = DateTime.UtcNow;
                 foresporsel.BehandletAvBrukerId = bruker.Id;
                 foresporsel.BehandletAvBrukernavn = bruker.Fornavn + " " + bruker.Etternavn;
 

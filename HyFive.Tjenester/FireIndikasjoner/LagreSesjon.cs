@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                 var aktivitettyper = _context.AktivitetType.ToList();
 
                 var sesjon = _mapper.Map<Domene.Sesjon.FireIndikasjonerSesjon>(request.Sesjon);
-                sesjon.Opprettettidspunkt = DateTime.Now;
+                sesjon.Opprettettidspunkt = DateTime.UtcNow;
                 sesjon.Avdeling = await HentAvdeling(request, cancellationToken);
 
                 // Dette er måten vi ønsker å håndtere feil hvis vi prøver å lagre en sesjon med en avdeling som lenger ikke eksisterer
@@ -65,7 +65,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                 foreach (var observasjon in sesjon.Observasjoner)
                 {
                     FireIndikasjonerObservasjonValidator.ValidateObservasjon(observasjon);
-                    observasjon.Opprettettidspunkt = DateTime.Now;
+                    observasjon.Opprettettidspunkt = DateTime.UtcNow;
                     observasjon.Rolle = sesjon.Avdeling.Roller.FirstOrDefault(r => r.Id == observasjon.Rolle.Id);
                     observasjon.Indikasjonstyper = indikasjonstyper
                         .Where(i => observasjon.Indikasjonstyper.Select(oi => oi.Id).Contains(i.Id)).ToList();

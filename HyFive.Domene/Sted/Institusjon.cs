@@ -8,7 +8,7 @@ namespace HyFive.Domene.Sted
     {
         public Institusjon()
         {
-            Opprettettidspunkt = DateTime.Now;
+            Opprettettidspunkt = DateTime.UtcNow;
             Brukere = new List<Bruker.Bruker>();
             PredefinerteKommmentarer = new List<PredefinertKommentar>();
         }

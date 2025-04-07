@@ -47,7 +47,7 @@ namespace HyFive.Tjenester.Handsmykke
 
                 var handsmykketyper = _context.HandsmykkeType.ToList();
                 var sesjon = _mapper.Map<Domene.Sesjon.HandsmykkeSesjon>(request.Sesjon);
-                sesjon.Opprettettidspunkt = DateTime.Now;
+                sesjon.Opprettettidspunkt = DateTime.UtcNow;
                 sesjon.Avdeling = await HentAvdeling(request, cancellationToken);
 
                 // Dette er måten vi ønsker å håndtere feil hvis vi prøver å lagre en sesjon med en avdeling som lenger ikke eksisterer
@@ -61,7 +61,7 @@ namespace HyFive.Tjenester.Handsmykke
                 sesjon.Observator = observator;
                 foreach (var observasjon in sesjon.Observasjoner)
                 {
-                    observasjon.Opprettettidspunkt = DateTime.Now;
+                    observasjon.Opprettettidspunkt = DateTime.UtcNow;
                     observasjon.Rolle = sesjon.Avdeling.Roller.FirstOrDefault(r => r.Id == observasjon.Rolle.Id);
                     observasjon.Handsmykker = handsmykketyper.Where(ht => observasjon.Handsmykker.Select(oh => oh.Id).Contains(ht.Id)).ToList();
                     observasjon.Kommentar = string.IsNullOrEmpty(observasjon.Kommentar) ? null : observasjon.Kommentar;

@@ -48,7 +48,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                         $"Fant ikke en observatør med HPR-nummer {request.HPRNummer} eller pseudonym XXX på institusjon med ID {request.Sesjon.Avdeling.InstitusjonId}");
 
                 var sesjon = _mapper.Map<Domene.Sesjon.BeskyttelsesutstyrSesjon>(request.Sesjon);
-                sesjon.Opprettettidspunkt = DateTime.Now;
+                sesjon.Opprettettidspunkt = DateTime.UtcNow;
                 sesjon.Avdeling = await HentAvdeling(request, cancellationToken);
                 sesjon.Observator = observator;
 
@@ -65,7 +65,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 var settingtyper = await _context.BeskyttelsesutstyrsettingType.ToListAsync(cancellationToken);
                 foreach (var observasjon in sesjon.Observasjoner)
                 {
-                    observasjon.Opprettettidspunkt = DateTime.Now;
+                    observasjon.Opprettettidspunkt = DateTime.UtcNow;
                     observasjon.Settingtype = settingtyper.First(s => s.Id == observasjon.Settingtype.Id);
                     observasjon.Rolle = sesjon.Avdeling.Roller.FirstOrDefault(r => r.Id == observasjon.Rolle.Id);
                     foreach (var utstyr in observasjon.Beskyttelsesutstyrliste)

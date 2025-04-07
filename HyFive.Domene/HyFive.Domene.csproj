@@ -8,4 +8,8 @@
     <EmbeddedResource Remove="Observasjon\Views\**" />
     <None Remove="Observasjon\Views\**" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+  </ItemGroup>
 </Project>

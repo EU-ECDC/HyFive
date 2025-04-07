@@ -8,7 +8,7 @@ namespace HyFive.Domene.Bruker
         public Bruker()
         {
             ErDeaktivert = false;
-            Opprettettidspunkt = DateTime.Now;
+            Opprettettidspunkt = DateTime.UtcNow;
         }
         public int Id { get; set; }
         public Institusjon Institusjon { get; set; }
