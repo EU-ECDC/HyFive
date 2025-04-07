@@ -1,6 +1,9 @@
 using System;
 using HyFive.Api.Common;
+using HyFive.Dataaksess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HyFive.Admin
 {
@@ -11,6 +14,16 @@ namespace HyFive.Admin
         
         public StartupAdmin(IConfiguration configuration) : base(configuration)
         {
+        }
+
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            base.ConfigureServices(services); // Ensure the base setup is applied
+
+            services.AddDbContext<HandhygieneContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("HandhygieneConnection")));
+
+            // Add other services needed
         }
     }
 }
