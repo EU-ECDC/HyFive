@@ -275,7 +275,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.Now.ToString(Hjelpere.FilnavnPrefiks)}-Handsmykke-Avdelingsrapport-{rapport.Avdeling}.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Hjelpere.FilnavnPrefiks)}-Handsmykke-Avdelingsrapport-{rapport.Avdeling}.pdf"
             };
 
             return pdfResult;

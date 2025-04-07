@@ -54,7 +54,7 @@ namespace HyFive.Tjenester.BrukerTjenester
                     Fornavn = command.Request.Fornavn,
                     Etternavn = command.Request.Etternavn,
                     ErDeaktivert = false,
-                    Opprettettidspunkt = DateTime.Now,
+                    Opprettettidspunkt = DateTime.UtcNow,
                 };
 
                 _context.Bruker.Add(fhiAdmin);

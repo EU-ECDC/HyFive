@@ -43,7 +43,7 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                     IdentPseudonym = request.ForesporselOmBrukertilgang.IdentPseudonym,
                     InstitusjonId = institusjon?.Id,
                     Status = ForesporselOmBrukertilgangStatus.Registrert,
-                    Opprettettidspunkt = DateTime.Now
+                    Opprettettidspunkt = DateTime.UtcNow
                 };
 
                 _context.ForesporselOmBrukertilgang.Add(nyForesporselOmBrukertilgang);

@@ -118,7 +118,7 @@ namespace HyFive.Tjenester.Tests.Hanske
                         {
                             Id = observasjonId.ToString(),
                             Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.Now,
+                            Registrerttidspunkt = DateTime.UtcNow,
                             Rolle = avdelingModell.Roller.First(),
                             SesjonId = sesjonId.ToString(),
                             HanskeMedIndikasjonTyper = new List<HanskeMedIndikasjonType>()
@@ -142,7 +142,7 @@ namespace HyFive.Tjenester.Tests.Hanske
                         }
                     },
                     Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.Now
+                    Starttidspunkt = DateTime.UtcNow
                 },
                 HPRNummer = hprnummer
             }, CancellationToken.None);
@@ -175,7 +175,7 @@ namespace HyFive.Tjenester.Tests.Hanske
                         {
                             Id = observasjonId.ToString(),
                             Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.Now,
+                            Registrerttidspunkt = DateTime.UtcNow,
                             Rolle = avdelingModell.Roller.First(),
                             SesjonId = sesjonId.ToString(),
                             HanskeUtenIndikasjonTyper = new List<HanskeUtenIndikasjonType>()
@@ -199,7 +199,7 @@ namespace HyFive.Tjenester.Tests.Hanske
                         }
                     },
                     Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.Now
+                    Starttidspunkt = DateTime.UtcNow
                 },
                 HPRNummer = hprnummer
             }, CancellationToken.None);

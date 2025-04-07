@@ -49,7 +49,7 @@ namespace HyFive.Tjenester.Bruker
                     Institusjon = institusjon,
                     HPRNummer = command.Bruker.HPRNummer,
                     IdentPseudonym = command.Bruker.IdentPseudonym,
-                    Opprettettidspunkt = DateTime.Now,
+                    Opprettettidspunkt = DateTime.UtcNow,
                     ErDeaktivert = false
                 };
 
@@ -63,7 +63,7 @@ namespace HyFive.Tjenester.Bruker
                     Institusjon = institusjon,
                     HPRNummer = command.Bruker.HPRNummer,
                     IdentPseudonym = command.Bruker.IdentPseudonym,
-                    Opprettettidspunkt = DateTime.Now,
+                    Opprettettidspunkt = DateTime.UtcNow,
                     ErDeaktivert = false
                 };
 

@@ -328,7 +328,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                     Institusjonsnavn = institusjon.Navn,
                     InstitusjonId = institusjon.Id,
                     Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.Now,
+                    Starttidspunkt = DateTime.UtcNow,
                     Observasjoner = new List<BeskyttelsesutstyrObservasjon>()
                     {
                         new BeskyttelsesutstyrObservasjon()
@@ -336,7 +336,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                             Id = observasjonId.ToString(),
                             SesjonId = sesjonId.ToString(),
                             Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.Now,
+                            Registrerttidspunkt = DateTime.UtcNow,
                             Rolle = avdelingModell.Roller.First(),
                             Settingtype = new BeskyttelsesutstyrsettingType()
                             {
