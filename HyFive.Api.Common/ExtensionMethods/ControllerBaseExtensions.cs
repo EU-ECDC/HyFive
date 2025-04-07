@@ -12,7 +12,7 @@ namespace HyFive.Api.Common.ExtensionMethods
     {
         public static async Task<IActionResult> ExcelFileContentResult(this ControllerBase controller, IEnumerable<object> objekter, string filnavn)
         {
-            var filnavnExcel = $"{DateTime.Now:yyyyMMddHHmmss_}{filnavn}.xlsx";
+            var filnavnExcel = $"{DateTime.UtcNow:yyyyMMddHHmmss_}{filnavn}.xlsx";
             var excel = await LagExcelFilInnhold(objekter);
             return controller.File(excel, "application/xlsx", filnavnExcel);
         }

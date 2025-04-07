@@ -53,7 +53,7 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
         //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
         //        },
-        //        Registrerttidspunkt = DateTime.Now,
+        //        Registrerttidspunkt = DateTime.UtcNow,
         //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
         //    };
             
@@ -71,7 +71,7 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
         //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
         //        },
-        //        Registrerttidspunkt = DateTime.Now,
+        //        Registrerttidspunkt = DateTime.UtcNow,
         //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
         //    };
 
@@ -82,7 +82,7 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //        Sesjon = new FireIndikasjonerSesjon()
         //        {
         //            Avdeling = enAvdeling,
-        //            Starttidspunkt = DateTime.Now,
+        //            Starttidspunkt = DateTime.UtcNow,
         //            Observasjoner = new List<FireIndikasjonerObservasjon>()
         //            {
         //                etterlevdObservasjonKombinasjonA,
@@ -100,8 +100,8 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    var lagRapportQuery = new HentFireIndikasjonerRapportForAvdeling.Query()
         //    {
         //        AvdelingId = enAvdeling.Id, 
-        //        FraTidspunkt = DateTime.Now.AddDays(-1),
-        //        TilTidspunkt = DateTime.Now.AddDays(1),
+        //        FraTidspunkt = DateTime.UtcNow.AddDays(-1),
+        //        TilTidspunkt = DateTime.UtcNow.AddDays(1),
         //        Rolle = AuthorizedRole.Koordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());

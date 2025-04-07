@@ -221,7 +221,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.Now.ToString(Hjelpere.FilnavnPrefiks)}-Fire-indikasjoner-Avdelingsrapport-{rapport.Navn}.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Hjelpere.FilnavnPrefiks)}-Fire-indikasjoner-Avdelingsrapport-{rapport.Navn}.pdf"
             };
 
             return pdfResult;

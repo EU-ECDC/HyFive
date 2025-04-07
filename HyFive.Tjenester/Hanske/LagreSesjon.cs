@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.Hanske
                 var handhygieneEtterHanskebrukTyper = _context.HandhygieneEtterHanskebrukType.ToList();
 
                 var sesjon = _mapper.Map<Domene.Sesjon.HanskeSesjon>(request.Sesjon);
-                sesjon.Opprettettidspunkt = DateTime.Now;
+                sesjon.Opprettettidspunkt = DateTime.UtcNow;
                 sesjon.Avdeling = await HentAvdeling(request, cancellationToken);
                 sesjon.Observator = observator;
 
@@ -64,7 +64,7 @@ namespace HyFive.Tjenester.Hanske
 
                 foreach (var observajon in sesjon.Observasjoner)
                 {
-                    observajon.Opprettettidspunkt = DateTime.Now;
+                    observajon.Opprettettidspunkt = DateTime.UtcNow;
                     observajon.Rolle = sesjon.Avdeling.Roller.FirstOrDefault(r => r.Id == observajon.Rolle.Id);
                     observajon.HanskeMedIndikasjonTyper = hanskeMedIndikasjonTyper
                                                             .Where(hmi => observajon.HanskeMedIndikasjonTyper.Select(ohmi => ohmi.Id).Contains(hmi.Id))

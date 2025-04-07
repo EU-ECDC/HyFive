@@ -47,7 +47,7 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                 if(bruker == null) return false;
 
                 foresporsel.Status = ForesporselOmBrukertilgangStatus.Godkjent;
-                foresporsel.BehandletTidspunkt = DateTime.Now;
+                foresporsel.BehandletTidspunkt = DateTime.UtcNow;
                 foresporsel.BehandletAvBrukerId = bruker.Id;
                 foresporsel.BehandletAvBrukernavn = bruker.Fornavn + " " + bruker.Etternavn;
 
@@ -71,7 +71,7 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                     Institusjon = institusjon,
                     HPRNummer = foresporsel.HPRNummer,
                     IdentPseudonym = foresporsel.IdentPseudonym,
-                    Opprettettidspunkt = DateTime.Now,
+                    Opprettettidspunkt = DateTime.UtcNow,
                     ErDeaktivert = false,
                 };
                 _context.Bruker.Add(observator);
