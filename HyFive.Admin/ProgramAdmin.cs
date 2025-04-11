@@ -34,14 +34,6 @@ namespace HyFive.Admin
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    // Add DbContext configuration here
-                    webBuilder.ConfigureServices((context, services) =>
-                    {
-                        var connectionString = context.Configuration.GetConnectionString("HandhygieneConnection");
-                        services.AddDbContext<HandhygieneContext>(options =>
-                            options.UseNpgsql(connectionString)); // Use Npgsql for PostgreSQL
-                    });
-
                     webBuilder.UseStartup<StartupAdmin>();
                 })
                 .UseSerilog();
