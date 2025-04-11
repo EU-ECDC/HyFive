@@ -5,12 +5,12 @@ using HyFive.Tjenester.FireIndikasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IndikasjonType = HyFive.Modeller.V1.Observasjon.IndikasjonType;
+using IndicationType = HyFive.Modeller.V1.Observasjon.IndicationType;
 
 namespace HyFive.Admin.Controllers.V1
 {
     /// <summary>
-    /// Indikasjonstyper
+    /// IndicationTypes
     /// </summary>
     [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
     [Route("api/v1/indikasjonstyper")]
@@ -28,7 +28,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<IndikasjonType>> HentIndikasjonstyper()
+        public async Task<List<IndicationType>> HentIndikasjonstyper()
         {
             var indikasjonstyper = await _mediator.Send(new HentIndikasjonstyper.Query());
             return indikasjonstyper;
@@ -40,7 +40,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<IndikasjonType> OppdaterIndikasjonstype([FromBody] IndikasjonType indikasjonstype)
+        public async Task<IndicationType> OppdaterIndikasjonstype([FromBody] IndicationType indikasjonstype)
         {
             return await _mediator.Send(new OppdaterIndikasjonstype.Command() { Indikasjonstype = indikasjonstype });
         }

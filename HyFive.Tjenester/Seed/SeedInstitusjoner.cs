@@ -1,11 +1,11 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Domene.Observasjon;
-using HyFive.Domene.Sted;
+using HyFive.Domene.Observation;
+using HyFive.Domene.Place;
 using HyFive.Domene.Bruker;
 
 namespace HyFive.Tjenester.Seed
@@ -18,9 +18,9 @@ namespace HyFive.Tjenester.Seed
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -49,39 +49,39 @@ namespace HyFive.Tjenester.Seed
 
             private void SeedBrukere()
             {
-                if (_context.Observator.Any() == false)
+                if (_context.Observer.Any() == false)
                 {
-                    _context.Observator.Add(new Observator
+                    _context.Observer.Add(new Observator
                     {
                         Etternavn = ObservatørEtternavn,
                         Fornavn = ObservatørFornavn,
                         IdentPseudonym = ObservatørIdentPseudonym,
-                        Institusjon = _context.Institusjon.FirstOrDefault(i => i.HERId == HerIdOus)
+                        Institusjon = _context.Institution.FirstOrDefault(i => i.HERId == HerIdOus)
                     });
-                    _context.Observator.Add(new Observator
+                    _context.Observer.Add(new Observator
                     {
                         Etternavn = ObservatørEtternavn,
                         Fornavn = ObservatørFornavn,
                         IdentPseudonym = ObservatørIdentPseudonym,
-                        Institusjon = _context.Institusjon.FirstOrDefault(i => i.HERId == HerIdLillehammer)
+                        Institusjon = _context.Institution.FirstOrDefault(i => i.HERId == HerIdLillehammer)
                     });
                 }
 
-                if (_context.Koordinator.Any() == false)
+                if (_context.Coordinator.Any() == false)
                 {
-                    _context.Koordinator.Add(new Koordinator
+                    _context.Coordinator.Add(new Koordinator
                     {
                         Etternavn = KoordinatorEtternavn,
                         Fornavn = KoordinatorFornavn,
                         IdentPseudonym = KoordinatorIdentPseudonym,
-                        Institusjon = _context.Institusjon.FirstOrDefault()
+                        Institusjon = _context.Institution.FirstOrDefault()
                     });
-                    _context.Koordinator.Add(new Koordinator
+                    _context.Coordinator.Add(new Koordinator
                     {
                         Etternavn = KoordinatorEtternavn,
                         Fornavn = KoordinatorFornavn,
                         IdentPseudonym = KoordinatorIdentPseudonym,
-                        Institusjon = _context.Institusjon.FirstOrDefault(i => i.HERId == HerIdLillehammer)
+                        Institusjon = _context.Institution.FirstOrDefault(i => i.HERId == HerIdLillehammer)
                     });
                 }
 
@@ -90,35 +90,35 @@ namespace HyFive.Tjenester.Seed
 
             private void SeedInstitusjoner()
             {
-                if (_context.Institusjon.Any())
+                if (_context.Institution.Any())
                     return;
 
-                var roller = _context.Rolle.ToList();
+                var roller = _context.Role.ToList();
 
-                var institusjontyper = _context.InstitusjonType.ToList();
-                var avdelingtyper = _context.AvdelingType.ToList();
+                var institusjontyper = _context.InstitutionType.ToList();
+                var avdelingtyper = _context.SectionType.ToList();
 
                 var institusjoner = new[]
                 {
-                    new Domene.Sted.Institusjon
+                    new Domene.Place.Institution
                     {
                         Region = _context.Region.First(),
                         HERId = HerIdOus,
-                        Navn = "Oslo universitetssykehus HF",
-                        Forkortelse = "OUS",
-                        Institusjontype = institusjontyper.First(),
-                        Avdelinger = new List<Domene.Sted.Avdeling>
+                        Name = "Oslo universitetssykehus HF",
+                        Abbreviation = "OUS",
+                        InstitutionType = institusjontyper.First(),
+                        Departments = new List<Domene.Place.Avdeling>
                         {
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Nevrokirurgisk",
-                                Roller = new List<Rolle>(roller),
+                                Roller = new List<Role>(roller),
                                 Avdelingtype = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Allergi og lungeseksjonen",
-                                Roller = new List<Rolle>
+                                Roller = new List<Role>
                                 {
                                     roller[0],
                                     roller[1],
@@ -127,10 +127,10 @@ namespace HyFive.Tjenester.Seed
                                 },
                                 Avdelingtype = avdelingtyper.Skip(1).First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Avdeling for mikrobiologi",
-                                Roller = new List<Rolle>
+                                Roller = new List<Role>
                                 {
                                     roller[5],
                                     roller[6],
@@ -139,38 +139,38 @@ namespace HyFive.Tjenester.Seed
                                 Avdelingtype = avdelingtyper.Skip(2).First()
                             }
                         },
-                        PredefinerteKommmentarer = new List<PredefinertKommentar>
+                        PredefinedComments = new List<PredefinedComments>
                         {
-                            new PredefinertKommentar { Kommentar = "Hansker i stedet for håndhygiene", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Hansker ikke byttet", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Dårlig teknikk hånddesinfeksjon", SesjonType = SesjonType.Beskyttelsesutstyr }
+                            new PredefinedComments { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComments { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComments { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     },
-                    new Domene.Sted.Institusjon
+                    new Domene.Place.Institution
                     {
                         HERId = HerIdLillehammer,
                         Region = _context.Region.First(),
-                        Navn = "Lillehammer sykehus",
-                        Forkortelse = "LS",
-                        Institusjontype = institusjontyper.First(),
-                        Avdelinger = new List<Domene.Sted.Avdeling>
+                        Name = "Lillehammer sykehus",
+                        Abbreviation = "LS",
+                        InstitutionType = institusjontyper.First(),
+                        Departments = new List<Domene.Place.Avdeling>
                         {
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Akutt",
-                                Roller = new List<Rolle>(roller),
+                                Roller = new List<Role>(roller),
                                 Avdelingtype = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Medisin",
-                                Roller = new List<Rolle>(roller),
+                                Roller = new List<Role>(roller),
                                 Avdelingtype = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domene.Place.Avdeling
                             {
                                 Navn = "Kirurgisk",
-                                Roller = new List<Rolle>
+                                Roller = new List<Role>
                                 {
                                     roller[0],
                                     roller[1],
@@ -180,84 +180,84 @@ namespace HyFive.Tjenester.Seed
                                 Avdelingtype = avdelingtyper.Skip(1).First()
                             }
                         },
-                        PredefinerteKommmentarer = new List<PredefinertKommentar>
+                        PredefinedComments = new List<PredefinedComments>
                         {
-                            new PredefinertKommentar { Kommentar = "Hansker i stedet for håndhygiene", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Hansker ikke byttet", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Dårlig teknikk hånddesinfeksjon", SesjonType = SesjonType.Beskyttelsesutstyr }
+                            new PredefinedComments { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComments { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComments { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     }
                 };
 
-                _context.Institusjon.AddRange(institusjoner);
+                _context.Institution.AddRange(institusjoner);
                 _context.SaveChanges();
             }
 
             private void SeedInstitusjonTyper()
             {
-                if (_context.InstitusjonType.Any())
+                if (_context.InstitutionType.Any())
                     return;
 
                 var institusjontyper = new[]
                 {
-                    new InstitusjonType {Kode = "SYKEHUS", Navn = "Sykehus"},
-                    new InstitusjonType {Kode = "SYKEHJEM", Navn = "Sykehjem"}
+                    new InstitutionType {Code = "SYKEHUS", Name = "Sykehus"},
+                    new InstitutionType {Code = "SYKEHJEM", Name = "Sykehjem"}
                 };
 
-                _context.InstitusjonType.AddRange(institusjontyper);
+                _context.InstitutionType.AddRange(institusjontyper);
                 _context.SaveChanges();
             }
 
             private void SeedAvdelingTyper()
             {
-                if (_context.AvdelingType.Any())
+                if (_context.SectionType.Any())
                     return;
 
                 var avdelingstyper = new[]
                 {
-                    new AvdelingType {Kode ="KIRURGI", Navn = "Kirurgi"},
-                    new AvdelingType {Kode ="INDREMEDISIN", Navn = "Indremedisin"},
-                    new AvdelingType {Kode ="FODSELSHJELP_OG_KVINNESYKDOMMER", Navn = "Fødselshjelp og kvinnesykdommer"},
-                    new AvdelingType {Kode ="HUD_OG_VENERISKE_SYKDOMMER", Navn = "Hud- og veneriske sykdommer"},
-                    new AvdelingType {Kode ="BARNESYKDOMMER", Navn = "Barnesykdommer"},
-                    new AvdelingType {Kode ="NEVROLOGI", Navn = "Nevrologi"},
-                    new AvdelingType {Kode ="ORE_NESE_HALS", Navn = "Øre-nese-hals"},
-                    new AvdelingType {Kode ="OYESYKDOMMER", Navn = "Øyesykdommer"},
-                    new AvdelingType {Kode ="ONKOLOGI", Navn = "Onkologi"},
-                    new AvdelingType {Kode ="REVMATOLOGI", Navn = "Revmatologi"},
-                    new AvdelingType {Kode ="FYSIKALSK_MEDISIN_REHABILITERING", Navn = "Fysikalsk medisin/rehabilitering"},
-                    new AvdelingType {Kode ="OBSERVASJONSENHET_AKUTTMOTTAK", Navn = "Observasjonsenhet / akuttmottak"},
-                    new AvdelingType {Kode ="KIRURGISK_INTENSIV_OVERVAKNING", Navn = "Kirurgisk intensiv/overvåking"},
-                    new AvdelingType {Kode ="MEDISINSK_INTENSIV_OVERVAKNING", Navn = "Medisinsk intensiv/overvåking"},
-                    new AvdelingType {Kode ="INTERMEDIARENHET", Navn = "Intermediærenhet"},
-                    new AvdelingType {Kode ="SKJERMET_ENHET", Navn = "Skjermet enhet (demens)"},
-                    new AvdelingType {Kode ="REHABILITERINGSENHET", Navn = "Rehabiliteringsenhet"},
-                    new AvdelingType {Kode ="KORTTIDSAVDELING", Navn = "Korttidsavdeling"},
-                    new AvdelingType {Kode ="LANGTIDSAVDELING", Navn = "Langtidsavdeling"},
-                    new AvdelingType {Kode ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Navn = "	Kombinert kort- og langtidsavdeling"}
+                    new SectionType {Code ="KIRURGI", Name = "Kirurgi"},
+                    new SectionType {Code ="INDREMEDISIN", Name = "Indremedisin"},
+                    new SectionType {Code ="FODSELSHJELP_OG_KVINNESYKDOMMER", Name = "Fødselshjelp og kvinnesykdommer"},
+                    new SectionType {Code ="HUD_OG_VENERISKE_SYKDOMMER", Name = "Hud- og veneriske sykdommer"},
+                    new SectionType {Code ="BARNESYKDOMMER", Name = "Barnesykdommer"},
+                    new SectionType {Code ="NEVROLOGI", Name = "Nevrologi"},
+                    new SectionType {Code ="ORE_NESE_HALS", Name = "Øre-nese-hals"},
+                    new SectionType {Code ="OYESYKDOMMER", Name = "Øyesykdommer"},
+                    new SectionType {Code ="ONKOLOGI", Name = "Onkologi"},
+                    new SectionType {Code ="REVMATOLOGI", Name = "Revmatologi"},
+                    new SectionType {Code ="FYSIKALSK_MEDISIN_REHABILITERING", Name = "Fysikalsk medisin/rehabilitering"},
+                    new SectionType {Code ="OBSERVASJONSENHET_AKUTTMOTTAK", Name = "Observasjonsenhet / akuttmottak"},
+                    new SectionType {Code ="KIRURGISK_INTENSIV_OVERVAKNING", Name = "Kirurgisk intensiv/overvåking"},
+                    new SectionType {Code ="MEDISINSK_INTENSIV_OVERVAKNING", Name = "Medisinsk intensiv/overvåking"},
+                    new SectionType {Code ="INTERMEDIARENHET", Name = "Intermediærenhet"},
+                    new SectionType {Code ="SKJERMET_ENHET", Name = "Skjermet enhet (demens)"},
+                    new SectionType {Code ="REHABILITERINGSENHET", Name = "Rehabiliteringsenhet"},
+                    new SectionType {Code ="KORTTIDSAVDELING", Name = "Korttidsavdeling"},
+                    new SectionType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
+                    new SectionType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
                 };
 
-                _context.AvdelingType.AddRange(avdelingstyper);
+                _context.SectionType.AddRange(avdelingstyper);
                 _context.SaveChanges();
             }
 
             private void SeedRoller()
             {
-                if (_context.Rolle.Any())
+                if (_context.Role.Any())
                     return;
 
-                var roller = new List<Rolle>
+                var roller = new List<Role>
                 {
-                    new Rolle("Sykepleier"),
-                    new Rolle("Lege"),
-                    new Rolle("Pleiepersonell"),
-                    new Rolle("Jordmor"),
-                    new Rolle("Fysioterapeut"),
-                    new Rolle("Bioingeniør"),
-                    new Rolle("Annet")
+                    new Role("Sykepleier"),
+                    new Role("Lege"),
+                    new Role("Pleiepersonell"),
+                    new Role("Jordmor"),
+                    new Role("Fysioterapeut"),
+                    new Role("Bioingeniør"),
+                    new Role("Annet")
                 };
 
-                _context.Rolle.AddRange(roller);
+                _context.Role.AddRange(roller);
                 _context.SaveChanges();
             }
         }

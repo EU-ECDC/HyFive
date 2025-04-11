@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,25 +13,25 @@ namespace HyFive.Tjenester.Hanske
 {
     public class HentHanskeMedIndikasjonTyper
     {
-        public class Query : IRequest<IEnumerable<HanskeMedIndikasjonType>> { }
+        public class Query : IRequest<IEnumerable<IndicatedGloveType>> { }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<HanskeMedIndikasjonType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<IndicatedGloveType>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<HanskeMedIndikasjonType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<IndicatedGloveType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var hanskeMedIndikasjonTyper = await _context.HanskeMedIndikasjonType
+                var hanskeMedIndikasjonTyper = await _context.IndicatedGloveType
                     .AsNoTracking()
-                    .ProjectTo<HanskeMedIndikasjonType>(_mapper.ConfigurationProvider)
-                    .OrderBy(h => h.Navn)
+                    .ProjectTo<IndicatedGloveType>(_mapper.ConfigurationProvider)
+                    .OrderBy(h => h.Name)
                     .ToListAsync(cancellationToken);
                 return hanskeMedIndikasjonTyper;
             }

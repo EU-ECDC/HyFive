@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace HyFive.Tjenester.Institusjon
 {
     public class HentInstitusjonerMedSesjoner
     {
-        public class Query : IRequest<List<InstitusjonOversiktRapport>>
+        public class Query : IRequest<List<InstitutionOverviewReport>>
         {
             public SesjonType? Sesjontype { get; set; }
             public DateTime? FraDato { get; set; }
@@ -24,23 +24,23 @@ namespace HyFive.Tjenester.Institusjon
             public string OverforingsstatusType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<InstitusjonOversiktRapport>>
+        public class Handler : IRequestHandler<Query, List<InstitutionOverviewReport>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<List<InstitusjonOversiktRapport>> Handle(Query query, CancellationToken cancellationToken)
+            public async Task<List<InstitutionOverviewReport>> Handle(Query query, CancellationToken cancellationToken)
             {
                 var sesjonType = HentSesjonType(query.Sesjontype);
-                var institusjoner = await _context.Institusjon
+                var institusjoner = await _context.Institution
                     .AsNoTracking()
-                    .Include(i => i.Avdelinger)
+                    .Include(i => i.Departments)
                     .ThenInclude(a => a.Sesjoner
                         .Where(s => query.Sesjontype == null || s.Discriminator == sesjonType)
                         .Where(s => query.FraDato == null || s.Opprettettidspunkt.Date >= query.FraDato.Value.Date)
@@ -51,24 +51,24 @@ namespace HyFive.Tjenester.Institusjon
                     .OrderBy(i => i.Navn)
                     .ToListAsync(cancellationToken);
 
-                var rapporter  = _mapper.Map<List<Domene.Sted.Institusjon>, List<InstitusjonOversiktRapport>>(institusjoner);
+                var rapporter  = _mapper.Map<List<Domene.Place.Institution>, List<InstitutionOverviewReport>>(institusjoner);
 
                 foreach (var rapport in rapporter)
                 {
-                    foreach (var avdeling in rapport.Avdelinger)
+                    foreach (var avdeling in rapport.Departments)
                     {
                         var antall = HentAntallObservasjoner(avdeling.Id, query);
-                        avdeling.AntallObservasjoner = antall;
-                        rapport.AntallObservasjoner += antall;
+                        avdeling.NumberOfObservations = antall;
+                        rapport.NumberOfObservations += antall;
                     }
 
-                    var sortertListeMedObservasjoner = rapport.Avdelinger.Where(a => a.AntallSesjoner > 0).OrderBy(a => a.Navn);
-                    var sortertListeUtenObservasjoner = rapport.Avdelinger.Where(a => a.AntallSesjoner == 0).OrderBy(a => a.Navn);
+                    var sortertListeMedObservasjoner = rapport.Departments.Where(a => a.NumberOfSessions > 0).OrderBy(a => a.Name);
+                    var sortertListeUtenObservasjoner = rapport.Departments.Where(a => a.NumberOfSessions == 0).OrderBy(a => a.Name);
 
-                    rapport.Avdelinger = sortertListeMedObservasjoner.Union(sortertListeUtenObservasjoner).ToList(); 
+                    rapport.Departments = sortertListeMedObservasjoner.Union(sortertListeUtenObservasjoner).ToList(); 
                 }
 
-                return rapporter.Where(r=>r.AntallObservasjoner > 0).ToList();
+                return rapporter.Where(r=>r.NumberOfObservations > 0).ToList();
             }
 
             private int HentAntallObservasjoner(int avdelingId, Query query)
@@ -99,46 +99,46 @@ namespace HyFive.Tjenester.Institusjon
 
             private int HentAntallObservasjonerForHandsmykker(int avdelingId, Query query)
             {
-                return _context.HandsmykkeObservasjon
+                return _context.HandJewelryObservation
                     .AsNoTracking()
-                    .Include(b => b.HandsmykkeSesjon)
-                    .Count(bo => bo.HandsmykkeSesjon.Avdeling.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.HandsmykkeSesjon.Overforingstatus.Kode)
-                                 && (query.FraDato == null || bo.Registrerttidspunkt.Date >= query.FraDato.Value.Date)
-                                 && (query.TilDato == null || bo.Registrerttidspunkt.Date <= query.TilDato.Value.Date));
+                    .Include(b => b.HandJewelrySession)
+                    .Count(bo => bo.HandJewelrySession.Department.Id == avdelingId 
+                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.HandJewelrySession.TransmissionStatus.Code)
+                                 && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
+                                 && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
 
             private int HentAntallObservasjonerForHansker(int avdelingId, Query query)
             {
-                return _context.HanskeObservasjon
+                return _context.GloveObservation
                     .AsNoTracking()
-                    .Include(b => b.HanskeSesjon)
-                    .Count(bo => bo.HanskeSesjon.Avdeling.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.HanskeSesjon.Overforingstatus.Kode)
-                                 && (query.FraDato == null || bo.Registrerttidspunkt.Date >= query.FraDato.Value.Date)
-                                 && (query.TilDato == null || bo.Registrerttidspunkt.Date <= query.TilDato.Value.Date));
+                    .Include(b => b.GloveSession)
+                    .Count(bo => bo.GloveSession.Department.Id == avdelingId 
+                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.GloveSession.TransmissionStatus.Code)
+                                 && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
+                                 && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
 
             private int HentAntallObservasjonerForFireIndikasjoner(int avdelingId, Query query)
             {
-                return _context.FireIndikasjonerObservasjon
+                return _context.FourIndicationsObservation
                     .AsNoTracking()
-                    .Include(b => b.FireIndikasjonerSesjon)
-                    .Count(bo => bo.FireIndikasjonerSesjon.Avdeling.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.FireIndikasjonerSesjon.Overforingstatus.Kode)
-                                 && (query.FraDato == null || bo.Registrerttidspunkt.Date >= query.FraDato.Value.Date)
-                                 && (query.TilDato == null || bo.Registrerttidspunkt.Date <= query.TilDato.Value.Date));
+                    .Include(b => b.FourIndicationsSession)
+                    .Count(bo => bo.FourIndicationsSession.Department.Id == avdelingId 
+                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.FourIndicationsSession.TransmissionStatus.Code)
+                                 && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
+                                 && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
 
             private int HentAntallObservasjonerForBeskyttelsesutstyr(int avdelingId, Query query)
             {
-                return _context.BeskyttelsesutstyrObservasjon
+                return _context.ProtectiveEquipmentObservation
                     .AsNoTracking()
-                    .Include(b => b.BeskyttelsesutstyrSesjon)
-                    .Count(bo => bo.BeskyttelsesutstyrSesjon.Avdeling.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.BeskyttelsesutstyrSesjon.Overforingstatus.Kode)
-                                 && (query.FraDato == null || bo.Registrerttidspunkt.Date >= query.FraDato.Value.Date)
-                                 && (query.TilDato == null || bo.Registrerttidspunkt.Date <= query.TilDato.Value.Date));
+                    .Include(b => b.ProtectiveEquipmentSession)
+                    .Count(bo => bo.ProtectiveEquipmentSession.Department.Id == avdelingId 
+                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.ProtectiveEquipmentSession.TransmissionStatus.Code)
+                                 && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
+                                 && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
 
             private static string HentSesjonType(SesjonType? type)
@@ -146,13 +146,13 @@ namespace HyFive.Tjenester.Institusjon
                 switch (type)
                 {
                     case SesjonType.FireIndikasjoner:
-                        return nameof(Domene.Sesjon.FireIndikasjonerSesjon);
+                        return nameof(Domene.Session.FourIndicationsSession);
                     case SesjonType.Handsmykker:
-                        return nameof(Domene.Sesjon.HandsmykkeSesjon);
+                        return nameof(Domene.Session.HandJewelrySession);
                     case SesjonType.Beskyttelsesutstyr:
-                        return nameof(Domene.Sesjon.BeskyttelsesutstyrSesjon);
+                        return nameof(Domene.Session.ProtectiveEquipmentSession);
                     case SesjonType.Hansker:
-                        return nameof(Domene.Sesjon.HanskeSesjon);
+                        return nameof(Domene.Session.GloveSession);
                     default:
                         return "";
                 }

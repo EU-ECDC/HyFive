@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Rapporter\HyFive.Tjenester.Rapporter.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester\HyFive.Tjenester.csproj" />
   </ItemGroup>

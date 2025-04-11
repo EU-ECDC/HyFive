@@ -21,12 +21,12 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent alle tilgjengelige handsmykketyper <see cref="HandsmykkeType"/>
+        /// Hent alle tilgjengelige handsmykketyper <see cref="HandJewelryType"/>
         /// </summary>
         /// <returns></returns>
 
         [HttpGet]
-        public async Task<IEnumerable<HandsmykkeType>> HentHandsmykketyper()
+        public async Task<IEnumerable<HandJewelryType>> HentHandsmykketyper()
             => await _mediator.Send(new HentHandsmykkeTyper.Query());
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<HandsmykkeType> OppdaterHandsmykketype([FromBody] HandsmykkeType handsmykketype)
+        public async Task<HandJewelryType> OppdaterHandsmykketype([FromBody] HandJewelryType handsmykketype)
         {
             var result = await _mediator.Send(new OppdaterHandsmykkeType.Command() { Handsmykketype = handsmykketype });
             return result;

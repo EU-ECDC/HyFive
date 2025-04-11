@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,39 +12,39 @@ namespace HyFive.Tjenester.Bruker
 {
     public class OppdaterKoordinator
     {
-        public class Command : IRequest<Modeller.V1.Bruker.Bruker>
+        public class Command : IRequest<Modeller.V1.User.User>
         {
-            public Modeller.V1.Bruker.Bruker Bruker { get; set; }
+            public Modeller.V1.User.User Bruker { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Bruker.Bruker>
+        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Bruker.Bruker> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
                 if (!BrukerValidator.HarNavnOgHprNummerEllerGyldigPseudonym(command.Bruker))
                 {
                     throw new ArgumentException("Koordinator må ha fornavn, etternavn og enten HPR-nummer eller pseudonym");
                 }
-                var bruker = await _context.Bruker.OfType<Koordinator>().FirstOrDefaultAsync(i => i.Id == command.Bruker.Id);
-                bruker.Fornavn = command.Bruker.Fornavn;
-                bruker.Etternavn = command.Bruker.Etternavn;
-                bruker.Epost = command.Bruker.Epost;
-                bruker.HPRNummer = command.Bruker.HPRNummer;
-                bruker.IdentPseudonym = command.Bruker.IdentPseudonym;
-                bruker.ErDeaktivert = command.Bruker.ErDeaktivert;
-                _context.Bruker.Update(bruker);
+                var bruker = await _context.User.OfType<Koordinator>().FirstOrDefaultAsync(i => i.Id == command.Bruker.Id);
+                bruker.Fornavn = command.Bruker.FirstName;
+                bruker.Etternavn = command.Bruker.Surname;
+                bruker.Epost = command.Bruker.Email;
+                bruker.HPRNummer = command.Bruker.HPRNumber;
+                bruker.IdentPseudonym = command.Bruker.IdentityPseudonym;
+                bruker.ErDeaktivert = command.Bruker.IsDisabled;
+                _context.User.Update(bruker);
 
                 await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Modeller.V1.Bruker.Bruker>(bruker);
+                var mapped = _mapper.Map<Modeller.V1.User.User>(bruker);
                 return mapped;
             }
         }

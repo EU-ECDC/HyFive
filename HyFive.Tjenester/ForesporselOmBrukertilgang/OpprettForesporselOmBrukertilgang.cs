@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 
@@ -12,41 +12,41 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
     {
         public class Command : IRequest<int>
         {
-            public Modeller.V1.ForesporselOmBrukertilgang.OpprettForesporselOmBrukertilgangRequest ForesporselOmBrukertilgang { get; set; }
+            public Modeller.V1.ForesporselOmBrukertilgang.CreateUserAccessRequest ForesporselOmBrukertilgang { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var foresporselFinnesAllerede = _context.ForesporselOmBrukertilgang
+                var foresporselFinnesAllerede = _context.UserAccessRequest
                                                             .FirstOrDefault(f =>
-                                                                f.InstitusjonId == request.ForesporselOmBrukertilgang.InstitusjonId 
-                                                                && f.IdentPseudonym == request.ForesporselOmBrukertilgang.IdentPseudonym
+                                                                f.InstitusjonId == request.ForesporselOmBrukertilgang.InstitutionId 
+                                                                && f.IdentPseudonym == request.ForesporselOmBrukertilgang.IdentityPseudonym
                                                                 && f.Status == ForesporselOmBrukertilgangStatus.Registrert);
 
                 if (foresporselFinnesAllerede != null)
                     return foresporselFinnesAllerede.Id;
 
-                var institusjon = _context.Institusjon.Find(request.ForesporselOmBrukertilgang.InstitusjonId);
+                var institusjon = _context.Institution.Find(request.ForesporselOmBrukertilgang.InstitutionId);
                 var nyForesporselOmBrukertilgang = new Domene.Bruker.ForesporselOmBrukertilgang()
                 {
-                    BrukerFornavn = request.ForesporselOmBrukertilgang.BrukerFornavn,
-                    BrukerEtternavn = request.ForesporselOmBrukertilgang.BrukerEtternavn,
-                    HPRNummer = request.ForesporselOmBrukertilgang.HPRNummer != "0" ? request.ForesporselOmBrukertilgang.HPRNummer : null,
-                    IdentPseudonym = request.ForesporselOmBrukertilgang.IdentPseudonym,
+                    BrukerFornavn = request.ForesporselOmBrukertilgang.UserFirstName,
+                    BrukerEtternavn = request.ForesporselOmBrukertilgang.UserLastName,
+                    HPRNummer = request.ForesporselOmBrukertilgang.HPRNumber != "0" ? request.ForesporselOmBrukertilgang.HPRNumber : null,
+                    IdentPseudonym = request.ForesporselOmBrukertilgang.IdentityPseudonym,
                     InstitusjonId = institusjon?.Id,
                     Status = ForesporselOmBrukertilgangStatus.Registrert,
-                    Opprettettidspunkt = DateTime.UtcNow
+                    Opprettettidspunkt = DateTime.Now
                 };
 
-                _context.ForesporselOmBrukertilgang.Add(nyForesporselOmBrukertilgang);
+                _context.UserAccessRequest.Add(nyForesporselOmBrukertilgang);
                 _context.SaveChanges();
 
                 return nyForesporselOmBrukertilgang.Id;

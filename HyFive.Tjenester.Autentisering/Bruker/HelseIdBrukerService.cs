@@ -1,6 +1,6 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Autentisering;
+using HyFive.Modeller.V1.Authentication;
 using Fhi.HelseId.Common.Identity;
 using Fhi.HelseId.Web.ExtensionMethods;
 using Fhi.HelseId.Web.Services;
@@ -25,7 +25,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<HelseIdBrukerService> _logger;
-        private readonly HandhygieneContext _context;
+        private readonly HandHygieneContext _context;
         private ICurrentUser Bruker { get; }
 
 
@@ -33,7 +33,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
         public HelseIdBrukerService(ICurrentUser currentUser,
             IHttpContextAccessor httpContextAccessor,
             ILogger<HelseIdBrukerService> logger,
-            HandhygieneContext context)
+            HandHygieneContext context)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
@@ -43,29 +43,29 @@ namespace HyFive.Tjenester.Autentisering.Bruker
                 _logger.LogInformation("TI03: Bruker:  User er null");
         }
 
-        public async Task<InnloggetBruker> HentBruker()
+        public async Task<LoggedInUser> HentBruker()
         {
-            var bruker = new InnloggetBruker()
+            var bruker = new LoggedInUser()
             {
-                Navn = Bruker?.Name ?? "",
+                Name = Bruker?.Name ?? "",
             };
             var brukerNameForLog = Bruker?.Name.ObfuscateName() ?? "(brukerNull)";
             var hprnummer = HentHprnummer();
             var pseudonym = HentPseudonym();
 
-            bruker.Id = CreateHash(pseudonym + bruker.Navn + HashSalt);
-            bruker.ErObservator = ErObservator(hprnummer, pseudonym);
-            bruker.ErKoordinator = ErKoordinator(hprnummer, pseudonym);
-            bruker.ErFhiAdmin = ErFhiAdmin(pseudonym, hprnummer);
-            bruker.HPRNummer = hprnummer;
-            bruker.IdentPseudonym = pseudonym;
-            bruker.InstitusjonsIder = await _context.Bruker.AsNoTracking().Include(k => k.Institusjon)
+            bruker.Id = CreateHash(pseudonym + bruker.Name + HashSalt);
+            bruker.IsObserver = ErObservator(hprnummer, pseudonym);
+            bruker.IsCoordinator = ErKoordinator(hprnummer, pseudonym);
+            bruker.IsFhiAdmin = ErFhiAdmin(pseudonym, hprnummer);
+            bruker.HPRNumber = hprnummer;
+            bruker.IdentityPseudonym = pseudonym;
+            bruker.InstitutionIds = await _context.User.AsNoTracking().Include(k => k.Institusjon)
                 .Where(HarHprEllerPseudonymOgErAktiv<Domene.Bruker.Bruker>(hprnummer, pseudonym))
                 .Where(k => k.Institusjon != null)
                 .Select(k => k.Institusjon.Id)
                 .ToListAsync();
-            bruker.Fornavn = HentFornavn();
-            bruker.Etternavn = HentEtternavn();
+            bruker.FirstName = HentFornavn();
+            bruker.Surname = HentEtternavn();
 
             if (string.IsNullOrEmpty(Bruker?.HprNummer))
             {
@@ -117,7 +117,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
             if (string.IsNullOrEmpty(hprnummer) && string.IsNullOrEmpty(identPseudonym))
                 return false;
 
-            bool erFhiAdmin = _context.Bruker.AsNoTracking().OfType<FhiAdmin>().AsNoTracking()
+            bool erFhiAdmin = _context.User.AsNoTracking().OfType<FhiAdmin>().AsNoTracking()
                     .Where(HarHprEllerPseudonymOgErAktiv<FhiAdmin>(hprnummer, identPseudonym)).Any();
             return erFhiAdmin;
         }
@@ -159,7 +159,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
                 throw new ArgumentException($"HelseIdBrukerService: Feil ved parsing av ID: {sesjonId}. {sesjonId} må være av typen Guid");
             }
             
-            var institusjonId = _context.Sesjon.AsNoTracking().Include(s => s.Avdeling).ThenInclude(a => a.Institusjon)
+            var institusjonId = _context.Sesjon.AsNoTracking().Include(s => s.Department).ThenInclude(a => a.Institusjon)
                 .FirstOrDefault(s => s.Id == guidSesjonId).Avdeling?.InstitusjonId;
             if (institusjonId != null)
             {
@@ -173,7 +173,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
         {
             var hprnummer = HentHprnummer();
             var pseudonym = HentPseudonym();
-            return _context.Bruker.AsNoTracking()
+            return _context.User.AsNoTracking()
                 .OfType<Observator>()
                 .Include(o => o.Institusjon)
                 .Where(HarHprEllerPseudonymOgErAktiv<Domene.Bruker.Observator>(hprnummer, pseudonym)).First(o => o.Institusjon.Id == institusjonId)?.Id ?? 0;
@@ -186,13 +186,13 @@ namespace HyFive.Tjenester.Autentisering.Bruker
 
         private bool ErRolle<TRolle>(string hprnummer, string pseudonym) where TRolle : Domene.Bruker.Bruker
         {
-            var erRolle = _context.Bruker.AsNoTracking().OfType<TRolle>()
+            var erRolle = _context.User.AsNoTracking().OfType<TRolle>()
                 .Include(r => r.Institusjon)
                 .Any(HarHprEllerPseudonymOgErAktiv<TRolle>(hprnummer, pseudonym));
 
             if (erRolle)
             {
-                // Oppdater alle brukere med  med IdentPseudonym hvis de ikke har det. 
+                // Oppdater alle brukere med  med IdentityPseudonym hvis de ikke har det. 
                 OppdaterBrukerMedPseudonym<TRolle>(hprnummer).GetAwaiter().GetResult();
             }
             return erRolle;
@@ -200,14 +200,14 @@ namespace HyFive.Tjenester.Autentisering.Bruker
 
         private bool ErRolleForInstitusjon<TRolle>(string hprnummer, string identPseudonym, int institusjonId) where TRolle : Domene.Bruker.Bruker
         {
-            return _context.Bruker.OfType<TRolle>().AsNoTracking().Include(b => b.Institusjon)
+            return _context.User.OfType<TRolle>().AsNoTracking().Include(b => b.Institusjon)
                 .Where(HarHprEllerPseudonymOgErAktiv<TRolle>(hprnummer, identPseudonym))
                 .Any(b => b.Institusjon.Id == institusjonId && b.Discriminator == GetDiscriminator<TRolle>());
         }
 
         private bool ErKoordinatorForHelseforetak(string hprnummer, string identPseudonym, int helseforetakId)
         {
-            return _context.Bruker.OfType<Koordinator>().AsNoTracking().Include(b => b.Institusjon).ThenInclude(i=>i.Helseforetak)
+            return _context.User.OfType<Koordinator>().AsNoTracking().Include(b => b.Institusjon).ThenInclude(i=>i.Helseforetak)
                 .Where(HarHprEllerPseudonymOgErAktiv<Koordinator>(hprnummer, identPseudonym))
                 .Any(b => b.Institusjon.Helseforetak.Id == helseforetakId);
         }
@@ -217,7 +217,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
             var hprnummer = HentHprnummer();
             var pseudonym = HentPseudonym();
             var koordinatorForInstitusjonIder = _context
-                .Bruker
+                .User
                 .OfType<TRolle>()
                 .AsNoTracking()
                 .Include(k => k.Institusjon)
@@ -236,7 +236,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
         private bool ErRolleForBruker<TRolle>(string hprnummer, string pseudonym, int brukerId) where TRolle : Domene.Bruker.Bruker
         {
             var institusjonId = _context
-                .Bruker
+                .User
                 .AsNoTracking()
                 .Include(b => b.Institusjon)
                 .Where(b => b.Id == brukerId)
@@ -248,7 +248,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
         {
             var institusjonId = _context.Sesjon
                 .AsNoTracking()
-                .Include(s => s.Avdeling)
+                .Include(s => s.Department)
                 .ThenInclude(a => a.Institusjon)
                 .Where(s => s.Id == sesjonId)
                 .Select(b => b.Avdeling.Institusjon.Id).First();
@@ -257,7 +257,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
 
         private bool ErRolleForAvdeling<TRolle>(int avdelingId) where TRolle : Domene.Bruker.Bruker
         {
-            var institusjonId = _context.Avdeling.Include(a => a.Institusjon).First(a => a.Id == avdelingId)
+            var institusjonId = _context.Department.Include(a => a.Institusjon).First(a => a.Id == avdelingId)
                 .InstitusjonId;
 
             return ErRolleForInstitusjon<TRolle>(HentHprnummer(), HentPseudonym(), institusjonId);
@@ -299,7 +299,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
             try
             {
                 var brukerIderSomSkalOppdateres = _context
-                    .Bruker
+                    .User
                     .OfType<TRolle>()
                     .AsNoTracking()
                     .Where(BrukerMedHprnummerUtenIdentpseudonym(hprnummer))

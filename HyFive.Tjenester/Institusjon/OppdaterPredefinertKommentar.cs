@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
-using HyFive.Domene.Sted;
+using HyFive.DataAccess;
+using HyFive.Domene.Place;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PredefinertKommentar = HyFive.Modeller.V1.Institusjon.PredefinertKommentar;
+using PredefinedComment = HyFive.Modeller.V1.Institution.PredefinedComment;
 
 namespace HyFive.Tjenester.Institusjon
 {
@@ -13,27 +13,27 @@ namespace HyFive.Tjenester.Institusjon
     {
         public class Command : IRequest<bool>
         {
-            public PredefinertKommentar PredefinertKommentar { get; set; }
+            public PredefinedComment PredefinertKommentar { get; set; }
             public int Institusjonid { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var kommentar = await _context.PredefinertKommentar.FirstOrDefaultAsync(pk => pk.Id == request.PredefinertKommentar.Id 
-                                                                       && pk.InstitusjonId == request.Institusjonid 
-                                                                       && pk.SesjonType == SesjonType.Beskyttelsesutstyr, cancellationToken);
+                var kommentar = await _context.PredefinedComments.FirstOrDefaultAsync(pk => pk.Id == request.PredefinertKommentar.Id 
+                                                                       && pk.InstitutionId == request.Institusjonid 
+                                                                       && pk.SessionType == SessionType.ProtectiveEquipment, cancellationToken);
                 if (kommentar == null)
                     return false;
 
-                kommentar.Kommentar = request.PredefinertKommentar.Kommentar;
+                kommentar.Comment = request.PredefinertKommentar.Comment;
 
                 _context.Update(kommentar);
                 _context.SaveChanges();

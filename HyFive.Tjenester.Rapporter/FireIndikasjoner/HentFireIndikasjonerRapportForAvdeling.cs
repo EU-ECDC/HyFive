@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
-using HyFive.Domene.Observasjon;
+using HyFive.DataAccess;
+using HyFive.Domene.Observation;
 using HyFive.Modeller.V1.Konstanter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OverforingstatusTypeKonstanter = HyFive.Modeller.V1.Konstanter.OverforingstatusTypeKonstanter;
-using FireIndikasjonerSesjon = HyFive.Domene.Sesjon.FireIndikasjonerSesjon;
+using FourIndicationsSession = HyFive.Domene.Session.FourIndicationsSession;
 
 namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 {
@@ -25,10 +25,10 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
         public class Handler : IRequestHandler<Query, FireIndikasjonerRapportForAvdeling>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -47,34 +47,34 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
             private FireIndikasjonerRapport HentAvdelingsdata(Query request)
             {
-                var avdeling = _context.Avdeling.AsNoTracking().First(a => a.Id == request.AvdelingId);
+                var avdeling = _context.Department.AsNoTracking().First(a => a.Id == request.AvdelingId);
 
-                var avdelingssesjonerMedObservasjoner = _context.Sesjon.OfType<FireIndikasjonerSesjon>()
+                var avdelingssesjonerMedObservasjoner = _context.Sesjon.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.Overforingstatus)
+                    .Include(s => s.TransmissionStatus)
                     .Include(s => s.Observasjoner)
-                        .ThenInclude(o => o.Rolle)
+                        .ThenInclude(o => o.Role)
                     .Include(o => o.Observasjoner)
                         .ThenInclude(o => o.Aktivitet)
                         .ThenInclude(a => a.AktivitetType)
                     .Include(o => o.Observasjoner)
                         .ThenInclude(o => o.Indikasjonstyper)
                     .Where(s =>
-                        s.Avdeling.Id == request.AvdelingId
-                        && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date >= request.FraTidspunkt.Date)
-                        && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date <= request.TilTidspunkt.Date))
+                        s.Department.Id == request.AvdelingId
+                        && s.Observasjoner.Any(o => o.RegistrationTime.Date >= request.FraTidspunkt.Date)
+                        && s.Observasjoner.Any(o => o.RegistrationTime.Date <= request.TilTidspunkt.Date))
                     .ToList();
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    avdelingssesjonerMedObservasjoner = avdelingssesjonerMedObservasjoner.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    avdelingssesjonerMedObservasjoner = avdelingssesjonerMedObservasjoner.Where(p => p.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
                 }
 
                 foreach (var sesjon in avdelingssesjonerMedObservasjoner)
                 {
                     sesjon.Observasjoner = sesjon.Observasjoner.Where(o =>
-                            o.Registrerttidspunkt.Date >= request.FraTidspunkt.Date &&
-                            o.Registrerttidspunkt.Date <= request.TilTidspunkt.Date)
+                            o.RegistrationTime.Date >= request.FraTidspunkt.Date &&
+                            o.RegistrationTime.Date <= request.TilTidspunkt.Date)
                         .ToList();
                 }
 
@@ -95,12 +95,12 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
             private async Task<FireIndikasjonerRapport> HentSammenlignbareAvdelingerData(Query request)
             {
-                var avdelingSomSkalSammenlignes = _context.Avdeling.AsNoTracking().Include(a => a.Avdelingtype).First(a => a.Id == request.AvdelingId);
+                var avdelingSomSkalSammenlignes = _context.Department.AsNoTracking().Include(a => a.Avdelingtype).First(a => a.Id == request.AvdelingId);
 
-                var sammenlignbareAvdelingersSesjoner = await _context.Sesjon.OfType<FireIndikasjonerSesjon>()
+                var sammenlignbareAvdelingersSesjoner = await _context.Sesjon.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.Overforingstatus)
-                    .Include(s => s.Avdeling)
+                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.Department)
                         .ThenInclude(s => s.Avdelingtype)
                     .Include(s => s.Observasjoner)
                         .ThenInclude(o => o.Rolle)
@@ -147,22 +147,22 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
             private FireIndikasjonerRapport HentInstitusjondata(Query request)
             {
-                var institusjonId = _context.Avdeling
+                var institusjonId = _context.Department
                     .AsNoTracking()
                     .Select(a => new { AvdelingId = a.Id, a.InstitusjonId })
                     .First(a => a.AvdelingId == request.AvdelingId).InstitusjonId;
 
 
-                var institusjon = _context.Institusjon
+                var institusjon = _context.Institution
                     .AsNoTracking()
-                    .Include(i => i.Institusjontype)
-                    .Select(i => new { i.Navn, i.Id, Insitusjonstype = i.Institusjontype.Navn })
+                    .Include(i => i.InstitutionType)
+                    .Select(i => new { i.Name, i.Id, Insitusjonstype = i.InstitutionType.Name })
                     .First(i => i.Id == institusjonId);
 
-                var institusjonSesjonerMinusForespurtAvdeling = _context.Sesjon.OfType<FireIndikasjonerSesjon>()
+                var institusjonSesjonerMinusForespurtAvdeling = _context.Sesjon.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.Overforingstatus)
-                    .Include(s => s.Avdeling)
+                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.Department)
                         .ThenInclude(s => s.Avdelingtype)
                     .Include(s => s.Observasjoner)
                         .ThenInclude(o => o.Rolle)
@@ -209,7 +209,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             {
                 var klinikkrappporter = new List<FireIndikasjonerRapport>();
 
-                var avdelingsklinikkIder = _context.Avdeling
+                var avdelingsklinikkIder = _context.Department
                     .AsNoTracking()
                     .Include(a => a.Klinikker)
                     .First(a => a.Id == request.AvdelingId).Klinikker.Select(s => s.Id);
@@ -225,10 +225,10 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
             private FireIndikasjonerRapport HentRapportForKlinikk(int klinikkId, Query request)
             {
-                var tilknyttetKlinikkSesjoner = _context.Sesjon.OfType<FireIndikasjonerSesjon>()
+                var tilknyttetKlinikkSesjoner = _context.Sesjon.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.Overforingstatus)
-                    .Include(s => s.Avdeling)
+                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.Department)
                         .ThenInclude(a => a.Avdelingtype)
                     .Include(s => s.Avdeling)
                         .ThenInclude(a => a.Klinikker)
@@ -259,7 +259,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 }
 
                 var antallObservasjoner = tilknyttetKlinikkSesjoner.SelectMany(o => o.Observasjoner).Count();
-                var klinikknavn = _context.Klinikk.FirstOrDefault(k => k.Id == klinikkId)?.Navn ?? "Uten navn";
+                var klinikknavn = _context.Clinic.FirstOrDefault(k => k.Id == klinikkId)?.Name ?? "Uten navn";
 
                 var rapport = new FireIndikasjonerRapport()
                 {
@@ -293,10 +293,10 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="sesjoner"></param>
             /// <returns></returns>
-            private List<RolleMedKombinasjonerRapport> HentRolleMedKombinasjonerRapportListe(List<FireIndikasjonerSesjon> sesjoner)
+            private List<RolleMedKombinasjonerRapport> HentRolleMedKombinasjonerRapportListe(List<FourIndicationsSession> sesjoner)
             {
                 var dtoListe = new List<RolleMedKombinasjonerRapport>();
-                var groupedByRoles = sesjoner.SelectMany(s => s.Observasjoner).GroupBy(o => new { o.Rolle.Navn });
+                var groupedByRoles = sesjoner.SelectMany(s => s.Observations).GroupBy(o => new { o.Role.Name });
 
                 foreach (var rolleObservasjoner in groupedByRoles)
                 {
@@ -309,12 +309,12 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     var observasjoner = rolleObservasjoner.ToList();
                     handvaskTider.AddRange(
                         observasjoner
-                            .Where(o => o.Aktivitet.TidtakingBleUtfort && o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Handvask)
-                            .Select(o => o.Aktivitet.SekunderBrukt));
+                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Handvask)
+                            .Select(o => o.Activity.TimeSpent));
                     desinfeksjonTider.AddRange(
                         observasjoner
-                            .Where(o => o.Aktivitet.TidtakingBleUtfort && o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Desinfeksjon)
-                            .Select(o => o.Aktivitet.SekunderBrukt));
+                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Desinfeksjon)
+                            .Select(o => o.Activity.TimeSpent));
 
                     dto.Kombinasjoner.Add(LagKombinasjonA(observasjoner));
                     dto.Kombinasjoner.Add(LagKombinasjonB(observasjoner));
@@ -345,7 +345,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="observasjoner"></param>
             /// <returns></returns>
-            private Kombinasjon LagKombinasjonA(List<FireIndikasjonerObservasjon> observasjoner)
+            private Kombinasjon LagKombinasjonA(List<FourIndicationsObservation> observasjoner)
             {
                 //var navn = "A (Før pasient)";
                 var navn = "A";
@@ -366,7 +366,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="observasjoner"></param>
             /// <returns></returns>
-            private Kombinasjon LagKombinasjonB(List<FireIndikasjonerObservasjon> observasjoner)
+            private Kombinasjon LagKombinasjonB(List<FourIndicationsObservation> observasjoner)
             {
                 //var navn = "B (før aseptisk – inne i sonen)";
                 var navn = "B";
@@ -387,7 +387,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="observasjoner"></param>
             /// <returns></returns>
-            private Kombinasjon LagKombinasjonC(List<FireIndikasjonerObservasjon> observasjoner)
+            private Kombinasjon LagKombinasjonC(List<FourIndicationsObservation> observasjoner)
             {
                 //var navn = "C (etter kroppsvæske – primært inne i sonen)";
                 var navn = "C";
@@ -408,7 +408,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="observasjoner"></param>
             /// <returns></returns>
-            private Kombinasjon LagKombinasjonD(List<FireIndikasjonerObservasjon> observasjoner)
+            private Kombinasjon LagKombinasjonD(List<FourIndicationsObservation> observasjoner)
             {
                 //var navn = "D (etter pasient)";
                 var navn = "D";
@@ -430,7 +430,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             /// </summary>
             /// <param name="observasjoner"></param>
             /// <returns></returns>
-            private Kombinasjon LagKombinasjonE(List<FireIndikasjonerObservasjon> observasjoner)
+            private Kombinasjon LagKombinasjonE(List<FourIndicationsObservation> observasjoner)
             {
                 //var navn = "E (overgang mellom pasienter)";
                 var navn = "E";
@@ -449,20 +449,20 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             }
 
 
-            private Kombinasjon LagKombinasjon(List<FireIndikasjonerObservasjon> observasjoner, string kombinasjonsnavn, params Indikasjonskombinasjon[] indikasjonskombinasjoner)
+            private Kombinasjon LagKombinasjon(List<FourIndicationsObservation> observasjoner, string kombinasjonsnavn, params Indikasjonskombinasjon[] indikasjonskombinasjoner)
             {
                 var aktuelleObservasjoner = observasjoner
-                    .Where(o => MøterKombinasjonskriteriet(o.Indikasjonstyper.Select(i => i.Kode), indikasjonskombinasjoner)).ToList();
+                    .Where(o => MøterKombinasjonskriteriet(o.IndicationTypes.Select(i => i.Code), indikasjonskombinasjoner)).ToList();
                 var antall = aktuelleObservasjoner.Count();
                 var etterlevd = aktuelleObservasjoner
-                    .Count(o => o.Aktivitet.AktivitetType.Kode != AktivitetTypeKonstanter.IkkeUtfort);
+                    .Count(o => o.Activity.ActivityType.Code != AktivitetTypeKonstanter.IkkeUtfort);
 
                 var etterlevdProsentandel = BeregnEtterlevdProsentandel(antall, etterlevd);
                 var ikkeEtterlevdProsentandel = BeregnIkkeEtterlevdProsentandel(antall, etterlevdProsentandel);
                 var kombinasjon = new Kombinasjon()
                 {
                     Navn = $"{kombinasjonsnavn}",
-                    Rolle = observasjoner.First().Rolle.Navn,
+                    Rolle = observasjoner.First().Role.Name,
                     AntallObservasjoner = antall,
                     ProsentEtterlevd = etterlevdProsentandel,
                     ProsentIkkeEtterlevd = ikkeEtterlevdProsentandel,
@@ -500,10 +500,10 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
             }
             #endregion
 
-            private string DebugObservasjon(FireIndikasjonerObservasjon o)
+            private string DebugObservasjon(FourIndicationsObservation o)
             {
                 return
-                    $"{o.Id}, rolle: {o.Rolle.Navn} (id:{o.Rolle.Id} {o.Aktivitet.AktivitetType.Kode} {string.Join(',', o.Indikasjonstyper.Select(i => i.Kode))}";
+                    $"{o.Id}, rolle: {o.Role.Name} (id:{o.Role.Id} {o.Activity.ActivityType.Code} {string.Join(',', o.IndicationTypes.Select(i => i.Code))}";
             }
 
             private struct Indikasjonskombinasjon

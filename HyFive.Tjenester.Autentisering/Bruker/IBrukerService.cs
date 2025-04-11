@@ -1,4 +1,4 @@
-﻿using HyFive.Modeller.V1.Autentisering;
+﻿using HyFive.Modeller.V1.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace HyFive.Tjenester.Autentisering.Bruker
 {
     public interface IBrukerService
     {
-        Task<InnloggetBruker> HentBruker();
+        Task<LoggedInUser> HentBruker();
 
         bool ErBrukerLoggetInn();
 

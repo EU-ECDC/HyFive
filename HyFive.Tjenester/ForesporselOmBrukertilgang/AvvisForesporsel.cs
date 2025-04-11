@@ -1,4 +1,4 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -20,26 +20,26 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
 
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var foresporsel = await _context.ForesporselOmBrukertilgang.FindAsync(command.ForespørselId);
+                var foresporsel = await _context.UserAccessRequest.FindAsync(command.ForespørselId);
 
                 if (foresporsel == null) return false;
 
-                var bruker = _context.Bruker.FirstOrDefault(b => b.IdentPseudonym == command.IdentPseudonym
+                var bruker = _context.User.FirstOrDefault(b => b.IdentPseudonym == command.IdentPseudonym
                                                     || b.HPRNummer == command.HPRNummer);
 
                 if (bruker == null) return false;
 
                 foresporsel.Status = Domene.Bruker.ForesporselOmBrukertilgangStatus.Avvist;
-                foresporsel.BehandletTidspunkt = DateTime.UtcNow;
+                foresporsel.BehandletTidspunkt = DateTime.Now;
                 foresporsel.BehandletAvBrukerId = bruker.Id;
                 foresporsel.BehandletAvBrukernavn = bruker.Fornavn + " " + bruker.Etternavn;
 

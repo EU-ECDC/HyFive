@@ -1,7 +1,7 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Modeller.V1;
-using HyFive.Modeller.V1.Bruker;
+using HyFive.Modeller.V1.User;
 using HyFive.Tjenester.Bruker;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -17,16 +17,16 @@ namespace HyFive.Tjenester.Helseforetak
     {
         public class Command : IRequest<Status>
         {
-            public KoordinatorForHelseforetak Koordinator { get; set; }
+            public HealthcareInstitutionCoordinator Koordinator { get; set; }
             public int HelseforetakId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Status>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, ILogger<Handler> logger)
             {
                 _context = context;
                 _logger = logger;
@@ -38,7 +38,7 @@ namespace HyFive.Tjenester.Helseforetak
                     if(!KanKoordinatorOppdateres(command.Koordinator, out var feilmelding))
                         return new Status { Suksess = false, Feilmelding = feilmelding };
 
-                    var institusjonIdListe = command.Koordinator.Institusjoner.Select(x => x.Id);
+                    var institusjonIdListe = command.Koordinator.Institutions.Select(x => x.Id);
                     List<Koordinator> koordinatorer = FinnKoordinatorForInstitusjonIHelseforetak(command);
                     OppdaterKoordinatorerForInstitusjonIHelseForetak(command.Koordinator, koordinatorer);
 
@@ -55,29 +55,29 @@ namespace HyFive.Tjenester.Helseforetak
                 return new Status { Suksess = true };
             }
 
-            private bool KanKoordinatorOppdateres(KoordinatorForHelseforetak koordinator, out string feilmelding)
+            private bool KanKoordinatorOppdateres(HealthcareInstitutionCoordinator koordinator, out string feilmelding)
             {
                 feilmelding = "";
 
-                if(string.IsNullOrWhiteSpace(koordinator.Fornavn))
+                if(string.IsNullOrWhiteSpace(koordinator.FirstName))
                 {
                     feilmelding = "Fornavn må fylles ut";
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(koordinator.Etternavn))
+                if (string.IsNullOrWhiteSpace(koordinator.Surname))
                 {
                     feilmelding = "Etternavn må fylles ut";
                     return false;
                 }
 
-                if(string.IsNullOrWhiteSpace(koordinator.EndretHPRNummer) && string.IsNullOrWhiteSpace(koordinator.EndretIdentPseudonym))
+                if(string.IsNullOrWhiteSpace(koordinator.ModifiedHPRNumber) && string.IsNullOrWhiteSpace(koordinator.ModifiedPseudonym))
                 {
                     feilmelding = "Hpr nummer eller identpseudonym må fylles ut";
                     return false;
                 }
 
-                if(!string.IsNullOrWhiteSpace(koordinator.EndretIdentPseudonym) && !BrukerValidator.ErGyldigIdentPseudonym(koordinator.EndretIdentPseudonym))
+                if(!string.IsNullOrWhiteSpace(koordinator.ModifiedPseudonym) && !BrukerValidator.ErGyldigIdentPseudonym(koordinator.ModifiedPseudonym))
                 {
                     feilmelding = "Identpseudonym er ikke gyldig";
                     return false;
@@ -86,16 +86,16 @@ namespace HyFive.Tjenester.Helseforetak
                 return true;
             }
 
-            private void OppdaterInstitusjonForKoordinator(KoordinatorForHelseforetak koordinatorForHelseForetak, IEnumerable<int> institusjonIdListe, List<Koordinator> koordinatorer)
+            private void OppdaterInstitusjonForKoordinator(HealthcareInstitutionCoordinator koordinatorForHelseForetak, IEnumerable<int> institusjonIdListe, List<Koordinator> koordinatorer)
             {
-                if (koordinatorForHelseForetak.ErDeaktivert)
+                if (koordinatorForHelseForetak.IsDisabled)
                     return;
 
                 DeaktiverKooordinatorForInstitusjonSomIkkeErILista(koordinatorer, institusjonIdListe);
 
                 foreach (var institusjonId in institusjonIdListe)
                 {
-                    var koordinator = HentKoordinator(institusjonId, koordinatorForHelseForetak.HPRNummer, koordinatorForHelseForetak.IdentPseudonym);
+                    var koordinator = HentKoordinator(institusjonId, koordinatorForHelseForetak.HPRNumber, koordinatorForHelseForetak.IdentityPseudonym);
                     if (koordinator != null)
                     {
                         if (koordinator.ErDeaktivert)
@@ -109,37 +109,37 @@ namespace HyFive.Tjenester.Helseforetak
                 }
             }
 
-            private static void OppdaterKoordinatorerForInstitusjonIHelseForetak(KoordinatorForHelseforetak koordinatorForHelseforetak, List<Koordinator> koordinatorer)
+            private static void OppdaterKoordinatorerForInstitusjonIHelseForetak(HealthcareInstitutionCoordinator koordinatorForHelseforetak, List<Koordinator> koordinatorer)
             {
                 foreach (var koordinator in koordinatorer)
                 {
-                    koordinator.Fornavn = koordinatorForHelseforetak.Fornavn;
-                    koordinator.Etternavn = koordinatorForHelseforetak.Etternavn;
-                    koordinator.Epost = koordinatorForHelseforetak.Epost;
-                    koordinator.HPRNummer = koordinatorForHelseforetak.EndretHPRNummer;
-                    koordinator.IdentPseudonym = koordinatorForHelseforetak.EndretIdentPseudonym;
-                    koordinator.ErDeaktivert = koordinatorForHelseforetak.ErDeaktivert;
+                    koordinator.Fornavn = koordinatorForHelseforetak.FirstName;
+                    koordinator.Etternavn = koordinatorForHelseforetak.Surname;
+                    koordinator.Epost = koordinatorForHelseforetak.Email;
+                    koordinator.HPRNummer = koordinatorForHelseforetak.ModifiedHPRNumber;
+                    koordinator.IdentPseudonym = koordinatorForHelseforetak.ModifiedPseudonym;
+                    koordinator.ErDeaktivert = koordinatorForHelseforetak.IsDisabled;
                 }
             }
 
             private List<Koordinator> FinnKoordinatorForInstitusjonIHelseforetak(Command request)
             {
-                return _context.Koordinator.Where(k => k.Institusjon.Helseforetak.Id == request.HelseforetakId &&
+                return _context.Coordinator.Where(k => k.Institusjon.Helseforetak.Id == request.HelseforetakId &&
                                                     ((!string.IsNullOrEmpty(k.HPRNummer) &&
-                                                    k.HPRNummer == request.Koordinator.HPRNummer) ||
+                                                    k.HPRNummer == request.Koordinator.HPRNumber) ||
                                                     (!string.IsNullOrEmpty(k.IdentPseudonym) &&
-                                                    k.IdentPseudonym == request.Koordinator.IdentPseudonym))).ToList();
+                                                    k.IdentPseudonym == request.Koordinator.IdentityPseudonym))).ToList();
             }
 
-            private Koordinator LagKoordinatorForInstitusjon(KoordinatorForHelseforetak koordinator, int institusjonId)
+            private Koordinator LagKoordinatorForInstitusjon(HealthcareInstitutionCoordinator koordinator, int institusjonId)
             {
-                var institusjon = _context.Institusjon.FirstOrDefault(i => i.Id == institusjonId);
+                var institusjon = _context.Institution.FirstOrDefault(i => i.Id == institusjonId);
                 var nyKoordinator = new Koordinator
                 {
-                    Fornavn = koordinator.Fornavn,
-                    Etternavn = koordinator.Etternavn,
-                    HPRNummer = koordinator.HPRNummer,
-                    IdentPseudonym = koordinator.IdentPseudonym,
+                    Fornavn = koordinator.FirstName,
+                    Etternavn = koordinator.Surname,
+                    HPRNummer = koordinator.HPRNumber,
+                    IdentPseudonym = koordinator.IdentityPseudonym,
                     Institusjon = institusjon
                 };
                 return nyKoordinator;
@@ -154,7 +154,7 @@ namespace HyFive.Tjenester.Helseforetak
 
             private Koordinator HentKoordinator(int institusjonId, string hprNummer, string identPseudonym)
             {
-                var koordinator = _context.Koordinator.FirstOrDefault(k => k.Institusjon.Id == institusjonId &&
+                var koordinator = _context.Coordinator.FirstOrDefault(k => k.Institusjon.Id == institusjonId &&
                                                                         ((!string.IsNullOrEmpty(k.HPRNummer) &&
                                                                         k.HPRNummer == hprNummer) ||
                                                                         (!string.IsNullOrEmpty(k.IdentPseudonym) &&

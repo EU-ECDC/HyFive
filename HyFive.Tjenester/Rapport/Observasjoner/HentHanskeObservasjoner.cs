@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Rapport.Hanske;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,10 +28,10 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
         public class Handler : IRequestHandler<Query, IEnumerable<HanskeObservasjonRapport>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
@@ -39,9 +39,9 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
             public async Task<IEnumerable<HanskeObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
             {
-                var queryable = _context.HanskeObservasjon
-                    .Include(fo => fo.HanskeSesjon).ThenInclude(fo => fo.Observator)
-                    .Include(fo => fo.HanskeSesjon).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
+                var queryable = _context.GloveObservation
+                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Observer)
+                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
                     .Include(fo => fo.HandhygieneEtterHanskebrukType)
                     .Include(fo => fo.HanskeUtenIndikasjonTyper)
                     .Include(fo => fo.HanskeMedIndikasjonTyper)

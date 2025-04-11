@@ -7,9 +7,9 @@ namespace HyFive.Modeller.V1.Observasjon
     public class FireIndikasjonerObservasjon : Observasjon
     {
         [TsProperty(ForceNullable = true)]
-        public List<IndikasjonType> Indikasjonstyper { get; set; }
+        public List<IndicationType> Indikasjonstyper { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public Aktivitet Aktivitet { get; set; }
+        public Activity Aktivitet { get; set; }
     }
 }

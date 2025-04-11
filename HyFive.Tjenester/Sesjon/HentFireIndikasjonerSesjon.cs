@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester.Autentisering.Bruker;
@@ -22,11 +22,11 @@ namespace HyFive.Tjenester.Sesjon
 
         public class Handler : IRequestHandler<Query, FireIndikasjonerSesjon>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly IBrukerService _brukerService;
 
-            public Handler(HandhygieneContext context, IMapper mapper, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, IBrukerService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -34,10 +34,10 @@ namespace HyFive.Tjenester.Sesjon
             }
             public async Task<FireIndikasjonerSesjon> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.FireIndikasjonerSesjon
+                var sesjon = await _context.FourIndicationsSession
                     .AsNoTracking()
-                    .Include(s => s.Avdeling)
-                    .Include(s => s.Observator).ThenInclude(obs => obs.Institusjon)
+                    .Include(s => s.Department)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Aktivitet).ThenInclude(a => a.AktivitetType)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Indikasjonstyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
@@ -47,7 +47,7 @@ namespace HyFive.Tjenester.Sesjon
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med innlogget brukers pseudonym eller HPR-nummer {request.HPRNummer}");
 
-                var fireIndikasjonerSesjon = _mapper.Map<Domene.Sesjon.FireIndikasjonerSesjon, FireIndikasjonerSesjon>(sesjon);
+                var fireIndikasjonerSesjon = _mapper.Map<Domene.Session.FourIndicationsSession, FireIndikasjonerSesjon>(sesjon);
                 return fireIndikasjonerSesjon;
             }
         }

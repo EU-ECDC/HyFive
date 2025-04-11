@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,29 +13,29 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
 {
     public class HentBeskyttelsesutstyrTyper
     {
-        public class Query : IRequest<IEnumerable<BeskyttelsesutstyrType>>
+        public class Query : IRequest<IEnumerable<ProtectiveEquipmentType>>
         {
 
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<BeskyttelsesutstyrType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<ProtectiveEquipmentType>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<BeskyttelsesutstyrType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ProtectiveEquipmentType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var beskyttelsesutstyrtyper = await _context.BeskyttelsesutstyrType
-                    .Include(but => but.Feilbruktyper)
+                var beskyttelsesutstyrtyper = await _context.ProtectiveEquipmentType
+                    .Include(but => but.MisuseTypes)
                     .AsNoTracking()
-                    .ProjectTo<BeskyttelsesutstyrType>(_mapper.ConfigurationProvider)
-                    .OrderBy(but => but.Navn)
+                    .ProjectTo<ProtectiveEquipmentType>(_mapper.ConfigurationProvider)
+                    .OrderBy(but => but.Name)
                     .ToListAsync(cancellationToken);
 
                 return beskyttelsesutstyrtyper;

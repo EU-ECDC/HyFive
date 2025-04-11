@@ -7,7 +7,7 @@ namespace HyFive.Modeller.V1.Observasjon
     public class Observasjon
     {
         public string Id { get; set; }
-        public Rolle Rolle { get; set; }
+        public Role Rolle { get; set; }
 
         [TsProperty(Type = "Date", ForceNullable = true)]
         public DateTime Registrerttidspunkt { get; set; }

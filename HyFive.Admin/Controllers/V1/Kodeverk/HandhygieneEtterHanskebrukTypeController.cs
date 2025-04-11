@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Hanske;
 using MediatR;
@@ -25,20 +25,20 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<HandhygieneEtterHanskebrukType>> HentHandhygieneEtterHanskebrukTyper()
+        public async Task<IEnumerable<PostGloveHandHygieneType>> HentHandhygieneEtterHanskebrukTyper()
         {
             var handhygieneEtterHanskebrukTyper = await _mediator.Send(new HentHandhygieneEtterHanskebrukTyper.Query());
             return handhygieneEtterHanskebrukTyper;
         }
 
         /// <summary>
-        /// Oppdater HandhygieneEtterHanskebrukType
+        /// Oppdater PostGloveHandHygiene
         /// </summary>
         /// <param name="handhygieneEtterHanskebrukType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<HandhygieneEtterHanskebrukType> OppdaterHandhygieneEtterHanskebrukType([FromBody] HandhygieneEtterHanskebrukType handhygieneEtterHanskebrukType)
+        public async Task<PostGloveHandHygieneType> OppdaterHandhygieneEtterHanskebrukType([FromBody] PostGloveHandHygieneType handhygieneEtterHanskebrukType)
         {
             var erOppdatert = await _mediator.Send(new OppdaterHandhygieneEtterHanskebrukType.Command
             {

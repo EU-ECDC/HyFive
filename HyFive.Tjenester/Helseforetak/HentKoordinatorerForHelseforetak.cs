@@ -1,7 +1,7 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Bruker;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.User;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,38 +13,38 @@ namespace HyFive.Tjenester.Helseforetak
 {
     public class HentKoordinatorerForHelseforetak
     {
-        public class Query : IRequest<KoordinatorForHelseforetak[]>
+        public class Query : IRequest<HealthcareInstitutionCoordinator[]>
         {
             public int HelseforetakId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, KoordinatorForHelseforetak[]>
+        public class Handler : IRequestHandler<Query, HealthcareInstitutionCoordinator[]>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
 
 
-            public async Task<KoordinatorForHelseforetak[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<HealthcareInstitutionCoordinator[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 var koordinatorerForInstitusjonerIHelseforetak = HentKoordinatorerForInstitusjonerIHelseforetak(request.HelseforetakId);
 
-                List<KoordinatorForHelseforetak> koordinatorForHelseforetakListe = LagKoordinatorerForHelseForetakListe(koordinatorerForInstitusjonerIHelseforetak);
+                List<HealthcareInstitutionCoordinator> koordinatorForHelseforetakListe = LagKoordinatorerForHelseForetakListe(koordinatorerForInstitusjonerIHelseforetak);
 
                 return koordinatorForHelseforetakListe.ToArray();
             }
 
-            private static List<KoordinatorForHelseforetak> LagKoordinatorerForHelseForetakListe(List<Koordinator> koordinatorerForInstitusjonerIHelseforetak)
+            private static List<HealthcareInstitutionCoordinator> LagKoordinatorerForHelseForetakListe(List<Koordinator> koordinatorerForInstitusjonerIHelseforetak)
             {
-                var koordinatorForHelseforetakListe = new List<KoordinatorForHelseforetak>();
+                var koordinatorForHelseforetakListe = new List<HealthcareInstitutionCoordinator>();
 
                 foreach (var koordinator in koordinatorerForInstitusjonerIHelseforetak)
                 {
-                    var koordinatorForHelseforetak = koordinatorForHelseforetakListe.FirstOrDefault(k => (!string.IsNullOrEmpty(k.HPRNummer) && k.HPRNummer == koordinator.HPRNummer) ||
-                                                                                                         (!string.IsNullOrEmpty(k.IdentPseudonym) && k.IdentPseudonym == koordinator.IdentPseudonym));
+                    var koordinatorForHelseforetak = koordinatorForHelseforetakListe.FirstOrDefault(k => (!string.IsNullOrEmpty(k.HPRNumber) && k.HPRNumber == koordinator.HPRNummer) ||
+                                                                                                         (!string.IsNullOrEmpty(k.IdentityPseudonym) && k.IdentityPseudonym == koordinator.IdentPseudonym));
                     if (koordinatorForHelseforetak == null)
                     {
                         koordinatorForHelseforetak = LagKoordinatorForHelseforetak(koordinatorForHelseforetakListe, koordinator);
@@ -56,36 +56,36 @@ namespace HyFive.Tjenester.Helseforetak
                 return koordinatorForHelseforetakListe;
             }
 
-            private static void LeggTilInstitusjon(Koordinator koordinator, KoordinatorForHelseforetak koordinatorForHelseforetak)
+            private static void LeggTilInstitusjon(Koordinator koordinator, HealthcareInstitutionCoordinator koordinatorForHelseforetak)
             {
-                var institusjonRapport = new InstitusjonRapport
+                var institusjonRapport = new InstitutionReport
                 {
-                    Forkortelse = koordinator.Institusjon.Forkortelse,
+                    Abbreviation = koordinator.Institusjon.Forkortelse,
                     HERId = koordinator.Institusjon.HERId,
                     Id = koordinator.Institusjon.Id,
-                    Navn = koordinator.Institusjon.Navn,
-                    Institusjontype = new InstitusjonType
+                    Name = koordinator.Institusjon.Navn,
+                    InstitutionType = new InstitutionType
                     {
                         Id = koordinator.Institusjon.Institusjontype.Id,
-                        Kode = koordinator.Institusjon.Institusjontype.Kode,
-                        Navn = koordinator.Institusjon.Institusjontype.Navn
+                        Code = koordinator.Institusjon.Institusjontype.Kode,
+                        Name = koordinator.Institusjon.Institusjontype.Navn
                     }
                 };
 
-                koordinatorForHelseforetak.Institusjoner.Add(institusjonRapport);
+                koordinatorForHelseforetak.Institutions.Add(institusjonRapport);
             }
 
-            private static KoordinatorForHelseforetak LagKoordinatorForHelseforetak(List<KoordinatorForHelseforetak> koordinatorForHelseforetakListe, Koordinator koordinator)
+            private static HealthcareInstitutionCoordinator LagKoordinatorForHelseforetak(List<HealthcareInstitutionCoordinator> koordinatorForHelseforetakListe, Koordinator koordinator)
             {
-                var koordinatorForHelseforetak = new KoordinatorForHelseforetak
+                var koordinatorForHelseforetak = new HealthcareInstitutionCoordinator
                 {
-                    Fornavn = koordinator.Fornavn,
-                    Etternavn = koordinator.Etternavn,
-                    Epost = koordinator.Epost,
-                    HPRNummer = koordinator.HPRNummer,
-                    IdentPseudonym = koordinator.IdentPseudonym,
-                    Opprettettidspunkt = koordinator.Opprettettidspunkt,
-                    Institusjoner = new List<InstitusjonRapport>()
+                    FirstName = koordinator.Fornavn,
+                    Surname = koordinator.Etternavn,
+                    Email = koordinator.Epost,
+                    HPRNumber = koordinator.HPRNummer,
+                    IdentityPseudonym = koordinator.IdentPseudonym,
+                    CreatedTime = koordinator.Opprettettidspunkt,
+                    Institutions = new List<InstitutionReport>()
                 };
                 koordinatorForHelseforetakListe.Add(koordinatorForHelseforetak);
                 return koordinatorForHelseforetak;
@@ -93,7 +93,7 @@ namespace HyFive.Tjenester.Helseforetak
 
             private List<Koordinator> HentKoordinatorerForInstitusjonerIHelseforetak(int helseforetakId)
             {
-                return _context.Bruker.OfType<Koordinator>()
+                return _context.User.OfType<Koordinator>()
                     .AsNoTracking()
                     .Include(b => b.Institusjon)
                         .ThenInclude(i => i.Helseforetak)

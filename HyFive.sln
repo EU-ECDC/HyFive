@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Modeller", "HyFive.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Api.Common", "HyFive.Api.Common\HyFive.Api.Common.csproj", "{6977A133-4AAF-4769-A5A2-CEE64456EA36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Domene", "HyFive.Domene\HyFive.Domene.csproj", "{63B2914B-7F15-44F7-95FE-33D8D57F3E40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Domain", "HyFive.Domene\HyFive.Domain.csproj", "{63B2914B-7F15-44F7-95FE-33D8D57F3E40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Dataaksess", "HyFive.Dataaksess\HyFive.Dataaksess.csproj", "{D39EEA6F-7909-4C7B-95D6-DB8104EB5B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.DataAccess", "HyFive.Dataaksess\HyFive.DataAccess.csproj", "{D39EEA6F-7909-4C7B-95D6-DB8104EB5B7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester", "HyFive.Tjenester\HyFive.Tjenester.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
 EndProject

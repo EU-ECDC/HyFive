@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Sesjon;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +20,9 @@ namespace HyFive.Tjenester.Sesjon
 
         public class Handler : IRequestHandler<Command, SlettSesjonRespons>
         {
-            private readonly HandhygieneContext _databaseContext;
+            private readonly HandHygieneContext _databaseContext;
 
-            public Handler(HandhygieneContext databaseContext)
+            public Handler(HandHygieneContext databaseContext)
             {
                 _databaseContext = databaseContext;
             }
@@ -32,7 +32,7 @@ namespace HyFive.Tjenester.Sesjon
                 var respons = new SlettSesjonRespons();
                 var sesjonOgType = await _databaseContext.Sesjon
                     .AsNoTracking()
-                    .Include(s => s.Avdeling).ThenInclude(a => a.Institusjon)
+                    .Include(s => s.Department).ThenInclude(a => a.Institusjon)
                     .Select(s => new {s.Id, s.Discriminator, OverforingstatusKode = s.Overforingstatus.Kode, InstitusjonId = s.Avdeling.Institusjon.Id})
                     .FirstOrDefaultAsync(s => 
                         s.Id == request.SesjonId
@@ -72,10 +72,10 @@ namespace HyFive.Tjenester.Sesjon
 
             private bool SlettSesjonFireIndikasjoner(Guid requestSesjonId)
             {
-                var sesjon = _databaseContext.FireIndikasjonerSesjon
-                    .Include(s => s.Observasjoner)
+                var sesjon = _databaseContext.FourIndicationsSession
+                    .Include(s => s.Observations)
                     .FirstOrDefault(s => s.Id == requestSesjonId);
-                _databaseContext.RemoveRange(sesjon.Observasjoner);
+                _databaseContext.RemoveRange(sesjon.Observations);
                 _databaseContext.Remove(sesjon);
                 _databaseContext.SaveChanges();
                 return true;
@@ -83,10 +83,10 @@ namespace HyFive.Tjenester.Sesjon
 
             private bool SlettSesjonHandsmykker(Guid requestSesjonId)
             {
-                var sesjon = _databaseContext.HandsmykkeSesjon
-                    .Include(s => s.Observasjoner)
+                var sesjon = _databaseContext.HandJewelrySession
+                    .Include(s => s.Observations)
                     .FirstOrDefault(s => s.Id == requestSesjonId);
-                _databaseContext.RemoveRange(sesjon.Observasjoner);
+                _databaseContext.RemoveRange(sesjon.Observations);
                 _databaseContext.Remove(sesjon);
                 _databaseContext.SaveChanges();
                 return true;
@@ -94,10 +94,10 @@ namespace HyFive.Tjenester.Sesjon
 
             private bool SlettSesjonHansker(Guid requestSesjonId)
             {
-                var sesjon = _databaseContext.HanskeSesjon
-                    .Include(s => s.Observasjoner)
+                var sesjon = _databaseContext.GloveSession
+                    .Include(s => s.Observations)
                     .FirstOrDefault(s => s.Id == requestSesjonId);
-                _databaseContext.RemoveRange(sesjon.Observasjoner);
+                _databaseContext.RemoveRange(sesjon.Observations);
                 _databaseContext.Remove(sesjon);
                 _databaseContext.SaveChanges();
                 return true;
@@ -105,17 +105,17 @@ namespace HyFive.Tjenester.Sesjon
 
             private bool SlettSesjonBeskyttelsesutstyr(Guid requestSesjonId)
             {
-                var sesjon = _databaseContext.BeskyttelsesutstyrSesjon
-                    .Include(s => s.Observasjoner).ThenInclude(b => b.Beskyttelsesutstyrliste)
+                var sesjon = _databaseContext.ProtectiveEquipmentSession
+                    .Include(s => s.Observations).ThenInclude(b => b.ProtectiveEquipmentList)
                     .FirstOrDefault(s => s.Id == requestSesjonId);
-                if (sesjon.Observasjoner.Any())
+                if (sesjon.Observations.Any())
                 {
-                    var utstyr = sesjon.Observasjoner.SelectMany(o => o.Beskyttelsesutstyrliste);
+                    var utstyr = sesjon.Observations.SelectMany(o => o.ProtectiveEquipmentList);
                     if (utstyr.Any())
                     {
                         _databaseContext.RemoveRange(utstyr);
                     }
-                    _databaseContext.RemoveRange(sesjon.Observasjoner);
+                    _databaseContext.RemoveRange(sesjon.Observations);
                 }
                 _databaseContext.Remove(sesjon);
                 _databaseContext.SaveChanges();

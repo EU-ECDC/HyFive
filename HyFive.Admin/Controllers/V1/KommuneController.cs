@@ -21,7 +21,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Modeller.V1.Institusjon.Kommune>>> HentKommuner()
+        public async Task<ActionResult<List<Modeller.V1.Institution.Comment>>> HentKommuner()
         {
             var result = await _mediator.Send(new HentKommuner.Query());
 

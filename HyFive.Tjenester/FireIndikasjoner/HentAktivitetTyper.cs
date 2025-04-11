@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +13,25 @@ namespace HyFive.Tjenester.FireIndikasjoner
 {
     public class HentAktivitetTyper
     {
-        public class Query : IRequest<IEnumerable<AktivitetType>> { }
+        public class Query : IRequest<IEnumerable<ActivityType>> { }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<AktivitetType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<ActivityType>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<AktivitetType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ActivityType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var aktivitetTyper = await _context.AktivitetType
+                var aktivitetTyper = await _context.ActivityType
                     .AsNoTracking()
-                    .ProjectTo<AktivitetType>(_mapper.ConfigurationProvider)
-                    .OrderBy(a => a.Navn)
+                    .ProjectTo<ActivityType>(_mapper.ConfigurationProvider)
+                    .OrderBy(a => a.Name)
                     .ToListAsync(cancellationToken);
                 
                 return aktivitetTyper;

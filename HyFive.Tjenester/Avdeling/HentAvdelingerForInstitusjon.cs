@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -12,31 +12,31 @@ namespace HyFive.Tjenester.Avdeling
 {
     public class HentAvdelingerForInstitusjon
     {
-        public class Query : IRequest<IEnumerable<Modeller.V1.Institusjon.Avdeling>>
+        public class Query : IRequest<IEnumerable<Modeller.V1.Institution.Department>>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Modeller.V1.Institusjon.Avdeling>>
+        public class Handler : IRequestHandler<Query, IEnumerable<Modeller.V1.Institution.Department>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<Modeller.V1.Institusjon.Avdeling>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Modeller.V1.Institution.Department>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Avdeling
+                return await _context.Department
                     .Include(a => a.Roller)
                     .Include(a => a.Avdelingtype)
                     .AsNoTracking()
                     .Where(a => a.InstitusjonId == request.InstitusjonId)
                     .OrderBy(a => a.Navn)
-                    .ProjectTo<Modeller.V1.Institusjon.Avdeling>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Modeller.V1.Institution.Department>(_mapper.ConfigurationProvider)
                     .ToListAsync();
             }
         }

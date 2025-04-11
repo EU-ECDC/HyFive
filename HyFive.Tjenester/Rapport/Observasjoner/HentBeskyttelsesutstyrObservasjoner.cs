@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Rapport.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +28,11 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
         public class Handler : IRequestHandler<Query, IEnumerable<BeskyttelsesutstyrObservasjonRapport>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
@@ -40,9 +40,9 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
             public async Task<IEnumerable<BeskyttelsesutstyrObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
             {
-                var queryable = _context.BeskyttelsesutstyrObservasjon
-                    .Include(fo => fo.BeskyttelsesutstyrSesjon).ThenInclude(fo => fo.Observator)
-                    .Include(fo => fo.BeskyttelsesutstyrSesjon).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
+                var queryable = _context.ProtectiveEquipmentObservation
+                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Observer)
+                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
                     .Include(fo => fo.BeskyttelsesutstyrSesjon).ThenInclude(fo => fo.Overforingstatus)
                     .Include(fo => fo.Settingtype)
                     .Include(fo => fo.Beskyttelsesutstyrliste).ThenInclude(bu => bu.Feilbruktyper)

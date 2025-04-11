@@ -1,4 +1,4 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using HyFive.Modeller.V1.Konstanter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +17,16 @@ namespace HyFive.Tjenester.Avdeling
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var sesjonerOverfortTilFHI = await _context.Sesjon.Where(s => s.Avdeling.Id == request.AvdelingId && s.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).AnyAsync();
+                var sesjonerOverfortTilFHI = await _context.Sesjon.Where(s => s.Department.Id == request.AvdelingId && s.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).AnyAsync();
 
                 return sesjonerOverfortTilFHI;
             }

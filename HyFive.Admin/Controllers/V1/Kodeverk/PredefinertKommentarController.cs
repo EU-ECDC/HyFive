@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Institusjon;
@@ -29,7 +29,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "HentPredefinertKommentarer")]
-        public async Task<ActionResult<List<PredefinertKommentar>>> HentPredefinertKommentar(int institusjonId)
+        public async Task<ActionResult<List<PredefinedComment>>> HentPredefinertKommentar(int institusjonId)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
             {
@@ -50,7 +50,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("{institusjonId}/oppdater")]
         public async Task<ActionResult<bool>> OppdaterPredefinertKommentar(
             int institusjonId,
-            [FromBody] PredefinertKommentar predefinertKommentar)
+            [FromBody] PredefinedComment predefinertKommentar)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
             {
@@ -75,7 +75,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         public async Task<ActionResult<bool>> OpprettPredefinertKommentar(
             int institusjonId,
-            [FromBody] OpprettPredefinertKommentarRequest nyPredefinertKommentar)
+            [FromBody] CreatePredefinedCommentRequest nyPredefinertKommentar)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
             {

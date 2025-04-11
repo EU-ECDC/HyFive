@@ -7,6 +7,6 @@ namespace HyFive.Modeller.V1.Observasjon
     public class HandsmykkeObservasjon : Observasjon
     {
         [TsProperty(ForceNullable = true)]
-        public List<HandsmykkeType> Handsmykker { get; set; }
+        public List<HandJewelryType> Handsmykker { get; set; }
     }
 }

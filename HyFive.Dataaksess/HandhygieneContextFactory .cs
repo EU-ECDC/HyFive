@@ -3,23 +3,23 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace HyFive.Dataaksess
+namespace HyFive.DataAccess
 {
-    public class HandhygieneContextFactory : IDesignTimeDbContextFactory<HandhygieneContext>
+    public class HandhygieneContextFactory : IDesignTimeDbContextFactory<HandHygieneContext>
     {
-        public HandhygieneContext CreateDbContext(string[] args)
+        public HandHygieneContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var optionsBuilder = new DbContextOptionsBuilder<HandhygieneContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<HandHygieneContext>();
             var connectionString = configuration.GetConnectionString("HandhygieneConnection");
 
             optionsBuilder.UseNpgsql(connectionString);
 
-            return new HandhygieneContext(optionsBuilder.Options);
+            return new HandHygieneContext(optionsBuilder.Options);
         }
     }
 }

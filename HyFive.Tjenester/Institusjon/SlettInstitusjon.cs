@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Domene.Sesjon;
+using HyFive.DataAccess;
+using HyFive.Domene.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,10 +19,10 @@ namespace HyFive.Tjenester.Institusjon
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
@@ -43,10 +43,10 @@ namespace HyFive.Tjenester.Institusjon
                 return true;
             }
 
-            private Domene.Sted.Institusjon HentInstitusjon(int institusjonId)
+            private Domene.Place.Institution HentInstitusjon(int institusjonId)
             {
-                var institusjon = _context.Institusjon
-                                .Include(i=>i.Avdelinger)
+                var institusjon = _context.Institution
+                                .Include(i=>i.Departments)
                                 .FirstOrDefault(i=>i.Id == institusjonId);
 
                 if (institusjon == null)
@@ -57,32 +57,32 @@ namespace HyFive.Tjenester.Institusjon
                 return institusjon;
             }
 
-            private void SlettInstitusjon(Domene.Sted.Institusjon institusjon)
+            private void SlettInstitusjon(Domene.Place.Institution institusjon)
             {
-                _context.Institusjon.Remove(institusjon);
+                _context.Institution.Remove(institusjon);
             }
 
             private void SlettBrukere(int institusjonId)
             {
-                var brukereForInstitusjon = _context.Bruker.Where(b => b.Institusjon.Id == institusjonId);
-                _context.Bruker.RemoveRange(brukereForInstitusjon);
+                var brukereForInstitusjon = _context.User.Where(b => b.Institusjon.Id == institusjonId);
+                _context.User.RemoveRange(brukereForInstitusjon);
             }
 
             private void SlettKlinikker(int institusjonsId)
             {
-                var klinikker = _context.Klinikk.Where(k => k.Institusjon.Id == institusjonsId);
-                _context.Klinikk.RemoveRange(klinikker);
+                var klinikker = _context.Clinic.Where(k => k.Institution.Id == institusjonsId);
+                _context.Clinic.RemoveRange(klinikker);
             }
 
             private void SlettPredefinerteKommentarer(int institusjonsId)
             {
-                var preDefinerteKommentarer = _context.PredefinertKommentar.Where(p => p.InstitusjonId == institusjonsId);
-                _context.PredefinertKommentar.RemoveRange(preDefinerteKommentarer);
+                var preDefinerteKommentarer = _context.PredefinedComments.Where(p => p.InstitutionId == institusjonsId);
+                _context.PredefinedComments.RemoveRange(preDefinerteKommentarer);
             }
 
-            private void SlettAvdelingMedTilhørendeData(Domene.Sted.Institusjon institusjon)
+            private void SlettAvdelingMedTilhørendeData(Domene.Place.Institution institusjon)
             {
-                foreach (var avdeling in institusjon.Avdelinger)
+                foreach (var avdeling in institusjon.Departments)
                 {
                     SlettFireIndikasjonerSesjonerOgObservasjoner(avdeling.Id);
                     SlettHandsmykkeSesjonerOgObservasjoner(avdeling.Id);
@@ -95,14 +95,14 @@ namespace HyFive.Tjenester.Institusjon
 
             private void SlettAvdeling(int avdelingId)
             {
-                var avdeling = _context.Avdeling.Find(avdelingId);
-                _context.Avdeling.Remove(avdeling);
+                var avdeling = _context.Department.Find(avdelingId);
+                _context.Department.Remove(avdeling);
             }
 
             private void SlettFireIndikasjonerSesjonerOgObservasjoner(int avdelingId)
             {
-                var sesjonerForAvdeling = _context.Sesjon.OfType<FireIndikasjonerSesjon>()
-                    .Include(s => s.Avdeling)
+                var sesjonerForAvdeling = _context.Sesjon.OfType<FourIndicationsSession>()
+                    .Include(s => s.Department)
                     .Include(s => s.Observasjoner)
                     .ThenInclude(o=>o.Aktivitet)
                     .Where(s => s.Avdeling.Id == avdelingId).ToList();
@@ -110,44 +110,44 @@ namespace HyFive.Tjenester.Institusjon
                 foreach (var sesjon in sesjonerForAvdeling)
                 {
                     var aktiviteter = sesjon.Observasjoner.Select(o => o.Aktivitet).ToList();
-                    _context.Aktivitet.RemoveRange(aktiviteter);
-                    _context.FireIndikasjonerObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.Activity.RemoveRange(aktiviteter);
+                    _context.FourIndicationsObservation.RemoveRange(sesjon.Observasjoner);
                     _context.Sesjon.Remove(sesjon);
                 }
             }
 
             private void SlettHandsmykkeSesjonerOgObservasjoner(int avdelingId)
             {
-                var sesjonerForAvdeling = _context.Sesjon.OfType<HandsmykkeSesjon>()
-                    .Include(s => s.Avdeling)
+                var sesjonerForAvdeling = _context.Sesjon.OfType<HandJewelrySession>()
+                    .Include(s => s.Department)
                     .Include(s => s.Observasjoner)
                     .Where(s => s.Avdeling.Id == avdelingId).ToList();
 
                 foreach (var sesjon in sesjonerForAvdeling)
                 {
-                    _context.HandsmykkeObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.HandJewelryObservation.RemoveRange(sesjon.Observasjoner);
                     _context.Sesjon.Remove(sesjon);
                 }
             }
 
             private void SlettHanskeSesjonerOgObservasjoner(int avdelingId)
             {
-                var sesjonerForAvdeling = _context.Sesjon.OfType<HanskeSesjon>()
-                    .Include(s => s.Avdeling)
+                var sesjonerForAvdeling = _context.Sesjon.OfType<GloveSession>()
+                    .Include(s => s.Department)
                     .Include(s => s.Observasjoner)
                     .Where(s => s.Avdeling.Id == avdelingId).ToList();
 
                 foreach (var sesjon in sesjonerForAvdeling)
                 {
-                    _context.HanskeObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.GloveObservation.RemoveRange(sesjon.Observasjoner);
                     _context.Sesjon.Remove(sesjon);
                 }
             }
 
             private void SlettBeskyttelsesutstyrSesjonerOgObservasjoner(int avdelingId)
             {
-                var sesjonerForAvdeling = _context.Sesjon.OfType<BeskyttelsesutstyrSesjon>()
-                    .Include(s => s.Avdeling)
+                var sesjonerForAvdeling = _context.Sesjon.OfType<ProtectiveEquipmentSession>()
+                    .Include(s => s.Department)
                     .Include(s => s.Observasjoner)
                     .ThenInclude(o=>o.Beskyttelsesutstyrliste)
                     .Where(s => s.Avdeling.Id == avdelingId).ToList();
@@ -156,7 +156,7 @@ namespace HyFive.Tjenester.Institusjon
                 {
                     var beskyttelsesutstyrListe = sesjon.Observasjoner.SelectMany(o => o.Beskyttelsesutstyrliste).ToList();
                     _context.RemoveRange(beskyttelsesutstyrListe);
-                    _context.BeskyttelsesutstyrObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.ProtectiveEquipmentObservation.RemoveRange(sesjon.Observasjoner);
                     _context.Sesjon.Remove(sesjon);
                 }
             }

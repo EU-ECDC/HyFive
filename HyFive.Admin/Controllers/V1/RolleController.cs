@@ -28,8 +28,8 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
-        [ProducesResponseType(typeof(IEnumerable<Rolle>), StatusCodes.Status201Created)]
-        public async Task<ActionResult<IEnumerable<Rolle>>> HentRoller()
+        [ProducesResponseType(typeof(IEnumerable<Role>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<IEnumerable<Role>>> HentRoller()
         {
             var result = await _mediator.Send(new HentRoller.Query() {});
             return Ok(result);
@@ -42,8 +42,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPost()]
-        [ProducesResponseType(typeof(Rolle), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Rolle>> OpprettRolle([FromBody] OpprettRolleRequest request)
+        [ProducesResponseType(typeof(Role), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Role>> OpprettRolle([FromBody] OpprettRolleRequest request)
         {
             var result = await _mediator.Send(new OpprettRolle.Command() { Request = request });
             return result;
@@ -56,7 +56,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut()]
-        public async Task<Rolle> OppdaterRolle([FromBody] OppdaterRolleRequest request)
+        public async Task<Role> OppdaterRolle([FromBody] OppdaterRolleRequest request)
         {
             var result = await _mediator.Send(new OppdaterRolle.Command() { Request = request });
             return result;

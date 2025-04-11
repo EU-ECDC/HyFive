@@ -23,8 +23,8 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("institusjoner")]
-        [ProducesResponseType(typeof(List<InstitusjonForForesporselOmBrukertilgang>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitusjonForForesporselOmBrukertilgang>>> HentInstitusjoner()
+        [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> HentInstitusjoner()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace HyFive.Observasjon.Controllers.V1
 
         [HttpPost("send")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
-        public async Task<ActionResult<bool>> SendForesporselOmBrukertilgang([FromBody] OpprettForesporselOmBrukertilgangRequest foresporselOmBrukertilgang)
+        public async Task<ActionResult<bool>> SendForesporselOmBrukertilgang([FromBody] CreateUserAccessRequest foresporselOmBrukertilgang)
         {
             try
             {
@@ -58,15 +58,15 @@ namespace HyFive.Observasjon.Controllers.V1
 
         [HttpGet]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ForesporselOmBrukertilgang>> HentForesporselSomSendtAllerede()
+        public async Task<ActionResult<UserAccessRequest>> HentForesporselSomSendtAllerede()
         {
             try
             {
                 var bruker = await _brukerService.HentBruker();
                 var foresporsel = await _mediator.Send(new HentForesporselSomSendtAllerede.Query
                 {
-                    HprNummer = bruker.HPRNummer,
-                    IdentPseudonym = bruker.IdentPseudonym
+                    HprNummer = bruker.HPRNumber,
+                    IdentPseudonym = bruker.IdentityPseudonym
                 });
 
                 return Ok(foresporsel);
@@ -78,8 +78,8 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("institusjon")]
-        [ProducesResponseType(typeof(List<InstitusjonForForesporselOmBrukertilgang>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitusjonForForesporselOmBrukertilgang>>> HentInstitusjon(int institusjonId)
+        [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> HentInstitusjon(int institusjonId)
         {
             try
             {

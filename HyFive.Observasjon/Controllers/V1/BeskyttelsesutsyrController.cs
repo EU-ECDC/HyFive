@@ -33,13 +33,13 @@ namespace HyFive.Observasjon.Controllers.V1
         }
         
         [HttpGet]
-        public async Task<IEnumerable<BeskyttelsesutstyrsettingType>> HentBeskyttelsesutstyrsettingtyper()
+        public async Task<IEnumerable<ProtectiveEquipmentSettingType>> HentBeskyttelsesutstyrsettingtyper()
         {
             return await _mediator.Send(new HentBeskyttelsesutstyrsettingTyper.Query());
         }
 
         /// <summary>
-        /// Lagre en Beskyttelsesutstyr-sesjon
+        /// Lagre en ProtectiveEquipment-sesjon
         /// </summary>
         /// <param name="sesjon"></param>
         /// <returns></returns>

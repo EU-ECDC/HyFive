@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,10 +19,10 @@ namespace HyFive.Tjenester.FireIndikasjoner
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, ILogger<Handler> logger)
             {
                 _context = context;
                 _logger = logger;
@@ -32,10 +32,10 @@ namespace HyFive.Tjenester.FireIndikasjoner
             {
                 try
                 {
-                    var observasjon = await _context.FireIndikasjonerObservasjon
-                        .Include(o => o.Indikasjonstyper)
-                        .Include(o => o.Aktivitet)
-                        .Include(o => o.Rolle)
+                    var observasjon = await _context.FourIndicationsObservation
+                        .Include(o => o.IndicationTypes)
+                        .Include(o => o.Activity)
+                        .Include(o => o.Role)
                         .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservasjonId));
 
                     if (observasjon == null)
@@ -43,14 +43,14 @@ namespace HyFive.Tjenester.FireIndikasjoner
                         throw new Exception("S-FIO-01: Kunne ikke finne observasjon med ID " + request.ObservasjonId);
                     }
 
-                    var indikasjonstyper = _context.Indikasjon.Where(i => observasjon.Indikasjonstyper.Select(oi => oi.Id).Contains(i.Id)).ToList();
-                    observasjon.Indikasjonstyper = indikasjonstyper;
+                    var indikasjonstyper = _context.IndicationTypes.Where(i => observasjon.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    observasjon.IndicationTypes = indikasjonstyper;
 
-                    var aktivitet = _context.Aktivitet.FirstOrDefault(a => a.Id == observasjon.Aktivitet.Id);
-                    observasjon.Aktivitet = aktivitet;
+                    var aktivitet = _context.Activity.FirstOrDefault(a => a.Id == observasjon.Activity.Id);
+                    observasjon.Activity = aktivitet;
 
-                    var sesjon = _context.FireIndikasjonerSesjon
-                        .Include(s => s.Observasjoner)
+                    var sesjon = _context.FourIndicationsSession
+                        .Include(s => s.Observations)
                         .FirstOrDefault(s => s.Id == new Guid(request.SesjonId));
 
                     if (aktivitet != null)
@@ -58,7 +58,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                         _context.Remove(aktivitet);
                     }
 
-                    if (sesjon != null && sesjon.Observasjoner.Count == 1 && sesjon.Observasjoner.Select(o => o.Id).Contains(observasjon.Id))
+                    if (sesjon != null && sesjon.Observations.Count == 1 && sesjon.Observations.Select(o => o.Id).Contains(observasjon.Id))
                     {
                         _context.Remove(sesjon);
                     }

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,31 +11,31 @@ namespace HyFive.Tjenester.Institusjon
 {
     public class HentObservatorerForInstitusjon
     {
-        public class Query : IRequest<Modeller.V1.Bruker.Bruker[]>
+        public class Query : IRequest<Modeller.V1.User.User[]>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Bruker.Bruker[]>
+        public class Handler : IRequestHandler<Query, Modeller.V1.User.User[]>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Bruker.Bruker[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Bruker
+                return await _context.User
                     .OfType<Domene.Bruker.Observator>()
                     .AsNoTracking()
                     .Include(o => o.Institusjon)
                     .Where(o => o.Institusjon.Id == request.InstitusjonId)
                     .OrderBy(o => o.Etternavn)
-                    .ProjectTo<Modeller.V1.Bruker.Bruker>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Modeller.V1.User.User>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }
         }

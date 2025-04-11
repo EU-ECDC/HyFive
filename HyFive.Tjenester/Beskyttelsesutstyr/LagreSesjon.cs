@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +26,12 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
 
         public class Handler : IRequestHandler<Command, Guid>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
             private readonly IBrukerService _brukerService;
 
-            public Handler(HandhygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -47,44 +47,44 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                     throw new Exception(
                         $"Fant ikke en observatør med HPR-nummer {request.HPRNummer} eller pseudonym XXX på institusjon med ID {request.Sesjon.Avdeling.InstitusjonId}");
 
-                var sesjon = _mapper.Map<Domene.Sesjon.BeskyttelsesutstyrSesjon>(request.Sesjon);
-                sesjon.Opprettettidspunkt = DateTime.UtcNow;
-                sesjon.Avdeling = await HentAvdeling(request, cancellationToken);
-                sesjon.Observator = observator;
+                var sesjon = _mapper.Map<Domene.Session.ProtectiveEquipmentSession>(request.Sesjon);
+                sesjon.CreatedTime = DateTime.Now;
+                sesjon.Department = await HentAvdeling(request, cancellationToken);
+                sesjon.Observer = observator;
 
                 // Dette er måten vi ønsker å håndtere feil hvis vi prøver å lagre en sesjon med en avdeling som lenger ikke eksisterer
-                if (sesjon.Avdeling == null)
+                if (sesjon.Department == null)
                 {
                     _logger.LogWarning($"Fant ikke avdeling med id: {request.Sesjon.Avdeling.Id}");
                     return sesjon.Id;
                 }
 
-                var utstyrstyper = await _context.BeskyttelsesutstyrType.Include(bt => bt.Feilbruktyper)
+                var utstyrstyper = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                     .ToListAsync(cancellationToken);
 
-                var settingtyper = await _context.BeskyttelsesutstyrsettingType.ToListAsync(cancellationToken);
-                foreach (var observasjon in sesjon.Observasjoner)
+                var settingtyper = await _context.ProtectiveEquipmentSettingType.ToListAsync(cancellationToken);
+                foreach (var observasjon in sesjon.Observations)
                 {
-                    observasjon.Opprettettidspunkt = DateTime.UtcNow;
-                    observasjon.Settingtype = settingtyper.First(s => s.Id == observasjon.Settingtype.Id);
-                    observasjon.Rolle = sesjon.Avdeling.Roller.FirstOrDefault(r => r.Id == observasjon.Rolle.Id);
-                    foreach (var utstyr in observasjon.Beskyttelsesutstyrliste)
+                    observasjon.CreatedTime = DateTime.Now;
+                    observasjon.SettingType = settingtyper.First(s => s.Id == observasjon.SettingType.Id);
+                    observasjon.Role = sesjon.Department.Roller.FirstOrDefault(r => r.Id == observasjon.Role.Id);
+                    foreach (var utstyr in observasjon.ProtectiveEquipmentList)
                     {
-                        utstyr.Utstyrstype = utstyrstyper.First(u => u.Id == utstyr.Utstyrstype.Id);
-                        if (utstyr.BleBenyttetRiktig == false && utstyr.Feilbruktyper.Any())
+                        utstyr.EquipmentType = utstyrstyper.First(u => u.Id == utstyr.EquipmentType.Id);
+                        if (utstyr.WasUsedCorrectly == false && utstyr.MisuseTypes.Any())
                         {
-                            var feilbruktypeIder = utstyr.Feilbruktyper.Select(ft => ft.Id);
-                            utstyr.Feilbruktyper = utstyr.Utstyrstype.Feilbruktyper
+                            var feilbruktypeIder = utstyr.MisuseTypes.Select(ft => ft.Id);
+                            utstyr.MisuseTypes = utstyr.EquipmentType.MisuseTypes
                                 .Where(f => feilbruktypeIder.Contains(f.Id)).ToList();
-                            utstyr.Kommentar = string.IsNullOrWhiteSpace(utstyr.Kommentar) ? null : utstyr.Kommentar;
+                            utstyr.Comment = string.IsNullOrWhiteSpace(utstyr.Comment) ? null : utstyr.Comment;
                         }
                     }
 
                     BeskyttelsesutstyrObservasjonValidator.ValidateObservasjon(observasjon);
                 }
 
-                var overforingsstatuser = _context.OverforingstatusType.ToList();
-                sesjon.Overforingstatus = overforingsstatuser.First(o => o.Kode == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                var overforingsstatuser = _context.TransmissionStatusType.ToList();
+                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
 
                 
                 _context.Add(sesjon);
@@ -92,17 +92,17 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 return sesjon.Id;
             }
 
-            private async Task<Domene.Sted.Avdeling> HentAvdeling(Command request, CancellationToken cancellationToken)
+            private async Task<Domene.Place.Avdeling> HentAvdeling(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Avdeling.Include(a => a.Roller)
+                return await _context.Department.Include(a => a.Roller)
                     .FirstOrDefaultAsync(a => a.Id == request.Sesjon.Avdeling.Id, cancellationToken);
             }
 
 
             private async Task<Observator> HentObservator(Command request, CancellationToken cancellationToken)
             {
-                var institusjon = await _context.Institusjon
-                    .Include(i => i.Brukere)
+                var institusjon = await _context.Institution
+                    .Include(i => i.Users)
                     .FirstOrDefaultAsync(i => i.Id == request.Sesjon.Avdeling.InstitusjonId);
 
                 if (institusjon == null)
@@ -110,7 +110,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                         $"Fant ikke oppgitt institusjon med id: {request.Sesjon.Avdeling.InstitusjonId}");
 
                 return institusjon
-                    .Brukere
+                    .Users
                     .OfType<Observator>()
                     .FirstOrDefault(_brukerService
                         .HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer,request.Pseudonym)

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 
@@ -20,9 +20,9 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
             }
@@ -30,7 +30,7 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var foresporsel = await _context.ForesporselOmBrukertilgang.FindAsync(command.ForespørselId);
+                var foresporsel = await _context.UserAccessRequest.FindAsync(command.ForespørselId);
                 
                 if (foresporsel == null) return false;
 
@@ -41,13 +41,13 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                 if (!FinnesObservatørForInstitusjon(foresporsel.IdentPseudonym, institusjon.Id))
                     LagObservatør(foresporsel, institusjon);
 
-                var bruker = _context.Bruker.FirstOrDefault(b => b.IdentPseudonym == command.IdentPseudonym 
+                var bruker = _context.User.FirstOrDefault(b => b.IdentPseudonym == command.IdentPseudonym 
                                                                     || b.HPRNummer == command.HPRNummer);
 
                 if(bruker == null) return false;
 
                 foresporsel.Status = ForesporselOmBrukertilgangStatus.Godkjent;
-                foresporsel.BehandletTidspunkt = DateTime.UtcNow;
+                foresporsel.BehandletTidspunkt = DateTime.Now;
                 foresporsel.BehandletAvBrukerId = bruker.Id;
                 foresporsel.BehandletAvBrukernavn = bruker.Fornavn + " " + bruker.Etternavn;
 
@@ -58,11 +58,11 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 
             private bool FinnesObservatørForInstitusjon(string foresporselIdentPseudonym, int institusjonId)
             {
-                return _context.Bruker.OfType<Observator>().Any(x => x.IdentPseudonym == foresporselIdentPseudonym &&
+                return _context.User.OfType<Observator>().Any(x => x.IdentPseudonym == foresporselIdentPseudonym &&
                                                                      x.Institusjon.Id == institusjonId);
             }
 
-            private void LagObservatør(Domene.Bruker.ForesporselOmBrukertilgang foresporsel, Domene.Sted.Institusjon institusjon)
+            private void LagObservatør(Domene.Bruker.ForesporselOmBrukertilgang foresporsel, Domene.Place.Institution institusjon)
             {
                 var observator = new Observator()
                 {
@@ -71,18 +71,18 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                     Institusjon = institusjon,
                     HPRNummer = foresporsel.HPRNummer,
                     IdentPseudonym = foresporsel.IdentPseudonym,
-                    Opprettettidspunkt = DateTime.UtcNow,
+                    Opprettettidspunkt = DateTime.Now,
                     ErDeaktivert = false,
                 };
-                _context.Bruker.Add(observator);
+                _context.User.Add(observator);
             }
 
-            private async Task<Domene.Sted.Institusjon> HentInstitusjon(Domene.Bruker.ForesporselOmBrukertilgang foresporsel)
+            private async Task<Domene.Place.Institution> HentInstitusjon(Domene.Bruker.ForesporselOmBrukertilgang foresporsel)
             {
-                Domene.Sted.Institusjon institusjon = null;
+                Domene.Place.Institution institusjon = null;
                 if (foresporsel.InstitusjonId != null)
                 {
-                    institusjon = await _context.Institusjon.FindAsync(foresporsel.InstitusjonId);
+                    institusjon = await _context.Institution.FindAsync(foresporsel.InstitusjonId);
                 }
                 
                 return institusjon;

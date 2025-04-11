@@ -64,14 +64,14 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("indikasjonstyper")]
-        public async Task<IEnumerable<IndikasjonType>> HentIndikasjonstyper()
+        public async Task<IEnumerable<IndicationType>> HentIndikasjonstyper()
         {
             var resultat = await _mediator.Send(new HentIndikasjonstyper.Query());
             return resultat;
         }
 
         [HttpGet("aktivitettyper")]
-        public async Task<IEnumerable<AktivitetType>> HentAktivitetTyper()
+        public async Task<IEnumerable<ActivityType>> HentAktivitetTyper()
         {
             var resultat = await _mediator.Send(new HentAktivitetTyper.Query());
             return resultat;

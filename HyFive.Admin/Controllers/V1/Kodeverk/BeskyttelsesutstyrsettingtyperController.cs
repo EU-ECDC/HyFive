@@ -26,7 +26,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<BeskyttelsesutstyrsettingType>> HentBeskyttelsesutstyrsettingTyper()
+        public async Task<IEnumerable<ProtectiveEquipmentSettingType>> HentBeskyttelsesutstyrsettingTyper()
         {
             return await _mediator.Send(new HentBeskyttelsesutstyrsettingTyper.Query());
         }
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<BeskyttelsesutstyrsettingType> OppdaterBeskyttelsesutstyrsettingType([FromBody] BeskyttelsesutstyrsettingType settingType)
+        public async Task<ProtectiveEquipmentSettingType> OppdaterBeskyttelsesutstyrsettingType([FromBody] ProtectiveEquipmentSettingType settingType)
         {
             return await _mediator.Send(new OppdaterBeskyttelsesutstyrsettingType.Command
             {

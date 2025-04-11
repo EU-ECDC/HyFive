@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Api.Common\HyFive.Api.Common.csproj" />
-    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester\HyFive.Tjenester.csproj" />
   </ItemGroup>

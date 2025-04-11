@@ -25,7 +25,7 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    var rolleSomTestes = "Lege";
         //    var hentAvdelingHandler =
         //        new HentAvdelingerForInstitusjon.Handler(DatabaseContext, Mapper);
-        //    var enAvdeling = (await hentAvdelingHandler.Handle(new HentAvdelingerForInstitusjon.Query(){InstitusjonId = 1}, CancellationToken.None)).First();
+        //    var enAvdeling = (await hentAvdelingHandler.Handle(new HentAvdelingerForInstitusjon.Query(){InstitutionId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
         //        new HentAktivitetTyper.Handler(DatabaseContext, Mapper);
@@ -39,51 +39,51 @@ namespace HyFive.Tjenester.Tests.Rapporter
 
         //    var lagreSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
 
-        //    var etterlevdObservasjonKombinasjonA = new FireIndikasjonerObservasjon()
+        //    var etterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
-        //        Aktivitet = new Aktivitet()
+        //        Activity = new Activity()
         //        {
-        //            AktivitetType = aktivitettyper.First(a => a.Kode == AktivitetTypeKonstanter.Desinfeksjon),
-        //            BenyttetHanske = false,
-        //            SekunderBrukt = 4,
-        //            TidtakingBleUtfort = false
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Desinfeksjon),
+        //            GloveUsed = false,
+        //            TimeSpent = 4,
+        //            TimeRecordingWasDone = false
         //        },
-        //        Indikasjonstyper = new List<IndikasjonType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.FoerPasient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
         //        },
-        //        Registrerttidspunkt = DateTime.UtcNow,
-        //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
+        //        RegistrationTime = DateTime.Now,
+        //        Role = enAvdeling.Role.First(r => r.Name == rolleSomTestes),
         //    };
             
-        //    var ikkeEtterlevdObservasjonKombinasjonA = new FireIndikasjonerObservasjon()
+        //    var ikkeEtterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
-        //        Aktivitet = new Aktivitet()
+        //        Activity = new Activity()
         //        {
-        //            AktivitetType = aktivitettyper.First(a => a.Kode == AktivitetTypeKonstanter.IkkeUtfort),
-        //            BenyttetHanske = false,
-        //            SekunderBrukt = 4,
-        //            TidtakingBleUtfort = false
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.IkkeUtfort),
+        //            GloveUsed = false,
+        //            TimeSpent = 4,
+        //            TimeRecordingWasDone = false
         //        },
-        //        Indikasjonstyper = new List<IndikasjonType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.FoerPasient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
         //        },
-        //        Registrerttidspunkt = DateTime.UtcNow,
-        //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
+        //        RegistrationTime = DateTime.Now,
+        //        Role = enAvdeling.Role.First(r => r.Name == rolleSomTestes),
         //    };
 
 
         //    var lagreSesjonQuery = new LagreSesjon.Command()
         //    {
-        //        HPRNummer = Seed.SeedObservatorHprNummer,
-        //        Sesjon = new FireIndikasjonerSesjon()
+        //        HPRNumber = Seed.SeedObservatorHprNummer,
+        //        Session = new FourIndicationsSession()
         //        {
-        //            Avdeling = enAvdeling,
-        //            Starttidspunkt = DateTime.UtcNow,
-        //            Observasjoner = new List<FireIndikasjonerObservasjon>()
+        //            Department = enAvdeling,
+        //            StartTime = DateTime.Now,
+        //            Observations = new List<FourIndicationsObservation>()
         //            {
         //                etterlevdObservasjonKombinasjonA,
         //                etterlevdObservasjonKombinasjonA, 
@@ -100,23 +100,23 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    var lagRapportQuery = new HentFireIndikasjonerRapportForAvdeling.Query()
         //    {
         //        AvdelingId = enAvdeling.Id, 
-        //        FraTidspunkt = DateTime.UtcNow.AddDays(-1),
-        //        TilTidspunkt = DateTime.UtcNow.AddDays(1),
-        //        Rolle = AuthorizedRole.Koordinator,
+        //        FraTidspunkt = DateTime.Now.AddDays(-1),
+        //        TilTidspunkt = DateTime.Now.AddDays(1),
+        //        Role = AuthorizedRole.Coordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());
 
         //    var kombinasjonArapport = rapport
-        //        .Avdeling
-        //        .Roller
-        //        .First(r => r.Navn == rolleSomTestes)
+        //        .Department
+        //        .Role
+        //        .First(r => r.Name == rolleSomTestes)
         //        .Kombinasjoner
-        //        .First(k => k.Navn == "A");
+        //        .First(k => k.Name == "A");
             
         //    // Assert
         //    Assert.Multiple(() =>
         //    {
-        //        Assert.That(kombinasjonArapport.AntallObservasjoner, Is.EqualTo(3));
+        //        Assert.That(kombinasjonArapport.NumberOfObservations, Is.EqualTo(3));
         //        Assert.That(Math.Round(kombinasjonArapport.ProsentIkkeEtterlevd), Is.EqualTo(33));
         //        Assert.That(Math.Round(kombinasjonArapport.ProsentEtterlevd), Is.EqualTo(67));
         //    });

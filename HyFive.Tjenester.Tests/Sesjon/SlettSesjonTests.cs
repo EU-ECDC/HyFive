@@ -17,15 +17,15 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //{
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
-        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), DatabaseContext.Avdeling.First(), Seed.SeedObservatorHprNummer);
-        //    var avdeling = DatabaseContext.Avdeling.First();
+        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), DatabaseContext.Department.First(), Seed.SeedObservatorHprNummer);
+        //    var avdeling = DatabaseContext.Department.First();
         //    // Act
         //    var handler = new SlettSesjon.Handler(DatabaseContext);
         //    var slettRequest = new SlettSesjon.Command()
         //    {
         //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilFhi,
         //        SesjonId = sesjonId,
-        //        InstitusjonId = avdeling.InstitusjonId
+        //        InstitutionId = avdeling.InstitutionId
         //    };
             
         //    // Assert
@@ -40,10 +40,10 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //{
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
-        //    var avdeling = DatabaseContext.Avdeling.First();
+        //    var avdeling = DatabaseContext.Department.First();
         //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), avdeling, Seed.SeedObservatorHprNummer);
 
-        //    Assert.That(DatabaseContext.Sesjon.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
+        //    Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
             
         //    // Act
         //    var handler = new SlettSesjon.Handler(DatabaseContext);
@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //    {
         //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
         //        SesjonId = sesjonId,
-        //        InstitusjonId = avdeling.InstitusjonId
+        //        InstitutionId = avdeling.InstitutionId
         //    };
         //    var resultat = await handler.Handle(slettRequest, CancellationToken.None);
 
@@ -59,7 +59,7 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(resultat.Suksess, Is.True);
-        //        Assert.That(DatabaseContext.Sesjon.FirstOrDefault(s => s.Id == sesjon), Is.Null);
+        //        Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Null);
         //    });
         //}
 

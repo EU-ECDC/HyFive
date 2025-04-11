@@ -4,11 +4,11 @@ namespace HyFive.Tjenester.Bruker
 {
     public class BrukerValidator
     {
-        public static bool HarNavnOgHprNummerEllerGyldigPseudonym(Modeller.V1.Bruker.Bruker bruker)
+        public static bool HarNavnOgHprNummerEllerGyldigPseudonym(Modeller.V1.User.User bruker)
         {
-            return !string.IsNullOrEmpty(bruker.Fornavn)
-                   && !string.IsNullOrEmpty(bruker.Etternavn)
-                   && (!string.IsNullOrEmpty(bruker.HPRNummer) || ErGyldigIdentPseudonym(bruker.IdentPseudonym));
+            return !string.IsNullOrEmpty(bruker.FirstName)
+                   && !string.IsNullOrEmpty(bruker.Surname)
+                   && (!string.IsNullOrEmpty(bruker.HPRNumber) || ErGyldigIdentPseudonym(bruker.IdentityPseudonym));
         }
 
         public static bool ErGyldigIdentPseudonym(string pseudonym)

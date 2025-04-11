@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,25 +13,25 @@ namespace HyFive.Tjenester.Hanske
 {
     public class HentHandhygieneEtterHanskebrukTyper
     {
-        public class Query : IRequest<IEnumerable<HandhygieneEtterHanskebrukType>> { }
+        public class Query : IRequest<IEnumerable<PostGloveHandHygieneType>> { }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<HandhygieneEtterHanskebrukType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<PostGloveHandHygieneType>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<HandhygieneEtterHanskebrukType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<PostGloveHandHygieneType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var handhygieneEtterHanskebrukTyper = await _context.HandhygieneEtterHanskebrukType
+                var handhygieneEtterHanskebrukTyper = await _context.PostGloveHandHygiene
                     .AsNoTracking()
-                    .ProjectTo<HandhygieneEtterHanskebrukType>(_mapper.ConfigurationProvider)
-                    .OrderBy(h => h.Navn)
+                    .ProjectTo<PostGloveHandHygieneType>(_mapper.ConfigurationProvider)
+                    .OrderBy(h => h.Name)
                     .ToListAsync(cancellationToken);
                 return handhygieneEtterHanskebrukTyper;
             }

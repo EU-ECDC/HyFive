@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Konstanter;
 using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
 using HyFive.Tjenester.Beskyttelsesutstyr.Helpers;
@@ -17,16 +17,16 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
     {
         public class Command : IRequest<bool>
         {
-            public BeskyttelsesutstyrObservasjon Observasjon { get; set; }
+            public ProtectiveEquipmentObservation Observasjon { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _context = context;
                 _mapper = mapper;
@@ -35,15 +35,15 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observasjon = await _context.BeskyttelsesutstyrObservasjon
-                    .Include(o => o.BeskyttelsesutstyrSesjon)
-                    .ThenInclude(s => s.Overforingstatus)
-                    .Include(o => o.Beskyttelsesutstyrliste)
-                    .ThenInclude(o => o.Feilbruktyper)
-                    .Include(o => o.Beskyttelsesutstyrliste)
-                    .ThenInclude(o => o.Utstyrstype)
-                    .Include(o => o.Settingtype)
-                    .Include(o => o.Rolle)
+                var observasjon = await _context.ProtectiveEquipmentObservation
+                    .Include(o => o.ProtectiveEquipmentSession)
+                    .ThenInclude(s => s.TransmissionStatus)
+                    .Include(o => o.ProtectiveEquipmentList)
+                    .ThenInclude(o => o.MisuseTypes)
+                    .Include(o => o.ProtectiveEquipmentList)
+                    .ThenInclude(o => o.EquipmentType)
+                    .Include(o => o.SettingType)
+                    .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observasjon.Id), cancellationToken);
 
                 if (observasjon == null)
@@ -51,49 +51,49 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                     throw new Exception("O-BU-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
 
-                if (observasjon.BeskyttelsesutstyrSesjon.Overforingstatus?.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.ProtectiveEquipmentSession.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
                 {
                     throw new Exception("O-BU-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
 
                 var observasjonFraRequest =
-                    _mapper.Map<Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrObservasjon>(request.Observasjon);
+                    _mapper.Map<Domene.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(request.Observasjon);
 
                 BeskyttelsesutstyrObservasjonValidator.ValidateObservasjon(observasjonFraRequest);
                 
                 try
                 {
-                    observasjon.Registrerttidspunkt = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
 
-                    var utstyrstyper = await _context.BeskyttelsesutstyrType.Include(bt => bt.Feilbruktyper)
+                    var utstyrstyper = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                         .ToListAsync(cancellationToken);
 
-                    var settingtyper = await _context.BeskyttelsesutstyrsettingType.ToListAsync(cancellationToken);
-                    observasjon.Settingtype = settingtyper.First(s => s.Id == observasjonFraRequest.Settingtype.Id);
-                    foreach (var utstyr in observasjon.Beskyttelsesutstyrliste)
+                    var settingtyper = await _context.ProtectiveEquipmentSettingType.ToListAsync(cancellationToken);
+                    observasjon.SettingType = settingtyper.First(s => s.Id == observasjonFraRequest.SettingType.Id);
+                    foreach (var utstyr in observasjon.ProtectiveEquipmentList)
                     {
                         var utstyrFraRequest =
-                            observasjonFraRequest.Beskyttelsesutstyrliste.First(u => u.Id == utstyr.Id);
+                            observasjonFraRequest.ProtectiveEquipmentList.First(u => u.Id == utstyr.Id);
                         
-                       utstyr.ErIndikert = utstyrFraRequest.ErIndikert; 
-                       utstyr.Utstyrstype = utstyrstyper.First(u => u.Id == utstyrFraRequest.Utstyrstype.Id);
-                       utstyr.BleBenyttet = utstyrFraRequest.BleBenyttet;
-                       utstyr.BleBenyttetRiktig = utstyrFraRequest.BleBenyttetRiktig;
-                       utstyr.Kommentar = string.IsNullOrWhiteSpace(utstyrFraRequest.Kommentar) ? null : utstyrFraRequest.Kommentar;
-                       var feilbruktypeIderFraRequest = utstyrFraRequest.Feilbruktyper.Select(ft => ft.Id);
+                       utstyr.IsRequired = utstyrFraRequest.IsRequired; 
+                       utstyr.EquipmentType = utstyrstyper.First(u => u.Id == utstyrFraRequest.EquipmentType.Id);
+                       utstyr.WasUsed = utstyrFraRequest.WasUsed;
+                       utstyr.WasUsedCorrectly = utstyrFraRequest.WasUsedCorrectly;
+                       utstyr.Comment = string.IsNullOrWhiteSpace(utstyrFraRequest.Comment) ? null : utstyrFraRequest.Comment;
+                       var feilbruktypeIderFraRequest = utstyrFraRequest.MisuseTypes.Select(ft => ft.Id);
                        var feilbruktyperFraRequest =
-                           _context.FeilbrukType.Where(f => feilbruktypeIderFraRequest.Contains(f.Id)).ToList();
+                           _context.MisuseType.Where(f => feilbruktypeIderFraRequest.Contains(f.Id)).ToList();
 
-                       utstyr.Feilbruktyper = feilbruktyperFraRequest;
+                       utstyr.MisuseTypes = feilbruktyperFraRequest;
                        
                        _context.Entry(utstyr).State = EntityState.Modified;
                     }
 
-                    var rolleFraRequest = _context.Rolle.FirstOrDefault(r => r.Id == observasjonFraRequest.Rolle.Id);
-                    observasjon.Rolle = rolleFraRequest;
-                    observasjon.Kommentar = observasjonFraRequest.Kommentar;
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == observasjonFraRequest.Role.Id);
+                    observasjon.Role = rolleFraRequest;
+                    observasjon.Comment = observasjonFraRequest.Comment;
 
-                    _context.UpdateRange(observasjon.Beskyttelsesutstyrliste);
+                    _context.UpdateRange(observasjon.ProtectiveEquipmentList);
                     _context.Update(observasjon);
                     _context.SaveChanges();
                 }

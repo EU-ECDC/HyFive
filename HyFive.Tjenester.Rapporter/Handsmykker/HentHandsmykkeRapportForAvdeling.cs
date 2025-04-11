@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
-using HyFive.Domene.Observasjon;
-using HyFive.Domene.Sesjon;
+using HyFive.DataAccess;
+using HyFive.Domene.Observation;
+using HyFive.Domene.Session;
 using HyFive.Modeller.V1.Konstanter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +25,9 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
         public class Handler : IRequestHandler<Query, HandsmykkerapportForSmykketypeOgRolle>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -37,12 +37,12 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
                 var rapportForAvdeling = LagRapportForAvdeling(request);
                 var rapportForInstitusjon = LagRapportForInstitusjon(request);
 
-                var avdeling = _context.Avdeling.AsNoTracking().First(a => a.Id == request.AvdelingId);
-                var institusjon = _context.Institusjon.AsNoTracking().First(a => a.Id == request.InstiusjonId);
+                var avdeling = _context.Department.AsNoTracking().First(a => a.Id == request.AvdelingId);
+                var institusjon = _context.Institution.AsNoTracking().First(a => a.Id == request.InstiusjonId);
                 var rapport = new HandsmykkerapportForSmykketypeOgRolle
                 {
                     Avdeling = avdeling.Navn,
-                    Institusjon = institusjon.Navn,
+                    Institusjon = institusjon.Name,
                     FraTidspunkt = request.FraTidspunkt,
                     TilTidspunkt = request.TilTidspunkt,
                     RapportForAvdeling = rapportForAvdeling,
@@ -54,20 +54,20 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
             private RapportForEnhet LagRapportForAvdeling(Query request)
             {
-                var sesjoner = _context.Sesjon.OfType<HandsmykkeSesjon>()
+                var sesjoner = _context.Sesjon.OfType<HandJewelrySession>()
                     .AsNoTracking()
-                    .Include(p => p.Overforingstatus)
-                    .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
+                    .Include(p => p.TransmissionStatus)
+                    .Include(s => s.Observasjoner).ThenInclude(o => o.Role)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Handsmykker)
                     .Where(s =>
-                        s.Avdeling.Id == request.AvdelingId
-                        && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date >= request.FraTidspunkt.Date)
-                        && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date <= request.TilTidspunkt.Date))
+                        s.Department.Id == request.AvdelingId
+                        && s.Observasjoner.Any(o => o.RegistrationTime.Date >= request.FraTidspunkt.Date)
+                        && s.Observasjoner.Any(o => o.RegistrationTime.Date <= request.TilTidspunkt.Date))
                     .ToList();
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    sesjoner = sesjoner.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    sesjoner = sesjoner.Where(p => p.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
                 }
 
                 var rapportForEnhet = LagRapportForEnhet(sesjoner);
@@ -77,15 +77,15 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
             private RapportForEnhet LagRapportForInstitusjon(Query request)
             {
-                var sesjoner = _context.Sesjon.OfType<HandsmykkeSesjon>()
+                var sesjoner = _context.Sesjon.OfType<HandJewelrySession>()
                    .AsNoTracking()
-                   .Include(p => p.Overforingstatus)
-                   .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
+                   .Include(p => p.TransmissionStatus)
+                   .Include(s => s.Observasjoner).ThenInclude(o => o.Role)
                    .Include(s => s.Observasjoner).ThenInclude(o => o.Handsmykker)
                    .Where(s =>
-                       s.Avdeling.InstitusjonId == request.InstiusjonId
-                       && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date >= request.FraTidspunkt.Date)
-                       && s.Observasjoner.Any(o => o.Registrerttidspunkt.Date <= request.TilTidspunkt.Date))
+                       s.Department.InstitusjonId == request.InstiusjonId
+                       && s.Observasjoner.Any(o => o.RegistrationTime.Date >= request.FraTidspunkt.Date)
+                       && s.Observasjoner.Any(o => o.RegistrationTime.Date <= request.TilTidspunkt.Date))
                    .ToList();
 
                 if (request.Rolle == AuthorizedRole.Administrator)
@@ -98,35 +98,35 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
                 return rapportForEnhet;
             }
 
-            private RapportForEnhet LagRapportForEnhet(IEnumerable<HandsmykkeSesjon> sesjoner)
+            private RapportForEnhet LagRapportForEnhet(IEnumerable<HandJewelrySession> sesjoner)
             {
-                var observasjoner = sesjoner.SelectMany(p => p.Observasjoner).ToList();
+                var observasjoner = sesjoner.SelectMany(p => p.Observations).ToList();
 
                 var smykketypeOgRolleListe = new List<SmykketypeOgRolle>();
                 foreach (var observasjon in observasjoner)
                 {
-                    foreach (var smykketype in observasjon.Handsmykker)
+                    foreach (var smykketype in observasjon.HandJewelry)
                     {
                         smykketypeOgRolleListe.Add(new SmykketypeOgRolle
                         {
-                            Rolle = observasjon.Rolle.Navn,
+                            Rolle = observasjon.Role.Name,
                             Smykketype = smykketype,
                         });
                     }
                 }
 
-                var smykketyper = _context.HandsmykkeType.AsNoTracking().ToList();
+                var smykketyper = _context.HandJewelryType.AsNoTracking().ToList();
 
                 var smykketypeOgAntallForRolleListe = new List<SmykketypeOgAntallForRolle>();
-                foreach (var smykketypeNavn in smykketypeOgRolleListe.Select(p => p.Smykketype.Navn).Distinct())
+                foreach (var smykketypeNavn in smykketypeOgRolleListe.Select(p => p.Smykketype.Name).Distinct())
                 {
                     var antallForRolleListe = smykketypeOgRolleListe
-                        .Where(p => p.Smykketype.Navn == smykketypeNavn)
+                        .Where(p => p.Smykketype.Name == smykketypeNavn)
                         .GroupBy(q => q.Rolle)
                         .Select(r => new AntallForRolle { Antall = r.Count(), Rolle = r.Key })
                         .ToList();
 
-                    var smykketype = smykketyper.First(p => p.Navn == smykketypeNavn);
+                    var smykketype = smykketyper.First(p => p.Name == smykketypeNavn);
                     smykketypeOgAntallForRolleListe.Add(new SmykketypeOgAntallForRolle
                     {
                         Smykketype = smykketype,
@@ -135,7 +135,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
                 }
 
                 var observasjonerForRolleListe = observasjoner
-                    .GroupBy(p => p.Rolle.Navn)
+                    .GroupBy(p => p.Role.Name)
                     .Select(q => new ObservasjonerForRolle { Antall = q.Count(), Rolle = q.Key })
                     .ToList();
 
@@ -150,7 +150,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
             private class SmykketypeOgRolle
             {
-                public HandsmykkeType Smykketype { get; set; }
+                public HandJewelryType Smykketype { get; set; }
                 public string Rolle { get; init; }
             }
         }

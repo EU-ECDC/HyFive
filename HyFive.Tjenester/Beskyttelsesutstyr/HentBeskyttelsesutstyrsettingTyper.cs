@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,28 +13,28 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
 {
     public class HentBeskyttelsesutstyrsettingTyper
     {
-        public class Query : IRequest<IEnumerable<BeskyttelsesutstyrsettingType>> { }
+        public class Query : IRequest<IEnumerable<ProtectiveEquipmentSettingType>> { }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<BeskyttelsesutstyrsettingType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<ProtectiveEquipmentSettingType>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<BeskyttelsesutstyrsettingType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ProtectiveEquipmentSettingType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var beskyttelsesutstyrsettingTyper = await _context.BeskyttelsesutstyrsettingType
-                    .Include(b => b.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper)
-                    .ThenInclude(b => b.BeskyttelsesutstyrType)
-                    .ThenInclude(bt => bt.Feilbruktyper)
+                var beskyttelsesutstyrsettingTyper = await _context.ProtectiveEquipmentSettingType
+                    .Include(b => b.PPEConfigurationTypes)
+                    .ThenInclude(b => b.ProtectiveEquipmentType)
+                    .ThenInclude(bt => bt.MisuseTypes)
                     .AsNoTracking()
-                    .ProjectTo<BeskyttelsesutstyrsettingType>(_mapper.ConfigurationProvider)
-                    .OrderBy(b => b.Navn)
+                    .ProjectTo<ProtectiveEquipmentSettingType>(_mapper.ConfigurationProvider)
+                    .OrderBy(b => b.Name)
                     .ToListAsync(cancellationToken);
 
                 return beskyttelsesutstyrsettingTyper;

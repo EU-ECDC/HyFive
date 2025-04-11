@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,37 +13,37 @@ namespace HyFive.Tjenester.Avdeling
 {
     public class OppdaterAvdeling
     {
-        public class Command : IRequest<Modeller.V1.Institusjon.Avdeling>
+        public class Command : IRequest<Modeller.V1.Institution.Department>
         {
-            public Command() { Roller = new List<Modeller.V1.Observasjon.Rolle>(); }
+            public Command() { Roller = new List<Modeller.V1.Observasjon.Role>(); }
 
             public int Id { get; set; }
             public string Navn { get; set; }
             public int AvdelingTypeId { get; set; }
-            public List<Modeller.V1.Observasjon.Rolle> Roller { get; set; }
+            public List<Modeller.V1.Observasjon.Role> Roller { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institusjon.Avdeling>
+        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Department>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
 
-            public async Task<Modeller.V1.Institusjon.Avdeling> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
             {
-                var avdeling = await _context.Avdeling
+                var avdeling = await _context.Department
                                              .Include(a => a.Roller)
                                              .FirstOrDefaultAsync(a => a.Id == command.Id);
 
                 if (command.AvdelingTypeId > 0)
                 {
-                    var avdelingtype = _context.AvdelingType.FirstOrDefault(a => a.Id == command.AvdelingTypeId);
+                    var avdelingtype = _context.SectionType.FirstOrDefault(a => a.Id == command.AvdelingTypeId);
                     if (avdelingtype == null)
                         throw new Exception("Kunne ikke finne avdelingtype med ID " + command.AvdelingTypeId);
                     avdeling.Avdelingtype = avdelingtype;
@@ -52,8 +52,8 @@ namespace HyFive.Tjenester.Avdeling
                 if (command.Roller.Any())
                 {
                     var rolleIderForAvdeling = command.Roller.Select(ar => ar.Id).ToList();
-                    var rollerForAvdeling = _context.Rolle
-                                                             .Include(r => r.Avdelinger)
+                    var rollerForAvdeling = _context.Role
+                                                             .Include(r => r.Departments)
                                                              .Where(r => rolleIderForAvdeling.Contains(r.Id))
                                                              .ToList();
                     avdeling.Roller = rollerForAvdeling;
@@ -63,7 +63,7 @@ namespace HyFive.Tjenester.Avdeling
 
                 _context.Update(avdeling);
                 await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Modeller.V1.Institusjon.Avdeling>(avdeling);
+                var mapped = _mapper.Map<Modeller.V1.Institution.Department>(avdeling);
                 return mapped;
             }
         }

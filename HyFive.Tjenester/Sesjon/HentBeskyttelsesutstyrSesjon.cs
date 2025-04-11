@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester.Autentisering.Bruker;
@@ -22,11 +22,11 @@ namespace HyFive.Tjenester.Sesjon
 
         public class Handler : IRequestHandler<Query, BeskyttelsesutstyrSesjon>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly IBrukerService _brukerService;
 
-            public Handler(HandhygieneContext context, IMapper mapper, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, IBrukerService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -35,10 +35,10 @@ namespace HyFive.Tjenester.Sesjon
 
             public async Task<BeskyttelsesutstyrSesjon> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.BeskyttelsesutstyrSesjon
+                var sesjon = await _context.ProtectiveEquipmentSession
                     .AsNoTracking()
-                    .Include(s => s.Avdeling)
-                    .Include(s => s.Observator).ThenInclude(obs => obs.Institusjon)
+                    .Include(s => s.Department)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Utstyrstype)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Utstyrstype).ThenInclude(u => u.Feilbruktyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Feilbruktyper)

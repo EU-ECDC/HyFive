@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Hanske;
 using MediatR;
@@ -21,24 +21,24 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent HanskeUtenIndikasjonTyper
+        /// Hent GeneralPurposeGloveTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<HanskeUtenIndikasjonType>> HentHanskeUtenIndikasjonTyper()
+        public async Task<IEnumerable<GeneralPurposeGloveType>> HentHanskeUtenIndikasjonTyper()
         {
             var hanskeVedIndikasjonTyper = await _mediator.Send(new HentHanskeUtenIndikasjonTyper.Query());
             return hanskeVedIndikasjonTyper;
         }
 
         /// <summary>
-        /// Oppdater HanskeUtenIndikasjonType
+        /// Oppdater GeneralPurposeGloveType
         /// </summary>
         /// <param name="hanskeUtenIndikasjonType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<HanskeUtenIndikasjonType> OppdaterHanskeUtenIndikasjonType([FromBody] HanskeUtenIndikasjonType hanskeUtenIndikasjonType)
+        public async Task<GeneralPurposeGloveType> OppdaterHanskeUtenIndikasjonType([FromBody] GeneralPurposeGloveType hanskeUtenIndikasjonType)
         {
             var erOppdatert = await _mediator.Send(new OppdaterHanskeUtenIndikasjonType.Command
             {

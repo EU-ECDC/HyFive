@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HyFive.Domene.Observasjon;
+using HyFive.Domene.Observation;
 
 namespace HyFive.Tjenester.Rapporter.Handsmykker
 {
@@ -22,7 +22,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
     public class SmykketypeOgAntallForRolle
     {
-        public HandsmykkeType Smykketype { get; set; }
+        public HandJewelryType Smykketype { get; set; }
         public List<AntallForRolle> AntallForRolleListe { get; set; }
     }
 

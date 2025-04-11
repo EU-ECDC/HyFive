@@ -17,9 +17,9 @@ namespace HyFive.Admin.Controllers
         /// <summary>
         /// Seeder alle nædvendige statiske kodeverk som skal tl for å få applikasjonen til å kjøre:
         /// OverforingstatusTyper, AktivitetTyper, Indikasjoner, HandsmykkeTyper, BeskyttelsesutstyrTyper, BeskyttelsesutstyrsettingTyper,
-        /// HanskeMedIndikasjonTyper, HanskeUtenIndikasjonType, HandhygieneEtterHanskebrukType.
+        /// IndicatedGloveTypes, GeneralPurposeGloveType, PostGloveHandHygiene.
         /// I tillegg seedes det en FHI Admin: Felix Mørk.
-        /// For å seede kommuner må du kjøre scriptet "HyFive.Dataaksess\Scripts\Kommuner.sql"
+        /// For å seede kommuner må du kjøre scriptet "HyFive.DataAccess\Scripts\Kommuner.sql"
         /// </summary>
         /// <returns></returns>
         [HttpGet("kodeverk")]
@@ -30,8 +30,8 @@ namespace HyFive.Admin.Controllers
         }
 
         /// <summary>
-        /// Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roller og Brukere.
-        /// Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.Dataaksess\Scripts\Institusjoner, avdelinger mm.sql".
+        /// Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Role og Users.
+        /// Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.DataAccess\Scripts\Institutions, avdelinger mm.sql".
         /// NB! Du må bruke ENTEN denne api-metoden ELLER scriptet
         /// </summary>
         /// <returns></returns>

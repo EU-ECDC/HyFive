@@ -61,7 +61,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
         private byte[] LagGraf(RapportForEnhet rapportForEnhet, string header)
         {
             var smykketyper = rapportForEnhet.SmykketypeOgAntallForRolleListe
-                .Select(p => p.Smykketype.Navn)
+                .Select(p => p.Smykketype.Name)
                 .Distinct()
                 .OrderBy(p => p)
                 .ToList();
@@ -154,7 +154,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
             foreach (var smykketype in smykketyper.Select((navn, index) => (navn, index)))
             {
                 var antallforRolleListe = rapportForEnhet.SmykketypeOgAntallForRolleListe
-                    .Where(p => p.Smykketype.Navn == smykketype.navn)
+                    .Where(p => p.Smykketype.Name == smykketype.navn)
                     .SelectMany(p => p.AntallForRolleListe)
                     .ToList();
 
@@ -275,7 +275,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.UtcNow.ToString(Hjelpere.FilnavnPrefiks)}-Handsmykke-Avdelingsrapport-{rapport.Avdeling}.pdf"
+                Filename = $"{DateTime.Now.ToString(Hjelpere.FilnavnPrefiks)}-Handsmykke-Avdelingsrapport-{rapport.Avdeling}.pdf"
             };
 
             return pdfResult;

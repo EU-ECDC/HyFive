@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Tjenester.AutoMapperProfiler.V1;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Modeller.V1.Konstanter;
 using HyFive.Modeller.V1.Observasjon;
 using HyFive.Modeller.V1.Sesjon;
@@ -25,7 +25,7 @@ namespace HyFive.Tjenester.Tests
 
     public abstract class TjenesteTests
     {
-        protected HandhygieneContext DatabaseContext;
+        protected HandHygieneContext DatabaseContext;
         protected IMapper Mapper;
         protected SqliteConnection _connection;
         protected IBrukerService BrukerService;
@@ -56,35 +56,35 @@ namespace HyFive.Tjenester.Tests
             DatabaseContext.Database.EnsureDeleted();
         }
 
-        protected HandhygieneContext GetSQLiteInMemoryContext()
+        protected HandHygieneContext GetSQLiteInMemoryContext()
         {
             var connectionString = new SqliteConnectionStringBuilder { DataSource = ":memory:" }.ToString();
             _connection = new SqliteConnection(connectionString);
             _connection.Open();
-            var options = new DbContextOptionsBuilder<HandhygieneContext>().UseSqlite(_connection).Options;
-            var databaseContext = new HandhygieneContext(options);
+            var options = new DbContextOptionsBuilder<HandHygieneContext>().UseSqlite(_connection).Options;
+            var databaseContext = new HandHygieneContext(options);
             databaseContext.Database.EnsureDeleted();
             databaseContext.Database.EnsureCreated();
             return databaseContext;
         }
 
-        protected async Task<(Modeller.V1.Institusjon.Institusjon, Modeller.V1.Bruker.Bruker)> OpprettInstitusjon()
+        protected async Task<(Modeller.V1.Institution.Institution, Modeller.V1.User.User)> OpprettInstitusjon()
         {
             var opprettInstitusjonHandler = new OpprettInstitusjon.Handler(DatabaseContext, Mapper);
 
-            DatabaseContext.Rolle.AddRange(new Domene.Observasjon.Rolle("Lege"), new Domene.Observasjon.Rolle("Sykepleier"));
+            DatabaseContext.Role.AddRange(new Domain.Observation.Role("Lege"), new Domain.Observation.Role("Sykepleier"));
             DatabaseContext.SaveChanges();
             var institusjon = await opprettInstitusjonHandler.Handle(new OpprettInstitusjon.Command()
             {
-                Request = new OpprettInstitusjonRequest()
+                Request = new CreateInstitutionRequest()
                 {
-                    KoordinatorHPRnummer = Seed.SeedKoordinatorHprNummer,
-                    KoordinatorEtternavn = Seed.SeedKoordinatorFornavn,
-                    KoordinatorFornavn = Seed.SeedKoordinatorFornavn,
-                    Forkortelse = "FHI",
+                    CoordinatorHPRNumber = Seed.SeedKoordinatorHprNummer,
+                    CoordinatorLastName = Seed.SeedKoordinatorFornavn,
+                    CoordinatorFirstName = Seed.SeedKoordinatorFornavn,
+                    Abbreviation = "FHI",
                     HERId = "85217",
-                    InstitusjonTypeId = DatabaseContext.InstitusjonType.First().Id,
-                    Institusjonsnavn = "FOLKEHELSEINSTITUTTET",
+                    InstitutionTypeId = DatabaseContext.InstitutionType.First().Id,
+                    InstitutionName = "FOLKEHELSEINSTITUTTET",
                     RegionId = DatabaseContext.Region.First().Id
                 }
             }, CancellationToken.None);
@@ -93,13 +93,13 @@ namespace HyFive.Tjenester.Tests
 
             var observator = await opprettObservatorHandler.Handle(new OpprettObservator.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                Bruker = new Modeller.V1.User.User()
                 {
-                    HPRNummer = Seed.SeedObservatorHprNummer,
-                    InstitusjonId = institusjon.Id,
-                    ErDeaktivert = false,
-                    Etternavn = "Stangeland",
-                    Fornavn = "Stian Pål",
+                    HPRNumber = Seed.SeedObservatorHprNummer,
+                    InstitutionId = institusjon.Id,
+                    IsDisabled = false,
+                    Surname = "Stangeland",
+                    FirstName = "Stian Pål",
                 }
             }, CancellationToken.None);
 
@@ -109,47 +109,47 @@ namespace HyFive.Tjenester.Tests
         protected async Task<Guid> OpprettFireIndikasjonerSesjon(
             Guid sesjonId,
             Guid observasjonId,
-            Domene.Sted.Avdeling avdeling,
+            Domain.Place.Avdeling avdeling,
             string hprnummer,
             bool brukDefaultAktivitet = true,
-            Aktivitet aktivitet = null,
+            Activity aktivitet = null,
             bool brukDefaultRolle = true,
-            Rolle rolle = null,
-            List<IndikasjonType> indikasjontyper = null)
+            Role rolle = null,
+            List<IndicationType> indikasjontyper = null)
         {
             var logger = new Mock<ILogger<LagreSesjon.Handler>>();
 
-            var avdelingModell = Mapper.Map<Modeller.V1.Institusjon.Avdeling>(
-                avdeling ?? DatabaseContext.Avdeling.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institusjon.First(x => x.Id == avdelingModell.InstitusjonId);
-            var aktivitetTyper = DatabaseContext.AktivitetType.ToList();
-            var indikasjonTyper = DatabaseContext.IndikasjonType.ToList();
+            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+            var aktivitetTyper = DatabaseContext.ActivityType.ToList();
+            var indikasjonTyper = DatabaseContext.IndicationTypes.ToList();
 
             var lagreFireIndikasjonSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
             var observasjon = new FireIndikasjonerObservasjon()
             {
                 Aktivitet = brukDefaultAktivitet
-                    ? new Aktivitet()
+                    ? new Activity()
                     {
-                        AktivitetType = new AktivitetType()
+                        ActivityType = new ActivityType()
                         {
-                            Id = aktivitetTyper.FirstOrDefault(x => x.Kode == AktivitetTypeKonstanter.Handvask).Id
+                            Id = aktivitetTyper.FirstOrDefault(x => x.Code == AktivitetTypeKonstanter.Handvask).Id
                         },
-                        BenyttetHanske = null,
-                        SekunderBrukt = 3,
-                        TidtakingBleUtfort = true
+                        GloveUsed = null,
+                        TimeSpent = 3,
+                        TimeRecordingWasDone = true
                     }
                     : aktivitet,
                 Id = observasjonId.ToString(),
-                Indikasjonstyper = indikasjontyper ?? new List<IndikasjonType>()
+                Indikasjonstyper = indikasjontyper ?? new List<IndicationType>()
                 {
-                    new IndikasjonType()
+                    new IndicationType()
                     {
-                        Id = indikasjonTyper.FirstOrDefault(x => x.Kode == IndikasjonTypeKonstanter.EtterPasient).Id
+                        Id = indikasjonTyper.FirstOrDefault(x => x.Code == IndikasjonTypeKonstanter.EtterPasient).Id
                     }
                 },
                 Kommentar = "Kommentar til observasjonen",
-                Registrerttidspunkt = DateTime.UtcNow,
+                Registrerttidspunkt = DateTime.Now,
                 Rolle = brukDefaultRolle ? avdelingModell.Roller.First() : rolle,
                 SesjonId = sesjonId.ToString()
             };
@@ -160,14 +160,14 @@ namespace HyFive.Tjenester.Tests
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
-                    Institusjonsnavn = institusjon.Navn,
+                    Institusjonsnavn = institusjon.Name,
                     InstitusjonId = institusjon.Id,
                     Observasjoner = new List<FireIndikasjonerObservasjon>()
                     {
                         observasjon
                     },
                     Kommentar = "Kommentar til sesjonen",
-                    Starttidspunkt = DateTime.UtcNow
+                    Starttidspunkt = DateTime.Now
                 },
                 HPRNummer = hprnummer
             }, CancellationToken.None);

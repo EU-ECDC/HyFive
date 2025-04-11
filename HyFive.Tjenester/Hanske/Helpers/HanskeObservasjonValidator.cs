@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Linq;
-using HyFive.Domene.Observasjon.Hansker;
+using HyFive.Domene.Observation.Gloves;
 
 namespace HyFive.Tjenester.Hanske.Helpers
 {
     public class HanskeObservasjonValidator
     {
-        public static bool ValidateObservasjon(HanskeObservasjon observasjon)
+        public static bool ValidateObservasjon(GloveObservation observasjon)
         {
-            if (observasjon.BenyttetHanske == false && observasjon.HandhygieneEtterHanskebrukType != null)
+            if (observasjon.GloveUsed == false && observasjon.HandhygieneEtterHanskebrukType != null)
             {
                 throw new HanskeObservasjonValidationException("H-V-02: Hvis hansker _ikke_ ble benyttet så skal _ikke_ 'Håndhygiene etter hanskebruk' besvares");
             }
 
-            if (observasjon.HanskeMedIndikasjonTyper?.Any() == true && observasjon.HanskeUtenIndikasjonTyper?.Any() == true)
+            if (observasjon.IndicatedGloveTypes?.Any() == true && observasjon.GeneralPurposeGloveTypes?.Any() == true)
             {
                 throw new HanskeObservasjonValidationException("H-V-03: En kan ikke registrere både 'Med indikasjon' og 'Uten indikasjon' samtidig ");
             }
             
-            if (observasjon.HanskeMedIndikasjonTyper?.Any() == false && observasjon.HanskeUtenIndikasjonTyper?.Any() == false)
+            if (observasjon.IndicatedGloveTypes?.Any() == false && observasjon.GeneralPurposeGloveTypes?.Any() == false)
             {
                 throw new HanskeObservasjonValidationException("H-V-04: En må registrere minst 1 indikasjonstype (Med/Uten)");
             }
             
-            if (observasjon.BenyttetHanske == false && observasjon.HanskeUtenIndikasjonTyper?.Any() == true )
+            if (observasjon.GloveUsed == false && observasjon.GeneralPurposeGloveTypes?.Any() == true )
             {
                 throw new HanskeObservasjonValidationException("H-V-05: Hvis hansker ikke ble benyttet så skal ikke HanskeUtenIndikasjonTyper registreres ");
             }
             
-            if (observasjon.Rolle == null)
+            if (observasjon.Role == null)
             {
                 throw new HanskeObservasjonValidationException("H-V-06: Rolle må registreres.");
             }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Oversikt;
 using HyFive.Modeller.V1.Sesjon;
 using MediatR;
@@ -15,7 +15,7 @@ namespace HyFive.Tjenester.Sesjon
 {
     public class HentSesjonerForAvdelingOversikt
     {
-        public class Query : IRequest<List<SesjonOversiktRapport>>
+        public class Query : IRequest<List<SessionOverviewReport>>
         {
             public int Avdelingsid { get; set; }
             public SesjonType? Sesjontype { get; set; }
@@ -24,20 +24,20 @@ namespace HyFive.Tjenester.Sesjon
             public string OverforingsstatusType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<SesjonOversiktRapport>>
+        public class Handler : IRequestHandler<Query, List<SessionOverviewReport>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<List<SesjonOversiktRapport>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<SessionOverviewReport>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjonOversiktRapport = new List<SesjonOversiktRapport>();
+                var sesjonOversiktRapport = new List<SessionOverviewReport>();
                 
                 if (request.Sesjontype == null || request.Sesjontype.Value == SesjonType.FireIndikasjoner)
                 {
@@ -60,92 +60,92 @@ namespace HyFive.Tjenester.Sesjon
                     sesjonOversiktRapport.AddRange(beskyttelsesutstyrSesjonerRapport);
                 }
 
-                sesjonOversiktRapport = sesjonOversiktRapport.OrderByDescending(s => s.Opprettettidspunkt).ToList();
+                sesjonOversiktRapport = sesjonOversiktRapport.OrderByDescending(s => s.CreatedTime).ToList();
                 sesjonOversiktRapport.ForEach(s =>
                 {
-                    s.Observasjoner = s.Observasjoner.OrderByDescending(o => o.Registrerttidspunkt).ToList();
+                    s.Observations = s.Observations.OrderByDescending(o => o.RegisteredTime).ToList();
                 });
 
                 return sesjonOversiktRapport;
             }
 
-            private async Task<List<SesjonOversiktRapport>> LagFireIndikasjonerSesjonerRapport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LagFireIndikasjonerSesjonerRapport(Query request, CancellationToken cancellationToken)
             {
-                var fireIndikasjonerSesjoner = await _context.FireIndikasjonerSesjon
-                                     .Include(s => s.Avdeling)
-                                     .Include(s => s.Observator)
-                                     .Include(s => s.Overforingstatus)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Indikasjonstyper)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Aktivitet.AktivitetType)
+                var fireIndikasjonerSesjoner = await _context.FourIndicationsSession
+                                     .Include(s => s.Department)
+                                     .Include(s => s.Observer)
+                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
+                                     .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
+                                     .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var fireIndikasjonerSesjonerRapport = _mapper.Map<List<Domene.Sesjon.FireIndikasjonerSesjon>, List<SesjonOversiktRapport>>(fireIndikasjonerSesjoner);
+                var fireIndikasjonerSesjonerRapport = _mapper.Map<List<Domene.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fireIndikasjonerSesjoner);
 
                 return fireIndikasjonerSesjonerRapport;
             }
 
-            private async Task<List<SesjonOversiktRapport>> LagHandsmykkeSesjonerRapport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LagHandsmykkeSesjonerRapport(Query request, CancellationToken cancellationToken)
             {
-                var handsmykkeSesjoner = await _context.HandsmykkeSesjon
-                                     .Include(s => s.Avdeling)
-                                     .Include(s => s.Observator)
-                                     .Include(s => s.Overforingstatus)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Handsmykker)
+                var handsmykkeSesjoner = await _context.HandJewelrySession
+                                     .Include(s => s.Department)
+                                     .Include(s => s.Observer)
+                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
+                                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var handsmykkeSesjonerRapport = _mapper.Map<List<Domene.Sesjon.HandsmykkeSesjon>, List<SesjonOversiktRapport>>(handsmykkeSesjoner);
+                var handsmykkeSesjonerRapport = _mapper.Map<List<Domene.Session.HandJewelrySession>, List<SessionOverviewReport>>(handsmykkeSesjoner);
 
                 return handsmykkeSesjonerRapport;
             }
 
-            private async Task<List<SesjonOversiktRapport>> LagHanskeSesjonerRapport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LagHanskeSesjonerRapport(Query request, CancellationToken cancellationToken)
             {
-                var hanskeSesjoner = await _context.HanskeSesjon
-                                     .Include(s => s.Avdeling)
-                                     .Include(s => s.Observator)
-                                     .Include(s => s.Overforingstatus)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeMedIndikasjonTyper)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeUtenIndikasjonTyper)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
+                var hanskeSesjoner = await _context.GloveSession
+                                     .Include(s => s.Department)
+                                     .Include(s => s.Observer)
+                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
+                                     .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
+                                     .Include(s => s.Observations).ThenInclude(o => o.GeneralPurposeGloveTypes)
+                                     .Include(s => s.Observations).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var hanskeSesjonerRapport = _mapper.Map<List<Domene.Sesjon.HanskeSesjon>, List<SesjonOversiktRapport>>(hanskeSesjoner);
+                var hanskeSesjonerRapport = _mapper.Map<List<Domene.Session.GloveSession>, List<SessionOverviewReport>>(hanskeSesjoner);
 
                 return hanskeSesjonerRapport;
             }
 
-            private async Task<List<SesjonOversiktRapport>> LagBeskyttelsesutstyrSesjonerRapport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LagBeskyttelsesutstyrSesjonerRapport(Query request, CancellationToken cancellationToken)
             {
-                var beskyttelsesutstyrSesjoner = await _context.BeskyttelsesutstyrSesjon
-                                     .Include(s => s.Avdeling)
-                                     .Include(s => s.Observator)
-                                     .Include(s => s.Overforingstatus)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Settingtype)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(b => b.Utstyrstype)
-                                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(b => b.Feilbruktyper)
+                var beskyttelsesutstyrSesjoner = await _context.ProtectiveEquipmentSession
+                                     .Include(s => s.Department)
+                                     .Include(s => s.Observer)
+                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
+                                     .Include(s => s.Observations).ThenInclude(o => o.SettingType)
+                                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
+                                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var beskyttelsesutstyrSesjonerRapport = _mapper.Map<List<Domene.Sesjon.BeskyttelsesutstyrSesjon>, List<SesjonOversiktRapport>>(beskyttelsesutstyrSesjoner);
+                var beskyttelsesutstyrSesjonerRapport = _mapper.Map<List<Domene.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(beskyttelsesutstyrSesjoner);
 
                 return beskyttelsesutstyrSesjonerRapport;
             }

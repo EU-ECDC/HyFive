@@ -1,4 +1,4 @@
-﻿using HyFive.Modeller.V1.Institusjon;
+﻿using HyFive.Modeller.V1.Institution;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Institusjon;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Observasjon.Controllers.V1
 {
-    // [Authorize(HandhygienePolicy.Observator)]
+    // [Authorize(HandhygienePolicy.Observer)]
     [Route("api/v1/institusjon")]
     public class InstitusjonController : ControllerBase
     {
@@ -27,7 +27,7 @@ namespace HyFive.Observasjon.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
-        public async Task<IEnumerable<Institusjon>> HentObservatorensInstitusjoner()
+        public async Task<IEnumerable<Institution>> HentObservatorensInstitusjoner()
         {
             var result = await _mediator.Send(new HentInstitusjonerForObservator.Query() { HPRNummer = _brukerservice.HentHprnummer(), Pseudonym = _brukerservice.HentPseudonym()});
             return result;

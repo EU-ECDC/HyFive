@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,51 +11,51 @@ namespace HyFive.Tjenester.Klinikk
 {
     public class OppdaterKlinikk
     {
-        public class Command : IRequest<Modeller.V1.Institusjon.Klinikk>
+        public class Command : IRequest<Modeller.V1.Institution.Clinic>
         {
-            public Modeller.V1.Institusjon.Klinikk Klinikk { get; set; }
+            public Modeller.V1.Institution.Clinic Klinikk { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institusjon.Klinikk>
+        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Clinic>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institusjon.Klinikk> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Institution.Clinic> Handle(Command command, CancellationToken cancellationToken)
             {
                 var klinikk = await _context
-                    .Klinikk
-                    .Include(k => k.Institusjon)
-                    .Include(k => k.Avdelinger)
+                    .Clinic
+                    .Include(k => k.Institution)
+                    .Include(k => k.Departments)
                     .FirstOrDefaultAsync(a => a.Id == command.Klinikk.Id);
-                if (klinikk.Institusjon.Id != command.Klinikk.InstitusjonId)
+                if (klinikk.Institusjon.Id != command.Klinikk.InstitutionId)
                 {
-                    throw new Exception($"Klinikk med id {command.Klinikk.Id} er ikke tilknyttet institusjon med id {command.Klinikk.InstitusjonId}");
+                    throw new Exception($"Klinikk med id {command.Klinikk.Id} er ikke tilknyttet institusjon med id {command.Klinikk.InstitutionId}");
                 }
-                else if (command.Klinikk.Avdelinger.Any(x => x.InstitusjonId != klinikk.Institusjon.Id))
+                else if (command.Klinikk.Departments.Any(x => x.InstitusjonId != klinikk.Institusjon.Id))
                 {
-                    throw new InvalidOperationException($"Minst en avdeling er ikke tilknyttet institusjon med id {command.Klinikk.InstitusjonId}");
+                    throw new InvalidOperationException($"Minst en avdeling er ikke tilknyttet institusjon med id {command.Klinikk.InstitutionId}");
                 }
 
                 var avdelinger = await _context
-                    .Avdeling
+                    .Department
                     .Include(a => a.Klinikker)
-                    .Where(a => command.Klinikk.Avdelinger.Select(av => av.Id).Contains(a.Id))
+                    .Where(a => command.Klinikk.Departments.Select(av => av.Id).Contains(a.Id))
                     .ToListAsync();
 
                 klinikk.Avdelinger = avdelinger;
-                klinikk.Navn = command.Klinikk.Navn;
+                klinikk.Navn = command.Klinikk.Name;
 
                 _context.Entry(klinikk).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                var mapped = _mapper.Map<Modeller.V1.Institusjon.Klinikk>(klinikk);
+                var mapped = _mapper.Map<Modeller.V1.Institution.Clinic>(klinikk);
                 return mapped;
             }
         }

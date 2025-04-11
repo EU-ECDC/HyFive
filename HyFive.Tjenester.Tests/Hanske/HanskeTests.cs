@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester.Hanske;
 using HyFive.Tjenester.Sesjon;
@@ -43,20 +43,20 @@ namespace HyFive.Tjenester.Tests.Hanske
         //public async Task HentSesjonMedIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Avdeling.Include(x => x.Institusjon).Include(x => x.Roller).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonGuid = await OpprettSesjonMedIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HanskeMedIndikasjonTyper, Is.Not.Null);
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HanskeMedIndikasjonTyper.Count, Is.EqualTo(2));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].BenyttetHanske, Is.EqualTo(true));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HandhygieneEtterHanskebrukType.Kode,
+        //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicatedGloveTypes, Is.Not.Null);
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicatedGloveTypes.Count, Is.EqualTo(2));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.EqualTo(true));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygiene.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Ja));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].Rolle.Navn, Is.EqualTo(avdeling.Roller.First().Navn));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
         //    });
         //}
 
@@ -64,20 +64,20 @@ namespace HyFive.Tjenester.Tests.Hanske
         //public async Task HentSesjonUtenIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Avdeling.Include(x => x.Institusjon).Include(x => x.Roller).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonGuid = await OpprettSesjonUtenIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HanskeUtenIndikasjonTyper, Is.Not.Null);
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HanskeUtenIndikasjonTyper.Count, Is.EqualTo(2));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].BenyttetHanske, Is.True);
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].HandhygieneEtterHanskebrukType.Kode,
+        //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GeneralPurposeGloveTypes, Is.Not.Null);
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GeneralPurposeGloveTypes.Count, Is.EqualTo(2));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.True);
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygiene.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Nei));
-        //        Assert.That(hentetSesjonFraDatabase.Observasjoner[0].Rolle.Navn, Is.EqualTo(avdeling.Roller.First().Navn));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
         //    });
         //}
 
@@ -93,16 +93,16 @@ namespace HyFive.Tjenester.Tests.Hanske
             return handsmykkeSesjon;
         }
 
-        private async Task<Guid> OpprettSesjonMedIndikasjonTyper(Domene.Sted.Avdeling avdeling = null)
+        private async Task<Guid> OpprettSesjonMedIndikasjonTyper(Domain.Place.Avdeling avdeling = null)
         {
             var logger = new Mock<ILogger<LagreSesjon.Handler>>();
 
             var lagreHanskeSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
-            var avdelingModell = Mapper.Map<Modeller.V1.Institusjon.Avdeling>(
-                avdeling ?? DatabaseContext.Avdeling.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institusjon.First(x => x.Id == avdelingModell.InstitusjonId);
-            var hanskeMedIndikasjonTyper = DatabaseContext.HanskeMedIndikasjonType.ToList();
-            var handhygieneEtterHanskebrukTyper = DatabaseContext.HandhygieneEtterHanskebrukType.ToList();
+            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+            var hanskeMedIndikasjonTyper = DatabaseContext.IndicatedGloveType.ToList();
+            var handhygieneEtterHanskebrukTyper = DatabaseContext.PostGloveHandHygiene.ToList();
 
             var hanskeSesjonGuid = await lagreHanskeSesjonHandler.Handle(new LagreSesjon.Command()
             {
@@ -110,39 +110,39 @@ namespace HyFive.Tjenester.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
-                    Institusjonsnavn = institusjon.Navn,
+                    Institusjonsnavn = institusjon.Name,
                     InstitusjonId = institusjon.Id,
-                    Observasjoner = new List<HanskeObservasjon>()
+                    Observasjoner = new List<GloveObservation>()
                     {
-                        new HanskeObservasjon()
+                        new GloveObservation()
                         {
                             Id = observasjonId.ToString(),
                             Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.UtcNow,
+                            Registrerttidspunkt = DateTime.Now,
                             Rolle = avdelingModell.Roller.First(),
                             SesjonId = sesjonId.ToString(),
-                            HanskeMedIndikasjonTyper = new List<HanskeMedIndikasjonType>()
+                            IndicatedGloveTypes = new List<IndicatedGloveType>()
                             {
-                                new HanskeMedIndikasjonType()
+                                new IndicatedGloveType()
                                 {
-                                    ErValgt = true,
-                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Kode == HanskeMedIndikasjonTypeKonstanter.Smitte).Id
+                                    IsSelected = true,
+                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Code == HanskeMedIndikasjonTypeKonstanter.Smitte).Id
                                 },
-                                new HanskeMedIndikasjonType()
+                                new IndicatedGloveType()
                                 {
-                                    ErValgt = true,
-                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Kode == HanskeMedIndikasjonTypeKonstanter.Kroppvaesker).Id
+                                    IsSelected = true,
+                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Code == HanskeMedIndikasjonTypeKonstanter.Kroppvaesker).Id
                                 }
                             },
                             BenyttetHanske = true,
-                            HandhygieneEtterHanskebrukType = new HandhygieneEtterHanskebrukType()
+                            PostGloveHandHygieneType = new PostGloveHandHygieneType()
                             {
-                                Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Kode == HandhygieneEtterHanskebrukTypeKonstanter.Ja).Id
+                                Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Code == HandhygieneEtterHanskebrukTypeKonstanter.Ja).Id
                             }
                         }
                     },
                     Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.UtcNow
+                    Starttidspunkt = DateTime.Now
                 },
                 HPRNummer = hprnummer
             }, CancellationToken.None);
@@ -150,16 +150,16 @@ namespace HyFive.Tjenester.Tests.Hanske
             return hanskeSesjonGuid;
         }
 
-        private async Task<Guid> OpprettSesjonUtenIndikasjonTyper(Domene.Sted.Avdeling avdeling = null)
+        private async Task<Guid> OpprettSesjonUtenIndikasjonTyper(Domain.Place.Avdeling avdeling = null)
         {
             var logger = new Mock<ILogger<LagreSesjon.Handler>>();
 
             var lagreHanskeSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
-            var avdelingModell = Mapper.Map<Modeller.V1.Institusjon.Avdeling>(
-                avdeling ?? DatabaseContext.Avdeling.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institusjon.First(x => x.Id == avdelingModell.InstitusjonId);
-            var hanskeUtenIndikasjonTyper = DatabaseContext.HanskeUtenIndikasjonType.ToList();
-            var handhygieneEtterHanskebrukTyper = DatabaseContext.HandhygieneEtterHanskebrukType.ToList();
+            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+            var hanskeUtenIndikasjonTyper = DatabaseContext.GeneralPurposeGloveType.ToList();
+            var handhygieneEtterHanskebrukTyper = DatabaseContext.PostGloveHandHygiene.ToList();
 
             var hanskeSesjonGuid = await lagreHanskeSesjonHandler.Handle(new LagreSesjon.Command()
             {
@@ -167,39 +167,39 @@ namespace HyFive.Tjenester.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
-                    Institusjonsnavn = institusjon.Navn,
+                    Institusjonsnavn = institusjon.Name,
                     InstitusjonId = institusjon.Id,
-                    Observasjoner = new List<HanskeObservasjon>()
+                    Observasjoner = new List<GloveObservation>()
                     {
-                        new HanskeObservasjon()
+                        new GloveObservation()
                         {
                             Id = observasjonId.ToString(),
                             Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.UtcNow,
+                            Registrerttidspunkt = DateTime.Now,
                             Rolle = avdelingModell.Roller.First(),
                             SesjonId = sesjonId.ToString(),
-                            HanskeUtenIndikasjonTyper = new List<HanskeUtenIndikasjonType>()
+                            GeneralPurposeGloveTypes = new List<GeneralPurposeGloveType>()
                             {
-                                new HanskeUtenIndikasjonType()
+                                new GeneralPurposeGloveType()
                                 {
-                                    ErValgt = true,
-                                    Id = hanskeUtenIndikasjonTyper.FirstOrDefault(x => x.Kode == HanskeUtenIndikasjonTypeKonstanter.Mat).Id
+                                    IsSelected = true,
+                                    Id = hanskeUtenIndikasjonTyper.FirstOrDefault(x => x.Code == HanskeUtenIndikasjonTypeKonstanter.Mat).Id
                                 },
-                                new HanskeUtenIndikasjonType()
+                                new GeneralPurposeGloveType()
                                 {
-                                    ErValgt = true,
-                                    Id = hanskeUtenIndikasjonTyper.FirstOrDefault(x => x.Kode == HanskeUtenIndikasjonTypeKonstanter.StellUtenKroppvaesker).Id
+                                    IsSelected = true,
+                                    Id = hanskeUtenIndikasjonTyper.FirstOrDefault(x => x.Code == HanskeUtenIndikasjonTypeKonstanter.StellUtenKroppvaesker).Id
                                 }
                             },
                             BenyttetHanske = true,
-                            HandhygieneEtterHanskebrukType = new HandhygieneEtterHanskebrukType()
+                            PostGloveHandHygieneType = new PostGloveHandHygieneType()
                             {
-                                Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Kode == HandhygieneEtterHanskebrukTypeKonstanter.Nei).Id
+                                Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Code == HandhygieneEtterHanskebrukTypeKonstanter.Nei).Id
                             }
                         }
                     },
                     Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.UtcNow
+                    Starttidspunkt = DateTime.Now
                 },
                 HPRNummer = hprnummer
             }, CancellationToken.None);
@@ -215,7 +215,7 @@ namespace HyFive.Tjenester.Tests.Hanske
         public async Task HentHanskeMedIndikasjonTyper_Test()
         {
             // Arrange
-            var eksisterendeTyper = DatabaseContext.HanskeMedIndikasjonType.Select(x => x.Id).ToList();
+            var eksisterendeTyper = DatabaseContext.IndicatedGloveType.Select(x => x.Id).ToList();
             var hentHanskeMedIndikasjonTyper = new HentHanskeMedIndikasjonTyper.Handler(DatabaseContext, Mapper);
             var query = new HentHanskeMedIndikasjonTyper.Query();
 
@@ -239,11 +239,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHanskeMedIndikasjonTypeHandler = new OppdaterHanskeMedIndikasjonType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHanskeMedIndikasjonType.Command()
             {
-                HanskeMedIndikasjonType = new Modeller.V1.Observasjon.Hansker.HanskeMedIndikasjonType()
+                HanskeMedIndikasjonType = new Modeller.V1.Observasjon.Gloves.IndicatedGloveType()
                 {
                     Id = opprettetHanskeMedIndikasjonType.Id,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -254,9 +254,9 @@ namespace HyFive.Tjenester.Tests.Hanske
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetHanskeMedIndikasjonType.Id));
-                Assert.That(resultatOppdater.Navn, Is.EqualTo(oppdaterCommand.HanskeMedIndikasjonType.Navn));
-                Assert.That(resultatOppdater.Kode, Is.Not.EqualTo(oppdaterCommand.HanskeMedIndikasjonType.Kode));
-                Assert.That(resultatOppdater.Kode, Is.EqualTo(opprettetHanskeMedIndikasjonType.Kode));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.HanskeMedIndikasjonType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.HanskeMedIndikasjonType.Code));
+                Assert.That(resultatOppdater.Code, Is.EqualTo(opprettetHanskeMedIndikasjonType.Code));
             });
         }
 
@@ -267,11 +267,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHanskeMedIndikasjonTypeHandler = new OppdaterHanskeMedIndikasjonType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHanskeMedIndikasjonType.Command()
             {
-                HanskeMedIndikasjonType = new Modeller.V1.Observasjon.Hansker.HanskeMedIndikasjonType()
+                HanskeMedIndikasjonType = new Modeller.V1.Observasjon.Gloves.IndicatedGloveType()
                 {
                     Id = 99999999,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -293,7 +293,7 @@ namespace HyFive.Tjenester.Tests.Hanske
         public async Task HentHanskeUtenIndikasjonTyper_Test()
         {
             // Arrange
-            var eksisterendeTyper = DatabaseContext.HanskeUtenIndikasjonType.Select(x => x.Id).ToList();
+            var eksisterendeTyper = DatabaseContext.GeneralPurposeGloveType.Select(x => x.Id).ToList();
             var hentHanskeUtenIndikasjonTyper = new HentHanskeUtenIndikasjonTyper.Handler(DatabaseContext, Mapper);
             var query = new HentHanskeUtenIndikasjonTyper.Query();
 
@@ -317,11 +317,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHanskeUtenIndikasjonTypeHandler = new OppdaterHanskeUtenIndikasjonType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHanskeUtenIndikasjonType.Command()
             {
-                HanskeUtenIndikasjonType = new Modeller.V1.Observasjon.Hansker.HanskeUtenIndikasjonType()
+                HanskeUtenIndikasjonType = new Modeller.V1.Observasjon.Gloves.GeneralPurposeGloveType()
                 {
                     Id = opprettetHanskeUtenIndikasjonType.Id,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -332,9 +332,9 @@ namespace HyFive.Tjenester.Tests.Hanske
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetHanskeUtenIndikasjonType.Id));
-                Assert.That(resultatOppdater.Navn, Is.EqualTo(oppdaterCommand.HanskeUtenIndikasjonType.Navn));
-                Assert.That(resultatOppdater.Kode, Is.Not.EqualTo(oppdaterCommand.HanskeUtenIndikasjonType.Kode));
-                Assert.That(resultatOppdater.Kode, Is.EqualTo(opprettetHanskeUtenIndikasjonType.Kode));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.HanskeUtenIndikasjonType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.HanskeUtenIndikasjonType.Code));
+                Assert.That(resultatOppdater.Code, Is.EqualTo(opprettetHanskeUtenIndikasjonType.Code));
             });
         }
 
@@ -345,11 +345,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHanskeUtenIndikasjonTypeHandler = new OppdaterHanskeUtenIndikasjonType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHanskeUtenIndikasjonType.Command()
             {
-                HanskeUtenIndikasjonType = new Modeller.V1.Observasjon.Hansker.HanskeUtenIndikasjonType()
+                HanskeUtenIndikasjonType = new Modeller.V1.Observasjon.Gloves.GeneralPurposeGloveType()
                 {
                     Id = 99999999,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -371,7 +371,7 @@ namespace HyFive.Tjenester.Tests.Hanske
         public async Task HentHandhygieneEtterHanskebrukTyper_Test()
         {
             // Arrange
-            var eksisterendeTyper = DatabaseContext.HandhygieneEtterHanskebrukType.Select(x => x.Id).ToList();
+            var eksisterendeTyper = DatabaseContext.PostGloveHandHygiene.Select(x => x.Id).ToList();
             var hentHandhygieneEtterHanskebrukTyper = new HentHandhygieneEtterHanskebrukTyper.Handler(DatabaseContext, Mapper);
             var query = new HentHandhygieneEtterHanskebrukTyper.Query();
 
@@ -395,11 +395,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHandhygieneEtterHanskebrukTypeHandler = new OppdaterHandhygieneEtterHanskebrukType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHandhygieneEtterHanskebrukType.Command()
             {
-                HandhygieneEtterHanskebrukType = new Modeller.V1.Observasjon.Hansker.HandhygieneEtterHanskebrukType()
+                HandhygieneEtterHanskebrukType = new Modeller.V1.Observasjon.Gloves.PostGloveHandHygieneType()
                 {
                     Id = opprettetHandhygieneEtterHanskebrukType.Id,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -410,9 +410,9 @@ namespace HyFive.Tjenester.Tests.Hanske
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetHandhygieneEtterHanskebrukType.Id));
-                Assert.That(resultatOppdater.Navn, Is.EqualTo(oppdaterCommand.HandhygieneEtterHanskebrukType.Navn));
-                Assert.That(resultatOppdater.Kode, Is.Not.EqualTo(oppdaterCommand.HandhygieneEtterHanskebrukType.Kode));
-                Assert.That(resultatOppdater.Kode, Is.EqualTo(opprettetHandhygieneEtterHanskebrukType.Kode));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.HandhygieneEtterHanskebrukType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.HandhygieneEtterHanskebrukType.Code));
+                Assert.That(resultatOppdater.Code, Is.EqualTo(opprettetHandhygieneEtterHanskebrukType.Code));
             });
         }
 
@@ -423,11 +423,11 @@ namespace HyFive.Tjenester.Tests.Hanske
             var oppdaterHandhygieneEtterHanskebrukTypeHandler = new OppdaterHandhygieneEtterHanskebrukType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterHandhygieneEtterHanskebrukType.Command()
             {
-                HandhygieneEtterHanskebrukType = new Modeller.V1.Observasjon.Hansker.HandhygieneEtterHanskebrukType()
+                HandhygieneEtterHanskebrukType = new Modeller.V1.Observasjon.Gloves.PostGloveHandHygieneType()
                 {
                     Id = 99999999,
-                    Kode = "DV",
-                    Navn = "Da Vinci",
+                    Code = "DV",
+                    Name = "Da Vinci",
                 }
             };
 
@@ -445,31 +445,31 @@ namespace HyFive.Tjenester.Tests.Hanske
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Observasjon.Hansker.HanskeMedIndikasjonType> OpprettHanskeMedIndikasjonType(string kode = null)
+        private async Task<Modeller.V1.Observasjon.Gloves.IndicatedGloveType> OpprettHanskeMedIndikasjonType(string kode = null)
         {
-            var hanskeMedIndikasjonType = new Domene.Observasjon.Hansker.HanskeMedIndikasjonType() { Kode = kode ?? "TEST", Navn = "test" };
-            DatabaseContext.HanskeMedIndikasjonType.Add(hanskeMedIndikasjonType);
+            var hanskeMedIndikasjonType = new Domain.Observation.Gloves.IndicatedGloveType() { Code = kode ?? "TEST", Name = "test" };
+            DatabaseContext.IndicatedGloveType.Add(hanskeMedIndikasjonType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.Hansker.HanskeMedIndikasjonType>(hanskeMedIndikasjonType);
+            return Mapper.Map<Modeller.V1.Observasjon.Gloves.IndicatedGloveType>(hanskeMedIndikasjonType);
         }
 
-        private async Task<Modeller.V1.Observasjon.Hansker.HanskeUtenIndikasjonType> OpprettHanskeUtenIndikasjonType(string kode = null)
+        private async Task<Modeller.V1.Observasjon.Gloves.GeneralPurposeGloveType> OpprettHanskeUtenIndikasjonType(string kode = null)
         {
-            var hanskeUtenIndikasjonType = new Domene.Observasjon.Hansker.HanskeUtenIndikasjonType() { Kode = kode ?? "TEST", Navn = "test" };
-            DatabaseContext.HanskeUtenIndikasjonType.Add(hanskeUtenIndikasjonType);
+            var hanskeUtenIndikasjonType = new Domain.Observation.Gloves.GeneralPurposeGloveType() { Code = kode ?? "TEST", Name = "test" };
+            DatabaseContext.GeneralPurposeGloveType.Add(hanskeUtenIndikasjonType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.Hansker.HanskeUtenIndikasjonType>(hanskeUtenIndikasjonType);
+            return Mapper.Map<Modeller.V1.Observasjon.Gloves.GeneralPurposeGloveType>(hanskeUtenIndikasjonType);
         }
 
-        private async Task<Modeller.V1.Observasjon.Hansker.HandhygieneEtterHanskebrukType> OpprettHandhygieneEtterHanskebrukType(string kode = null)
+        private async Task<Modeller.V1.Observasjon.Gloves.PostGloveHandHygieneType> OpprettHandhygieneEtterHanskebrukType(string kode = null)
         {
-            var handhygieneEtterHanskebrukType = new Domene.Observasjon.Hansker.HandhygieneEtterHanskebrukType() { Kode = kode ?? "TEST", Navn = "test" };
-            DatabaseContext.HandhygieneEtterHanskebrukType.Add(handhygieneEtterHanskebrukType);
+            var handhygieneEtterHanskebrukType = new Domain.Observation.Gloves.PostGloveHandHygiene() { Code = kode ?? "TEST", Name = "test" };
+            DatabaseContext.PostGloveHandHygiene.Add(handhygieneEtterHanskebrukType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.Hansker.HandhygieneEtterHanskebrukType>(handhygieneEtterHanskebrukType);
+            return Mapper.Map<Modeller.V1.Observasjon.Gloves.PostGloveHandHygieneType>(handhygieneEtterHanskebrukType);
         }
 
         #endregion

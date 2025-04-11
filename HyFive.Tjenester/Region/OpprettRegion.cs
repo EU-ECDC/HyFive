@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,39 +11,39 @@ namespace HyFive.Tjenester.Region
 {
     public class OpprettRegion
     {
-        public class Command : IRequest<Modeller.V1.Institusjon.Region>
+        public class Command : IRequest<Modeller.V1.Institution.Region>
         {
-            public OpprettRegionRequest NyRegion { get; set; }
+            public CreateRegionRequest NyRegion { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institusjon.Region>
+        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Region>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institusjon.Region> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Institution.Region> Handle(Command request, CancellationToken cancellationToken)
             {
-                var exists = await _context.Region.AnyAsync(r => r.Kode == request.NyRegion.Kode);
+                var exists = await _context.Region.AnyAsync(r => r.Code == request.NyRegion.Code);
                 if (exists)
                     throw new InvalidOperationException(
-                        $"Kode {request.NyRegion.Kode} er allerede i bruk. Vennligst prøv med en annen kode.");
+                        $"Kode {request.NyRegion.Code} er allerede i bruk. Vennligst prøv med en annen kode.");
 
-                var region = new Domene.Sted.Region
+                var region = new Domene.Place.Region
                 {
-                    Kode = request.NyRegion.Kode,
-                    Navn = request.NyRegion.Navn
+                    Code = request.NyRegion.Code,
+                    Name = request.NyRegion.Name
                 };
 
                 _context.Region.Add(region);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<Modeller.V1.Institusjon.Region>(region);
+                return _mapper.Map<Modeller.V1.Institution.Region>(region);
             }
         }
     }

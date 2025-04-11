@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,53 +11,53 @@ namespace HyFive.Tjenester.Klinikk
 {
     public class OpprettKlinikk
     {
-        public class Command : IRequest<Modeller.V1.Institusjon.Klinikk>
+        public class Command : IRequest<Modeller.V1.Institution.Clinic>
         {
-            public Modeller.V1.Institusjon.Klinikk Klinikk { get; set; }
+            public Modeller.V1.Institution.Clinic Klinikk { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institusjon.Klinikk>
+        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Clinic>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institusjon.Klinikk> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Institution.Clinic> Handle(Command command, CancellationToken cancellationToken)
             {
                 var institusjon = await _context
-                    .Institusjon
-                    .Include(i => i.Avdelinger)
-                    .FirstOrDefaultAsync(i => i.Id == command.Klinikk.InstitusjonId);
+                    .Institution
+                    .Include(i => i.Departments)
+                    .FirstOrDefaultAsync(i => i.Id == command.Klinikk.InstitutionId);
                 if (institusjon == null)
                 {
-                    throw new Exception("Kunne ikke finne institusjon med ID " + command.Klinikk.InstitusjonId);
+                    throw new Exception("Kunne ikke finne institusjon med ID " + command.Klinikk.InstitutionId);
                 }
-                else if (command.Klinikk.Avdelinger.Any(x => x.InstitusjonId != institusjon.Id))
+                else if (command.Klinikk.Departments.Any(x => x.InstitusjonId != institusjon.Id))
                 {
-                    throw new InvalidOperationException($"Minst en avdeling er ikke tilknyttet institusjon med id {command.Klinikk.InstitusjonId}");
+                    throw new InvalidOperationException($"Minst en avdeling er ikke tilknyttet institusjon med id {command.Klinikk.InstitutionId}");
                 }
 
-                var klinikk = new Domene.Sted.Klinikk()
+                var klinikk = new Domene.Place.Clinic()
                 {
-                    Institusjon = institusjon,
-                    Navn = command.Klinikk.Navn,
+                    Institution = institusjon,
+                    Name = command.Klinikk.Name,
                 };
 
-                var avdelinger = await _context.Avdeling
+                var avdelinger = await _context.Department
                     .Where(a => a.InstitusjonId == institusjon.Id)
-                    .Where(a => command.Klinikk.Avdelinger.Select(x => x.Id).Contains(a.Id))
+                    .Where(a => command.Klinikk.Departments.Select(x => x.Id).Contains(a.Id))
                     .ToListAsync();
 
-                klinikk.Avdelinger = avdelinger;
+                klinikk.Departments = avdelinger;
 
-                _context.Klinikk.Add(klinikk);
+                _context.Clinic.Add(klinikk);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Modeller.V1.Institusjon.Klinikk>(klinikk);
+                return _mapper.Map<Modeller.V1.Institution.Clinic>(klinikk);
             }
         }
     }

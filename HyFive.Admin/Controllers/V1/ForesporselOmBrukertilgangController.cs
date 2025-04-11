@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ForesporselOmBrukertilgang = HyFive.Modeller.V1.ForesporselOmBrukertilgang.ForesporselOmBrukertilgang;
+using UserAccessRequest = HyFive.Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -31,8 +31,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpGet("alleforesporsler")]
         [Authorize(HandhygienePolicy.Koordinator)]
-        [ProducesResponseType(typeof(List<ForesporselOmBrukertilgang>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ForesporselOmBrukertilgang>> HentAlleForesporsler([FromQuery] int institusjonId)
+        [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserAccessRequest>> HentAlleForesporsler([FromQuery] int institusjonId)
         {
             try
             {
@@ -55,8 +55,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpGet("foresporslersomventerpagodkjenning")]
         [Authorize(HandhygienePolicy.Koordinator)]
-        [ProducesResponseType(typeof(List<ForesporselOmBrukertilgang>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ForesporselOmBrukertilgang>> HentForesporslerSomVenterPaGodkjenning([FromQuery] int institusjonId)
+        [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserAccessRequest>> HentForesporslerSomVenterPaGodkjenning([FromQuery] int institusjonId)
         {
             try
             {
@@ -82,8 +82,8 @@ namespace HyFive.Admin.Controllers.V1
                 var response = await _mediator.Send(new OpprettBrukerFraForesporsel.Command()
                 {
                     ForespørselId = foresporselId,
-                    IdentPseudonym = bruker.IdentPseudonym,
-                    HPRNummer = bruker.HPRNummer
+                    IdentPseudonym = bruker.IdentityPseudonym,
+                    HPRNummer = bruker.HPRNumber
                 });
                 return Ok(response);
             }
@@ -104,8 +104,8 @@ namespace HyFive.Admin.Controllers.V1
                 var response = await _mediator.Send(new AvvisForesporsel.Command()
                 {
                     ForespørselId = foresporselId,
-                    IdentPseudonym = bruker.IdentPseudonym,
-                    HPRNummer = bruker.HPRNummer
+                    IdentPseudonym = bruker.IdentityPseudonym,
+                    HPRNummer = bruker.HPRNumber
                 });
                 return Ok(response);
             }

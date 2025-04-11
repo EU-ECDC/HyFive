@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Domene.Sesjon;
+using HyFive.Domene.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +20,9 @@ namespace HyFive.Tjenester.Bruker
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -34,15 +34,15 @@ namespace HyFive.Tjenester.Bruker
 
                 if (type == typeof(Koordinator))
                 {
-                    bruker = await _context.Bruker.OfType<Koordinator>()
+                    bruker = await _context.User.OfType<Koordinator>()
                         .FirstOrDefaultAsync(i => i.Id == command.BrukerId, cancellationToken: cancellationToken);
                 }
                 else if (type == typeof(Observator))
                 {
-                    bruker = await _context.Bruker.OfType<Observator>()
+                    bruker = await _context.User.OfType<Observator>()
                         .FirstOrDefaultAsync(i => i.Id == command.BrukerId, cancellationToken: cancellationToken);
 
-                    var harBrukerSesjoner = _context.Sesjon.Any(s => s.Observator.Id == bruker.Id);
+                    var harBrukerSesjoner = _context.Sesjon.Any(s => s.Observer.Id == bruker.Id);
 
                     if (harBrukerSesjoner)
                     {
@@ -50,7 +50,7 @@ namespace HyFive.Tjenester.Bruker
                     }
                 }
 
-                _context.Bruker.Remove(bruker);
+                _context.User.Remove(bruker);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return true;
@@ -66,8 +66,8 @@ namespace HyFive.Tjenester.Bruker
 
             private void SlettBeskyttelsesutstyrSesjonerOgObservasjoner(int brukerId)
             {
-                var sesjoner = _context.Sesjon.OfType<BeskyttelsesutstyrSesjon>()
-                    .Include(s => s.Observator)
+                var sesjoner = _context.Sesjon.OfType<ProtectiveEquipmentSession>()
+                    .Include(s => s.Observer)
                     .Include(s => s.Observasjoner)
                     .ThenInclude(o => o.Beskyttelsesutstyrliste)
                     .Where(s => s.Observator.Id == brukerId);
@@ -76,21 +76,21 @@ namespace HyFive.Tjenester.Bruker
                 {
                     var beskyttelsesutstyrListe = sesjon.Observasjoner.SelectMany(o => o.Beskyttelsesutstyrliste);
                     _context.RemoveRange(beskyttelsesutstyrListe);
-                    _context.BeskyttelsesutstyrObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.ProtectiveEquipmentObservation.RemoveRange(sesjon.Observasjoner);
                     _context.Sesjon.Remove(sesjon);
                 }
             }
 
             private void SlettHanskeSesjonerOgObservasjoner(int brukerId)
             {
-                var sesjoner = _context.Sesjon.OfType<HanskeSesjon>()
-                    .Include(s => s.Observator)
+                var sesjoner = _context.Sesjon.OfType<GloveSession>()
+                    .Include(s => s.Observer)
                     .Include(s => s.Observasjoner)
                     .Where(s => s.Observator.Id == brukerId);
 
                 foreach (var sesjon in sesjoner)
                 {
-                    _context.HanskeObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.GloveObservation.RemoveRange(sesjon.Observasjoner);
 
                     _context.Sesjon.Remove(sesjon);
                 }
@@ -98,14 +98,14 @@ namespace HyFive.Tjenester.Bruker
 
             private void SlettHandsmykkeSesjonerOgObservasjoner(int brukerId)
             {
-                var sesjoner = _context.Sesjon.OfType<HandsmykkeSesjon>()
-                    .Include(s => s.Observator)
+                var sesjoner = _context.Sesjon.OfType<HandJewelrySession>()
+                    .Include(s => s.Observer)
                     .Include(s => s.Observasjoner)
                     .Where(s => s.Observator.Id == brukerId).ToList();
 
                 foreach (var sesjon in sesjoner)
                 {
-                    _context.HandsmykkeObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.HandJewelryObservation.RemoveRange(sesjon.Observasjoner);
 
                     _context.Sesjon.Remove(sesjon);
                 }
@@ -113,8 +113,8 @@ namespace HyFive.Tjenester.Bruker
 
             private void SlettFireIndikasjonerSesjonerOgObservasjoner(int brukerId)
             {
-                var sesjoner = _context.Sesjon.OfType<FireIndikasjonerSesjon>()
-                    .Include(s => s.Observator)
+                var sesjoner = _context.Sesjon.OfType<FourIndicationsSession>()
+                    .Include(s => s.Observer)
                     .Include(s => s.Observasjoner)
                     .ThenInclude(o => o.Aktivitet)
                     .Where(s => s.Observator.Id == brukerId).ToList();
@@ -124,8 +124,8 @@ namespace HyFive.Tjenester.Bruker
                     var aktiviteter =
                         sesjon.Observasjoner.Select(o => o.Aktivitet).ToList();
 
-                    _context.Aktivitet.RemoveRange(aktiviteter);
-                    _context.FireIndikasjonerObservasjon.RemoveRange(sesjon.Observasjoner);
+                    _context.Activity.RemoveRange(aktiviteter);
+                    _context.FourIndicationsObservation.RemoveRange(sesjon.Observasjoner);
 
                     _context.Sesjon.Remove(sesjon);
                 }

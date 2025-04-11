@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Tjenester.Hanske.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,16 +17,16 @@ namespace HyFive.Tjenester.Hanske
     {
         public class Command : IRequest<bool>
         {
-            public HanskeObservasjon Observasjon { get; set; }
+            public GloveObservation Observasjon { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _context = context;
                 _mapper = mapper;
@@ -35,13 +35,13 @@ namespace HyFive.Tjenester.Hanske
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observasjon = await _context.HanskeObservasjon
-                    .Include(o => o.HanskeSesjon)
-                    .ThenInclude(s => s.Overforingstatus)
+                var observasjon = await _context.GloveObservation
+                    .Include(o => o.GloveSession)
+                    .ThenInclude(s => s.TransmissionStatus)
                     .Include(o => o.HandhygieneEtterHanskebrukType)
-                    .Include(o => o.HanskeMedIndikasjonTyper)
-                    .Include(o => o.HanskeUtenIndikasjonTyper)
-                    .Include(o => o.Rolle)
+                    .Include(o => o.IndicatedGloveTypes)
+                    .Include(o => o.GeneralPurposeGloveTypes)
+                    .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observasjon.Id), cancellationToken);
 
                 if (observasjon == null)
@@ -49,37 +49,37 @@ namespace HyFive.Tjenester.Hanske
                     throw new Exception("O-H-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
 
-                if (observasjon.HanskeSesjon.Overforingstatus?.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.HanskeSesjon.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
                 {
                     throw new Exception("O-H-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
 
                 var observasjonFraRequest =
-                    _mapper.Map<Domene.Observasjon.Hansker.HanskeObservasjon>(request.Observasjon);
+                    _mapper.Map<Domene.Observation.Gloves.GloveObservation>(request.Observasjon);
                 HanskeObservasjonValidator.ValidateObservasjon(observasjonFraRequest);
 
-                var hanskeMedIndikasjonTyper = _context.HanskeMedIndikasjonType.ToList();
-                var hanskeUtenIndikasjonTyper = _context.HanskeUtenIndikasjonType.ToList();
-                var handhygieneEtterHanskebrukTyper = _context.HandhygieneEtterHanskebrukType.ToList();
+                var hanskeMedIndikasjonTyper = _context.IndicatedGloveType.ToList();
+                var hanskeUtenIndikasjonTyper = _context.GeneralPurposeGloveType.ToList();
+                var handhygieneEtterHanskebrukTyper = _context.PostGloveHandHygiene.ToList();
                 
                 try
                 {
-                    observasjon.Registrerttidspunkt = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
 
-                    observasjon.BenyttetHanske = observasjonFraRequest.BenyttetHanske;
-                    observasjon.HanskeMedIndikasjonTyper = hanskeMedIndikasjonTyper
-                        .Where(hmi => observasjonFraRequest.HanskeMedIndikasjonTyper.Select(ohmi => ohmi.Id).Contains(hmi.Id))
+                    observasjon.GloveUsed = observasjonFraRequest.GloveUsed;
+                    observasjon.IndicatedGloveTypes = hanskeMedIndikasjonTyper
+                        .Where(hmi => observasjonFraRequest.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                         .ToList();
-                    observasjon.HanskeUtenIndikasjonTyper = hanskeUtenIndikasjonTyper
-                        .Where(hui => observasjonFraRequest.HanskeUtenIndikasjonTyper.Select(ohui => ohui.Id).Contains(hui.Id))
+                    observasjon.GeneralPurposeGloveTypes = hanskeUtenIndikasjonTyper
+                        .Where(hui => observasjonFraRequest.GeneralPurposeGloveTypes.Select(ohui => ohui.Id).Contains(hui.Id))
                         .ToList();
                     observasjon.HandhygieneEtterHanskebrukType = observasjonFraRequest.HandhygieneEtterHanskebrukType != null
                         ? handhygieneEtterHanskebrukTyper.FirstOrDefault(he => he.Id == observasjonFraRequest.HandhygieneEtterHanskebrukType.Id)
                         : null;
                     
-                    var rolleFraRequest = _context.Rolle.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
-                    observasjon.Rolle = rolleFraRequest;
-                    observasjon.Kommentar = request.Observasjon.Kommentar;
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
+                    observasjon.Role = rolleFraRequest;
+                    observasjon.Comment = request.Observasjon.Kommentar;
 
                     _context.Update(observasjon);
 

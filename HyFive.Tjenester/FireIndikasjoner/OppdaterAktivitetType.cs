@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,36 +11,36 @@ namespace HyFive.Tjenester.FireIndikasjoner
 {
     public class OppdaterAktivitetType
     {
-        public class Command : IRequest<AktivitetType>
+        public class Command : IRequest<ActivityType>
         {
-            public AktivitetType Aktivitettype { get; set; }
+            public ActivityType Aktivitettype { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, AktivitetType>
+        public class Handler : IRequestHandler<Command, ActivityType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
 
-            public async Task<AktivitetType> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<ActivityType> Handle(Command command, CancellationToken cancellationToken)
             {
-                var aktivitettype = await _context.AktivitetType
+                var aktivitettype = await _context.ActivityType
                     .FirstOrDefaultAsync(i => i.Id == command.Aktivitettype.Id, cancellationToken);
 
                 if (aktivitettype == null) throw new Exception($"Fant ikke aktivitettype med id {command.Aktivitettype.Id}");
 
-                aktivitettype.Navn = command.Aktivitettype.Navn;
+                aktivitettype.Name = command.Aktivitettype.Name;
 
-                _context.AktivitetType.Update(aktivitettype);
+                _context.ActivityType.Update(aktivitettype);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<AktivitetType>(aktivitettype);
+                var mapped = _mapper.Map<ActivityType>(aktivitettype);
                 return mapped;
             }
         }

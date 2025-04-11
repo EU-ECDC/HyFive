@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Bruker;
+using HyFive.Domain.Bruker;
+using HyFive.Modeller.V1.User;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Bruker;
@@ -10,7 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Bruker = HyFive.Modeller.V1.Bruker.Bruker;
+using User = HyFive.Modeller.V1.User.User;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -35,9 +35,9 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="bruker"></param>
         /// <returns></returns>
         [HttpPut("observator/oppdater")]
-        public async Task<IActionResult> OppdaterObservator([FromBody] Bruker bruker)
+        public async Task<IActionResult> OppdaterObservator([FromBody] User bruker)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
                 var oppdatertObservator = await _mediator.Send(new OppdaterObservator.Command() { Bruker = bruker });
                 return Ok(oppdatertObservator);
@@ -53,13 +53,13 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="bruker"></param>
         /// <returns></returns>
         [HttpPost("observator/opprett")]
-        [ProducesResponseType(typeof(Bruker), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Bruker>> OpprettObservator([FromBody] Bruker bruker)
+        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
+        public async Task<ActionResult<User>> OpprettObservator([FromBody] User bruker)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
                 var response = await _mediator.Send(new OpprettObservator.Command() { Bruker = bruker });
-                return CreatedAtRoute("HentObservatorer", new { id = response.InstitusjonId }, response);
+                return CreatedAtRoute("HentObservatorer", new { id = response.InstitutionId }, response);
             }
 
             return Unauthorized();
@@ -109,13 +109,13 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="bruker"></param>
         /// <returns></returns>
         [HttpPost("koordinator/opprett")]
-        [ProducesResponseType(typeof(Bruker), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Bruker>> OpprettKoordinator([FromBody] Bruker bruker)
+        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
+        public async Task<ActionResult<User>> OpprettKoordinator([FromBody] User bruker)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
                 var response = await _mediator.Send(new OpprettKoordinator.Command() { Bruker = bruker });
-                return CreatedAtRoute("HentKoordinatorer", new { id = response.InstitusjonId }, response);
+                return CreatedAtRoute("HentKoordinatorer", new { id = response.InstitutionId }, response);
             }
 
             return Unauthorized();
@@ -127,9 +127,9 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="bruker"></param>
         /// <returns></returns>
         [HttpPut("koordinator/oppdater")]
-        public async Task<ActionResult<Bruker>> OppdaterKoordinator([FromBody] Bruker bruker)
+        public async Task<ActionResult<User>> OppdaterKoordinator([FromBody] User bruker)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
                 var oppdatertBruker = await _mediator.Send(new OppdaterKoordinator.Command() { Bruker = bruker });
                 return oppdatertBruker;
@@ -171,8 +171,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpGet("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [ProducesResponseType(typeof(Bruker), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Bruker>> HentFhiAdmin()
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> HentFhiAdmin()
         {
             try
             {
@@ -192,14 +192,14 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpPost("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [ProducesResponseType(typeof(Bruker), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Bruker>> OpprettFhiAdmin([FromBody] OpprettFhiAdminRequest request)
+        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
+        public async Task<ActionResult<User>> OpprettFhiAdmin([FromBody] CreateFhiAdminRequest request)
         {
             try
             {
                 var response = await _mediator.Send(new OpprettFhiAdmin.Command() { Request = request });
                 return Ok(response);
-                //return CreatedAtRoute("HentFhiAdmin", new { id = response.InstitusjonId }, response);
+                //return CreatedAtRoute("HentFhiAdmin", new { id = response.InstitutionId }, response);
             }
             catch (Exception e)
             {
@@ -214,8 +214,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpPut("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [ProducesResponseType(typeof(Bruker), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Bruker>> OpprettFhiAdmin([FromBody] Bruker bruker)
+        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
+        public async Task<ActionResult<User>> OpprettFhiAdmin([FromBody] User bruker)
         {
             try
             {

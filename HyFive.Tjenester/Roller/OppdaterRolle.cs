@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,33 +11,33 @@ namespace HyFive.Tjenester.Roller
 {
     public class OppdaterRolle
     {
-        public class Command : IRequest<Modeller.V1.Observasjon.Rolle>
+        public class Command : IRequest<Modeller.V1.Observasjon.Role>
         {
             public OppdaterRolleRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Observasjon.Rolle>
+        public class Handler : IRequestHandler<Command, Modeller.V1.Observasjon.Role>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
 
-            public async Task<Modeller.V1.Observasjon.Rolle> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Observasjon.Role> Handle(Command command, CancellationToken cancellationToken)
             {
-                var rolle = await _context.Rolle.FirstOrDefaultAsync(i => i.Id == command.Request.Id);
-                rolle.Navn = command.Request.Navn;
-                rolle.Beskrivelse = command.Request.Beskrivelse;
+                var rolle = await _context.Role.FirstOrDefaultAsync(i => i.Id == command.Request.Id);
+                rolle.Name = command.Request.Navn;
+                rolle.Description = command.Request.Beskrivelse;
 
-                _context.Rolle.Update(rolle);
+                _context.Role.Update(rolle);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<Modeller.V1.Observasjon.Rolle>(rolle);
+                var mapped = _mapper.Map<Modeller.V1.Observasjon.Role>(rolle);
                 return mapped;
             }
         }

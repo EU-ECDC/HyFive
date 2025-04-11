@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Sesjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +19,9 @@ namespace HyFive.Tjenester.Institusjon
 
         public class Handler : IRequestHandler<Query, IEnumerable<string>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -30,11 +30,11 @@ namespace HyFive.Tjenester.Institusjon
             {
                 if (request.Sesjontype == SesjonType.Beskyttelsesutstyr)
                 {
-                    var predefinerteKommentarer = await _context.PredefinertKommentar
+                    var predefinerteKommentarer = await _context.PredefinedComments
                         .Where(pk =>
-                            pk.InstitusjonId == request.InstitusjonId &&
-                            pk.SesjonType == Domene.Sted.SesjonType.Beskyttelsesutstyr)
-                        .Select(pk => pk.Kommentar)
+                            pk.InstitutionId == request.InstitusjonId &&
+                            pk.SessionType == Domene.Place.SessionType.ProtectiveEquipment)
+                        .Select(pk => pk.Comment)
                         .ToListAsync(cancellationToken);
 
                     return predefinerteKommentarer;

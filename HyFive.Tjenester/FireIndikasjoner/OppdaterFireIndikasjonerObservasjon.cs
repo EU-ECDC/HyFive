@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Konstanter;
 using HyFive.Tjenester.FireIndikasjoner.Helpers;
 using MediatR;
@@ -22,11 +22,11 @@ namespace HyFive.Tjenester.FireIndikasjoner
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _context = context;
                 _mapper = mapper;
@@ -35,42 +35,42 @@ namespace HyFive.Tjenester.FireIndikasjoner
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observasjon = await _context.FireIndikasjonerObservasjon
-                    .Include(o => o.FireIndikasjonerSesjon)
-                    .ThenInclude(s => s.Overforingstatus)
-                    .Include(o => o.Indikasjonstyper)
-                    .Include(o => o.Aktivitet)
-                    .Include(o => o.Rolle)
+                var observasjon = await _context.FourIndicationsObservation
+                    .Include(o => o.FourIndicationsSession)
+                    .ThenInclude(s => s.TransmissionStatus)
+                    .Include(o => o.IndicationTypes)
+                    .Include(o => o.Activity)
+                    .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observasjon.Id), cancellationToken);
                 
                 if (observasjon == null)
                 {
                     throw new Exception("O-FI-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
-                if (observasjon.FireIndikasjonerSesjon.Overforingstatus?.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.FourIndicationsSession.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
                 {
                     throw new Exception("O-FI-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
 
-                FireIndikasjonerObservasjonValidator.ValidateObservasjon(_mapper.Map<Domene.Observasjon.FireIndikasjonerObservasjon>(request.Observasjon));
+                FireIndikasjonerObservasjonValidator.ValidateObservasjon(_mapper.Map<Domene.Observation.FourIndicationsObservation>(request.Observasjon));
 
                 try
                 {
-                    var indikasjonstyperFraRequest = _context.Indikasjon.Where(i => request.Observasjon.Indikasjonstyper.Select(oi => oi.Id).Contains(i.Id)).ToList();
-                    observasjon.Indikasjonstyper = indikasjonstyperFraRequest;
+                    var indikasjonstyperFraRequest = _context.IndicationTypes.Where(i => request.Observasjon.Indikasjonstyper.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    observasjon.IndicationTypes = indikasjonstyperFraRequest;
 
-                    var aktivitetTypeFraRequest = _context.AktivitetType.FirstOrDefault(a => a.Kode == request.Observasjon.Aktivitet.AktivitetType.Kode);
-                    observasjon.Aktivitet.AktivitetType = aktivitetTypeFraRequest;
-                    observasjon.Aktivitet.BenyttetHanske = request.Observasjon.Aktivitet.BenyttetHanske;
-                    observasjon.Aktivitet.SekunderBrukt = request.Observasjon.Aktivitet.SekunderBrukt;
-                    observasjon.Aktivitet.TidtakingBleUtfort = request.Observasjon.Aktivitet.TidtakingBleUtfort;
+                    var aktivitetTypeFraRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observasjon.Aktivitet.ActivityType.Code);
+                    observasjon.Activity.ActivityType = aktivitetTypeFraRequest;
+                    observasjon.Activity.GloveUsed = request.Observasjon.Aktivitet.GloveUsed;
+                    observasjon.Activity.TimeSpent = request.Observasjon.Aktivitet.TimeSpent;
+                    observasjon.Activity.TimeRecordingWasDone = request.Observasjon.Aktivitet.TimeRecordingWasDone;
 
-                    observasjon.Registrerttidspunkt = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
 
-                    var rolleFraRequest = _context.Rolle.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
-                    observasjon.Rolle = rolleFraRequest;
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
+                    observasjon.Role = rolleFraRequest;
 
-                    observasjon.Kommentar = request.Observasjon.Kommentar;
+                    observasjon.Comment = request.Observasjon.Kommentar;
 
                     _context.Update(observasjon);
 

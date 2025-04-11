@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -10,28 +10,28 @@ namespace HyFive.Tjenester.Handsmykke
 {
     public class HentHandsmykkeType
     {
-        public class Query : IRequest<Modeller.V1.Observasjon.HandsmykkeType>
+        public class Query : IRequest<Modeller.V1.Observasjon.HandJewelryType>
         {
             public int Id = 0;
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Observasjon.HandsmykkeType>
+        public class Handler : IRequestHandler<Query, Modeller.V1.Observasjon.HandJewelryType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
 
-            public async Task<Modeller.V1.Observasjon.HandsmykkeType> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Observasjon.HandJewelryType> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.HandsmykkeType
+                return await _context.HandJewelryType
                     .AsNoTracking()
-                    .ProjectTo<Modeller.V1.Observasjon.HandsmykkeType>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Modeller.V1.Observasjon.HandJewelryType>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
             }
         }

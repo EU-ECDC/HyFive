@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,30 +10,30 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 {
     public class HentInstitusjoner
     {
-        public class Query : IRequest<List<Modeller.V1.ForesporselOmBrukertilgang.InstitusjonForForesporselOmBrukertilgang>>
+        public class Query : IRequest<List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.ForesporselOmBrukertilgang.InstitusjonForForesporselOmBrukertilgang>>
+        public class Handler : IRequestHandler<Query, List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
         {
             private readonly int InstitusjonIdForFHI = 1;
 
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
-            public async Task<List<Modeller.V1.ForesporselOmBrukertilgang.InstitusjonForForesporselOmBrukertilgang>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var institusjoner = _context.Institusjon.AsNoTracking()
+                var institusjoner = _context.Institution.AsNoTracking()
                              .Where(i=> i.Id != InstitusjonIdForFHI)
-                             .Select(i => new Modeller.V1.ForesporselOmBrukertilgang.InstitusjonForForesporselOmBrukertilgang()
+                             .Select(i => new Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest()
                              {
                                  Id = i.Id, 
-                                 Navn = i.Navn
+                                 Name = i.Name
                              })
-                             .OrderBy(i=>i.Navn)
+                             .OrderBy(i=>i.Name)
                              .ToList();
 
                 return institusjoner;

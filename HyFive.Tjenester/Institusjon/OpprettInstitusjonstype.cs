@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,39 +11,39 @@ namespace HyFive.Tjenester.Institusjon
 {
     public class OpprettInstitusjonstype
     {
-        public class Command : IRequest<InstitusjonType>
+        public class Command : IRequest<InstitutionType>
         {
-            public OpprettInstitusjonstypeRequest Institusjonstype { get; set; }
+            public CreateInstitutionTypeRequest Institusjonstype { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, InstitusjonType>
+        public class Handler : IRequestHandler<Command, InstitutionType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<InstitusjonType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<InstitutionType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var exists = await _context.InstitusjonType.AnyAsync(r => r.Kode == request.Institusjonstype.Kode);
+                var exists = await _context.InstitutionType.AnyAsync(r => r.Code == request.Institusjonstype.Code);
                 if (exists)
                     throw new InvalidOperationException(
-                        $"Kode {request.Institusjonstype.Kode} er allerede i bruk. Vennligst prøv med en annen kode.");
+                        $"Kode {request.Institusjonstype.Code} er allerede i bruk. Vennligst prøv med en annen kode.");
 
-                var institusjonstype = new Domene.Sted.InstitusjonType
+                var institusjonstype = new Domene.Place.InstitutionType
                 {
-                    Kode = request.Institusjonstype.Kode,
-                    Navn = request.Institusjonstype.Navn
+                    Code = request.Institusjonstype.Code,
+                    Name = request.Institusjonstype.Name
                 };
 
-                _context.InstitusjonType.Add(institusjonstype);
+                _context.InstitutionType.Add(institusjonstype);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<InstitusjonType>(institusjonstype);
+                var mapped = _mapper.Map<InstitutionType>(institusjonstype);
                 return mapped;
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Hanske;
 using MediatR;
@@ -21,11 +21,11 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent HanskeMedIndikasjonTyper
+        /// Hent IndicatedGloveTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<HanskeMedIndikasjonType>> HentHanskeMedIndikasjonTyper()
+        public async Task<IEnumerable<IndicatedGloveType>> HentHanskeMedIndikasjonTyper()
         {
             var hanskeVedIndikasjonTyper = await _mediator.Send(new HentHanskeMedIndikasjonTyper.Query());
             return hanskeVedIndikasjonTyper;
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<HanskeMedIndikasjonType> OppdaterHanskeMedIndikasjonType([FromBody] HanskeMedIndikasjonType hanskeMedIndikasjonType)
+        public async Task<IndicatedGloveType> OppdaterHanskeMedIndikasjonType([FromBody] IndicatedGloveType hanskeMedIndikasjonType)
         {
             var erOppdatert = await _mediator.Send(new OppdaterHanskeMedIndikasjonType.Command
             {

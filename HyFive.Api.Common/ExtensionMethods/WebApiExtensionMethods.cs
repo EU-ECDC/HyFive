@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.FireIndikasjoner;
-using HyFive.Tjenester.Rapporter.FireIndikasjoner;
-using HyFive.Tjenester.Rapporter.Handsmykker;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.FourIndications;
+using HyFive.Services.Reports.FourIndications;
+using HyFive.Services.Reports.HandJewelry;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,38 +12,38 @@ namespace HyFive.Api.Common.ExtensionMethods
 {
     public static class WebApiExtensionMethods
     {
-        public static IServiceCollection LeggTilTjenester(this IServiceCollection tjenester,
-            IConfiguration configuration, string apitittel, Type apiType)
+        public static IServiceCollection AddServices(this IServiceCollection services,
+            IConfiguration configuration, string apiTitle, Type apiType)
         {
-            tjenester.LeggTilSwagger(apitittel, apiType);
-            tjenester.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(HentMediatRAssemblies()));
-            tjenester.AddAutoMapper(HentAutomapperAssemblies());
-            tjenester.AddScoped<FireIndikasjonerPdfRapportService>();
-            tjenester.AddScoped<HandsmykkePdfRapportService>();
+            services.AddSwagger(apiTitle, apiType);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(GetMediatRAssemblies()));
+            services.AddAutoMapper(GetAutomapperAssemblies());
+            services.AddScoped<FourIndicationsPdfReportService>();
+            services.AddScoped<HandJewelryPdfReportService>();
 
-            return tjenester;
+            return services;
         }
 
-        public static Assembly[] HentAutomapperAssemblies()
+        public static Assembly[] GetAutomapperAssemblies()
         {
             return new[]
             {
-                Assembly.GetAssembly(typeof(LagreSesjon)), // HyFive.Tjenester
-                Assembly.GetAssembly(typeof(FireIndikasjonerSesjon)), // HyFive.Domene
-                Assembly.GetAssembly(typeof(Modeller.V1.Sesjon.FireIndikasjonerSesjon)), // HyFive.Modeller
+                Assembly.GetAssembly(typeof(SaveSession)), // HyFive.Services
+                Assembly.GetAssembly(typeof(FourIndicationsSession)), // HyFive.Domain
+                Assembly.GetAssembly(typeof(Modeller.V1.Session.FourIndicationsSession)), // HyFive.Models
             };
         }
 
         /// <summary>
-        /// Last alle assemblies som trengs for MediatR
+        /// Load all assemblies needed for MediatR
         /// </summary>
         /// <returns></returns>
-        public static Assembly[] HentMediatRAssemblies()
+        public static Assembly[] GetMediatRAssemblies()
         {
             return new[]
             {
-                Assembly.GetAssembly(typeof(LagreSesjon)),                      // HyFive.Tjenester
-                Assembly.GetAssembly(typeof(HentHandsmykkeRapportForAvdeling)) // HyFive.Tjenester.Rapporter
+                Assembly.GetAssembly(typeof(SaveSession)),                      // HyFive.Services
+                Assembly.GetAssembly(typeof(GetHandJewelryReportForDepartment)) // HyFive.Services.Reports
             };
         }
     }

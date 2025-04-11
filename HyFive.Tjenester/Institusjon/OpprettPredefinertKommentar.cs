@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Modeller.V1.Sesjon;
 using MediatR;
-using PredefinertKommentar = HyFive.Domene.Sted.PredefinertKommentar;
+using PredefinertKommentar = HyFive.Domene.Place.PredefinedComments;
 
 namespace HyFive.Tjenester.Institusjon
 {
@@ -12,7 +12,7 @@ namespace HyFive.Tjenester.Institusjon
     {
         public class Command : IRequest<bool>
         {
-            public OpprettPredefinertKommentarRequest NyPredefinertKommentar { get; set; }
+            public CreatePredefinedCommentRequest NyPredefinertKommentar { get; set; }
             public int Institusjonid { get; set; }
             public SesjonType SesjonType { get; set; } = SesjonType.Beskyttelsesutstyr;
 
@@ -20,9 +20,9 @@ namespace HyFive.Tjenester.Institusjon
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -30,9 +30,9 @@ namespace HyFive.Tjenester.Institusjon
             {
                 var kommentar = new PredefinertKommentar
                 {
-                    InstitusjonId = request.Institusjonid,
-                    Kommentar = request.NyPredefinertKommentar.Kommentar,
-                    SesjonType = (Domene.Sted.SesjonType)request.SesjonType
+                    InstitutionId = request.Institusjonid,
+                    Comment = request.NyPredefinertKommentar.Comment,
+                    SessionType = (Domene.Place.SessionType)request.SesjonType
                 };
 
                 _context.Add(kommentar);

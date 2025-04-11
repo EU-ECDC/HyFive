@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,24 +13,24 @@ namespace HyFive.Tjenester.Institusjon
 {
     public class HentInstitusjonerForKoordinator
     {
-        public class Query : IRequest<Modeller.V1.Institusjon.InstitusjonRapport[]>
+        public class Query : IRequest<Modeller.V1.Institution.InstitutionReport[]>
         {
             public string KoordinatorHprNummer { get; set; }
             public string KoordinatorPseudonym { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Institusjon.InstitusjonRapport[]>
+        public class Handler : IRequestHandler<Query, Modeller.V1.Institution.InstitutionReport[]>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institusjon.InstitusjonRapport[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 if (string.IsNullOrEmpty(request.KoordinatorHprNummer) && string.IsNullOrEmpty(request.KoordinatorPseudonym))
                 {
@@ -38,11 +38,11 @@ namespace HyFive.Tjenester.Institusjon
                         $"Koordinators HPR-nummer må være større enn 0, eller KoordinatorPseudonym må være utfylt. HPR-nummer var: {request.KoordinatorHprNummer}. ");
                 }
                 
-                var query = _context.Institusjon
+                var query = _context.Institution
                     .AsNoTracking()
-                    .Include(i => i.Avdelinger)
+                    .Include(i => i.Departments)
                     .ThenInclude(a => a.Roller)
-                    .Include(i => i.Brukere)
+                    .Include(i => i.Users)
                     .Include(i => i.PredefinerteKommmentarer)
                     .Include(i => i.Institusjontype)
                     .Where(i => i.Brukere
@@ -53,7 +53,7 @@ namespace HyFive.Tjenester.Institusjon
                     );
 
                 var result = await query
-                    .ProjectTo<Modeller.V1.Institusjon.InstitusjonRapport>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Modeller.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
                 return result;
             }

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 
 namespace HyFive.Tjenester.Sesjon
@@ -19,9 +19,9 @@ namespace HyFive.Tjenester.Sesjon
 
         public class Handler : IRequestHandler<Command, OppdaterSesjonRespons>
         {
-            private readonly HandhygieneContext _databaseContext;
+            private readonly HandHygieneContext _databaseContext;
 
-            public Handler(HandhygieneContext databaseContext)
+            public Handler(HandHygieneContext databaseContext)
             {
                 _databaseContext = databaseContext;
             }
@@ -30,7 +30,7 @@ namespace HyFive.Tjenester.Sesjon
             {
                 var respons = new OppdaterSesjonRespons();
 
-                var sesjon = _databaseContext.Sesjon.FirstOrDefault(s => s.Id == request.SesjonId && s.Avdeling.InstitusjonId == request.InstitusjonId);
+                var sesjon = _databaseContext.Sesjon.FirstOrDefault(s => s.Id == request.SesjonId && s.Department.InstitusjonId == request.InstitusjonId);
 
                 if (sesjon == null)
                 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using Reinforced.Typings.Attributes;
 
 namespace HyFive.Modeller.V1.Sesjon
@@ -10,7 +10,7 @@ namespace HyFive.Modeller.V1.Sesjon
     public abstract class Sesjon<TObservasjon>
     {
         public string Id { get; set; }
-        public Avdeling Avdeling { get; set; }
+        public Department Avdeling { get; set; }
         [TsProperty(Type = "Date")]
         public DateTime Starttidspunkt { get; set; }
 

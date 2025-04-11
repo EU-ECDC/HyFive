@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Tjenester.Autentisering.Bruker;
 using Fhi.HelseId.Web.Services;
@@ -10,62 +10,62 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Tjenester.Bruker;
-using Bruker = HyFive.Modeller.V1.Bruker.Bruker;
+using Bruker = HyFive.Modeller.V1.User.User;
 
 namespace HyFive.Tjenester.BrukerTjenester
 {
     public class OppdaterFhiAdmin
     {
-        public class Command : IRequest<Modeller.V1.Bruker.Bruker>
+        public class Command : IRequest<Modeller.V1.User.User>
         {
-            public Modeller.V1.Bruker.Bruker Bruker { get; set; }
+            public Modeller.V1.User.User Bruker { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Bruker.Bruker>
+        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ICurrentUser _currentUser;
 
-            public Handler(HandhygieneContext context, IMapper mapper, ICurrentUser currentUser)
+            public Handler(HandHygieneContext context, IMapper mapper, ICurrentUser currentUser)
             {
                 _context = context;
                 _mapper = mapper;
                 _currentUser = currentUser;
             }
 
-            public async Task<Modeller.V1.Bruker.Bruker> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrWhiteSpace(command.Bruker.IdentPseudonym))
+                if (string.IsNullOrWhiteSpace(command.Bruker.IdentityPseudonym))
                 {
                     throw new Exception("Mangler pseudonym.");
                 }
-                if (!BrukerValidator.ErGyldigIdentPseudonym(command.Bruker.IdentPseudonym))
+                if (!BrukerValidator.ErGyldigIdentPseudonym(command.Bruker.IdentityPseudonym))
                 {
                     throw new Exception("Pseudonym er ikke gyldig.");
                 }
 
-                var bruker = await _context.Bruker.OfType<FhiAdmin>().FirstOrDefaultAsync(i => i.Id == command.Bruker.Id);
+                var bruker = await _context.User.OfType<FhiAdmin>().FirstOrDefaultAsync(i => i.Id == command.Bruker.Id);
                 if (bruker == null)
                     throw new Exception($"Fant ikke bruker med Id {command.Bruker.Id}");
                 if (_currentUser.PidPseudonym == bruker.IdentPseudonym)
                     throw new Exception($"Bruker kan ikke endre på seg selv.");
-                if (bruker.IdentPseudonym != command.Bruker.IdentPseudonym)
+                if (bruker.IdentPseudonym != command.Bruker.IdentityPseudonym)
                 {
-                    var eksisterendePseudonym = await _context.Bruker.OfType<FhiAdmin>().AnyAsync(x => x.IdentPseudonym == command.Bruker.IdentPseudonym);
+                    var eksisterendePseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentPseudonym == command.Bruker.IdentityPseudonym);
                     if (eksisterendePseudonym)
                         throw new Exception("Bruker kan ikke oppdateres. Pseudonymet er allerede i bruk.");
                 }
 
-                bruker.Fornavn = command.Bruker.Fornavn;
-                bruker.Etternavn = command.Bruker.Etternavn;
-                bruker.IdentPseudonym = command.Bruker.IdentPseudonym;
-                bruker.ErDeaktivert = command.Bruker.ErDeaktivert;
+                bruker.Fornavn = command.Bruker.FirstName;
+                bruker.Etternavn = command.Bruker.Surname;
+                bruker.IdentPseudonym = command.Bruker.IdentityPseudonym;
+                bruker.ErDeaktivert = command.Bruker.IsDisabled;
 
-                _context.Bruker.Update(bruker);
+                _context.User.Update(bruker);
                 await _context.SaveChangesAsync();
 
-                var mapped = _mapper.Map<Modeller.V1.Bruker.Bruker>(bruker);
+                var mapped = _mapper.Map<Modeller.V1.User.User>(bruker);
                 return mapped;
             }
         }

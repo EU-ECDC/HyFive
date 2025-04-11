@@ -1,7 +1,7 @@
-﻿using HyFive.Domene.Bruker;
+﻿using HyFive.Domain.Bruker;
 using HyFive.Modeller.V1;
-using HyFive.Modeller.V1.Bruker;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.User;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Helseforetak;
@@ -30,8 +30,8 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpGet]
-        [ProducesResponseType(typeof(List<Helseforetak>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Helseforetak>>> HentAlleHelseforetak()
+        [ProducesResponseType(typeof(List<HealthcareEnterprise>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<HealthcareEnterprise>>> HentAlleHelseforetak()
         {
             var alleHelseforetak = await _mediator.Send(new HentAlleHelseforetak.Query());
             return Ok(alleHelseforetak);
@@ -40,7 +40,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPost("opprett")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> OpprettEtHelseforetak([FromBody] OpprettHelseforetakRequest helseforetakRequest)
+        public async Task<ActionResult<bool>> OpprettEtHelseforetak([FromBody] CreateHealthEnterpriseRequest helseforetakRequest)
         {
             var erOpprettet = await _mediator.Send(new OpprettHelseforetak.Command
             {
@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> OppdaterHeleforetaket([FromBody] Helseforetak helseforetak)
+        public async Task<ActionResult<bool>> OppdaterHeleforetaket([FromBody] HealthcareEnterprise helseforetak)
         {
             var erOppdatert = await _mediator.Send(new OppdaterHelseforetaket.Command
             {
@@ -63,7 +63,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [HttpGet("{id}/koordinatorer")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<KoordinatorForHelseforetak[]>> HentKoordinatorForHelseforetak(int id)
+        public async Task<ActionResult<HealthcareInstitutionCoordinator[]>> HentKoordinatorForHelseforetak(int id)
         {
             if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
             {
@@ -78,7 +78,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet("{id}/institusjoner")]
-        public async Task<ActionResult<InstitusjonRapport[]>> HentInstitiusjonerForHelseforetak(int id)
+        public async Task<ActionResult<InstitutionReport[]>> HentInstitiusjonerForHelseforetak(int id)
         {
             if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
             {
@@ -94,7 +94,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [HttpPut("{id}/oppdaterkoordinator")]
         [ProducesResponseType(typeof(Status), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Status>> OppdaterKoordinator([FromBody] KoordinatorForHelseforetak koordinator, int id)
+        public async Task<ActionResult<Status>> OppdaterKoordinator([FromBody] HealthcareInstitutionCoordinator koordinator, int id)
         {
             if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
             {
@@ -111,7 +111,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [HttpPost("{id}/opprettkoordinator")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Status>> OpprettKoordinator([FromBody] KoordinatorForHelseforetak koordinator, int id)
+        public async Task<ActionResult<Status>> OpprettKoordinator([FromBody] HealthcareInstitutionCoordinator koordinator, int id)
         {
             if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
             {

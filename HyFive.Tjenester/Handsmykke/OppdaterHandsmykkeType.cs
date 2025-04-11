@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Observasjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,37 +11,37 @@ namespace HyFive.Tjenester.Handsmykke
 {
     public class OppdaterHandsmykkeType
     {
-        public class Command : IRequest<HandsmykkeType>
+        public class Command : IRequest<HandJewelryType>
         {
-            public HandsmykkeType Handsmykketype { get; set; }
+            public HandJewelryType Handsmykketype { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, HandsmykkeType>
+        public class Handler : IRequestHandler<Command, HandJewelryType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
 
-            public async Task<HandsmykkeType> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<HandJewelryType> Handle(Command command, CancellationToken cancellationToken)
             {
-                var handsmykketype = await _context.HandsmykkeType
+                var handsmykketype = await _context.HandJewelryType
                     .FirstOrDefaultAsync(i => i.Id == command.Handsmykketype.Id, cancellationToken);
 
                 if (handsmykketype == null) throw new Exception($"Fant ikke handsmykketype med id {command.Handsmykketype.Id}");
 
-                handsmykketype.Navn = command.Handsmykketype.Navn;
+                handsmykketype.Name = command.Handsmykketype.Name;
 
-                _context.HandsmykkeType.Update(handsmykketype);
+                _context.HandJewelryType.Update(handsmykketype);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<HandsmykkeType>(handsmykketype);
+                var mapped = _mapper.Map<HandJewelryType>(handsmykketype);
                 return mapped;
             }
         }

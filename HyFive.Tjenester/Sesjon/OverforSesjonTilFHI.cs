@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Konstanter;
 using HyFive.Modeller.V1.Oversikt;
 using HyFive.Modeller.V1.Sesjon;
@@ -15,37 +15,37 @@ namespace HyFive.Tjenester.Sesjon
 {
     public class OverforSesjonTilFHI
     {
-        public class Query : IRequest<SesjonOversiktRapport>
+        public class Query : IRequest<SessionOverviewReport>
         {
             public Guid SesjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, SesjonOversiktRapport>
+        public class Handler : IRequestHandler<Query, SessionOverviewReport>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<SesjonOversiktRapport> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<SessionOverviewReport> Handle(Query request, CancellationToken cancellationToken)
             {
                 var sesjon = await _context.Sesjon
-                    .Include(s => s.Avdeling)
-                    .Include(s => s.Observator)
-                    .Include(s => s.Overforingstatus)
+                    .Include(s => s.Department)
+                    .Include(s => s.Observer)
+                    .Include(s => s.TransmissionStatus)
                     .FirstOrDefaultAsync(x => x.Id == request.SesjonId);
 
-                var overfortTilFHI = await _context.OverforingstatusType.FirstOrDefaultAsync(x => x.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi);
+                var overfortTilFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == OverforingstatusTypeKonstanter.OverfortTilFhi);
 
-                sesjon.Overforingstatus = overfortTilFHI;
+                sesjon.TransmissionStatus = overfortTilFHI;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<Domene.Sesjon.Sesjon, SesjonOversiktRapport>(sesjon);
+                return _mapper.Map<Domene.Session.Session, SessionOverviewReport>(sesjon);
             }
         }
     }

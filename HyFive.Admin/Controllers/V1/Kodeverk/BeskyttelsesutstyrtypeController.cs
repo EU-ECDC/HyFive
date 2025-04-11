@@ -26,7 +26,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<BeskyttelsesutstyrType>> HentBeskyttelsesutstyrTyper()
+        public async Task<IEnumerable<ProtectiveEquipmentType>> HentBeskyttelsesutstyrTyper()
         {
             return await _mediator.Send(new HentBeskyttelsesutstyrTyper.Query());
         }
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPut("oppdater")]
-        public async Task<BeskyttelsesutstyrType> OppdaterBeskyttelsesutstyrType([FromBody] BeskyttelsesutstyrType utstyrType)
+        public async Task<ProtectiveEquipmentType> OppdaterBeskyttelsesutstyrType([FromBody] ProtectiveEquipmentType utstyrType)
         {
             return await _mediator.Send(new OppdaterBeskyttelsesutstyrType.Command
             {
@@ -50,7 +50,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="utstyrTypeId"></param>
         /// <returns></returns>
         [HttpGet("feilbruktyper", Name = "HentFeilbrukTyper")]
-        public async Task<List<FeilbrukType>> HentFeilbrukTyper([FromQuery] int utstyrTypeId)
+        public async Task<List<MisuseType>> HentFeilbrukTyper([FromQuery] int utstyrTypeId)
         {
             return await _mediator.Send(new HentFeilbrukTyper.Query
             {
@@ -65,7 +65,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="feilbrukType"></param>
         /// <returns></returns>
         [HttpPut("feilbruktyper/oppdater")]
-        public async Task<FeilbrukType> OppdaterFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] FeilbrukType feilbrukType)
+        public async Task<MisuseType> OppdaterFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] MisuseType feilbrukType)
         {
             return await _mediator.Send(new OppdaterFeilbrukType.Command
             {

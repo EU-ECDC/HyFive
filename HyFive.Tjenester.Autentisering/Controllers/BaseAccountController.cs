@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HyFive.Modeller.V1.Autentisering;
+using HyFive.Modeller.V1.Authentication;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Konfigurasjon;
 using Fhi.HelseId.Common.Identity;
@@ -34,7 +34,7 @@ namespace HyFive.Tjenester.Autentisering.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<InnloggetBruker>> Get()
+        public async Task<ActionResult<LoggedInUser>> Get()
         {
             if (_brukerService.ErBrukerLoggetInn())
             {

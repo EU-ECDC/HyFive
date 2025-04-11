@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,10 +19,10 @@ namespace HyFive.Tjenester.Hanske
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, ILogger<Handler> logger)
             {
                 _context = context;
                 _logger = logger;
@@ -32,7 +32,7 @@ namespace HyFive.Tjenester.Hanske
             {
                 try
                 {
-                    var observasjon = await _context.HanskeObservasjon
+                    var observasjon = await _context.GloveObservation
                         .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservasjonId));
 
                     if (observasjon == null)
@@ -40,11 +40,11 @@ namespace HyFive.Tjenester.Hanske
                         throw new Exception("S-H-01: Kunne ikke finne hanske-observasjon med ID " + request.ObservasjonId);
                     }
 
-                    var sesjon = _context.HanskeSesjon
-                        .Include(s => s.Observasjoner)
+                    var sesjon = _context.GloveSession
+                        .Include(s => s.Observations)
                         .FirstOrDefault(s => s.Id == new Guid(request.SesjonId));
 
-                    if (sesjon != null && sesjon.Observasjoner.Count == 1 && sesjon.Observasjoner.Select(o => o.Id).Contains(observasjon.Id))
+                    if (sesjon != null && sesjon.Observations.Count == 1 && sesjon.Observations.Select(o => o.Id).Contains(observasjon.Id))
                     {
                         _context.Remove(sesjon);
                     }

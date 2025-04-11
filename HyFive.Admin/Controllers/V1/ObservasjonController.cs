@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Konstanter;
 using HyFive.Modeller.V1.Observasjon;
 using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Beskyttelsesutstyr;
@@ -36,11 +36,11 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Lag rapport for institusjon(er) <see cref="InstitusjonOversiktRapport"/>
+        /// Lag rapport for institusjon(er) <see cref="InstitutionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
         [HttpGet("institusjonerMedSesjoner")]
-        public async Task<ActionResult<IEnumerable<InstitusjonOversiktRapport>>> HentInstitusjonerMedSesjoner(
+        public async Task<ActionResult<IEnumerable<InstitutionOverviewReport>>> HentInstitusjonerMedSesjoner(
             [FromQuery] string institusjonid,
             [FromQuery] SesjonType? sesjontype,
             [FromQuery] DateTime? fradato,
@@ -81,12 +81,12 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent alle sesjonene til en avdeling <see cref="SesjonOversiktRapport"/>
+        /// Hent alle sesjonene til en avdeling <see cref="SessionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
 
         [HttpGet("avdeling")]
-        public async Task<ActionResult<IEnumerable<SesjonOversiktRapport>>> HentSesjonerTilAvdeling(
+        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> HentSesjonerTilAvdeling(
             [FromQuery] int avdelingsid,
             [FromQuery] SesjonType? sesjontype,
             [FromQuery] DateTime? fradato,
@@ -128,12 +128,12 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent alle sesjonene til en institusjon <see cref="SesjonOversiktRapport"/>
+        /// Hent alle sesjonene til en institusjon <see cref="SessionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Koordinator)]
         [HttpGet("institusjon")]
-        public async Task<ActionResult<IEnumerable<SesjonOversiktRapport>>> HentSesjonerTilInstitusjon(
+        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> HentSesjonerTilInstitusjon(
             [FromQuery] int institusjonid,
             [FromQuery] int? observatorid,
             [FromQuery] SesjonType? sesjontype,
@@ -162,7 +162,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Koordinator)]
         [HttpGet("overfor")]
-        public async Task<ActionResult<SesjonOversiktRapport>> OverforSesjonTilFHI(
+        public async Task<ActionResult<SessionOverviewReport>> OverforSesjonTilFHI(
             [FromQuery] int institusjonid,
             [FromQuery] Guid sesjonId)
         {
@@ -280,7 +280,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.Koordinator)]
         [HttpPut("hanske/oppdater")]
-        public async Task<ActionResult<bool>> OppdaterHanskeObservasjon([FromBody] HanskeObservasjon observasjon)
+        public async Task<ActionResult<bool>> OppdaterHanskeObservasjon([FromBody] GloveObservation observasjon)
         {
             if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
             {
@@ -329,7 +329,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.Koordinator)]
         [HttpPut("beskyttelsesutstyr/oppdater")]
-        public async Task<ActionResult<bool>> OppdaterBeskyttelsesutstyrObservasjon([FromBody] BeskyttelsesutstyrObservasjon observasjon)
+        public async Task<ActionResult<bool>> OppdaterBeskyttelsesutstyrObservasjon([FromBody] ProtectiveEquipmentObservation observasjon)
         {
             if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
             {
@@ -378,7 +378,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.Koordinator)]
         [HttpGet("beskyttelsesutstyr")]
-        public async Task<ActionResult<BeskyttelsesutstyrObservasjon>> HentBeskyttelsesutstyr([FromQuery] string observasjonId, [FromQuery] string sesjonId)
+        public async Task<ActionResult<ProtectiveEquipmentObservation>> HentBeskyttelsesutstyr([FromQuery] string observasjonId, [FromQuery] string sesjonId)
         {
             if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
             {

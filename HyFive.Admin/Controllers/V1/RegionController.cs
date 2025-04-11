@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Tjenester.Autentisering.Requirements;
 using HyFive.Tjenester.Region;
 using MediatR;
@@ -51,7 +51,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="nyRegionsType"></param>
         /// <returns></returns>
         [HttpPost("opprett")]
-        public async Task<ActionResult<Region>> OpprettRegionType([FromBody] OpprettRegionRequest nyRegionsType)
+        public async Task<ActionResult<Region>> OpprettRegionType([FromBody] CreateRegionRequest nyRegionsType)
         {
             try
             {

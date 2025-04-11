@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,10 +19,10 @@ namespace HyFive.Tjenester.Handsmykke
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(HandhygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, ILogger<Handler> logger)
             {
                 _context = context;
                 _logger = logger;
@@ -32,9 +32,9 @@ namespace HyFive.Tjenester.Handsmykke
             {
                 try
                 {
-                    var observasjon = await _context.HandsmykkeObservasjon
-                        .Include(o => o.Handsmykker)
-                        .Include(o => o.Rolle)
+                    var observasjon = await _context.HandJewelryObservation
+                        .Include(o => o.HandJewelry)
+                        .Include(o => o.Role)
                         .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservasjonId));
 
                     if (observasjon == null)
@@ -42,14 +42,14 @@ namespace HyFive.Tjenester.Handsmykke
                         throw new Exception("S-HS-03: Kunne ikke finne observasjon med ID " + request.ObservasjonId);
                     }
 
-                    var handsmykker = _context.HandsmykkeType.Where(i => observasjon.Handsmykker.Select(oi => oi.Id).Contains(i.Id)).ToList();
-                    observasjon.Handsmykker = handsmykker;
+                    var handsmykker = _context.HandJewelryType.Where(i => observasjon.HandJewelry.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    observasjon.HandJewelry = handsmykker;
 
-                    var sesjon = _context.HandsmykkeSesjon
-                        .Include(s => s.Observasjoner)
+                    var sesjon = _context.HandJewelrySession
+                        .Include(s => s.Observations)
                         .FirstOrDefault(s => s.Id == new Guid(request.SesjonId));
 
-                    if (sesjon != null && sesjon.Observasjoner.Count == 1 && sesjon.Observasjoner.Select(o => o.Id).Contains(observasjon.Id))
+                    if (sesjon != null && sesjon.Observations.Count == 1 && sesjon.Observations.Select(o => o.Id).Contains(observasjon.Id))
                     {
                         _context.Remove(sesjon);
                     }

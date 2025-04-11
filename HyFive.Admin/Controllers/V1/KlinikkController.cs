@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Requirements;
 using MediatR;
@@ -31,8 +31,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="institusjonsId"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Klinikk), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Klinikk>> HentKlinikk(int id, int institusjonsId)
+        [ProducesResponseType(typeof(Clinic), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Clinic>> HentKlinikk(int id, int institusjonsId)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonsId))
             {
@@ -48,8 +48,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="institusjonId"></param>
         /// <returns></returns>
         [HttpGet("institusjon/{institusjonId}")]
-        [ProducesResponseType(typeof(IEnumerable<Klinikk>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Klinikk>>> HentKlinikkerForInstitusjon(int institusjonId)
+        [ProducesResponseType(typeof(IEnumerable<Clinic>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<Clinic>>> HentKlinikkerForInstitusjon(int institusjonId)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
             {
@@ -65,10 +65,10 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPost("opprett")]
-        [ProducesResponseType(typeof(Klinikk), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Klinikk>> OpprettKlinikk([FromBody] Klinikk klinikk)
+        [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Clinic>> OpprettKlinikk([FromBody] Clinic klinikk)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitutionId))
             {
                 return await _mediator.Send(new OpprettKlinikk.Command() { Klinikk = klinikk });
             }
@@ -81,10 +81,10 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPut("oppdater")]
-        [ProducesResponseType(typeof(Klinikk), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Klinikk>> OppdaterKlinikk([FromBody] Klinikk klinikk)
+        [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Clinic>> OppdaterKlinikk([FromBody] Clinic klinikk)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitutionId))
             {
                 return await _mediator.Send(new OppdaterKlinikk.Command() { Klinikk = klinikk });
             }

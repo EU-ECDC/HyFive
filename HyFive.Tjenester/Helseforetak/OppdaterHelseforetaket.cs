@@ -1,4 +1,4 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -11,26 +11,26 @@ namespace HyFive.Tjenester.Helseforetak
     {
         public class Command : IRequest<bool>
         {
-            public Modeller.V1.Institusjon.Helseforetak Helseforetak { get; set; }
+            public Modeller.V1.Institution.HealthcareEnterprise Helseforetak { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var helseforetak = _context.Helseforetak.Include(h => h.RegionaltHelseforetak)
+                var helseforetak = _context.HealthcareProvider.Include(h => h.RegionaltHealthcareProvider)
                                                         .FirstOrDefault(h => h.Id == command.Helseforetak.Id);
 
-                helseforetak.Navn = command.Helseforetak.Navn;
-                helseforetak.RegionaltHelseforetak = _context.RegionaltHelseforetak.Find(command.Helseforetak.RegionaltHelseforetakId);
+                helseforetak.Name = command.Helseforetak.Name;
+                helseforetak.RegionaltHealthcareProvider = _context.RegionaltHealthcareProvider.Find(command.Helseforetak.RegionaltHelseforetakId);
 
-                _context.Helseforetak.Update(helseforetak);
+                _context.HealthcareProvider.Update(helseforetak);
                 await _context.SaveChangesAsync();
                 return true;
             }

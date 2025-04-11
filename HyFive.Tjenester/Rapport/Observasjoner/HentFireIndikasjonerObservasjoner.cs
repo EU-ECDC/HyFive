@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Modeller.V1.Rapport.FireIndikasjoner;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +28,11 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
         public class Handler : IRequestHandler<Query, IEnumerable<FireIndikasjonerObservasjonRapport>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
@@ -40,9 +40,9 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
             public async Task<IEnumerable<FireIndikasjonerObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
             {
-                var queryable = _context.FireIndikasjonerObservasjon
-                    .Include(fo => fo.FireIndikasjonerSesjon).ThenInclude(fo => fo.Observator)
-                    .Include(fo => fo.FireIndikasjonerSesjon).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
+                var queryable = _context.FourIndicationsObservation
+                    .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.Observer)
+                    .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.Avdeling).ThenInclude(a => a.Institusjon).ThenInclude(i => i.Kommune)
                     .Include(fo => fo.FireIndikasjonerSesjon).ThenInclude(fo => fo.Overforingstatus)
                     .Include(fo => fo.Aktivitet)
                     .Include(fo => fo.Indikasjonstyper)

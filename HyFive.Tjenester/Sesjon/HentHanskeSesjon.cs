@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester.Autentisering.Bruker;
@@ -22,11 +22,11 @@ namespace HyFive.Tjenester.Sesjon
 
         public class Handler : IRequestHandler<Query, HanskeSesjon>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly IBrukerService _brukerService;
 
-            public Handler(HandhygieneContext context, IMapper mapper, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, IBrukerService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -35,10 +35,10 @@ namespace HyFive.Tjenester.Sesjon
 
             public async Task<HanskeSesjon> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.HanskeSesjon
+                var sesjon = await _context.GloveSession
                     .AsNoTracking()
-                    .Include(s => s.Avdeling)
-                    .Include(s => s.Observator).ThenInclude(r => r.Institusjon)
+                    .Include(s => s.Department)
+                    .Include(s => s.Observer).ThenInclude(r => r.Institusjon)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeMedIndikasjonTyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeUtenIndikasjonTyper)

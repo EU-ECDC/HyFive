@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Modeller.V1.Institution;
 using HyFive.Tjenester.Avdeling;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -33,8 +33,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Avdeling), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Avdeling>> HentAvdeling(int id)
+        [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Department>> HentAvdeling(int id)
         {
             if (_brukerservice.ErKoordinatorForAvdelingEllerFhiAdmin(id))
             {
@@ -50,10 +50,10 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("opprett")]
-        [ProducesResponseType(typeof(Avdeling), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Avdeling>> OpprettAvdeling([FromBody] OpprettAvdelingRequest request)
+        [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Department>> OpprettAvdeling([FromBody] CreateDepartmentRequest request)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(request.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(request.InstitutionId))
             {
                 var result = await _mediator.Send(new OpprettAvdeling.Command() { Request = request });
                 return CreatedAtRoute("HentAvdelinger", new { id = result.InstitusjonId }, result);
@@ -67,7 +67,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="avdeling"></param>
         /// <returns></returns>
         [HttpPut("oppdater")]
-        public async Task<ActionResult<Avdeling>> OppdaterAvdeling([FromBody] Avdeling avdeling)
+        public async Task<ActionResult<Department>> OppdaterAvdeling([FromBody] Department avdeling)
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(avdeling.InstitusjonId))
             {
@@ -84,7 +84,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet("avdelingstyper")]
-        public async Task<ActionResult<List<AvdelingType>>> HentAvdelingstyper()
+        public async Task<ActionResult<List<DepartmentType>>> HentAvdelingstyper()
         {
             var result = await _mediator.Send(new HentAvdelingTyper.Query() { });
             return Ok(result);
@@ -97,8 +97,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPost("avdelingstyper/opprett")]
-        [ProducesResponseType(typeof(AvdelingType), StatusCodes.Status201Created)]
-        public async Task<ActionResult<AvdelingType>> OpprettAvdelingType([FromBody] AvdelingType avdelingType)
+        [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status201Created)]
+        public async Task<ActionResult<DepartmentType>> OpprettAvdelingType([FromBody] DepartmentType avdelingType)
         {
             try
             {
@@ -119,8 +119,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("avdelingstyper/oppdater")]
-        [ProducesResponseType(typeof(AvdelingType), StatusCodes.Status200OK)]
-        public async Task<ActionResult<AvdelingType>> OppdaterAvdelingType([FromBody] AvdelingType avdelingType)
+        [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
+        public async Task<ActionResult<DepartmentType>> OppdaterAvdelingType([FromBody] DepartmentType avdelingType)
         {
             var result = await _mediator.Send(new OppdaterAvdelingType.Command() { AvdelingType = avdelingType });
             return Ok(result);
@@ -132,8 +132,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/roller")]
-        [ProducesResponseType(typeof(Rolle), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Rolle>>> HentRoller(int id)
+        [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<Role>>> HentRoller(int id)
         {
             if (_brukerservice.ErKoordinatorForAvdelingEllerFhiAdmin(id))
             {

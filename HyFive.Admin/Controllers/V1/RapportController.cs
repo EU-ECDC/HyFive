@@ -107,7 +107,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Lag en Excel-rapport for Beskyttelsesutstyr-observasjoner for avdeling
+        /// Lag en Excel-rapport for ProtectiveEquipment-observasjoner for avdeling
         /// </summary>
         /// <param name="institusjonId"></param>
         /// <param name="avdelingId"></param>

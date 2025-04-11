@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,34 +10,34 @@ namespace HyFive.Tjenester.Institusjon
 {
     public class OppdaterInstitusjonstype
     {
-        public class Command : IRequest<InstitusjonType>
+        public class Command : IRequest<InstitutionType>
         {
-            public InstitusjonType Institusjonstype { get; set; }
+            public InstitutionType Institusjonstype { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, InstitusjonType>
+        public class Handler : IRequestHandler<Command, InstitutionType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<InstitusjonType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<InstitutionType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var institusjonstype = await _context.InstitusjonType
+                var institusjonstype = await _context.InstitutionType
                     .FirstOrDefaultAsync(i => i.Id == request.Institusjonstype.Id, cancellationToken);
 
-                institusjonstype.Navn = request.Institusjonstype.Navn;
+                institusjonstype.Name = request.Institusjonstype.Name;
 
-                _context.InstitusjonType.Update(institusjonstype);
+                _context.InstitutionType.Update(institusjonstype);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 var mappedInstitusjonstype =
-                    _mapper.Map<Domene.Sted.InstitusjonType, InstitusjonType>(institusjonstype);
+                    _mapper.Map<Domene.Place.InstitutionType, InstitutionType>(institusjonstype);
 
                 return mappedInstitusjonstype;
             }

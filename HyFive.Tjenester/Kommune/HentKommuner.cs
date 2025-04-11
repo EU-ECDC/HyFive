@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,25 +12,25 @@ namespace HyFive.Tjenester.Kommune
 {
     public class HentKommuner
     {
-        public class Query : IRequest<List<Modeller.V1.Institusjon.Kommune>>
+        public class Query : IRequest<List<Modeller.V1.Institution.Comment>>
         { }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.Institusjon.Kommune>>
+        public class Handler : IRequestHandler<Query, List<Modeller.V1.Institution.Comment>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<List<Modeller.V1.Institusjon.Kommune>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Modeller.V1.Institution.Comment>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var kommuneListe = await _context.Kommune
+                var kommuneListe = await _context.Municipality
                                            .AsNoTracking()
-                                           .ProjectTo<Modeller.V1.Institusjon.Kommune>(_mapper.ConfigurationProvider)
-                                           .OrderBy(k => k.Navn)
+                                           .ProjectTo<Modeller.V1.Institution.Comment>(_mapper.ConfigurationProvider)
+                                           .OrderBy(k => k.Name)
                                            .ToListAsync();
 
                 return kommuneListe;

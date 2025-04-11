@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HyFive.Modeller.V1.Autentisering;
+using HyFive.Modeller.V1.Authentication;
 using HyFive.Tjenester.Autentisering.Bruker;
 using HyFive.Tjenester.Autentisering.Konfigurasjon;
 using Fhi.HelseId.Common.Identity;

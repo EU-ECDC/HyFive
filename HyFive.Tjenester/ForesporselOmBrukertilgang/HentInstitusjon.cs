@@ -1,4 +1,4 @@
-﻿using HyFive.Dataaksess;
+﻿using HyFive.DataAccess;
 using HyFive.Modeller.V1.ForesporselOmBrukertilgang;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,28 +10,28 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
 {
     public class HentInstitusjon
     {
-        public class Query : IRequest<InstitusjonForForesporselOmBrukertilgang>
+        public class Query : IRequest<InstitutionForUserAccessRequest>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, InstitusjonForForesporselOmBrukertilgang>
+        public class Handler : IRequestHandler<Query, InstitutionForUserAccessRequest>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
-            public async Task<InstitusjonForForesporselOmBrukertilgang> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<InstitutionForUserAccessRequest> Handle(Query request, CancellationToken cancellationToken)
             {
-                var institusjon = _context.Institusjon.AsNoTracking()
+                var institusjon = _context.Institution.AsNoTracking()
                     .FirstOrDefault(i => i.Id == request.InstitusjonId);
 
-                var institusjonForForesporselOmBrukertilgang = new InstitusjonForForesporselOmBrukertilgang
+                var institusjonForForesporselOmBrukertilgang = new InstitutionForUserAccessRequest
                 {
                     Id = institusjon.Id,
-                    Navn = institusjon.Navn
+                    Name = institusjon.Name
                 };
 
                 return institusjonForForesporselOmBrukertilgang;

@@ -60,7 +60,7 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("handsmykketyper")]
-        public async Task<IEnumerable<HandsmykkeType>> HentHandsmykkeTyper()
+        public async Task<IEnumerable<HandJewelryType>> HentHandsmykkeTyper()
         {
             var resultat = await _mediator.Send(new HentHandsmykkeTyper.Query());
             return resultat;

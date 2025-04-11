@@ -21,13 +21,13 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent alle tilgjengelige aktivitettyper <see cref="AktivitetType"/>
+        /// Hent alle tilgjengelige aktivitettyper <see cref="ActivityType"/>
         /// </summary>
         /// <returns></returns>
 
         [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
         [HttpGet]
-        public async Task<IEnumerable<AktivitetType>> HentAktivitettyper()
+        public async Task<IEnumerable<ActivityType>> HentAktivitettyper()
             => await _mediator.Send(new HentAktivitetTyper.Query());
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("oppdater")]
-        public async Task<AktivitetType> OppdaterAktivitettype([FromBody] AktivitetType aktivitettype)
+        public async Task<ActivityType> OppdaterAktivitettype([FromBody] ActivityType aktivitettype)
         {
             var result = await _mediator.Send(new OppdaterAktivitetType.Command() { Aktivitettype = aktivitettype });
             return result;

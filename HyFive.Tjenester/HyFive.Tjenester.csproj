@@ -8,7 +8,7 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Tjenester.Autentisering.csproj" />
   </ItemGroup>

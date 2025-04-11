@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Hansker;
+using HyFive.Modeller.V1.Observasjon.Gloves;
 using HyFive.Modeller.V1.Rapport.Hanske;
 using HyFive.Modeller.V1.Sesjon;
 using HyFive.Tjenester;
@@ -63,21 +63,21 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("hanskemedindikasjontype")]
-        public async Task<IEnumerable<HanskeMedIndikasjonType>> HentHanskeMedIndikasjonTyper()
+        public async Task<IEnumerable<IndicatedGloveType>> HentHanskeMedIndikasjonTyper()
         {
             var resultat = await _mediator.Send(new HentHanskeMedIndikasjonTyper.Query());
             return resultat;
         }
 
         [HttpGet("hanskeutenindikasjontype")]
-        public async Task<IEnumerable<HanskeUtenIndikasjonType>> HentHanskeUtenIndikasjonTyper()
+        public async Task<IEnumerable<GeneralPurposeGloveType>> HentHanskeUtenIndikasjonTyper()
         {
             var resultat = await _mediator.Send(new HentHanskeUtenIndikasjonTyper.Query());
             return resultat;
         }
 
         [HttpGet("handhygieneetterhanskebruktype")]
-        public async Task<IEnumerable<HandhygieneEtterHanskebrukType>> HentHandhygieneEtterHanskebrukTyper()
+        public async Task<IEnumerable<PostGloveHandHygieneType>> HentHandhygieneEtterHanskebrukTyper()
         {
             var resultat = await _mediator.Send(new HentHandhygieneEtterHanskebrukTyper.Query());
             return resultat;

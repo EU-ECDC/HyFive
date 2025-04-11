@@ -4,7 +4,7 @@ namespace HyFive.Api.Common.ExtensionMethods
 {
     public static class ApplicationBuilderExtensions
     {
-        public static void BrukSwagger(this IApplicationBuilder app, string apiTittel)
+        public static void UseSwagger(this IApplicationBuilder app, string apiTitle)
         {
             app.UseSwagger(setupAction =>
             {
@@ -13,8 +13,8 @@ namespace HyFive.Api.Common.ExtensionMethods
             app.UseSwaggerUI(setupAction =>
             {
                 setupAction.SwaggerEndpoint(
-                    $"{apiTittel}/swagger.json",
-                    apiTittel);
+                    $"{apiTitle}/swagger.json",
+                    apiTitle);
                 setupAction.RoutePrefix = "swagger";
             });
         }

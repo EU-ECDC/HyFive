@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Domene.Observasjon;
-using HyFive.Domene.Observasjon.Beskyttelsesutstyr;
-using HyFive.Domene.Observasjon.Hansker;
-using HyFive.Domene.Sesjon;
+using HyFive.Domene.Observation;
+using HyFive.Domene.Observation.ProtectiveEquipment;
+using HyFive.Domene.Observation.Gloves;
+using HyFive.Domene.Session;
 using HyFive.Modeller.V1.Konstanter;
 using MediatR;
 
@@ -21,9 +21,9 @@ namespace HyFive.Tjenester.Seed
 
         public class Handler : IRequestHandler<Command, bool>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -47,71 +47,71 @@ namespace HyFive.Tjenester.Seed
 
             private void SeedHandhygieneEtterHanskebrukType()
             {
-                if (_context.HandhygieneEtterHanskebrukType.Any())
+                if (_context.PostGloveHandHygiene.Any())
                     return;
 
-                var handhygieneEtterHanskebrukTyper = new List<HandhygieneEtterHanskebrukType>
+                var handhygieneEtterHanskebrukTyper = new List<PostGloveHandHygiene>
                 {
-                    new HandhygieneEtterHanskebrukType {Kode = "IKKE_INDIKERT", Navn = "Ikke Indikert"},
-                    new HandhygieneEtterHanskebrukType {Kode = "NEI", Navn = "Nei"},
-                    new HandhygieneEtterHanskebrukType {Kode = "JA", Navn = "Ja"},
+                    new PostGloveHandHygiene {Code = "IKKE_INDIKERT", Name = "Ikke Indikert"},
+                    new PostGloveHandHygiene {Code = "NEI", Name = "Nei"},
+                    new PostGloveHandHygiene {Code = "JA", Name = "Ja"},
                 };
 
-                _context.HandhygieneEtterHanskebrukType.AddRange(handhygieneEtterHanskebrukTyper);
+                _context.PostGloveHandHygiene.AddRange(handhygieneEtterHanskebrukTyper);
                 _context.SaveChanges();
             }
 
             private void SeedHanskeUtenIndikasjonTyper()
             {
-                if (_context.HanskeUtenIndikasjonType.Any())
+                if (_context.GeneralPurposeGloveType.Any())
                     return;
 
-                var hanskerUtenIndikasjonTyper = new List<HanskeUtenIndikasjonType>
+                var hanskerUtenIndikasjonTyper = new List<GeneralPurposeGloveType>
                 {
-                    new HanskeUtenIndikasjonType {Kode = "ANNET", Navn = "Annet"},
-                    new HanskeUtenIndikasjonType {Kode = "MAT", Navn = "Mat"},
-                    new HanskeUtenIndikasjonType {Kode = "STELL_UTEN_KROPPVAESKER", Navn = "Stell uten kroppvæsker"},
+                    new GeneralPurposeGloveType {Code = "ANNET", Name = "Annet"},
+                    new GeneralPurposeGloveType {Code = "MAT", Name = "Mat"},
+                    new GeneralPurposeGloveType {Code = "STELL_UTEN_KROPPVAESKER", Name = "Stell uten kroppvæsker"},
                 };
 
-                _context.HanskeUtenIndikasjonType.AddRange(hanskerUtenIndikasjonTyper);
+                _context.GeneralPurposeGloveType.AddRange(hanskerUtenIndikasjonTyper);
                 _context.SaveChanges();
             }
 
             private void SeedOverforingstatusTyper()
             {
-                if (_context.OverforingstatusType.Any())
+                if (_context.TransmissionStatusType.Any())
                     return;
 
                 var overforingsstatuser = new[]
                 {
-                    new OverforingstatusType
+                    new TransmissionStatusType
                     {
-                        Kode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
-                        Navn = "Overført til Koordinator"
+                        Code = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
+                        Name = "Overført til Koordinator"
                     },
-                    new OverforingstatusType
+                    new TransmissionStatusType
                     {
-                        Kode = OverforingstatusTypeKonstanter.OverfortTilFhi,
-                        Navn = "Overført til FHI"
+                        Code = OverforingstatusTypeKonstanter.OverfortTilFhi,
+                        Name = "Overført til FHI"
                     }
                 };
-                _context.OverforingstatusType.AddRange(overforingsstatuser);
+                _context.TransmissionStatusType.AddRange(overforingsstatuser);
                 _context.SaveChanges();
             }
 
             private void SeedHanskeMedIndikasjonTyper()
             {
-                if (_context.HanskeMedIndikasjonType.Any())
+                if (_context.IndicatedGloveType.Any())
                     return;
 
-                var hanskerMedIndikasjonTyper = new List<HanskeMedIndikasjonType>
+                var hanskerMedIndikasjonTyper = new List<IndicatedGloveType>
                 {
-                    new HanskeMedIndikasjonType {Kode = "ANNET", Navn = "Annet"},
-                    new HanskeMedIndikasjonType {Kode = "SMITTE", Navn = "Smitte"},
-                    new HanskeMedIndikasjonType {Kode = "KROPPVAESKER", Navn = "Kroppvæsker"},
+                    new IndicatedGloveType {Code = "ANNET", Name = "Annet"},
+                    new IndicatedGloveType {Code = "SMITTE", Name = "Smitte"},
+                    new IndicatedGloveType {Code = "KROPPVAESKER", Name = "Kroppvæsker"},
                 };
 
-                _context.HanskeMedIndikasjonType.AddRange(hanskerMedIndikasjonTyper);
+                _context.IndicatedGloveType.AddRange(hanskerMedIndikasjonTyper);
                 _context.SaveChanges();
             }
 
@@ -131,241 +131,241 @@ namespace HyFive.Tjenester.Seed
 
             private void SeedIndikasjoner()
             {
-                if (_context.Indikasjon.Any())
+                if (_context.IndicationTypes.Any())
                     return;
 
                 var indikasjoner = new[]
                 {
-                    new IndikasjonType {Kode = "FOER_PASIENT", Navn = "Før pasient", Nummer = "1"},
-                    new IndikasjonType {Kode = "ASEPTISKE_PROSEDYRER", Navn = "Aseptisk", Nummer = "2"},
-                    new IndikasjonType {Kode = "KROPPSVESKE", Navn = "Kroppsvæske", Nummer = "3"},
-                    new IndikasjonType {Kode = "ETTER_PASIENT", Navn = "Etter pasient", Nummer = "4"}
+                    new IndicationTypes {Code = "FOER_PASIENT", Name = "Før pasient", Number = "1"},
+                    new IndicationTypes {Code = "ASEPTISKE_PROSEDYRER", Name = "Aseptisk", Number = "2"},
+                    new IndicationTypes {Code = "KROPPSVESKE", Name = "Kroppsvæske", Number = "3"},
+                    new IndicationTypes {Code = "ETTER_PASIENT", Name = "Etter pasient", Number = "4"}
                 };
-                _context.Indikasjon.AddRange(indikasjoner);
+                _context.IndicationTypes.AddRange(indikasjoner);
                 _context.SaveChanges();
             }
 
             private void SeedAktivitetTyper()
             {
-                if (_context.AktivitetType.Any())
+                if (_context.ActivityType.Any())
                     return;
 
                 var aktivitettyper = new[]
                 {
-                    new AktivitetType {Kode = "DESINFEKSJON", Navn = "Desinfeksjon"},
-                    new AktivitetType {Kode = "HANDVASK", Navn = "Håndvask"},
-                    new AktivitetType {Kode = "IKKE_UTFORT", Navn = "Ikke utført"},
-                    new AktivitetType {Kode = "IKKE_REGISTRERT", Navn = "Ikke registrert"}
+                    new ActivityType {Code = "DESINFEKSJON", Name = "Desinfeksjon"},
+                    new ActivityType {Code = "HANDVASK", Name = "Håndvask"},
+                    new ActivityType {Code = "IKKE_UTFORT", Name = "Ikke utført"},
+                    new ActivityType {Code = "IKKE_REGISTRERT", Name = "Ikke registrert"}
                 };
-                _context.AktivitetType.AddRange(aktivitettyper);
+                _context.ActivityType.AddRange(aktivitettyper);
                 _context.SaveChanges();
             }
 
             private void SeedHandsmykkeTyper()
             {
-                if (_context.HandsmykkeType.Any())
+                if (_context.HandJewelryType.Any())
                     return;
 
                 var handsmykketyper = new[]
                 {
-                    new HandsmykkeType {Kode = "ALT_OK", Navn = "Alt er ok", Rekkefolge = 99, ErAktiv = true},
-                    new HandsmykkeType {Kode = "RING", Navn = "Ring", Rekkefolge = 4 , ErAktiv = true},
-                    new HandsmykkeType {Kode = "KLOKKE_ARMBAND", Navn = "Klokke Armbånd", Rekkefolge = 3, ErAktiv = true},
-                    new HandsmykkeType {Kode = "LANG_NEGL", Navn = "Lang negl", Rekkefolge = 2, ErAktiv = true},
-                    new HandsmykkeType {Kode = "KUNSTIG_NEGL_SHELLAC", Navn = "Kunstig negl Shellack", Rekkefolge = 1, ErAktiv = true},
-                    new HandsmykkeType {Kode = "KORTERMET", Navn = "Kortermet", Rekkefolge = 5, ErAktiv = false},
-                    new HandsmykkeType {Kode = "LANGERMET", Navn = "Langermet", Rekkefolge = 5, ErAktiv = true}
+                    new HandJewelryType {Code = "ALT_OK", Name = "Alt er ok", Order = 99, IsActive = true},
+                    new HandJewelryType {Code = "RING", Name = "Ring", Order = 4 , IsActive = true},
+                    new HandJewelryType {Code = "KLOKKE_ARMBAND", Name = "Klokke Armbånd", Order = 3, IsActive = true},
+                    new HandJewelryType {Code = "LANG_NEGL", Name = "Lang negl", Order = 2, IsActive = true},
+                    new HandJewelryType {Code = "KUNSTIG_NEGL_SHELLAC", Name = "Kunstig negl Shellack", Order = 1, IsActive = true},
+                    new HandJewelryType {Code = "KORTERMET", Name = "Kortermet", Order = 5, IsActive = false},
+                    new HandJewelryType {Code = "LANGERMET", Name = "Langermet", Order = 5, IsActive = true}
                 };
 
-                _context.HandsmykkeType.AddRange(handsmykketyper);
+                _context.HandJewelryType.AddRange(handsmykketyper);
                 _context.SaveChanges();
             }
 
             private void SeedBeskyttelsesutstyrTyper()
             {
-                if (_context.BeskyttelsesutstyrType.Any() == false)
+                if (_context.ProtectiveEquipmentType.Any() == false)
                 {
                     var beskyttelsesutstyrtyper = LagBeskyttelsesutstyrTyper();
-                    _context.BeskyttelsesutstyrType.AddRange(beskyttelsesutstyrtyper);
+                    _context.ProtectiveEquipmentType.AddRange(beskyttelsesutstyrtyper);
                     _context.SaveChanges();
                 }
             }
 
             private void SeedBeskyttelsesutstyrsettingTyper()
             {
-                if (_context.BeskyttelsesutstyrsettingType.Any() == false)
+                if (_context.ProtectiveEquipmentSettingType.Any() == false)
                 {
-                    var beskyttelsesutstyrtyper = _context.BeskyttelsesutstyrType.ToList();
+                    var beskyttelsesutstyrtyper = _context.ProtectiveEquipmentType.ToList();
                     var settingtyper = LagSeedForBeskyttelsesutstyrsettingTyper(beskyttelsesutstyrtyper);
-                    _context.BeskyttelsesutstyrsettingType.AddRange(settingtyper);
+                    _context.ProtectiveEquipmentSettingType.AddRange(settingtyper);
                     _context.SaveChanges();
                 }
             }
 
-            private static IEnumerable<BeskyttelsesutstyrType> LagBeskyttelsesutstyrTyper()
+            private static IEnumerable<ProtectiveEquipmentType> LagBeskyttelsesutstyrTyper()
             {
-                return new List<BeskyttelsesutstyrType>
+                return new List<ProtectiveEquipmentType>
                 {
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Hette,
-                        Navn = "Hette",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Hette,
+                        Name = "Hette",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
-                        Navn = "Øyebeskyttelse",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
+                        Name = "Øyebeskyttelse",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Andedrettsvern,
-                        Navn = "Åndedrettsvern",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Andedrettsvern,
+                        Name = "Åndedrettsvern",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke tilpasset/utført fit-sjekk"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Ikke tilpasset/utført fit-sjekk"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Munnbind,
-                        Navn = "Munnbind",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Munnbind,
+                        Name = "Munnbind",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Løst festet rundt nese/munn"},
-                            new FeilbrukType {Navn = "Ikke festet over nese"},
-                            new FeilbrukType {Navn = "Ikke trukket under hake"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Løst festet rundt nese/munn"},
+                            new MisuseType {Name = "Ikke festet over nese"},
+                            new MisuseType {Name = "Ikke trukket under hake"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
-                        Navn = "Smittefrakk",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
+                        Name = "Smittefrakk",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     }
                     ,
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Stellefrakk,
-                        Navn = "Stellefrakk",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Stellefrakk,
+                        Name = "Stellefrakk",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Plastforkle,
-                        Navn = "Plastforkle",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Plastforkle,
+                        Name = "Plastforkle",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Hansker,
-                        Navn = "Hansker",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = BeskyttelsesutstyrTypeKonstanter.Hansker,
+                        Name = "Hansker",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"},
-                            new FeilbrukType {Navn = "Ikke festet over mansjett"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"},
+                            new MisuseType {Name = "Ikke festet over mansjett"}
                         }
                     }
                 };
             }
 
-            public List<BeskyttelsesutstyrsettingType> LagSeedForBeskyttelsesutstyrsettingTyper(List<BeskyttelsesutstyrType> typer)
+            public List<ProtectiveEquipmentSettingType> LagSeedForBeskyttelsesutstyrsettingTyper(List<ProtectiveEquipmentType> typer)
             {
-                var settingtyper = new List<BeskyttelsesutstyrsettingType>
+                var settingtyper = new List<ProtectiveEquipmentSettingType>
                 {
-                    new BeskyttelsesutstyrsettingType
+                    new ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte,
-                        Navn = "Luftsmitte",
+                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte,
+                        Name = "Luftsmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte,
-                        Navn = "Dråpesmitte",
+                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte,
+                        Name = "Dråpesmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte,
-                        Navn = "Kontaktsmitte",
+                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte,
+                        Name = "Kontaktsmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner,
-                        Navn = "Basale smittevernrutiner",
+                        Code = BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner,
+                        Name = "Basale smittevernrutiner",
                     }
                 };
 
                 foreach (var settingtype in settingtyper)
                 {
-                    if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte)
+                    if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte)
                     {
-                        settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                        settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
                                                 BeskyttelsesutstyrTypeKonstanter.Andedrettsvern, 
                                                 BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
                                                 BeskyttelsesutstyrTypeKonstanter.Hansker, 
                                                 BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
                     }
-                    else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte)
+                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte)
                     {
-                        settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                        settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
                                                 BeskyttelsesutstyrTypeKonstanter.Hansker, 
                                                 BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
                                                 BeskyttelsesutstyrTypeKonstanter.Munnbind, 
                                                 BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse);
                     }
-                    else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte)
+                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte)
                     {
-                        settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                        settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
                                                 BeskyttelsesutstyrTypeKonstanter.Hansker, 
                                                 BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
                     }
-                    else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner)
+                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner)
                     {
-                        settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
+                        settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
                     }
                 }
 
                 return settingtyper;
             }
 
-            private static List<BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType> HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(BeskyttelsesutstyrsettingType settingType,
-                    IEnumerable<BeskyttelsesutstyrType> utstyrstyper, params string[] defaultKoder)
+            private static List<PPEConfigurationType> HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(ProtectiveEquipmentSettingType settingType,
+                    IEnumerable<ProtectiveEquipmentType> utstyrstyper, params string[] defaultKoder)
             {
                 var settingutstyrkoblinger = utstyrstyper.Select(u =>
-                    new BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType
+                    new PPEConfigurationType
                     {
-                        BeskyttelsesutstyrType = u,
-                        ErDefaultIndikert = defaultKoder.Contains(u.Kode),
-                        BeskyttelsesutstyrsettingType = settingType
+                        ProtectiveEquipmentType = u,
+                        IsDefault = defaultKoder.Contains(u.Code),
+                        ProtectiveEquipmentSettingType = settingType
                     }).ToList();
 
                 return settingutstyrkoblinger;

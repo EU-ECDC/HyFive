@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using HyFive.Dataaksess;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.DataAccess;
+using HyFive.Modeller.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,33 +12,33 @@ namespace HyFive.Tjenester.Avdeling
 {
     public class OppdaterAvdelingType
     {
-        public class Command : IRequest<AvdelingType>
+        public class Command : IRequest<DepartmentType>
         {
-            public AvdelingType AvdelingType { get; set; }
+            public DepartmentType AvdelingType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, AvdelingType>
+        public class Handler : IRequestHandler<Command, DepartmentType>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<AvdelingType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<DepartmentType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var avdelingtype = await _context.AvdelingType.FirstOrDefaultAsync(a => a.Id == request.AvdelingType.Id);
-                if (avdelingtype != default(Domene.Sted.AvdelingType))
+                var avdelingtype = await _context.SectionType.FirstOrDefaultAsync(a => a.Id == request.AvdelingType.Id);
+                if (avdelingtype != default(Domene.Place.SectionType))
                 {
-                    avdelingtype.Navn = request.AvdelingType.Navn;
+                    avdelingtype.Name = request.AvdelingType.Name;
 
                     _context.Update(avdelingtype);
                     await _context.SaveChangesAsync();
 
-                    return _mapper.Map<Modeller.V1.Institusjon.AvdelingType>(avdelingtype);
+                    return _mapper.Map<Modeller.V1.Institution.DepartmentType>(avdelingtype);
                 }
 
                 throw new ArgumentException($"Kunne ikke finne avdelingtype med id {request.AvdelingType.Id}");

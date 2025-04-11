@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,28 +12,28 @@ namespace HyFive.Tjenester.Helseforetak
 {
     public class HentAlleHelseforetak
     {
-        public class Query : IRequest<List<Modeller.V1.Institusjon.Helseforetak>>
+        public class Query : IRequest<List<Modeller.V1.Institution.HealthcareEnterprise>>
         {  }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.Institusjon.Helseforetak>>
+        public class Handler : IRequestHandler<Query, List<Modeller.V1.Institution.HealthcareEnterprise>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(HandhygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
             }
 
-            public async Task<List<Modeller.V1.Institusjon.Helseforetak>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Modeller.V1.Institution.HealthcareEnterprise>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (_context.Helseforetak.Any())
+                if (_context.HealthcareProvider.Any())
                 {
-                    var alleHelseforetak = await _context.Helseforetak
+                    var alleHelseforetak = await _context.HealthcareProvider
                                                          .AsNoTracking()
-                                                         .OrderBy(h => h.Navn)
-                                                         .ProjectTo<Modeller.V1.Institusjon.Helseforetak>(_mapper.ConfigurationProvider)
+                                                         .OrderBy(h => h.Name)
+                                                         .ProjectTo<Modeller.V1.Institution.HealthcareEnterprise>(_mapper.ConfigurationProvider)
                                                          .ToListAsync();
 
                     return alleHelseforetak;

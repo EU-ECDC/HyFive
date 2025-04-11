@@ -1,5 +1,5 @@
-﻿using HyFive.Dataaksess;
-using HyFive.Domene.Observasjon;
+﻿using HyFive.DataAccess;
+using HyFive.Domene.Observation;
 using HyFive.Modeller.V1.Konstanter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +28,12 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
         public class Handler : IRequestHandler<Query, List<GrafDto>>
         {
-            private readonly HandhygieneContext _context;
+            private readonly HandHygieneContext _context;
             private const string IntervallUke = "uke";
             private const string IntervallManed = "maned";
             private const string IntervallTertial = "tertial";
 
-            public Handler(HandhygieneContext context)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
             }
@@ -52,13 +52,13 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     tilDato = tilDato.AddYears(1);
                 }
 
-                var observasjonerIAktueltTidromQuery = _context.FireIndikasjonerObservasjon.Include(f => f.Aktivitet.AktivitetType)
-                                                                                      .Include(f => f.Indikasjonstyper)
-                                                                                      .Include(f => f.Rolle)
+                var observasjonerIAktueltTidromQuery = _context.FourIndicationsObservation.Include(f => f.Activity.ActivityType)
+                                                                                      .Include(f => f.IndicationTypes)
+                                                                                      .Include(f => f.Role)
                                                                                       .AsNoTracking()
-                                                                                      .Where(f => f.Registrerttidspunkt >= fraDato &&
-                                                                                                  f.Registrerttidspunkt < tilDato &&
-                                                                                                  f.FireIndikasjonerSesjon.Avdeling.Institusjon.Id == request.InstitusjonId);
+                                                                                      .Where(f => f.RegistrationTime >= fraDato &&
+                                                                                                  f.RegistrationTime < tilDato &&
+                                                                                                  f.FourIndicationsSession.Department.Institusjon.Id == request.InstitusjonId);
 
                 if (request.RolleId != null)
                 {
@@ -120,7 +120,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 return grafDataDtoListe;
             }
 
-            private static List<EtterlevelseGrafData> LagEtterlevelseGrafData(List<FireIndikasjonerObservasjon> observasjonerIAktueltTidrom, string intervall, DateTime fraDato, DateTime tilDato)
+            private static List<EtterlevelseGrafData> LagEtterlevelseGrafData(List<FourIndicationsObservation> observasjonerIAktueltTidrom, string intervall, DateTime fraDato, DateTime tilDato)
             {
                 var etterlevelseAlleIndikasjoner = LagEtterlevelseForAlleIndiksasjoner(intervall, observasjonerIAktueltTidrom, fraDato, tilDato);
                 var etterlevelseFørPasient = LagEtterlevelseGrafDataForIndikasjon(intervall, observasjonerIAktueltTidrom, "Før pasient", IndikasjonTypeKonstanter.FoerPasient, fraDato, tilDato);
@@ -138,7 +138,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                         };
             }
 
-            private static EtterlevelseGrafData LagEtterlevelseForAlleIndiksasjoner(string intervall, List<FireIndikasjonerObservasjon> observasjonerIAktueltTidrom, DateTime fraDato, DateTime tilDato)
+            private static EtterlevelseGrafData LagEtterlevelseForAlleIndiksasjoner(string intervall, List<FourIndicationsObservation> observasjonerIAktueltTidrom, DateTime fraDato, DateTime tilDato)
             {
                 var etterlevelseFAlleIndikasjoner = new EtterlevelseGrafData
                 {
@@ -152,14 +152,14 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     var periodeFraDato = periodeTilDato;
                     periodeTilDato = BeregnNestePeriodeTilDato(intervall, periodeTilDato);
 
-                    var observasjonerIPeriode = observasjonerIAktueltTidrom.Where(o => o.Registrerttidspunkt >= periodeFraDato && o.Registrerttidspunkt < periodeTilDato);
+                    var observasjonerIPeriode = observasjonerIAktueltTidrom.Where(o => o.RegistrationTime >= periodeFraDato && o.RegistrationTime < periodeTilDato);
 
-                    var indikasjoner = observasjonerIPeriode.Select(x => x.Indikasjonstyper);
+                    var indikasjoner = observasjonerIPeriode.Select(x => x.IndicationTypes);
                     decimal antallIndikasjoner = indikasjoner.Sum(item => item.Count);
 
-                    var etterlevdeIndikasjoner = observasjonerIPeriode.Where(o => o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Handvask ||
-                                                                                                        o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Desinfeksjon)
-                                                                                            .Select(o => o.Indikasjonstyper);
+                    var etterlevdeIndikasjoner = observasjonerIPeriode.Where(o => o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Handvask ||
+                                                                                                        o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Desinfeksjon)
+                                                                                            .Select(o => o.IndicationTypes);
 
                     decimal antallEtterlevdeIndikasjoner = etterlevdeIndikasjoner.Sum(item => item.Count);
 
@@ -173,19 +173,19 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 return etterlevelseFAlleIndikasjoner;
             }
 
-            private static EtterlevelseGrafData LagEtterlevelseGrafDataForIndikasjon(string intervall, List<FireIndikasjonerObservasjon> observasjonerIAktueltTidrom, string tittel, string indikasjonstype, DateTime fraDato, DateTime tilDato)
+            private static EtterlevelseGrafData LagEtterlevelseGrafDataForIndikasjon(string intervall, List<FourIndicationsObservation> observasjonerIAktueltTidrom, string tittel, string indikasjonstype, DateTime fraDato, DateTime tilDato)
             {
                 var etterlevelse = new EtterlevelseGrafData
                 {
                     Name = tittel
                 };
 
-                var observasjonerMeIndikasjonstype = observasjonerIAktueltTidrom.Where(o => o.Indikasjonstyper.Any(i => i.Kode == indikasjonstype)).ToList();
+                var observasjonerMeIndikasjonstype = observasjonerIAktueltTidrom.Where(o => o.IndicationTypes.Any(i => i.Code == indikasjonstype)).ToList();
                 etterlevelse.Data = LagGrafDataForIndikasjon(observasjonerMeIndikasjonstype, intervall, fraDato, tilDato);
                 return etterlevelse;
             }
 
-            private static List<EtterlevelsePunkt> LagGrafDataForIndikasjon(List<FireIndikasjonerObservasjon> observasjonerIAktueltTidrom, string intervall, DateTime fraDato, DateTime tilDato)
+            private static List<EtterlevelsePunkt> LagGrafDataForIndikasjon(List<FourIndicationsObservation> observasjonerIAktueltTidrom, string intervall, DateTime fraDato, DateTime tilDato)
             {
                 var periodeTilDato = fraDato;
                 var punktliste = new List<EtterlevelsePunkt>();
@@ -194,8 +194,8 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     var periodeFraDato = periodeTilDato;
                     periodeTilDato = BeregnNestePeriodeTilDato(intervall, periodeTilDato);
 
-                    var observasjonerIPeriode = observasjonerIAktueltTidrom.Where(o => o.Registrerttidspunkt >= periodeFraDato && o.Registrerttidspunkt < periodeTilDato);
-                    var etterlevdeObservasjonerIPeriode = observasjonerIPeriode.Where(o => o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Handvask || o.Aktivitet.AktivitetType.Kode == AktivitetTypeKonstanter.Desinfeksjon);
+                    var observasjonerIPeriode = observasjonerIAktueltTidrom.Where(o => o.RegistrationTime >= periodeFraDato && o.RegistrationTime < periodeTilDato);
+                    var etterlevdeObservasjonerIPeriode = observasjonerIPeriode.Where(o => o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Handvask || o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Desinfeksjon);
 
                     decimal antallObservasjonerIPeriode = observasjonerIPeriode.Count();
                     decimal antallEtterlevdeObservasjonerIPeriode = etterlevdeObservasjonerIPeriode.Count();

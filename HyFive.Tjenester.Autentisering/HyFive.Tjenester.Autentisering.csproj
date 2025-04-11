@@ -7,7 +7,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.Dataaksess.csproj" />
+    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
   </ItemGroup>
 </Project>
