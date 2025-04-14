@@ -1,9 +1,9 @@
 ﻿using HyFive.Domene.Observation;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using System;
 using System.Linq;
 
-namespace HyFive.Tjenester.FireIndikasjoner.Helpers
+namespace HyFive.Services.FireIndikasjoner.Helpers
 {
     public class FireIndikasjonerObservasjonValidator
     {

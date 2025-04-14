@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Beskyttelsesutstyr;
-using HyFive.Tjenester.Sesjon;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.Sesjon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
 
-namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
+namespace HyFive.Services.Tests.Beskyttelsesutstyr
 {
     public class BeskyttelsesutstyrTests : TjenesteTests
     {
@@ -66,7 +66,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .SettingType.Code, Is.EqualTo(BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte));
+        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Gloves)
         //            .WasUsed, Is.EqualTo(true));
@@ -78,7 +78,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //            .IsRequired, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Gloves)
-        //            .MisuseTypes.Count, Is.EqualTo(1));
+        //            .IncorrectTypes.Count, Is.EqualTo(1));
         //    });
         //}
 
@@ -92,19 +92,19 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .SettingType.Code, Is.EqualTo(BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte));
+        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Smittefrakk)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
         //            .WasUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Smittefrakk)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
         //            .WasUsedCorrectly, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Smittefrakk)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
         //            .IsRequired, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Smittefrakk)
-        //            .MisuseTypes.Count, Is.EqualTo(0));
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
+        //            .IncorrectTypes.Count, Is.EqualTo(0));
         //    });
         //}
 
@@ -119,19 +119,19 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .SettingType
-        //            .Code, Is.EqualTo(BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte));
+        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Munnbind)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
         //            .WasUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Munnbind)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
         //            .WasUsedCorrectly, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Munnbind)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
         //            .IsRequired, Is.EqualTo(false));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Munnbind)
-        //            .MisuseTypes.Count, Is.EqualTo(0));
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
+        //            .IncorrectTypes.Count, Is.EqualTo(0));
         //    });
         //}
 
@@ -146,19 +146,19 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .SettingType
-        //            .Code, Is.EqualTo(BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte));
+        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hette)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
         //            .WasUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hette)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
         //            .WasUsedCorrectly, Is.EqualTo(false));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hette)
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
         //            .IsRequired, Is.EqualTo(false));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hette)
-        //            .MisuseTypes.Count, Is.EqualTo(2));
+        //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
+        //            .IncorrectTypes.Count, Is.EqualTo(2));
         //    });
         //}
 
@@ -230,14 +230,14 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    // Act
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations
         //        .First(o => o.ProtectiveEquipmentList
-        //            .Any(u => u.MisuseTypes
+        //            .Any(u => u.IncorrectTypes
         //                .Any()));
         //    var utstyrSomSkalEndres =
         //        observasjonSomSkalEndres.ProtectiveEquipmentList
-        //            .First(u => u.MisuseTypes
+        //            .First(u => u.IncorrectTypes
         //                .Any());
-        //    var feilbrukTypeSomSkalFjernes = utstyrSomSkalEndres.MisuseTypes.First();
-        //    utstyrSomSkalEndres.MisuseTypes.Remove(feilbrukTypeSomSkalFjernes);
+        //    var feilbrukTypeSomSkalFjernes = utstyrSomSkalEndres.IncorrectTypes.First();
+        //    utstyrSomSkalEndres.IncorrectTypes.Remove(feilbrukTypeSomSkalFjernes);
             
             
         //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
@@ -255,7 +255,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //        .First(b => b.Id == utstyrSomSkalEndres.Id);
             
         //    // Assert
-        //    Assert.That(oppdatertUtstyr.MisuseTypes.Select(f => f.Id), Does.Not.Contain(feilbrukTypeSomSkalFjernes.Id));
+        //    Assert.That(oppdatertUtstyr.IncorrectTypes.Select(f => f.Id), Does.Not.Contain(feilbrukTypeSomSkalFjernes.Id));
         //}
         
         
@@ -269,12 +269,12 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //    // Act
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations
         //        .First(o => o.ProtectiveEquipmentList
-        //            .Any(u => u.MisuseTypes
+        //            .Any(u => u.IncorrectTypes
         //                .Any() == false));
         //    var utstyrSomSkalEndres =
         //        observasjonSomSkalEndres.ProtectiveEquipmentList.First();
         //    var feilbrukTypeSomSkalLeggesTil = Mapper.Map<MisuseType>(DatabaseContext.MisuseType.First());
-        //    utstyrSomSkalEndres.MisuseTypes.Add(feilbrukTypeSomSkalLeggesTil);
+        //    utstyrSomSkalEndres.IncorrectTypes.Add(feilbrukTypeSomSkalLeggesTil);
             
             
         //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
@@ -293,10 +293,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
         //        .First(b => b.Id == utstyrSomSkalEndres.Id);
             
         //    // Assert
-        //    Assert.That(oppdatertUtstyr.MisuseTypes.Select(f => f.Id), Contains.Item(feilbrukTypeSomSkalLeggesTil.Id));
+        //    Assert.That(oppdatertUtstyr.IncorrectTypes.Select(f => f.Id), Contains.Item(feilbrukTypeSomSkalLeggesTil.Id));
         //}
 
-        protected async Task<BeskyttelsesutstyrSesjon> HentSesjon(Guid sesjonGuidFraRequestGuid)
+        protected async Task<ProtectiveEquipmentSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
             var hentBeskyttelsesutstyrSesjonHandler = new HentBeskyttelsesutstyrSesjon.Handler(DatabaseContext, Mapper, BrukerService);
             var beskyttelsesutstyrSesjon = await hentBeskyttelsesutstyrSesjonHandler.Handle(new HentBeskyttelsesutstyrSesjon.Query()
@@ -321,7 +321,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var lagreBeskyttelsesutstyrSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
             var beskyttelsesutstyrSesjonGuid = await lagreBeskyttelsesutstyrSesjonHandler.Handle(new LagreSesjon.Command()
             {
-                Sesjon = new BeskyttelsesutstyrSesjon()
+                Sesjon = new ProtectiveEquipmentSession()
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
@@ -334,17 +334,17 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                         new ProtectiveEquipmentObservation()
                         {
                             Id = observasjonId.ToString(),
-                            SesjonId = sesjonId.ToString(),
-                            Kommentar = "Observasjon kommentar",
-                            Registrerttidspunkt = DateTime.Now,
-                            Rolle = avdelingModell.Roller.First(),
-                            SettingType = new ProtectiveEquipmentSettingType()
+                            SessionId = sesjonId.ToString(),
+                            Comment = "Observasjon kommentar",
+                            RegistrationTime = DateTime.Now,
+                            Role = avdelingModell.Roller.First(),
+                            SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                             {
-                                Id = settingTyper.First(x => x.Code == BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte).Id,
+                                Id = settingTyper.First(x => x.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.ContactTransmission).Id,
                             },
-                            ProtectiveEquipmentList = new List<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment>()
+                            ProtectiveEquipmentList = new List<ProtectiveEquipment>()
                             {
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "I",
                                     WasUsed = true,
@@ -352,18 +352,18 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = true,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Hansker).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Gloves).Id,
                                     },
-                                    MisuseTypes = new List<MisuseType>
+                                    IncorrectTypes = new List<IncorrectType>
                                     {
-                                        new MisuseType
+                                        new IncorrectType
                                         {
-                                            Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Hansker).MisuseTypes[0].Id,
+                                            Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Gloves).MisuseTypes[0].Id,
                                             IsSelected = true
                                         }
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "II",
                                     WasUsed = true,
@@ -371,10 +371,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = true,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Smittefrakk).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.InfectionGown).Id,
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "III",
                                     WasUsed = true,
@@ -382,10 +382,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Stellefrakk).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.CareGown).Id,
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "IV",
                                     WasUsed = true,
@@ -393,10 +393,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Munnbind).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.FaceMask).Id,
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "V",
                                     WasUsed = true,
@@ -404,23 +404,23 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Hette).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Hood).Id,
                                     },
-                                    MisuseTypes = new List<MisuseType>
+                                    IncorrectTypes = new List<IncorrectType>
                                     {
-                                        new MisuseType
+                                        new IncorrectType
                                         {
-                                            Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Hette).MisuseTypes[0].Id,
+                                            Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Hood).MisuseTypes[0].Id,
                                             IsSelected = true
                                         },
-                                        new MisuseType
+                                        new IncorrectType
                                         {
-                                            Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Hette).MisuseTypes[1].Id,
+                                            Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Hood).MisuseTypes[1].Id,
                                             IsSelected = true
                                         }
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "VI",
                                     WasUsed = false,
@@ -428,10 +428,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.EyeProtection).Id,
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "VII",
                                     WasUsed = false,
@@ -439,10 +439,10 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Andedrettsvern).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.RespiratoryProtection).Id,
                                     }
                                 },
-                                new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment()
+                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "VIII",
                                     WasUsed = false,
@@ -450,7 +450,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
                                     IsRequired = false,
                                     EquipmentType = new ProtectiveEquipmentType()
                                     {
-                                        Id = utstyrsTyper.First(x => x.Code == BeskyttelsesutstyrTypeKonstanter.Plastforkle).Id,
+                                        Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.PlasticApron).Id,
                                     }
                                 }
                             }
@@ -495,7 +495,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterBeskyttelsesutstyrTypeHandler = new OppdaterBeskyttelsesutstyrType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterBeskyttelsesutstyrType.Command()
             {
-                UtstyrType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentType()
+                UtstyrType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
                 {
                     Id = opprettetBeskyttelsesutstyrType.Id,
                     Code = "DV",
@@ -523,7 +523,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterBeskyttelsesutstyrTypeHandler = new OppdaterBeskyttelsesutstyrType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterBeskyttelsesutstyrType.Command()
             {
-                UtstyrType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentType()
+                UtstyrType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -573,7 +573,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterBeskyttelsesutstyrsettingTypeHandler = new OppdaterBeskyttelsesutstyrsettingType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterBeskyttelsesutstyrsettingType.Command()
             {
-                SettingType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentSettingType()
+                SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                 {
                     Id = opprettetBeskyttelsesutstyrsettingType.Id,
                     Code = "DV",
@@ -601,7 +601,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterBeskyttelsesutstyrsettingTypeHandler = new OppdaterBeskyttelsesutstyrsettingType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterBeskyttelsesutstyrsettingType.Command()
             {
-                SettingType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentSettingType()
+                SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -706,7 +706,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterFeilbrukType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.MisuseType()
+                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = opprettetFeilbrukType.Id,
                     Name = "Da Vinci",
@@ -732,7 +732,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterFeilbrukType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.MisuseType()
+                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = DatabaseContext.MisuseType.First().Id,
                     Name = "Da Vinci",
@@ -758,7 +758,7 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
             var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterFeilbrukType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observasjon.Beskyttelsesutstyr.MisuseType()
+                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = 123456789,
                     Name = "Da Vinci",
@@ -780,30 +780,30 @@ namespace HyFive.Tjenester.Tests.Beskyttelsesutstyr
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentType> OpprettBeskyttelsesutstyrType(string kode = null)
+        private async Task<Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType> OpprettBeskyttelsesutstyrType(string kode = null)
         {
             var beskyttelsesutstyrType = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.ProtectiveEquipmentType.Add(beskyttelsesutstyrType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentType>(beskyttelsesutstyrType);
+            return Mapper.Map<Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType>(beskyttelsesutstyrType);
         }
 
-        private async Task<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentSettingType> OpprettBeskyttelsesutstyrsettingType(string kode = null)
+        private async Task<Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType> OpprettBeskyttelsesutstyrsettingType(string kode = null)
         {
             var beskyttelsesutstyrsettingType = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.ProtectiveEquipmentSettingType.Add(beskyttelsesutstyrsettingType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentSettingType>(beskyttelsesutstyrsettingType);
+            return Mapper.Map<Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>(beskyttelsesutstyrsettingType);
         }
 
-        private async Task<Modeller.V1.Observasjon.Beskyttelsesutstyr.MisuseType> OpprettFeilbrukType(string navn = null, int utstyrtypeId = 0)
+        private async Task<Modeller.V1.Observation.ProtectiveEquipment.IncorrectType> OpprettFeilbrukType(string navn = null, int utstyrtypeId = 0)
         {
             var opprettFeilbrukTypeHandler = new OpprettFeilbrukType.Handler(DatabaseContext, Mapper);
             var opprettCommand = new OpprettFeilbrukType.Command()
             {
-                FeilbrukType = new OpprettFeilbrukTypeRequest() { Navn = navn ?? "Test" },
+                FeilbrukType = new CreateErrorTypeRequest() { Name = navn ?? "Test" },
                 UtstyrTypeId = utstyrtypeId != 0 ? utstyrtypeId : DatabaseContext.ProtectiveEquipmentType.First().Id
             };
 

@@ -162,10 +162,10 @@ namespace HyFive.DataAccess
             mb.Entity<User>().Property(b => b.FirstName).HasMaxLength(100).IsRequired();
             mb.Entity<User>().Property(b => b.Surname).HasMaxLength(100).IsRequired();
             mb.Entity<User>().Property(b => b.Email).HasMaxLength(500);
-            mb.Entity<User>().Property(b => b.IdentPseudonym).HasMaxLength(100);
-            mb.Entity<User>().Property(b => b.HPRNummer).HasMaxLength(50);
-            mb.Entity<User>().HasIndex(b => b.IdentPseudonym);
-            mb.Entity<User>().HasIndex(b => b.HPRNummer);
+            mb.Entity<User>().Property(b => b.IdentityPseudonym).HasMaxLength(100);
+            mb.Entity<User>().Property(b => b.HPRNumber).HasMaxLength(50);
+            mb.Entity<User>().HasIndex(b => b.IdentityPseudonym);
+            mb.Entity<User>().HasIndex(b => b.HPRNumber);
 
             mb.Entity<UserAccessRequest>().Property(b => b.UserFirstName).HasMaxLength(100).IsRequired();
             mb.Entity<UserAccessRequest>().Property(b => b.UserSurname).HasMaxLength(100).IsRequired();

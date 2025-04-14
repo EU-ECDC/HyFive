@@ -4,20 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Handsmykke.Helpers;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Handsmykke.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using HandsmykkeObservasjon = HyFive.Modeller.V1.Observasjon.HandsmykkeObservasjon;
+using HandJewelryObservation = HyFive.Models.V1.Observation.HandJewelryObservation;
 
-namespace HyFive.Tjenester.Handsmykke
+namespace HyFive.Services.Handsmykke
 {
     public class OppdaterHandsmykkeObservasjon
     {
         public class Command : IRequest<bool>
         {
-            public HandsmykkeObservasjon Observasjon { get; set; }
+            public HandJewelryObservation Observasjon { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -47,7 +47,7 @@ namespace HyFive.Tjenester.Handsmykke
                     throw new Exception("O-HS-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
                 
-                if (observasjon.HandJewelrySession.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.HandJewelrySession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-HS-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
@@ -56,7 +56,7 @@ namespace HyFive.Tjenester.Handsmykke
 
                 try
                 {
-                    var handsmykketypeIder = request.Observasjon.Handsmykker.Select(h => h.Id);
+                    var handsmykketypeIder = request.Observasjon.HandJewelry.Select(h => h.Id);
                     var handsmykkerFraDatabase = _context.HandJewelryType.Where(h => handsmykketypeIder.Contains(h.Id)).ToList();
 
                     var handsmykkeIderFraRequest = string.Join(',', handsmykketypeIder);
@@ -65,7 +65,7 @@ namespace HyFive.Tjenester.Handsmykke
                         throw new Exception($"O-HS-03: Fant ingen håndsmykker med ID'er {handsmykkeIderFraRequest}");
                     }
 
-                    if (handsmykkerFraDatabase.Count() != request.Observasjon.Handsmykker.Count())
+                    if (handsmykkerFraDatabase.Count() != request.Observasjon.HandJewelry.Count())
                     {
                         throw new Exception($"O-HS-04: Antall håndsmykker på observasjon stemmer ikke overens med antall håndsmykketyper funnet i databasen. " +
                                             $"Håndsmykker i databasen: {string.Join(',',handsmykkerFraDatabase.Select(h => h.Id))} / " + 
@@ -75,11 +75,11 @@ namespace HyFive.Tjenester.Handsmykke
                     
                     observasjon.HandJewelry = handsmykkerFraDatabase;
                     
-                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.RegistrationTime;
 
-                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Role.Id);
                     observasjon.Role = rolleFraRequest;
-                    observasjon.Comment = request.Observasjon.Kommentar;
+                    observasjon.Comment = request.Observasjon.Comment;
 
                     _context.Update(observasjon);
 

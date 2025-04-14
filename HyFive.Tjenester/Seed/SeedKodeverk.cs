@@ -8,10 +8,10 @@ using HyFive.Domene.Observation;
 using HyFive.Domene.Observation.ProtectiveEquipment;
 using HyFive.Domene.Observation.Gloves;
 using HyFive.Domene.Session;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using MediatR;
 
-namespace HyFive.Tjenester.Seed
+namespace HyFive.Services.Seed
 {
     public class SeedKodeverk
     {
@@ -86,12 +86,12 @@ namespace HyFive.Tjenester.Seed
                 {
                     new TransmissionStatusType
                     {
-                        Code = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
+                        Code = TransferStatusTypeConstants.TransferredToCoordinator,
                         Name = "Overført til Koordinator"
                     },
                     new TransmissionStatusType
                     {
-                        Code = OverforingstatusTypeKonstanter.OverfortTilFhi,
+                        Code = TransferStatusTypeConstants.TransferredToFhi,
                         Name = "Overført til FHI"
                     }
                 };
@@ -208,7 +208,7 @@ namespace HyFive.Tjenester.Seed
                 {
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Hette,
+                        Code = ProtectiveEquipmentTypeConstants.Hood,
                         Name = "Hette",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -218,7 +218,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
+                        Code = ProtectiveEquipmentTypeConstants.EyeProtection,
                         Name = "Øyebeskyttelse",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -228,7 +228,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Andedrettsvern,
+                        Code = ProtectiveEquipmentTypeConstants.RespiratoryProtection,
                         Name = "Åndedrettsvern",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -239,7 +239,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Munnbind,
+                        Code = ProtectiveEquipmentTypeConstants.FaceMask,
                         Name = "Munnbind",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -252,7 +252,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
+                        Code = ProtectiveEquipmentTypeConstants.InfectionGown,
                         Name = "Smittefrakk",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -264,7 +264,7 @@ namespace HyFive.Tjenester.Seed
                     ,
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Stellefrakk,
+                        Code = ProtectiveEquipmentTypeConstants.CareGown,
                         Name = "Stellefrakk",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -275,7 +275,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Plastforkle,
+                        Code = ProtectiveEquipmentTypeConstants.PlasticApron,
                         Name = "Plastforkle",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -286,7 +286,7 @@ namespace HyFive.Tjenester.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = BeskyttelsesutstyrTypeKonstanter.Hansker,
+                        Code = ProtectiveEquipmentTypeConstants.Gloves,
                         Name = "Hansker",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -304,51 +304,51 @@ namespace HyFive.Tjenester.Seed
                 {
                     new ProtectiveEquipmentSettingType
                     {
-                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte,
+                        Code = ProtectiveEquipmentSettingType.AirborneTransmission,
                         Name = "Luftsmitte",
                     },
                     new ProtectiveEquipmentSettingType
                     {
-                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte,
+                        Code = ProtectiveEquipmentSettingType.DropletTransmission,
                         Name = "Dråpesmitte",
                     },
                     new ProtectiveEquipmentSettingType
                     {
-                        Code = BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte,
+                        Code = ProtectiveEquipmentSettingType.ContactTransmission,
                         Name = "Kontaktsmitte",
                     },
                     new ProtectiveEquipmentSettingType
                     {
-                        Code = BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner,
+                        Code = ProtectiveEquipmentSettingType.BasicInfectionControlRoutines,
                         Name = "Basale smittevernrutiner",
                     }
                 };
 
                 foreach (var settingtype in settingtyper)
                 {
-                    if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte)
+                    if (settingtype.Code == ProtectiveEquipmentSettingType.AirborneTransmission)
                     {
                         settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                                                BeskyttelsesutstyrTypeKonstanter.Andedrettsvern, 
-                                                BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
-                                                BeskyttelsesutstyrTypeKonstanter.Hansker, 
-                                                BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
+                                                ProtectiveEquipmentTypeConstants.RespiratoryProtection, 
+                                                ProtectiveEquipmentTypeConstants.EyeProtection,
+                                                ProtectiveEquipmentTypeConstants.Gloves, 
+                                                ProtectiveEquipmentTypeConstants.InfectionGown);
                     }
-                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte)
+                    else if (settingtype.Code == ProtectiveEquipmentSettingType.DropletTransmission)
                     {
                         settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                                                BeskyttelsesutstyrTypeKonstanter.Hansker, 
-                                                BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
-                                                BeskyttelsesutstyrTypeKonstanter.Munnbind, 
-                                                BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse);
+                                                ProtectiveEquipmentTypeConstants.Gloves, 
+                                                ProtectiveEquipmentTypeConstants.InfectionGown,
+                                                ProtectiveEquipmentTypeConstants.FaceMask, 
+                                                ProtectiveEquipmentTypeConstants.EyeProtection);
                     }
-                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte)
+                    else if (settingtype.Code == ProtectiveEquipmentSettingType.ContactTransmission)
                     {
                         settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                                                BeskyttelsesutstyrTypeKonstanter.Hansker, 
-                                                BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
+                                                ProtectiveEquipmentTypeConstants.Gloves, 
+                                                ProtectiveEquipmentTypeConstants.InfectionGown);
                     }
-                    else if (settingtype.Code == BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner)
+                    else if (settingtype.Code == ProtectiveEquipmentSettingType.BasicInfectionControlRoutines)
                     {
                         settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
                     }

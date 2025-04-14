@@ -7,19 +7,19 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BeskyttelsesutstyrSesjon = HyFive.Modeller.V1.Sesjon.BeskyttelsesutstyrSesjon;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Beskyttelsesutstyr.Helpers;
+using ProtectiveEquipmentSession = HyFive.Models.V1.Session.ProtectiveEquipmentSession;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Beskyttelsesutstyr.Helpers;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr
+namespace HyFive.Services.Beskyttelsesutstyr
 {
     public class LagreSesjon
     {
         public class Command : IRequest<Guid>
         {
-            public BeskyttelsesutstyrSesjon Sesjon { get; set; }
+            public ProtectiveEquipmentSession Sesjon { get; set; }
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
         }
@@ -29,9 +29,9 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly IBrukerService _brukerService;
+            private readonly IUserService _brukerService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -84,7 +84,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 }
 
                 var overforingsstatuser = _context.TransmissionStatusType.ToList();
-                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 
                 _context.Add(sesjon);
@@ -113,7 +113,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                     .Users
                     .OfType<Observator>()
                     .FirstOrDefault(_brukerService
-                        .HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer,request.Pseudonym)
+                        .HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer,request.Pseudonym)
                         .Compile());
             }
         }

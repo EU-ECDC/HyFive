@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using HyFive.DataAccess;
 using MediatR;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class OppdaterSesjon
     {

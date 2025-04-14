@@ -4,21 +4,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
+using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr
+namespace HyFive.Services.Beskyttelsesutstyr
 {
     public class OppdaterFeilbrukType
     {
-        public class Command : IRequest<MisuseType>
+        public class Command : IRequest<IncorrectType>
         {
             public int UtstyrTypeId { get; set; }
-            public MisuseType FeilbrukType { get; set; }
+            public IncorrectType FeilbrukType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, MisuseType>
+        public class Handler : IRequestHandler<Command, IncorrectType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 _mapper = mapper;
             }
 
-            public async Task<MisuseType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<IncorrectType> Handle(Command request, CancellationToken cancellationToken)
             {
                 var utstyrType = await _context.ProtectiveEquipmentType
                     .Include(but => but.MisuseTypes)
@@ -50,7 +50,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 _context.ProtectiveEquipmentType.Update(utstyrType);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<MisuseType>(feilbrukType);
+                var mapped = _mapper.Map<IncorrectType>(feilbrukType);
                 return mapped;
             }
         }

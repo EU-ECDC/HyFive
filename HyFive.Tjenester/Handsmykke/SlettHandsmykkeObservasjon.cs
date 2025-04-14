@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Handsmykke
+namespace HyFive.Services.Handsmykke
 {
     public class SlettHandsmykkeObservasjon
     {

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
+using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr
+namespace HyFive.Services.Beskyttelsesutstyr
 {
     public class HentBeskyttelsesutstyrTyper
     {

@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Rapport.FireIndikasjoner;
+using HyFive.Models.V1.Report.FourIndications;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using OverforingstatusTypeKonstanter = HyFive.Modeller.V1.Konstanter.OverforingstatusTypeKonstanter;
+using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 
-namespace HyFive.Tjenester.Rapport.Observasjoner
+namespace HyFive.Services.Rapport.Observasjoner
 {
     public class HentFireIndikasjonerObservasjoner
     {
-        public class Query : IRequest<IEnumerable<FireIndikasjonerObservasjonRapport>>
+        public class Query : IRequest<IEnumerable<FourIndicationsObservationReport>>
         {
             public int AvdelingId { get; set; }
             public Guid? SesjonId { get; set; }
@@ -26,7 +26,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
             public AuthorizedRole Rolle { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<FireIndikasjonerObservasjonRapport>>
+        public class Handler : IRequestHandler<Query, IEnumerable<FourIndicationsObservationReport>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -38,7 +38,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<FireIndikasjonerObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
+            public async Task<IEnumerable<FourIndicationsObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
                 var queryable = _context.FourIndicationsObservation
                     .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.Observer)
@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
                 if (query.Rolle == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.FireIndikasjonerSesjon.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi);
+                    queryable = queryable.Where(p => p.FireIndikasjonerSesjon.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 if (query.AvdelingId > 0)
@@ -84,7 +84,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 return await queryable
                                       .OrderBy(o => o.FireIndikasjonerSesjon.Id)
                                       .ThenBy(o => o.Id)
-                                      .ProjectTo<FireIndikasjonerObservasjonRapport>(_mapper.ConfigurationProvider)
+                                      .ProjectTo<FourIndicationsObservationReport>(_mapper.ConfigurationProvider)
                                       .ToListAsync();
             }
         }

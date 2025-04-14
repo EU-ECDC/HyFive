@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace HyFive.Tjenester.Bruker
+namespace HyFive.Services.Bruker
 {
     public class BrukerValidator
     {
-        public static bool HarNavnOgHprNummerEllerGyldigPseudonym(Modeller.V1.User.User bruker)
+        public static bool HarNavnOgHprNummerEllerGyldigPseudonym(Models.V1.User.User bruker)
         {
             return !string.IsNullOrEmpty(bruker.FirstName)
                    && !string.IsNullOrEmpty(bruker.Surname)

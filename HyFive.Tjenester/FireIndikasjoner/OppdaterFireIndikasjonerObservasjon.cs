@@ -4,20 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.FireIndikasjoner.Helpers;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.FireIndikasjoner.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using FireIndikasjonerObservasjon = HyFive.Modeller.V1.Observasjon.FireIndikasjonerObservasjon;
+using FourIndicatorsObservation = HyFive.Models.V1.Observation.FourIndicatorsObservation;
 
-namespace HyFive.Tjenester.FireIndikasjoner
+namespace HyFive.Services.FireIndikasjoner
 {
     public class OppdaterFireIndikasjonerObservasjon
     {
         public class Command : IRequest<bool>
         {
-            public FireIndikasjonerObservasjon Observasjon { get; set; }
+            public FourIndicatorsObservation Observasjon { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -47,7 +47,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                 {
                     throw new Exception("O-FI-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
-                if (observasjon.FourIndicationsSession.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.FourIndicationsSession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-FI-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
@@ -56,21 +56,21 @@ namespace HyFive.Tjenester.FireIndikasjoner
 
                 try
                 {
-                    var indikasjonstyperFraRequest = _context.IndicationTypes.Where(i => request.Observasjon.Indikasjonstyper.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    var indikasjonstyperFraRequest = _context.IndicationTypes.Where(i => request.Observasjon.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
                     observasjon.IndicationTypes = indikasjonstyperFraRequest;
 
-                    var aktivitetTypeFraRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observasjon.Aktivitet.ActivityType.Code);
+                    var aktivitetTypeFraRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observasjon.Activity.ActivityType.Code);
                     observasjon.Activity.ActivityType = aktivitetTypeFraRequest;
-                    observasjon.Activity.GloveUsed = request.Observasjon.Aktivitet.GloveUsed;
-                    observasjon.Activity.TimeSpent = request.Observasjon.Aktivitet.TimeSpent;
-                    observasjon.Activity.TimeRecordingWasDone = request.Observasjon.Aktivitet.TimeRecordingWasDone;
+                    observasjon.Activity.GloveUsed = request.Observasjon.Activity.GloveUsed;
+                    observasjon.Activity.TimeSpent = request.Observasjon.Activity.TimeSpent;
+                    observasjon.Activity.TimeRecordingWasDone = request.Observasjon.Activity.TimeRecordingWasDone;
 
-                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.RegistrationTime;
 
-                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Role.Id);
                     observasjon.Role = rolleFraRequest;
 
-                    observasjon.Comment = request.Observasjon.Kommentar;
+                    observasjon.Comment = request.Observasjon.Comment;
 
                     _context.Update(observasjon);
 

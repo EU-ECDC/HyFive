@@ -10,16 +10,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentInstitusjon
     {
-        public class Query : IRequest<Modeller.V1.Institution.Institution>
+        public class Query : IRequest<Models.V1.Institution.Institution>
         {
             public int InstitusjonId = 0;
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Institution.Institution>
+        public class Handler : IRequestHandler<Query, Models.V1.Institution.Institution>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -32,7 +32,7 @@ namespace HyFive.Tjenester.Institusjon
 
 
 
-            public async Task<Modeller.V1.Institution.Institution> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Institution> Handle(Query request, CancellationToken cancellationToken)
             {
                 var institusjon = await _context.Institution
                     .AsNoTracking()
@@ -40,7 +40,7 @@ namespace HyFive.Tjenester.Institusjon
                     .ThenInclude(a => a.Roller)
                     .Include(i => i.PredefinerteKommmentarer)
                     .Include(i => i.Institusjontype)
-                    .ProjectTo<Modeller.V1.Institution.Institution>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Institution.Institution>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(i => i.Id == request.InstitusjonId, cancellationToken);
                 
                 if (institusjon == null)

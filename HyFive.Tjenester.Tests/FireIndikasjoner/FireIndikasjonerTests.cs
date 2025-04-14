@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.FireIndikasjoner;
-using HyFive.Tjenester.FireIndikasjoner.Helpers;
-using HyFive.Tjenester.Sesjon;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FireIndikasjoner.Helpers;
+using HyFive.Services.Sesjon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
-namespace HyFive.Tjenester.Tests.FireIndikasjoner
+namespace HyFive.Services.Tests.FireIndikasjoner
 {
     public class FireIndikasjonerTests : TjenesteTests
     {
@@ -142,12 +142,12 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationTypes.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Activity.ActivityType.Code, Is.EqualTo(AktivitetTypeKonstanter.Handvask));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Activity.ActivityType.Code, Is.EqualTo(AktivitetTypeKonstanter.Handwash));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
         //    });
         //}
 
-        private async Task<FireIndikasjonerSesjon> HentSesjon(Guid sesjonGuidFraRequestGuid)
+        private async Task<FourIndicationsSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
             var hentFireIndikasjonSesjonHandler = new HentFireIndikasjonerSesjon.Handler(DatabaseContext, Mapper, BrukerService);
             var fireIndikasjonSesjon = await hentFireIndikasjonSesjonHandler.Handle(new HentFireIndikasjonerSesjon.Query()
@@ -361,7 +361,7 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
             var oppdaterAktivitetTypeHandler = new OppdaterAktivitetType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterAktivitetType.Command()
             {
-                Aktivitettype = new Modeller.V1.Observasjon.ActivityType()
+                Aktivitettype = new Modeller.V1.Observation.ActivityType()
                 {
                     Id = opprettetAktivitetType.Id,
                     Code = "DV",
@@ -388,7 +388,7 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
             var oppdaterAktivitetTypeHandler = new OppdaterAktivitetType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterAktivitetType.Command()
             {
-                Aktivitettype = new Modeller.V1.Observasjon.ActivityType()
+                Aktivitettype = new Modeller.V1.Observation.ActivityType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -438,7 +438,7 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
             var oppdaterIndikasjonTypeHandler = new OppdaterIndikasjonstype.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterIndikasjonstype.Command()
             {
-                Indikasjonstype = new Modeller.V1.Observasjon.IndicationType()
+                Indikasjonstype = new Modeller.V1.Observation.IndicationType()
                 {
                     Id = opprettetIndikasjonType.Id,
                     Code = "DV",
@@ -465,7 +465,7 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
             var oppdaterIndikasjonTypeHandler = new OppdaterIndikasjonstype.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new OppdaterIndikasjonstype.Command()
             {
-                Indikasjonstype = new Modeller.V1.Observasjon.IndicationType()
+                Indikasjonstype = new Modeller.V1.Observation.IndicationType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -487,22 +487,22 @@ namespace HyFive.Tjenester.Tests.FireIndikasjoner
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Observasjon.ActivityType> OpprettAktivitetType(string kode = null)
+        private async Task<Modeller.V1.Observation.ActivityType> OpprettAktivitetType(string kode = null)
         {
             var aktivitetType = new Domain.Observation.ActivityType() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.ActivityType.Add(aktivitetType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.ActivityType>(aktivitetType);
+            return Mapper.Map<Modeller.V1.Observation.ActivityType>(aktivitetType);
         }
 
-        private async Task<Modeller.V1.Observasjon.IndicationType> OpprettIndikasjonType(string kode = null)
+        private async Task<Modeller.V1.Observation.IndicationType> OpprettIndikasjonType(string kode = null)
         {
             var indikasjonType = new Domain.Observation.IndicationTypes() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.IndicationTypes.Add(indikasjonType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observasjon.IndicationType>(indikasjonType);
+            return Mapper.Map<Modeller.V1.Observation.IndicationType>(indikasjonType);
         }
 
         #endregion

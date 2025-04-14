@@ -5,9 +5,9 @@ using HyFive.DataAccess;
 using HyFive.Domene.Place;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PredefinedComment = HyFive.Modeller.V1.Institution.PredefinedComment;
+using PredefinedComment = HyFive.Models.V1.Institution.PredefinedComment;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class OppdaterPredefinertKommentar
     {

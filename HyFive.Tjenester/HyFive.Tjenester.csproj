@@ -9,8 +9,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
-    <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Tjenester.Autentisering.csproj" />
+    <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Overforingsstatus\" />

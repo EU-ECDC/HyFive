@@ -1,9 +1,9 @@
-﻿using HyFive.Domene.Observation;
+﻿using HyFive.Domain.Observation;
 using System;
 using System.Linq;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 
-namespace HyFive.Tjenester.Handsmykke.Helpers
+namespace HyFive.Services.Handsmykke.Helpers
 {
     public class HandsmykkeObservasjonValidator
     {
@@ -19,9 +19,9 @@ namespace HyFive.Tjenester.Handsmykke.Helpers
                 throw new HandsmykkeObservasjonValidationException("HO-V-02: Rolle må registreres.");
             }
             
-            if(observasjon.HandJewelry.Count > 1 && observasjon.HandJewelry.Select(h => h.Code).Contains(HandsmykkeTypeKonstanter.AltOk))
+            if(observasjon.HandJewelry.Count > 1 && observasjon.HandJewelry.Select(h => h.Code).Contains(HandJewelryTypeConstants.AllClear))
             {
-                throw new HandsmykkeObservasjonValidationException($"HO-V-03: '{HandsmykkeTypeKonstanter.AltOk}' kan ikke kombineres med andre typer håndsmykker'");
+                throw new HandsmykkeObservasjonValidationException($"HO-V-03: '{HandJewelryTypeConstants.AllClear}' kan ikke kombineres med andre typer håndsmykker'");
             }
                 
 

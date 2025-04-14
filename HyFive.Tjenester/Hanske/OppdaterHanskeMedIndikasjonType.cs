@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Observasjon.Gloves;
+using HyFive.Models.V1.Observation.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Hanske
+namespace HyFive.Services.Hanske
 {
     public class OppdaterHanskeMedIndikasjonType
     {

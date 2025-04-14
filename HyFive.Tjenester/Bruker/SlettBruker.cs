@@ -8,7 +8,7 @@ using HyFive.Domene.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Bruker
+namespace HyFive.Services.Bruker
 {
     public class SlettBruker
     {

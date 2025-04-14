@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Observasjon;
+using HyFive.Models.V1.Observation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.FireIndikasjoner
+namespace HyFive.Services.FireIndikasjoner
 {
     public class OppdaterAktivitetType
     {

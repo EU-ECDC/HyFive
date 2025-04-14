@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Gloves;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Hanske;
+using HyFive.Modeller.V1.Observation.Gloves;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Hanske;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/hanskeutenindikasjontype")]
     public class HanskeUtenIndikasjonTypeController : ControllerBase
     {

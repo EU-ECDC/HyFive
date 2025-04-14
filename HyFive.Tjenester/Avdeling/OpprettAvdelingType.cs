@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class OpprettAvdelingType
     {

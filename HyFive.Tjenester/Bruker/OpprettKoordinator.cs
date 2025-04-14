@@ -7,16 +7,16 @@ using HyFive.Domene.Bruker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Bruker
+namespace HyFive.Services.Bruker
 {
     public class OpprettKoordinator
     {
-        public class Command : IRequest<Modeller.V1.User.User>
+        public class Command : IRequest<Models.V1.User.User>
         {
-            public Modeller.V1.User.User Bruker { get; set; }
+            public Models.V1.User.User Bruker { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
+        public class Handler : IRequestHandler<Command, Models.V1.User.User>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HyFive.Tjenester.Bruker
             }
 
 
-            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
                 var institusjon = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.Bruker.InstitutionId);
                 if (institusjon == null)
@@ -69,7 +69,7 @@ namespace HyFive.Tjenester.Bruker
 
                 _context.User.Add(koordinator);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Modeller.V1.User.User>(koordinator);
+                return _mapper.Map<Models.V1.User.User>(koordinator);
             }
         }
     }

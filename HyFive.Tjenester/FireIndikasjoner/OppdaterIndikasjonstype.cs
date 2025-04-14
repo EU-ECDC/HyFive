@@ -4,10 +4,10 @@ using AutoMapper;
 using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using HyFive.Modeller.V1.Observasjon;
+using HyFive.Models.V1.Observation;
 using System;
 
-namespace HyFive.Tjenester.FireIndikasjoner
+namespace HyFive.Services.FireIndikasjoner
 {
     public class OppdaterIndikasjonstype
     {

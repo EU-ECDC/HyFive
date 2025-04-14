@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Klinikk;
+using HyFive.Services.Klinikk;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/klinikk")]
     public class KlinikkController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public KlinikkController(IMediator mediator, IBrukerService brukerService)
+        public KlinikkController(IMediator mediator, IUserService brukerService)
         {
             _mediator = mediator;
             _brukerservice = brukerService;
@@ -34,7 +34,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Clinic), StatusCodes.Status200OK)]
         public async Task<ActionResult<Clinic>> HentKlinikk(int id, int institusjonsId)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonsId))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonsId))
             {
                 return await _mediator.Send(new HentKlinikk.Query() { Id = id, InstitusjonId = institusjonsId });
             }
@@ -51,7 +51,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(IEnumerable<Clinic>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Clinic>>> HentKlinikkerForInstitusjon(int institusjonId)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
                 var klinikker = await _mediator.Send(new HentKlinikkerForInstitusjon.Query() { InstitusjonId = institusjonId });
                 return Ok(klinikker);

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.ForesporselOmBrukertilgang;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.ForesporselOmBrukertilgang;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,14 +12,14 @@ using UserAccessRequest = HyFive.Modeller.V1.ForesporselOmBrukertilgang.UserAcce
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.Koordinator)]
+    [Authorize(HandhygienePolicy.Coordinator)]
     [Route("api/v1/foresporselombrukertilgang")]
     public class ForesporselOmBrukertilgangController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public ForesporselOmBrukertilgangController(IMediator mediator, IBrukerService brukerservice)
+        public ForesporselOmBrukertilgangController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -30,13 +30,13 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet("alleforesporsler")]
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
         public async Task<ActionResult<UserAccessRequest>> HentAlleForesporsler([FromQuery] int institusjonId)
         {
             try
             {
-                var bruker = await _brukerservice.HentBruker();
+                var bruker = await _brukerservice.GetUser();
                 var response = await _mediator.Send(new HentAlleForesporsler.Query
                 {
                     InstitusjonId = institusjonId
@@ -54,7 +54,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet("foresporslersomventerpagodkjenning")]
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
         public async Task<ActionResult<UserAccessRequest>> HentForesporslerSomVenterPaGodkjenning([FromQuery] int institusjonId)
         {
@@ -72,12 +72,12 @@ namespace HyFive.Admin.Controllers.V1
             }
         }
         [HttpGet("godkjennforesporsel")]
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         public async Task<ActionResult<bool>> GodkjennForesporsel([FromQuery] int foresporselId)
         {
             try
             {
-                var bruker = await _brukerservice.HentBruker();
+                var bruker = await _brukerservice.GetUser();
                 
                 var response = await _mediator.Send(new OpprettBrukerFraForesporsel.Command()
                 {
@@ -94,12 +94,12 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet("avvisforesporsel")]
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         public async Task<ActionResult<bool>> AvvisForesporsel([FromQuery] int foresporselId)
         {
             try
             {
-                var bruker = await _brukerservice.HentBruker();
+                var bruker = await _brukerservice.GetUser();
 
                 var response = await _mediator.Send(new AvvisForesporsel.Command()
                 {

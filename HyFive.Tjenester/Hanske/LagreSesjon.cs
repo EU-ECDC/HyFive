@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Hanske.Helpers;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Hanske.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using HanskeSesjon = HyFive.Modeller.V1.Sesjon.HanskeSesjon;
+using HanskeSesjon = HyFive.Models.V1.Session.HanskeSesjon;
 
-namespace HyFive.Tjenester.Hanske
+namespace HyFive.Services.Hanske
 {
     public class LagreSesjon
     {
@@ -29,9 +29,9 @@ namespace HyFive.Tjenester.Hanske
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly IBrukerService _brukerService;
+            private readonly IUserService _brukerService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -79,7 +79,7 @@ namespace HyFive.Tjenester.Hanske
                 }
 
                 var overforingsstatuser = _context.TransmissionStatusType.ToList();
-                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(sesjon);
                 _context.SaveChanges();
@@ -105,7 +105,7 @@ namespace HyFive.Tjenester.Hanske
 
                 return institusjon.Users.OfType<Observator>().Where(
                     _brukerService
-                        .HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer,
+                        .HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer,
                             request.Pseudonym).Compile()).FirstOrDefault();
             }
         }

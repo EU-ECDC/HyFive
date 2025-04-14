@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Modeller", "HyFive.Modeller\HyFive.Modeller.csproj", "{B6E60D4A-3436-4C02-9E46-F2C718717DC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Models", "HyFive.Modeller\HyFive.Models.csproj", "{B6E60D4A-3436-4C02-9E46-F2C718717DC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Api.Common", "HyFive.Api.Common\HyFive.Api.Common.csproj", "{6977A133-4AAF-4769-A5A2-CEE64456EA36}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.DataAccess", "HyFive
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester", "HyFive.Tjenester\HyFive.Tjenester.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester.Autentisering", "HyFive.Tjenester.Autentisering\HyFive.Tjenester.Autentisering.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Authentication", "HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester.Rapporter", "HyFive.Tjenester.Rapporter\HyFive.Tjenester.Rapporter.csproj", "{14316A36-61B8-4EAC-9865-F1B53285E0A2}"
 EndProject

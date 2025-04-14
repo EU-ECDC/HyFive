@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.FireIndikasjoner
+namespace HyFive.Services.FireIndikasjoner
 {
     public class SlettFireIndikasjonerObservasjon
     {

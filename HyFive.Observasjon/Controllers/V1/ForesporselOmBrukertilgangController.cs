@@ -1,6 +1,6 @@
-﻿using HyFive.Modeller.V1.ForesporselOmBrukertilgang;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.ForesporselOmBrukertilgang;
+﻿using HyFive.Models.V1.ForesporselOmBrukertilgang;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.ForesporselOmBrukertilgang;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +14,9 @@ namespace HyFive.Observasjon.Controllers.V1
     public class ForesporselOmBrukertilgangController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerService;
+        private readonly IUserService _brukerService;
 
-        public ForesporselOmBrukertilgangController(IMediator mediator, IBrukerService brukerService)
+        public ForesporselOmBrukertilgangController(IMediator mediator, IUserService brukerService)
         {
             _mediator = mediator;
             _brukerService = brukerService;
@@ -62,7 +62,7 @@ namespace HyFive.Observasjon.Controllers.V1
         {
             try
             {
-                var bruker = await _brukerService.HentBruker();
+                var bruker = await _brukerService.GetUser();
                 var foresporsel = await _mediator.Send(new HentForesporselSomSendtAllerede.Query
                 {
                     HprNummer = bruker.HPRNumber,

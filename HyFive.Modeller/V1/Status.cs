@@ -1,6 +1,6 @@
 ﻿using Reinforced.Typings.Attributes;
 
-namespace HyFive.Modeller.V1
+namespace HyFive.Models.V1
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class Status

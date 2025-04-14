@@ -6,15 +6,15 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.ForesporselOmBrukertilgang
+namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class HentInstitusjoner
     {
-        public class Query : IRequest<List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
+        public class Query : IRequest<List<Models.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>>
         {
             private readonly int InstitusjonIdForFHI = 1;
 
@@ -24,11 +24,11 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
             {
                 _context = context;
             }
-            public async Task<List<Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Models.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var institusjoner = _context.Institution.AsNoTracking()
                              .Where(i=> i.Id != InstitusjonIdForFHI)
-                             .Select(i => new Modeller.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest()
+                             .Select(i => new Models.V1.ForesporselOmBrukertilgang.InstitutionForUserAccessRequest()
                              {
                                  Id = i.Id, 
                                  Name = i.Name

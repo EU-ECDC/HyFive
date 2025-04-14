@@ -7,16 +7,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Roller
+namespace HyFive.Services.Roller
 {
     public class HentRolle
     {
-        public class Query : IRequest<Modeller.V1.Observasjon.Role>
+        public class Query : IRequest<Models.V1.Observation.Role>
         {
             public int Id = 0;
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Observasjon.Role>
+        public class Handler : IRequestHandler<Query, Models.V1.Observation.Role>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace HyFive.Tjenester.Roller
             }
 
 
-            public async Task<Modeller.V1.Observasjon.Role> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Observation.Role> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Role
                     .AsNoTracking()
                     .Where(r => r.Id == request.Id)
-                    .ProjectTo<Modeller.V1.Observasjon.Role>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Observation.Role>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
             }
         }

@@ -5,25 +5,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class OppdaterAvdeling
     {
-        public class Command : IRequest<Modeller.V1.Institution.Department>
+        public class Command : IRequest<Models.V1.Institution.Department>
         {
-            public Command() { Roller = new List<Modeller.V1.Observasjon.Role>(); }
+            public Command() { Roller = new List<Models.V1.Observation.Role>(); }
 
             public int Id { get; set; }
             public string Navn { get; set; }
             public int AvdelingTypeId { get; set; }
-            public List<Modeller.V1.Observasjon.Role> Roller { get; set; }
+            public List<Models.V1.Observation.Role> Roller { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Department>
+        public class Handler : IRequestHandler<Command, Models.V1.Institution.Department>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace HyFive.Tjenester.Avdeling
             }
 
 
-            public async Task<Modeller.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
             {
                 var avdeling = await _context.Department
                                              .Include(a => a.Roller)
@@ -63,7 +63,7 @@ namespace HyFive.Tjenester.Avdeling
 
                 _context.Update(avdeling);
                 await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Modeller.V1.Institution.Department>(avdeling);
+                var mapped = _mapper.Map<Models.V1.Institution.Department>(avdeling);
                 return mapped;
             }
         }

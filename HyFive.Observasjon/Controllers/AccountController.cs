@@ -1,6 +1,6 @@
-﻿using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Controllers;
-using HyFive.Tjenester.Autentisering.Konfigurasjon;
+﻿using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Controllers;
+using HyFive.Services.Authentication.Configuration;
 using Fhi.HelseId.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ namespace HyFive.Observasjon.Controllers
     [AllowAnonymous]
     public class AccountController : BaseAccountController
     {
-        public AccountController(IBrukerService brukerService, IOptions<HandhygieneHelseIdKonfigurasjon> handhygieneKonfigurasjon, IOptions<RedirectPagesKonfigurasjon> redirectKonfigurasjon) : base(brukerService, handhygieneKonfigurasjon, redirectKonfigurasjon)
+        public AccountController(IUserService brukerService, IOptions<HandHygieneHealthIdConfiguration> handhygieneKonfigurasjon, IOptions<RedirectPagesKonfigurasjon> redirectKonfigurasjon) : base(brukerService, handhygieneKonfigurasjon, redirectKonfigurasjon)
         {
 
         }

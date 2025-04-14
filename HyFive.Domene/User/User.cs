@@ -16,9 +16,9 @@ namespace HyFive.Domain.User
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
-        public string IdentPseudonym { get; set; }
+        public string IdentityPseudonym { get; set; }
         public bool IsDisabled { get; set; }
         public string Discriminator { get; set; }
-        public string HPRNummer { get; set; }
+        public string HPRNumber { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using HyFive.Domene.Observation.Gloves;
 
-namespace HyFive.Tjenester.Hanske.Helpers
+namespace HyFive.Services.Hanske.Helpers
 {
     public class HanskeObservasjonValidator
     {

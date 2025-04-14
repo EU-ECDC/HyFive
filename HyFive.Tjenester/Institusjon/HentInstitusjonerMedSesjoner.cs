@@ -5,13 +5,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Oversikt;
+using HyFive.Models.V1.Overview;
 using System.Collections.Generic;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Session;
 using System;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentInstitusjonerMedSesjoner
     {
@@ -45,7 +45,7 @@ namespace HyFive.Tjenester.Institusjon
                         .Where(s => query.Sesjontype == null || s.Discriminator == sesjonType)
                         .Where(s => query.FraDato == null || s.Opprettettidspunkt.Date >= query.FraDato.Value.Date)
                         .Where(s => query.TilDato == null || s.Opprettettidspunkt.Date <= query.TilDato.Value.Date)
-                        .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                        .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(query.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                     )
                     .Where(x => query.InstitusjonId == null || query.InstitusjonId == x.Id)
                     .OrderBy(i => i.Navn)
@@ -103,7 +103,7 @@ namespace HyFive.Tjenester.Institusjon
                     .AsNoTracking()
                     .Include(b => b.HandJewelrySession)
                     .Count(bo => bo.HandJewelrySession.Department.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.HandJewelrySession.TransmissionStatus.Code)
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.OverforingsstatusType).Contains(bo.HandJewelrySession.TransmissionStatus.Code)
                                  && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
                                  && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
@@ -114,7 +114,7 @@ namespace HyFive.Tjenester.Institusjon
                     .AsNoTracking()
                     .Include(b => b.GloveSession)
                     .Count(bo => bo.GloveSession.Department.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.GloveSession.TransmissionStatus.Code)
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.OverforingsstatusType).Contains(bo.GloveSession.TransmissionStatus.Code)
                                  && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
                                  && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
@@ -125,7 +125,7 @@ namespace HyFive.Tjenester.Institusjon
                     .AsNoTracking()
                     .Include(b => b.FourIndicationsSession)
                     .Count(bo => bo.FourIndicationsSession.Department.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.FourIndicationsSession.TransmissionStatus.Code)
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.OverforingsstatusType).Contains(bo.FourIndicationsSession.TransmissionStatus.Code)
                                  && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
                                  && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
@@ -136,7 +136,7 @@ namespace HyFive.Tjenester.Institusjon
                     .AsNoTracking()
                     .Include(b => b.ProtectiveEquipmentSession)
                     .Count(bo => bo.ProtectiveEquipmentSession.Department.Id == avdelingId 
-                                 && OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(query.OverforingsstatusType).Contains(bo.ProtectiveEquipmentSession.TransmissionStatus.Code)
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.OverforingsstatusType).Contains(bo.ProtectiveEquipmentSession.TransmissionStatus.Code)
                                  && (query.FraDato == null || bo.RegistrationTime.Date >= query.FraDato.Value.Date)
                                  && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }

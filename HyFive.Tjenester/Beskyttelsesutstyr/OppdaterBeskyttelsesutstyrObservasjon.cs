@@ -4,14 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Tjenester.Beskyttelsesutstyr.Helpers;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation.ProtectiveEquipment;
+using HyFive.Services.Beskyttelsesutstyr.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr
+namespace HyFive.Services.Beskyttelsesutstyr
 {
     public class OppdaterBeskyttelsesutstyrObservasjon
     {
@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                     throw new Exception("O-BU-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
 
-                if (observasjon.ProtectiveEquipmentSession.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.ProtectiveEquipmentSession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-BU-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
@@ -63,7 +63,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 
                 try
                 {
-                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.RegistrationTime;
 
                     var utstyrstyper = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                         .ToListAsync(cancellationToken);

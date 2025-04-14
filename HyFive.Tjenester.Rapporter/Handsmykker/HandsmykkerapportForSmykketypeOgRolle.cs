@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HyFive.Domene.Observation;
 
-namespace HyFive.Tjenester.Rapporter.Handsmykker
+namespace HyFive.Services.Rapporter.Handsmykker
 {
     public class HandsmykkerapportForSmykketypeOgRolle
     {

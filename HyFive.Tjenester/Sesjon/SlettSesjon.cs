@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Session;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class SlettSesjon
     {

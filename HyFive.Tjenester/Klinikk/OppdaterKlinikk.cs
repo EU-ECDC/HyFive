@@ -7,16 +7,16 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Klinikk
+namespace HyFive.Services.Klinikk
 {
     public class OppdaterKlinikk
     {
-        public class Command : IRequest<Modeller.V1.Institution.Clinic>
+        public class Command : IRequest<Models.V1.Institution.Clinic>
         {
-            public Modeller.V1.Institution.Clinic Klinikk { get; set; }
+            public Models.V1.Institution.Clinic Klinikk { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Clinic>
+        public class Handler : IRequestHandler<Command, Models.V1.Institution.Clinic>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace HyFive.Tjenester.Klinikk
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institution.Clinic> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Clinic> Handle(Command command, CancellationToken cancellationToken)
             {
                 var klinikk = await _context
                     .Clinic
@@ -55,7 +55,7 @@ namespace HyFive.Tjenester.Klinikk
                 _context.Entry(klinikk).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                var mapped = _mapper.Map<Modeller.V1.Institution.Clinic>(klinikk);
+                var mapped = _mapper.Map<Models.V1.Institution.Clinic>(klinikk);
                 return mapped;
             }
         }

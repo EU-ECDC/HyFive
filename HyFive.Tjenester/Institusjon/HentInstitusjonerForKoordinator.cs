@@ -9,17 +9,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentInstitusjonerForKoordinator
     {
-        public class Query : IRequest<Modeller.V1.Institution.InstitutionReport[]>
+        public class Query : IRequest<Models.V1.Institution.InstitutionReport[]>
         {
             public string KoordinatorHprNummer { get; set; }
             public string KoordinatorPseudonym { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Institution.InstitutionReport[]>
+        public class Handler : IRequestHandler<Query, Models.V1.Institution.InstitutionReport[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace HyFive.Tjenester.Institusjon
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 if (string.IsNullOrEmpty(request.KoordinatorHprNummer) && string.IsNullOrEmpty(request.KoordinatorPseudonym))
                 {
@@ -53,7 +53,7 @@ namespace HyFive.Tjenester.Institusjon
                     );
 
                 var result = await query
-                    .ProjectTo<Modeller.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
                 return result;
             }

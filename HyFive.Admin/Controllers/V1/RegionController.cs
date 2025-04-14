@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Region;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Region;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

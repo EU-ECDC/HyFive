@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class OppdaterInstitusjon
     {
-        public class Command : IRequest<Modeller.V1.Institution.Institution>
+        public class Command : IRequest<Models.V1.Institution.Institution>
         {
-            public Modeller.V1.Institution.Institution Institusjon { get; set; }
+            public Models.V1.Institution.Institution Institusjon { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Institution>
+        public class Handler : IRequestHandler<Command, Models.V1.Institution.Institution>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HyFive.Tjenester.Institusjon
             }
 
 
-            public async Task<Modeller.V1.Institution.Institution> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Institution> Handle(Command command, CancellationToken cancellationToken)
             {
                 // sjekk institusjontype:
                 var institusjontype = await _context.InstitutionType.FirstOrDefaultAsync(i => i.Id == command.Institusjon.InstitutionType.Id);
@@ -41,7 +41,7 @@ namespace HyFive.Tjenester.Institusjon
                                                 .Include(i => i.HealthcareProvider)
                                                 .FirstOrDefaultAsync(i => i.Id == command.Institusjon.Id);
 
-                if (command.Institusjon.Comment != null && command.Institusjon.InstitutionType.Code == InstitusjonstypeKonstanter.Sykehjem)
+                if (command.Institusjon.Comment != null && command.Institusjon.InstitutionType.Code == InstitutionTypeConstants.NursingHome)
                 {
                     var kommune = await _context.Municipality.FirstOrDefaultAsync(k => k.Id == command.Institusjon.Comment.Id);
                     institusjon.Municipality = kommune;
@@ -51,7 +51,7 @@ namespace HyFive.Tjenester.Institusjon
                     institusjon.Municipality = null;
                 }
 
-                if (command.Institusjon.HealthcareProvider != null && command.Institusjon.InstitutionType.Code == InstitusjonstypeKonstanter.Sykehus)
+                if (command.Institusjon.HealthcareProvider != null && command.Institusjon.InstitutionType.Code == InstitutionTypeConstants.NursingHome)
                 {
                     var helseforetak = await _context.HealthcareProvider.FirstOrDefaultAsync(h => h.Id == command.Institusjon.HealthcareProvider.Id);
                     institusjon.HealthcareProvider = helseforetak;
@@ -68,7 +68,7 @@ namespace HyFive.Tjenester.Institusjon
 
                 _context.Institution.Update(institusjon);
                 await _context.SaveChangesAsync(cancellationToken);
-                var mapped = _mapper.Map<Modeller.V1.Institution.Institution>(institusjon);
+                var mapped = _mapper.Map<Models.V1.Institution.Institution>(institusjon);
                 return mapped;
             }
         }

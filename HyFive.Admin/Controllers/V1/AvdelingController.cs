@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Avdeling;
+using HyFive.Services.Avdeling;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Roller;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Roller;
 using System;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/avdeling")]
     public class AvdelingController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public AvdelingController(IMediator mediator, IBrukerService brukerservice)
+        public AvdelingController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
         public async Task<ActionResult<Department>> HentAvdeling(int id)
         {
-            if (_brukerservice.ErKoordinatorForAvdelingEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
                 return await _mediator.Send(new HentAvdeling.Query() { Id = id });
             }
@@ -135,7 +135,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Role>>> HentRoller(int id)
         {
-            if (_brukerservice.ErKoordinatorForAvdelingEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
                 return await _mediator.Send(new HentRollerForAvdeling.Query { AvdelingId = id });
             }
@@ -149,7 +149,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+        [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
         [HttpDelete("slett/{id}")]
         public async Task<bool> SlettAvdeling(int id)
         {

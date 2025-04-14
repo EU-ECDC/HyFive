@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using HyFive.DataAccess;
 using HyFive.Domene.Observation;
 using HyFive.Domene.Session;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Rapporter.Handsmykker
+namespace HyFive.Services.Rapporter.Handsmykker
 {
     public class HentHandsmykkeRapportForAvdeling
     {
@@ -67,7 +67,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    sesjoner = sesjoner.Where(p => p.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    sesjoner = sesjoner.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 var rapportForEnhet = LagRapportForEnhet(sesjoner);
@@ -90,7 +90,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    sesjoner = sesjoner.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    sesjoner = sesjoner.Where(p => p.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 var rapportForEnhet = LagRapportForEnhet(sesjoner);

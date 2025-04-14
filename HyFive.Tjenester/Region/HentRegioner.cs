@@ -7,15 +7,15 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Region
+namespace HyFive.Services.Region
 {
     public class HentRegioner
     {
-        public class Query : IRequest<IEnumerable<Modeller.V1.Institution.Region>>
+        public class Query : IRequest<IEnumerable<Models.V1.Institution.Region>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Modeller.V1.Institution.Region>>
+        public class Handler : IRequestHandler<Query, IEnumerable<Models.V1.Institution.Region>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,14 +26,14 @@ namespace HyFive.Tjenester.Region
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<Modeller.V1.Institution.Region>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Models.V1.Institution.Region>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var regionstyper = await _context.Region
                     .AsNoTracking()
                     .OrderBy(rt => rt.Id)
                     .ToListAsync(cancellationToken);
 
-                var mapped = _mapper.Map<List<Modeller.V1.Institution.Region>>(regionstyper);
+                var mapped = _mapper.Map<List<Models.V1.Institution.Region>>(regionstyper);
                 return mapped;
             }
         }

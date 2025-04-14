@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Beskyttelsesutstyr;
+using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HyFive.Admin.Controllers.V1
 {
 
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/beskyttelsesutstyrsettingtyper")]
     public class BeskyttelsesutstyrsettingtyperController : ControllerBase
     {

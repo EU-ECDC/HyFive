@@ -1,4 +1,4 @@
-﻿namespace HyFive.Tjenester
+﻿namespace HyFive.Services
 {
     public enum AuthorizedRole
     {

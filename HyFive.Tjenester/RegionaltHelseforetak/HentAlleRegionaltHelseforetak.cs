@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.RegionaltHelseforetak
+namespace HyFive.Services.RegionaltHelseforetak
 {
     public class HentAlleRegionaltHelseforetak
     {
-        public class Query : IRequest<List<Modeller.V1.Institution.RegionalInstitution>>
+        public class Query : IRequest<List<Models.V1.Institution.RegionalInstitution>>
         {
 
         }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.Institution.RegionalInstitution>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.RegionalInstitution>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,11 +26,11 @@ namespace HyFive.Tjenester.RegionaltHelseforetak
                 _context = context;
                 _mapper = mapper;
             }
-            public Task<List<Modeller.V1.Institution.RegionalInstitution>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<List<Models.V1.Institution.RegionalInstitution>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var regionaltHelseforetak = _context.RegionaltHealthcareProvider
                                                     .AsNoTracking()
-                                                    .ProjectTo<Modeller.V1.Institution.RegionalInstitution>(_mapper.ConfigurationProvider)
+                                                    .ProjectTo<Models.V1.Institution.RegionalInstitution>(_mapper.ConfigurationProvider)
                                                     .ToListAsync(cancellationToken);
 
                 return regionaltHelseforetak;

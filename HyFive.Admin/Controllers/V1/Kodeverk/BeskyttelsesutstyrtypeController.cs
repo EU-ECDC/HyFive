@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Beskyttelsesutstyr;
+using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +50,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="utstyrTypeId"></param>
         /// <returns></returns>
         [HttpGet("feilbruktyper", Name = "HentFeilbrukTyper")]
-        public async Task<List<MisuseType>> HentFeilbrukTyper([FromQuery] int utstyrTypeId)
+        public async Task<List<IncorrectType>> HentFeilbrukTyper([FromQuery] int utstyrTypeId)
         {
             return await _mediator.Send(new HentFeilbrukTyper.Query
             {
@@ -65,7 +65,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="feilbrukType"></param>
         /// <returns></returns>
         [HttpPut("feilbruktyper/oppdater")]
-        public async Task<MisuseType> OppdaterFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] MisuseType feilbrukType)
+        public async Task<IncorrectType> OppdaterFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] IncorrectType feilbrukType)
         {
             return await _mediator.Send(new OppdaterFeilbrukType.Command
             {
@@ -82,7 +82,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpPost("feilbruktyper/opprett")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
-        public async Task<ActionResult<bool>> OpprettFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] OpprettFeilbrukTypeRequest feilbrukType)
+        public async Task<ActionResult<bool>> OpprettFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] CreateErrorTypeRequest feilbrukType)
         {
             var erOpprettet =  await _mediator.Send(new OpprettFeilbrukType.Command
             {

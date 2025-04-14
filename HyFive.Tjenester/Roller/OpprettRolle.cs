@@ -6,18 +6,18 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon;
+using HyFive.Models.V1.Observation;
 
-namespace HyFive.Tjenester.Roller
+namespace HyFive.Services.Roller
 {
     public class OpprettRolle
     {
-        public class Command : IRequest<Modeller.V1.Observasjon.Role>
+        public class Command : IRequest<Models.V1.Observation.Role>
         {
-            public OpprettRolleRequest Request { get; set; }
+            public CreateRoleRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Observasjon.Role>
+        public class Handler : IRequestHandler<Command, Models.V1.Observation.Role>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,19 +29,19 @@ namespace HyFive.Tjenester.Roller
             }
 
 
-            public async Task<Modeller.V1.Observasjon.Role> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Observation.Role> Handle(Command command, CancellationToken cancellationToken)
             {
                 // sjekk institusjon
                 var rolle = new Domene.Observation.Role()
                 {
-                    Name = command.Request.Navn,
-                    Description = command.Request.Beskrivelse
+                    Name = command.Request.Name,
+                    Description = command.Request.Description
                 };
 
                 _context.Role.Add(rolle);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<Modeller.V1.Observasjon.Role>(rolle);
+                var mapped = _mapper.Map<Models.V1.Observation.Role>(rolle);
                 return mapped;
             }
         }

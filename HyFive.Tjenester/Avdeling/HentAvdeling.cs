@@ -7,16 +7,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class HentAvdeling
     {
-        public class Query : IRequest<Modeller.V1.Institution.Department>
+        public class Query : IRequest<Models.V1.Institution.Department>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Institution.Department>
+        public class Handler : IRequestHandler<Query, Models.V1.Institution.Department>
         {
 
             private readonly HandHygieneContext _context;
@@ -28,12 +28,12 @@ namespace HyFive.Tjenester.Avdeling
                 _mapper = mapper;
             }
 
-            public async Task<Modeller.V1.Institution.Department> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Department> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Department
                     .AsNoTracking()
                     .Where(a => a.Id == request.Id)
-                    .ProjectTo<Modeller.V1.Institution.Department>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Institution.Department>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
             }
         }

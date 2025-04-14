@@ -6,13 +6,13 @@ using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 
-namespace HyFive.Tjenester.ForesporselOmBrukertilgang
+namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class OpprettForesporselOmBrukertilgang
     {
         public class Command : IRequest<int>
         {
-            public Modeller.V1.ForesporselOmBrukertilgang.CreateUserAccessRequest ForesporselOmBrukertilgang { get; set; }
+            public Models.V1.ForesporselOmBrukertilgang.CreateUserAccessRequest ForesporselOmBrukertilgang { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>

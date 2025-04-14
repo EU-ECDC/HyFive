@@ -2,9 +2,9 @@
 using HyFive.Modeller.V1;
 using HyFive.Modeller.V1.User;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Helseforetak;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Helseforetak;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,15 +14,15 @@ using System.Threading.Tasks;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/helseforetak")]
     [ApiController]
     public class HelseforetakController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public HelseforetakController(IMediator mediator, IBrukerService brukerservice)
+        public HelseforetakController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -56,7 +56,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             var erOppdatert = await _mediator.Send(new OppdaterHelseforetaket.Command
             {
-                Helseforetak = helseforetak
+                HealthcareProvider = helseforetak
             });
             return Ok(erOppdatert);
         }
@@ -65,7 +65,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<HealthcareInstitutionCoordinator[]>> HentKoordinatorForHelseforetak(int id)
         {
-            if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
                 var koordinatorMedInstitusjonerListe = await _mediator.Send(new HentKoordinatorerForHelseforetak.Query
                 {
@@ -80,7 +80,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/institusjoner")]
         public async Task<ActionResult<InstitutionReport[]>> HentInstitiusjonerForHelseforetak(int id)
         {
-            if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
                 return await _mediator.Send(new HentInstitiusjonerForHelseforetak.Query
                 {
@@ -96,7 +96,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Status), StatusCodes.Status200OK)]
         public async Task<ActionResult<Status>> OppdaterKoordinator([FromBody] HealthcareInstitutionCoordinator koordinator, int id)
         {
-            if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
                 var oppdatertStatus = await _mediator.Send(new OppdaterKoordinatorForHelseforetak.Command
                 {
@@ -113,7 +113,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<Status>> OpprettKoordinator([FromBody] HealthcareInstitutionCoordinator koordinator, int id)
         {
-            if (_brukerservice.ErKoordinatorForHelseforetakEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
                 var opprettetStatus = await _mediator.Send(new OpprettKoordinatorForHelseforetak.Command
                 {

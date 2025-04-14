@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Oversikt;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Overview;
+using HyFive.Models.V1.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class HentSesjonerForInstitusjon
     {

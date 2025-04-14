@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Reinforced.Typings.Attributes;
 
-namespace HyFive.Modeller.V1.Institution
+namespace HyFive.Models.V1.Institution
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class Clinic

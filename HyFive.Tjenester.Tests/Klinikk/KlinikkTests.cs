@@ -3,10 +3,10 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Klinikk;
+using HyFive.Services.Klinikk;
 using System;
 
-namespace HyFive.Tjenester.Tests.Klinikk
+namespace HyFive.Services.Tests.Klinikk
 {
     public class KlinikkTests : TjenesteTests
     {

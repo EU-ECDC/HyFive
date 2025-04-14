@@ -7,7 +7,7 @@ using HyFive.Domene.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class SlettAvdeling
     {

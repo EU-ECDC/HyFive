@@ -1,7 +1,7 @@
 ﻿using Reinforced.Typings.Attributes;
 using System.Collections.Generic;
 
-namespace HyFive.Modeller.V1.Institution
+namespace HyFive.Models.V1.Institution
 {
     [TsInterface(IncludeNamespace = false, AutoI = false)]
     public class InstitutionReport

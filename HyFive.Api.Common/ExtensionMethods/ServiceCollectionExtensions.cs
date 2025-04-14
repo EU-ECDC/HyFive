@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 
 namespace HyFive.Api.Common.ExtensionMethods
 {

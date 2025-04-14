@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class OppdaterAvdelingType
     {
@@ -38,7 +38,7 @@ namespace HyFive.Tjenester.Avdeling
                     _context.Update(avdelingtype);
                     await _context.SaveChangesAsync();
 
-                    return _mapper.Map<Modeller.V1.Institution.DepartmentType>(avdelingtype);
+                    return _mapper.Map<Models.V1.Institution.DepartmentType>(avdelingtype);
                 }
 
                 throw new ArgumentException($"Kunne ikke finne avdelingtype med id {request.AvdelingType.Id}");

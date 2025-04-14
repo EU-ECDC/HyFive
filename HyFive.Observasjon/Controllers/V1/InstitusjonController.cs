@@ -1,7 +1,7 @@
-﻿using HyFive.Modeller.V1.Institution;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Institusjon;
+﻿using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Institusjon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace HyFive.Observasjon.Controllers.V1
     public class InstitusjonController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public InstitusjonController(IMediator mediator, IBrukerService brukerservice)
+        public InstitusjonController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -29,7 +29,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet()]
         public async Task<IEnumerable<Institution>> HentObservatorensInstitusjoner()
         {
-            var result = await _mediator.Send(new HentInstitusjonerForObservator.Query() { HPRNummer = _brukerservice.HentHprnummer(), Pseudonym = _brukerservice.HentPseudonym()});
+            var result = await _mediator.Send(new HentInstitusjonerForObservator.Query() { HPRNummer = _brukerservice.GetHprNumber(), Pseudonym = _brukerservice.GetPseudonym()});
             return result;
         }
 
@@ -42,7 +42,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("predefinertekommentarer")]
         public async Task<ActionResult<IEnumerable<string>>> HentPredefinerteKommentarer([FromQuery] int institusjonid, [FromQuery] SesjonType sesjontype)
         {
-            if (_brukerservice.ErObservatorForInstitusjon(institusjonid))
+            if (_brukerservice.IsObserverForInstitution(institusjonid))
             {
                 var result = await _mediator.Send(new HentPredefinerteKommentarer.Query
                 {

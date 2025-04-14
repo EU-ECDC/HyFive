@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Autentisering.Bruker;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Authentication.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class HentHanskeSesjon
     {
@@ -24,9 +24,9 @@ namespace HyFive.Tjenester.Sesjon
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
-            private readonly IBrukerService _brukerService;
+            private readonly IUserService _brukerService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, IUserService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -45,7 +45,7 @@ namespace HyFive.Tjenester.Sesjon
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
                     .FirstOrDefaultAsync(s => s.Id == request.SesjonId, cancellationToken);
 
-                if (!_brukerService.HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observator))
+                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observator))
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med HPR-nummer {request.HPRNummer}");
 

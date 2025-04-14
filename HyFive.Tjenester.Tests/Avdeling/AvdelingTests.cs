@@ -1,4 +1,4 @@
-using HyFive.Tjenester.Avdeling;
+using HyFive.Services.Avdeling;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 
-namespace HyFive.Tjenester.Tests.Avdeling
+namespace HyFive.Services.Tests.Avdeling
 {
     public class AvdelingTests : TjenesteTests
     {
@@ -133,9 +133,9 @@ namespace HyFive.Tjenester.Tests.Avdeling
                 Id = opprettetAvdeling.Id,
                 Navn = "Da Vinci",
                 AvdelingTypeId = DatabaseContext.SectionType.FirstOrDefault(at => at.Id != opprettetAvdeling.AvdelingTypeId).Id,
-                Roller = new List<Modeller.V1.Observasjon.Role>()
+                Roller = new List<Modeller.V1.Observation.Role>()
                 {
-                    Mapper.Map<Domain.Observation.Role, Modeller.V1.Observasjon.Role>(DatabaseContext.Role.First(x => !rolleIder.Contains(x.Id)))
+                    Mapper.Map<Domain.Observation.Role, Modeller.V1.Observation.Role>(DatabaseContext.Role.First(x => !rolleIder.Contains(x.Id)))
                 }
             };
 

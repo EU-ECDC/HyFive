@@ -7,19 +7,19 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FireIndikasjonerSesjon = HyFive.Modeller.V1.Sesjon.FireIndikasjonerSesjon;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.FireIndikasjoner.Helpers;
+using FourIndicationsSession = HyFive.Models.V1.Session.FourIndicationsSession;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.FireIndikasjoner.Helpers;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.FireIndikasjoner
+namespace HyFive.Services.FireIndikasjoner
 {
     public class LagreSesjon
     {
         public class Command : IRequest<Guid>
         {
-            public FireIndikasjonerSesjon Sesjon { get; set; }
+            public FourIndicationsSession Sesjon { get; set; }
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
         }
@@ -29,9 +29,9 @@ namespace HyFive.Tjenester.FireIndikasjoner
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly IBrukerService _brukerService;
+            private readonly IUserService _brukerService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService) 
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService brukerService) 
             {
                 _context = context;
                 _mapper = mapper;
@@ -75,7 +75,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                 }
 
                 var overforingsstatuser = _context.TransmissionStatusType.ToList();
-                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(sesjon);
                 _context.SaveChanges();
@@ -100,7 +100,7 @@ namespace HyFive.Tjenester.FireIndikasjoner
                         $"Fant ikke oppgitt institusjon med id: {request.Sesjon.Avdeling.InstitusjonId}");
 
                 return institusjon.Users.OfType<Observator>()
-                    .Where(_brukerService.HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer, request.Pseudonym).Compile())
+                    .Where(_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile())
                     .FirstOrDefault();
 
             }

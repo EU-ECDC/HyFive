@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.Sesjon;
+using HyFive.Models.Sesjon;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class HentMineSesjoner
     {

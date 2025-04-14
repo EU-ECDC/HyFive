@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Tjenester.Autentisering.Bruker;
+using HyFive.Services.Authentication.User;
 using Fhi.HelseId.Web.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,19 +9,19 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Bruker;
-using Bruker = HyFive.Modeller.V1.User.User;
+using HyFive.Services.Bruker;
+using Bruker = HyFive.Models.V1.User.User;
 
-namespace HyFive.Tjenester.BrukerTjenester
+namespace HyFive.Services.BrukerTjenester
 {
     public class OppdaterFhiAdmin
     {
-        public class Command : IRequest<Modeller.V1.User.User>
+        public class Command : IRequest<Models.V1.User.User>
         {
-            public Modeller.V1.User.User Bruker { get; set; }
+            public Models.V1.User.User Bruker { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
+        public class Handler : IRequestHandler<Command, Models.V1.User.User>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ namespace HyFive.Tjenester.BrukerTjenester
                 _currentUser = currentUser;
             }
 
-            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
                 if (string.IsNullOrWhiteSpace(command.Bruker.IdentityPseudonym))
                 {
@@ -65,7 +65,7 @@ namespace HyFive.Tjenester.BrukerTjenester
                 _context.User.Update(bruker);
                 await _context.SaveChangesAsync();
 
-                var mapped = _mapper.Map<Modeller.V1.User.User>(bruker);
+                var mapped = _mapper.Map<Models.V1.User.User>(bruker);
                 return mapped;
             }
         }

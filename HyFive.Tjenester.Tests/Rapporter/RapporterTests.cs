@@ -1,19 +1,19 @@
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Avdeling;
-using HyFive.Tjenester.FireIndikasjoner;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Avdeling;
+using HyFive.Services.FireIndikasjoner;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Rapporter.FireIndikasjoner;
+using HyFive.Services.Rapporter.FireIndikasjoner;
 using Moq;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Tests.Rapporter
+namespace HyFive.Services.Tests.Rapporter
 {
     public class RapporterTests : TjenesteTests
     {
@@ -43,15 +43,15 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    {
         //        Activity = new Activity()
         //        {
-        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Desinfeksjon),
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Disinfection),
         //            GloveUsed = false,
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
         //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
         //        RegistrationTime = DateTime.Now,
         //        Role = enAvdeling.Role.First(r => r.Name == rolleSomTestes),
@@ -61,15 +61,15 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    {
         //        Activity = new Activity()
         //        {
-        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.IkkeUtfort),
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.NotCompleted),
         //            GloveUsed = false,
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
         //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
         //        RegistrationTime = DateTime.Now,
         //        Role = enAvdeling.Role.First(r => r.Name == rolleSomTestes),
@@ -99,7 +99,7 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    var rapportHandler = new HentFireIndikasjonerRapportForAvdeling.Handler(DatabaseContext);
         //    var lagRapportQuery = new HentFireIndikasjonerRapportForAvdeling.Query()
         //    {
-        //        AvdelingId = enAvdeling.Id, 
+        //        DepartmentId = enAvdeling.Id, 
         //        FraTidspunkt = DateTime.Now.AddDays(-1),
         //        TilTidspunkt = DateTime.Now.AddDays(1),
         //        Role = AuthorizedRole.Coordinator,

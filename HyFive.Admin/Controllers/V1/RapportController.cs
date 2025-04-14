@@ -1,32 +1,32 @@
 ﻿using System;
-using HyFive.Tjenester.Autentisering.Bruker;
+using HyFive.Services.Authentication.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
-using HyFive.Tjenester;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Rapport.Observasjoner;
-using HyFive.Tjenester.Rapporter.FireIndikasjoner;
-using HyFive.Tjenester.Rapporter.Handsmykker;
-using HyFive.Tjenester.Rapporter.Pdf;
+using HyFive.Services;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Rapport.Observasjoner;
+using HyFive.Services.Rapporter.FireIndikasjoner;
+using HyFive.Services.Rapporter.Handsmykker;
+using HyFive.Services.Rapporter.Pdf;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/rapport")]
     public class RapportController : ControllerBase
     {
         private readonly FireIndikasjonerPdfRapportService _fireIndikasjonerPdfRapportService;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
         private readonly IMediator _mediator;
         private readonly HandsmykkePdfRapportService _handsmykkePdfRapportService;
 
         public RapportController(
             FireIndikasjonerPdfRapportService fireIndikasjonerPdfRapportService,
-            IBrukerService brukerservice,
+            IUserService brukerservice,
             IMediator mediator,
             HandsmykkePdfRapportService handsmykkePdfRapportService)
         {
@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Lag en Excel-rapport for Hanske-observasjoner for avdeling
+        /// Lag en Excel-rapport for Glove-observasjoner for avdeling
         /// </summary>
         /// <param name="institusjonId"></param>
         /// <param name="avdelingId"></param>
@@ -72,7 +72,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Lag en Excel-rapport for Handsmykke-observasjoner for avdeling
+        /// Lag en Excel-rapport for HandJewelry-observasjoner for avdeling
         /// </summary>
         /// <param name="institusjonId"></param>
         /// <param name="avdelingId"></param>
@@ -142,7 +142,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Lag en Excel-rapport for Fire Indikasjoner-observasjoner for avdeling
+        /// Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
         /// </summary>
         /// <param name="institusjonId"></param>
         /// <param name="avdelingId"></param>
@@ -281,16 +281,16 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new Etterlevelse.Query
+            var query = new Compliance.Query
             {
-                InstitusjonId = institusjonId,
-                Intervall = intervall,
-                FraManed = fraManed,
-                FraAr = fraAr,
-                TilManed = tilManed,
-                TilAr = tilAr,
-                RolleId = rolleId,
-                AvdelingId = avdelingId
+                InstitutionId = institusjonId,
+                Interval = intervall,
+                FromMonth = fraManed,
+                FromYear = fraAr,
+                ToMonth = tilManed,
+                ToYear = tilAr,
+                RoleId = rolleId,
+                DepartmentId = avdelingId
             };
 
             var grafListe = await _mediator.Send(query);
@@ -299,10 +299,10 @@ namespace HyFive.Admin.Controllers.V1
 
         private bool BrukerErAutorisert(int institusjonId)
         {
-            if (_brukerservice.ErFhiAdmin())
+            if (_brukerservice.IsFhiAdmin())
                 return true;
 
-            if (_brukerservice.ErKoordinatorForInstitusjon(institusjonId))
+            if (_brukerservice.IsFhiAdminOrCoordinator(institusjonId))
                 return true;
 
             return false;

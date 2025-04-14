@@ -1655,9 +1655,9 @@
           "CsvHelper": "[28.0.0, )",
           "CsvHelper.Excel.Core": "[27.2.1, )",
           "Fhi.HelseId.Web": "[7.0.1, )",
-          "HyFive.Modeller": "[1.0.0, )",
+          "HyFive.Models": "[1.0.0, )",
+          "HyFive.Services.Authentication": "[1.0.0, )",
           "HyFive.Tjenester": "[1.0.0, )",
-          "HyFive.Tjenester.Autentisering": "[1.0.0, )",
           "HyFive.Tjenester.Rapporter": "[1.0.0, )",
           "MediatR": "[12.4.1, )",
           "Microsoft.ApplicationInsights.AspNetCore": "[2.22.0, )",
@@ -1695,7 +1695,7 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )"
         }
       },
-      "hyfive.modeller": {
+      "hyfive.models": {
         "type": "Project",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "[8.0.12, )",
@@ -1703,29 +1703,29 @@
           "Reinforced.Typings": "[1.6.3, )"
         }
       },
+      "hyfive.services.authentication": {
+        "type": "Project",
+        "dependencies": {
+          "Fhi.HelseId.Web": "[7.0.1, )",
+          "HyFive.DataAccess": "[1.0.0, )",
+          "HyFive.Models": "[1.0.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[8.0.2, )"
+        }
+      },
       "hyfive.tjenester": {
         "type": "Project",
         "dependencies": {
           "AutoMapper": "[13.0.1, )",
           "HyFive.DataAccess": "[1.0.0, )",
-          "HyFive.Modeller": "[1.0.0, )",
-          "HyFive.Tjenester.Autentisering": "[1.0.0, )",
+          "HyFive.Models": "[1.0.0, )",
+          "HyFive.Services.Authentication": "[1.0.0, )",
           "MediatR": "[12.4.1, )"
-        }
-      },
-      "hyfive.tjenester.autentisering": {
-        "type": "Project",
-        "dependencies": {
-          "Fhi.HelseId.Web": "[7.0.1, )",
-          "HyFive.DataAccess": "[1.0.0, )",
-          "HyFive.Modeller": "[1.0.0, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[8.0.2, )"
         }
       },
       "hyfive.tjenester.rapporter": {
         "type": "Project",
         "dependencies": {
-          "HyFive.Modeller": "[1.0.0, )",
+          "HyFive.Models": "[1.0.0, )",
           "HyFive.Tjenester": "[1.0.0, )",
           "MediatR": "[12.4.1, )",
           "iTextSharp.LGPLv2.Core": "[3.4.22, )"

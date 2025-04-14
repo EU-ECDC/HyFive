@@ -8,7 +8,7 @@ using HyFive.Domene.Observation;
 using HyFive.Domene.Place;
 using HyFive.Domene.Bruker;
 
-namespace HyFive.Tjenester.Seed
+namespace HyFive.Services.Seed
 {
     public class SeedInstitusjoner
     {

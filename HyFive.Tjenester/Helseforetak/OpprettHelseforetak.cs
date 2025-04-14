@@ -1,12 +1,12 @@
 ﻿using HyFive.DataAccess;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Helseforetak
+namespace HyFive.Services.Helseforetak
 {
     public class OpprettHelseforetak
     {

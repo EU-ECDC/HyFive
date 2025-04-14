@@ -1,15 +1,15 @@
-﻿using HyFive.Modeller.V1.Observasjon;
-using HyFive.Tjenester.FireIndikasjoner;
+﻿using HyFive.Modeller.V1.Observation;
+using HyFive.Services.FireIndikasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Autentisering.Requirements;
+using HyFive.Services.Authentication.Requirements;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/aktivitettype")]
     public class AktivitettypeController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
 
-        [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+        [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
         [HttpGet]
         public async Task<IEnumerable<ActivityType>> HentAktivitettyper()
             => await _mediator.Send(new HentAktivitetTyper.Query());

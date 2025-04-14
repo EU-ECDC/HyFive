@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Rapport.Beskyttelsesutstyr;
+using HyFive.Models.V1.Report.Beskyttelsesutstyr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using OverforingstatusTypeKonstanter = HyFive.Modeller.V1.Konstanter.OverforingstatusTypeKonstanter;
+using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 
-namespace HyFive.Tjenester.Rapport.Observasjoner
+namespace HyFive.Services.Rapport.Observasjoner
 {
     public class HentBeskyttelsesutstyrObservasjoner
     {
-        public class Query : IRequest<IEnumerable<BeskyttelsesutstyrObservasjonRapport>>
+        public class Query : IRequest<IEnumerable<PPEObservationReport>>
         {
             public int AvdelingId { get; set; }
             public Guid? SesjonId { get; set; }
@@ -26,7 +26,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
             public AuthorizedRole Rolle { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<BeskyttelsesutstyrObservasjonRapport>>
+        public class Handler : IRequestHandler<Query, IEnumerable<PPEObservationReport>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -38,7 +38,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<BeskyttelsesutstyrObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
+            public async Task<IEnumerable<PPEObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
                 var queryable = _context.ProtectiveEquipmentObservation
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Observer)
@@ -53,7 +53,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
                 if (query.Rolle == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.BeskyttelsesutstyrObservasjon.BeskyttelsesutstyrSesjon.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi);
+                    queryable = queryable.Where(p => p.BeskyttelsesutstyrObservasjon.BeskyttelsesutstyrSesjon.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 if (query.AvdelingId > 0)
@@ -86,7 +86,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 return await queryable
                                     .OrderBy(o => o.BeskyttelsesutstyrObservasjon.BeskyttelsesutstyrSesjon.Id)
                                     .ThenBy(o => o.BeskyttelsesutstyrObservasjon.Id)
-                                    .ProjectTo<BeskyttelsesutstyrObservasjonRapport>(_mapper.ConfigurationProvider)
+                                    .ProjectTo<PPEObservationReport>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             }
         }

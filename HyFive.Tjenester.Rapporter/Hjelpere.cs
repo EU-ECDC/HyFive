@@ -1,5 +1,5 @@
-﻿using HyFive.Tjenester.Rapporter.FireIndikasjoner;
-using HyFive.Tjenester.Rapporter.QuickChart;
+﻿using HyFive.Services.Rapporter.FireIndikasjoner;
+using HyFive.Services.Rapporter.QuickChart;
 using iTextSharp.text.pdf;
 using System;
 using System.Net.Http;
@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace HyFive.Tjenester.Rapporter
+namespace HyFive.Services.Rapporter
 {
     public class Hjelpere
     {

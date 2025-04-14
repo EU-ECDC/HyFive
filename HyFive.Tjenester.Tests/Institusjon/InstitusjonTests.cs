@@ -1,6 +1,6 @@
 using HyFive.Modeller.V1.Institution;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Institusjon;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Tests.Institusjon
+namespace HyFive.Services.Tests.Institusjon
 {
     public class InstitusjonTests : TjenesteTests
     {

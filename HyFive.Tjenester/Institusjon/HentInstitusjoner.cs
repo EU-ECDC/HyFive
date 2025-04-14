@@ -7,15 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentInstitusjoner
     {
-        public class Query : IRequest<Modeller.V1.Institution.InstitutionReport[]>
+        public class Query : IRequest<Models.V1.Institution.InstitutionReport[]>
         {
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Institution.InstitutionReport[]>
+        public class Handler : IRequestHandler<Query, Models.V1.Institution.InstitutionReport[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,12 +27,12 @@ namespace HyFive.Tjenester.Institusjon
             }
 
 
-            public async Task<Modeller.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Institution
                     .AsNoTracking()
                     .Include(i => i.InstitutionType)
-                    .ProjectTo<Modeller.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
                     .OrderBy(i => i.Name)
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }

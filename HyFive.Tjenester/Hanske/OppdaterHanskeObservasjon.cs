@@ -4,14 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon.Gloves;
-using HyFive.Tjenester.Hanske.Helpers;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation.Gloves;
+using HyFive.Services.Hanske.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Hanske
+namespace HyFive.Services.Hanske
 {
     public class OppdaterHanskeObservasjon
     {
@@ -49,7 +49,7 @@ namespace HyFive.Tjenester.Hanske
                     throw new Exception("O-H-01: Kunne ikke finne observasjon med ID " + request.Observasjon.Id);
                 }
 
-                if (observasjon.HanskeSesjon.TransmissionStatus?.Code == OverforingstatusTypeKonstanter.OverfortTilFhi)
+                if (observasjon.HanskeSesjon.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-H-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
@@ -64,7 +64,7 @@ namespace HyFive.Tjenester.Hanske
                 
                 try
                 {
-                    observasjon.RegistrationTime = request.Observasjon.Registrerttidspunkt;
+                    observasjon.RegistrationTime = request.Observasjon.RegistrationTime;
 
                     observasjon.GloveUsed = observasjonFraRequest.GloveUsed;
                     observasjon.IndicatedGloveTypes = hanskeMedIndikasjonTyper
@@ -77,9 +77,9 @@ namespace HyFive.Tjenester.Hanske
                         ? handhygieneEtterHanskebrukTyper.FirstOrDefault(he => he.Id == observasjonFraRequest.HandhygieneEtterHanskebrukType.Id)
                         : null;
                     
-                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Rolle.Id);
+                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observasjon.Role.Id);
                     observasjon.Role = rolleFraRequest;
-                    observasjon.Comment = request.Observasjon.Kommentar;
+                    observasjon.Comment = request.Observasjon.Comment;
 
                     _context.Update(observasjon);
 

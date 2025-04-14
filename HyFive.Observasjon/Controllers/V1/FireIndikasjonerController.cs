@@ -1,9 +1,9 @@
-﻿using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.FireIndikasjoner;
+﻿using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.FireIndikasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,9 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
-using HyFive.Modeller.V1.Rapport.FireIndikasjoner;
-using HyFive.Tjenester;
-using HyFive.Tjenester.Rapport.Observasjoner;
+using HyFive.Models.V1.Report.FourIndications;
+using HyFive.Services;
+using HyFive.Services.Rapport.Observasjoner;
 
 namespace HyFive.Observasjon.Controllers.V1
 {
@@ -24,23 +24,23 @@ namespace HyFive.Observasjon.Controllers.V1
     public class FireIndikasjonerController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public FireIndikasjonerController(IMediator mediator, IBrukerService brukerservice)
+        public FireIndikasjonerController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
         }
 
         /// <summary>
-        /// Lagre en Fire Indikasjoner-sesjon
+        /// Lagre en Fire Indications-sesjon
         /// </summary>
         /// <param name="sesjon"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.Observator)]
+        [Authorize(HandhygienePolicy.Observer)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] FireIndikasjonerSesjon sesjon)
+        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] FourIndicationsSession sesjon)
         {
             if (!sesjon.Observasjoner.Any())
             {
@@ -52,8 +52,8 @@ namespace HyFive.Observasjon.Controllers.V1
                 
                 var resultat = await _mediator.Send(new LagreSesjon.Command()
                 {
-                    HPRNummer = _brukerservice.HentHprnummer(),
-                    Pseudonym = _brukerservice.HentPseudonym(),
+                    HPRNummer = _brukerservice.GetHprNumber(),
+                    Pseudonym = _brukerservice.GetPseudonym(),
                     Sesjon = sesjon
                 });
 
@@ -78,9 +78,9 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("mineobservasjoner")]
-        public async Task<IEnumerable<FireIndikasjonerObservasjonRapport>> HentMineObservasjoner(int institusjonId, Guid? sesjonId = null)
+        public async Task<IEnumerable<FourIndicationsObservationReport>> HentMineObservasjoner(int institusjonId, Guid? sesjonId = null)
         {
-            var observatorIdForInstitusjon = _brukerservice.HentObservatorIdForInstitusjon(institusjonId);
+            var observatorIdForInstitusjon = _brukerservice.GetObserverIdForInstitution(institusjonId);
             if (observatorIdForInstitusjon > 0)
             {
                 var query = new HentFireIndikasjonerObservasjoner.Query()

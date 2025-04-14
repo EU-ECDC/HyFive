@@ -3,21 +3,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
+using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr
+namespace HyFive.Services.Beskyttelsesutstyr
 {
     public class OpprettFeilbrukType
     {
-        public class Command : IRequest<MisuseType>
+        public class Command : IRequest<IncorrectType>
         {
             public int UtstyrTypeId { get; set; }
-            public OpprettFeilbrukTypeRequest FeilbrukType { get; set; }
+            public CreateErrorTypeRequest FeilbrukType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, MisuseType>
+        public class Handler : IRequestHandler<Command, IncorrectType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 _mapper = mapper;
             }
 
-            public async Task<MisuseType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<IncorrectType> Handle(Command request, CancellationToken cancellationToken)
             {
                 var utstyrType = await _context.ProtectiveEquipmentType
                     .Include(but => but.MisuseTypes)
@@ -38,9 +38,9 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                     throw new Exception("Kunne ikke finne utstyrType med ID " + request.UtstyrTypeId);
                 }
 
-                var feilbrukType = new Domene.Observation.ProtectiveEquipment.MisuseType()
+                var feilbrukType = new Domain.Observation.ProtectiveEquipment.MisuseType()
                 {
-                    Name = request.FeilbrukType.Navn
+                    Name = request.FeilbrukType.Name
                 };
 
                 utstyrType.MisuseTypes.Add(feilbrukType);
@@ -48,7 +48,7 @@ namespace HyFive.Tjenester.Beskyttelsesutstyr
                 _context.ProtectiveEquipmentType.Update(utstyrType);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<MisuseType>(feilbrukType);
+                var mapped = _mapper.Map<IncorrectType>(feilbrukType);
                 return mapped;
             }
         }

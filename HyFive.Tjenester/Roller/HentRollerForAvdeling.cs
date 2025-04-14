@@ -8,16 +8,16 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Roller
+namespace HyFive.Services.Roller
 {
     public class HentRollerForAvdeling
     {
-        public class Query : IRequest<List<Modeller.V1.Observasjon.Role>>
+        public class Query : IRequest<List<Models.V1.Observation.Role>>
         {
             public int AvdelingId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<Modeller.V1.Observasjon.Role>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.Observation.Role>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace HyFive.Tjenester.Roller
                 _mapper = mapper;
             }
 
-            public async Task<List<Modeller.V1.Observasjon.Role>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Models.V1.Observation.Role>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var roller = await _context.Department
                     .Where(a => a.Id == request.AvdelingId)
                     .SelectMany(a => a.Roller)
-                    .ProjectTo<Modeller.V1.Observasjon.Role>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Observation.Role>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
                 return roller;

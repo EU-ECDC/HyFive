@@ -1,9 +1,9 @@
-﻿using HyFive.Modeller.V1.Institution;
+﻿using HyFive.Models.V1.Institution;
 using Reinforced.Typings.Attributes;
 using System;
 using System.Collections.Generic;
 
-namespace HyFive.Modeller.V1.User
+namespace HyFive.Models.V1.User
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class HealthcareInstitutionCoordinator

@@ -1,15 +1,15 @@
-﻿using HyFive.Modeller.V1.Observasjon;
-using HyFive.Tjenester.Handsmykke;
+﻿using HyFive.Modeller.V1.Observation;
+using HyFive.Services.Handsmykke;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Autentisering.Requirements;
+using HyFive.Services.Authentication.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/handsmykketype")]
     public class HandsmykketypeController : ControllerBase
     {

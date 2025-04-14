@@ -7,16 +7,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentKoordinatorerForInstitusjon
     {
-        public class Query : IRequest<Modeller.V1.User.User[]>
+        public class Query : IRequest<Models.V1.User.User[]>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.User.User[]>
+        public class Handler : IRequestHandler<Query, Models.V1.User.User[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HyFive.Tjenester.Institusjon
             }
 
 
-            public async Task<Modeller.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.User
                     .OfType<Domene.Bruker.Koordinator>()
@@ -36,7 +36,7 @@ namespace HyFive.Tjenester.Institusjon
                     .Include(o => o.Institusjon)
                     .Where(o => o.Institusjon.Id == request.InstitusjonId)
                     .OrderBy(o => o.Etternavn)
-                    .ProjectTo<Modeller.V1.User.User>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.User.User>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }
         }

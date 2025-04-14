@@ -8,16 +8,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class HentAvdelingerForInstitusjon
     {
-        public class Query : IRequest<IEnumerable<Modeller.V1.Institution.Department>>
+        public class Query : IRequest<IEnumerable<Models.V1.Institution.Department>>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Modeller.V1.Institution.Department>>
+        public class Handler : IRequestHandler<Query, IEnumerable<Models.V1.Institution.Department>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HyFive.Tjenester.Avdeling
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<Modeller.V1.Institution.Department>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Models.V1.Institution.Department>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Department
                     .Include(a => a.Roller)
@@ -36,7 +36,7 @@ namespace HyFive.Tjenester.Avdeling
                     .AsNoTracking()
                     .Where(a => a.InstitusjonId == request.InstitusjonId)
                     .OrderBy(a => a.Navn)
-                    .ProjectTo<Modeller.V1.Institution.Department>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Institution.Department>(_mapper.ConfigurationProvider)
                     .ToListAsync();
             }
         }

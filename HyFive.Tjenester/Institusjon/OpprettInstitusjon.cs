@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class OpprettInstitusjon
     {
-        public class Command : IRequest<Modeller.V1.Institution.Institution>
+        public class Command : IRequest<Models.V1.Institution.Institution>
         {
             public CreateInstitutionRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Institution>
+        public class Handler : IRequestHandler<Command, Models.V1.Institution.Institution>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace HyFive.Tjenester.Institusjon
             }
 
 
-            public async Task<Modeller.V1.Institution.Institution> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Institution> Handle(Command command, CancellationToken cancellationToken)
             {
                 // sjekk institusjontype:
                 var institusjontype = await _context.InstitutionType.FirstOrDefaultAsync(i => i.Id  == command.Request.InstitutionTypeId);
@@ -71,7 +71,7 @@ namespace HyFive.Tjenester.Institusjon
                 institusjon.Users.Add(observator);
                 _context.Institution.Add(institusjon);
                 await _context.SaveChangesAsync(cancellationToken);
-                var mapped = _mapper.Map<Modeller.V1.Institution.Institution>(institusjon);
+                var mapped = _mapper.Map<Models.V1.Institution.Institution>(institusjon);
                 return mapped;
             }
         }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Rapport.Handsmykke;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Report.HandJewelry;
+using HyFive.Models.V1.Session;
+using HyFive.Services;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using HyFive.Tjenester.Handsmykke;
-using HyFive.Tjenester.Rapport.Observasjoner;
+using HyFive.Services.Handsmykke;
+using HyFive.Services.Rapport.Observasjoner;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
@@ -22,9 +22,9 @@ namespace HyFive.Observasjon.Controllers.V1
     public class HandsmykkerController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public HandsmykkerController(IMediator mediator, IBrukerService brukerservice)
+        public HandsmykkerController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -35,10 +35,10 @@ namespace HyFive.Observasjon.Controllers.V1
         /// </summary>
         /// <param name="sesjon"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.Observator)]
+        [Authorize(HandhygienePolicy.Observer)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] HandsmykkeSesjon sesjon)
+        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] HandJewelrySession sesjon)
         {
             if (!sesjon.Observasjoner.Any())
             {
@@ -48,8 +48,8 @@ namespace HyFive.Observasjon.Controllers.V1
             {
                 var resultat = await _mediator.Send(new LagreSesjon.Command()
                 {
-                    HPRNummer = _brukerservice.HentHprnummer(),
-                    Pseudonym = _brukerservice.HentPseudonym(),
+                    HPRNummer = _brukerservice.GetHprNumber(),
+                    Pseudonym = _brukerservice.GetPseudonym(),
                     Sesjon = sesjon
                 });
 
@@ -67,9 +67,9 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("mineobservasjoner")]
-        public async Task<IEnumerable<HandsmykkeObservasjonRapport>> HentMineObservasjoner(int institusjonId, Guid? sesjonId = null)
+        public async Task<IEnumerable<HandJewelryObservationReport>> HentMineObservasjoner(int institusjonId, Guid? sesjonId = null)
         {
-            var observatorIdForInstitusjon = _brukerservice.HentObservatorIdForInstitusjon(institusjonId);
+            var observatorIdForInstitusjon = _brukerservice.GetObserverIdForInstitution(institusjonId);
             if (observatorIdForInstitusjon > 0)
             {
                 var query = new HentHandsmykkeObservasjoner.Query

@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Institution;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Session;
 using MediatR;
 using PredefinertKommentar = HyFive.Domene.Place.PredefinedComments;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class OpprettPredefinertKommentar
     {

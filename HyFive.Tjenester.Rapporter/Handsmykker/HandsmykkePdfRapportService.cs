@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using HyFive.Tjenester.Rapporter.QuickChart;
-using HyFive.Tjenester.Rapporter.Pdf;
+using HyFive.Services.Rapporter.QuickChart;
+using HyFive.Services.Rapporter.Pdf;
 using iTextSharp.text.pdf;
 using System.IO;
 using System.Linq;
 using Image = iTextSharp.text.Image;
 using Microsoft.Extensions.Hosting;
 
-namespace HyFive.Tjenester.Rapporter.Handsmykker
+namespace HyFive.Services.Rapporter.Handsmykker
 {
     public class HandsmykkePdfRapportService
     {
@@ -138,10 +138,10 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
         /// <summary>
         /// Fyll ut prosentvis antall for hver smykketype både totalt for alle roller og for hver rolle
         /// 
-        /// Prosent for rolle for en smykketype: antall registreringer med smykketype for rolle / antall observasjoner for roll
+        /// Percent for rolle for en smykketype: antall registreringer med smykketype for rolle / antall observasjoner for roll
         /// Eksempel: Av 20 observasjoner av Lege har 10 ring = 50%, 5 klokke = 25%, osv
         ///
-        /// Prosent for alle roller for en smykketype: summen av bruk av smykketype for alle roller / summen av antall observasjoner for rolle som har brukt smykketype
+        /// Percent for alle roller for en smykketype: summen av bruk av smykketype for alle roller / summen av antall observasjoner for rolle som har brukt smykketype
         /// Eksempel: Det er 100 observasjoner av sykepleier, 40 bruker ring (altså 40%), det er 100 observasjoner av Lege der 20 bruker ring, altså 20%.
         /// Totalt 200 observasjoner hvorav 60 (40+20)  bruker ring (altså 30% av alle).
         /// </summary>
@@ -169,7 +169,7 @@ namespace HyFive.Tjenester.Rapporter.Handsmykker
                     antallObservasjonerForAlleRoller += antallObservasjonerForRolle;
                 }
 
-                // Prosent for alle roller = summen av bruk av smykketype for alle roller / summen av antall observasjoner for rolle som har brukt smykketype
+                // Percent for alle roller = summen av bruk av smykketype for alle roller / summen av antall observasjoner for rolle som har brukt smykketype
                 var totaltAntallForRoller = antallforRolleListe.Select(p => p.Antall).Sum();
                 var prosentTotalForRoller = totaltAntallForRoller * 100 / antallObservasjonerForAlleRoller;
                 var datasetForAlleRoller = datasets.First(p => p.Label == TotaltForAlleRoller);

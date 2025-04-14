@@ -1,35 +1,35 @@
-﻿using HyFive.Modeller.V1.Oversikt;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Institusjon;
-using HyFive.Tjenester.Sesjon;
+﻿using HyFive.Modeller.V1.Overview;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Institusjon;
+using HyFive.Services.Sesjon;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Observasjon.Beskyttelsesutstyr;
-using HyFive.Modeller.V1.Observasjon.Gloves;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Beskyttelsesutstyr;
-using HyFive.Tjenester.FireIndikasjoner;
-using HyFive.Tjenester.Handsmykke;
-using HyFive.Tjenester.Hanske;
-using HyFive.Tjenester;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
+using HyFive.Modeller.V1.Observation.Gloves;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.Handsmykke;
+using HyFive.Services.Hanske;
+using HyFive.Services;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/observasjon")]
     public class ObservasjonController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public ObservasjonController(IMediator mediator, IBrukerService brukerservice)
+        public ObservasjonController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -55,14 +55,14 @@ namespace HyFive.Admin.Controllers.V1
             string overføringsstatusType;
             if (rolle == AuthorizedRole.Administrator)
             {
-                overføringsstatusType = OverforingstatusTypeKonstanter.OverfortTilFhi;
-                if (!_brukerservice.ErFhiAdmin())
+                overføringsstatusType = TransferStatusTypeConstants.TransferredToFhi;
+                if (!_brukerservice.IsFhiAdmin())
                     return Forbid();
             }
             else if (rolle == AuthorizedRole.Koordinator)
             {
-                overføringsstatusType = OverforingstatusTypeKonstanter.OverfortTilKoordinator;
-                if (!_brukerservice.ErKoordinatorForInstitusjon(institusjonidSomInt.Value))
+                overføringsstatusType = TransferStatusTypeConstants.TransferredToCoordinator;
+                if (!_brukerservice.IsFhiAdminOrCoordinator(institusjonidSomInt.Value))
                     return Forbid();
             }
             else
@@ -96,14 +96,14 @@ namespace HyFive.Admin.Controllers.V1
             string overføringsstatusType;
             if (rolle == AuthorizedRole.Administrator)
             {
-                overføringsstatusType = OverforingstatusTypeKonstanter.OverfortTilFhi;
-                if (!_brukerservice.ErFhiAdmin())
+                overføringsstatusType = TransferStatusTypeConstants.TransferredToFhi;
+                if (!_brukerservice.IsFhiAdmin())
                     return Forbid();
             }
             else if (rolle == AuthorizedRole.Koordinator)
             {
-                overføringsstatusType = OverforingstatusTypeKonstanter.OverfortTilKoordinator;
-                if (!_brukerservice.ErKoordinatorForAvdeling(avdelingsid))
+                overføringsstatusType = TransferStatusTypeConstants.TransferredToCoordinator;
+                if (!_brukerservice.IsCoordinatorForDepartment(avdelingsid))
                     return Forbid();
             }
             else
@@ -111,7 +111,7 @@ namespace HyFive.Admin.Controllers.V1
                 return Forbid();
             }
 
-            if (_brukerservice.ErKoordinatorForAvdeling(avdelingsid) || _brukerservice.ErFhiAdmin())
+            if (_brukerservice.IsCoordinatorForDepartment(avdelingsid) || _brukerservice.IsFhiAdmin())
             {
                 var resultat = await _mediator.Send(new HentSesjonerForAvdelingOversikt.Query()
                 {
@@ -131,7 +131,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Hent alle sesjonene til en institusjon <see cref="SessionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("institusjon")]
         public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> HentSesjonerTilInstitusjon(
             [FromQuery] int institusjonid,
@@ -140,7 +140,7 @@ namespace HyFive.Admin.Controllers.V1
             [FromQuery] DateTime? fradato,
             [FromQuery] DateTime? tildato)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjon(institusjonid))
+            if (_brukerservice.IsFhiAdminOrCoordinator(institusjonid))
             {
                 var resultat = await _mediator.Send(new HentSesjonerForInstitusjon.Query()
                 {
@@ -160,13 +160,13 @@ namespace HyFive.Admin.Controllers.V1
         /// Send/overfør sesjon til FHI
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("overfor")]
         public async Task<ActionResult<SessionOverviewReport>> OverforSesjonTilFHI(
             [FromQuery] int institusjonid,
             [FromQuery] Guid sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjon(institusjonid))
+            if (_brukerservice.IsFhiAdminOrCoordinator(institusjonid))
             {
                 var resultat = await _mediator.Send(new OverforSesjonTilFHI.Query()
                 {
@@ -178,11 +178,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpPut("fireindikasjoner/oppdater")]
-        public async Task<ActionResult<bool>> OppdaterFireIndikasjonerObservasjon([FromBody] FireIndikasjonerObservasjon observasjon)
+        public async Task<ActionResult<bool>> OppdaterFireIndikasjonerObservasjon([FromBody] FourIndicatorsObservation observasjon)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
+            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SessionId))
             {
                 try
                 {
@@ -203,11 +203,11 @@ namespace HyFive.Admin.Controllers.V1
 
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpDelete("fireindikasjoner/slett")]
         public async Task<ActionResult<bool>> SlettFireIndikasjonerObservasjon([FromQuery] string observajonId, [FromQuery] string sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
+            if (_brukerservice.IsCoordinatorForSession(sesjonId))
             {
                 try
                 {
@@ -229,11 +229,11 @@ namespace HyFive.Admin.Controllers.V1
 
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpPut("handsmykke/oppdater")]
-        public async Task<ActionResult<bool>> OppdaterHandsmykkeObservasjon([FromBody] HandsmykkeObservasjon observasjon)
+        public async Task<ActionResult<bool>> OppdaterHandsmykkeObservasjon([FromBody] HandJewelryObservation observasjon)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
+            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SessionId))
             {
                 try
                 {
@@ -253,11 +253,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpDelete("handsmykke/slett")]
         public async Task<ActionResult<bool>> SlettHandsmykkeObservasjon([FromQuery] string observajonId, [FromQuery] string sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
+            if (_brukerservice.IsCoordinatorForSession(sesjonId))
             {
                 try
                 {
@@ -278,11 +278,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpPut("hanske/oppdater")]
         public async Task<ActionResult<bool>> OppdaterHanskeObservasjon([FromBody] GloveObservation observasjon)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
+            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SessionId))
             {
                 try
                 {
@@ -302,11 +302,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpDelete("hanske/slett")]
         public async Task<ActionResult<bool>> SlettHanskeObservasjon([FromQuery] string observajonId, [FromQuery] string sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
+            if (_brukerservice.IsCoordinatorForSession(sesjonId))
             {
                 try
                 {
@@ -327,11 +327,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpPut("beskyttelsesutstyr/oppdater")]
         public async Task<ActionResult<bool>> OppdaterBeskyttelsesutstyrObservasjon([FromBody] ProtectiveEquipmentObservation observasjon)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SesjonId))
+            if (_brukerservice.ErKoordinatorForSesjon(observasjon.SessionId))
             {
                 try
                 {
@@ -351,11 +351,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpDelete("beskyttelsesutstyr/slett")]
         public async Task<ActionResult<bool>> SlettBeskyttelsesutstyrObservasjon([FromQuery] string observajonId, [FromQuery] string sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
+            if (_brukerservice.IsCoordinatorForSession(sesjonId))
             {
                 try
                 {
@@ -376,11 +376,11 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("beskyttelsesutstyr")]
         public async Task<ActionResult<ProtectiveEquipmentObservation>> HentBeskyttelsesutstyr([FromQuery] string observasjonId, [FromQuery] string sesjonId)
         {
-            if (_brukerservice.ErKoordinatorForSesjon(sesjonId))
+            if (_brukerservice.IsCoordinatorForSession(sesjonId))
             {
                 try
                 {

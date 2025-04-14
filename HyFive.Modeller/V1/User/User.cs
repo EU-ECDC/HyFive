@@ -1,7 +1,7 @@
 ﻿using System;
 using Reinforced.Typings.Attributes;
 
-namespace HyFive.Modeller.V1.User
+namespace HyFive.Models.V1.User
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class User

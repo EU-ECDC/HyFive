@@ -4,23 +4,23 @@ using System.Linq;
 using System.Threading;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Tjenester.AutoMapperProfiler.V1;
+using HyFive.Services.AutoMapperProfiler.V1;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Bruker;
-using HyFive.Tjenester.FireIndikasjoner;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Bruker;
+using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.Institusjon;
 using Moq;
 using Microsoft.Extensions.Logging;
-using HyFive.Tjenester.Autentisering.Bruker;
+using HyFive.Services.Authentication.User;
 
-namespace HyFive.Tjenester.Tests
+namespace HyFive.Services.Tests
 {
 
     public abstract class TjenesteTests
@@ -28,14 +28,14 @@ namespace HyFive.Tjenester.Tests
         protected HandHygieneContext DatabaseContext;
         protected IMapper Mapper;
         protected SqliteConnection _connection;
-        protected IBrukerService BrukerService;
+        protected IUserService BrukerService;
 
         [SetUp]
         public async Task Setup()
         {
             DatabaseContext = GetSQLiteInMemoryContext();
 
-            BrukerService = new Mock<IBrukerService>().Object;
+            BrukerService = new Mock<IUserService>().Object;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -126,14 +126,14 @@ namespace HyFive.Tjenester.Tests
             var indikasjonTyper = DatabaseContext.IndicationTypes.ToList();
 
             var lagreFireIndikasjonSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
-            var observasjon = new FireIndikasjonerObservasjon()
+            var observasjon = new FourIndicatorsObservation()
             {
-                Aktivitet = brukDefaultAktivitet
+                Activity = brukDefaultAktivitet
                     ? new Activity()
                     {
                         ActivityType = new ActivityType()
                         {
-                            Id = aktivitetTyper.FirstOrDefault(x => x.Code == AktivitetTypeKonstanter.Handvask).Id
+                            Id = aktivitetTyper.FirstOrDefault(x => x.Code == ActivityTypeConstants.Handwash).Id
                         },
                         GloveUsed = null,
                         TimeSpent = 3,
@@ -141,28 +141,28 @@ namespace HyFive.Tjenester.Tests
                     }
                     : aktivitet,
                 Id = observasjonId.ToString(),
-                Indikasjonstyper = indikasjontyper ?? new List<IndicationType>()
+                IndicationTypes = indikasjontyper ?? new List<IndicationType>()
                 {
                     new IndicationType()
                     {
-                        Id = indikasjonTyper.FirstOrDefault(x => x.Code == IndikasjonTypeKonstanter.EtterPasient).Id
+                        Id = indikasjonTyper.FirstOrDefault(x => x.Code == IndicationTypeConstants.AfterPatient).Id
                     }
                 },
-                Kommentar = "Kommentar til observasjonen",
-                Registrerttidspunkt = DateTime.Now,
-                Rolle = brukDefaultRolle ? avdelingModell.Roller.First() : rolle,
-                SesjonId = sesjonId.ToString()
+                Comment = "Kommentar til observasjonen",
+                RegistrationTime = DateTime.Now,
+                Role = brukDefaultRolle ? avdelingModell.Roller.First() : rolle,
+                SessionId = sesjonId.ToString()
             };
 
             var fireIndikasjonerSesjonGuid = await lagreFireIndikasjonSesjonHandler.Handle(new LagreSesjon.Command()
             {
-                Sesjon = new FireIndikasjonerSesjon
+                Sesjon = new FourIndicationsSession
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
                     InstitusjonId = institusjon.Id,
-                    Observasjoner = new List<FireIndikasjonerObservasjon>()
+                    Observasjoner = new List<FourIndicatorsObservation>()
                     {
                         observasjon
                     },

@@ -1,5 +1,5 @@
 using HyFive.Modeller.V1.User;
-using HyFive.Tjenester.BrukerTjenester;
+using HyFive.Services.BrukerTjenester;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bruker = HyFive.Modeller.V1.User.User;
 
-namespace HyFive.Tjenester.Tests.BrukerTjenester
+namespace HyFive.Services.Tests.BrukerTjenester
 {
     public class BrukerTjenesterTests : TjenesteTests
     {
@@ -56,7 +56,7 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
             Assert.Multiple(() =>
             {
                 Assert.That(opprettetFhiAdmin.Id, Is.GreaterThan(0));
-                Assert.That(opprettetFhiAdmin.IdentityPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentPseudonym));
+                Assert.That(opprettetFhiAdmin.IdentityPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentityPseudonym));
                 Assert.That(opprettetFhiAdmin.FirstName, Is.EqualTo(opprettetFhiAdminFraDatabase.Fornavn));
                 Assert.That(opprettetFhiAdmin.Surname, Is.EqualTo(opprettetFhiAdminFraDatabase.Etternavn));
             });
@@ -146,7 +146,7 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
                 Assert.That(oppdatertFhiAdmin.FirstName, Is.Not.EqualTo(opprettetFhiAdmin.FirstName));
                 Assert.That(oppdatertFhiAdmin.Surname, Is.Not.EqualTo(opprettetFhiAdmin.Surname));
 
-                Assert.That(oppdatertFhiAdminFraDatabase.IdentPseudonym, Is.EqualTo(command.Bruker.IdentityPseudonym));
+                Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.Bruker.IdentityPseudonym));
                 Assert.That(oppdatertFhiAdminFraDatabase.Fornavn, Is.EqualTo(command.Bruker.FirstName));
                 Assert.That(oppdatertFhiAdminFraDatabase.Etternavn, Is.EqualTo(command.Bruker.Surname));
                 Assert.That(oppdatertFhiAdminFraDatabase.ErDeaktivert, Is.EqualTo(command.Bruker.IsDisabled));

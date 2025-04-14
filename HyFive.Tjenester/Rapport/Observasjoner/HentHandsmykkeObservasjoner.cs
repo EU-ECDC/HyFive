@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Rapport.Handsmykke;
+using HyFive.Models.V1.Report.HandJewelry;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,13 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using OverforingstatusTypeKonstanter = HyFive.Modeller.V1.Konstanter.OverforingstatusTypeKonstanter;
+using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 
-namespace HyFive.Tjenester.Rapport.Observasjoner
+namespace HyFive.Services.Rapport.Observasjoner
 {
     public class HentHandsmykkeObservasjoner
     {
-        public class Query : IRequest<IEnumerable<HandsmykkeObservasjonRapport>>
+        public class Query : IRequest<IEnumerable<HandJewelryObservationReport>>
         {
             public int AvdelingId { get; set; }
             public Guid? SesjonId { get; set; }
@@ -26,7 +26,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
             public AuthorizedRole Rolle { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<HandsmykkeObservasjonRapport>>
+        public class Handler : IRequestHandler<Query, IEnumerable<HandJewelryObservationReport>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -37,7 +37,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<HandsmykkeObservasjonRapport>> Handle(Query query, CancellationToken cancellationToken)
+            public async Task<IEnumerable<HandJewelryObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
                 var queryable = _context.HandJewelryObservation
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Observer)
@@ -48,11 +48,11 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
 
                 if (query.Rolle == AuthorizedRole.Observator)
                 {
-                    queryable = queryable.Where(p => p.HandsmykkeSesjon.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                    queryable = queryable.Where(p => p.HandsmykkeSesjon.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToCoordinator);
                 }
                 else if (query.Rolle == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.HandsmykkeSesjon.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi);
+                    queryable = queryable.Where(p => p.HandsmykkeSesjon.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 if (query.AvdelingId > 0)
@@ -88,7 +88,7 @@ namespace HyFive.Tjenester.Rapport.Observasjoner
                 return await queryable
                                     .OrderBy(o => o.HandsmykkeSesjon.Id)
                                     .ThenBy(o => o.Id)
-                                    .ProjectTo<HandsmykkeObservasjonRapport>(_mapper.ConfigurationProvider)
+                                    .ProjectTo<HandJewelryObservationReport>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             }
         }

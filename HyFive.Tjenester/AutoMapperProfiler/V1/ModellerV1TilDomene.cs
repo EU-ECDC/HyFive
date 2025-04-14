@@ -6,65 +6,65 @@ using HyFive.Domene.Observation.Gloves;
 using HyFive.Domene.Session;
 using HyFive.Domene.Place;
 
-namespace HyFive.Tjenester.AutoMapperProfiler.V1
+namespace HyFive.Services.AutoMapperProfiler.V1
 {
     public class ModellerV1TilDomene : Profile
     {
         public ModellerV1TilDomene()
         {
-            CreateMap<Modeller.V1.Institution.Institution, Domene.Place.Institution>(MemberList.None);
-            CreateMap<Modeller.V1.Institution.InstitutionType, InstitutionType>(MemberList.None);
-            CreateMap<Modeller.V1.User.User, Domene.Bruker.Bruker>(MemberList.None);
-            CreateMap<Modeller.V1.Institution.Department, Domene.Place.Avdeling>(MemberList.None);
-            CreateMap<Modeller.V1.Institution.DepartmentType, Domene.Place.SectionType>(MemberList.None);
-            CreateMap<Modeller.V1.Observasjon.Role, Domene.Observation.Role>(MemberList.None);
-            CreateMap<Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest, Domene.Bruker.ForesporselOmBrukertilgang>(MemberList.None);
+            CreateMap<Models.V1.Institution.Institution, Domene.Place.Institution>(MemberList.None);
+            CreateMap<Models.V1.Institution.InstitutionType, InstitutionType>(MemberList.None);
+            CreateMap<Models.V1.User.User, Domene.Bruker.Bruker>(MemberList.None);
+            CreateMap<Models.V1.Institution.Department, Domene.Place.Avdeling>(MemberList.None);
+            CreateMap<Models.V1.Institution.DepartmentType, Domene.Place.SectionType>(MemberList.None);
+            CreateMap<Models.V1.Observation.Role, Domene.Observation.Role>(MemberList.None);
+            CreateMap<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest, Domene.Bruker.ForesporselOmBrukertilgang>(MemberList.None);
 
-            CreateMap<Modeller.V1.Sesjon.FireIndikasjonerSesjon, FourIndicationsSession>(MemberList.None)
+            CreateMap<Models.V1.Session.FourIndicationsSession, FourIndicationsSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
             .ForMember(dst => dst.StartTime, opt => opt.MapFrom(src => src.Starttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.FireIndikasjonerObservasjon, FourIndicationsObservation>(MemberList
+            CreateMap<Models.V1.Observation.FourIndicatorsObservation, FourIndicationsObservation>(MemberList
                 .None)
-                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
-                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.Registrerttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.IndicationType, IndicationTypes>(MemberList.None);
-            CreateMap<Modeller.V1.Observasjon.Activity, Activity>(MemberList.None);
-            CreateMap<Modeller.V1.Observasjon.ActivityType, ActivityType>(MemberList.None);
+                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
+                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
+            CreateMap<Models.V1.Observation.IndicationType, IndicationTypes>(MemberList.None);
+            CreateMap<Models.V1.Observation.Activity, Activity>(MemberList.None);
+            CreateMap<Models.V1.Observation.ActivityType, ActivityType>(MemberList.None);
 
-            CreateMap<Modeller.V1.Sesjon.HandsmykkeSesjon, HandJewelrySession>(MemberList.None)
+            CreateMap<Models.V1.Session.HandJewelrySession, HandJewelrySession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
                 .ForMember(dst => dst.StartTime, opt => opt.MapFrom(src => src.Starttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.HandsmykkeObservasjon, HandJewelryObservation>(MemberList.None)
-                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
-                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.Registrerttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.HandJewelryType, HandJewelryType>(MemberList.None);
+            CreateMap<Models.V1.Observation.HandJewelryObservation, HandJewelryObservation>(MemberList.None)
+                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
+                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
+            CreateMap<Models.V1.Observation.HandJewelryType, HandJewelryType>(MemberList.None);
 
-            CreateMap<Modeller.V1.Sesjon.BeskyttelsesutstyrSesjon, Domene.Session.ProtectiveEquipmentSession>(MemberList.None)
+            CreateMap<Models.V1.Session.ProtectiveEquipmentSession, Domene.Session.ProtectiveEquipmentSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
                 .ForMember(dst => dst.StartTime, opt => opt.MapFrom(src => src.Starttidspunkt));
             CreateMap<
-                    Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentObservation, Domene.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
-                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Kommentar) ? null : src.Kommentar))
-                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.Registrerttidspunkt));
+                    Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation, Domene.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
+                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
+                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
             CreateMap<
-                Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentSettingType, ProtectiveEquipmentSettingType>(MemberList.None);
+                Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType, ProtectiveEquipmentSettingType>(MemberList.None);
             CreateMap<
-                Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipment, Domene.Observation.ProtectiveEquipment.ProtectiveEquipment>(MemberList.None);
-            CreateMap<Modeller.V1.Observasjon.Beskyttelsesutstyr.ProtectiveEquipmentType, ProtectiveEquipmentType>(
+                Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment, Domene.Observation.ProtectiveEquipment.ProtectiveEquipment>(MemberList.None);
+            CreateMap<Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType, ProtectiveEquipmentType>(
                 MemberList.None);
-            CreateMap<Modeller.V1.Observasjon.Beskyttelsesutstyr.MisuseType, MisuseType>(MemberList.None);
+            CreateMap<Models.V1.Observation.ProtectiveEquipment.IncorrectType, MisuseType>(MemberList.None);
 
-            CreateMap<Modeller.V1.Sesjon.HanskeSesjon, GloveSession>(MemberList.None)
+            CreateMap<Models.V1.Session.HanskeSesjon, GloveSession>(MemberList.None)
                 .ForMember(dst => dst.StartTime, opt => opt.MapFrom(src => src.Starttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.Gloves.GloveObservation, GloveObservation>(MemberList.None)
-                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.Registrerttidspunkt));
-            CreateMap<Modeller.V1.Observasjon.Gloves.IndicatedGloveType, IndicatedGloveType>(MemberList
+            CreateMap<Models.V1.Observation.Gloves.GloveObservation, GloveObservation>(MemberList.None)
+                .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
+            CreateMap<Models.V1.Observation.Gloves.IndicatedGloveType, IndicatedGloveType>(MemberList
                 .None);
-            CreateMap<Modeller.V1.Observasjon.Gloves.GeneralPurposeGloveType, GeneralPurposeGloveType>(MemberList
+            CreateMap<Models.V1.Observation.Gloves.GeneralPurposeGloveType, GeneralPurposeGloveType>(MemberList
                 .None);
-            CreateMap<Modeller.V1.Observasjon.Gloves.PostGloveHandHygieneType, PostGloveHandHygiene>(
+            CreateMap<Models.V1.Observation.Gloves.PostGloveHandHygieneType, PostGloveHandHygiene>(
                 MemberList.None);
-            CreateMap<Modeller.V1.Oversikt.TransferStatusType, TransmissionStatusType>(MemberList.None);
+            CreateMap<Models.V1.Overview.TransferStatusType, TransmissionStatusType>(MemberList.None);
         }
     }
 }

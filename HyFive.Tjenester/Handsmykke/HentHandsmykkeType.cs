@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Handsmykke
+namespace HyFive.Services.Handsmykke
 {
     public class HentHandsmykkeType
     {
-        public class Query : IRequest<Modeller.V1.Observasjon.HandJewelryType>
+        public class Query : IRequest<Models.V1.Observation.HandJewelryType>
         {
             public int Id = 0;
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.Observasjon.HandJewelryType>
+        public class Handler : IRequestHandler<Query, Models.V1.Observation.HandJewelryType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,11 +27,11 @@ namespace HyFive.Tjenester.Handsmykke
             }
 
 
-            public async Task<Modeller.V1.Observasjon.HandJewelryType> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Observation.HandJewelryType> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.HandJewelryType
                     .AsNoTracking()
-                    .ProjectTo<Modeller.V1.Observasjon.HandJewelryType>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Observation.HandJewelryType>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
             }
         }

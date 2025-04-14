@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Reinforced.Typings.Attributes;
 
-namespace HyFive.Modeller.V1.Institution
+namespace HyFive.Models.V1.Institution
 {
     /// <summary>
     /// Interface brukt for å opprette institusjoner fra Admin-grensesnittet

@@ -2,26 +2,26 @@
 using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.User;
+using HyFive.Models.V1.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Bruker;
-using Bruker = HyFive.Modeller.V1.User.User;
+using HyFive.Services.Bruker;
+using Bruker = HyFive.Models.V1.User.User;
 
-namespace HyFive.Tjenester.BrukerTjenester
+namespace HyFive.Services.BrukerTjenester
 {
     public class OpprettFhiAdmin
     {
-        public class Command : IRequest<Modeller.V1.User.User>
+        public class Command : IRequest<Models.V1.User.User>
         {
             public CreateFhiAdminRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
+        public class Handler : IRequestHandler<Command, Models.V1.User.User>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace HyFive.Tjenester.BrukerTjenester
             }
 
 
-            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
                 if (string.IsNullOrWhiteSpace(command.Request.IdentityPseudonym))
                 {
@@ -60,7 +60,7 @@ namespace HyFive.Tjenester.BrukerTjenester
                 _context.User.Add(fhiAdmin);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<Modeller.V1.User.User>(fhiAdmin);
+                return _mapper.Map<Models.V1.User.User>(fhiAdmin);
             }
 
             

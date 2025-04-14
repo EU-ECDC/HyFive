@@ -7,18 +7,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Domene.Bruker;
 using Microsoft.EntityFrameworkCore;
-using HandsmykkeSesjon = HyFive.Modeller.V1.Sesjon.HandsmykkeSesjon;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Autentisering.Bruker;
+using HandJewelrySession = HyFive.Models.V1.Session.HandJewelrySession;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Authentication.User;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Handsmykke
+namespace HyFive.Services.Handsmykke
 {
     public class LagreSesjon
     {
         public class Command : IRequest<Guid>
         {
-            public HandsmykkeSesjon Sesjon { get; set; }
+            public HandJewelrySession Sesjon { get; set; }
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
         }
@@ -28,9 +28,9 @@ namespace HyFive.Tjenester.Handsmykke
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
-            private readonly IBrukerService _brukerService;
+            private readonly IUserService _brukerService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IBrukerService brukerService)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService brukerService)
             {
                 _context = context;
                 _mapper = mapper;
@@ -68,7 +68,7 @@ namespace HyFive.Tjenester.Handsmykke
                 }
 
                 var overforingsstatuser = _context.TransmissionStatusType.ToList();
-                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+                sesjon.TransmissionStatus = overforingsstatuser.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(sesjon);
                 _context.SaveChanges();
@@ -92,7 +92,7 @@ namespace HyFive.Tjenester.Handsmykke
                 return institusjon
                     .Users
                     .OfType<Observator>()
-                    .FirstOrDefault(_brukerService.HarHprEllerPseudonymOgErAktiv<Observator>(request.HPRNummer, request.Pseudonym).Compile());
+                    .FirstOrDefault(_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile());
             }
         }
     }

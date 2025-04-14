@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Oversikt;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Overview;
+using HyFive.Models.V1.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class HentSesjonerForAvdelingOversikt
     {
@@ -81,7 +81,7 @@ namespace HyFive.Tjenester.Sesjon
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var fireIndikasjonerSesjonerRapport = _mapper.Map<List<Domene.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fireIndikasjonerSesjoner);
@@ -100,7 +100,7 @@ namespace HyFive.Tjenester.Sesjon
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var handsmykkeSesjonerRapport = _mapper.Map<List<Domene.Session.HandJewelrySession>, List<SessionOverviewReport>>(handsmykkeSesjoner);
@@ -121,7 +121,7 @@ namespace HyFive.Tjenester.Sesjon
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var hanskeSesjonerRapport = _mapper.Map<List<Domene.Session.GloveSession>, List<SessionOverviewReport>>(hanskeSesjoner);
@@ -142,7 +142,7 @@ namespace HyFive.Tjenester.Sesjon
                                      .Where(s => s.Avdeling.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => OverforingstatusTypeKonstanter.HentOverforingsstatusTyper(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var beskyttelsesutstyrSesjonerRapport = _mapper.Map<List<Domene.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(beskyttelsesutstyrSesjoner);

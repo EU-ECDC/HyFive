@@ -8,16 +8,16 @@ using HyFive.Domene.Bruker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Bruker
+namespace HyFive.Services.Bruker
 {
     public class OppdaterObservator
     {
-        public class Command : IRequest<Modeller.V1.User.User>
+        public class Command : IRequest<Models.V1.User.User>
         {
-            public Modeller.V1.User.User Bruker { get; set; }
+            public Models.V1.User.User Bruker { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.User.User>
+        public class Handler : IRequestHandler<Command, Models.V1.User.User>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace HyFive.Tjenester.Bruker
             }
 
 
-            public async Task<Modeller.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
                 if (!BrukerValidator.HarNavnOgHprNummerEllerGyldigPseudonym(command.Bruker))
                 {
@@ -46,7 +46,7 @@ namespace HyFive.Tjenester.Bruker
                 _context.User.Update(bruker);
                 
                 await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Modeller.V1.User.User>(bruker);
+                var mapped = _mapper.Map<Models.V1.User.User>(bruker);
                 return mapped;
             }
         }

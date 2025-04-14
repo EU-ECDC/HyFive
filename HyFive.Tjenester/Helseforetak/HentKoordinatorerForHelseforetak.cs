@@ -1,7 +1,7 @@
 ﻿using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1.User;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.User;
+using HyFive.Models.V1.Institution;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Helseforetak
+namespace HyFive.Services.Helseforetak
 {
     public class HentKoordinatorerForHelseforetak
     {

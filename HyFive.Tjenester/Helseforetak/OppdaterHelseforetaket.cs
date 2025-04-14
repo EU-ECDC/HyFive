@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Helseforetak
+namespace HyFive.Services.Helseforetak
 {
     public class OppdaterHelseforetaket
     {
         public class Command : IRequest<bool>
         {
-            public Modeller.V1.Institution.HealthcareEnterprise Helseforetak { get; set; }
+            public Models.V1.Institution.HealthcareEnterprise HealthcareProvider { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -25,10 +25,10 @@ namespace HyFive.Tjenester.Helseforetak
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
                 var helseforetak = _context.HealthcareProvider.Include(h => h.RegionaltHealthcareProvider)
-                                                        .FirstOrDefault(h => h.Id == command.Helseforetak.Id);
+                                                        .FirstOrDefault(h => h.Id == command.HealthcareProvider.Id);
 
-                helseforetak.Name = command.Helseforetak.Name;
-                helseforetak.RegionaltHealthcareProvider = _context.RegionaltHealthcareProvider.Find(command.Helseforetak.RegionaltHelseforetakId);
+                helseforetak.Name = command.HealthcareProvider.Name;
+                helseforetak.RegionaltHealthcareProvider = _context.RegionaltHealthcareProvider.Find(command.HealthcareProvider.RegionaltHelseforetakId);
 
                 _context.HealthcareProvider.Update(helseforetak);
                 await _context.SaveChangesAsync();

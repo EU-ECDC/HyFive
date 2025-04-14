@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
 using HyFive.Domene.Observation;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using OverforingstatusTypeKonstanter = HyFive.Modeller.V1.Konstanter.OverforingstatusTypeKonstanter;
+using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 using FourIndicationsSession = HyFive.Domene.Session.FourIndicationsSession;
 
-namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
+namespace HyFive.Services.Rapporter.FireIndikasjoner
 {
     public class HentFireIndikasjonerRapportForAvdeling
     {
@@ -67,7 +67,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    avdelingssesjonerMedObservasjoner = avdelingssesjonerMedObservasjoner.Where(p => p.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    avdelingssesjonerMedObservasjoner = avdelingssesjonerMedObservasjoner.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in avdelingssesjonerMedObservasjoner)
@@ -119,7 +119,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    sammenlignbareAvdelingersSesjoner = sammenlignbareAvdelingersSesjoner.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    sammenlignbareAvdelingersSesjoner = sammenlignbareAvdelingersSesjoner.Where(p => p.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in sammenlignbareAvdelingersSesjoner)
@@ -179,7 +179,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    institusjonSesjonerMinusForespurtAvdeling = institusjonSesjonerMinusForespurtAvdeling.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    institusjonSesjonerMinusForespurtAvdeling = institusjonSesjonerMinusForespurtAvdeling.Where(p => p.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in institusjonSesjonerMinusForespurtAvdeling)
@@ -247,7 +247,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
                 if (request.Rolle == AuthorizedRole.Administrator)
                 {
-                    tilknyttetKlinikkSesjoner = tilknyttetKlinikkSesjoner.Where(p => p.Overforingstatus.Kode == OverforingstatusTypeKonstanter.OverfortTilFhi).ToList();
+                    tilknyttetKlinikkSesjoner = tilknyttetKlinikkSesjoner.Where(p => p.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in tilknyttetKlinikkSesjoner)
@@ -309,11 +309,11 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     var observasjoner = rolleObservasjoner.ToList();
                     handvaskTider.AddRange(
                         observasjoner
-                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Handvask)
+                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash)
                             .Select(o => o.Activity.TimeSpent));
                     desinfeksjonTider.AddRange(
                         observasjoner
-                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == AktivitetTypeKonstanter.Desinfeksjon)
+                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
                             .Select(o => o.Activity.TimeSpent));
 
                     dto.Kombinasjoner.Add(LagKombinasjonA(observasjoner));
@@ -351,8 +351,8 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 var navn = "A";
                 var kombinasjoner = new[]
                 {
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.FoerPasient}}, // 1
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.FoerPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 1+2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BeforePatient}}, // 1
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BeforePatient, IndicationTypeConstants.AsepticProcedures}}, // 1+2
                 };
                 return LagKombinasjon(observasjoner, navn, kombinasjoner);
             }
@@ -372,8 +372,8 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 var navn = "B";
                 var kombinasjoner = new[]
                 {
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 2
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.AseptiskeProsedyrer}} // 3 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.AsepticProcedures}}, // 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.AsepticProcedures}} // 3 + 2
                 };
                 return LagKombinasjon(observasjoner, navn, kombinasjoner);
             }
@@ -393,7 +393,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 var navn = "C";
                 var kombinasjoner = new[]
                 {
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske}} // 3
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid}} // 3
                 };
                 return LagKombinasjon(observasjoner, navn, kombinasjoner);
             }
@@ -415,8 +415,8 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
 
                 var kombinasjoner = new[]
                 {
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.EtterPasient}}, // 4
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.EtterPasient}} // 3+4
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.AfterPatient}}, // 4
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.AfterPatient}} // 3+4
                 };
                 return LagKombinasjon(observasjoner, navn, kombinasjoner);
             }
@@ -436,14 +436,14 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                 var navn = "E";
                 var kombinasjoner = new[]
                 {
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.FoerPasient}}, // 4 + 1
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.FoerPasient}}, // 3 + 4 + 1
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.FoerPasient}}, // 3 + 1
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.FoerPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 3 + 1 + 2
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 4 + 2
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.FoerPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 4 + 1 + 2
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.FoerPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 3 + 4 + 1 + 2
-                    new Indikasjonskombinasjon() {Koder = new[] {IndikasjonTypeKonstanter.Kroppsveske, IndikasjonTypeKonstanter.EtterPasient, IndikasjonTypeKonstanter.AseptiskeProsedyrer}}, // 3 + 4 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.AfterPatient, IndicationTypeConstants.BeforePatient}}, // 4 + 1
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.AfterPatient, IndicationTypeConstants.BeforePatient}}, // 3 + 4 + 1
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.BeforePatient}}, // 3 + 1
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.BeforePatient, IndicationTypeConstants.AsepticProcedures}}, // 3 + 1 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.AfterPatient, IndicationTypeConstants.AsepticProcedures}}, // 4 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.AfterPatient, IndicationTypeConstants.BeforePatient, IndicationTypeConstants.AsepticProcedures}}, // 4 + 1 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.AfterPatient, IndicationTypeConstants.BeforePatient, IndicationTypeConstants.AsepticProcedures}}, // 3 + 4 + 1 + 2
+                    new Indikasjonskombinasjon() {Koder = new[] {IndicationTypeConstants.BodyFluid, IndicationTypeConstants.AfterPatient, IndicationTypeConstants.AsepticProcedures}}, // 3 + 4 + 2
                 };
                 return LagKombinasjon(observasjoner, navn, kombinasjoner);
             }
@@ -455,7 +455,7 @@ namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
                     .Where(o => MøterKombinasjonskriteriet(o.IndicationTypes.Select(i => i.Code), indikasjonskombinasjoner)).ToList();
                 var antall = aktuelleObservasjoner.Count();
                 var etterlevd = aktuelleObservasjoner
-                    .Count(o => o.Activity.ActivityType.Code != AktivitetTypeKonstanter.IkkeUtfort);
+                    .Count(o => o.Activity.ActivityType.Code != ActivityTypeConstants.NotExecuted);
 
                 var etterlevdProsentandel = BeregnEtterlevdProsentandel(antall, etterlevd);
                 var ikkeEtterlevdProsentandel = BeregnIkkeEtterlevdProsentandel(antall, etterlevdProsentandel);

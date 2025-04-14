@@ -1,8 +1,8 @@
 ﻿using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
-using HyFive.Modeller.V1;
-using HyFive.Modeller.V1.User;
-using HyFive.Tjenester.Bruker;
+using HyFive.Models.V1;
+using HyFive.Models.V1.User;
+using HyFive.Services.Bruker;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Helseforetak
+namespace HyFive.Services.Helseforetak
 {
     public class OpprettKoordinatorForHelseforetak
     {
@@ -108,10 +108,10 @@ namespace HyFive.Tjenester.Helseforetak
             private Koordinator HentKoordinator(int institusjonId, string hprNummer, string identPseudonym)
             {
                 var koordinator = _context.Coordinator.FirstOrDefault(k => k.Institusjon.Id == institusjonId &&
-                                                                        ((!string.IsNullOrEmpty(k.HPRNummer) &&
-                                                                        k.HPRNummer == hprNummer) ||
-                                                                        (!string.IsNullOrEmpty(k.IdentPseudonym) &&
-                                                                        k.IdentPseudonym == identPseudonym)));
+                                                                        ((!string.IsNullOrEmpty(k.HPRNumber) &&
+                                                                        k.HPRNumber == hprNummer) ||
+                                                                        (!string.IsNullOrEmpty(k.IdentityPseudonym) &&
+                                                                        k.IdentityPseudonym == identPseudonym)));
                 return koordinator;
             }
 

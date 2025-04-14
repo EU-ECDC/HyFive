@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using HyFive.Domain.Bruker;
 using HyFive.Modeller.V1.User;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Bruker;
-using HyFive.Tjenester.BrukerTjenester;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Bruker;
+using HyFive.Services.BrukerTjenester;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,14 +14,14 @@ using User = HyFive.Modeller.V1.User.User;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/bruker")]
     public class BrukerController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public BrukerController(IMediator mediator, IBrukerService brukerservice)
+        public BrukerController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -74,7 +74,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("observator/slett")]
         public async Task<ActionResult<bool>> SlettObservator([FromQuery] int observatorId)
         {
-            if (_brukerservice.ErFhiAdmin())
+            if (_brukerservice.IsFhiAdmin())
             {
                 var result = await _mediator.Send(new SlettBruker.Command()
                 {
@@ -148,7 +148,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("koordinator/slett")]
         public async Task<ActionResult<bool>> SlettKoordinator([FromQuery] int koordinatorId)
         {
-            if (_brukerservice.ErFhiAdmin())
+            if (_brukerservice.IsFhiAdmin())
             {
                 var result = await _mediator.Send(new SlettBruker.Command()
                 {

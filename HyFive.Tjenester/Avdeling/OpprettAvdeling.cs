@@ -7,18 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 
-namespace HyFive.Tjenester.Avdeling
+namespace HyFive.Services.Avdeling
 {
     public class OpprettAvdeling
     {
-        public class Command : IRequest<Modeller.V1.Institution.Department>
+        public class Command : IRequest<Models.V1.Institution.Department>
         {
             public CreateDepartmentRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Modeller.V1.Institution.Department>
+        public class Handler : IRequestHandler<Command, Models.V1.Institution.Department>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace HyFive.Tjenester.Avdeling
             }
 
 
-            public async Task<Modeller.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
             {
                 var institusjon = await _context
                     .Institution
@@ -61,7 +61,7 @@ namespace HyFive.Tjenester.Avdeling
 
                 _context.Department.Add(avdeling);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Modeller.V1.Institution.Department>(avdeling);
+                return _mapper.Map<Models.V1.Institution.Department>(avdeling);
             }
 
             private ICollection<Domene.Observation.Role> HentRoller(List<int> requestRolleIder)

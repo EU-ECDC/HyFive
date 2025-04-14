@@ -7,16 +7,16 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.ForesporselOmBrukertilgang
+namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class HentAlleForesporsler
     {
-        public class Query : IRequest<Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
+        public class Query : IRequest<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
+        public class Handler : IRequestHandler<Query, Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
             }
 
 
-            public async Task<Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.UserAccessRequest
                     .AsNoTracking()
                     .Where(f => f.InstitusjonId.Value == request.InstitusjonId)
-                    .ProjectTo<Modeller.V1.ForesporselOmBrukertilgang.UserAccessRequest>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }
         }

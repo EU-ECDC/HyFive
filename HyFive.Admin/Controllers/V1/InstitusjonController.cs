@@ -1,26 +1,26 @@
 ﻿using HyFive.Modeller.V1.User;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Services.Institusjon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Avdeling;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Avdeling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/institusjon")]
     public class InstitusjonController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public InstitusjonController(IMediator mediator, IBrukerService brukerservice)
+        public InstitusjonController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -34,18 +34,18 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<InstitutionReport>> HentInstitusjoner()
         {
-            if (_brukerservice.ErFhiAdmin())
+            if (_brukerservice.IsFhiAdmin())
             {
                 return await _mediator.Send(new HentInstitusjoner.Query());
             }
-            return await _mediator.Send(new HentInstitusjonerForKoordinator.Query() { KoordinatorHprNummer = _brukerservice.HentHprnummer(), KoordinatorPseudonym = _brukerservice.HentPseudonym()});
+            return await _mediator.Send(new HentInstitusjonerForKoordinator.Query() { KoordinatorHprNummer = _brukerservice.GetHprNumber(), KoordinatorPseudonym = _brukerservice.GetPseudonym()});
         }
 
-        [Authorize(HandhygienePolicy.Koordinator)]
+        [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("hentInstitusjonerForKoordinator")]
         public async Task<IEnumerable<InstitutionReport>> HentInstitusjonerForKoordinator()
         {
-            return await _mediator.Send(new HentInstitusjonerForKoordinator.Query() { KoordinatorHprNummer = _brukerservice.HentHprnummer(), KoordinatorPseudonym = _brukerservice.HentPseudonym() });
+            return await _mediator.Send(new HentInstitusjonerForKoordinator.Query() { KoordinatorHprNummer = _brukerservice.GetHprNumber(), KoordinatorPseudonym = _brukerservice.GetPseudonym() });
         }
 
 
@@ -57,7 +57,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}", Name = "HentInstitusjon")]
         public async Task<IActionResult> HentInstitusjon(int id)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(id))
             {
                 var resultat = await _mediator.Send(new HentInstitusjon.Query() { InstitusjonId = id });
                 return Ok(resultat);
@@ -75,7 +75,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/avdelinger", Name = "HentAvdelinger")]
         public async Task<ActionResult<IEnumerable<Department>>> HentAvdelinger(int id)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjon(id))
+            if (_brukerservice.IsFhiAdminOrCoordinator(id))
             {
                 var resultat = await _mediator.Send(new HentAvdelingerForInstitusjon.Query() { InstitusjonId = id });
                 return Ok(resultat);
@@ -93,7 +93,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/observatorer", Name = "HentObservatorer")]
         public async Task<ActionResult<IEnumerable<User>>> HentObservatorer(int id)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(id))
             {
                 var resultat = await _mediator.Send(new HentObservatorerForInstitusjon.Query() { InstitusjonId = id });
                 return Ok(resultat);
@@ -112,7 +112,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/koordinatorer", Name = "HentKoordinatorer")]
         public async Task<ActionResult<IEnumerable<User>>> HentKoordinatorer(int id)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(id))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(id))
             {
                 var resultat = await _mediator.Send(new HentKoordinatorerForInstitusjon.Query() { InstitusjonId = id });
                 return Ok(resultat);

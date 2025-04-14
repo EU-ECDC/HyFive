@@ -1,5 +1,5 @@
-﻿using HyFive.Tjenester.Rapporter.Pdf;
-using HyFive.Tjenester.Rapporter.QuickChart;
+﻿using HyFive.Services.Rapporter.Pdf;
+using HyFive.Services.Rapporter.QuickChart;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
+namespace HyFive.Services.Rapporter.FireIndikasjoner
 {
     /// <summary>
     /// En service som genererer PDF'er med bar-charts basert på input-data

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using HyFive.Domene.Observation.ProtectiveEquipment;
 
-namespace HyFive.Tjenester.Beskyttelsesutstyr.Helpers
+namespace HyFive.Services.Beskyttelsesutstyr.Helpers
 {
     public class BeskyttelsesutstyrObservasjonValidator
     {

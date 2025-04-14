@@ -35,8 +35,8 @@
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Modeller\HyFive.Modeller.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Tjenester.Autentisering.csproj" />
+    <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Rapporter\HyFive.Tjenester.Rapporter.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester\HyFive.Tjenester.csproj" />
   </ItemGroup>

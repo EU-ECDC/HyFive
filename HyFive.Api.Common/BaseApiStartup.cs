@@ -23,7 +23,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using HyFive.DataAccess;
-using HyFive.Tjenester.Autentisering.Requirements;
+using HyFive.Services.Authentication.Requirements;
 
 namespace HyFive.Api.Common
 {

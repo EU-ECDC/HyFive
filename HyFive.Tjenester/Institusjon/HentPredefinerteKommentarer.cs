@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class HentPredefinerteKommentarer
     {

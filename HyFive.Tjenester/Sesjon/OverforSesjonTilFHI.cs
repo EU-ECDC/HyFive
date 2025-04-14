@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Oversikt;
-using HyFive.Modeller.V1.Sesjon;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Overview;
+using HyFive.Models.V1.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Sesjon
+namespace HyFive.Services.Sesjon
 {
     public class OverforSesjonTilFHI
     {
@@ -39,7 +39,7 @@ namespace HyFive.Tjenester.Sesjon
                     .Include(s => s.TransmissionStatus)
                     .FirstOrDefaultAsync(x => x.Id == request.SesjonId);
 
-                var overfortTilFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == OverforingstatusTypeKonstanter.OverfortTilFhi);
+                var overfortTilFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 sesjon.TransmissionStatus = overfortTilFHI;
 

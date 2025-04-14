@@ -8,7 +8,7 @@ using HyFive.Domene.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Tjenester.Institusjon
+namespace HyFive.Services.Institusjon
 {
     public class SlettInstitusjon
     {

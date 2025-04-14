@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Institusjon;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/predefinertkommentar")]
     public class PredefinertKommentarController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
 
-        public PredefinertKommentarController(IMediator mediator, IBrukerService brukerservice)
+        public PredefinertKommentarController(IMediator mediator, IUserService brukerservice)
         {
             _mediator = mediator;
             _brukerservice = brukerservice;
@@ -31,7 +31,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet(Name = "HentPredefinertKommentarer")]
         public async Task<ActionResult<List<PredefinedComment>>> HentPredefinertKommentar(int institusjonId)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
                 return await _mediator.Send(new HentPredefinertKommentarerForKoordinator.Query
                 {
@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
             int institusjonId,
             [FromBody] PredefinedComment predefinertKommentar)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
                 var erOppdatert = await _mediator.Send(new OppdaterPredefinertKommentar.Command
                 {
@@ -77,7 +77,7 @@ namespace HyFive.Admin.Controllers.V1
             int institusjonId,
             [FromBody] CreatePredefinedCommentRequest nyPredefinertKommentar)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(institusjonId))
+            if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
                 var erOpprettet = await _mediator.Send(new OpprettPredefinertKommentar.Command
                 {

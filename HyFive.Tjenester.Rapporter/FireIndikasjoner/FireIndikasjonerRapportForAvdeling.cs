@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HyFive.Tjenester.Rapporter.FireIndikasjoner
+namespace HyFive.Services.Rapporter.FireIndikasjoner
 {
     public class FireIndikasjonerRapportForAvdeling
     {

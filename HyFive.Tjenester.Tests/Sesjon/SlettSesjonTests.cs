@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Sesjon;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Services.Sesjon;
 using NUnit.Framework;
 
-namespace HyFive.Tjenester.Tests.Sesjon
+namespace HyFive.Services.Tests.Sesjon
 {
     public class SlettSesjonTests : TjenesteTests
     {
@@ -23,8 +23,8 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //    var handler = new SlettSesjon.Handler(DatabaseContext);
         //    var slettRequest = new SlettSesjon.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilFhi,
-        //        SesjonId = sesjonId,
+        //        OverforingstatusKode = OverforingstatusTypeKonstanter.TransferredToFhi,
+        //        SessionId = sesjonId,
         //        InstitutionId = avdeling.InstitutionId
         //    };
             
@@ -49,8 +49,8 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //    var handler = new SlettSesjon.Handler(DatabaseContext);
         //    var slettRequest = new SlettSesjon.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
-        //        SesjonId = sesjonId,
+        //        OverforingstatusKode = OverforingstatusTypeKonstanter.TransferredToCoordinator,
+        //        SessionId = sesjonId,
         //        InstitutionId = avdeling.InstitutionId
         //    };
         //    var resultat = await handler.Handle(slettRequest, CancellationToken.None);

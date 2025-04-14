@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Autentisering.Bruker;
-using HyFive.Tjenester.Sesjon;
+using HyFive.Modeller.V1.Constants;
+using HyFive.Modeller.V1.Session;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Sesjon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +12,10 @@ namespace HyFive.Admin.Controllers.V1
     [Route("api/v1/sesjon")]
     public class SesjonController : ControllerBase
     {
-        private readonly IBrukerService _brukerservice;
+        private readonly IUserService _brukerservice;
         private readonly IMediator _mediator;
 
-        public SesjonController(IBrukerService brukerservice, IMediator mediator)
+        public SesjonController(IUserService brukerservice, IMediator mediator)
         {
             _brukerservice = brukerservice;
             _mediator = mediator;
@@ -25,12 +25,12 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete]
         public async Task<IActionResult> SlettSesjon(Guid sesjonId, [FromQuery] int institusjonId)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjon(institusjonId))
+            if (_brukerservice.IsFhiAdminOrCoordinator(institusjonId))
             {
                 var resultat = await _mediator.Send(new SlettSesjon.Command
                 {
                     InstitusjonId = institusjonId,
-                    OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
+                    OverforingstatusKode = TransferStatusTypeConstants.TransferredToCoordinator,
                     SesjonId = sesjonId
                 });
 

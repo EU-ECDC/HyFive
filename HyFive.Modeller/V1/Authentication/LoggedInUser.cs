@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Reinforced.Typings.Attributes;
 
-namespace HyFive.Modeller.V1.Authentication
+namespace HyFive.Models.V1.Authentication
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class LoggedInUser
@@ -14,7 +14,7 @@ namespace HyFive.Modeller.V1.Authentication
         public bool IsObserver { get; set; }
         public List<int> InstitutionIds { get; set; }
         public string FirstName { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public string HPRNumber { get; set; }
     }
 }

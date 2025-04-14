@@ -1,5 +1,5 @@
-﻿using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Kommune;
+﻿using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Kommune;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

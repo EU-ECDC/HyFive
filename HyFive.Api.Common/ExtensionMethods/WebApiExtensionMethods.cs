@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using HyFive.Modeller.V1.Session;
+using HyFive.Models.V1.Session;
 using HyFive.Services.FourIndications;
 using HyFive.Services.Reports.FourIndications;
 using HyFive.Services.Reports.HandJewelry;
@@ -30,7 +30,7 @@ namespace HyFive.Api.Common.ExtensionMethods
             {
                 Assembly.GetAssembly(typeof(SaveSession)), // HyFive.Services
                 Assembly.GetAssembly(typeof(FourIndicationsSession)), // HyFive.Domain
-                Assembly.GetAssembly(typeof(Modeller.V1.Session.FourIndicationsSession)), // HyFive.Models
+                Assembly.GetAssembly(typeof(Models.V1.Session.FourIndicationsSession)), // HyFive.Models
             };
         }
 

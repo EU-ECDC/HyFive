@@ -7,7 +7,7 @@ using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using MediatR;
 
-namespace HyFive.Tjenester.ForesporselOmBrukertilgang
+namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class OpprettBrukerFraForesporsel
     {
@@ -41,8 +41,8 @@ namespace HyFive.Tjenester.ForesporselOmBrukertilgang
                 if (!FinnesObservatørForInstitusjon(foresporsel.IdentPseudonym, institusjon.Id))
                     LagObservatør(foresporsel, institusjon);
 
-                var bruker = _context.User.FirstOrDefault(b => b.IdentPseudonym == command.IdentPseudonym 
-                                                                    || b.HPRNummer == command.HPRNummer);
+                var bruker = _context.User.FirstOrDefault(b => b.IdentityPseudonym == command.IdentPseudonym 
+                                                                    || b.HPRNumber == command.HPRNummer);
 
                 if(bruker == null) return false;
 

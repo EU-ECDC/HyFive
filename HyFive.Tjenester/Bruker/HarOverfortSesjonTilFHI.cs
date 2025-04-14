@@ -1,12 +1,12 @@
 ﻿using HyFive.DataAccess;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Bruker
+namespace HyFive.Services.Bruker
 {
     public class HarOverfortSesjonTilFHI
     {
@@ -26,7 +26,7 @@ namespace HyFive.Tjenester.Bruker
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var sesjonerOverfortTilFHI = await _context.Sesjon.Where(s => s.Observer.Id == request.ObervasjonsId && s.TransmissionStatus.Code == OverforingstatusTypeKonstanter.OverfortTilFhi).AnyAsync();
+                var sesjonerOverfortTilFHI = await _context.Sesjon.Where(s => s.Observer.Id == request.ObervasjonsId && s.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).AnyAsync();
 
                 return sesjonerOverfortTilFHI;
             }

@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Modeller.V1.Observation;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Institusjon;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using HyFive.Tjenester.Roller;
+using HyFive.Services.Roller;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/rolle")]
     public class RolleController : ControllerBase
     {
@@ -43,7 +43,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPost()]
         [ProducesResponseType(typeof(Role), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Role>> OpprettRolle([FromBody] OpprettRolleRequest request)
+        public async Task<ActionResult<Role>> OpprettRolle([FromBody] CreateRoleRequest request)
         {
             var result = await _mediator.Send(new OpprettRolle.Command() { Request = request });
             return result;
@@ -56,7 +56,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut()]
-        public async Task<Role> OppdaterRolle([FromBody] OppdaterRolleRequest request)
+        public async Task<Role> OppdaterRolle([FromBody] UpdateRoleRequest request)
         {
             var result = await _mediator.Send(new OppdaterRolle.Command() { Request = request });
             return result;

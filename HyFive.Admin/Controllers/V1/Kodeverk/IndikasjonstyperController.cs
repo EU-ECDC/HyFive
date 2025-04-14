@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Autentisering.Requirements;
-using HyFive.Tjenester.FireIndikasjoner;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.FireIndikasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IndicationType = HyFive.Modeller.V1.Observasjon.IndicationType;
+using IndicationType = HyFive.Modeller.V1.Observation.IndicationType;
 
 namespace HyFive.Admin.Controllers.V1
 {
     /// <summary>
     /// IndicationTypes
     /// </summary>
-    [Authorize(HandhygienePolicy.FhiAdminEllerKoordinator)]
+    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/indikasjonstyper")]
     public class IndikasjonstyperController : ControllerBase
     {
