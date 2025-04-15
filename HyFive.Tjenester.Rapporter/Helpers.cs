@@ -1,5 +1,5 @@
-﻿using HyFive.Services.Rapporter.FireIndikasjoner;
-using HyFive.Services.Rapporter.QuickChart;
+﻿using HyFive.Services.Reports.FourIndicators;
+using HyFive.Services.Reports.QuickChart;
 using iTextSharp.text.pdf;
 using System;
 using System.Net.Http;
@@ -7,23 +7,23 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace HyFive.Services.Rapporter
+namespace HyFive.Services.Reports
 {
-    public class Hjelpere
+    public class Helpers
     {
-        public const string Datoformat = "dd.MM.yyyy";
-        public const string FilnavnPrefiks = "dd-MM-yyyy-HH-mm-ss";
+        public const string DateFormat = "dd.MM.yyyy";
+        public const string FileNamePrefix = "dd-MM-yyyy-HH-mm-ss";
 
-        public static PdfReader LesInnKopiAvPdfTemplateFraFil(string resourceName)
+        public static PdfReader ReadCopyOfPdfTemplateFromFile(string resourceName)
         {
-            var avdelingTemplateStream = typeof(FireIndikasjonerPdfRapportService).Assembly.GetManifestResourceStream(resourceName);
-            var originalPdfLeser = new PdfReader(avdelingTemplateStream);
-            var uavhengigDuplikatLeser = new PdfReader(originalPdfLeser);
+            var departmentTemplateStream = typeof(FourIndicationsPDFReportService).Assembly.GetManifestResourceStream(resourceName);
+            var originalPdfReader = new PdfReader(departmentTemplateStream);
+            var independentDuplicateReader = new PdfReader(originalPdfReader);
 
-            return uavhengigDuplikatLeser;
+            return independentDuplicateReader;
         }
 
-        public static async Task<byte[]> LagChart(QuickChartConfig chartconfig, int pixelWidth)
+        public static async Task<byte[]> CreateChart(QuickChartConfig chartconfig, int pixelWidth)
         {
             var chartconfigJson = JsonSerializer.Serialize(chartconfig, new JsonSerializerOptions
             {

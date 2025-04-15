@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Services.Rapporter.FireIndikasjoner;
+using HyFive.Services.Rapporter.FourIndicators;
 using Moq;
 using Microsoft.Extensions.Logging;
 
@@ -96,12 +96,12 @@ namespace HyFive.Services.Tests.Rapporter
         //    // Act
         //    await lagreSesjonHandler.Handle(lagreSesjonQuery, CancellationToken.None);
             
-        //    var rapportHandler = new HentFireIndikasjonerRapportForAvdeling.Handler(DatabaseContext);
-        //    var lagRapportQuery = new HentFireIndikasjonerRapportForAvdeling.Query()
+        //    var rapportHandler = new GetFourIndicatorsReportForDepartment.Handler(DatabaseContext);
+        //    var lagRapportQuery = new GetFourIndicatorsReportForDepartment.Query()
         //    {
         //        DepartmentId = enAvdeling.Id, 
-        //        FraTidspunkt = DateTime.Now.AddDays(-1),
-        //        TilTidspunkt = DateTime.Now.AddDays(1),
+        //        FromTime = DateTime.Now.AddDays(-1),
+        //        ToTime = DateTime.Now.AddDays(1),
         //        Role = AuthorizedRole.Coordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());
@@ -110,15 +110,15 @@ namespace HyFive.Services.Tests.Rapporter
         //        .Department
         //        .Role
         //        .First(r => r.Name == rolleSomTestes)
-        //        .Kombinasjoner
+        //        .Combinations
         //        .First(k => k.Name == "A");
             
         //    // Assert
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(kombinasjonArapport.NumberOfObservations, Is.EqualTo(3));
-        //        Assert.That(Math.Round(kombinasjonArapport.ProsentIkkeEtterlevd), Is.EqualTo(33));
-        //        Assert.That(Math.Round(kombinasjonArapport.ProsentEtterlevd), Is.EqualTo(67));
+        //        Assert.That(Math.Round(kombinasjonArapport.PercentNotComplied), Is.EqualTo(33));
+        //        Assert.That(Math.Round(kombinasjonArapport.PercentComplied), Is.EqualTo(67));
         //    });
         //}
     }

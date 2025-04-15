@@ -28,7 +28,7 @@ namespace HyFive.DataAccess
         public DbSet<TransmissionStatusType> TransmissionStatusType { get; set; }
         public DbSet<Institution> Institution { get; set; }
         public DbSet<InstitutionType> InstitutionType { get; set; }
-        public DbSet<SectionType> SectionType { get; set; }
+        public DbSet<DepartmentType> SectionType { get; set; }
         public DbSet<PredefinedComments> PredefinedComments { get; set; }
         public DbSet<IndicationTypes> Indication { get; set; }
         public DbSet<Department> Department { get; set; }
@@ -101,10 +101,10 @@ namespace HyFive.DataAccess
             mb.Entity<InstitutionType>().Property(it => it.Name).HasMaxLength(100);
             mb.Entity<InstitutionType>().HasIndex(it => it.Name);
 
-            mb.Entity<SectionType>().Property(at => at.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<SectionType>().HasIndex(at => at.Code).IsUnique();
-            mb.Entity<SectionType>().Property(at => at.Name).HasMaxLength(100);
-            mb.Entity<SectionType>().HasIndex(at => at.Name);
+            mb.Entity<DepartmentType>().Property(at => at.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<DepartmentType>().HasIndex(at => at.Code).IsUnique();
+            mb.Entity<DepartmentType>().Property(at => at.Name).HasMaxLength(100);
+            mb.Entity<DepartmentType>().HasIndex(at => at.Name);
 
             mb.Entity<ProtectiveEquipment>().Property(i => i.Comment).HasMaxLength(1000);
 

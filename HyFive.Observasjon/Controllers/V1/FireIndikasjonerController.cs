@@ -88,7 +88,7 @@ namespace HyFive.Observasjon.Controllers.V1
                     ObservatorId = observatorIdForInstitusjon,
                     InstitusjonId = institusjonId,
                     SesjonId = sesjonId,
-                    Rolle = AuthorizedRole.Koordinator
+                    Rolle = AuthorizedRole.Coordinator
                 };
                 var observasjoner = await _mediator.Send(query);
                 return observasjoner;

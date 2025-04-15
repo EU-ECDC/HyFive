@@ -9,8 +9,8 @@ using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Rapport.Observasjoner;
-using HyFive.Services.Rapporter.FireIndikasjoner;
-using HyFive.Services.Rapporter.Handsmykker;
+using HyFive.Services.Rapporter.FourIndicators;
+using HyFive.Services.Rapporter.HandJewelry;
 using HyFive.Services.Rapporter.Pdf;
 
 namespace HyFive.Admin.Controllers.V1
@@ -19,16 +19,16 @@ namespace HyFive.Admin.Controllers.V1
     [Route("api/v1/rapport")]
     public class RapportController : ControllerBase
     {
-        private readonly FireIndikasjonerPdfRapportService _fireIndikasjonerPdfRapportService;
+        private readonly FourIndicationsPDFReportService _fireIndikasjonerPdfRapportService;
         private readonly IUserService _brukerservice;
         private readonly IMediator _mediator;
-        private readonly HandsmykkePdfRapportService _handsmykkePdfRapportService;
+        private readonly HandJewelryPdfReportService _handsmykkePdfRapportService;
 
         public RapportController(
-            FireIndikasjonerPdfRapportService fireIndikasjonerPdfRapportService,
+            FourIndicationsPDFReportService fireIndikasjonerPdfRapportService,
             IUserService brukerservice,
             IMediator mediator,
-            HandsmykkePdfRapportService handsmykkePdfRapportService)
+            HandJewelryPdfReportService handsmykkePdfRapportService)
         {
             _fireIndikasjonerPdfRapportService = fireIndikasjonerPdfRapportService;
             _brukerservice = brukerservice;
@@ -197,16 +197,16 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentFireIndikasjonerRapportForAvdeling.Query
+            var query = new GetFourIndicatorsReportForDepartment.Query
             {
-                FraTidspunkt = fraTid,
-                TilTidspunkt = tilTid,
-                AvdelingId = avdelingId,
-                Rolle = rolle
+                FromTime = fraTid,
+                ToTime = tilTid,
+                DepartmentId = avdelingId,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
-            var pdf = await _fireIndikasjonerPdfRapportService.LagRapportForAvdeling(rapportData);
+            var pdf = await _fireIndikasjonerPdfRapportService.CreateDepartmentReport(rapportData);
             var fil = LagFil(pdf);
 
             return fil;
@@ -232,17 +232,17 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentHandsmykkeRapportForAvdeling.Query
+            var query = new GetHandJewelryReportForDepartment.Query
             {
-                AvdelingId = avdelingId,
-                InstiusjonId = institusjonId,
-                FraTidspunkt = fraTid,
-                TilTidspunkt = tilTid,
-                Rolle = rolle
+                DepartmentId = avdelingId,
+                InstitutionId = institusjonId,
+                FromDateTime = fraTid,
+                ToDateTime = tilTid,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
-            var pdf = _handsmykkePdfRapportService.LagRapportForAvdeling(rapportData);
+            var pdf = _handsmykkePdfRapportService.GenerateReportForDepartment(rapportData);
             var fil = LagFil(pdf);
 
             return fil;

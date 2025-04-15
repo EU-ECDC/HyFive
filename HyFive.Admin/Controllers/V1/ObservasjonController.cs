@@ -59,7 +59,7 @@ namespace HyFive.Admin.Controllers.V1
                 if (!_brukerservice.IsFhiAdmin())
                     return Forbid();
             }
-            else if (rolle == AuthorizedRole.Koordinator)
+            else if (rolle == AuthorizedRole.Coordinator)
             {
                 overføringsstatusType = TransferStatusTypeConstants.TransferredToCoordinator;
                 if (!_brukerservice.IsFhiAdminOrCoordinator(institusjonidSomInt.Value))
@@ -100,7 +100,7 @@ namespace HyFive.Admin.Controllers.V1
                 if (!_brukerservice.IsFhiAdmin())
                     return Forbid();
             }
-            else if (rolle == AuthorizedRole.Koordinator)
+            else if (rolle == AuthorizedRole.Coordinator)
             {
                 overføringsstatusType = TransferStatusTypeConstants.TransferredToCoordinator;
                 if (!_brukerservice.IsCoordinatorForDepartment(avdelingsid))

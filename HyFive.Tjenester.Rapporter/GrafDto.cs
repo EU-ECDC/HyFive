@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HyFive.Services.Rapporter
+namespace HyFive.Services.Reports
 {
     public class GrafDto
     {

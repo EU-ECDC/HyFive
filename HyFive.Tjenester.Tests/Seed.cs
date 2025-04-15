@@ -237,28 +237,28 @@ namespace HyFive.Services.Tests
 
         private void SeedAvdelingTyper()
         {
-            var avdelingstyper = new SectionType[]
+            var avdelingstyper = new DepartmentType[]
             {
-                    new SectionType {Code ="KIRURGI", Name = "Kirurgi"},
-                    new SectionType {Code ="INDREMEDISIN", Name = "Indremedisin"},
-                    new SectionType {Code ="FODSELSHJELP_OG_KVINNESYKDOMMER", Name = "Fødselshjelp og kvinnesykdommer"},
-                    new SectionType {Code ="HUD_OG_VENERISKE_SYKDOMMER", Name = "Hud- og veneriske sykdommer"},
-                    new SectionType {Code ="BARNESYKDOMMER", Name = "Barnesykdommer"},
-                    new SectionType {Code ="NEVROLOGI", Name = "Nevrologi"},
-                    new SectionType {Code ="ORE_NESE_HALS", Name = "Øre-nese-hals"},
-                    new SectionType {Code ="OYESYKDOMMER", Name = "Øyesykdommer"},
-                    new SectionType {Code ="ONKOLOGI", Name = "Onkologi"},
-                    new SectionType {Code ="REVMATOLOGI", Name = "Revmatologi"},
-                    new SectionType {Code ="FYSIKALSK_MEDISIN_REHABILITERING", Name = "Fysikalsk medisin/rehabilitering"},
-                    new SectionType {Code ="OBSERVASJONSENHET_AKUTTMOTTAK", Name = "Observasjonsenhet / akuttmottak"},
-                    new SectionType {Code ="KIRURGISK_INTENSIV_OVERVAKNING", Name = "Kirurgisk intensiv/overvåking"},
-                    new SectionType {Code ="MEDISINSK_INTENSIV_OVERVAKNING", Name = "Medisinsk intensiv/overvåking"},
-                    new SectionType {Code ="INTERMEDIARENHET", Name = "Intermediærenhet"},
-                    new SectionType {Code ="SKJERMET_ENHET", Name = "Skjermet enhet (demens)"},
-                    new SectionType {Code ="REHABILITERINGSENHET", Name = "Rehabiliteringsenhet"},
-                    new SectionType {Code ="KORTTIDSAVDELING", Name = "Korttidsavdeling"},
-                    new SectionType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
-                    new SectionType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
+                    new DepartmentType {Code ="KIRURGI", Name = "Kirurgi"},
+                    new DepartmentType {Code ="INDREMEDISIN", Name = "Indremedisin"},
+                    new DepartmentType {Code ="FODSELSHJELP_OG_KVINNESYKDOMMER", Name = "Fødselshjelp og kvinnesykdommer"},
+                    new DepartmentType {Code ="HUD_OG_VENERISKE_SYKDOMMER", Name = "Hud- og veneriske sykdommer"},
+                    new DepartmentType {Code ="BARNESYKDOMMER", Name = "Barnesykdommer"},
+                    new DepartmentType {Code ="NEVROLOGI", Name = "Nevrologi"},
+                    new DepartmentType {Code ="ORE_NESE_HALS", Name = "Øre-nese-hals"},
+                    new DepartmentType {Code ="OYESYKDOMMER", Name = "Øyesykdommer"},
+                    new DepartmentType {Code ="ONKOLOGI", Name = "Onkologi"},
+                    new DepartmentType {Code ="REVMATOLOGI", Name = "Revmatologi"},
+                    new DepartmentType {Code ="FYSIKALSK_MEDISIN_REHABILITERING", Name = "Fysikalsk medisin/rehabilitering"},
+                    new DepartmentType {Code ="OBSERVASJONSENHET_AKUTTMOTTAK", Name = "Observasjonsenhet / akuttmottak"},
+                    new DepartmentType {Code ="KIRURGISK_INTENSIV_OVERVAKNING", Name = "Kirurgisk intensiv/overvåking"},
+                    new DepartmentType {Code ="MEDISINSK_INTENSIV_OVERVAKNING", Name = "Medisinsk intensiv/overvåking"},
+                    new DepartmentType {Code ="INTERMEDIARENHET", Name = "Intermediærenhet"},
+                    new DepartmentType {Code ="SKJERMET_ENHET", Name = "Skjermet enhet (demens)"},
+                    new DepartmentType {Code ="REHABILITERINGSENHET", Name = "Rehabiliteringsenhet"},
+                    new DepartmentType {Code ="KORTTIDSAVDELING", Name = "Korttidsavdeling"},
+                    new DepartmentType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
+                    new DepartmentType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
             };
             _context.SectionType.AddRange(avdelingstyper);
             _context.SaveChanges();

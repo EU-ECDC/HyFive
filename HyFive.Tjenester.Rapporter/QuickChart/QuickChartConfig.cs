@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HyFive.Services.Rapporter.QuickChart
+namespace HyFive.Services.Reports.QuickChart
 {
     public class QuickChartConfig
     {

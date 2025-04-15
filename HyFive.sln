@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester", "HyFive.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Authentication", "HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester.Rapporter", "HyFive.Tjenester.Rapporter\HyFive.Tjenester.Rapporter.csproj", "{14316A36-61B8-4EAC-9865-F1B53285E0A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Reports", "HyFive.Tjenester.Rapporter\HyFive.Services.Reports.csproj", "{14316A36-61B8-4EAC-9865-F1B53285E0A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ED483D3F-D407-43A5-935E-74CDB9B0B033}"
 EndProject

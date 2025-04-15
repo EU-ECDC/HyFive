@@ -46,7 +46,7 @@ namespace HyFive.Services.Rapport.Observasjoner
                     .Include(fo => fo.Rolle)
                     .AsNoTracking();
 
-                if (query.Rolle == AuthorizedRole.Observator)
+                if (query.Rolle == AuthorizedRole.Observer)
                 {
                     queryable = queryable.Where(p => p.HandsmykkeSesjon.Overforingstatus.Kode == TransferStatusTypeConstants.TransferredToCoordinator);
                 }

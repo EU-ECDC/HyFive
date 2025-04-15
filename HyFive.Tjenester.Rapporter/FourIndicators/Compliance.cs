@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Rapporter.FireIndikasjoner
+namespace HyFive.Services.Reports.FourIndicators
 {
     public class Compliance
     {
