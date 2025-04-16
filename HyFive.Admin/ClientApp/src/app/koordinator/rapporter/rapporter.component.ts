@@ -34,17 +34,17 @@ export class RapporterComponent implements OnInit {
         children: [
           {
             name: 'Etterlevelse fire indikasjoner',
-            routerLink: UrlPaths.fireindikasjonerEtterlevelsePdf
+            routerLink: UrlPaths.fourindicationsCompliancePdf
           },
           {
             name: 'Etterlevelse håndsmykker',
-            routerLink: UrlPaths.handsmykkerEtterlevelsePdf
+            routerLink: UrlPaths.handjewelryCompliancePdf
           }
         ]
       },
       {
         name: 'Nedlastinger (Excel)',
-        routerLink: UrlPaths.nedlastingExcel
+        routerLink: UrlPaths.downloadExcel
       }
     ];
   }
