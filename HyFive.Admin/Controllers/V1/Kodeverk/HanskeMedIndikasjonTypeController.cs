@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Observation.Gloves;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Hanske;
+using HyFive.Services.Glove;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

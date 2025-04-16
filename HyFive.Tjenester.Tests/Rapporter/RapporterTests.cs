@@ -1,7 +1,7 @@
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.Avdeling;
+using HyFive.Services.Department;
 using HyFive.Services.FireIndikasjoner;
 using NUnit.Framework;
 using System;
@@ -21,11 +21,11 @@ namespace HyFive.Services.Tests.Rapporter
         //public async Task LagAvdelingsrapportTest()
         //{
         //    // Arrange
-        //    var logger = new Mock<ILogger<LagreSesjon.Handler>>();
+        //    var logger = new Mock<ILogger<SaveSession.Handler>>();
         //    var rolleSomTestes = "Lege";
         //    var hentAvdelingHandler =
-        //        new HentAvdelingerForInstitusjon.Handler(DatabaseContext, Mapper);
-        //    var enAvdeling = (await hentAvdelingHandler.Handle(new HentAvdelingerForInstitusjon.Query(){InstitutionId = 1}, CancellationToken.None)).First();
+        //        new GetDepartmentsForInstitution.Handler(DatabaseContext, Mapper);
+        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForInstitution.Query(){InstitutionId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
         //        new HentAktivitetTyper.Handler(DatabaseContext, Mapper);
@@ -37,7 +37,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    var indikasjonstyper =
         //        await hentIndikasjonstyperHandler.Handle(new HentIndikasjonstyper.Query(), CancellationToken.None);
 
-        //    var lagreSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+        //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
 
         //    var etterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
@@ -76,7 +76,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    };
 
 
-        //    var lagreSesjonQuery = new LagreSesjon.Command()
+        //    var lagreSesjonQuery = new SaveSession.Command()
         //    {
         //        HPRNumber = Seed.SeedObservatorHprNummer,
         //        Session = new FourIndicationsSession()

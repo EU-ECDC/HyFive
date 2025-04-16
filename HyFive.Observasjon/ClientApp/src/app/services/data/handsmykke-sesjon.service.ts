@@ -28,9 +28,9 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
   }
 
   public sendTilServer(sesjonId: string): Observable<string> {
-    var sesjoner = this.hentSesjoner();
-    var sesjonIndeks = sesjoner.map(s => s.id).indexOf(sesjonId);
-    var sesjonSomSkalSendes = sesjoner[sesjonIndeks];
+    var sessions = this.hentSesjoner();
+    var sesjonIndeks = sessions.map(s => s.id).indexOf(sesjonId);
+    var sesjonSomSkalSendes = sessions[sesjonIndeks];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handsmykke`, sesjonSomSkalSendes)
   }
 

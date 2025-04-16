@@ -29,12 +29,12 @@
           
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn btn-md fhi-btn-link" [disabled]="sesjonerKoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sesjoner</button>
+            <button class="btn btn-md fhi-btn-link" [disabled]="sesjonerKoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sessions</button>
           </div>
 
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn fhi-btn-link" [disabled]="!harVelgtMinstEnSesjon()" (click)="overforSesjoner()">Overfør valgte sesjoner</button>
+            <button class="btn fhi-btn-link" [disabled]="!harVelgtMinstEnSesjon()" (click)="overforSesjoner()">Overfør valgte sessions</button>
           </div>
         </div>
       </div>
@@ -42,31 +42,31 @@
 
   <app-spinner *ngIf="laster"></app-spinner>
 
-  <div class="container mt-5" *ngIf="!laster && sokGjort && !sesjoner.length">
+  <div class="container mt-5" *ngIf="!laster && sokGjort && !sessions.length">
     <div class="row">
       <div class="col text-center">
-        Ingen sesjoner funnet.
+        Ingen sessions funnet.
       </div>
     </div>
   </div>
 
-  <div class="container" *ngIf="sesjoner.length">
+  <div class="container" *ngIf="sessions.length">
 
     <div class="row my-2">
       <div class="col">
         <h5>Sesjoner</h5>
         <span *ngIf="sokGjort && !sesjonerKoordinator.length">
-          Ingen sesjoner klare til innsending.
+          Ingen sessions klare til innsending.
         </span>
       </div>
     </div>
 
-    <app-oversikt-sesjoner-visning [sesjoner]="sesjonerKoordinator"
+    <app-oversikt-sessions-visning [sessions]="sesjonerKoordinator"
                                    [isOverforingOversikt]="true"
                                    (overforEvent)="overfor($event)"
                                    (observasjonOppdatertEvent)="hentSesjoner()"
                                    (observasjonSlettetEvent)="hentSesjoner()">
-    </app-oversikt-sesjoner-visning>
+    </app-oversikt-sessions-visning>
 
   </div>
 
@@ -74,14 +74,14 @@
   <div class="container" *ngIf="sesjonerFHI.length">
     <div class="row mb-2">
       <div class="col">
-        <h5>Overførte sesjoner</h5>
+        <h5>Overførte sessions</h5>
       </div>
     </div>
 
-    <app-oversikt-sesjoner-visning [sesjoner]="sesjonerFHI"
+    <app-oversikt-sessions-visning [sessions]="sesjonerFHI"
                                    [isOverforingOversikt]="true">
-    </app-oversikt-sesjoner-visning>
+    </app-oversikt-sessions-visning>
   </div>
   <div class="row" *ngIf="laster">
-    <app-spinner class="col-12">Laster sesjoner</app-spinner>
+    <app-spinner class="col-12">Laster sessions</app-spinner>
   </div>

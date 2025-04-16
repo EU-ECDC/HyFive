@@ -52,7 +52,7 @@ namespace HyFive.Services.FireIndikasjoner
                     throw new Exception("O-FI-02: Observasjonen er allerede overført til FHI, og kan ikke endres");
                 }
 
-                FireIndikasjonerObservasjonValidator.ValidateObservasjon(_mapper.Map<Domene.Observation.FourIndicationsObservation>(request.Observasjon));
+                FourIndicatorsObservationValidator.ValidateObservasjon(_mapper.Map<Domene.Observation.FourIndicationsObservation>(request.Observasjon));
 
                 try
                 {

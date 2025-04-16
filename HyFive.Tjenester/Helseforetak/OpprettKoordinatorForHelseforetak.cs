@@ -2,7 +2,7 @@
 using HyFive.Domene.Bruker;
 using HyFive.Models.V1;
 using HyFive.Models.V1.User;
-using HyFive.Services.Bruker;
+using HyFive.Services.User;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -137,7 +137,7 @@ namespace HyFive.Services.Helseforetak
                     return false;
                 }
 
-                if (!string.IsNullOrWhiteSpace(koordinator.IdentityPseudonym) && !BrukerValidator.ErGyldigIdentPseudonym(koordinator.IdentityPseudonym))
+                if (!string.IsNullOrWhiteSpace(koordinator.IdentityPseudonym) && !UserValidator.IsValidIdentityPseudonym(koordinator.IdentityPseudonym))
                 {
                     feilmelding = "Identpseudonym er ikke gyldig";
                     return false;

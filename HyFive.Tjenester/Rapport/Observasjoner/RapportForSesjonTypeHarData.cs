@@ -37,7 +37,7 @@ namespace HyFive.Services.Rapport.Observasjoner
             public async Task<bool> Handle(Query query, CancellationToken cancellationToken)
             {
                 var harData = false;
-                if (query.SesjonType == (int)SesjonType.FireIndikasjoner)
+                if (query.SesjonType == (int)SessionType.FourIndications)
                 {
                     var queryable = _context.FourIndicationsObservation
                         .Include(p => p.FourIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Institusjon)
@@ -47,7 +47,7 @@ namespace HyFive.Services.Rapport.Observasjoner
 
                     harData = await queryable.AnyAsync(cancellationToken);
                 }
-                else if (query.SesjonType == (int)SesjonType.Handsmykker)
+                else if (query.SesjonType == (int)SessionType.HandJewelry)
                 {
                     var queryable = _context.HandJewelryObservation
                         .Include(p => p.HandJewelrySession).ThenInclude(p => p.Department).ThenInclude(a => a.Institusjon)
@@ -57,7 +57,7 @@ namespace HyFive.Services.Rapport.Observasjoner
 
                     harData = await queryable.AnyAsync(cancellationToken);
                 }
-                else if (query.SesjonType == (int)SesjonType.Hansker)
+                else if (query.SesjonType == (int)SessionType.Gloves)
                 {
                     var queryable = _context.GloveObservation
                         .Include(p => p.GloveSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institusjon)
@@ -67,7 +67,7 @@ namespace HyFive.Services.Rapport.Observasjoner
 
                     harData = await queryable.AnyAsync(cancellationToken);
                 }
-                else if (query.SesjonType == (int)SesjonType.Beskyttelsesutstyr)
+                else if (query.SesjonType == (int)SessionType.ProtectiveEquipment)
                 {
                     var queryable = _context.ProtectiveEquipmentObservation
                         .Include(p => p.ProtectiveEquipmentSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institusjon)

@@ -46,20 +46,20 @@ namespace HyFive.Services.Sesjon
                         $"Kunne ikke finne sesjon med id  {request.SesjonId} og overføringsstatuskode {request.OverforingstatusKode}");
                 }
 
-                var sesjonType = SesjonHelper.HentSesjonType(sesjonOgType.Discriminator);
+                var sesjonType = SessionHelper.HentSesjonType(sesjonOgType.Discriminator);
 
                 switch (sesjonType)
                 {
-                    case SesjonType.FireIndikasjoner:
+                    case SessionType.FourIndications:
                         respons.Suksess = SlettSesjonFireIndikasjoner(request.SesjonId);
                         break;
-                    case SesjonType.Handsmykker:
+                    case SessionType.HandJewelry:
                         respons.Suksess = SlettSesjonHandsmykker(request.SesjonId);
                         break;
-                    case SesjonType.Hansker:
+                    case SessionType.Gloves:
                         respons.Suksess = SlettSesjonHansker(request.SesjonId);
                         break;
-                    case SesjonType.Beskyttelsesutstyr:
+                    case SessionType.ProtectiveEquipment:
                         respons.Suksess = SlettSesjonBeskyttelsesutstyr(request.SesjonId);
                         break;
                     default:

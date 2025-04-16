@@ -9,14 +9,14 @@ import { ToastrService } from 'ngx-toastr';
 import {SesjonService} from '../../services/data/sesjon.service';
 
 @Component({
-  selector: 'app-oversikt-sesjoner-visning',
-  templateUrl: './oversikt-sesjoner-visning.component.html'
+  selector: 'app-oversikt-sessions-visning',
+  templateUrl: './oversikt-sessions-visning.component.html'
 })
 export class OversiktSesjonerVisningComponent implements OnInit, OnDestroy {
 
   faPaperPlane = faPaperPlane;
 
-  @Input() sesjoner: SesjonOversiktRapport[] = [];
+  @Input() sessions: SesjonOversiktRapport[] = [];
   @Input() isOverforingOversikt = false;
 
   @Output() overforEvent = new EventEmitter();
@@ -51,7 +51,7 @@ export class OversiktSesjonerVisningComponent implements OnInit, OnDestroy {
 
   velgOverforTilFhi(sesjonId, event) {
     event.stopPropagation();
-    this.sesjoner.find(s => s.id === sesjonId).erValgt = event.target.checked; 
+    this.sessions.find(s => s.id === sesjonId).erValgt = event.target.checked; 
   }
 
   slettSesjon(sesjonOversiktRapport: SesjonOversiktRapport) {
@@ -60,7 +60,7 @@ export class OversiktSesjonerVisningComponent implements OnInit, OnDestroy {
       (erSlettet) => {
         if (erSlettet){
           this.toastrService.success(`Sesjon med id ${sesjonOversiktRapport.id} ble slettet`);
-          this.sesjoner = this.sesjoner.filter((s) => s.id !== sesjonOversiktRapport.id);
+          this.sessions = this.sessions.filter((s) => s.id !== sesjonOversiktRapport.id);
         }
         else {
           this.toastrService.error(feilmelding, '', { disableTimeOut: true});

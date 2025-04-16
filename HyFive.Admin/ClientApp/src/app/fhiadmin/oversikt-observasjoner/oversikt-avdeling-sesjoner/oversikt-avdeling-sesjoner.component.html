@@ -16,15 +16,15 @@
 
 <app-spinner *ngIf="laster"></app-spinner>
 
-<div class="container mt-5" *ngIf="!laster && !sesjoner.length">
+<div class="container mt-5" *ngIf="!laster && !sessions.length">
   <div class="row">
     <div class="col text-center">
-      Ingen sesjoner av valgt type funnet på denne avdelingen
+      Ingen sessions av valgt type funnet på denne avdelingen
     </div>
   </div>
 </div>
 
-<div class="container" *ngIf="sesjoner.length">
+<div class="container" *ngIf="sessions.length">
 
   <div class="row mb-2">
     <div class="col">
@@ -32,9 +32,9 @@
     </div>
   </div>
 
-  <app-oversikt-sesjoner-visning [sesjoner]="sesjoner"
+  <app-oversikt-sessions-visning [sessions]="sessions"
                                  (observasjonOppdatertEvent)="hentSesjonerForAvdeling()"
                                  (observasjonSlettetEvent)="hentSesjonerForAvdeling()">
-  </app-oversikt-sesjoner-visning>
+  </app-oversikt-sessions-visning>
 
 </div>

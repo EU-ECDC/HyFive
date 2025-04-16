@@ -18,7 +18,7 @@ namespace HyFive.Services.Sesjon
         public class Query : IRequest<List<SessionOverviewReport>>
         {
             public int Avdelingsid { get; set; }
-            public SesjonType? Sesjontype { get; set; }
+            public SessionType? Sesjontype { get; set; }
             public DateTime? Fra { get; set; }
             public DateTime? Til { get; set; }
             public string OverforingsstatusType { get; set; }
@@ -39,22 +39,22 @@ namespace HyFive.Services.Sesjon
             {
                 var sesjonOversiktRapport = new List<SessionOverviewReport>();
                 
-                if (request.Sesjontype == null || request.Sesjontype.Value == SesjonType.FireIndikasjoner)
+                if (request.Sesjontype == null || request.Sesjontype.Value == SessionType.FourIndications)
                 {
                     var fireIndikasjonerSesjonerRapport= await LagFireIndikasjonerSesjonerRapport(request, cancellationToken);
                     sesjonOversiktRapport.AddRange(fireIndikasjonerSesjonerRapport); 
                 }
-                if (request.Sesjontype == null || request.Sesjontype.Value == SesjonType.Handsmykker)
+                if (request.Sesjontype == null || request.Sesjontype.Value == SessionType.HandJewelry)
                 {
                     var handsmykkeSesjonerRapport = await LagHandsmykkeSesjonerRapport(request, cancellationToken);
                     sesjonOversiktRapport.AddRange(handsmykkeSesjonerRapport);
                 }
-                if (request.Sesjontype == null || request.Sesjontype.Value == SesjonType.Hansker)
+                if (request.Sesjontype == null || request.Sesjontype.Value == SessionType.Gloves)
                 {
                     var hanskeSesjonerRapport = await LagHanskeSesjonerRapport(request, cancellationToken);
                     sesjonOversiktRapport.AddRange(hanskeSesjonerRapport);
                 }
-                if (request.Sesjontype == null || request.Sesjontype.Value == SesjonType.Beskyttelsesutstyr)
+                if (request.Sesjontype == null || request.Sesjontype.Value == SessionType.ProtectiveEquipment)
                 {
                     var beskyttelsesutstyrSesjonerRapport = await LagBeskyttelsesutstyrSesjonerRapport(request, cancellationToken);
                     sesjonOversiktRapport.AddRange(beskyttelsesutstyrSesjonerRapport);

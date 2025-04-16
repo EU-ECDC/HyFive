@@ -5,15 +5,15 @@ export class Urls {
   static RegistrereHandsmykkerUrl = 'registrering/handsmykker';
   static RegistrereHanskeUrl = 'registrering/hanske';
   static RegistrereBeskyttelsesutstyrUrl = 'registrering/beskyttelsesutstyr';
-  static IkkeSendteSesjonerUrl = 'sesjoner/ikke-sendte';
-  static SendteSesjonerUrl = 'sesjoner/sendte';
-  static FireIndikasjonerSesjonUrl = 'sesjoner/fire-indikasjoner';
-  static HandsmykkeSesjonUrl = 'sesjoner/handsmykker';
-  static HanskeSesjonUrl = 'sesjoner/hanske';
-  static BeskyttelsesutstyrSesjonUrl = 'sesjoner/beskyttelsesutstyr';
-  static SendteFireIndikasjonerSesjonUrl = 'sesjoner/sendte/fire-indikasjoner';
-  static SendteHandsmykkeSesjonUrl = 'sesjoner/sendte/handsmykker';
-  static SendteHanskeSesjonUrl = 'sesjoner/sendte/hanske';
-  static SendteBeskyttelsesutstyrSesjonUrl = 'sesjoner/sendte/beskyttelsesutstyr';
+  static IkkeSendteSesjonerUrl = 'sessions/ikke-sendte';
+  static SendteSesjonerUrl = 'sessions/sendte';
+  static FireIndikasjonerSesjonUrl = 'sessions/fire-indikasjoner';
+  static HandsmykkeSesjonUrl = 'sessions/handsmykker';
+  static HanskeSesjonUrl = 'sessions/hanske';
+  static BeskyttelsesutstyrSesjonUrl = 'sessions/beskyttelsesutstyr';
+  static SendteFireIndikasjonerSesjonUrl = 'sessions/sendte/fire-indikasjoner';
+  static SendteHandsmykkeSesjonUrl = 'sessions/sendte/handsmykker';
+  static SendteHanskeSesjonUrl = 'sessions/sendte/hanske';
+  static SendteBeskyttelsesutstyrSesjonUrl = 'sessions/sendte/beskyttelsesutstyr';
   static ProfilUrl = 'profil';
 }

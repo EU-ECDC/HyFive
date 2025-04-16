@@ -1,5 +1,5 @@
 using HyFive.Modeller.V1.User;
-using HyFive.Services.BrukerTjenester;
+using HyFive.Services.UserServices;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
@@ -29,8 +29,8 @@ namespace HyFive.Services.Tests.BrukerTjenester
             // Arrange
             var fhiAdmin = await OpprettFhiAdmin();
 
-            var hentFhiAdminHandler = new HentFhiAdmin.Handler(DatabaseContext, Mapper);
-            var query = new HentFhiAdmin.Query() { };
+            var hentFhiAdminHandler = new GetFhiAdmin.Handler(DatabaseContext, Mapper);
+            var query = new GetFhiAdmin.Query() { };
             var fhiAdminIdsFraDatabase = DatabaseContext.FhiAdmin.OrderBy(x => x.Id).Select(x => x.Id).ToList();
 
             // Act
@@ -121,10 +121,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
         {
             // Arrange
             var opprettetFhiAdmin = await OpprettFhiAdmin();
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = opprettetFhiAdmin.Id,
                     FirstName = "Da",
@@ -144,12 +144,12 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Assert.That(oppdatertFhiAdmin.Id, Is.EqualTo(opprettetFhiAdmin.Id));
                 Assert.That(oppdatertFhiAdmin.IdentityPseudonym, Is.Not.EqualTo(opprettetFhiAdmin.IdentityPseudonym));
                 Assert.That(oppdatertFhiAdmin.FirstName, Is.Not.EqualTo(opprettetFhiAdmin.FirstName));
-                Assert.That(oppdatertFhiAdmin.Surname, Is.Not.EqualTo(opprettetFhiAdmin.Surname));
+                Assert.That(oppdatertFhiAdmin.LastName, Is.Not.EqualTo(opprettetFhiAdmin.Surname));
 
-                Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.Bruker.IdentityPseudonym));
-                Assert.That(oppdatertFhiAdminFraDatabase.Fornavn, Is.EqualTo(command.Bruker.FirstName));
-                Assert.That(oppdatertFhiAdminFraDatabase.Etternavn, Is.EqualTo(command.Bruker.Surname));
-                Assert.That(oppdatertFhiAdminFraDatabase.ErDeaktivert, Is.EqualTo(command.Bruker.IsDisabled));
+                Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.User.IdentityPseudonym));
+                Assert.That(oppdatertFhiAdminFraDatabase.Fornavn, Is.EqualTo(command.User.FirstName));
+                Assert.That(oppdatertFhiAdminFraDatabase.Etternavn, Is.EqualTo(command.User.LastName));
+                Assert.That(oppdatertFhiAdminFraDatabase.ErDeaktivert, Is.EqualTo(command.User.IsDisabled));
             });
         }
 
@@ -157,10 +157,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_IkkeEksisterendeBruker_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
@@ -184,10 +184,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_ManglerPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
@@ -211,10 +211,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_IkkeGyldigPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
@@ -238,10 +238,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_ForKortPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
@@ -268,10 +268,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var bruker1 = await OpprettFhiAdmin(_pseudonym);
             var bruker2 = await OpprettFhiAdmin(Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")));
 
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id = bruker2.Id,
                     FirstName = "Da",
@@ -298,10 +298,10 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var bruker1 = await OpprettFhiAdmin(_pseudonym);
             _currentUserSubstitute.PidPseudonym.Returns(bruker1.IdentityPseudonym);
 
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     Id =  bruker1.Id,
                     FirstName = "Da",
@@ -325,8 +325,8 @@ namespace HyFive.Services.Tests.BrukerTjenester
 
         private async Task<Modeller.V1.User.User> OpprettFhiAdmin(string pseudonym = null)
         {
-            var opprettFhiAdminHandler = new OpprettFhiAdmin.Handler(DatabaseContext, Mapper);
-            var command = new OpprettFhiAdmin.Command()
+            var opprettFhiAdminHandler = new CreateFhiAdmin.Handler(DatabaseContext, Mapper);
+            var command = new CreateFhiAdmin.Command()
             {
                 Request = new CreateFhiAdminRequest()
                 {

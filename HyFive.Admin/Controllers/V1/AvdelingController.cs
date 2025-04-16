@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using HyFive.Modeller.V1.Institution;
-using HyFive.Services.Avdeling;
+using HyFive.Services.Department;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
-                return await _mediator.Send(new HentAvdeling.Query() { Id = id });
+                return await _mediator.Send(new GetDepartment.Query() { Id = id });
             }
             return Unauthorized();
 
@@ -55,7 +55,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(request.InstitutionId))
             {
-                var result = await _mediator.Send(new OpprettAvdeling.Command() { Request = request });
+                var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
                 return CreatedAtRoute("HentAvdelinger", new { id = result.InstitusjonId }, result);
             }
             return Unauthorized();
@@ -71,12 +71,12 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(avdeling.InstitusjonId))
             {
-                var result = await _mediator.Send(new OppdaterAvdeling.Command()
+                var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
                     Id = avdeling.Id,
-                    AvdelingTypeId = avdeling.AvdelingTypeId,
-                    Navn = avdeling.Navn,
-                    Roller = avdeling.Roller
+                    DepartmentTypeId = avdeling.AvdelingTypeId,
+                    Name = avdeling.Navn,
+                    Role = avdeling.Roller
                 });
                 return Ok(result);
             }
@@ -86,7 +86,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("avdelingstyper")]
         public async Task<ActionResult<List<DepartmentType>>> HentAvdelingstyper()
         {
-            var result = await _mediator.Send(new HentAvdelingTyper.Query() { });
+            var result = await _mediator.Send(new GetDepartmentTypes.Query() { });
             return Ok(result);
         }
 
@@ -102,7 +102,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var result = await _mediator.Send(new OpprettAvdelingType.Command() { AvdelingType = avdelingType });
+                var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = avdelingType });
 
                 return Ok(result);
             }
@@ -122,7 +122,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
         public async Task<ActionResult<DepartmentType>> OppdaterAvdelingType([FromBody] DepartmentType avdelingType)
         {
-            var result = await _mediator.Send(new OppdaterAvdelingType.Command() { AvdelingType = avdelingType });
+            var result = await _mediator.Send(new UpdateDepartmentType.Command() { DepartmentType = avdelingType });
             return Ok(result);
         }
 
@@ -153,15 +153,15 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("slett/{id}")]
         public async Task<bool> SlettAvdeling(int id)
         {
-            var result = await _mediator.Send(new SlettAvdeling.Command()
+            var result = await _mediator.Send(new DeleteDepartment.Command()
             {
-                AvdelingId = id
+                DepartmentId = id
             });
             return result;
         }
 
         /// <summary>
-        /// Sjekker om avdeling har sesjoner overført til FHI
+        /// Sjekker om avdeling har sessions overført til FHI
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -169,9 +169,9 @@ namespace HyFive.Admin.Controllers.V1
         public async Task<IActionResult> HarOverfortSesjonTilFHI(int id)
         {
 
-            var result = await _mediator.Send(new HarOverfortSesjonTilFHI.Command
+            var result = await _mediator.Send(new HasTransferredSessionToFHI.Command
             {
-                AvdelingId = id
+                DepartmentId = id
             });
 
             return Ok(result);

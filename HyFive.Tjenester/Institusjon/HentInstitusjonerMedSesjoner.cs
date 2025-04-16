@@ -17,7 +17,7 @@ namespace HyFive.Services.Institusjon
     {
         public class Query : IRequest<List<InstitutionOverviewReport>>
         {
-            public SesjonType? Sesjontype { get; set; }
+            public SessionType? Sesjontype { get; set; }
             public DateTime? FraDato { get; set; }
             public DateTime? TilDato { get; set; }
             public int? InstitusjonId { get; set; }
@@ -75,13 +75,13 @@ namespace HyFive.Services.Institusjon
             {
                 switch (query.Sesjontype)
                 {
-                    case SesjonType.Beskyttelsesutstyr:
+                    case SessionType.ProtectiveEquipment:
                         return HentAntallObservasjonerForBeskyttelsesutstyr(avdelingId, query);
-                    case SesjonType.FireIndikasjoner:
+                    case SessionType.FourIndications:
                         return HentAntallObservasjonerForFireIndikasjoner(avdelingId, query);
-                    case SesjonType.Hansker:
+                    case SessionType.Gloves:
                         return HentAntallObservasjonerForHansker(avdelingId, query);
-                    case SesjonType.Handsmykker:
+                    case SessionType.HandJewelry:
                         return HentAntallObservasjonerForHandsmykker(avdelingId, query);
                     default:
                         return HentAggregertAntallObservasjoner(avdelingId, query);
@@ -141,17 +141,17 @@ namespace HyFive.Services.Institusjon
                                  && (query.TilDato == null || bo.RegistrationTime.Date <= query.TilDato.Value.Date));
             }
 
-            private static string HentSesjonType(SesjonType? type)
+            private static string HentSesjonType(SessionType? type)
             {
                 switch (type)
                 {
-                    case SesjonType.FireIndikasjoner:
+                    case SessionType.FourIndications:
                         return nameof(Domene.Session.FourIndicationsSession);
-                    case SesjonType.Handsmykker:
+                    case SessionType.HandJewelry:
                         return nameof(Domene.Session.HandJewelrySession);
-                    case SesjonType.Beskyttelsesutstyr:
+                    case SessionType.ProtectiveEquipment:
                         return nameof(Domene.Session.ProtectiveEquipmentSession);
-                    case SesjonType.Hansker:
+                    case SessionType.Gloves:
                         return nameof(Domene.Session.GloveSession);
                     default:
                         return "";

@@ -61,7 +61,7 @@
             <thead>
               <tr>
                 <th sortable-column="Navn"></th>
-                <th>Antall sesjoner</th>
+                <th>Antall sessions</th>
                 <th>Antall observasjoner</th>
                 <th scope="col">Handling</th>
               </tr>
@@ -75,7 +75,7 @@
                   <button class="btn fhi-btn-icon"
                           (click)="navigerTilObservasjonerForAvdelingen(avdeling)"
                           [disabled]="avdeling.antallSesjoner === 0">
-                    Se sesjoner
+                    Se sessions
                     <fa-icon [icon]="faArrowRight"></fa-icon>
                   </button>
                 </td>

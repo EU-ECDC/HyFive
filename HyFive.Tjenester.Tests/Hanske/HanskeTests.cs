@@ -7,7 +7,7 @@ using Castle.Core.Logging;
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation.Gloves;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.Hanske;
+using HyFive.Services.Glove;
 using HyFive.Services.Sesjon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

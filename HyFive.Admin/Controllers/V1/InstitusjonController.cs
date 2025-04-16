@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Avdeling;
+using HyFive.Services.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
@@ -77,7 +77,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdminOrCoordinator(id))
             {
-                var resultat = await _mediator.Send(new HentAvdelingerForInstitusjon.Query() { InstitusjonId = id });
+                var resultat = await _mediator.Send(new GetDepartmentsForInstitution.Query() { InstitutionId = id });
                 return Ok(resultat);
             }
 
@@ -160,7 +160,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Slett institusjon og alle tilhørende sesjoner, observasjoner, avdelinger, roller og brukere
+        /// Slett institusjon og alle tilhørende sessions, observasjoner, avdelinger, roller og brukere
         /// </summary>
         /// <param name="institusjonId"></param>
         /// <returns></returns>

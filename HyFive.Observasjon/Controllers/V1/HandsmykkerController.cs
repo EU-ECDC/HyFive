@@ -40,11 +40,11 @@ namespace HyFive.Observasjon.Controllers.V1
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> LagreSesjon([FromBody] HandJewelrySession sesjon)
         {
-            if (!sesjon.Observasjoner.Any())
+            if (!sesjon.Observations.Any())
             {
                 return BadRequest("Sesjonen må ha minst én observasjon");
             }
-            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Avdeling.InstitusjonId))
+            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
                 var resultat = await _mediator.Send(new LagreSesjon.Command()
                 {

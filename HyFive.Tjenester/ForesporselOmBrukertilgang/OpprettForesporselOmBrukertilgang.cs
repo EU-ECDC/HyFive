@@ -12,7 +12,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
     {
         public class Command : IRequest<int>
         {
-            public Models.V1.ForesporselOmBrukertilgang.CreateUserAccessRequest ForesporselOmBrukertilgang { get; set; }
+            public Models.V1.UserAccessRequest.CreateUserAccessRequest ForesporselOmBrukertilgang { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>

@@ -14,13 +14,13 @@ import { forkJoin, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
 @Component({
-  selector: "app-ikke-sendte-sesjoner",
-  templateUrl: "./ikke-sendte-sesjoner.component.html",
+  selector: "app-ikke-sendte-sessions",
+  templateUrl: "./ikke-sendte-sessions.component.html",
 })
 export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
-  sesjoner: SesjonRapport[];
+  sessions: SesjonRapport[];
   sesjonerFiltrert: SesjonRapport[];
   sokeord: string = null;
   sesjonsnavnMap: Map<SesjonType, string>;
@@ -49,7 +49,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
   lastSesjoner() {
-    this.sesjoner = this.fireIndikasjonerSesjonService
+    this.sessions = this.fireIndikasjonerSesjonService
       .hentSesjoner()
       .map((f) => this.lagSesjonsvisning(f, SesjonType.FireIndikasjoner))
       .concat(
@@ -76,12 +76,12 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         }
         return 0;
       });
-    this.sesjonerFiltrert = this.sesjoner;
+    this.sesjonerFiltrert = this.sessions;
   }
 
   filtrerSesjoner() {
-    if (this.sokeord != null && this.sesjoner != null) {
-      this.sesjonerFiltrert = this.sesjoner.filter(
+    if (this.sokeord != null && this.sessions != null) {
+      this.sesjonerFiltrert = this.sessions.filter(
         (s) =>
           s.avdelingsnavn?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
           -1 ||
@@ -91,7 +91,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             .indexOf(this.sokeord.toLowerCase()) != -1
       );
     } else {
-      this.sesjonerFiltrert = this.sesjoner;
+      this.sesjonerFiltrert = this.sessions;
     }
   }
 
@@ -210,7 +210,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         this.toastrService.success("Sesjonene ble sendt til server");
       },
       error: (err) => {
-        this.toastrService.error("Feil ved sending av sesjoner til server");
+        this.toastrService.error("Feil ved sending av sessions til server");
       }
     });
   }

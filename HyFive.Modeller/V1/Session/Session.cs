@@ -10,20 +10,20 @@ namespace HyFive.Models.V1.Session
     public abstract class Session<TObservasjon>
     {
         public string Id { get; set; }
-        public Department Avdeling { get; set; }
+        public Department Department { get; set; }
         [TsProperty(Type = "Date")]
-        public DateTime Starttidspunkt { get; set; }
+        public DateTime StartTime { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public List<TObservasjon> Observasjoner { get; set; }
+        public List<TObservasjon> Observations { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public string Institusjonsnavn { get; set; }
+        public string InstitutionsName { get; set; }
         
         [TsProperty(ForceNullable = true)]
-        public int InstitusjonId { get; set; }
+        public int InstitutionId { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public string Kommentar { get; set; }
+        public string Comment { get; set; }
     }
 }

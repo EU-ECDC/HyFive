@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using System.Linq;
 
-namespace HyFive.Services.Hanske
+namespace HyFive.Services.Glove
 {
     public class HentHandhygieneEtterHanskebrukTyper
     {

@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Services.Hanske
+namespace HyFive.Services.Glove
 {
     public class SlettHanskeObservasjon
     {

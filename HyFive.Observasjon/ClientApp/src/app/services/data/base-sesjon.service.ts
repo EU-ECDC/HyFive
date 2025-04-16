@@ -18,24 +18,24 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     localStorage.setItem(this.sesjonsvisningLocalStoragePath, JSON.stringify(sesjonsvisninger));
   }
 
-  protected lagreSesjoner(sesjoner: TSesjon[]) {
-    localStorage.setItem(this.sesjonLocalStoragePath, JSON.stringify(sesjoner, DatoHjelper.dateTimeSomLocaleStringReplacer));
+  protected lagreSesjoner(sessions: TSesjon[]) {
+    localStorage.setItem(this.sesjonLocalStoragePath, JSON.stringify(sessions, DatoHjelper.dateTimeSomLocaleStringReplacer));
   }
 
   public slettSesjon(sesjonId: string) {
-    let sesjoner = this.hentSesjoner().filter(s => s.id !== sesjonId);
-    this.lagreSesjoner(sesjoner);
+    let sessions = this.hentSesjoner().filter(s => s.id !== sesjonId);
+    this.lagreSesjoner(sessions);
     let sesjonsvisninger = this.hentSesjonsvisninger().filter(s => s.sesjonId !== sesjonId);
     this.lagreSesjonsvisninger(sesjonsvisninger);
   }
 
   public hentSesjoner(): TSesjon[] {
-    let sesjoner: TSesjon[] = [];
+    let sessions: TSesjon[] = [];
     const sesjonerString = localStorage.getItem(this.sesjonLocalStoragePath);
     if (sesjonerString != null) {
-      sesjoner = JSON.parse(sesjonerString);
+      sessions = JSON.parse(sesjonerString);
     }
-    return sesjoner.sort((s1, s2) => {
+    return sessions.sort((s1, s2) => {
       if (s1.starttidspunkt == null && s2.starttidspunkt != null)
         return 1;
       if (s2.starttidspunkt == null && s1.starttidspunkt != null)
@@ -58,9 +58,9 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
   }
 
   public oppdaterSesjon(sesjon: TSesjon) {
-    var sesjoner = this.hentSesjoner();
-    sesjoner[sesjoner.map(s => s.id).indexOf(sesjon.id)] = sesjon;
-    this.lagreSesjoner(sesjoner);
+    var sessions = this.hentSesjoner();
+    sessions[sessions.map(s => s.id).indexOf(sesjon.id)] = sesjon;
+    this.lagreSesjoner(sessions);
   }
 
   public hentSesjonsvisningForSesjon(sesjonId: string): TSesjonsvisning {
@@ -88,30 +88,30 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
       return;
     }
 
-    let sesjoner = this.hentSesjoner();
-    var eksisterendeSesjonIndex = sesjoner.map(s => s.id).indexOf(observasjon.sesjonId);
-    sesjoner[eksisterendeSesjonIndex].observasjoner.push(observasjon);
-    this.lagreSesjoner(sesjoner);
+    let sessions = this.hentSesjoner();
+    var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observasjon.sesjonId);
+    sessions[eksisterendeSesjonIndex].observasjoner.push(observasjon);
+    this.lagreSesjoner(sessions);
   }
 
   public endreObservasjon(endretObservasjon: TObservasjon) {
-    var sesjoner = this.hentSesjoner();
-    var aktuellSesjon = sesjoner.find(s => s.id == endretObservasjon.sesjonId);
-    var aktuellSesjonIndeks = sesjoner.indexOf(aktuellSesjon);
+    var sessions = this.hentSesjoner();
+    var aktuellSesjon = sessions.find(s => s.id == endretObservasjon.sesjonId);
+    var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
     var observasjonSomEndres = aktuellSesjon.observasjoner.find(o => o.id === endretObservasjon.id);
     var observasjonIndeks = aktuellSesjon.observasjoner.indexOf(observasjonSomEndres);
     aktuellSesjon.observasjoner[observasjonIndeks] = endretObservasjon;
-    sesjoner[aktuellSesjonIndeks] = aktuellSesjon;
-    this.lagreSesjoner(sesjoner);
+    sessions[aktuellSesjonIndeks] = aktuellSesjon;
+    this.lagreSesjoner(sessions);
   }
 
   public slettObservasjon(observasjonSomSkalSlettes: TObservasjon) {
-    var sesjoner = this.hentSesjoner();
-    var aktuellSesjon = sesjoner.find(s => s.id == observasjonSomSkalSlettes.sesjonId);
-    var aktuellSesjonIndeks = sesjoner.indexOf(aktuellSesjon);
+    var sessions = this.hentSesjoner();
+    var aktuellSesjon = sessions.find(s => s.id == observasjonSomSkalSlettes.sesjonId);
+    var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
     aktuellSesjon.observasjoner = aktuellSesjon.observasjoner.filter(o => o.id !== observasjonSomSkalSlettes.id)
-    sesjoner[aktuellSesjonIndeks] = aktuellSesjon;
-    this.lagreSesjoner(sesjoner);
+    sessions[aktuellSesjonIndeks] = aktuellSesjon;
+    this.lagreSesjoner(sessions);
   }
 
   public antallSesjoner() : number{
@@ -120,7 +120,7 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
 
   protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
     let sesjonsvisning = this.hentSesjonsvisningForSesjon(observasjon.sesjonId);
-    let sesjoner = this.hentSesjoner();
+    let sessions = this.hentSesjoner();
     let institusjon = await this.institusjonService.getInstitusjon(sesjonsvisning.avdeling.institusjonId).toPromise();
     let nySesjon = {
       id: observasjon.sesjonId,
@@ -129,8 +129,8 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
       avdeling: sesjonsvisning.avdeling,
       institusjonsnavn: institusjon.navn
     } as TSesjon;
-    sesjoner.push(nySesjon);
-    this.lagreSesjoner(sesjoner);
+    sessions.push(nySesjon);
+    this.lagreSesjoner(sessions);
   }
 
 }

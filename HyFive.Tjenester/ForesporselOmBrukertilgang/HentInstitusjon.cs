@@ -1,5 +1,5 @@
 ﻿using HyFive.DataAccess;
-using HyFive.Models.V1.ForesporselOmBrukertilgang;
+using HyFive.Models.V1.UserAccessRequest;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;

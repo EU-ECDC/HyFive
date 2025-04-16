@@ -107,7 +107,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator]
       },
       {
-        name: 'Overfør sesjoner til FHI',
+        name: 'Overfør sessions til FHI',
         routerLink: `/${UrlPaths.overforSesjoner}`,
         roles: [AuthorizedRole.Koordinator]
       },

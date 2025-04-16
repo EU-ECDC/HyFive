@@ -106,7 +106,7 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
     this.brukerService.harOverfortSesjonTilFHI(observatorId).subscribe(
       (harOverfortSesjon) => { 
         if (harOverfortSesjon) {
-          this.toastrService.error('Observatøren har sesjoner overført til FHI, og kunne ikke slettes.', '', { disableTimeOut: true});
+          this.toastrService.error('Observatøren har sessions overført til FHI, og kunne ikke slettes.', '', { disableTimeOut: true});
           return;
         }
         else {
@@ -114,7 +114,7 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
             () => this.toastrService.success('Observatør slettet'),
             (error) => {
               if (error.error.includes("NotSupportedException")) {
-                this.toastrService.error('Observatøren har sesjoner, og kunne ikke slettes.', '', { disableTimeOut: true});
+                this.toastrService.error('Observatøren har sessions, og kunne ikke slettes.', '', { disableTimeOut: true});
               }
               else {
                 this.toastrService.error('Feil under sletting av observatør: ' + error?.message ? error.message : error, '', { disableTimeOut: true});

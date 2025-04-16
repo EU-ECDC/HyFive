@@ -1,7 +1,7 @@
 declare @Institusjon varchar(50) = 'haukeland%'
 declare @Dato varchar(50) = '2024-5-21'
 
--- Finn sesjoner for institusjon på en dato
+-- Finn sessions for institusjon på en dato
 select 
 * 
 from Sesjon s

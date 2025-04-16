@@ -40,7 +40,7 @@ namespace HyFive.Observasjon.Controllers.V1
         /// <param name="sesjontype"></param>
         /// <returns></returns>
         [HttpGet("predefinertekommentarer")]
-        public async Task<ActionResult<IEnumerable<string>>> HentPredefinerteKommentarer([FromQuery] int institusjonid, [FromQuery] SesjonType sesjontype)
+        public async Task<ActionResult<IEnumerable<string>>> HentPredefinerteKommentarer([FromQuery] int institusjonid, [FromQuery] SessionType sesjontype)
         {
             if (_brukerservice.IsObserverForInstitution(institusjonid))
             {

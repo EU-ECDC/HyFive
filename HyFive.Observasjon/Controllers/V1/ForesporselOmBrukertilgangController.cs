@@ -1,4 +1,4 @@
-﻿using HyFive.Models.V1.ForesporselOmBrukertilgang;
+﻿using HyFive.Models.V1.UserAccessRequest;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.ForesporselOmBrukertilgang;
 using MediatR;

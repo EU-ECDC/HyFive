@@ -1,7 +1,7 @@
 ﻿using System;
 using Reinforced.Typings.Attributes;
 
-namespace HyFive.Models.V1.ForesporselOmBrukertilgang
+namespace HyFive.Models.V1.UserAccessRequest
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class UserAccessRequest

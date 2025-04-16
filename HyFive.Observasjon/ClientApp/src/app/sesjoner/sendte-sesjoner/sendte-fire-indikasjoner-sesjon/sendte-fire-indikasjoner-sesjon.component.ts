@@ -8,7 +8,7 @@ import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjone
 import { AktivitetType } from '../../../models/api/AktivitetType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
 import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
-import { SendteSesjonerService } from '../../../services/data/sendte-sesjoner.service';
+import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import {FireIndikasjonerSesjon} from '../../../models/api/FireIndikasjonerSesjon';
 import {ToastrService} from 'ngx-toastr';
 

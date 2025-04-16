@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.ProtectiveEquipment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +28,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<ProtectiveEquipmentType>> HentBeskyttelsesutstyrTyper()
         {
-            return await _mediator.Send(new HentBeskyttelsesutstyrTyper.Query());
+            return await _mediator.Send(new GetProtectiveEquipmentTypes.Query());
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<ProtectiveEquipmentType> OppdaterBeskyttelsesutstyrType([FromBody] ProtectiveEquipmentType utstyrType)
         {
-            return await _mediator.Send(new OppdaterBeskyttelsesutstyrType.Command
+            return await _mediator.Send(new UpdateProtectiveEquipmentType.Command
             {
-                UtstyrType = utstyrType
+                EquipmentType = utstyrType
             });
         }
 
@@ -52,9 +52,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("feilbruktyper", Name = "HentFeilbrukTyper")]
         public async Task<List<IncorrectType>> HentFeilbrukTyper([FromQuery] int utstyrTypeId)
         {
-            return await _mediator.Send(new HentFeilbrukTyper.Query
+            return await _mediator.Send(new GetMisuseTypes.Query
             {
-                UtstyrTypeId = utstyrTypeId
+                EquipmentTypeId = utstyrTypeId
             });
         }
 
@@ -67,10 +67,10 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("feilbruktyper/oppdater")]
         public async Task<IncorrectType> OppdaterFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] IncorrectType feilbrukType)
         {
-            return await _mediator.Send(new OppdaterFeilbrukType.Command
+            return await _mediator.Send(new UpdateMisuseType.Command
             {
-                UtstyrTypeId = utstyrTypeId,
-                FeilbrukType = feilbrukType
+                EquipmentTypeId = utstyrTypeId,
+                MisuseType = feilbrukType
             });
         }
 
@@ -84,10 +84,10 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         public async Task<ActionResult<bool>> OpprettFeilbrukType([FromQuery] int utstyrTypeId, [FromBody] CreateErrorTypeRequest feilbrukType)
         {
-            var erOpprettet =  await _mediator.Send(new OpprettFeilbrukType.Command
+            var erOpprettet =  await _mediator.Send(new CreateMisuseType.Command
             {
-                UtstyrTypeId = utstyrTypeId,
-                FeilbrukType = feilbrukType
+                EquipmentTypeId = utstyrTypeId,
+                MisuseType = feilbrukType
             });
 
             return CreatedAtRoute("HentFeilbrukTyper", new { utstyrTypeId = utstyrTypeId }, erOpprettet);

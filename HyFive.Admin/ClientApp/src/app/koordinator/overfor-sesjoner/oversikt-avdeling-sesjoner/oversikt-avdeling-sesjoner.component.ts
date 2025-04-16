@@ -12,8 +12,8 @@ import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
 
 @Component({
-  selector: 'app-oversikt-avdeling-sesjoner',
-  templateUrl: './oversikt-avdeling-sesjoner.component.html'
+  selector: 'app-oversikt-avdeling-sessions',
+  templateUrl: './oversikt-avdeling-sessions.component.html'
 })
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
@@ -31,7 +31,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   ];
 
   avdeling: Avdeling;
-  sesjoner: SesjonOversiktRapport[] = [];
+  sessions: SesjonOversiktRapport[] = [];
   laster: boolean;
   valgtRolle: AuthorizedRole;
 
@@ -79,7 +79,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
       this.tilDato,
       this.valgtRolle
     ).subscribe((resultater) => {
-      this.sesjoner = resultater;
+      this.sessions = resultater;
 
       this.laster = false;
     });

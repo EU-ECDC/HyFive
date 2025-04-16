@@ -43,7 +43,7 @@ namespace HyFive.Services.Handsmykke
                 // Verifisere at observatør er observatør på institusjon
                 var observator = await HentObservator(request, cancellationToken);
                 if (observator == null)
-                    throw new Exception($"Fant ikke en observatør med HPR-nummer {request.HPRNummer} på institusjon med ID {request.Sesjon.Avdeling.InstitusjonId}");
+                    throw new Exception($"Fant ikke en observatør med HPR-nummer {request.HPRNummer} på institusjon med ID {request.Sesjon.Department.InstitusjonId}");
 
                 var handsmykketyper = _context.HandJewelryType.ToList();
                 var sesjon = _mapper.Map<Domene.Session.HandJewelrySession>(request.Sesjon);
@@ -53,7 +53,7 @@ namespace HyFive.Services.Handsmykke
                 // Dette er måten vi ønsker å håndtere feil hvis vi prøver å lagre en sesjon med en avdeling som lenger ikke eksisterer
                 if (sesjon.Department == null)
                 {
-                    _logger.LogWarning($"Fant ikke avdeling med id: {request.Sesjon.Avdeling.Id}");
+                    _logger.LogWarning($"Fant ikke avdeling med id: {request.Sesjon.Department.Id}");
                     return sesjon.Id;
                 }
                     
@@ -77,17 +77,17 @@ namespace HyFive.Services.Handsmykke
 
             private async Task<Domene.Place.Avdeling> HentAvdeling(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Department.Include(a => a.Roller).FirstOrDefaultAsync(a => a.Id == request.Sesjon.Avdeling.Id, cancellationToken);
+                return await _context.Department.Include(a => a.Roller).FirstOrDefaultAsync(a => a.Id == request.Sesjon.Department.Id, cancellationToken);
             }
 
             private async Task<Observator> HentObservator(Command request, CancellationToken cancellationToken)
             {
                 var institusjon = await _context.Institution
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Sesjon.Avdeling.InstitusjonId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Sesjon.Department.InstitusjonId);
 
                 if (institusjon == null)
-                    throw new Exception($"Fant ikke oppgitt institusjon med id: {request.Sesjon.Avdeling.InstitusjonId}");
+                    throw new Exception($"Fant ikke oppgitt institusjon med id: {request.Sesjon.Department.InstitusjonId}");
 
                 return institusjon
                     .Users

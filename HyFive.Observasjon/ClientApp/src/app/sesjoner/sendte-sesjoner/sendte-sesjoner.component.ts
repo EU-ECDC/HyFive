@@ -2,19 +2,19 @@ import { Component, OnInit } from "@angular/core";
 import { Urls } from "../../konstanter/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
-import { SendteSesjonerService } from "../../services/data/sendte-sesjoner.service";
+import { SendteSesjonerService } from "../../services/data/sendte-sessions.service";
 import { SesjonType } from "../../models/api/SesjonType";
 import { Observable, Subscription } from "rxjs";
 import { SesjonRapport } from "../../models/api/SesjonRapport";
 
 @Component({
-  selector: "app-sendte-sesjoner",
-  templateUrl: "./sendte-sesjoner.component.html",
+  selector: "app-sendte-sessions",
+  templateUrl: "./sendte-sessions.component.html",
 })
 export class SendteSesjonerComponent {
   Urls = Urls;
 
-  sesjoner: SesjonRapport[];
+  sessions: SesjonRapport[];
   sesjonerFiltrert: SesjonRapport[];
   harLastetSesjoner = false;
   sokeord: string = null;
@@ -34,7 +34,7 @@ export class SendteSesjonerComponent {
   lastSesjoner() {
     this.harLastetSesjoner = false;
     this.sendteSesjonerService.getSesjoner().subscribe((x) => {
-      this.sesjoner = x.sort((a, b) => {
+      this.sessions = x.sort((a, b) => {
         if (a.starttidspunkt > b.starttidspunkt) {
           return -1;
         }
@@ -43,14 +43,14 @@ export class SendteSesjonerComponent {
         }
         return 0;
       });
-      this.sesjonerFiltrert = this.sesjoner;
+      this.sesjonerFiltrert = this.sessions;
       this.harLastetSesjoner = true;
     });
   }
 
   filtrerSesjoner() {
-    if (this.sokeord != null && this.sesjoner != null) {
-      this.sesjonerFiltrert = this.sesjoner.filter(
+    if (this.sokeord != null && this.sessions != null) {
+      this.sesjonerFiltrert = this.sessions.filter(
         (s) =>
           s.avdelingsnavn?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
             -1 ||
@@ -63,7 +63,7 @@ export class SendteSesjonerComponent {
             .indexOf(this.sokeord.toLowerCase()) != -1
       );
     } else {
-      this.sesjonerFiltrert = this.sesjoner;
+      this.sesjonerFiltrert = this.sessions;
     }
   }
 

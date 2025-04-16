@@ -1,4 +1,4 @@
-﻿using HyFive.Models.Sesjon;
+﻿using HyFive.Models.Session;
 using Reinforced.Typings.Attributes;
 using System.Collections.Generic;
 

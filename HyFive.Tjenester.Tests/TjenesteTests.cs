@@ -13,7 +13,7 @@ using HyFive.Modeller.V1.Institution;
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.Bruker;
+using HyFive.Services.User;
 using HyFive.Services.FireIndikasjoner;
 using HyFive.Services.Institusjon;
 using Moq;
@@ -39,8 +39,8 @@ namespace HyFive.Services.Tests
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<ModellerV1TilDomene>();
-                cfg.AddProfile<DomeneTilModellerV1>();
+                cfg.AddProfile<ModelsToDomainV1>();
+                cfg.AddProfile<DomainToModelsV1>();
             });
 
             Mapper = new Mapper(config);
@@ -89,11 +89,11 @@ namespace HyFive.Services.Tests
                 }
             }, CancellationToken.None);
 
-            var opprettObservatorHandler = new OpprettObservator.Handler(DatabaseContext, Mapper);
+            var opprettObservatorHandler = new CreateObserver.Handler(DatabaseContext, Mapper);
 
-            var observator = await opprettObservatorHandler.Handle(new OpprettObservator.Command()
+            var observator = await opprettObservatorHandler.Handle(new CreateObserver.Command()
             {
-                Bruker = new Modeller.V1.User.User()
+                User = new Modeller.V1.User.User()
                 {
                     HPRNumber = Seed.SeedObservatorHprNummer,
                     InstitutionId = institusjon.Id,

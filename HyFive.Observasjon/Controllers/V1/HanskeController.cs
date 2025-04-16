@@ -10,7 +10,7 @@ using HyFive.Models.V1.Session;
 using HyFive.Services;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Hanske;
+using HyFive.Services.Glove;
 using HyFive.Services.Rapport.Observasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,14 +40,14 @@ namespace HyFive.Observasjon.Controllers.V1
         [Authorize(HandhygienePolicy.Observer)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] HanskeSesjon sesjon)
+        public async Task<ActionResult<Guid>> LagreSesjon([FromBody] GloveSession sesjon)
         {
-            if (!sesjon.Observasjoner.Any())
+            if (!sesjon.Observations.Any())
             {
                 return BadRequest("Sesjonen må ha minst én observasjon");
             }
 
-            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Avdeling.InstitusjonId))
+            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
                 var resultat = await _mediator.Send(new LagreSesjon.Command
                 {

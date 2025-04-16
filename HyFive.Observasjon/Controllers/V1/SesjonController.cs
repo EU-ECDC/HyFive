@@ -1,4 +1,4 @@
-﻿using HyFive.Models.Sesjon;
+﻿using HyFive.Models.Session;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Sesjon;
 using MediatR;
@@ -26,7 +26,7 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<List<SesjonRapport>> HentSesjoner()
+        public async Task<List<SessionReport>> HentSesjoner()
         {
             
             var resultat = await _mediator.Send(new HentMineSesjoner.Query()
@@ -74,7 +74,7 @@ namespace HyFive.Observasjon.Controllers.V1
         }
 
         [HttpGet("hanske", Name = "HentHanskeSesjon")]
-        public async Task<HanskeSesjon> HentHanskeSesjon([FromQuery] Guid sesjonId)
+        public async Task<GloveSession> HentHanskeSesjon([FromQuery] Guid sesjonId)
         {
             var sesjon = await _mediator.Send(new HentHanskeSesjon.Query
             {

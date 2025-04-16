@@ -7,7 +7,7 @@ using HyFive.Models.V1.Observation.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Services.Hanske
+namespace HyFive.Services.Glove
 {
     public class OppdaterHanskeUtenIndikasjonType
     {

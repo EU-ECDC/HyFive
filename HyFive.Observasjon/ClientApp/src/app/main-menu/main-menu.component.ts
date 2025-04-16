@@ -57,13 +57,13 @@ export class MainMenuComponent {
         icon: faHospital
       },
       {
-        name: "Ikke sendte sesjoner",
+        name: "Ikke sendte sessions",
         routerLink: `/${Urls.IkkeSendteSesjonerUrl}`,
         exactRouteMatch: false,
         icon: faClipboard
       },
       {
-        name: "Sendte sesjoner",
+        name: "Sendte sessions",
         routerLink: `/${Urls.SendteSesjonerUrl}`,
         exactRouteMatch: false,
         icon: faInbox

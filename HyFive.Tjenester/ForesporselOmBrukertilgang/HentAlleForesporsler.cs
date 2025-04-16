@@ -11,12 +11,12 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class HentAlleForesporsler
     {
-        public class Query : IRequest<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
+        public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest[]>
         {
             public int InstitusjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]>
+        public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
             }
 
 
-            public async Task<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.UserAccessRequest.UserAccessRequest[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.UserAccessRequest
                     .AsNoTracking()
                     .Where(f => f.InstitusjonId.Value == request.InstitusjonId)
-                    .ProjectTo<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.UserAccessRequest.UserAccessRequest>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }
         }

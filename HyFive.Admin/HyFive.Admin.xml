@@ -73,7 +73,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.HarOverfortSesjonTilFHI(System.Int32)">
             <summary>
-            Sjekker om avdeling har sesjoner overført til FHI
+            Sjekker om avdeling har sessions overført til FHI
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -208,7 +208,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.SlettInstitusjon(System.Int32)">
             <summary>
-            Slett institusjon og alle tilhørende sesjoner, observasjoner, avdelinger, roller og brukere
+            Slett institusjon og alle tilhørende sessions, observasjoner, avdelinger, roller og brukere
             </summary>
             <param name="institusjonId"></param>
             <returns></returns>

@@ -10,13 +10,13 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
 {
     public class HentForesporselSomSendtAllerede
     {
-        public class Query : IRequest<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest>
+        public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest>
         {
             public string HprNummer { get; set; }
             public string IdentPseudonym { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.ForesporselOmBrukertilgang.UserAccessRequest>
+        public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.UserAccessRequest.UserAccessRequest> Handle(Query request, CancellationToken cancellationToken)
             {
                 var foresporsel = _context.UserAccessRequest
                                     .OrderByDescending(f => f.Opprettettidspunkt)
@@ -43,7 +43,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
                 if (institusjon == null)
                     return null;
 
-                return _mapper.Map<Models.V1.ForesporselOmBrukertilgang.UserAccessRequest>(foresporsel);
+                return _mapper.Map<Models.V1.UserAccessRequest.UserAccessRequest>(foresporsel);
             }
         }
     }

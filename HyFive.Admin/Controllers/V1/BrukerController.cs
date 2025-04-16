@@ -4,8 +4,8 @@ using HyFive.Domain.Bruker;
 using HyFive.Modeller.V1.User;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Bruker;
-using HyFive.Services.BrukerTjenester;
+using HyFive.Services.User;
+using HyFive.Services.UserServices;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +39,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
-                var oppdatertObservator = await _mediator.Send(new OppdaterObservator.Command() { Bruker = bruker });
+                var oppdatertObservator = await _mediator.Send(new UpdateObserver.Command() { User = bruker });
                 return Ok(oppdatertObservator);
             }
 
@@ -58,7 +58,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
-                var response = await _mediator.Send(new OpprettObservator.Command() { Bruker = bruker });
+                var response = await _mediator.Send(new CreateObserver.Command() { User = bruker });
                 return CreatedAtRoute("HentObservatorer", new { id = response.InstitutionId }, response);
             }
 
@@ -76,10 +76,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdmin())
             {
-                var result = await _mediator.Send(new SlettBruker.Command()
+                var result = await _mediator.Send(new DeleteUser.Command()
                 {
-                    BrukerId = observatorId,
-                    Brukertype = typeof(Observator)
+                    UserId = observatorId,
+                    UserType = typeof(Observator)
                 });
                 return Ok(result);
             }
@@ -91,9 +91,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> HarOverfortSesjonTilFHI([FromQuery] int observatorId)
         {
-            var resultat = await _mediator.Send(new HarOverfortSesjonTilFHI.Command
+            var resultat = await _mediator.Send(new HasTransferredSessionToFHI.Command
             {
-                ObervasjonsId = observatorId
+                ObservationId = observatorId
             });
 
             return Ok(resultat);
@@ -114,7 +114,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
-                var response = await _mediator.Send(new OpprettKoordinator.Command() { Bruker = bruker });
+                var response = await _mediator.Send(new CreateCoordinator.Command() { USer = bruker });
                 return CreatedAtRoute("HentKoordinatorer", new { id = response.InstitutionId }, response);
             }
 
@@ -131,7 +131,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
             {
-                var oppdatertBruker = await _mediator.Send(new OppdaterKoordinator.Command() { Bruker = bruker });
+                var oppdatertBruker = await _mediator.Send(new UpdateCoordinator.Command() { User = bruker });
                 return oppdatertBruker;
             }
 
@@ -150,10 +150,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdmin())
             {
-                var result = await _mediator.Send(new SlettBruker.Command()
+                var result = await _mediator.Send(new DeleteUser.Command()
                 {
-                    BrukerId = koordinatorId,
-                    Brukertype = typeof(Koordinator)
+                    UserId = koordinatorId,
+                    UserType = typeof(Koordinator)
                 });
                 return result;
             }
@@ -176,7 +176,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new HentFhiAdmin.Query() { });
+                var response = await _mediator.Send(new GetFhiAdmin.Query() { });
                 return Ok(response);
             }
             catch (Exception e)
@@ -197,9 +197,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new OpprettFhiAdmin.Command() { Request = request });
+                var response = await _mediator.Send(new CreateFhiAdmin.Command() { Request = request });
                 return Ok(response);
-                //return CreatedAtRoute("HentFhiAdmin", new { id = response.InstitutionId }, response);
+                //return CreatedAtRoute("GetFhiAdmin", new { id = response.InstitutionId }, response);
             }
             catch (Exception e)
             {
@@ -219,7 +219,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new OppdaterFhiAdmin.Command() { Bruker = bruker });
+                var response = await _mediator.Send(new UpdateFhiAdmin.Command() { User = bruker });
                 return Ok(response);
             }
             catch (Exception e)

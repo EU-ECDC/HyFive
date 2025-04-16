@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SendteSesjonerService } from '../../../services/data/sendte-sesjoner.service';
+import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import { BeskyttelsesutstyrSesjon } from '../../../models/api/BeskyttelsesutstyrSesjon';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';

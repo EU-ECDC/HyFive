@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.ProtectiveEquipment;
 using HyFive.Services.Sesjon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -176,8 +176,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    var gammelKommentar = beskyttelsesutstyrSomSkalEndres.Comment;
         //    beskyttelsesutstyrSomSkalEndres.Comment = nyKommentar;
             
-        //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
-        //    await handler.Handle(new OppdaterBeskyttelsesutstyrObservasjon.Command()
+        //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
+        //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
         //    {
         //        Observation = observasjonSomSkalEndres
         //    }, CancellationToken.None);
@@ -205,8 +205,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    var nyKommentar = Guid.NewGuid()+" bla bla";
         //    observasjonSomSkalEndres.Comment = nyKommentar;
 
-        //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
-        //    await handler.Handle(new OppdaterBeskyttelsesutstyrObservasjon.Command()
+        //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
+        //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
         //    {
         //        Observation = observasjonSomSkalEndres
         //    }, CancellationToken.None);
@@ -240,8 +240,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    utstyrSomSkalEndres.IncorrectTypes.Remove(feilbrukTypeSomSkalFjernes);
             
             
-        //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
-        //    await handler.Handle(new OppdaterBeskyttelsesutstyrObservasjon.Command()
+        //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
+        //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
         //    {
         //        Observation = observasjonSomSkalEndres
         //    }, CancellationToken.None);
@@ -277,8 +277,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    utstyrSomSkalEndres.IncorrectTypes.Add(feilbrukTypeSomSkalLeggesTil);
             
             
-        //    var handler = new OppdaterBeskyttelsesutstyrObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterBeskyttelsesutstyrObservasjon.Handler>());
-        //    await handler.Handle(new OppdaterBeskyttelsesutstyrObservasjon.Command()
+        //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
+        //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
         //    {
         //        Observation = observasjonSomSkalEndres
         //    }, CancellationToken.None);
@@ -310,7 +310,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
 
         protected async Task<Guid> OpprettSesjon(Domain.Place.Avdeling avdeling = null)
         {
-            var logger = new Mock<ILogger<LagreSesjon.Handler>>();
+            var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
                 avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
@@ -318,10 +318,10 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             var settingTyper = DatabaseContext.ProtectiveEquipmentSettingType.ToList();
             var utstyrsTyper = DatabaseContext.ProtectiveEquipmentType.ToList();
 
-            var lagreBeskyttelsesutstyrSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
-            var beskyttelsesutstyrSesjonGuid = await lagreBeskyttelsesutstyrSesjonHandler.Handle(new LagreSesjon.Command()
+            var lagreBeskyttelsesutstyrSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+            var beskyttelsesutstyrSesjonGuid = await lagreBeskyttelsesutstyrSesjonHandler.Handle(new SaveSession.Command()
             {
-                Sesjon = new ProtectiveEquipmentSession()
+                Session = new ProtectiveEquipmentSession()
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
@@ -457,7 +457,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                         }
                     }
                 },
-                HPRNummer = hprnummer
+                HPRNumber = hprnummer
             }, CancellationToken.None);
 
             return beskyttelsesutstyrSesjonGuid;
@@ -472,8 +472,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             // Arrange
             var eksisterendeTyper = DatabaseContext.ProtectiveEquipmentType.Select(x => x.Id).ToList();
-            var hentBeskyttelsesutstyrTyper = new HentBeskyttelsesutstyrTyper.Handler(DatabaseContext, Mapper);
-            var query = new HentBeskyttelsesutstyrTyper.Query();
+            var hentBeskyttelsesutstyrTyper = new GetProtectiveEquipmentTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetProtectiveEquipmentTypes.Query();
 
             // Act
             var res = await hentBeskyttelsesutstyrTyper.Handle(query, new System.Threading.CancellationToken());
@@ -492,10 +492,10 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             // Arrange
             var opprettetBeskyttelsesutstyrType = await OpprettBeskyttelsesutstyrType();
-            var oppdaterBeskyttelsesutstyrTypeHandler = new OppdaterBeskyttelsesutstyrType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterBeskyttelsesutstyrType.Command()
+            var oppdaterBeskyttelsesutstyrTypeHandler = new UpdateProtectiveEquipmentType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateProtectiveEquipmentType.Command()
             {
-                UtstyrType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
+                EquipmentType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
                 {
                     Id = opprettetBeskyttelsesutstyrType.Id,
                     Code = "DV",
@@ -510,8 +510,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetBeskyttelsesutstyrType.Id));
-                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.UtstyrType.Name));
-                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.UtstyrType.Code));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.EquipmentType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.EquipmentType.Code));
                 Assert.That(resultatOppdater.Code, Is.EqualTo(opprettetBeskyttelsesutstyrType.Code));
             });
         }
@@ -520,10 +520,10 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         public void OppdaterBeskyttelsesutstyrType_IkkeEksisterendeId()
         {
             // Arrange
-            var oppdaterBeskyttelsesutstyrTypeHandler = new OppdaterBeskyttelsesutstyrType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterBeskyttelsesutstyrType.Command()
+            var oppdaterBeskyttelsesutstyrTypeHandler = new UpdateProtectiveEquipmentType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateProtectiveEquipmentType.Command()
             {
-                UtstyrType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
+                EquipmentType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -550,8 +550,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             // Arrange
             var eksisterendeTyper = DatabaseContext.ProtectiveEquipmentSettingType.Select(x => x.Id).ToList();
-            var hentBeskyttelsesutstyrsettingTyper = new HentBeskyttelsesutstyrsettingTyper.Handler(DatabaseContext, Mapper);
-            var query = new HentBeskyttelsesutstyrsettingTyper.Query();
+            var hentBeskyttelsesutstyrsettingTyper = new GetProtectiveEquipmentSettingTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetProtectiveEquipmentSettingTypes.Query();
 
             // Act
             var res = await hentBeskyttelsesutstyrsettingTyper.Handle(query, new System.Threading.CancellationToken());
@@ -570,8 +570,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             // Arrange
             var opprettetBeskyttelsesutstyrsettingType = await OpprettBeskyttelsesutstyrsettingType();
-            var oppdaterBeskyttelsesutstyrsettingTypeHandler = new OppdaterBeskyttelsesutstyrsettingType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterBeskyttelsesutstyrsettingType.Command()
+            var oppdaterBeskyttelsesutstyrsettingTypeHandler = new UpdateProtectiveEquipmentSettingType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateProtectiveEquipmentSettingType.Command()
             {
                 SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                 {
@@ -598,8 +598,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         public void OppdaterBeskyttelsesutstyrsettingType_IkkeEksisterendeId()
         {
             // Arrange
-            var oppdaterBeskyttelsesutstyrsettingTypeHandler = new OppdaterBeskyttelsesutstyrsettingType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterBeskyttelsesutstyrsettingType.Command()
+            var oppdaterBeskyttelsesutstyrsettingTypeHandler = new UpdateProtectiveEquipmentSettingType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateProtectiveEquipmentSettingType.Command()
             {
                 SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                 {
@@ -632,8 +632,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                 .First().MisuseTypes
                 .Select(x => x.Id)
                 .ToList();
-            var hentFeilbrukTyper = new HentFeilbrukTyper.Handler(DatabaseContext, Mapper);
-            var query = new HentFeilbrukTyper.Query() { UtstyrTypeId = DatabaseContext.ProtectiveEquipmentType.First().Id };
+            var hentFeilbrukTyper = new GetMisuseTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetMisuseTypes.Query() { EquipmentTypeId = DatabaseContext.ProtectiveEquipmentType.First().Id };
 
             // Act
             var res = await hentFeilbrukTyper.Handle(query, new System.Threading.CancellationToken());
@@ -651,8 +651,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         public async Task HentFeilbrukTyper_IkkeEksisterendeUtstyr()
         {
             // Arrange
-            var hentFeilbrukTyper = new HentFeilbrukTyper.Handler(DatabaseContext, Mapper);
-            var query = new HentFeilbrukTyper.Query() { UtstyrTypeId = 123456789 };
+            var hentFeilbrukTyper = new GetMisuseTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetMisuseTypes.Query() { EquipmentTypeId = 123456789 };
 
             // Act
             var res = await hentFeilbrukTyper.Handle(query, new System.Threading.CancellationToken());
@@ -703,15 +703,15 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             // Arrange
             var utstyrtype = DatabaseContext.ProtectiveEquipmentType.First();
             var opprettetFeilbrukType = await OpprettFeilbrukType(utstyrtypeId: utstyrtype.Id);
-            var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterFeilbrukType.Command()
+            var oppdaterFeilbrukTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateMisuseType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
+                MisuseType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = opprettetFeilbrukType.Id,
                     Name = "Da Vinci",
                 },
-                UtstyrTypeId = utstyrtype.Id
+                EquipmentTypeId = utstyrtype.Id
             };
 
             // Act
@@ -721,7 +721,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetFeilbrukType.Id));
-                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.FeilbrukType.Name));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.MisuseType.Name));
             });
         }
 
@@ -729,15 +729,15 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         public void OppdaterFeilbrukType_IkkeEksisterendeUtstyrTypeId()
         {
             // Arrange
-            var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterFeilbrukType.Command()
+            var oppdaterFeilbrukTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateMisuseType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
+                MisuseType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = DatabaseContext.MisuseType.First().Id,
                     Name = "Da Vinci",
                 },
-                UtstyrTypeId = 123456789
+                EquipmentTypeId = 123456789
             };
 
             // Act and Assert
@@ -755,15 +755,15 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             // Arrange
             var utstyrtype = DatabaseContext.ProtectiveEquipmentType.First();
-            var oppdaterFeilbrukTypeHandler = new OppdaterFeilbrukType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterFeilbrukType.Command()
+            var oppdaterFeilbrukTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateMisuseType.Command()
             {
-                FeilbrukType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
+                MisuseType = new Modeller.V1.Observation.ProtectiveEquipment.IncorrectType()
                 {
                     Id = 123456789,
                     Name = "Da Vinci",
                 },
-                UtstyrTypeId = utstyrtype.Id
+                EquipmentTypeId = utstyrtype.Id
             };
 
             // Act and Assert
@@ -800,11 +800,11 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
 
         private async Task<Modeller.V1.Observation.ProtectiveEquipment.IncorrectType> OpprettFeilbrukType(string navn = null, int utstyrtypeId = 0)
         {
-            var opprettFeilbrukTypeHandler = new OpprettFeilbrukType.Handler(DatabaseContext, Mapper);
-            var opprettCommand = new OpprettFeilbrukType.Command()
+            var opprettFeilbrukTypeHandler = new CreateMisuseType.Handler(DatabaseContext, Mapper);
+            var opprettCommand = new CreateMisuseType.Command()
             {
-                FeilbrukType = new CreateErrorTypeRequest() { Name = navn ?? "Test" },
-                UtstyrTypeId = utstyrtypeId != 0 ? utstyrtypeId : DatabaseContext.ProtectiveEquipmentType.First().Id
+                MisuseType = new CreateErrorTypeRequest() { Name = navn ?? "Test" },
+                EquipmentTypeId = utstyrtypeId != 0 ? utstyrtypeId : DatabaseContext.ProtectiveEquipmentType.First().Id
             };
 
             var resOpprett = await opprettFeilbrukTypeHandler.Handle(opprettCommand, new System.Threading.CancellationToken());

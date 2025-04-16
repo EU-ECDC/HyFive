@@ -14,7 +14,7 @@ namespace HyFive.Services.Institusjon
         {
             public CreatePredefinedCommentRequest NyPredefinertKommentar { get; set; }
             public int Institusjonid { get; set; }
-            public SesjonType SesjonType { get; set; } = SesjonType.Beskyttelsesutstyr;
+            public SessionType SesjonType { get; set; } = SessionType.ProtectiveEquipment;
 
         }
 

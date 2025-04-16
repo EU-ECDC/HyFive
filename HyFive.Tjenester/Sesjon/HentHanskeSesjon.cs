@@ -13,14 +13,14 @@ namespace HyFive.Services.Sesjon
 {
     public class HentHanskeSesjon
     {
-        public class Query : IRequest<HanskeSesjon>
+        public class Query : IRequest<GloveSession>
         {
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
             public Guid SesjonId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, HanskeSesjon>
+        public class Handler : IRequestHandler<Query, GloveSession>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace HyFive.Services.Sesjon
                 _brukerService = brukerService;
             }
 
-            public async Task<HanskeSesjon> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<GloveSession> Handle(Query request, CancellationToken cancellationToken)
             {
                 var sesjon = await _context.GloveSession
                     .AsNoTracking()
@@ -49,7 +49,7 @@ namespace HyFive.Services.Sesjon
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med HPR-nummer {request.HPRNummer}");
 
-                var hanskeSesjon = _mapper.Map<HanskeSesjon>(sesjon);
+                var hanskeSesjon = _mapper.Map<GloveSession>(sesjon);
 
                 return hanskeSesjon;
             }

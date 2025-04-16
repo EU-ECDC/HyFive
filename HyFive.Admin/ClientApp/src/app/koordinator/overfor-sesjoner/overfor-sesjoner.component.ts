@@ -13,8 +13,8 @@ import { Institusjon } from '../../models/api/Institusjon';
 import { forEach } from 'lodash-es';
 
 @Component({
-  selector: 'app-overfor-sesjoner',
-  templateUrl: './overfor-sesjoner.component.html'
+  selector: 'app-overfor-sessions',
+  templateUrl: './overfor-sessions.component.html'
 })
 export class OverforSesjonerComponent implements OnInit, OnDestroy {
 
@@ -40,7 +40,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   institusjonerAlternativer: InstitusjonRapport[] = [];
   valgteInstitusjonAlternativer: number = null;
 
-  sesjoner: SesjonOversiktRapport[] = [];
+  sessions: SesjonOversiktRapport[] = [];
   sesjonerKoordinator: SesjonOversiktRapport[] = [];
   sesjonerFHI: SesjonOversiktRapport[] = [];
   laster: boolean = false;
@@ -93,21 +93,21 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     ).subscribe((resultater) => {
       this.laster = false;
       this.sokGjort = true;
-      this.sesjoner = resultater;
+      this.sessions = resultater;
       this.oppdaterLister();
     })
   }
 
   oppdaterLister() {
-    this.sesjonerKoordinator = this.sesjoner.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilKoordinator);
-    this.sesjonerFHI = this.sesjoner.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilFhi);
+    this.sesjonerKoordinator = this.sessions.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilKoordinator);
+    this.sesjonerFHI = this.sessions.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilFhi);
   }
 
   overfor(sesjonId) {
     this.laster = true;
     this.observasjonService.overforSesjonTilFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
-        this.sesjoner.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
+        this.sessions.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
         this.oppdaterLister();
         this.laster = false;
@@ -140,7 +140,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.sokGjort = false;
     this.sesjonerKoordinator = [];
     this.sesjonerFHI = [];
-    this.sesjoner = [];
+    this.sessions = [];
   }
 
   observasjonSlettet(): void {

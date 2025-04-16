@@ -14,10 +14,10 @@ using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
 using HyFive.Modeller.V1.Observation.Gloves;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.ProtectiveEquipment;
 using HyFive.Services.FireIndikasjoner;
 using HyFive.Services.Handsmykke;
-using HyFive.Services.Hanske;
+using HyFive.Services.Glove;
 using HyFive.Services;
 
 namespace HyFive.Admin.Controllers.V1
@@ -335,9 +335,9 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new OppdaterBeskyttelsesutstyrObservasjon.Command
+                    var result = await _mediator.Send(new UpdateProtectiveEquipmentObservation.Command
                     {
-                        Observasjon = observasjon
+                        Observation = observasjon
                     });
 
                     return Ok(result);
@@ -359,10 +359,10 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new SlettBeskyttelsesutstyrObservasjon.Command
+                    var result = await _mediator.Send(new DeleteProtectiveEquipmentObservation.Command
                     {
-                        ObservasjonId = observajonId,
-                        SesjonId = sesjonId
+                        ObservationId = observajonId,
+                        SessionId = sesjonId
                     });
 
                     return Ok(result);
@@ -384,9 +384,9 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new HentBeskyttelsesutstyrObservasjon.Query()
+                    var result = await _mediator.Send(new GetProtectiveEquipmentObservation.Query()
                     {
-                        ObservasjonId = observasjonId
+                        ObservationId = observasjonId
                     });
 
                     return Ok(result);

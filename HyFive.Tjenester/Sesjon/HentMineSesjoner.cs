@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.Sesjon;
+using HyFive.Models.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +12,13 @@ namespace HyFive.Services.Sesjon
 {
     public class HentMineSesjoner
     {
-        public class Query : IRequest<List<SesjonRapport>>
+        public class Query : IRequest<List<SessionReport>>
         {
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<SesjonRapport>>
+        public class Handler : IRequestHandler<Query, List<SessionReport>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,9 +29,9 @@ namespace HyFive.Services.Sesjon
                 _mapper = mapper;
             }
 
-            public async Task<List<SesjonRapport>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<SessionReport>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjoner = await _context.Sesjon
+                var sessions = await _context.Sesjon
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
                     .Where(s => s.Observator.ErDeaktivert == false
@@ -40,7 +40,7 @@ namespace HyFive.Services.Sesjon
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                var mapped = _mapper.Map<List<Domene.Session.Session>, List<SesjonRapport>>(sesjoner);
+                var mapped = _mapper.Map<List<Domene.Session.Session>, List<SessionReport>>(sessions);
                 return mapped;
             }
 

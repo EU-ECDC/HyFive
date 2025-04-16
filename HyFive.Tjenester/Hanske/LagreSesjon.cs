@@ -7,13 +7,13 @@ using HyFive.DataAccess;
 using HyFive.Domene.Bruker;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
-using HyFive.Services.Hanske.Helpers;
+using HyFive.Services.Glove.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using HanskeSesjon = HyFive.Models.V1.Session.HanskeSesjon;
+using GloveSession = HyFive.Models.V1.Session.GloveSession;
 
-namespace HyFive.Services.Hanske
+namespace HyFive.Services.Glove
 {
     public class LagreSesjon
     {
@@ -21,7 +21,7 @@ namespace HyFive.Services.Hanske
         {
             public string HPRNummer { get; set; }
             public string Pseudonym { get; set; }
-            public HanskeSesjon Sesjon { get; set; }
+            public GloveSession Sesjon { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Guid>
@@ -44,7 +44,7 @@ namespace HyFive.Services.Hanske
                 var observator = await HentObservator(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
-                        $"Fant ikke en observatør med HPR-nummer { request.HPRNummer } // pseudonym {request.Pseudonym} på institusjon med ID {request.Sesjon.Avdeling.InstitusjonId}");
+                        $"Fant ikke en observatør med HPR-nummer { request.HPRNummer } // pseudonym {request.Pseudonym} på institusjon med ID {request.Sesjon.Department.InstitusjonId}");
 
                 var hanskeMedIndikasjonTyper = _context.IndicatedGloveType.ToList();
                 var hanskeUtenIndikasjonTyper = _context.GeneralPurposeGloveType.ToList();
@@ -58,7 +58,7 @@ namespace HyFive.Services.Hanske
                 // Dette er måten vi ønsker å håndtere feil hvis vi prøver å lagre en sesjon med en avdeling som lenger ikke eksisterer
                 if(sesjon.Department == null)
                 {
-                    _logger.LogWarning($"Fant ikke avdeling med id: {request.Sesjon.Avdeling.Id}");
+                    _logger.LogWarning($"Fant ikke avdeling med id: {request.Sesjon.Department.Id}");
                     return sesjon.Id;
                 }
 
@@ -90,18 +90,18 @@ namespace HyFive.Services.Hanske
             private async Task<Domene.Place.Avdeling> HentAvdeling(Command request, CancellationToken cancellationToken)
             {
                 return await _context.Department.Include(a => a.Roller)
-                    .FirstOrDefaultAsync(a => a.Id == request.Sesjon.Avdeling.Id, cancellationToken);
+                    .FirstOrDefaultAsync(a => a.Id == request.Sesjon.Department.Id, cancellationToken);
             }
 
             private async Task<Observator> HentObservator(Command request, CancellationToken cancellationToken)
             {
                 var institusjon = await _context.Institution
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Sesjon.Avdeling.InstitusjonId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Sesjon.Department.InstitusjonId);
 
                 if (institusjon == null)
                     throw new Exception(
-                        $"Fant ikke oppgitt institusjon med id: {request.Sesjon.Avdeling.InstitusjonId}");
+                        $"Fant ikke oppgitt institusjon med id: {request.Sesjon.Department.InstitusjonId}");
 
                 return institusjon.Users.OfType<Observator>().Where(
                     _brukerService

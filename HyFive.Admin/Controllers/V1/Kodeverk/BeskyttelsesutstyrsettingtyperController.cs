@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.ProtectiveEquipment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +28,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<ProtectiveEquipmentSettingType>> HentBeskyttelsesutstyrsettingTyper()
         {
-            return await _mediator.Send(new HentBeskyttelsesutstyrsettingTyper.Query());
+            return await _mediator.Send(new GetProtectiveEquipmentSettingTypes.Query());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<ProtectiveEquipmentSettingType> OppdaterBeskyttelsesutstyrsettingType([FromBody] ProtectiveEquipmentSettingType settingType)
         {
-            return await _mediator.Send(new OppdaterBeskyttelsesutstyrsettingType.Command
+            return await _mediator.Send(new UpdateProtectiveEquipmentSettingType.Command
             {
                 SettingType = settingType
             });

@@ -5,7 +5,7 @@ using HyFive.Models.V1.Report.Beskyttelsesutstyr;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Beskyttelsesutstyr;
+using HyFive.Services.ProtectiveEquipment;
 using HyFive.Services.Rapport.Observasjoner;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +35,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>> HentBeskyttelsesutstyrsettingtyper()
         {
-            return await _mediator.Send(new HentBeskyttelsesutstyrsettingTyper.Query());
+            return await _mediator.Send(new GetProtectiveEquipmentSettingTypes.Query());
         }
 
         /// <summary>
@@ -48,18 +48,18 @@ namespace HyFive.Observasjon.Controllers.V1
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> LagreSesjon([FromBody] ProtectiveEquipmentSession sesjon)
         {
-            if (!sesjon.Observasjoner.Any())
+            if (!sesjon.Observations.Any())
             {
                 return BadRequest("Sesjonen må ha minst én observasjon");
             }
 
-            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Avdeling.InstitusjonId))
+            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
-                var resultat = await _mediator.Send(new LagreSesjon.Command()
+                var resultat = await _mediator.Send(new SaveSession.Command()
                 {
-                    HPRNummer = _brukerservice.GetHprNumber(),
+                    HPRNumber = _brukerservice.GetHprNumber(),
                     Pseudonym = _brukerservice.GetPseudonym(),
-                    Sesjon = sesjon
+                    Session = sesjon
                 });
 
                 return CreatedAtRoute("HentBeskyttelsesutstyrSesjon", new { sesjonId = sesjon.Id }, resultat);

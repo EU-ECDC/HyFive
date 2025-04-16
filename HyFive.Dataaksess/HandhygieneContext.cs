@@ -160,7 +160,7 @@ namespace HyFive.DataAccess
             mb.Entity<Clinic>().HasIndex(k => k.Name);
 
             mb.Entity<User>().Property(b => b.FirstName).HasMaxLength(100).IsRequired();
-            mb.Entity<User>().Property(b => b.Surname).HasMaxLength(100).IsRequired();
+            mb.Entity<User>().Property(b => b.LastName).HasMaxLength(100).IsRequired();
             mb.Entity<User>().Property(b => b.Email).HasMaxLength(500);
             mb.Entity<User>().Property(b => b.IdentityPseudonym).HasMaxLength(100);
             mb.Entity<User>().Property(b => b.HPRNumber).HasMaxLength(50);

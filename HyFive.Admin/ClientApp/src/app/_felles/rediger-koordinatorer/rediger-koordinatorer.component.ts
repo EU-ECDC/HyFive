@@ -107,7 +107,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
       () => this.toastrService.success('Koordinator slettet'),
       (error) => {
         if (error.error.includes('NotSupportedException')) {
-          this.toastrService.error('Koordinatoren har sesjoner, og kunne ikke slettes', '', { disableTimeOut: true });
+          this.toastrService.error('Koordinatoren har sessions, og kunne ikke slettes', '', { disableTimeOut: true });
         }
         else {
           this.toastrService.error('Det oppstod en feil under sletting av koordinator: ' + error?.message, '', { disableTimeOut: true });

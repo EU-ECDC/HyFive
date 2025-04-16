@@ -47,7 +47,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("minst en indikasjontype"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("minst en indikasjontype"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(
@@ -65,7 +65,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("Activity må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Activity må registreres"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
@@ -82,7 +82,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("ActivityType mangler"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ActivityType mangler"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
@@ -99,7 +99,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("ingen tid ble registrert"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ingen tid ble registrert"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
@@ -120,7 +120,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("Role må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Role må registreres"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
@@ -223,7 +223,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("minst en indikasjontype"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("minst en indikasjontype"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);
@@ -245,7 +245,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("Activity må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Activity må registreres"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);
@@ -267,7 +267,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("ActivityType mangler"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ActivityType mangler"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);
@@ -293,7 +293,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("ingen tid ble registrert"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ingen tid ble registrert"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);
@@ -315,7 +315,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FireIndikasjonerObservasjonValidationException>().And.Message.Contains("Role må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Role må registreres"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);

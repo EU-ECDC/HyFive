@@ -6,12 +6,12 @@ using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.Gloves;
-using HyFive.Services.Hanske.Helpers;
+using HyFive.Services.Glove.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Services.Hanske
+namespace HyFive.Services.Glove
 {
     public class OppdaterHanskeObservasjon
     {
