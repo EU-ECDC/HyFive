@@ -60,7 +60,7 @@
                 <td>{{koordinator.epost}}</td>
                 <td>{{koordinator.hprNummer}}</td>
                 <td>
-                  <app-pseudonym-dialog [tekst]="'Vis'" [identPseudonym]="koordinator.identPseudonym"></app-pseudonym-dialog>
+                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identPseudonym"></app-pseudonym-dialog>
                 </td>
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="koordinator.erDeaktivert" name="erDeaktivert" disabled="disabled">
@@ -84,10 +84,10 @@
                   <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
                 </td>
                 <td>
-                  <app-pseudonym-dialog [tekst]="'Endre'"
-                                        [redigerbar]="true"
-                                        [identPseudonym]="koordinator.endretIdentPseudonym"
-                                        (identPseudonymEndret)="identPseudonymEndret(koordinatorSomEndres, $event)">
+                  <app-pseudonym-dialog [text]="'Endre'"
+                                        [editable]="true"
+                                        [identityPseudonym]="koordinator.endretIdentPseudonym"
+                                        (identityPseudonymChanged)="identPseudonymEndret(koordinatorSomEndres, $event)">
                   </app-pseudonym-dialog>
                 </td>
                 <td><input type="checkbox" class="form-check-input" [(ngModel)]="koordinatorSomEndres.erDeaktivert" name="erDeaktivert"></td>

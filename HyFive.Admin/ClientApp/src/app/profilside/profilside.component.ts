@@ -11,7 +11,7 @@ import { RolleEventService } from '../services/events/rolle-event.service';
 })
 export class ProfilsideComponent implements OnInit {
 
-  bruker: InnloggetBruker = null;
+  user: InnloggetBruker = null;
   AuthorizedRoleValues = AuthorizedRole;
   faUser = faUser;
 
@@ -25,8 +25,8 @@ export class ProfilsideComponent implements OnInit {
     private rolleEventService: RolleEventService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getBruker().subscribe((user) => {
+      this.user = user;
     });
 
     this.authorizationService.getRoller().subscribe((roller) => {

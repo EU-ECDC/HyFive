@@ -50,7 +50,7 @@
               <td>{{koordinator.hprNummer}}</td>
             
               <td>
-                <app-pseudonym-dialog [tekst]="'Vis'" [identPseudonym]="koordinator.identPseudonym"></app-pseudonym-dialog>
+                <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identPseudonym"></app-pseudonym-dialog>
               </td>
               
               <td>
@@ -82,10 +82,10 @@
               
               <td>
                 <app-pseudonym-dialog
-                                      [tekst]="'Endre'"
-                                      [redigerbar]= "true"
-                                      [identPseudonym]="koordinator.identPseudonym"
-                                      (identPseudonymEndret)="identPseudonymEndret(koordinatorSomEndres, $event)">
+                                      [text]="'Endre'"
+                                      [editable]= "true"
+                                      [identityPseudonym]="koordinator.identPseudonym"
+                                      (identityPseudonymChanged)="identPseudonymEndret(koordinatorSomEndres, $event)">
                 </app-pseudonym-dialog>
               </td>
               

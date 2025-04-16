@@ -1,7 +1,7 @@
-import { Bruker } from "../models/api/Bruker";
+import { User } from "../models/api/User";
 
 export class SokHjelper {
-    public static filtrerBrukere(sokeord: string, brukerListe: Bruker[]) : Bruker[] {
+    public static filtrerBrukere(sokeord: string, brukerListe: User[]) : User[] {
         
             var filtrerteBrukere = brukerListe.filter(k => 
                                         k.fornavn?.toLowerCase().includes(sokeord.toLowerCase()) || 

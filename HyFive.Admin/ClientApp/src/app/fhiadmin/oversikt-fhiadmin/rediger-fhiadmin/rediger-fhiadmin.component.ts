@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { BrukerService } from '../../../services/data/bruker.service';
+import { UserService } from '../../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Bruker } from '../../../models/api/Bruker';
+import { User } from '../../../models/api/User';
 import { OpprettFhiAdminRequest } from '../../../models/api/OpprettFhiAdminRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -11,12 +11,12 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
 
-  brukere: Bruker[];
-  fhiAdminSomEndres: Bruker = null;
+  brukere: User[];
+  fhiAdminSomEndres: User = null;
   nyFhiAdmin: OpprettFhiAdminRequest = null;
 
   constructor(
-    private brukerService: BrukerService,
+    private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -33,7 +33,7 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
   }
 
   lastFhiAdmin() {
-    this.brukerService.hentFhiAdmin().subscribe(
+    this.userService.hentFhiAdmin().subscribe(
       (fhiAdmins) => this.brukere = fhiAdmins,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av FhiAdmin: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -49,21 +49,21 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
   }
 
   opprettFhiAdmin() {
-    this.brukerService.opprettFhiAdmin(this.nyFhiAdmin).subscribe(
+    this.userService.opprettFhiAdmin(this.nyFhiAdmin).subscribe(
       () => this.toastrService.success('FhiAdmin opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av FhiAdmin: ' + error?.error, '', { disableTimeOut: true}),
       () => { this.nyFhiAdmin = null; this.lastFhiAdmin(); }
     );
   }
 
-  setFhiAdminSomEndres(fhiAdmin: Bruker) {
+  setFhiAdminSomEndres(fhiAdmin: User) {
     this.avbrytRedigering();
     if (this.fhiAdminSomEndres?.id == fhiAdmin.id) return;
     this.fhiAdminSomEndres = JSON.parse(JSON.stringify(fhiAdmin));
   }
 
-  oppdaterFhiAdmin(fhiAdmin: Bruker) {
-    this.brukerService.oppdaterFhiAdmin(fhiAdmin).subscribe(
+  oppdaterFhiAdmin(fhiAdmin: User) {
+    this.userService.oppdaterFhiAdmin(fhiAdmin).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success('FhiAdmin oppdatert');
         this.lastFhiAdmin();
@@ -76,13 +76,13 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
   kanOpprettes() {
     return this.nyFhiAdmin.fornavn?.length > 0
       && this.nyFhiAdmin.etternavn?.length > 0
-      && this.brukerService.erGyldigPseudonym(this.nyFhiAdmin?.identPseudonym);
+      && this.userService.isValidPseudonym(this.nyFhiAdmin?.identPseudonym);
   }
 
-  kanEndres(fhiAdmin: Bruker) {
+  kanEndres(fhiAdmin: User) {
     return fhiAdmin.fornavn.length > 0
       && fhiAdmin.etternavn.length > 0
-      && this.brukerService.erGyldigPseudonym(fhiAdmin?.identPseudonym);
+      && this.userService.isValidPseudonym(fhiAdmin?.identPseudonym);
   }
 
   avbrytRedigering($event: Event = null) {

@@ -11,7 +11,7 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
   laster = true;
-  bruker: InnloggetBruker = null;
+  user: InnloggetBruker = null;
   faCopy = faCopy;
 
   constructor(
@@ -20,10 +20,10 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
     private clipboardService: ClipboardService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getBruker().subscribe((user) => {
+      this.user = user;
     },
-      (error) => (this.toastrService.error("En feil skjedde under innlasting av bruker: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
+      (error) => (this.toastrService.error("En feil skjedde under innlasting av user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
       () => this.laster = false
     );
   }
@@ -33,7 +33,7 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
   }
 
   kopierPseudonymKlikk() {
-    this.clipboardService.copy(this.bruker?.identPseudonym);
+    this.clipboardService.copy(this.user?.identPseudonym);
     this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
   }
 }

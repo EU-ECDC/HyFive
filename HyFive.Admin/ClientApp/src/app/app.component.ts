@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
         this.isMobile = isMobile;
       }));
 
-    this.authorizationService.getBruker().subscribe((bruker: InnloggetBruker) => {
-      if (bruker.erKoordinator) {
+    this.authorizationService.getBruker().subscribe((user: InnloggetBruker) => {
+      if (user.erKoordinator) {
         let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
         if (valgtInstitusjonId === null) {
           this.institusjonService.hentInstitusjoner().subscribe((resultat) => {

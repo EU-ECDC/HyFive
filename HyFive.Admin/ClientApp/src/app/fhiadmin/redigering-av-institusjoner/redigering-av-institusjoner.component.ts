@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
 import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { Bruker } from 'src/app/models/api/Bruker';
+import { User } from 'src/app/models/api/User';
 import { SokHjelper } from 'src/app/utils/sokhjelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
@@ -20,7 +20,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   filtrertInstitusjoner: InstitusjonRapport[] = [];
   sokeord: string = '';
   sokeordPerson: string = '';
-  brukere: Bruker[] = [];
+  brukere: User[] = [];
 
   constructor(private institusjonService: InstitusjonService,
     private toastrService: ToastrService,

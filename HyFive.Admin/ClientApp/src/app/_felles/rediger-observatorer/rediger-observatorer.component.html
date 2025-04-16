@@ -33,7 +33,7 @@
               <td><input type="text" class="form-control" [(ngModel)]="nyObservator.identPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
-                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="opprettObservator()">
+                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createObserver()">
                   <i class="icon-plus"></i><span class="btn__text">Opprett</span>
                 </button>
                 <button class="my-2 btn fhi-btn-icon" (click)="avbrytRedigering($event)">
@@ -50,7 +50,7 @@
                 <td>{{observator.epost}}</td>
                 <td>{{observator.hprNummer}}</td>
                 <td>
-                  <app-pseudonym-dialog [tekst]="'Vis'" [identPseudonym]="observator.identPseudonym"></app-pseudonym-dialog>
+                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="observator.identPseudonym"></app-pseudonym-dialog>
                 </td>
                 <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observator.erDeaktivert" name="erDeaktivert" disabled="disabled"></td>
               
@@ -71,10 +71,10 @@
                 </td>
                 <td>
                   <app-pseudonym-dialog 
-                                        [tekst]="'Endre'"
-                                        [redigerbar]="true"
-                                        [identPseudonym]="observator.identPseudonym"
-                                        (identPseudonymEndret)="identPseudonymEndret($event)">
+                                        [text]="'Endre'"
+                                        [editable]="true"
+                                        [identityPseudonym]="observator.identPseudonym"
+                                        (identityPseudonymChanged)="identPseudonymEndret($event)">
                   </app-pseudonym-dialog> 
                 </td>
                 <td>
@@ -88,7 +88,7 @@
                             [disabled]="kanEndres(observatorSomEndres) == false">
                       <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                     </button>
-                    <div *ngIf="bruker.erFhiAdmin">
+                    <div *ngIf="user.erFhiAdmin">
                       <app-bekreftelsesdialog 
                                                     [knappTekst]="'Slett'"
                                                     (bekreftetEvent)="slettObservator(observator.id)"

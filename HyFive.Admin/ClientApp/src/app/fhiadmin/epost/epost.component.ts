@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Bruker } from 'src/app/models/api/Bruker';
+import { User } from 'src/app/models/api/User';
 import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
 import { InstitusjonService } from 'src/app/services/data/institusjon.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
@@ -12,10 +12,10 @@ export class EpostComponent implements OnInit {
 
   epostListe: string[];
 
-  alleBrukereListe : Bruker[];
-  koordinatorListe: Bruker[];
-  observatorListe: Bruker[];
-  filtrertBrukerListe: Bruker[];
+  alleBrukereListe : User[];
+  koordinatorListe: User[];
+  observatorListe: User[];
+  filtrertBrukerListe: User[];
 
   institusjonId: number;
   institusjoner: InstitusjonRapport[];
@@ -69,13 +69,13 @@ export class EpostComponent implements OnInit {
     this.filtrertBrukerListe = [];
 
     if (this.koordinaterValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(bruker => this.koordinatorListe.includes(bruker) && bruker.institusjonId === this.institusjonId);
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.koordinatorListe.includes(user) && user.institusjonId === this.institusjonId);
     }
     if (this.observatorValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(bruker => this.observatorListe.includes(bruker) && bruker.institusjonId === this.institusjonId);
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.observatorListe.includes(user) && user.institusjonId === this.institusjonId);
     }
     if (this.koordinaterValgt && this.observatorValgt) {
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(bruker => bruker.institusjonId === this.institusjonId);
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => user.institusjonId === this.institusjonId);
       this.filtrertBrukerListe = this.filtrertBrukerListe.sort((a, b) => a.etternavn.localeCompare(b.etternavn));
     }
   }
@@ -83,8 +83,8 @@ export class EpostComponent implements OnInit {
   oppdaterEpostListe() {
     this.epostListe = [];
 
-    this.filtrertBrukerListe.forEach(bruker => {
-      this.epostListe.push(bruker.epost)
+    this.filtrertBrukerListe.forEach(user => {
+      this.epostListe.push(user.epost)
     });
   }
 
@@ -94,13 +94,13 @@ export class EpostComponent implements OnInit {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Bruker) => any;
+    let propertyOf: (x: User) => any;
     switch ($event.columnName) {
       case "Fornavn":
-        propertyOf = (x: Bruker) => x.fornavn;
+        propertyOf = (x: User) => x.fornavn;
         break;
       case "Etternavn":
-        propertyOf = (x: Bruker) => x.etternavn;
+        propertyOf = (x: User) => x.etternavn;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -108,7 +108,7 @@ export class EpostComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Bruker, b: Bruker) => {
+    const sortFunc = (a: User, b: User) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

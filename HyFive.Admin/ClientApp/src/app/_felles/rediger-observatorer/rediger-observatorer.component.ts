@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { InstitusjonService } from '../../services/data/institusjon.service';
-import { BrukerService } from '../../services/data/bruker.service';
+import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Bruker } from '../../models/api/Bruker';
+import { User } from '../../models/api/User';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { InnloggetBruker } from '../../models/api/InnloggetBruker';
 import { AuthorizationService } from '../services/authorization.service';
@@ -16,16 +16,16 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 export class RedigerObservatorerComponent implements OnInit, OnDestroy {
 
   @Input() institusjonId: 0;
-  observatorer: Bruker[];
+  observatorer: User[];
 
-  observatorSomEndres: Bruker = null;
-  nyObservator: Bruker = null;
-  bruker: InnloggetBruker = null;
+  observatorSomEndres: User = null;
+  nyObservator: User = null;
+  user: InnloggetBruker = null;
   sokeord: string = '';
-  filtrerteObservatorer: Bruker[];
+  filtrerteObservatorer: User[];
 
   constructor(private institusjonService: InstitusjonService,
-    private brukerService: BrukerService,
+    private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
@@ -37,8 +37,8 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authorizationService.getBruker().subscribe(
-      (bruker) =>{
-        this.bruker = bruker;
+      (user) =>{
+        this.user = user;
     });
 
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -76,22 +76,22 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
     };
   }
 
-  opprettObservator() {
-    this.brukerService.opprettObservator(this.nyObservator).subscribe(
+  createObserver() {
+    this.userService.createObserver(this.nyObservator).subscribe(
       () => this.toastrService.success('Observatør opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av observatør: ' + error?.message, '', { disableTimeOut: true}),
       () => { this.nyObservator = null; this.lastObservatorer(); }
     );
   }
 
-  setObservatorSomEndres(observator: Bruker) {
+  setObservatorSomEndres(observator: User) {
     this.avbrytRedigering();
     if (this.observatorSomEndres?.id == observator.id) return;
     this.observatorSomEndres = JSON.parse(JSON.stringify(observator));
   }
 
-  oppdaterObservator(observator: Bruker) {
-    this.brukerService.oppdaterObservator(observator).subscribe(
+  oppdaterObservator(observator: User) {
+    this.userService.oppdaterObservator(observator).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success('Observatør oppdatert');
         this.lastObservatorer();
@@ -103,14 +103,14 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
 
   slettObservator(observatorId: number) {
 
-    this.brukerService.harOverfortSesjonTilFHI(observatorId).subscribe(
+    this.userService.harOverfortSesjonTilFHI(observatorId).subscribe(
       (harOverfortSesjon) => { 
         if (harOverfortSesjon) {
           this.toastrService.error('Observatøren har sesjoner overført til FHI, og kunne ikke slettes.', '', { disableTimeOut: true});
           return;
         }
         else {
-          this.brukerService.slettObservator(observatorId).subscribe(
+          this.userService.slettObservator(observatorId).subscribe(
             () => this.toastrService.success('Observatør slettet'),
             (error) => {
               if (error.error.includes("NotSupportedException")) {
@@ -133,13 +133,13 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
   kanOpprettes() {
     return this.nyObservator.fornavn.length > 0
       && this.nyObservator.etternavn.length > 0
-      && this.brukerService.harGyldigHprnummerEllerPseudonym(this.nyObservator);
+      && this.userService.harGyldigHprnummerEllerPseudonym(this.nyObservator);
   }
 
-  kanEndres(observator: Bruker) {
+  kanEndres(observator: User) {
     return observator.fornavn.length > 0
       && observator.etternavn.length > 0
-      && this.brukerService.harGyldigHprnummerEllerPseudonym(observator);
+      && this.userService.harGyldigHprnummerEllerPseudonym(observator);
   }
 
   avbrytRedigering($event: Event = null) {
@@ -160,13 +160,13 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
 
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Bruker) => any;
+    let propertyOf: (x: User) => any;
     switch ($event.columnName) {
       case "Fornavn":
-        propertyOf = (x: Bruker) => x.fornavn;
+        propertyOf = (x: User) => x.fornavn;
         break;
       case "Etternavn":
-        propertyOf = (x: Bruker) => x.etternavn;
+        propertyOf = (x: User) => x.etternavn;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -174,7 +174,7 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Bruker, b: Bruker) => {
+    const sortFunc = (a: User, b: User) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

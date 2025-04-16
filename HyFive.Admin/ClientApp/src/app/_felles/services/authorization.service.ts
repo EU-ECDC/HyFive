@@ -14,12 +14,12 @@ export class AuthorizationService {
   }
 
   getBruker(): Observable<InnloggetBruker> {
-    return this.http.get<InnloggetBruker>('/account').pipe(tap(bruker => {
+    return this.http.get<InnloggetBruker>('/account').pipe(tap(user => {
       let valgtRolle = this.hentValgtRolle();
       if (!valgtRolle) {
-        if (bruker.erFhiAdmin) {
+        if (user.erFhiAdmin) {
           this.lagreValgtRolle(AuthorizedRole.Administrator);
-        } else if (bruker.erKoordinator) {
+        } else if (user.erKoordinator) {
           this.lagreValgtRolle(AuthorizedRole.Coordinator);
         }
       }
@@ -27,13 +27,13 @@ export class AuthorizationService {
   }
 
   getRoller(): Observable<AuthorizedRole[]> {
-    return this.getBruker().pipe(map(bruker => {
+    return this.getBruker().pipe(map(user => {
       const authorizedRoles: AuthorizedRole[] = [];
-      if (bruker.erFhiAdmin) {
+      if (user.erFhiAdmin) {
         authorizedRoles.push(AuthorizedRole.Administrator);
       }
       
-      if (bruker.erKoordinator) {
+      if (user.erKoordinator) {
         authorizedRoles.push(AuthorizedRole.Coordinator);
       }
 

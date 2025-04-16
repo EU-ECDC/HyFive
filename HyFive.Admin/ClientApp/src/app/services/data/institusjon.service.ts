@@ -6,7 +6,7 @@ import { Institusjon } from '../../models/api/Institusjon';
 import { OpprettInstitusjonRequest } from '../../models/api/OpprettInstitusjonRequest';
 import { InstitusjonType } from '../../models/api/InstitusjonType';
 import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { Bruker } from '../../models/api/Bruker';
+import { User } from '../../models/api/User';
 import { Avdeling } from "../../models/api/Avdeling";
 import { Localstoragepaths } from '../../_felles/konstanter/localstoragepaths';
 
@@ -42,14 +42,14 @@ export class InstitusjonService {
     return this.hentValgtInstitusjonId();
   }
 
-  hentObservatorer(id: number): Observable<Bruker[]> {
+  hentObservatorer(id: number): Observable<User[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/observatorer`;
-    return this.http.get<Bruker[]>(url);
+    return this.http.get<User[]>(url);
   }
 
-  hentKoordinatorer(id: number): Observable<Bruker[]> {
+  hentKoordinatorer(id: number): Observable<User[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/koordinatorer`;
-    return this.http.get<Bruker[]>(url);
+    return this.http.get<User[]>(url);
   }
 
   hentAvdelinger(id: number): Observable<Avdeling[]> {

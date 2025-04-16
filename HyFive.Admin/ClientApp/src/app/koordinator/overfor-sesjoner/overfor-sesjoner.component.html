@@ -8,7 +8,7 @@
               <option [ngValue]="null">Alle</option>
               <option *ngFor="let observator of observatorer" [ngValue]="observator.id">
                 {{observator.fornavn}} {{observator.etternavn}}
-                <ng-container *ngIf="observator.erDeaktivert">(deaktivert bruker)</ng-container>
+                <ng-container *ngIf="observator.erDeaktivert">(deaktivert user)</ng-container>
               </option>
             </select>
           </div>

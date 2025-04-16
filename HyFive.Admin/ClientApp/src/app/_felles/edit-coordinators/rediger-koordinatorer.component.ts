@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { InstitusjonService } from '../../services/data/institusjon.service';
-import { BrukerService } from '../../services/data/bruker.service';
+import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Bruker } from '../../models/api/Bruker';
+import { User } from '../../models/api/User';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../services/authorization.service';
 import { AuthorizedRole } from '../authorization/authorized-role';
@@ -16,17 +16,17 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
 
   @Input() institusjonId: 0;
-  koordinatorer: Bruker[];
+  koordinatorer: User[];
 
-  koordinatorSomEndres: Bruker = null;
-  nyKoordinator: Bruker = null;
+  koordinatorSomEndres: User = null;
+  nyKoordinator: User = null;
   kanSlette = false;
   sokeord: string = '';
-  filtrerteKoordinatorer: Bruker[];
+  filtrerteKoordinatorer: User[];
 
   constructor(
     private institusjonService: InstitusjonService,
-    private brukerService: BrukerService,
+    private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
@@ -76,7 +76,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   }
 
   opprettKoordinator() {
-    this.brukerService.opprettKoordinator(this.nyKoordinator).subscribe(
+    this.userService.opprettKoordinator(this.nyKoordinator).subscribe(
       () => {
         this.toastrService.success('Koordinator og observatør opprettet');
       },
@@ -85,15 +85,15 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
     );
   }
 
-  setKoordinatorSomEndres(koordinator: Bruker) {
+  setKoordinatorSomEndres(koordinator: User) {
     if (this.koordinatorSomEndres?.id == koordinator.id) return;
     this.avbrytRedigering();
     this.koordinatorSomEndres = JSON.parse(JSON.stringify(koordinator));
   }
 
-  oppdaterKoordinator(koordinator: Bruker) {
-    this.brukerService.oppdaterKoordinator(koordinator).subscribe(
-      (oppdatertBruker) => {
+  oppdaterKoordinator(koordinator: User) {
+    this.userService.oppdaterKoordinator(koordinator).subscribe(
+      (oppdatertUser) => {
         this.toastrService.success('Koordinator oppdatert');
         this.lastKoordinatorer();
       },
@@ -102,8 +102,8 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
     );
   }
 
-  slettKoordinator(koordinator: Bruker) {
-    this.brukerService.slettKoordinator(koordinator.id).subscribe(
+  slettKoordinator(koordinator: User) {
+    this.userService.slettKoordinator(koordinator.id).subscribe(
       () => this.toastrService.success('Koordinator slettet'),
       (error) => {
         if (error.error.includes('NotSupportedException')) {
@@ -120,16 +120,16 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   kanOpprettes() {
     return this.nyKoordinator.fornavn.length > 0
       && this.nyKoordinator.etternavn.length > 0
-      && this.brukerService.harGyldigHprnummerEllerPseudonym(this.nyKoordinator);
+      && this.userService.harGyldigHprnummerEllerPseudonym(this.nyKoordinator);
   }
 
-  kanEndres(koordinator: Bruker) {
+  kanEndres(koordinator: User) {
     return koordinator.fornavn.length > 0
       && koordinator.etternavn.length > 0
-      && this.brukerService.harGyldigHprnummerEllerPseudonym(koordinator);
+      && this.userService.harGyldigHprnummerEllerPseudonym(koordinator);
   }
 
-  identPseudonymEndret(koordinator: Bruker, identPseudonym: string) {
+  identPseudonymEndret(koordinator: User, identPseudonym: string) {
     koordinator.identPseudonym = identPseudonym;
   }
 
@@ -150,13 +150,13 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Bruker) => any;
+    let propertyOf: (x: User) => any;
     switch ($event.columnName) {
       case "Fornavn":
-        propertyOf = (x: Bruker) => x.fornavn;
+        propertyOf = (x: User) => x.fornavn;
         break;
       case "Etternavn":
-        propertyOf = (x: Bruker) => x.etternavn;
+        propertyOf = (x: User) => x.etternavn;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -164,7 +164,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Bruker, b: Bruker) => {
+    const sortFunc = (a: User, b: User) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

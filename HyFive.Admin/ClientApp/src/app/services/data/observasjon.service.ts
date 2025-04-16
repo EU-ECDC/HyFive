@@ -6,7 +6,7 @@ import { InstitusjonOversiktRapport } from '../../models/api/InstitusjonOversikt
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SesjonType } from '../../models/api/SesjonType';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
-import { Bruker } from '../../models/api/Bruker';
+import { User } from '../../models/api/User';
 import {HandsmykkeObservasjon} from "../../models/api/HandsmykkeObservasjon";
 import {HanskeObservasjon} from "../../models/api/HanskeObservasjon";
 import {BeskyttelsesutstyrObservasjon} from "../../models/api/BeskyttelsesutstyrObservasjon";
@@ -61,7 +61,7 @@ export class ObservasjonService {
     return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  hentSesjonerForInstitusjon(institusjonId: number, observator?: Bruker, sesjontype?: SesjonType, fraDato?: Date, tilDato?: Date): Observable<SessionOverviewReport[]> {
+  hentSesjonerForInstitusjon(institusjonId: number, observator?: User, sesjontype?: SesjonType, fraDato?: Date, tilDato?: Date): Observable<SessionOverviewReport[]> {
     const url = `${environment.apiBaseUrl}/v1/observasjon/institusjon`;
     let params = new HttpParams();
 

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="bruker">
+<div class="container" *ngIf="user">
   <div class="row">
     <div class="col-12">
       <h2> <fa-icon [icon]="faUser"></fa-icon> Profil</h2>
@@ -6,17 +6,17 @@
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Navn: {{bruker.navn}}
+      Navn: {{user.navn}}
     </div>
   </div>
-  <div class="row mt-1" *ngIf="bruker.hprNummer">
+  <div class="row mt-1" *ngIf="user.hprNummer">
     <div class="col-12">
-      HPR-nummer: {{bruker.hprNummer}}
+      HPR-nummer: {{user.hprNummer}}
     </div>
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Ident-pseudonym: {{bruker.identPseudonym}}
+      Ident-pseudonym: {{user.identPseudonym}}
     </div>
   </div>
 

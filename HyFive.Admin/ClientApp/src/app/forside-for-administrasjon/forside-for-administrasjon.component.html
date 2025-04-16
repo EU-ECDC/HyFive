@@ -4,18 +4,18 @@
     <app-spinner></app-spinner>
   </div>
   <div class="row">
-    <div class="col" *ngIf="bruker && !laster">
-      <p> Hei, {{bruker?.navn}}.
+    <div class="col" *ngIf="user && !laster">
+      <p> Hei, {{user?.navn}}.
     </div>
   </div>
 
   <div class="row">
     <div class="col-12">
       <div>Velkommen til administrasjon av Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</div>
-      <ng-container *ngIf="!bruker?.erKoordinator && !bruker?.erFhiAdmin">
+      <ng-container *ngIf="!user?.erKoordinator && !user?.erFhiAdmin">
         <div>Du er ikke registeret som koordinator og dermed ikke tilgang til administrasjon av NOST. Ta kontakt med koordinator i din institusjon for tilgang. Hvis du er observatør, gå til nost.fhi.no.</div>
         <div class="mt-3">
-          <i>Ditt pseudonym: {{bruker?.identPseudonym}}</i>
+          <i>Ditt pseudonym: {{user?.identPseudonym}}</i>
         </div>
         <div class="col-12 ml-n3">
           <button class="btn fhi-btn-secondary"

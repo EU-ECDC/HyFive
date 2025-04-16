@@ -13,7 +13,7 @@ import { InstitusjonForKoordinatorEventService } from '../../services/events/ins
 })
 export class ByttInstitusjonComponent implements OnInit {
 
-  bruker: InnloggetBruker = null;
+  user: InnloggetBruker = null;
   roller: string;
   faUser = faUser;
   valgtInstitusjon: InstitusjonRapport = null;
@@ -32,8 +32,8 @@ export class ByttInstitusjonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker: InnloggetBruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getBruker().subscribe((user: InnloggetBruker) => {
+      this.user = user;
       let valgtRolle = this.authorizationService.hentValgtRolle();
       this.initialiser(valgtRolle);
     });

@@ -62,8 +62,8 @@ import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.comp
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
-import { RedigerKoordinatorerComponent } from './_felles/rediger-koordinatorer/rediger-koordinatorer.component';
-import { PseudonymDialogComponent } from './_felles/rediger-koordinatorer/pseudonym-dialog.component';
+import { RedigerKoordinatorerComponent } from './_felles/edit-coordinators/rediger-koordinatorer.component';
+import { PseudonymDialogComponent } from './_felles/edit-coordinators/pseudonym-dialog.component';
 import { EpostComponent } from './fhiadmin/epost/epost.component';
 import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';

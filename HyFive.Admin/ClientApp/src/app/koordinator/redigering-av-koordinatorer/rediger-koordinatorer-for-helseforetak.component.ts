@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InnloggetBruker } from '../../models/api/InnloggetBruker';
 import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 import { KoordinatorForHelseforetak } from '../../models/api/KoordinatorForHelseforetak';
-import { BrukerService } from '../../services/data/bruker.service';
+import { UserService } from '../../services/data/user.service';
 import { HelseforetakService } from '../../services/data/helseforetak.service';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
@@ -28,13 +28,13 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
   dropdownSettings: IDropdownSettings;
   valgteInstitusjoner: InstitusjonRapport[] = [];
-  bruker: InnloggetBruker = null;
+  user: InnloggetBruker = null;
   sokeord: string = '';
   filtrertKoordinatorer: KoordinatorForHelseforetak[];
 
   constructor(
     private helseforetakService: HelseforetakService,
-    private brukerService: BrukerService,
+    private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService,
@@ -47,8 +47,8 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       this.avbrytRedigering();
     });
 
-    this.authorizationService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getBruker().subscribe((user) => {
+      this.user = user;
     });
 
     this.lastKoordinatorer();
@@ -183,9 +183,9 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   erKoordinatorSomEndresLikInnloggetBruker(koordinator: KoordinatorForHelseforetak) {
-    if (this.bruker.hprNummer && this.bruker.hprNummer === koordinator.hprNummer)
+    if (this.user.hprNummer && this.user.hprNummer === koordinator.hprNummer)
       return true;
-    if (this.bruker.identPseudonym && this.bruker.identPseudonym === koordinator.identPseudonym)
+    if (this.user.identPseudonym && this.user.identPseudonym === koordinator.identPseudonym)
       return true;
 
     return false;
@@ -194,14 +194,14 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   kanOpprettes() {
     return this.nyKoordinator.fornavn.length > 0
       && this.nyKoordinator.etternavn.length > 0
-      && this.brukerService.harKoordinatorGyldigHprnummerEllerPseudonym(this.nyKoordinator)
+      && this.userService.harKoordinatorGyldigHprnummerEllerPseudonym(this.nyKoordinator)
       && this.valgteInstitusjoner?.length > 0;
   }
 
   kanEndres(koordinator: KoordinatorForHelseforetak) {
     return koordinator.fornavn.length > 0
       && koordinator.etternavn.length > 0
-      && this.brukerService.harKoordinatorGyldigHprnummerEllerPseudonym(koordinator)
+      && this.userService.harKoordinatorGyldigHprnummerEllerPseudonym(koordinator)
       && this.valgteInstitusjoner?.length > 0;
   }
 

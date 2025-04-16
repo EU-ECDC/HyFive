@@ -5,7 +5,7 @@ import { ObservasjonService } from '../../services/data/observasjon.service';
 import { SesjonType } from '../../models/api/SesjonType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
-import { Bruker } from '../../models/api/Bruker';
+import { User } from '../../models/api/User';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
@@ -32,8 +32,8 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   fraDato: Date = null;
   tilDato: Date = null;
 
-  observatorer: Bruker[] = [];
-  valgtObservator: Bruker = null;
+  observatorer: User[] = [];
+  valgtObservator: User = null;
 
   institusjon: InstitusjonRapport;
 
@@ -75,7 +75,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
   
-  visDeaktivertObservatorerNedest(observatorer: Bruker[]): Bruker[] {
+  visDeaktivertObservatorerNedest(observatorer: User[]): User[] {
     var observatorerListe = observatorer.filter(o => o.erDeaktivert === false);
     var observatorerSomErDeaktivert = observatorer.filter(o => o.erDeaktivert);
     observatorerListe.push.apply(observatorerListe, observatorerSomErDeaktivert);
@@ -151,7 +151,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     return this.sessionsCoordinator.some(s => s.erValgt);
   }
 
-  compareFornavnForBrukere(a: Bruker, b: Bruker): number {
+  compareFornavnForBrukere(a: User, b: User): number {
     if (a.fornavn.toLowerCase() < b.fornavn.toLowerCase()) return -1;
     if (a.fornavn.toLowerCase() > b.fornavn.toLowerCase()) return 1;
     return 0;
