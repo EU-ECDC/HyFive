@@ -4,11 +4,11 @@ import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 import { ObservasjonService } from '../../services/data/observasjon.service';
 import { SesjonType } from '../../models/api/SesjonType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
+import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { Bruker } from '../../models/api/Bruker';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { OverforingstatusTypeKonstanter } from '../../models/api/OverforingstatusTypeKonstanter';
+import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
 import { Institusjon } from '../../models/api/Institusjon';
 import { forEach } from 'lodash-es';
 
@@ -40,9 +40,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   institusjonerAlternativer: InstitusjonRapport[] = [];
   valgteInstitusjonAlternativer: number = null;
 
-  sesjoner: SesjonOversiktRapport[] = [];
-  sesjonerKoordinator: SesjonOversiktRapport[] = [];
-  sesjonerFHI: SesjonOversiktRapport[] = [];
+  sessions: SessionOverviewReport[] = [];
+  sessionsCoordinator: SessionOverviewReport[] = [];
+  sessionsFHI: SessionOverviewReport[] = [];
   laster: boolean = false;
   sokGjort: boolean = false;
 
@@ -93,21 +93,21 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     ).subscribe((resultater) => {
       this.laster = false;
       this.sokGjort = true;
-      this.sesjoner = resultater;
+      this.sessions = resultater;
       this.oppdaterLister();
     })
   }
 
   oppdaterLister() {
-    this.sesjonerKoordinator = this.sesjoner.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilKoordinator);
-    this.sesjonerFHI = this.sesjoner.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilFhi);
+    this.sessionsCoordinator = this.sessions.filter(x => x.overforingstatus.kode === TransferstatusTypeConstants.OverfortTilKoordinator);
+    this.sessionsFHI = this.sessions.filter(x => x.overforingstatus.kode === TransferstatusTypeConstants.OverfortTilFhi);
   }
 
   overfor(sesjonId) {
     this.laster = true;
     this.observasjonService.overforSesjonTilFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
-        this.sesjoner.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
+        this.sessions.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
         this.oppdaterLister();
         this.laster = false;
@@ -117,11 +117,11 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   merkAlleSesjoner() {
-    this.sesjonerKoordinator.forEach(s => s.erValgt = true);
+    this.sessionsCoordinator.forEach(s => s.erValgt = true);
   }
 
   overforSesjoner() {
-    let valgteSesjoner = this.sesjonerKoordinator.filter(s => s.erValgt);
+    let valgteSesjoner = this.sessionsCoordinator.filter(s => s.erValgt);
   
     valgteSesjoner.forEach(sesjon => {
       this.overfor(sesjon.id);
@@ -138,9 +138,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
 
   nullstillSokeresultat() {
     this.sokGjort = false;
-    this.sesjonerKoordinator = [];
-    this.sesjonerFHI = [];
-    this.sesjoner = [];
+    this.sessionsCoordinator = [];
+    this.sessionsFHI = [];
+    this.sessions = [];
   }
 
   observasjonSlettet(): void {
@@ -148,7 +148,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   harVelgtMinstEnSesjon(): boolean {
-    return this.sesjonerKoordinator.some(s => s.erValgt);
+    return this.sessionsCoordinator.some(s => s.erValgt);
   }
 
   compareFornavnForBrukere(a: Bruker, b: Bruker): number {

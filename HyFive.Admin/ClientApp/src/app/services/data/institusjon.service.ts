@@ -33,12 +33,12 @@ export class InstitusjonService {
   }
 
   hentValgtInstitusjonId(): number | null {
-    const valgtInstitusjonIdString = localStorage.getItem(Localstoragepaths.ValgtInstitusjon);
+    const valgtInstitusjonIdString = localStorage.getItem(Localstoragepaths.SelectedInstitution);
     return valgtInstitusjonIdString ? parseInt(valgtInstitusjonIdString) : null;
   }
 
   oppdaterValgtInstitusjonId(institusjonId: number): number | null {
-    localStorage.setItem(Localstoragepaths.ValgtInstitusjon, JSON.stringify(institusjonId));
+    localStorage.setItem(Localstoragepaths.SelectedInstitution, JSON.stringify(institusjonId));
     return this.hentValgtInstitusjonId();
   }
 

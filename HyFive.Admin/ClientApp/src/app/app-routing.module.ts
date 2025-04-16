@@ -24,7 +24,7 @@ import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/ned
 import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
 import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
 
-const defaultPath = `/${UrlPaths.forside}`;
+const defaultPath = `/${UrlPaths.frontPage}`;
 
 const routes: Routes = [
   {
@@ -33,93 +33,93 @@ const routes: Routes = [
     redirectTo: defaultPath
   },
   {
-    path: UrlPaths.forside,
+    path: UrlPaths.frontPage,
     component: ForsideForAdministrasjonComponent
   },
   {
-    path: UrlPaths.observasjoner,
+    path: UrlPaths.observations,
     component: OversiktObservasjonerComponent
   },
   {
-    path: UrlPaths.observasjonerAvdeling,
+    path: UrlPaths.observationsDepartment,
     component: OversiktAvdelingSesjonerComponent
   },
   {
-    path: UrlPaths.overforSesjoner,
+    path: UrlPaths.oppositeSessions,
     component: OverforSesjonerComponent
   },
   {
-    path: UrlPaths.redigeringAvInstitusjoner,
+    path: UrlPaths.editingByInstitutions,
     component: RedigeringAvInstitusjonerComponent
   },
   {
-    path: UrlPaths.redigeringAvKodeverk,
+    path: UrlPaths.editingByCodeworks,
     component: RedigeringAvKodeverkComponent
   },
   {
-    path: UrlPaths.redigeringAvAvdelinger,
+    path: UrlPaths.editingOfDepartments,
     component: RedigeringAvAvdelingerComponent
   },
   {
-    path: UrlPaths.redigeringAvKlinikker,
+    path: UrlPaths.editingByClinics,
     component: RedigeringAvKlinikkerComponent
   },
   {
-    path: UrlPaths.redigeringAvKoordinatorer,
+    path: UrlPaths.editingByCoordinators,
     component: RedigeringAvKoordinatorerComponent
   },
   {
-    path: UrlPaths.redigeringAvObservatorer,
+    path: UrlPaths.editingByObservers,
     component: RedigeringAvObservatorerComponent
   },
   {
-    path: UrlPaths.redigeringAvPredefinertkommentarer,
+    path: UrlPaths.editingPredefinedComments,
     component: RedigeringAvPredefinertKommentarerComponent
   },
   {
-    path: UrlPaths.profil,
+    path: UrlPaths.profile,
     component: ProfilsideComponent
   },
   {
-    path: UrlPaths.institusjoner,
+    path: UrlPaths.institutions,
     component: RedigeringAvInstitusjonerComponent
   },
   {
-    path: UrlPaths.fhiAdminOversikt,
+    path: UrlPaths.fhiAdminOverview,
     component: OversiktFhiAdminComponent
   },
   {
-    path: UrlPaths.foresporsel,
+    path: UrlPaths.request,
     component: ForesporselComponent
   },
   {
-    path: UrlPaths.helseforetak,
+    path: UrlPaths.healthcareCompany,
     component: HelseforetakComponent
   },
   {
-    path: UrlPaths.epost,
+    path: UrlPaths.email,
     component: EpostComponent
   },
   {
-    path: UrlPaths.rapporter,
+    path: UrlPaths.reports,
     component: RapporterComponent,
     children: [
       {
-        path: UrlPaths.fireindikasjonerEtterlevelse, component: EtterlevelseComponent
+        path: UrlPaths.fourindicationsCompliance, component: EtterlevelseComponent
       },
       {
-        path: UrlPaths.fireindikasjonerEtterlevelsePdf, component: EtterlevelseFireIndikasjonerPdfComponent
+        path: UrlPaths.fourindicationsCompliancePdf, component: EtterlevelseFireIndikasjonerPdfComponent
       },
       {
-        path: UrlPaths.handsmykkerEtterlevelsePdf, component: EtterlevelseHandsmykkerPdfComponent
+        path: UrlPaths.handjewelryCompliancePdf, component: EtterlevelseHandsmykkerPdfComponent
       },
       {
-        path: UrlPaths.nedlastingExcel, component: NedlastingExcelComponent
+        path: UrlPaths.downloadExcel, component: NedlastingExcelComponent
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fireindikasjonerEtterlevelsePdf
+        redirectTo: UrlPaths.fourindicationsCompliancePdf
       }
     ]
   },

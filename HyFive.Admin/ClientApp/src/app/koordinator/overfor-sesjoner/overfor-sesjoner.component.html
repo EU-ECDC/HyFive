@@ -29,7 +29,7 @@
           
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn btn-md fhi-btn-link" [disabled]="sesjonerKoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sesjoner</button>
+            <button class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sesjoner</button>
           </div>
 
           <div class="form-group col col-md-2">
@@ -42,7 +42,7 @@
 
   <app-spinner *ngIf="laster"></app-spinner>
 
-  <div class="container mt-5" *ngIf="!laster && sokGjort && !sesjoner.length">
+  <div class="container mt-5" *ngIf="!laster && sokGjort && !sessions.length">
     <div class="row">
       <div class="col text-center">
         Ingen sesjoner funnet.
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div class="container" *ngIf="sesjoner.length">
+  <div class="container" *ngIf="sessions.length">
 
     <div class="row my-2">
       <div class="col">
@@ -61,26 +61,26 @@
       </div>
     </div>
 
-    <app-oversikt-sesjoner-visning [sesjoner]="sesjonerKoordinator"
-                                   [isOverforingOversikt]="true"
-                                   (overforEvent)="overfor($event)"
-                                   (observasjonOppdatertEvent)="hentSesjoner()"
+    <app-overview-sessions-view [session]="sesjonerKoordinator"
+                                   [isTransferOverview]="true"
+                                   (oppositeEvent)="overfor($event)"
+                                   (observationUpdatedEvent)="hentSesjoner()"
                                    (observasjonSlettetEvent)="hentSesjoner()">
-    </app-oversikt-sesjoner-visning>
+    </app-overview-sessions-view>
 
   </div>
 
 
-  <div class="container" *ngIf="sesjonerFHI.length">
+  <div class="container" *ngIf="sessionsFHI.length">
     <div class="row mb-2">
       <div class="col">
         <h5>Overførte sesjoner</h5>
       </div>
     </div>
 
-    <app-oversikt-sesjoner-visning [sesjoner]="sesjonerFHI"
-                                   [isOverforingOversikt]="true">
-    </app-oversikt-sesjoner-visning>
+    <app-overview-sessions-view [session]="sesjonerFHI"
+                                   [isTransferOverview]="true">
+    </app-overview-sessions-view>
   </div>
   <div class="row" *ngIf="laster">
     <app-spinner class="col-12">Laster sesjoner</app-spinner>

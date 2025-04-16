@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { InstitusjonOversiktRapport } from '../../models/api/InstitusjonOversiktRapport';
-import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
+import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SesjonType } from '../../models/api/SesjonType';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
 import { Bruker } from '../../models/api/Bruker';
@@ -40,7 +40,7 @@ export class ObservasjonService {
     return this.http.get<InstitusjonOversiktRapport[]>(url, { params: params });
   }
 
-  hentSesjonerForAvdeling(avdelingsid: number, sesjontype: SesjonType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<SesjonOversiktRapport[]> {
+  hentSesjonerForAvdeling(avdelingsid: number, sesjontype: SesjonType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<SessionOverviewReport[]> {
     const url = `${environment.apiBaseUrl}/v1/observasjon/avdeling`;
     let params = new HttpParams();
 
@@ -58,10 +58,10 @@ export class ObservasjonService {
 
     params = params.append("rolle", valgtRolle.toString());
 
-    return this.http.get<SesjonOversiktRapport[]>(url, { params: params });
+    return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  hentSesjonerForInstitusjon(institusjonId: number, observator?: Bruker, sesjontype?: SesjonType, fraDato?: Date, tilDato?: Date): Observable<SesjonOversiktRapport[]> {
+  hentSesjonerForInstitusjon(institusjonId: number, observator?: Bruker, sesjontype?: SesjonType, fraDato?: Date, tilDato?: Date): Observable<SessionOverviewReport[]> {
     const url = `${environment.apiBaseUrl}/v1/observasjon/institusjon`;
     let params = new HttpParams();
 
@@ -79,7 +79,7 @@ export class ObservasjonService {
     if (tilDato)
       params = params.append("tildato", tilDato?.toString());
 
-    return this.http.get<SesjonOversiktRapport[]>(url, { params: params });
+    return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
   overforSesjonTilFHI(institusjonId: number, sesjonId: any) {
@@ -89,7 +89,7 @@ export class ObservasjonService {
     params = params.append("institusjonid", institusjonId?.toString());
     params = params.append("sesjonId", sesjonId.toString());
 
-    return this.http.get<SesjonOversiktRapport>(url, { params: params });
+    return this.http.get<SessionOverviewReport>(url, { params: params });
   }
 
   oppdaterFireIndikasjonerObservasjon(observasjon: FireIndikasjonerObservasjon) : Observable<boolean>{

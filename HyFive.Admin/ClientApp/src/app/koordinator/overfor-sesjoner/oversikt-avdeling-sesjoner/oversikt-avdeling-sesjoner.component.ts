@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
 import { SesjonType } from '../../../models/api/SesjonType';
 import { ObservasjonService } from '../../../services/data/observasjon.service';
-import { SesjonOversiktRapport } from '../../../models/api/SesjonOversiktRapport';
+import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
 import { AvdelingService } from '../../../services/data/avdeling.service';
@@ -31,7 +31,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   ];
 
   avdeling: Avdeling;
-  sesjoner: SesjonOversiktRapport[] = [];
+  sessions: SessionOverviewReport[] = [];
   laster: boolean;
   valgtRolle: AuthorizedRole;
 
@@ -49,13 +49,13 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        if (!params[QueryParameters.Avdelingsid]) this.router.navigate([`/${UrlPaths.observasjoner}`]);
+        if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype]) || null;
-        this.fraDato = params[QueryParameters.FraDato] || null;
-        this.tilDato = params[QueryParameters.TilDato] || null;
-        this.avdelingsid = parseInt(params[QueryParameters.Avdelingsid]) || null;
-        this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.Institusjonider]) || null;
+        this.valgtSesjontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.fraDato = params[QueryParameters.FromDate] || null;
+        this.tilDato = params[QueryParameters.ToDate] || null;
+        this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
         this.hentAvdeling();
         this.hentSesjonerForAvdeling();
@@ -79,7 +79,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
       this.tilDato,
       this.valgtRolle
     ).subscribe((resultater) => {
-      this.sesjoner = resultater;
+      this.sessions = resultater;
 
       this.laster = false;
     });
@@ -94,7 +94,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   }
 
   navigerTilObservasjonerForInstitusjoner() {
-    this.router.navigate([`/${UrlPaths.observasjoner}`], {
+    this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         sesjontype: this.valgtSesjontype,
         fra: this.fraDato,

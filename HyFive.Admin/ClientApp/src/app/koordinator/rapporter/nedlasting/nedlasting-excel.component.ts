@@ -27,7 +27,7 @@ export class NedlastingExcelComponent {
   ngOnInit(): void {
     this.valgtRolle = this.authorizationService.hentValgtRolle();
 
-    if (this.valgtRolle === AuthorizedRole.Koordinator) {
+    if (this.valgtRolle === AuthorizedRole.Coordinator) {
       this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
       this.hentInstitusjon(this.valgtInstitusjonId)
     }

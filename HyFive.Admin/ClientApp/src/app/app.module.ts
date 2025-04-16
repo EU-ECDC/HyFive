@@ -32,7 +32,7 @@ import { RedigeringAvHanskemedindikasjontyperComponent } from './fhiadmin/redige
 import { RedigeringAvHanskeutenindikasjontyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-hanskeutenindikasjontyper/redigering-av-hanskeutenindikasjontyper.component';
 import { RedigeringAvHandhygieneetterhanskebruktyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-handhygieneetterhanskebruktyper/redigering-av-handhygieneetterhanskebruktyper.component';
 import { OverforSesjonerComponent } from './koordinator/overfor-sesjoner/overfor-sesjoner.component';
-import { OversiktSesjonerVisningComponent } from './_felles/oversikt-sesjoner-visning/oversikt-sesjoner-visning.component';
+import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { RedigeringAvAvdelingstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-avdelingstyper/redigering-av-avdelingstyper.component';
 import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klinikker/redigering-av-klinikker.component';
@@ -56,7 +56,7 @@ import { RedigerBeskyttelsesutstyrObservasjonerComponent } from "./koordinator/r
 import { RedigerBeskyttelsesutstyrObservasjonComponent } from './koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
 import {BeskyttelsesutstyrModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
 import { SokHprnummerLenkeComponent } from './_felles/sok-hprnummer-lenke/sok-hprnummer-lenke.component';
-import { RedigerSesjonsdataComponent } from './_felles/oversikt-sesjoner-visning/rediger-sesjonsdata/rediger-sesjonsdata.component';
+import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { ForesporselComponent } from "./koordinator/foresporsel/foresporsel.component";
 import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.component';
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
@@ -109,7 +109,7 @@ export const httpInterceptorProviders = [
     RedigeringAvHanskeutenindikasjontyperComponent,
     RedigeringAvHandhygieneetterhanskebruktyperComponent,
     OverforSesjonerComponent,
-    OversiktSesjonerVisningComponent,
+    OverviewSessionsViewComponent,
     RedigeringAvPredefinertKommentarerComponent,
     RedigeringAvAvdelingstyperComponent,
     RedigeringAvKlinikkerComponent,
@@ -130,7 +130,7 @@ export const httpInterceptorProviders = [
     RedigerBeskyttelsesutstyrObservasjonComponent,
     BeskyttelsesutstyrModalComponent,
     SokHprnummerLenkeComponent,
-    RedigerSesjonsdataComponent,
+    EditSessionDataComponent,
     ForesporselComponent,
     HelseforetakComponent,
     RedigeringAvKoordinatorerComponent,

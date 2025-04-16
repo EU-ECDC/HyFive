@@ -20,7 +20,7 @@ export class AuthorizationService {
         if (bruker.erFhiAdmin) {
           this.lagreValgtRolle(AuthorizedRole.Administrator);
         } else if (bruker.erKoordinator) {
-          this.lagreValgtRolle(AuthorizedRole.Koordinator);
+          this.lagreValgtRolle(AuthorizedRole.Coordinator);
         }
       }
     }));
@@ -34,7 +34,7 @@ export class AuthorizationService {
       }
       
       if (bruker.erKoordinator) {
-        authorizedRoles.push(AuthorizedRole.Koordinator);
+        authorizedRoles.push(AuthorizedRole.Coordinator);
       }
 
       return authorizedRoles;
@@ -46,13 +46,13 @@ export class AuthorizationService {
     window.location.href = '/account/logout';
   }
 
-  lagreValgtRolle(rolle: AuthorizedRole): AuthorizedRole | null {
-    localStorage.setItem(Localstoragepaths.ValgtRolle, JSON.stringify(rolle));
+  lagreValgtRolle(role: AuthorizedRole): AuthorizedRole | null {
+    localStorage.setItem(Localstoragepaths.SelectedRole, JSON.stringify(role));
     return this.hentValgtRolle();
   }
 
   hentValgtRolle(): AuthorizedRole {
-    const valgtRolleString = localStorage.getItem(Localstoragepaths.ValgtRolle);
+    const valgtRolleString = localStorage.getItem(Localstoragepaths.SelectedRole);
     return valgtRolleString ? parseInt(valgtRolleString) : null;
   }
 

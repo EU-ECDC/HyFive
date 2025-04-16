@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
 
   prosjektnavn = 'NOST - Administrasjon';
   isMobile: boolean;
-  profilRoute = UrlPaths.profil;
+  profilRoute = UrlPaths.profile;
 
 
   constructor(

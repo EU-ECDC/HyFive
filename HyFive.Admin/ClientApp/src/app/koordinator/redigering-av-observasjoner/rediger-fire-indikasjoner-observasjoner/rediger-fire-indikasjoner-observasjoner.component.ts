@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OverforingstatusTypeKonstanter } from '../../../models/api/OverforingstatusTypeKonstanter';
+import { TransferstatusTypeConstants } from '../../../models/api/TransferstatusTypeConstants';
 import { SesjonType } from '../../../models/api/SesjonType';
 import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
 import { Rolle } from '../../../models/api/Rolle';
@@ -31,7 +31,7 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
   sekunderBrukt: number;
 
   kanLagres = true;
-  overforingstatusTypeKonstanter = OverforingstatusTypeKonstanter;
+  transferstatusTypeConstants = TransferstatusTypeConstants;
   SesjonType = SesjonType;
 
   constructor(

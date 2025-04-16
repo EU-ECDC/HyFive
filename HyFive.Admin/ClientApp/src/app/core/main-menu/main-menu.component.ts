@@ -13,7 +13,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   @Input() prosjektnavn: string;
 
-  profilRoute = `/${UrlPaths.profil}`;
+  profilRoute = `/${UrlPaths.profile}`;
   faBars = faBars;
   faTimes = faTimes;
   mainMenuIsOpen = false;
@@ -72,16 +72,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   // Dersom Observatør: vis bare Forside
   private lagGjeldendeMenyvalg() {
 
-    let erAdmin = this.authorizedRoles.find(p => p === AuthorizedRole.Administrator);
-    let erKoordinator = this.authorizedRoles.find(p => p === AuthorizedRole.Koordinator);
+    let isAdmin = this.authorizedRoles.find(p => p === AuthorizedRole.Administrator);
+    let isCoordinator = this.authorizedRoles.find(p => p === AuthorizedRole.Coordinator);
     let valgtRolle: AuthorizedRole = null;
 
-    if (erAdmin) {
+    if (isAdmin) {
       valgtRolle = AuthorizedRole.Administrator;
-    } else if (erKoordinator) {
-      valgtRolle = AuthorizedRole.Koordinator;
+    } else if (isCoordinator) {
+      valgtRolle = AuthorizedRole.Coordinator;
     } else {
-      valgtRolle = AuthorizedRole.Observator;
+      valgtRolle = AuthorizedRole.Observer;
     }
 
     this.gjeldendeMenyvalg = this.alleMenyvalg.filter(menyvalg => {
@@ -97,79 +97,79 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private lagAlleMenyvalg() {
     this.alleMenyvalg = [
       {
-        name: 'Forside',
-        routerLink: `/${UrlPaths.forside}`,
-        roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator, AuthorizedRole.Observator]
+        name: 'FrontPage',
+        routerLink: `/${UrlPaths.frontPage}`,
+        roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator, AuthorizedRole.Observer]
       },
       {
-        name: 'Observasjoner',
-        routerLink: `/${UrlPaths.observasjoner}`,
-        roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator]
+        name: 'Observations',
+        routerLink: `/${UrlPaths.observations}`,
+        roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
-        name: 'Overfør sesjoner til FHI',
-        routerLink: `/${UrlPaths.overforSesjoner}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Transfer sessions to FHI',
+        routerLink: `/${UrlPaths.oppositeSessions}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Institusjoner',
-        routerLink: `/${UrlPaths.redigeringAvInstitusjoner}`,
+        name: 'Institutions',
+        routerLink: `/${UrlPaths.editingByInstitutions}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Avdelinger',
-        routerLink: `/${UrlPaths.redigeringAvAvdelinger}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Departments',
+        routerLink: `/${UrlPaths.editingOfDepartments}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Klinikker',
-        routerLink: `/${UrlPaths.redigeringAvKlinikker}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Clinics',
+        routerLink: `/${UrlPaths.editingByClinics}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Koordinatorer',
-        routerLink: `/${UrlPaths.redigeringAvKoordinatorer}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Coordinators',
+        routerLink: `/${UrlPaths.editingByCoordinators}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Observatører',
-        routerLink: `/${UrlPaths.redigeringAvObservatorer}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Observers',
+        routerLink: `/${UrlPaths.editingByObservers}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Kodeverk',
-        routerLink: `/${UrlPaths.redigeringAvKodeverk}`,
+        name: 'Coding works',
+        routerLink: `/${UrlPaths.editingByCodeworks}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'FHI Administratorer',
-        routerLink: `/${UrlPaths.fhiAdminOversikt}`,
+        name: 'FHI Administrators',
+        routerLink: `/${UrlPaths.fhiAdminOverview}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Forespørsler',
-        routerLink: `/${UrlPaths.foresporsel}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Requests',
+        routerLink: `/${UrlPaths.request}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Predefinert kommentarer',
-        routerLink: `/${UrlPaths.redigeringAvPredefinertkommentarer}`,
-        roles: [AuthorizedRole.Koordinator]
+        name: 'Predefined comments',
+        routerLink: `/${UrlPaths.editingPredefinedComments}`,
+        roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Helseforetak',
-        routerLink: `/${UrlPaths.helseforetak}`,
+        name: 'Health company',
+        routerLink: `/${UrlPaths.healthcareCompany}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Epost',
-        routerLink: `/${UrlPaths.epost}`,
+        name: 'Email',
+        routerLink: `/${UrlPaths.email}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-       name: 'Rapporter',
-       routerLink: `/${UrlPaths.rapporter}`,
-       roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator]
+       name: 'Reports',
+       routerLink: `/${UrlPaths.reports}`,
+       roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
     ];
   }

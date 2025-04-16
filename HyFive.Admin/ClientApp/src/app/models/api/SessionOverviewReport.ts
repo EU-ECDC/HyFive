@@ -5,7 +5,7 @@
 import { Avdeling } from './Avdeling';
 import { ObservasjonOversiktRapport } from './ObservasjonOversiktRapport';
 
-export interface SesjonOversiktRapport
+export interface SessionOverviewReport
 {
 	id: any;
 	type: string;
@@ -13,7 +13,7 @@ export interface SesjonOversiktRapport
 	avdeling: Avdeling;
 	starttidspunkt: any;
 	opprettettidspunkt: any;
-	kommentar: string;
+	comment: string;
 	overforingstatus: any;
 	observasjoner: ObservasjonOversiktRapport[];
 	erValgt: boolean;

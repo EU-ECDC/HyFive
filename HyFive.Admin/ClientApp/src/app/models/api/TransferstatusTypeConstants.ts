@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export class OverforingstatusTypeKonstanter
+export class TransferstatusTypeConstants
 {
 	public static OverfortTilFhi: string = `OVERFORT_TIL_FHI`;
 	public static OverfortTilKoordinator: string = `OVERFORT_TIL_KOORDINATOR`;

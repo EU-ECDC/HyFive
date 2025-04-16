@@ -2,10 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface OppdaterSesjonRequest
+export interface UpdateSessionRequest
 {
-	sesjonId: any;
-	institusjonId: number;
-	kommentar: string;
-	starttidspunkt: any;
+	sessionId: any;
+	institutionId: number;
+	comment: string;
+	startTime: any;
 }

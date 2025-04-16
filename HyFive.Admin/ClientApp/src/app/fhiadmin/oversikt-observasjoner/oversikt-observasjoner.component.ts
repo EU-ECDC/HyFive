@@ -70,18 +70,18 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype], 10) || null;
-        this.fraDato = params[QueryParameters.FraDato] || null;
-        this.tilDato = params[QueryParameters.TilDato] || null;
+        this.valgtSesjontype = parseInt(params[QueryParameters.SessionType], 10) || null;
+        this.fraDato = params[QueryParameters.FromDate] || null;
+        this.tilDato = params[QueryParameters.ToDate] || null;
         if (this.valgtRolle === AuthorizedRole.Administrator)
-          this.valgtInstitusjonId = params[QueryParameters.InstitusjonsidISok] || null;
+          this.valgtInstitusjonId = params[QueryParameters.InstitutionIdIsOk] || null;
         this.hentInstitusjonerMedSesjoner();
       });
 
     if (this.valgtRolle === AuthorizedRole.Administrator) {
       this.kanVelgeInstitusjon = true;
       this.hentInstitusjon();
-    } else if (this.valgtRolle === AuthorizedRole.Koordinator) {
+    } else if (this.valgtRolle === AuthorizedRole.Coordinator) {
       this.kanVelgeInstitusjon = false;
     }
   }
@@ -91,7 +91,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   hentInstitusjonId(): string {
-    if(this.valgtRolle === AuthorizedRole.Koordinator)
+    if(this.valgtRolle === AuthorizedRole.Coordinator)
       return this.institusjonService.hentValgtInstitusjonId().toString();
     return "null";
   }
@@ -136,7 +136,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   navigerTilObservasjonerForAvdelingen(avdeling) {
-    this.router.navigate([`/${UrlPaths.observasjonerAvdeling}`], {
+    this.router.navigate([`/${UrlPaths.observationsDepartment}`], {
       queryParams: this.trim({
         avdelingsid: avdeling.id,
         sesjontype: this.valgtSesjontype,

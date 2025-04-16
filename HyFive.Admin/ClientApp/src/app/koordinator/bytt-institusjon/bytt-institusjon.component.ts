@@ -53,7 +53,7 @@ export class ByttInstitusjonComponent implements OnInit {
   private initialiser(valgtRolle: AuthorizedRole) {
     if (valgtRolle === AuthorizedRole.Administrator) {
       this.visByttInstitusjonBoks = false;
-    } else if (valgtRolle === AuthorizedRole.Koordinator) {
+    } else if (valgtRolle === AuthorizedRole.Coordinator) {
       this.institusjonService.hentInstitusjonerForKoordinator().subscribe((institusjoner) => {
         if (institusjoner.length > 0) {
           this.visByttInstitusjonBoks = true;
