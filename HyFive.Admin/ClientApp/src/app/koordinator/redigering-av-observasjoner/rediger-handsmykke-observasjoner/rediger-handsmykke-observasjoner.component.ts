@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
-import {HandsmykkeObservasjon} from "../../../models/api/HandsmykkeObservasjon";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {BraceletObservation} from "../../../models/api/BraceletObservation";
+import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
-import {Rolle} from "../../../models/api/Rolle";
-import {ObservasjonService} from "../../../services/data/observasjon.service";
+import {Role} from "../../../models/api/Role";
+import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
-import {Handsmykkevalg} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
+import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
 import {HandsmykketypeService} from "../../../services/data/handsmykketype.service";
 import {HandsmykkeType} from "../../../models/api/HandsmykkeType";
 
@@ -18,18 +18,18 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
 
-  handsmykkeObservasjonSomEndres: HandsmykkeObservasjon;
-  handsmykkeValg: Handsmykkevalg[] = [];
+  handsmykkeObservasjonSomEndres: BraceletObservation;
+  handsmykkeValg: HandJewelrySelection[] = [];
   handsmykketyper: HandsmykkeType[] = [];
 
   constructor(
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private handsmykketypeService: HandsmykketypeService
@@ -52,10 +52,10 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
     this.handsmykkeValg = this.handsmykketyper.map((t) => {
       return {
-        type: t.kode,
+        type: t.code,
         disabled: false,
-        erValgt: observasjon.handsmykketyper.map(ht => ht.kode).indexOf(t.kode) !== -1,
-        navn: t.navn
+        isSelected: observasjon.handsmykketyper.map(ht => ht.code).indexOf(t.code) !== -1,
+        name: t.name
       };
     })
 
@@ -73,10 +73,10 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
     this.handsmykkeObservasjonSomEndres.kommentar = kommentar;
   }
 
-  oppdaterHandsmykkeObservasjon() {
-    var typer = this.handsmykkeValg.filter(h => h.erValgt).map(hsv => hsv.type)
-    this.handsmykkeObservasjonSomEndres.handsmykker = this.handsmykketyper.filter(h => typer.indexOf(h.kode) !== -1)
-    this.observasjonService.oppdaterHandsmykkeObservasjon(this.handsmykkeObservasjonSomEndres).subscribe(
+  updateHandJewelryObservation() {
+    var typer = this.handsmykkeValg.filter(h => h.isSelected).map(hsv => hsv.type)
+    this.handsmykkeObservasjonSomEndres.handsmykker = this.handsmykketyper.filter(h => typer.indexOf(h.code) !== -1)
+    this.observationService.updateHandJewelryObservation(this.handsmykkeObservasjonSomEndres).subscribe(
       (erOppdatert) => {
         this.handsmykkeObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble oppdatert');
@@ -89,8 +89,8 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
   }
 
-  slettHandsmykkeObservasjon() {
-    this.observasjonService.slettHandsmykkeObservasjon(this.handsmykkeObservasjonSomEndres.id, this.sesjonId).subscribe(
+  deleteHandJewelryObservation() {
+    this.observationService.deleteHandJewelryObservation(this.handsmykkeObservasjonSomEndres.id, this.sesjonId).subscribe(
       () => {
         this.handsmykkeObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble slettet');
@@ -106,7 +106,7 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
     this.handsmykkeObservasjonSomEndres = null;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.handsmykkeObservasjonSomEndres.rolle = rolle;
   }
 }

@@ -42,15 +42,15 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
 
   tomRequest(): OpprettInstitusjonstypeRequest {
     return {
-      kode: null,
-      navn: null
+      code: null,
+      name: null
     }
   }
 
   opprettInstitusjonstype(): void {
     this.institusjonstyperService.opprettInstitusjonstype(this.nyInstitusjonstype).subscribe(
       (opprettetInstitusjonstype) => this.toastrService.success(`Institusjonstype opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av institusjonstype ${this.nyInstitusjonstype.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av institusjonstype ${this.nyInstitusjonstype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyInstitusjonstype = this.tomRequest(); this.lastInstitusjonstyper(); }
     );
   }

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { Institusjon } from '../../models/api/Institusjon';
+import { InstitutionService } from '../../services/data/institution.service';
+import { Institution } from '../../models/api/Institution';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from 'src/app/models/api/User';
-import { SokHjelper } from 'src/app/utils/sokhjelper';
+import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -15,14 +15,14 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class RedigeringAvInstitusjonerComponent implements OnInit {
 
-  institusjonId: number = 0;
-  institusjoner: InstitusjonRapport[] = [];
-  filtrertInstitusjoner: InstitusjonRapport[] = [];
+  institutionId: number = 0;
+  institusjoner: InstitutionReport[] = [];
+  filtrertInstitusjoner: InstitutionReport[] = [];
   sokeord: string = '';
   sokeordPerson: string = '';
   brukere: User[] = [];
 
-  constructor(private institusjonService: InstitusjonService,
+  constructor(private institusjonService: InstitutionService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -31,15 +31,15 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
-        this.institusjonId = params[QueryParameters.id] || 0;
+        this.institutionId = params[QueryParameters.id] || 0;
       }
     );
 
-    this.hentInstitusjoner();
+    this.getInstitutions();
   }
 
-  hentInstitusjoner() {
-    this.institusjonService.hentInstitusjoner().subscribe((resultat) => {
+  getInstitutions() {
+    this.institusjonService.getInstitutions().subscribe((resultat) => {
       this.institusjoner = resultat;
       this.filtrertInstitusjoner = this.institusjoner;
       
@@ -49,22 +49,22 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
     });
   }
 
-  hentBrukere(institusjonId: number) {
-    this.institusjonService.hentObservatorer(institusjonId).subscribe((resultat) => {
+  hentBrukere(institutionId: number) {
+    this.institusjonService.hentObservatorer(institutionId).subscribe((resultat) => {
       this.brukere.push(...resultat);
     });
-    this.institusjonService.hentKoordinatorer(institusjonId).subscribe((resultat) => {
+    this.institusjonService.hentKoordinatorer(institutionId).subscribe((resultat) => {
       this.brukere.push(...resultat);
     });
   }
 
-  navigerTilInstitusjon(institusjonId: number) {
+  navigerTilInstitusjon(institutionId: number) {
 
-    if (institusjonId === 0) {
+    if (institutionId === 0) {
       this.router.navigate([], { relativeTo: this.route });
     }
 
-    const queryParams: Params = { id: institusjonId };
+    const queryParams: Params = { id: institutionId };
     this.router.navigate(
       [],
       {
@@ -74,21 +74,21 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       });
   }
 
-  oppdaterInstitusjon(institusjon: Institusjon) {
+  oppdaterInstitusjon(institusjon: Institution) {
     this.institusjoner[this.institusjoner.map(i => i.id).indexOf(institusjon.id)] = institusjon;
   }
 
-  slettInstitusjon(institusjonId: number) {
-    this.hentInstitusjoner();
-    this.toastrService.success('Slettet institusjon med id: ' + institusjonId, 'Institusjon slettet');
+  slettInstitusjon(institutionId: number) {
+    this.getInstitutions();
+    this.toastrService.success('Slettet institusjon med id: ' + institutionId, 'Institution slettet');
     this.navigerTilInstitusjon(0);
   }
 
   filtrerInstitusjoner(): void {
     if (this.sokeord.length >= 2)
-      this.filtrertInstitusjoner = this.institusjoner.filter(i => i.navn.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.helseforetak?.navn.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.kommune?.navn.toLowerCase().includes(this.sokeord.toLowerCase()));
+      this.filtrertInstitusjoner = this.institusjoner.filter(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
+        i.healthcareCompany?.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
+        i.municipality?.name.toLowerCase().includes(this.sokeord.toLowerCase()));
     else if (this.sokeord.length === 0)
       this.filtrertInstitusjoner = this.institusjoner;
   }
@@ -96,8 +96,8 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   filtrerPersonerPaaInstitusjoner(): void {
     if (this.sokeordPerson.length >= 2) {
       this.filtrertInstitusjoner = this.institusjoner.filter(i => {
-        const personer = SokHjelper.filtrerBrukere(this.sokeordPerson, this.brukere);
-        return personer.some(p => p.institusjonId === i.id);
+        const personer = SearchHelper.filterUsers(this.sokeordPerson, this.brukere);
+        return personer.some(p => p.institutionId === i.id);
       });
     } else if (this.sokeordPerson.length === 0) {
       this.filtrertInstitusjoner = this.institusjoner;
@@ -105,13 +105,13 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Institusjon) => any;
+    let propertyOf: (x: Institution) => any;
     switch ($event.columnName) {
       case "Navn":
-        propertyOf = (x: Institusjon) => x.navn;
+        propertyOf = (x: Institution) => x.name;
         break;
         case "Institusjonstype":
-          propertyOf = (x: Institusjon) => x.institusjontype.navn;
+          propertyOf = (x: Institution) => x.institutionType.name;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -119,7 +119,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Institusjon, b: Institusjon) => {
+    const sortFunc = (a: Institution, b: Institution) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

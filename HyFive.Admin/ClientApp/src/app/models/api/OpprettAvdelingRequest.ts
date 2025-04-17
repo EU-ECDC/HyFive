@@ -4,8 +4,8 @@
 
 export interface OpprettAvdelingRequest
 {
-	navn: string;
-	institusjonId: number;
-	avdelingTypeId: number;
+	name: string;
+	institutionId: number;
+	departmentTypeId: number;
 	rolleIder: number[];
 }

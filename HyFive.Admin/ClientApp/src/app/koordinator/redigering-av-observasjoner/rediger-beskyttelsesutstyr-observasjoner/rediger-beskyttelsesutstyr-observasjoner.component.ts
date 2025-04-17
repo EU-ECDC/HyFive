@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
-import {Avdeling} from "../../../models/api/Avdeling";
-import {ObservasjonService} from "../../../services/data/observasjon.service";
+import {Department} from "../../../models/api/Department";
+import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
-import {Rolle} from "../../../models/api/Rolle";
+import {Role} from "../../../models/api/Role";
 import {BeskyttelsesutstyrObservasjon} from "../../../models/api/BeskyttelsesutstyrObservasjon";
 
 @Component({
@@ -15,7 +15,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
@@ -28,7 +28,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
 
 
   constructor(
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -64,7 +64,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
 
   oppdaterBeskyttelsesutstyrObservasjon() {
 
-    this.observasjonService.oppdaterBeskyttelsesutstyrObservasjon(this.beskyttelsesutstyrObservasjonSomEndres).subscribe(
+    this.observationService.oppdaterBeskyttelsesutstyrObservasjon(this.beskyttelsesutstyrObservasjonSomEndres).subscribe(
       (erOppdatert) => {
         this.beskyttelsesutstyrObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble oppdatert');
@@ -77,7 +77,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
   }
 
   slettBeskyttelsesutstyrObservasjon() {
-    this.observasjonService.slettBeskyttelsesutstyrObservasjon(this.beskyttelsesutstyrObservasjonSomEndres.id, this.sesjonId).subscribe(
+    this.observationService.slettBeskyttelsesutstyrObservasjon(this.beskyttelsesutstyrObservasjonSomEndres.id, this.sesjonId).subscribe(
       () => {
         this.beskyttelsesutstyrObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble slettet');
@@ -97,7 +97,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
     this.kanOppdatereBeskyttelsesutstyrObservasjon = false;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.beskyttelsesutstyrObservasjonSomEndres.rolle = rolle;
   }
 

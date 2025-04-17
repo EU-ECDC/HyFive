@@ -5,7 +5,7 @@ import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { BrowserViewportService } from './_felles/services/browser-viewport.service';
 import { UrlService } from './_felles/services/url.service';
-import { InstitusjonService } from './services/data/institusjon.service';
+import { InstitutionService } from './services/data/institution.service';
 import { AuthorizationService } from './_felles/services/authorization.service';
 import { InnloggetBruker } from './models/api/InnloggetBruker';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     private browserViewportService: BrowserViewportService,
     private urlService: UrlService,
     public authorizationService: AuthorizationService,
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private keyEventService: KeyEventService
   ) { }
 
@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
       if (user.erKoordinator) {
         let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
         if (valgtInstitusjonId === null) {
-          this.institusjonService.hentInstitusjoner().subscribe((resultat) => {
+          this.institusjonService.getInstitutions().subscribe((resultat) => {
             this.institusjonService.oppdaterValgtInstitusjonId(resultat[0].id);
             window.location.reload();
           });

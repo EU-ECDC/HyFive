@@ -2,35 +2,35 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { InnloggetBruker } from '../../models/api/InnloggetBruker';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { KoordinatorForHelseforetak } from '../../models/api/KoordinatorForHelseforetak';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 import { UserService } from '../../services/data/user.service';
 import { HelseforetakService } from '../../services/data/helseforetak.service';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
-import { ObservasjonService } from 'src/app/services/data/observasjon.service';
+import { ObservationService } from 'src/app/services/data/observation.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 
 @Component({
-  selector: 'app-rediger-koordinatorer-for-helseforetak',
+  selector: 'app-edit-coordinators-for-healthcareCompany',
   templateUrl: './rediger-koordinatorer-for-helseforetak.component.html'
 })
 export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnDestroy {
 
-  @Input() institusjon: InstitusjonRapport;
-  koordinatorer: KoordinatorForHelseforetak[];
-  institusjonerIHelseforetak: InstitusjonRapport[];
+  @Input() institution: InstitutionReport;
+  koordinatorer: CoordinatorForHealthcareCompanies[];
+  institusjonerIHelseforetak: InstitutionReport[];
 
-  koordinatorSomEndres: KoordinatorForHelseforetak = null;
-  nyKoordinator: KoordinatorForHelseforetak = null;
+  koordinatorSomEndres: CoordinatorForHealthcareCompanies = null;
+  nyKoordinator: CoordinatorForHealthcareCompanies = null;
 
   dropdownSettings: IDropdownSettings;
-  valgteInstitusjoner: InstitusjonRapport[] = [];
+  valgteInstitusjoner: InstitutionReport[] = [];
   user: InnloggetBruker = null;
   sokeord: string = '';
-  filtrertKoordinatorer: KoordinatorForHelseforetak[];
+  filtrertKoordinatorer: CoordinatorForHealthcareCompanies[];
 
   constructor(
     private helseforetakService: HelseforetakService,
@@ -39,7 +39,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     private keyEventService: KeyEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService,
     private authorizationService: AuthorizationService,
-    private observasjonService: ObservasjonService
+    private observationService: ObservationService
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'navn',
+      textField: 'name',
       selectAllText: 'Velg alle',
       unSelectAllText: 'Velg alle',
       itemsShowLimit: 3
@@ -70,7 +70,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastKoordinatorer() {
-    this.helseforetakService.hentKoordinatorer(this.institusjon.helseforetak.id).subscribe(
+    this.helseforetakService.hentKoordinatorer(this.institution.healthcareCompany.id).subscribe(
       (koordinatorer) => {
         this.koordinatorer = koordinatorer;
         this.filtrertKoordinatorer = this.koordinatorer
@@ -80,11 +80,11 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastInstitusjoner() {
-    this.helseforetakService.hentInstitusjoner(this.institusjon.helseforetak.id).subscribe(
-      (institusjoner) => {
-        this.institusjonerIHelseforetak = institusjoner
+    this.helseforetakService.getInstitutions(this.institution.healthcareCompany.id).subscribe(
+      (institutions) => {
+        this.institusjonerIHelseforetak = institutions
       },
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av institusjoner: ' + error?.message, '', { disableTimeOut: true }),
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av institutions: ' + error?.message, '', { disableTimeOut: true }),
     );
   }
 
@@ -93,20 +93,20 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.nullstillValgteInstitusjoner();
 
     this.nyKoordinator = {
-      etternavn: '',
-      fornavn: '',
-      epost: '',
+      lastName: '',
+      firstName: '',
+      email: '',
       hprNummer: null,
-      identPseudonym: null,
-      opprettettidspunkt: new Date(),
-      erDeaktivert: false,
-      institusjoner: [this.institusjon]
+      identityPseudonym: null,
+      timeOfCreation: new Date(),
+      isDisabled: false,
+      institutions: [this.institution]
     };
   }
 
-  opprettKoordinator() {
-    this.nyKoordinator.institusjoner = this.valgteInstitusjoner;
-    this.helseforetakService.opprettKoordinator(this.institusjon.helseforetak.id, this.nyKoordinator).subscribe(
+  createCoordinator() {
+    this.nyKoordinator.institutions = this.valgteInstitusjoner;
+    this.helseforetakService.createCoordinator(this.institution.healthcareCompany.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator(er) og observatør(er) opprettet');
@@ -117,48 +117,48 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
           this.toastrService.error(status.feilmelding, '', { disableTimeOut: true });
         }
       },
-      (error) => this.toastrService.error('Det oppstod en feil under opprettelse av koordinator(er) og/eller Observatør(er): ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('Det oppstod en feil under opprettelse av coordinator(er) og/eller Observatør(er): ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
-  setKoordinatorSomEndres(koordinator: KoordinatorForHelseforetak) {
-    if (this.erKoordinatorSomEndres(koordinator)) return;
+  setKoordinatorSomEndres(coordinator: CoordinatorForHealthcareCompanies) {
+    if (this.erKoordinatorSomEndres(coordinator)) return;
 
     this.nyKoordinator = null;
     this.nullstillValgteInstitusjoner();
     let me = this;
-    koordinator.institusjoner.forEach(function (institujon) {
+    coordinator.institutions.forEach(function (institujon) {
       me.valgteInstitusjoner.push(institujon);
     });
 
-    koordinator.endretHPRNummer = koordinator.hprNummer;
-    koordinator.endretIdentPseudonym = koordinator.identPseudonym
+    coordinator.changedHPRNumber = coordinator.hprNummer;
+    coordinator.changedIdentityPseudonym = coordinator.identityPseudonym
 
-    this.koordinatorSomEndres = JSON.parse(JSON.stringify(koordinator));
+    this.koordinatorSomEndres = JSON.parse(JSON.stringify(coordinator));
   }
 
-  erKoordinatorSomEndres(koordinator: KoordinatorForHelseforetak) {
+  erKoordinatorSomEndres(coordinator: CoordinatorForHealthcareCompanies) {
     if (this.koordinatorSomEndres?.hprNummer?.length > 0 &&
-      this.koordinatorSomEndres.hprNummer === koordinator.hprNummer)
+      this.koordinatorSomEndres.hprNummer === coordinator.hprNummer)
       return true;
-    if (this.koordinatorSomEndres?.identPseudonym?.length > 0 &&
-      this.koordinatorSomEndres.identPseudonym === koordinator.identPseudonym)
+    if (this.koordinatorSomEndres?.identityPseudonym?.length > 0 &&
+      this.koordinatorSomEndres.identityPseudonym === coordinator.identityPseudonym)
       return true;
 
     return false;
   }
 
-  oppdaterKoordinator(koordinator: KoordinatorForHelseforetak) {
-    koordinator.institusjoner = this.valgteInstitusjoner;
-    let nåværendeInstitusjonErFortsattValgt = this.valgteInstitusjoner.some(i => i.id == this.institusjon.id);
-    let erKoordinatorSomEndresLikInnloggetBruker = this.erKoordinatorSomEndresLikInnloggetBruker(koordinator);
-    this.helseforetakService.oppdaterKoordinator(this.institusjon.helseforetak.id, koordinator).subscribe(
+  updateCoordinator(coordinator: CoordinatorForHealthcareCompanies) {
+    coordinator.institutions = this.valgteInstitusjoner;
+    let nåværendeInstitusjonErFortsattValgt = this.valgteInstitusjoner.some(i => i.id == this.institution.id);
+    let erKoordinatorSomEndresLikInnloggetBruker = this.erKoordinatorSomEndresLikInnloggetBruker(coordinator);
+    this.helseforetakService.updateCoordinator(this.institution.healthcareCompany.id, coordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator oppdatert');
 
           if (erKoordinatorSomEndresLikInnloggetBruker) {
-            if (koordinator.erDeaktivert)
+            if (coordinator.isDisabled)
               this.authorizationService.loggUt();
 
             if (nåværendeInstitusjonErFortsattValgt)
@@ -178,30 +178,30 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
           this.toastrService.error(status.feilmelding, '', { disableTimeOut: true });
         }
       },
-      (error) => this.toastrService.error('En feil skjedde under oppdatering av koordinator: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('En feil skjedde under oppdatering av coordinator: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
-  erKoordinatorSomEndresLikInnloggetBruker(koordinator: KoordinatorForHelseforetak) {
-    if (this.user.hprNummer && this.user.hprNummer === koordinator.hprNummer)
+  erKoordinatorSomEndresLikInnloggetBruker(coordinator: CoordinatorForHealthcareCompanies) {
+    if (this.user.hprNummer && this.user.hprNummer === coordinator.hprNummer)
       return true;
-    if (this.user.identPseudonym && this.user.identPseudonym === koordinator.identPseudonym)
+    if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
       return true;
 
     return false;
   }
 
   kanOpprettes() {
-    return this.nyKoordinator.fornavn.length > 0
-      && this.nyKoordinator.etternavn.length > 0
-      && this.userService.harKoordinatorGyldigHprnummerEllerPseudonym(this.nyKoordinator)
+    return this.nyKoordinator.firstName.length > 0
+      && this.nyKoordinator.lastName.length > 0
+      && this.userService.hasCoordinatorValidHprnumberOrPseudonym(this.nyKoordinator)
       && this.valgteInstitusjoner?.length > 0;
   }
 
-  kanEndres(koordinator: KoordinatorForHelseforetak) {
-    return koordinator.fornavn.length > 0
-      && koordinator.etternavn.length > 0
-      && this.userService.harKoordinatorGyldigHprnummerEllerPseudonym(koordinator)
+  kanEndres(coordinator: CoordinatorForHealthcareCompanies) {
+    return coordinator.firstName.length > 0
+      && coordinator.lastName.length > 0
+      && this.userService.hasCoordinatorValidHprnumberOrPseudonym(coordinator)
       && this.valgteInstitusjoner?.length > 0;
   }
 
@@ -214,40 +214,40 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.nyKoordinator = null;
   }
 
-  visInstitusjonerForKoordinator(koordinator: KoordinatorForHelseforetak): string {
-    const institusjoner = koordinator.institusjoner.map(institusjon => institusjon.navn);
-    return institusjoner.toString();
+  visInstitusjonerForKoordinator(coordinator: CoordinatorForHealthcareCompanies): string {
+    const institutions = coordinator.institutions.map(institution => institution.name);
+    return institutions.toString();
   }
 
   nullstillValgteInstitusjoner() {
     this.valgteInstitusjoner.splice(0, this.valgteInstitusjoner.length);
   }
 
-  identPseudonymEndret(koordinator: KoordinatorForHelseforetak, identPseudonym: string) {
-    koordinator.endretIdentPseudonym = identPseudonym;
+  identPseudonymEndret(coordinator: CoordinatorForHealthcareCompanies, identityPseudonym: string) {
+    coordinator.changedIdentityPseudonym = identityPseudonym;
   }
 
   filtrerKoordinatorer(): void {
     if (this.sokeord.length >= 2)
     {
       this.filtrertKoordinatorer = this.koordinatorer.filter(k => 
-                                    k.fornavn?.toLowerCase().includes(this.sokeord.toLowerCase()) || 
-                                    k.etternavn?.toLocaleLowerCase().includes(this.sokeord.toLowerCase()) ||
+                                    k.firstName?.toLowerCase().includes(this.sokeord.toLowerCase()) || 
+                                    k.lastName?.toLocaleLowerCase().includes(this.sokeord.toLowerCase()) ||
                                     k.hprNummer?.includes(this.sokeord) ||
-                                    k.institusjoner?.some(i => i.navn.toLowerCase().includes(this.sokeord.toLowerCase())));
+                                    k.institutions?.some(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase())));
     }
     else if (this.sokeord.length === 0)
       this.filtrertKoordinatorer = this.koordinatorer;
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: KoordinatorForHelseforetak) => any;
+    let propertyOf: (x: CoordinatorForHealthcareCompanies) => any;
     switch ($event.columnName) {
       case "Fornavn":
-        propertyOf = (x: KoordinatorForHelseforetak) => x.fornavn;
+        propertyOf = (x: CoordinatorForHealthcareCompanies) => x.firstName;
         break;
       case "Etternavn":
-        propertyOf = (x: KoordinatorForHelseforetak) => x.etternavn;
+        propertyOf = (x: CoordinatorForHealthcareCompanies) => x.lastName;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -255,7 +255,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: KoordinatorForHelseforetak, b: KoordinatorForHelseforetak) => {
+    const sortFunc = (a: CoordinatorForHealthcareCompanies, b: CoordinatorForHealthcareCompanies) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

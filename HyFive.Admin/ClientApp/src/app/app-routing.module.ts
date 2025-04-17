@@ -17,7 +17,7 @@ import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt
 import { ForesporselComponent } from './koordinator/foresporsel/foresporsel.component';
 import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
-import { EpostComponent } from './fhiadmin/epost/epost.component';
+import { EmailComponent } from './fhiadmin/email/email.component';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
 import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
 import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
@@ -98,7 +98,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.email,
-    component: EpostComponent
+    component: EmailComponent
   },
   {
     path: UrlPaths.reports,

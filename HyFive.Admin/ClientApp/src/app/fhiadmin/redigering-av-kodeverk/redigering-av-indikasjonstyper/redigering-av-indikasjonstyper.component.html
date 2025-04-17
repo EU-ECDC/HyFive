@@ -20,8 +20,8 @@
           <tbody>
             <tr *ngFor="let indikasjonstype of indikasjonstyper">
               <ng-container *ngIf="indikasjonstypeSomEndres?.id !== indikasjonstype.id">
-                <td>{{indikasjonstype.kode}}</td>
-                <td>{{indikasjonstype.navn}}</td>
+                <td>{{indikasjonstype.code}}</td>
+                <td>{{indikasjonstype.name}}</td>
                 <td>{{indikasjonstype.nummer}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtIndikasjonstype(indikasjonstype)">
@@ -30,9 +30,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="indikasjonstypeSomEndres?.id === indikasjonstype.id">
-                <td>{{indikasjonstypeSomEndres.kode}}</td>
+                <td>{{indikasjonstypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.name">
                 </td>
                 <td>
                   <input type="number" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.nummer" maxLength="2" size="2">

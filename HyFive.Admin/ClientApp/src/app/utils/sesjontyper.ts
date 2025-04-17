@@ -1,12 +1,12 @@
-import { SesjonType } from "../models/api/SesjonType";
+import { SessionType } from "../models/api/SessionType";
 
 export class Sesjonstyper {
     public static HentSesjonstyper() {
         const sesjontyper = [
-            { navn: 'Beskyttelsesutstyr', verdi: SesjonType.Beskyttelsesutstyr },
-            { navn: 'Fire indikasjoner', verdi: SesjonType.FireIndikasjoner },
-            { navn: 'Hansker', verdi: SesjonType.Hansker },
-            { navn: 'Håndsmykker', verdi: SesjonType.Handsmykker }
+            { name: 'Beskyttelsesutstyr', verdi: SessionType.Beskyttelsesutstyr },
+            { name: 'Fire indikasjoner', verdi: SessionType.FireIndikasjoner },
+            { name: 'Hansker', verdi: SessionType.Hansker },
+            { name: 'Håndsmykker', verdi: SessionType.Handsmykker }
           ];
         
         return sesjontyper;

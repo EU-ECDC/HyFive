@@ -2,15 +2,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Rolle } from './Rolle';
+import { Role } from './Role';
 import { AvdelingType } from './AvdelingType';
 
-export interface Avdeling
+export interface Department
 {
 	id: number;
-	institusjonId: number;
-	avdelingTypeId: number;
-	navn: string;
-	roller: Rolle[];
-	avdelingType: AvdelingType;
+	institutionId: number;
+	departmentTypeId: number;
+	name: string;
+	roles: Role[];
+	departmentType: AvdelingType;
 }

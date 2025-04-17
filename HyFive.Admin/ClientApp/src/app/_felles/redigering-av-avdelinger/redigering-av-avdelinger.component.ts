@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { Department} from '../../models/api/Department';
+import { InstitutionService } from '../../services/data/institution.service';
 import { AvdelingType } from "../../models/api/AvdelingType";
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AvdelingService } from 'src/app/services/data/avdeling.service';
-import { Rolle } from 'src/app/models/api/Rolle';
+import { Role } from 'src/app/models/api/Role';
 import { RolleService } from 'src/app/services/data/rolle.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
@@ -17,22 +17,22 @@ selector: 'app-redigering-av-avdelinger',
 })
 export class RedigeringAvAvdelingerComponent implements OnInit {
   
-  @Input() institusjonId: number;
+  @Input() institutionId: number;
 
-  avdelinger: Avdeling[] = [];
-  filtrerteAvdelinger: Avdeling[] = [];
+  avdelinger: Department[] = [];
+  filtrerteAvdelinger: Department[] = [];
   avdelingId = 0;
-  avdelingSomEndres: Avdeling;
+  avdelingSomEndres: Department;
   avdelingstyper: AvdelingType[];
-  roller: Rolle[];
-  valgteRoller: Rolle[] = [];
+  roles: Role[];
+  valgteRoller: Role[] = [];
   kanRedigere: boolean;
   institusjonNavn: string;
   sokeord: string;
   laster: boolean = false;
   dropdownSettings: IDropdownSettings;
 
-  constructor(private institusjonService: InstitusjonService,
+  constructor(private institusjonService: InstitutionService,
     private authorizationService: AuthorizationService,
     private avdelingService: AvdelingService,
     private rolleService: RolleService,
@@ -51,7 +51,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'navn',
+      textField: 'name',
       selectAllText: 'Velg alle',
       unSelectAllText: 'Velg alle',
       itemsShowLimit: 5
@@ -71,12 +71,12 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   hentAvdelinger() {
-    let valgtInstitusjonsId = this.institusjonId ?? this.institusjonService.hentValgtInstitusjonId();
+    let valgtInstitusjonsId = this.institutionId ?? this.institusjonService.hentValgtInstitusjonId();
     this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe(
-      (institusjon) => {
-        this.institusjonNavn = institusjon.navn;
-        this.institusjonId = institusjon.id;
-        this.avdelinger = institusjon.avdelinger;
+      (institution) => {
+        this.institusjonNavn = institution.name;
+        this.institutionId = institution.id;
+        this.avdelinger = institution.departments;
         this.filtrerteAvdelinger = this.avdelinger;
       },
       (error) => {
@@ -96,36 +96,36 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
   hentRoller() {
     this.rolleService.hentRoller().subscribe(
-      (roller) => {
-        this.roller = roller;
+      (roles) => {
+        this.roles = roles;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Lasting av roller feilet', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, 'Lasting av roles feilet', {disableTimeOut: true});
     });
   }
 
   kanOpprette() : boolean {
-    return (this.institusjonId > 0 && this.avdelingId == 0 && this.kanRedigere);
+    return (this.institutionId > 0 && this.avdelingId == 0 && this.kanRedigere);
   }
 
-  hentRollebeskrivelser(avdeling: Avdeling) {
-    return avdeling.roller?.map(r => r.navn).join(', ');
+  hentRollebeskrivelser(avdeling: Department) {
+    return avdeling.roles?.map(r => r.name).join(', ');
   }
 
   filtrerAvdelinger() {
     if(this.sokeord.length >= 2) {
-      this.filtrerteAvdelinger = this.avdelinger.filter(a => a.navn.toLowerCase().includes(this.sokeord.toLowerCase()) || 
-                                                            a.avdelingType.navn.toLowerCase().includes(this.sokeord.toLowerCase()));
+      this.filtrerteAvdelinger = this.avdelinger.filter(a => a.name.toLowerCase().includes(this.sokeord.toLowerCase()) || 
+                                                            a.departmentType.name.toLowerCase().includes(this.sokeord.toLowerCase()));
     }
     else if(this.sokeord.length === 0)
       this.filtrerteAvdelinger = this.avdelinger;
   }
 
-  setAvdelingSomEndres(avdeling: Avdeling){
+  setAvdelingSomEndres(avdeling: Department){
     if(!this.kanRedigere || this.avdelingSomEndres?.id === avdeling.id) return;
 
     this.nullstillValgteRoller();
-    avdeling.roller.forEach((rolle) => 
+    avdeling.roles.forEach((rolle) => 
       this.valgteRoller.push(rolle)
     );
     this.avdelingSomEndres = JSON.parse(JSON.stringify(avdeling)) ;
@@ -135,13 +135,13 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     this.valgteRoller.splice(0, this.valgteRoller.length);
   }
 
-  oppdaterAvdeling(avdeling: Avdeling): void {
-    avdeling.roller = this.valgteRoller;
+  oppdaterAvdeling(avdeling: Department): void {
+    avdeling.roles = this.valgteRoller;
     this.avdelingService.oppdaterAvdeling(avdeling).subscribe(
       () => {
         this.avdelingSomEndres = null;
         this.hentAvdelinger();
-        this.toastrService.success("Avdeling oppdatert");
+        this.toastrService.success("Departmentoppdatert");
       },
       (error) => {
         this.toastrService.error(error.error.message, 'Oppdatering av avdeling feilet', { disableTimeOut: true});
@@ -149,8 +149,8 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     );
   }
 
-  slettAvdeling(avdeling: Avdeling): void {
-    this.avdelingService.harOverfortSesjonTilFHI(avdeling.id).subscribe(
+  slettAvdeling(avdeling: Department): void {
+    this.avdelingService.hasTransferredSessionToFHI(avdeling.id).subscribe(
       (resultat) => {
         if (resultat) 
         {
@@ -161,7 +161,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
           this.avdelingService.slettAvdeling(avdeling.id).subscribe(
             () => {
               this.hentAvdelinger();
-              this.toastrService.success("Avdeling slettet");
+              this.toastrService.success("Departmentslettet");
             },
             (error) => {
               this.toastrService.error(error.error.message, 'Sletting av avdeling feilet', { disableTimeOut: true});
@@ -175,7 +175,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   kanLagres(): boolean {
-    if(this.avdelingSomEndres?.navn.length > 0 && this.avdelingSomEndres?.avdelingTypeId > 0 && this.valgteRoller?.length > 0)
+    if(this.avdelingSomEndres?.name.length > 0 && this.avdelingSomEndres?.departmentTypeId > 0 && this.valgteRoller?.length > 0)
       return true;
     else
       return false;
@@ -188,13 +188,13 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Avdeling) => any;
+    let propertyOf: (x: Department) => any;
     switch ($event.columnName) {
       case "Navn":
-        propertyOf = (x: Avdeling) => x.navn;
+        propertyOf = (x: Department) => x.name;
         break;
       case "Avdelingstype":
-        propertyOf = (x: Avdeling) => x.avdelingType.navn;
+        propertyOf = (x: Department) => x.departmentType.name;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -202,7 +202,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Avdeling, b: Avdeling) => {
+    const sortFunc = (a: Department, b: Department) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

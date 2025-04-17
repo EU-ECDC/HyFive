@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
-import { SesjonType } from '../../../models/api/SesjonType';
-import { ObservasjonService } from '../../../services/data/observasjon.service';
+import { SessionType } from '../../../models/api/SessionType';
+import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
 import { AvdelingService } from '../../../services/data/avdeling.service';
-import { Avdeling } from '../../../models/api/Avdeling';
+import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
 
@@ -18,19 +18,19 @@ import { AuthorizationService } from '../../../_felles/services/authorization.se
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdelingsid: number;
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   fraDato: Date;
   tilDato: Date;
   valgteInstitusjonAlternativer: number = null;
 
   sesjontypeAlternativer = [
-    { navn: "FireIndikasjoner", verdi: SesjonType.FireIndikasjoner },
-    { navn: "Håndsmykker", verdi: SesjonType.Handsmykker },
-    { navn: "Beskyttelsesutstyr", verdi: SesjonType.Beskyttelsesutstyr },
-    { navn: "Hansker", verdi: SesjonType.Hansker }
+    { name: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner },
+    { name: "Håndsmykker", verdi: SessionType.Handsmykker },
+    { name: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr },
+    { name: "Hansker", verdi: SessionType.Hansker }
   ];
 
-  avdeling: Avdeling;
+  avdeling: Department;
   sessions: SessionOverviewReport[] = [];
   laster: boolean;
   valgtRolle: AuthorizedRole;
@@ -39,7 +39,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private avdelingService: AvdelingService,
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService  ) { }
 
@@ -58,7 +58,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
         this.hentAvdeling();
-        this.hentSesjonerForAvdeling();
+        this.getSessionsForDepartment();
       });
   }
 
@@ -70,9 +70,9 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     });
   }
 
-  hentSesjonerForAvdeling() {
+  getSessionsForDepartment() {
     this.laster = true;
-    this.observasjonService.hentSesjonerForAvdeling(
+    this.observationService.getSessionsForDepartment(
       this.avdelingsid,
       this.valgtSesjontype ? this.valgtSesjontype : null,
       this.fraDato,

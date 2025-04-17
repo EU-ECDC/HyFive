@@ -5,10 +5,10 @@
       <h4 class="d-flex align-items-center">
         <fa-stack>
           <fa-icon [icon]="faCircle" stackItemSize="2x" [styles]="{ 'color': '#DBE6EC' }"></fa-icon>
-          <fa-icon [icon]="ikonTypeMap.get(valgtUtstyr.utstyrstype.kode)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
+          <fa-icon [icon]="ikonTypeMap.get(valgtUtstyr.utstyrstype.code)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
         </fa-stack>
         <span class="modal-title" id="modal-basic-title">
-          {{valgtUtstyr.utstyrstype.navn}}
+          {{valgtUtstyr.utstyrstype.name}}
         </span>
       </h4>
       <button type="button" class="close" aria-label="Close" (click)="dismiss()">
@@ -36,9 +36,9 @@
           <label class="text-info"><small><strong><em>Velg minst én av alternativene under, eller fyll ut en kommentar</em></strong></small></label>
           <ng-container *ngFor="let fb of valgtUtstyr.utstyrstype.feilbruktyper">
             <div class="custom-control custom-checkbox pb-2">
-              <input type="checkbox" class="custom-control-input" [id]="fb.navn" [(ngModel)]="fb.erValgt" (click)="aktiverTilbakeTilKortVedFeilbruk(fb)" [disabled]="visningsmodus">
-              <label class="custom-control-label" [for]="fb.navn">
-                {{fb.navn}}
+              <input type="checkbox" class="custom-control-input" [id]="fb.name" [(ngModel)]="fb.erValgt" (click)="aktiverTilbakeTilKortVedFeilbruk(fb)" [disabled]="visningsmodus">
+              <label class="custom-control-label" [for]="fb.name">
+                {{fb.name}}
               </label>
             </div>
           </ng-container>
@@ -46,9 +46,9 @@
         <ng-container *ngIf="visningsmodus">
           <ng-container *ngFor="let fb of valgtUtstyr.feilbruktyper">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" [id]="fb.navn" [disabled]="true" [checked]="true">
-              <label class="custom-control-label" [for]="fb.navn">
-                {{fb.navn}}
+              <input type="checkbox" class="custom-control-input" [id]="fb.name" [disabled]="true" [checked]="true">
+              <label class="custom-control-label" [for]="fb.name">
+                {{fb.name}}
               </label>
             </div>
           </ng-container>

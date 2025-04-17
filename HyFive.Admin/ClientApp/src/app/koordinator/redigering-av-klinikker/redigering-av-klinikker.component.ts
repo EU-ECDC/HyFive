@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { Department} from '../../models/api/Department';
+import { InstitutionService } from '../../services/data/institution.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Klinikk } from '../../models/api/Klinikk';
 import { KlinikkService } from '../../services/data/klinikk.service';
 import { QueryParameters } from "../../_felles/konstanter/queryparameters";
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -16,13 +16,13 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
 
   klinikker: Klinikk[] = [];
   institusjonNavn: string;
-  institusjonId: number;
+  institutionId: number;
   klinikkId = 0;
   klinikkSomRedigeres: Klinikk;
 
   laster: boolean = false;
 
-  constructor(private institusjonService: InstitusjonService,
+  constructor(private institusjonService: InstitutionService,
     private klinikkService: KlinikkService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -34,10 +34,10 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   hentKlinikker() {
     this.laster = true;
     let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institusjon) => {
-      this.institusjonNavn = result.navn;
-      this.institusjonId = result.id;
-      this.klinikkService.hentKlinikkerForInstitusjon(this.institusjonId).subscribe(klinikker => {
+    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
+      this.institusjonNavn = result.name;
+      this.institutionId = result.id;
+      this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(klinikker => {
         this.laster = false;
         this.klinikker = klinikker;
         this.route.queryParams.subscribe(
@@ -52,7 +52,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   hentAvdelingsnavn(klinikk: Klinikk) {
-    return klinikk.avdelinger?.map(r => r.navn).join(',');
+    return klinikk.avdelinger?.map(r => r.name).join(',');
   }
 
   navigerTilKlinikk(id: number) {
@@ -74,7 +74,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
     let propertyOf: (x: Klinikk) => any;
     switch ($event.columnName) {
       case "Navn":
-        propertyOf = (x: Klinikk) => x.navn;
+        propertyOf = (x: Klinikk) => x.name;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");

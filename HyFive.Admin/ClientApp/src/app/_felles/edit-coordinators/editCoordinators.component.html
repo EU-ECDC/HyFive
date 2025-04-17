@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-12">
+    <button class="btn fhi-btn-primary mb-5 mt-3" (click)="createEmptyCoordinator()">Opprett koordinator</button>
+  </div>
+</div>
+<div class="row" *ngIf="coordinators">
+  <input type="text" *ngIf="coordinators.length > 0" placeholder="Søk etter...(Fornavn/Etternavn/HPR-nummer)" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="searchWord" (ngModelChange)="filterCoordinators()">
+  <label class="col-12" *ngIf="coordinators.length === 0 && !newCoordinator">Fant ingen coordinators på denne institusjonen</label>
+  
+  <ng-container>
+    <div class="table-responsive">
+      <table class="table" *ngIf="coordinators.length > 0 || newCoordinator" sortable-table (sorted)="sorting($event)">
+        <thead>
+          <tr>
+            <th sortable-column="Fornavn"></th>
+            <th sortable-column="Etternavn"></th>
+            <th>Epost</th>
+            <th>HPR-nummer</th>
+            <th>Pseudonym</th>
+            <th>Deaktivert</th>
+            <th class="text-end" scope="col">Handling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="newCoordinator != null">
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Fornavn"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Etternavn"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Epost"></td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
+              <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+            </td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
+            <td></td>
+            <td class="text-end py-2 align-middle">
+              <button class="btn fhi-btn-icon" [disabled]="canBeCreated() == false" (click)="createCoordinator()">
+                <i class="icon-plus"></i><span class="btn__text">Opprett</span>
+              </button>
+              <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+              </button>
+            </td>
+          </tr>
+  
+          <tr *ngFor="let koordinator of filteredCoordinators">
+            <ng-container *ngIf="coordinatorIsChanged?.id != koordinator.id">
+              <td>{{koordinator.firstName}}</td>
+              <td>{{koordinator.lastName}} </td>
+              <td>{{koordinator.email}}</td>
+              <td>{{koordinator.hprNummer}}</td>
+            
+              <td>
+                <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identityPseudonym"></app-pseudonym-dialog>
+              </td>
+              
+              <td>
+                <input type="checkbox" class="form-check-input" [(ngModel)]="koordinator.isDisabled" name="isDisabled" disabled="disabled">
+              </td>
+              
+              <td class="text-end py-2 align-middle">
+                <button class="btn fhi-btn-icon" (click)="setCoordinatorAsChanged(koordinator)">
+                  <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                </button>
+              </td>
+            
+            </ng-container>
+            <ng-container *ngIf="coordinatorIsChanged?.id == koordinator.id">
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" name="firstName" placeholder="Fornavn">
+              </td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" name="lastName" placeholder="Etternavn">
+              </td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" placeholder="Epost">
+              </td>
+              
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
+                <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+              </td>
+              
+              <td>
+                <app-pseudonym-dialog
+                                      [text]="'Endre'"
+                                      [editable]= "true"
+                                      [identityPseudonym]="koordinator.identityPseudonym"
+                                      (identityPseudonymChanged)="identityPseudonymChanged(coordinatorIsChanged, $event)">
+                </app-pseudonym-dialog>
+              </td>
+              
+              <td>
+                <input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorIsChanged.isDisabled" name="isDisabled">
+              </td>
+
+              <td class="text-end py-2 align-middle">
+                <ng-container *ngIf="koordinator.id == coordinatorIsChanged?.id">
+                  <button class="btn fhi-btn-icon mr-2 w-100"
+                          (click)="updateCoordinator(coordinatorIsChanged)"
+                          [disabled]="canbeChanged(coordinatorIsChanged) == false">
+                          <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                  </button>
+                  <div *ngIf="canDelete">
+                    <app-bekreftelsesdialog 
+                                                  [knappTekst]="'Slett'"
+                                                  (bekreftetEvent)="deleteCoordinator(koordinator)"
+                                                  [dialogmelding]='"Vil du slette " + koordinator.firstName + " " + koordinator.lastName + "?"'
+                                                  [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
+                                                  [skalBrukeIkon]=true>
+                    </app-bekreftelsesdialog>
+                  </div>
+    
+                  <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  </button>
+                </ng-container>
+              </td>
+
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>  
+    </div>
+      </ng-container>
+</div>

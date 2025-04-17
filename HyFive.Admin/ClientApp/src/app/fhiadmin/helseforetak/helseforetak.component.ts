@@ -53,7 +53,7 @@ export class HelseforetakComponent implements OnInit, OnDestroy
 
   opprettTomHelseforetak() {
     return {
-      navn: '',
+      name: '',
       regionaltHelseforetakId: 0
     } as OpprettHelseforetakRequest;
   }
@@ -62,7 +62,7 @@ export class HelseforetakComponent implements OnInit, OnDestroy
     this.helseforetakService.opprettHelseforetak(this.nyHelseforetak).subscribe(
       (erOpprettet) => {
         if(erOpprettet){
-          this.toastrService.success(this.nyHelseforetak.navn + " ble opprettet");
+          this.toastrService.success(this.nyHelseforetak.name + " ble opprettet");
           this.nyHelseforetak = this.opprettTomHelseforetak();
           this.lastAlleHelseforetak();
         }
@@ -93,19 +93,19 @@ export class HelseforetakComponent implements OnInit, OnDestroy
     this.helseforetakService.oppdaterHelseforetak(helseforetak).subscribe(
       (erOppdatert) => {
         if(erOppdatert) {
-        this.toastrService.success(helseforetak.navn + " er oppdatert");
+        this.toastrService.success(helseforetak.name + " er oppdatert");
         this.helseforetakSomEndres = null;
         this.lastAlleHelseforetak();
         }
         else{
-          this.toastrService.error(helseforetak.navn + " finnes fra før", '', { disableTimeOut: true})
+          this.toastrService.error(helseforetak.name + " finnes fra før", '', { disableTimeOut: true})
         }
       }
     );
   }
 
   kanEndres(helseforetak: Helseforetak) {
-    return helseforetak.navn.length > 0;
+    return helseforetak.name.length > 0;
   }
 
   avbrytRedigering($event: Event) {
@@ -118,10 +118,10 @@ export class HelseforetakComponent implements OnInit, OnDestroy
     let propertyOf: (x: Helseforetak) => any;
     switch ($event.columnName) {
       case "Navn":
-        propertyOf = (x: Helseforetak) => x.navn.toLowerCase();
+        propertyOf = (x: Helseforetak) => x.name.toLowerCase();
         break;
       case "Regionalt helseforetak":
-        propertyOf = (x: Helseforetak) => x.regionaltHelseforetak?.navn;
+        propertyOf = (x: Helseforetak) => x.regionaltHelseforetak?.name;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");

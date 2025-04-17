@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { ObservasjonService } from '../../services/data/observasjon.service';
-import { SesjonType } from '../../models/api/SesjonType';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { ObservationService } from '../../services/data/observation.service';
+import { SessionType } from '../../models/api/SessionType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { User } from '../../models/api/User';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { forEach } from 'lodash-es';
 
 @Component({
@@ -22,22 +22,22 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   faPaperPlane = faPaperPlane;
 
   sesjontypeAlternativer = [
-    { navn: "Beskyttelsesutstyr", verdi: SesjonType.Beskyttelsesutstyr, type: SesjonType[SesjonType.Beskyttelsesutstyr] },
-    { navn: "FireIndikasjoner", verdi: SesjonType.FireIndikasjoner, type: SesjonType[SesjonType.FireIndikasjoner] },
-    { navn: "Hansker", verdi: SesjonType.Hansker, type: SesjonType[SesjonType.Hansker] },
-    { navn: "Håndsmykker", verdi: SesjonType.Handsmykker, type: SesjonType[SesjonType.Handsmykker] },
+    { name: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
+    { name: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
+    { name: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
+    { name: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
   ];
 
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   fraDato: Date = null;
   tilDato: Date = null;
 
   observatorer: User[] = [];
   valgtObservator: User = null;
 
-  institusjon: InstitusjonRapport;
+  institusjon: InstitutionReport;
 
-  institusjonerAlternativer: InstitusjonRapport[] = [];
+  institusjonerAlternativer: InstitutionReport[] = [];
   valgteInstitusjonAlternativer: number = null;
 
   sessions: SessionOverviewReport[] = [];
@@ -47,22 +47,22 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   sokGjort: boolean = false;
 
   constructor(
-    private institusjonService: InstitusjonService,
-    private observasjonService: ObservasjonService,
+    private institusjonService: InstitutionService,
+    private observationService: ObservationService,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
     let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institusjon) => {
+    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjon = {
         id: result.id,
         herId: result.herId,
-        forkortelse: result.forkortelse,
-        institusjontype: result.institusjontype,
-        navn: result.navn,
+        abbreviation: result.abbreviation,
+        institutionType: result.institutionType,
+        name: result.name,
         region: result.region
-      } as InstitusjonRapport;
+      } as InstitutionReport;
 
       this.institusjonService.hentObservatorer(this.institusjon.id).subscribe((observatorer) => {
         this.observatorer = observatorer.sort(this.compareFornavnForBrukere);
@@ -76,15 +76,15 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
   
   visDeaktivertObservatorerNedest(observatorer: User[]): User[] {
-    var observatorerListe = observatorer.filter(o => o.erDeaktivert === false);
-    var observatorerSomErDeaktivert = observatorer.filter(o => o.erDeaktivert);
+    var observatorerListe = observatorer.filter(o => o.isDisabled === false);
+    var observatorerSomErDeaktivert = observatorer.filter(o => o.isDisabled);
     observatorerListe.push.apply(observatorerListe, observatorerSomErDeaktivert);
     return observatorerListe;
   }
 
   hentSesjoner() {
     this.laster = true;
-    this.observasjonService.hentSesjonerForInstitusjon(
+    this.observationService.getSessionsForInstitution(
       this.institusjon.id,
       this.valgtObservator,
       this.valgtSesjontype,
@@ -99,13 +99,13 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   oppdaterLister() {
-    this.sessionsCoordinator = this.sessions.filter(x => x.overforingstatus.kode === TransferstatusTypeConstants.OverfortTilKoordinator);
-    this.sessionsFHI = this.sessions.filter(x => x.overforingstatus.kode === TransferstatusTypeConstants.OverfortTilFhi);
+    this.sessionsCoordinator = this.sessions.filter(x => x.overforingstatus.code === TransferstatusTypeConstants.OverfortTilKoordinator);
+    this.sessionsFHI = this.sessions.filter(x => x.overforingstatus.code === TransferstatusTypeConstants.OverfortTilFhi);
   }
 
   overfor(sesjonId) {
     this.laster = true;
-    this.observasjonService.overforSesjonTilFHI(this.institusjon.id, sesjonId).subscribe((result) => {
+    this.observationService.oppositeSessionToFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
@@ -152,8 +152,8 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   compareFornavnForBrukere(a: User, b: User): number {
-    if (a.fornavn.toLowerCase() < b.fornavn.toLowerCase()) return -1;
-    if (a.fornavn.toLowerCase() > b.fornavn.toLowerCase()) return 1;
+    if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
+    if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
     return 0;
   }
 }

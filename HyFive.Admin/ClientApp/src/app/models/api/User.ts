@@ -5,12 +5,12 @@
 export interface User
 {
 	id: number;
-	institusjonId: number;
-	opprettettidspunkt: any;
-	fornavn: string;
-	etternavn: string;
-	epost: string;
-	identPseudonym: string;
-	erDeaktivert: boolean;
+	institutionId: number;
+	timeOfCreation: any;
+	firstName: string;
+	lastName: string;
+	email: string;
+	identityPseudonym: string;
+	isDisabled: boolean;
 	hprNummer: string;
 }

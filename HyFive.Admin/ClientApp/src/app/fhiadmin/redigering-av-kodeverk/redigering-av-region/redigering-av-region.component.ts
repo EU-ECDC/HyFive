@@ -42,15 +42,15 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
   tomRequest(): Region {
     return {
       id: 0,
-      kode: null,
-      navn: null
+      code: null,
+      name: null
     };
   }
 
   opprettRegion(): void {
     this.regionService.opprettRegion(this.nyRegion).subscribe(
       (region) => this.toastrService.success(`Region opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av region ${this.nyRegion.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av region ${this.nyRegion.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyRegion = this.tomRequest(); this.lastRegioner(); }
     );
   }

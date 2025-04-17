@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { InstitusjonService } from '../../../services/data/institusjon.service';
+import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { Klinikk } from '../../../models/api/Klinikk';
@@ -20,12 +20,12 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
   fawarningicon = faExclamationTriangle;
 
-  @Input() institusjonId: number;
+  @Input() institutionId: number;
   @Output() klinikkOpprettetEvent: EventEmitter<Klinikk> = new EventEmitter<Klinikk>();
 
 
   constructor(
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private klinikkService: KlinikkService,
     private avdelingService: AvdelingService,
     private toastrService: ToastrService) { }
@@ -42,7 +42,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   opprettKlinikk() {
     this.nyKlinikk.avdelinger = this.avdelingsvalg
       .filter(r => r.erValgt)
-      .map((r) => ({ id: r.avdeling.id, avdelingTypeId: 0, roller: null, institusjonId: this.institusjonId, navn: null, avdelingType: null }));
+      .map((r) => ({ id: r.avdeling.id, departmentTypeId: 0, roles: null, institutionId: this.institutionId, name: null, departmentType: null }));
 
     this.klinikkService.opprettKlinikk(this.nyKlinikk).subscribe((klinikk) => {
       this.toastrService.success('Klinikk opprettet', `Klinikk med ID: ${klinikk.id} opprettet`);
@@ -57,10 +57,10 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
   lastAvdelinger() {
 
-    this.klinikkService.hentKlinikkerForInstitusjon(this.institusjonId).subscribe((result: Klinikk[]) => {
+    this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe((result: Klinikk[]) => {
       this.klinikkerListe = result;
 
-      this.institusjonService.hentAvdelinger(this.institusjonId).subscribe(
+      this.institusjonService.hentAvdelinger(this.institutionId).subscribe(
         (avdelinger) => {
           this.avdelingsvalg = avdelinger.map(a =>
           ({
@@ -76,8 +76,8 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   nullstillSkjema() {
     this.nyKlinikk = {
       id: 0,
-      navn: null,
-      institusjonId: this.institusjonId,
+      name: null,
+      institutionId: this.institutionId,
       avdelinger: []
     };
     for (const avdeling of this.avdelingsvalg) {
@@ -90,9 +90,9 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   }
 
   kanOppretteKlinikk(): boolean {
-    return this.nyKlinikk.institusjonId > 0
+    return this.nyKlinikk.institutionId > 0
       && this.avdelingsvalg?.filter(r => r.erValgt)?.length > 0
-      && this.nyKlinikk.navn?.length > 0;
+      && this.nyKlinikk.name?.length > 0;
   }
 
 }

@@ -5,7 +5,7 @@
 <div class="container" *ngIf="avdeling">
   <div class="row mb-3">
     <div class="col">
-      <h4>Avdeling: {{avdeling.navn}}</h4>
+      <h4>Department: {{avdeling.name}}</h4>
       <p>
         <span *ngIf="fraDato">Fra date: {{visFormatedDato(fraDato)}}</span> <br />
         <span *ngIf="tilDato">Til date: {{visFormatedDato(tilDato)}}</span>
@@ -43,7 +43,7 @@
         <thead>
           <tr class="row">
             <th class="col-3">Type</th>
-            <th class="col-3">Observatør navn</th>
+            <th class="col-3">Observatør name</th>
             <th class="col-3">Starttidspunkt</th>
             <th class="col-3">Registrerttidspunkt</th>
           </tr>
@@ -53,7 +53,7 @@
             <td class="col-3"><p>{{item.type}}</p></td>
             <td class="col-3"><p>{{item.observatorNavn}}</p></td>
             <td class="col-3"><p>{{visFormatedDatoMedTidspunkt(item.starttidspunkt)}}</p></td>
-            <td class="col-3"><p>{{visFormatedDato(item.opprettettidspunkt)}}</p></td>
+            <td class="col-3"><p>{{visFormatedDato(item.timeOfCreation)}}</p></td>
           </tr>
         </tbody>
 
@@ -71,12 +71,12 @@
 
         <h6 class="text-dark mb-3"><strong>Observasjoner</strong></h6>
         <!-- Fireindikasjoner -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[0].navn">
+        <ng-container *ngIf="item.type === sesjontypeAlternativer[0].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Indikasjoner</th>
                   <th>Aktivitet</th>
                   <th>Sekunder brukt</th>
@@ -95,7 +95,7 @@
                       </li>
                     </ul>
                   </td>
-                  <td>{{obs.aktivitet.aktivitetType.navn}}</td>
+                  <td>{{obs.aktivitet.aktivitetType.name}}</td>
                   <td>{{obs.aktivitet.tidtakingBleUtfort ? obs.aktivitet.sekunderBrukt + ' sekund(er)' : '-' }}</td>
                   <td>{{obs.aktivitet.benyttetHanske === null ? '-' : obs.aktivitet.benyttetHanske ? "Ja" : "Nei"}}</td>
                   <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
@@ -107,12 +107,12 @@
           
         </ng-container>
         <!-- Håndsmykker -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[1].navn">
+        <ng-container *ngIf="item.type === sesjontypeAlternativer[1].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Handsmykke(r)</th>
                   <th>Registrert</th>
                   <th>Kommentar</th>
@@ -136,12 +136,12 @@
           </div>
         </ng-container>
         <!-- Beskyttelsesutstyr -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[2].navn">
+        <ng-container *ngIf="item.type === sesjontypeAlternativer[2].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Setting</th>
                   <th>Benyttede utstyr</th>
                   <th>Ikke beynttede utstyr</th>
@@ -191,12 +191,12 @@
           
         </ng-container>
         <!-- Hansker -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[3].navn">
+        <ng-container *ngIf="item.type === sesjontypeAlternativer[3].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Ved/Uten Indikasjoner</th>
                   <th>Indikasjoner</th>
                   <th>Hanske benyttet</th>
@@ -213,17 +213,17 @@
                   <td>
                     <ul style="padding-left: 20px;" *ngIf="obs.hanskeObservasjon.hanskeMedIndikasjonTyper.length > 0">
                       <li *ngFor="let hanskeMedIndikasjonType of obs.hanskeObservasjon.hanskeMedIndikasjonTyper">
-                        {{hanskeMedIndikasjonType.navn}}
+                        {{hanskeMedIndikasjonType.name}}
                       </li>
                     </ul>
                     <ul style="padding-left: 20px;" *ngIf="obs.hanskeObservasjon.hanskeUtenIndikasjonTyper.length > 0">
                       <li *ngFor="let hanskeUtenIndikasjonType of obs.hanskeObservasjon.hanskeUtenIndikasjonTyper">
-                        {{hanskeUtenIndikasjonType.navn}}
+                        {{hanskeUtenIndikasjonType.name}}
                       </li>
                     </ul>
                   </td>
                   <td style="padding-left: 40px;">{{obs.hanskeObservasjon.benyttetHanske ? "Ja" : 'Nei'}}</td>
-                  <td style="padding-left: 40px;">{{obs.hanskeObservasjon.handhygieneEtterHanskebrukType.navn}}</td>
+                  <td style="padding-left: 40px;">{{obs.hanskeObservasjon.handhygieneEtterHanskebrukType.name}}</td>
                   <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>

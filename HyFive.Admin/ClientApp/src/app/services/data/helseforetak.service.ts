@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OpprettHelseforetakRequest } from 'src/app/models/api/OpprettHelseforetakRequest';
 import { environment } from 'src/environments/environment';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { KoordinatorForHelseforetak } from '../../models/api/KoordinatorForHelseforetak';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 import { Status } from 'src/app/models/api/Status';
 import { Helseforetak } from '../../models/api/Helseforetak';
 
@@ -30,22 +30,22 @@ export class HelseforetakService {
     return this.httpClient.put<boolean>(url, helseforetak);
   }
 
-  hentKoordinatorer(id: number): Observable<KoordinatorForHelseforetak[]> {
+  hentKoordinatorer(id: number): Observable<CoordinatorForHealthcareCompanies[]> {
     const url = `${environment.apiBaseUrl}/v1/helseforetak/${id}/koordinatorer`;
-    return this.httpClient.get<KoordinatorForHelseforetak[]>(url);
+    return this.httpClient.get<CoordinatorForHealthcareCompanies[]>(url);
   }
 
-  hentInstitusjoner(id: number): Observable<InstitusjonRapport[]> {
+  getInstitutions(id: number): Observable<InstitutionReport[]> {
     const url = `${environment.apiBaseUrl}/v1/helseforetak/${id}/institusjoner`;
-    return this.httpClient.get<InstitusjonRapport[]>(url);
+    return this.httpClient.get<InstitutionReport[]>(url);
   }
 
-  oppdaterKoordinator(id: number, koordinator: KoordinatorForHelseforetak): Observable<Status> {
+  updateCoordinator(id: number, koordinator: CoordinatorForHealthcareCompanies): Observable<Status> {
     const url = `${environment.apiBaseUrl}/v1/helseforetak/${id}/oppdaterkoordinator`;
     return this.httpClient.put<Status>(url, koordinator);
   }
 
-  opprettKoordinator(id: number, koordinator: KoordinatorForHelseforetak): Observable<Status> {
+  createCoordinator(id: number, koordinator: CoordinatorForHealthcareCompanies): Observable<Status> {
     const url = `${environment.apiBaseUrl}/v1/helseforetak/${id}/opprettkoordinator`;
     return this.httpClient.post<Status>(url, koordinator);
   }

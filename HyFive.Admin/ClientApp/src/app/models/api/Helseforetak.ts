@@ -7,7 +7,7 @@ import { RegionaltHelseforetak } from './RegionaltHelseforetak';
 export interface Helseforetak
 {
 	id: number;
-	navn: string;
+	name: string;
 	regionaltHelseforetakId: number;
 	regionaltHelseforetak: RegionaltHelseforetak;
 }

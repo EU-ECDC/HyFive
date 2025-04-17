@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Klinikk } from '../../../models/api/Klinikk';
-import { InstitusjonService } from '../../../services/data/institusjon.service';
+import { InstitutionService } from '../../../services/data/institution.service';
 import { AvdelingService } from '../../../services/data/avdeling.service';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
@@ -24,7 +24,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   fawarningicon = faExclamationTriangle;
 
   constructor(
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private avdelingService: AvdelingService,
     private toastrService: ToastrService,
     private klinikkService: KlinikkService) { }
@@ -35,7 +35,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
       this.lastAvdelinger();
     }
     else {
-      this.toastrService.error('Avdeling ikke lastet', 'Teknisk feil', { disableTimeOut: true});
+      this.toastrService.error('Departmentikke lastet', 'Teknisk feil', { disableTimeOut: true});
     }
   }
   
@@ -45,10 +45,10 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
 
   lastAvdelinger() {
 
-    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institusjonId).subscribe((institusjon) => {
+    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institusjon) => {
       this.klinikkerListe = institusjon;
 
-      this.institusjonService.hentAvdelinger(this.klinikkKopi.institusjonId).subscribe(
+      this.institusjonService.hentAvdelinger(this.klinikkKopi.institutionId).subscribe(
         (avdelinger) => {
           this.avdelingsvalg = avdelinger.map(a => (
             {
@@ -69,8 +69,8 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   }
 
   kanLagreKlinikk(): boolean {
-    return this.klinikkKopi.institusjonId > 0
-      && this.klinikkKopi.navn?.length > 0
+    return this.klinikkKopi.institutionId > 0
+      && this.klinikkKopi.name?.length > 0
       && this.avdelingsvalg?.filter(r => r.erValgt)?.length > 0;
   }
 
@@ -79,8 +79,8 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
     this.klinikkService.oppdaterKlinikk(this.klinikkKopi).subscribe(
       (k) => {
         // Må replace verdier på original-objektet for å støtte oppdatering av liste når en navigerer tilbake til klinikk-oversikt
-        this.klinikk.navn = k.navn;
-        this.klinikk.institusjonId = k.institusjonId;
+        this.klinikk.name = k.name;
+        this.klinikk.institutionId = k.institutionId;
         this.klinikk.avdelinger = k.avdelinger;
         this.toastrService.success('Klinikk oppdatert');
       },

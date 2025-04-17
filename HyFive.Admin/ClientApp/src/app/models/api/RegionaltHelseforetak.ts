@@ -5,5 +5,5 @@
 export interface RegionaltHelseforetak
 {
 	id: number;
-	navn: string;
+	name: string;
 }

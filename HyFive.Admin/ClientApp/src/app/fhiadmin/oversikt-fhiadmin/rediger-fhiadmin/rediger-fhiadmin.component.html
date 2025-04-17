@@ -23,14 +23,14 @@
   
         <tbody>
           <tr *ngIf="nyFhiAdmin != null">
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.fornavn" name="fornavn" placeholder="Fornavn"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.etternavn" name="etternavn" placeholder="Etternavn"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.identPseudonym" name="identPseudonym" placeholder="IdentPseudonym"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.firstName" name="firstName" placeholder="Fornavn"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.lastName" name="lastName" placeholder="Etternavn"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.identityPseudonym" name="identityPseudonym" placeholder="IdentPseudonym"></td>
             <td></td>
             <td></td>
 
             <td class="text-end py-0 align-middle">
-              <button class="btn fhi-btn-icon" type="button" [disabled]="kanOpprettes() == false" (click)="opprettFhiAdmin()">
+              <button class="btn fhi-btn-icon" type="button" [disabled]="kanOpprettes() == false" (click)="createFhiAdmin()">
                 <i class="icon-plus"></i><span class="btn__text">Opprett</span>
               </button>
               <button class="btn fhi-btn-icon" type="button" (click)="avbrytRedigering($event)">
@@ -41,23 +41,23 @@
 
           <tr *ngFor="let fhiAdmin of brukere; index as i">
             <ng-container *ngIf="fhiAdminSomEndres?.id != fhiAdmin.id">
-              <td>{{ fhiAdmin.fornavn }}</td>
-              <td>{{ fhiAdmin.etternavn }}</td>
-              <td>{{ fhiAdmin.identPseudonym }}</td>
-              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdmin.erDeaktivert" name="erDeaktivert" disabled="disabled"></td>
+              <td>{{ fhiAdmin.firstName }}</td>
+              <td>{{ fhiAdmin.lastName }}</td>
+              <td>{{ fhiAdmin.identityPseudonym }}</td>
+              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdmin.isDisabled" name="isDisabled" disabled="disabled"></td>
             </ng-container>
             <ng-container *ngIf="fhiAdminSomEndres?.id == fhiAdmin.id">
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.fornavn" name="fornavn" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.etternavn" name="etternavn" placeholder="Etternavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.identPseudonym" name="identPseudonym" placeholder="IdentPseudonym"></td>
-              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminSomEndres.erDeaktivert" name="erDeaktivert"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.firstName" name="firstName" placeholder="Fornavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.lastName" name="lastName" placeholder="Etternavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.identityPseudonym" name="identityPseudonym" placeholder="IdentPseudonym"></td>
+              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminSomEndres.isDisabled" name="isDisabled"></td>
             </ng-container>
 
-            <td>{{ fhiAdmin.opprettettidspunkt | date:'medium' }}</td>
+            <td>{{ fhiAdmin.timeOfCreation | date:'medium' }}</td>
           
             <td class="text-end py-0 align-middle">
               <ng-container *ngIf="fhiAdmin.id == fhiAdminSomEndres?.id">
-                <button class="btn fhi-btn-icon" (click)="oppdaterFhiAdmin(fhiAdminSomEndres)" [disabled]="kanEndres(fhiAdminSomEndres) == false">
+                <button class="btn fhi-btn-icon" (click)="updateFhiAdmin(fhiAdminSomEndres)" [disabled]="kanEndres(fhiAdminSomEndres) == false">
                   <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                 </button>
                 <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">

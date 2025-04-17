@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { ObservasjonService } from '../../services/data/observasjon.service';
-import { SesjonType } from '../../models/api/SesjonType';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { ObservationService } from '../../services/data/observation.service';
+import { SessionType } from '../../models/api/SessionType';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
 import { UrlPaths } from '../../_felles/konstanter/url-paths';
 import { faArrowRight, faFileDownload, faFileExcel, faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { InstitusjonOversiktRapport } from "../../models/api/InstitusjonOversiktRapport";
+import { InstitutionOverviewReport } from "../../models/api/InstitutionOverviewReport";
 import { ToastrService } from "ngx-toastr";
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
@@ -21,38 +21,38 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
 
-  SesjonType = SesjonType;
+  SessionType = SessionType;
   faArrowRight = faArrowRight;
   faFileDownload = faFileDownload;
   faFileExcel = faFileExcel;
   faFilePdf = faFilePdf;
 
   sesjontyper = [
-    { navn: 'Beskyttelsesutstyr', verdi: SesjonType.Beskyttelsesutstyr },
-    { navn: 'Fire indikasjoner', verdi: SesjonType.FireIndikasjoner },
-    { navn: 'Hansker', verdi: SesjonType.Hansker },
-    { navn: 'Håndsmykker', verdi: SesjonType.Handsmykker }
+    { name: 'Beskyttelsesutstyr', verdi: SessionType.Beskyttelsesutstyr },
+    { name: 'Fire indikasjoner', verdi: SessionType.FireIndikasjoner },
+    { name: 'Hansker', verdi: SessionType.Hansker },
+    { name: 'Håndsmykker', verdi: SessionType.Handsmykker }
   ];
 
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   institusjonIdForRapportSomLastesNed = 0;
 
   fraDato: Date = null;
   tilDato: Date = null;
-  institusjoner: InstitusjonRapport[] = [];
+  institusjoner: InstitutionReport[] = [];
   valgtInstitusjonId: string = null;
   avdelingIdForRapportSomLastesNed = 0;
 
   valgtInstitusjonFraListeId: number = 0;
 
-  institusjonOversiktRapportListe: InstitusjonOversiktRapport[] = [];
+  institusjonOversiktRapportListe: InstitutionOverviewReport[] = [];
   kanVelgeInstitusjon = false;
   soker = false;
   private valgtRolle: AuthorizedRole;
 
   constructor(
-    private institusjonService: InstitusjonService,
-    private observasjonService: ObservasjonService,
+    private institusjonService: InstitutionService,
+    private observationService: ObservationService,
     private route: ActivatedRoute,
     private router: Router,
     private toastrService: ToastrService,
@@ -75,7 +75,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
         this.tilDato = params[QueryParameters.ToDate] || null;
         if (this.valgtRolle === AuthorizedRole.Administrator)
           this.valgtInstitusjonId = params[QueryParameters.InstitutionIdIsOk] || null;
-        this.hentInstitusjonerMedSesjoner();
+        this.getInstitutionsWithSessions();
       });
 
     if (this.valgtRolle === AuthorizedRole.Administrator) {
@@ -97,7 +97,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   hentInstitusjon() {
-    this.institusjonService.hentInstitusjoner().subscribe(
+    this.institusjonService.getInstitutions().subscribe(
       (institusjoner) => {
         this.institusjoner = institusjoner;
       },
@@ -106,30 +106,30 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
       });
   }
 
-  hentInstitusjonerMedSesjoner() {
+  getInstitutionsWithSessions() {
     let valgtInstitusjonId = this.valgtInstitusjonId;
     if (this.valgtInstitusjonId === null || this.valgtInstitusjonId === 'null') {
       valgtInstitusjonId = null;
     }
     this.soker = true;
-    this.institusjonOversiktRapportListe = new Array<InstitusjonOversiktRapport>();
+    this.institusjonOversiktRapportListe = new Array<InstitutionOverviewReport>();
 
-    this.observasjonService.hentInstitusjonerMedSesjoner(
+    this.observationService.getInstitutionsWithSessions(
       valgtInstitusjonId,
       this.valgtSesjontype ? this.valgtSesjontype : null,
       this.fraDato,
       this.tilDato,
       this.valgtRolle
     ).subscribe((resultater) => {
-      if(this.valgtSesjontype !== SesjonType.FireIndikasjoner && this.valgtSesjontype !== SesjonType.Handsmykker &&
-        this.valgtSesjontype !== SesjonType.Hansker && this.valgtSesjontype !== SesjonType.Beskyttelsesutstyr)
+      if(this.valgtSesjontype !== SessionType.FireIndikasjoner && this.valgtSesjontype !== SessionType.Handsmykker &&
+        this.valgtSesjontype !== SessionType.Hansker && this.valgtSesjontype !== SessionType.Beskyttelsesutstyr)
         this.valgtSesjontype = null;
       this.institusjonOversiktRapportListe = resultater;
       this.soker = false;
     },
       error => {
         this.toastrService.error(error.error.message, 'Lasting av listen feilet', {disableTimeOut: true});
-        this.institusjonOversiktRapportListe = new Array<InstitusjonOversiktRapport>();
+        this.institusjonOversiktRapportListe = new Array<InstitutionOverviewReport>();
         this.soker = false;
       });
 
@@ -156,21 +156,21 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
       this.valgtInstitusjonId = null;
     }
 
-    this.institusjonOversiktRapportListe = new Array<InstitusjonOversiktRapport>();
+    this.institusjonOversiktRapportListe = new Array<InstitutionOverviewReport>();
   }
 
   nullstillSokeresultat() {
-    this.institusjonOversiktRapportListe = new Array<InstitusjonOversiktRapport>();
+    this.institusjonOversiktRapportListe = new Array<InstitutionOverviewReport>();
   }
 
   lagValgtSesjonstypeTekst(): string {
-    if (this.valgtSesjontype == SesjonType.Beskyttelsesutstyr)
+    if (this.valgtSesjontype == SessionType.Beskyttelsesutstyr)
       return "Beskyttelsesutstyr";
-    if (this.valgtSesjontype == SesjonType.FireIndikasjoner)
+    if (this.valgtSesjontype == SessionType.FireIndikasjoner)
       return "FireIndikasjoner";
-    if (this.valgtSesjontype == SesjonType.Handsmykker)
+    if (this.valgtSesjontype == SessionType.Handsmykker)
       return "Handsmykker";
-    if (this.valgtSesjontype == SesjonType.Hansker)
+    if (this.valgtSesjontype == SessionType.Hansker)
       return "Hansker";
 
     return "Alle";
@@ -193,7 +193,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
     let propertyOf: (x: AvdelingOversiktRapport) => any;
     switch ($event.columnName) {
       case "Navn":
-        propertyOf = (x: AvdelingOversiktRapport) => x.navn;
+        propertyOf = (x: AvdelingOversiktRapport) => x.name;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -209,7 +209,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
     let index = this.institusjonOversiktRapportListe.findIndex(x => x.id == this.valgtInstitusjonFraListeId);
 
     if (index > -1) {
-      this.institusjonOversiktRapportListe[index].avdelinger = this.institusjonOversiktRapportListe[index].avdelinger.sort(sortFunc);
+      this.institusjonOversiktRapportListe[index].departments = this.institusjonOversiktRapportListe[index].departments.sort(sortFunc);
     }
   }
 }

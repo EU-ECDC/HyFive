@@ -29,8 +29,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authorizationService.getRoller().subscribe((roller) => {
-      this.authorizedRoles = roller;
+    this.authorizationService.getRoller().subscribe((roles) => {
+      this.authorizedRoles = roles;
       this.setValgtRolle();
       this.lagGjeldendeMenyvalg();
     });

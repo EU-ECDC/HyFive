@@ -23,11 +23,11 @@
     </div>
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>Registrert</strong></div>
-      <span>{{item.opprettettidspunkt | date:'dd.MM.yyyy HH:mm' }}</span>
+      <span>{{item.timeOfCreation | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>Overføringsstatus</strong></div>
-      <span>{{item.overforingstatus.navn}}</span>
+      <span>{{item.overforingstatus.name}}</span>
     </div>
   </div>
 </ng-template>
@@ -36,7 +36,7 @@
   <div class="row w-100">
     <div class="col-12 col-md-2 mb-3">
       <div class="mb-2"><strong>Avdelingsnavn</strong></div>
-      <span>{{item.avdeling.navn}}</span>
+      <span>{{item.avdeling.name}}</span>
     </div>
     <div class="col-12 col-md-2 mb-3">
       <div class="mb-2"><strong>Observatør</strong></div>
@@ -48,9 +48,9 @@
     </div>
     <div class="col-12 col-md-2 mb-3">
       <div class="mb-2"><strong>Registrert</strong></div>
-      <span>{{item.opprettettidspunkt | date:'dd.MM.yyyy HH:mm' }}</span>
+      <span>{{item.timeOfCreation | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="!isOverfortTilFhi(item.overforingstatus.kode)">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="!isOverfortTilFhi(item.overforingstatus.code)">
       <div class="mb-2 me-2">
         <button class="btn btn-sm fhi-btn-primary col-md-8" (click)="overfor(item.id, $event)">
           <fa-icon [icon]="faPaperPlane"></fa-icon>
@@ -58,7 +58,7 @@
         </button>
       </div>
       <div>
-        <app-bekreftelsesdialog *ngIf="item.overforingstatus.kode == transferstatusTypeConstants.OverfortTilKoordinator"
+        <app-bekreftelsesdialog *ngIf="item.overforingstatus.code == transferstatusTypeConstants.OverfortTilKoordinator"
                                 [knappTekst]="'Slett sesjon'"
                                 (bekreftetEvent)="deleteSession(item)"
                                 [dialogmelding]="hentSlettemelding(item)"
@@ -67,9 +67,9 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-3 mb-3" *ngIf="isOverfortTilFhi(item.overforingstatus.kode)"></div>
+    <div class="col-12 col-md-3 mb-3" *ngIf="isOverfortTilFhi(item.overforingstatus.code)"></div>
     <div class="col-12 col-md-1 mb-3">
-      <div *ngIf="item.overforingstatus.kode == transferstatusTypeConstants.OverfortTilKoordinator" class="mt-2">
+      <div *ngIf="item.overforingstatus.code == transferstatusTypeConstants.OverfortTilKoordinator" class="mt-2">
         <input type="checkbox" id="check" class="form-check-input" (click)="velgOverforTilFhi(item.id, $event)" [(ngModel)]="item.erValgt">
         <label class="ms-2" for="check">Velg</label>
       </div>
@@ -83,14 +83,14 @@
   <div class="mt-n3" style="padding: 0.625rem 0.75rem;">
     <div class="pb-4">
       <app-edit-sessionsdata [session]="item"
-                               [canEdit]="!isOverfortTilFhi(item.overforingstatus.kode)"
-                               [institutionId]="item.avdeling.institusjonId">
+                               [canEdit]="!isOverfortTilFhi(item.overforingstatus.code)"
+                               [institutionId]="item.avdeling.institutionId">
       </app-edit-sessionsdata>
     </div>
     <h3 class="text-dark mb-3"><strong>Observasjoner</strong></h3>
     <!-- Fireindikasjoner -->
-    <ng-container *ngIf="item.type === SesjonType[SesjonType.FireIndikasjoner]">
-      <app-rediger-fire-indikasjoner-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.kode)"
+    <ng-container *ngIf="item.type === SessionType[SessionType.FireIndikasjoner]">
+      <app-rediger-fire-indikasjoner-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                                    (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit(true)"
                                                    (observasjonSlettetEvent)="observasjonSlettetEvent.emit(true)"
                                                    [avdeling]="item.avdeling"
@@ -98,8 +98,8 @@
                                                    [sesjonId]="item.id"></app-rediger-fire-indikasjoner-observasjoner>
     </ng-container>
     <!-- Håndsmykker -->
-    <ng-container *ngIf="item.type === SesjonType[SesjonType.Handsmykker]">
-      <app-rediger-handsmykke-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.kode)"
+    <ng-container *ngIf="item.type === SessionType[SessionType.Handsmykker]">
+      <app-rediger-handsmykke-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                             [sesjonId]="item.id"
                                             [observasjoner]="item.observasjoner"
                                             [avdeling]="item.avdeling"
@@ -107,8 +107,8 @@
                                             (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit()"></app-rediger-handsmykke-observasjoner>
     </ng-container>
     <!-- Hansker -->
-    <ng-container *ngIf="item.type === SesjonType[SesjonType.Hansker]">
-      <app-rediger-hanske-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.kode)"
+    <ng-container *ngIf="item.type === SessionType[SessionType.Hansker]">
+      <app-rediger-hanske-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                         [sesjonId]="item.id"
                                         [observasjoner]="item.observasjoner"
                                         [avdeling]="item.avdeling"
@@ -116,8 +116,8 @@
                                         (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit()"></app-rediger-hanske-observasjoner>
     </ng-container>
     <!-- Beskyttelsesutstyr -->
-    <ng-container *ngIf="item.type === SesjonType[SesjonType.Beskyttelsesutstyr]">
-      <app-rediger-beskyttelsesutstyr-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.kode)"
+    <ng-container *ngIf="item.type === SessionType[SessionType.Beskyttelsesutstyr]">
+      <app-rediger-beskyttelsesutstyr-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                                     [sesjonId]="item.id"
                                                     [observasjoner]="item.observasjoner"
                                                     [avdeling]="item.avdeling"

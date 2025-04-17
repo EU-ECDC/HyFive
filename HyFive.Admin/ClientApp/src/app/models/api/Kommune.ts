@@ -6,5 +6,5 @@ export interface Kommune
 {
 	id: number;
 	nummer: string;
-	navn: string;
+	name: string;
 }

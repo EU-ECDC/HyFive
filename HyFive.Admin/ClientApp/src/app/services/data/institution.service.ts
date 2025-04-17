@@ -2,34 +2,34 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { OpprettInstitusjonRequest } from '../../models/api/OpprettInstitusjonRequest';
 import { InstitusjonType } from '../../models/api/InstitusjonType';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from '../../models/api/User';
-import { Avdeling } from "../../models/api/Avdeling";
+import { Department} from "../../models/api/Department";
 import { Localstoragepaths } from '../../_felles/konstanter/localstoragepaths';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InstitusjonService {
+export class InstitutionService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentInstitusjoner(): Observable<InstitusjonRapport[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/`;
-    return this.http.get<Institusjon[]>(url);
+  getInstitutions(): Observable<InstitutionReport[]> {
+    const url = `${environment.apiBaseUrl}/v1/institution/`;
+    return this.http.get<Institution[]>(url);
   }
 
-  hentInstitusjonerForKoordinator(): Observable<InstitusjonRapport[]> {
+  hentInstitusjonerForKoordinator(): Observable<InstitutionReport[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/hentInstitusjonerForKoordinator/`;
-    return this.http.get<InstitusjonRapport[]>(url);
+    return this.http.get<InstitutionReport[]>(url);
   }
 
-  hentInstitusjon(id: number): Observable<Institusjon> {
+  hentInstitusjon(id: number): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/${id}`;
-    return this.http.get<Institusjon>(url);
+    return this.http.get<Institution>(url);
   }
 
   hentValgtInstitusjonId(): number | null {
@@ -37,8 +37,8 @@ export class InstitusjonService {
     return valgtInstitusjonIdString ? parseInt(valgtInstitusjonIdString) : null;
   }
 
-  oppdaterValgtInstitusjonId(institusjonId: number): number | null {
-    localStorage.setItem(Localstoragepaths.SelectedInstitution, JSON.stringify(institusjonId));
+  oppdaterValgtInstitusjonId(institutionId: number): number | null {
+    localStorage.setItem(Localstoragepaths.SelectedInstitution, JSON.stringify(institutionId));
     return this.hentValgtInstitusjonId();
   }
 
@@ -52,9 +52,9 @@ export class InstitusjonService {
     return this.http.get<User[]>(url);
   }
 
-  hentAvdelinger(id: number): Observable<Avdeling[]> {
+  hentAvdelinger(id: number): Observable<Department[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/avdelinger/`;
-    return this.http.get<Avdeling[]>(url);
+    return this.http.get<Department[]>(url);
   }
 
   hentInstitusjontyper(): Observable<InstitusjonType[]> {
@@ -62,18 +62,18 @@ export class InstitusjonService {
     return this.http.get<InstitusjonType[]>(url);
   }
 
-  opprettInstitusjon(request: OpprettInstitusjonRequest): Observable<Institusjon> {
+  opprettInstitusjon(request: OpprettInstitusjonRequest): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/opprett`;
-    return this.http.post<Institusjon>(url, request);
+    return this.http.post<Institution>(url, request);
   }
 
-  oppdaterInstitusjon(institusjon: Institusjon): Observable<Institusjon> {
+  oppdaterInstitusjon(institusjon: Institution): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/oppdater`;
-    return this.http.put<Institusjon>(url, institusjon);
+    return this.http.put<Institution>(url, institusjon);
   }
 
   slettInstitusjon(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/slett?institusjonId=${id}`;
+    const url = `${environment.apiBaseUrl}/v1/institusjon/slett?institutionId=${id}`;
     return this.http.delete<boolean>(url);
   }
 }

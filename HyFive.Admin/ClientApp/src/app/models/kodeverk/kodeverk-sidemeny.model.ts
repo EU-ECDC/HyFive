@@ -1,6 +1,6 @@
 export interface KodeverkSidemenyModel
 {
-  navn: string;
+  name: string;
   erAktiv: boolean;
   component: any;
 }

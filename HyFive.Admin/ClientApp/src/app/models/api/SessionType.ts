@@ -2,9 +2,11 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface OpprettFhiAdminRequest
-{
-	identPseudonym: string;
-	fornavn: string;
-	etternavn: string;
+export enum SessionType {
+	FireIndikasjoner = 1,
+	InnUt = 2,
+	Handsmykker = 3,
+	Hansker = 4,
+	Beskyttelsesutstyr = 5,
+	IkkeValgt = 6
 }

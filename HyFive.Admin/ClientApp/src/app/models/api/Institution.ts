@@ -2,19 +2,22 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
+import { Department} from './Department';
 import { InstitusjonType } from './InstitusjonType';
 import { Region } from './Region';
 import { Kommune } from './Kommune';
 import { Helseforetak } from './Helseforetak';
 
-export interface InstitusjonRapport
+export interface Institution
 {
 	id: number;
-	navn: string;
-	forkortelse: string;
+	name: string;
+	abbreviation: string;
 	herId: string;
-	institusjontype: InstitusjonType;
+	departments: Department[];
+	institutionType: InstitusjonType;
 	region: Region;
-	kommune: Kommune;
-	helseforetak: Helseforetak;
+	municipality: Kommune;
+	hasObservations: boolean;
+	healthcareCompany: Helseforetak;
 }

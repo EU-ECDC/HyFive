@@ -4,10 +4,10 @@
       <h3>Vedlikehold av koordinatorer</h3>
     </div>
     <div *ngIf="!institusjonRapport.helseforetak">
-      <app-rediger-koordinatorer [institusjonId]="institusjonRapport.id"></app-rediger-koordinatorer>
+      <app-edit-coordinators [institutionId]="institusjonRapport.id"></app-edit-coordinators>
     </div>
     <div *ngIf="institusjonRapport.helseforetak">
-      <app-rediger-koordinatorer-for-helseforetak [institusjon]="institusjonRapport"></app-rediger-koordinatorer-for-helseforetak>
+      <app-edit-coordinators-for-helseforetak [institusjon]="institusjonRapport"></app-edit-coordinators-for-helseforetak>
     </div>
   </ng-container>
   <ng-template #spinner>

@@ -3,11 +3,9 @@
 //     the code is regenerated.
 
 import { Observasjon } from './Observasjon';
-import { IndikasjonType } from './IndikasjonType';
-import { Aktivitet } from './Aktivitet';
+import { HandsmykkeType } from './HandsmykkeType';
 
-export interface FireIndikasjonerObservasjon extends Observasjon
+export interface BraceletObservation extends Observasjon
 {
-	indikasjonstyper?: IndikasjonType[];
-	aktivitet?: Aktivitet;
+	handsmykker?: HandsmykkeType[];
 }

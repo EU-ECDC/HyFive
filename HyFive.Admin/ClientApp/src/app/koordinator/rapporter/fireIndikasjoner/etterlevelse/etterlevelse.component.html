@@ -40,18 +40,18 @@
     <div class="row align-items-end mb-4">
 
       <div class="col-md-2">
-        <label for="sesjonType">Rolle</label>
+        <label for="sesjonType">Role</label>
         <select class="form-select" id="rolle" [(ngModel)]="rolle">
           <option value="null">Alle</option>
-          <option *ngFor="let rolle of roller" [ngValue]="rolle">{{rolle.navn}}</option>
+          <option *ngFor="let rolle of roles" [ngValue]="rolle">{{rolle.name}}</option>
         </select>
       </div>
 
       <div class="col-md-2">
-        <label for="sesjonType">Avdeling</label>
+        <label for="sesjonType">Department</label>
         <select class="form-select" id="avdeling" [(ngModel)]="avdeling">
           <option value="null">Alle</option>
-          <option *ngFor="let avdeling of avdelinger" [ngValue]="avdeling">{{avdeling.navn}}</option>
+          <option *ngFor="let avdeling of avdelinger" [ngValue]="avdeling">{{avdeling.name}}</option>
         </select>
       </div>
 

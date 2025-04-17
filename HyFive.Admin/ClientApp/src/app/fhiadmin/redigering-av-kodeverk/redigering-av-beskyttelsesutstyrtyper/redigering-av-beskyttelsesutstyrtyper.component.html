@@ -20,8 +20,8 @@
             <tbody>
               <tr *ngFor="let utstyrtype of utstyrtyper">
                 <ng-container *ngIf="utstyrtypeSomEndres?.id !== utstyrtype.id">
-                  <td>{{utstyrtype.kode}}</td>
-                  <td>{{utstyrtype.navn}}</td>
+                  <td>{{utstyrtype.code}}</td>
+                  <td>{{utstyrtype.name}}</td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="navigerTilFeilbruktyper(utstyrtype)">
                       <i class="icon-pencil"></i><span class="btn__text">Rediger feilbruktyper</span>
@@ -29,9 +29,9 @@
                   </td>
                 </ng-container>
                 <ng-container *ngIf="utstyrtypeSomEndres?.id === utstyrtype.id">
-                  <td>{{utstyrtypeSomEndres.kode}}</td>
+                  <td>{{utstyrtypeSomEndres.code}}</td>
                   <td>
-                    <input type="text" class="form-control" [(ngModel)]="utstyrtypeSomEndres.navn">
+                    <input type="text" class="form-control" [(ngModel)]="utstyrtypeSomEndres.name">
                   </td>
                 </ng-container> 
               </tr>

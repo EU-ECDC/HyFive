@@ -5,12 +5,12 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Beskyttelsesutstyr } from 'src/app/models/api/Beskyttelsesutstyr';
 import { BeskyttelsesutstyrObservasjon } from "src/app/models/api/BeskyttelsesutstyrObservasjon";
-import { Avdeling } from "src/app/models/api/Avdeling";
+import { Department} from "src/app/models/api/Department";
 import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
 import {ToastrService} from "ngx-toastr";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
-import { ObservasjonService } from 'src/app/services/data/observasjon.service';
-import { Rolle } from "../../../../models/api/Rolle";
+import { ObservationService } from 'src/app/services/data/observation.service';
+import { Role } from "../../../../models/api/Role";
 import { Farger } from 'src/app/utils/farger';
 import {BeskyttelsesutstyrsettingtyperService} from "../../../../services/data/beskyttelsesutstyrsettingtyper.service";
 import {BeskyttelsesutstyrsettingType} from "../../../../models/api/BeskyttelsesutstyrsettingType";
@@ -39,21 +39,21 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private settingService: BeskyttelsesutstyrsettingtyperService,
     private toastrService: ToastrService) { }
 
   @Input() isReadonly: boolean = false;
   @Input() observasjonId: string;
 
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() institusjonid: number;
   @Input() sesjonId: string;
   @Output() observasjonSlettetEvent = new EventEmitter();
   @Output() observasjonOppdatertEvent = new EventEmitter<BeskyttelsesutstyrObservasjon>();
 
   ngOnInit(): void {
-    this.observasjonService.hentBeskyttelsesutstyrObservasjon(this.observasjonId, this.sesjonId).subscribe(
+    this.observationService.hentBeskyttelsesutstyrObservasjon(this.observasjonId, this.sesjonId).subscribe(
       (o) => {
         this.observasjon = o;
         this.beskyttelsesutstyr = this.observasjon.beskyttelsesutstyrliste;
@@ -151,7 +151,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
     this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.utstyrstyper, valg).find(x => x.utstyrstype.id === valg.utstyrstype.id);
   }
 
-  velgRolle($event: Rolle) {
+  velgRolle($event: Role) {
     this.observasjon.rolle = $event;
     this.oppdater();
   }
@@ -166,11 +166,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   }
   sorterteSettinger() : BeskyttelsesutstyrsettingType[]
   {
-    let kombinerteSettinger = this.settinger.filter(s => s.kode != this.valgtSetting.kode)
+    let kombinerteSettinger = this.settinger.filter(s => s.code != this.valgtSetting.code)
     kombinerteSettinger.push(this.valgtSetting);
     kombinerteSettinger.sort((a, b) => {
-      if(a.navn < b.navn) { return -1; }
-      if(a.navn > b.navn) { return 1; }
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
       return 0;});
 
     return kombinerteSettinger;

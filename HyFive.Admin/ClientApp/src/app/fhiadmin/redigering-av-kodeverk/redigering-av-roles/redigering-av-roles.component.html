@@ -6,14 +6,14 @@
   </div>
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyRolle.navn' placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]='nyRolle.name' placeholder="Navn">
     </div>
     <div class="col-7">
       <input type="text" class="form-control" [(ngModel)]='nyRolle.beskrivelse' placeholder="Beskrivelse">
     </div>
     <div class="col-2">
       <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="opprettRolle()" [disabled]="!nyRolle.navn">Legg til</button>
+      <button class="form-control btn fhi-btn-primary" (click)="opprettRolle()" [disabled]="!nyRolle.name">Legg til</button>
     </div>
   </div>
 
@@ -29,9 +29,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let rolle of roller">
+            <tr *ngFor="let rolle of roles">
               <ng-container *ngIf="rolleSomEndres?.id !== rolle.id">
-                <td>{{rolle.navn}}</td>
+                <td>{{rolle.name}}</td>
                 <td>{{rolle.beskrivelse}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtRolle(rolle)">
@@ -40,7 +40,7 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="rolleSomEndres?.id === rolle.id">
-                <td>{{rolleSomEndres.navn}}</td>
+                <td>{{rolleSomEndres.name}}</td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="rolleSomEndres.beskrivelse">
                 </td>
@@ -60,5 +60,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="roller?.length == 0">Laster roller</app-spinner>
+  <app-spinner class="col-12" *ngIf="roles?.length == 0">Laster roles</app-spinner>
 </div>

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../models/api/User';
-import { OpprettFhiAdminRequest } from '../../models/api/OpprettFhiAdminRequest';
-import { KoordinatorForHelseforetak } from '../../models/api/KoordinatorForHelseforetak';
+import { CreateFhiAdminRequest } from '../../models/api/CreateFhiAdminRequest';
+import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 
 @Injectable({
   providedIn: 'root'
@@ -16,65 +16,65 @@ export class UserService {
   // ---- Observator ----
 
   createObserver(user: User): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/observator/opprett`;
+    const url = `${environment.apiBaseUrl}/v1/user/observer/create`;
     return this.http.post<User>(url, user);
   }
 
-  oppdaterObservator(user: User): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/observator/oppdater`;
+  updateObserver(user: User): Observable<User> {
+    const url = `${environment.apiBaseUrl}/v1/user/observer/update`;
     return this.http.put<User>(url, user);
   }
 
-  slettObservator(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/user/observator/slett?observatorId=${id}`;
+  deleteObserver(id: number): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/user/observer/delete?observerId=${id}`;
     return this.http.delete<boolean>(url);
   }
 
-  harOverfortSesjonTilFHI(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/user/observator/harOverfortSesjonTilFHI?observatorId=${id}`;
+  hasTransferredSessionToFHI(id: number): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/user/observer/hasTransferredSessionToFHI?observerId=${id}`;
     return this.http.get<boolean>(url);
   }
 
   // ---- Koordinator ----
 
-  opprettKoordinator(user: User): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/koordinator/opprett`;
+  createCoordinator(user: User): Observable<User> {
+    const url = `${environment.apiBaseUrl}/v1/user/coordinator/create`;
     return this.http.post<User>(url, user);
   }
 
-  oppdaterKoordinator(user: User): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/koordinator/oppdater`;
+  updateCoordinator(user: User): Observable<User> {
+    const url = `${environment.apiBaseUrl}/v1/user/coordinator/update`;
     return this.http.put<User>(url, user);
   }
 
-  slettKoordinator(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/user/koordinator/slett?koordinatorId=${id}`;
+  deleteCoordinator(id: number): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/user/coordinator/delete?coordinatorId=${id}`;
     return this.http.delete<boolean>(url);
   }
 
   // ---- FhiAdmin ----
 
-  hentFhiAdmin(): Observable<User[]> {
+  getFhiAdmin(): Observable<User[]> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.get<User[]>(url);
   }
 
-  opprettFhiAdmin(user: OpprettFhiAdminRequest): Observable<User> {
+  createFhiAdmin(user: CreateFhiAdminRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.post<User>(url, user);
   }
 
-  oppdaterFhiAdmin(user: User): Observable<User> {
+  updateFhiAdmin(user: User): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.put<User>(url, user);
   }
 
-  harGyldigHprnummerEllerPseudonym(user: User): boolean{
-    return user?.hprNummer != null || this.isValidPseudonym(user.identPseudonym);
+  hasValidHprnumberOrPseudonym(user: User): boolean{
+    return user?.hprNummer != null || this.isValidPseudonym(user.identityPseudonym);
   }
 
-  harKoordinatorGyldigHprnummerEllerPseudonym(koordinator: KoordinatorForHelseforetak): boolean {
-    return koordinator?.hprNummer?.trim().length > 0 || this.isValidPseudonym(koordinator.identPseudonym);
+  hasCoordinatorValidHprnumberOrPseudonym(coordinator: CoordinatorForHealthcareCompanies): boolean {
+    return coordinator?.hprNummer?.trim().length > 0 || this.isValidPseudonym(coordinator.identityPseudonym);
   }
 
   isValidPseudonym(pseudonym: string): boolean{

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Rolle} from '../../models/api/Rolle';
+import {Role} from '../../models/api/Role';
 import { AvdelingService } from '../../services/data/avdeling.service';
 
 @Component({
@@ -11,9 +11,9 @@ export class RolleValgDropdownComponent implements OnInit{
   @Input('avdelingId') avdelingId : number;
   @Input('rolleId') rolleId: number;
   @Input() customClass = "";
-  @Output('rolleValgt') rolleValgt: EventEmitter<Rolle> = new EventEmitter<Rolle>();
-  valgtRolle: Rolle;
-  roller: Rolle[] = [];
+  @Output('rolleValgt') rolleValgt: EventEmitter<Role> = new EventEmitter<Role>();
+  valgtRolle: Role;
+  roles: Role[] = [];
 
   valgtRolleId: string;
 
@@ -22,8 +22,8 @@ export class RolleValgDropdownComponent implements OnInit{
 
   ngOnInit() {
     this.avdelingService.hentRoller(this.avdelingId).subscribe(
-      (roller) => {
-      this.roller = roller;
+      (roles) => {
+      this.roles = roles;
       this.valgtRolleId = this.rolleId+'';
       this.velgRolle();
       }
@@ -36,8 +36,8 @@ export class RolleValgDropdownComponent implements OnInit{
   }
 
   velgRolle() {
-    if (this.roller){
-      this.valgtRolle = this.roller[this.roller.map(r => r.id).indexOf(parseInt(this.valgtRolleId))];
+    if (this.roles){
+      this.valgtRolle = this.roles[this.roles.map(r => r.id).indexOf(parseInt(this.valgtRolleId))];
     }
   }
 }

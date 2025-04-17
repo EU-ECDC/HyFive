@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/api/User';
-import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-epost',
-  templateUrl: './epost.component.html'
+  selector: 'app-email',
+  templateUrl: './email.component.html'
 })
-export class EpostComponent implements OnInit {
+export class EmailComponent implements OnInit {
 
   epostListe: string[];
 
@@ -17,13 +17,13 @@ export class EpostComponent implements OnInit {
   observatorListe: User[];
   filtrertBrukerListe: User[];
 
-  institusjonId: number;
-  institusjoner: InstitusjonRapport[];
+  institutionId: number;
+  institusjoner: InstitutionReport[];
 
   koordinaterValgt: boolean;
   observatorValgt: boolean;
 
-  constructor(private institusjonService: InstitusjonService) {}
+  constructor(private institusjonService: InstitutionService) {}
 
   ngOnInit(): void {
     this.koordinatorListe = [];
@@ -32,7 +32,7 @@ export class EpostComponent implements OnInit {
     this.epostListe = [];
     this.alleBrukereListe = [];
 
-    this.institusjonService.hentInstitusjoner().subscribe((institusjoner) => {
+    this.institusjonService.getInstitutions().subscribe((institusjoner) => {
       this.institusjoner = institusjoner;
       
       this.institusjoner.forEach(institusjon => {
@@ -45,7 +45,7 @@ export class EpostComponent implements OnInit {
   hentKoordinaterForInstitusjon(id: number) {
     this.institusjonService.hentKoordinatorer(id).subscribe((koordinatorer) => {
       koordinatorer.forEach(koordinator => {
-        if(koordinator.epost != null && koordinator.epost != "") {
+        if(koordinator.email != null && koordinator.email != "") {
           this.koordinatorListe.push(koordinator);
           this.alleBrukereListe.push(koordinator);
         }
@@ -56,7 +56,7 @@ export class EpostComponent implements OnInit {
   hentObservatorerForInstitusjon(id: number) {
     this.institusjonService.hentObservatorer(id).subscribe((observatorer) => {
       observatorer.forEach(observator => {
-        if(observator.epost != null && observator.epost != "") {
+        if(observator.email != null && observator.email != "") {
           this.observatorListe.push(observator);
           this.alleBrukereListe.push(observator);
         }
@@ -69,14 +69,14 @@ export class EpostComponent implements OnInit {
     this.filtrertBrukerListe = [];
 
     if (this.koordinaterValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.koordinatorListe.includes(user) && user.institusjonId === this.institusjonId);
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.koordinatorListe.includes(user) && user.institutionId === this.institutionId);
     }
     if (this.observatorValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.observatorListe.includes(user) && user.institusjonId === this.institusjonId);
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.observatorListe.includes(user) && user.institutionId === this.institutionId);
     }
     if (this.koordinaterValgt && this.observatorValgt) {
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => user.institusjonId === this.institusjonId);
-      this.filtrertBrukerListe = this.filtrertBrukerListe.sort((a, b) => a.etternavn.localeCompare(b.etternavn));
+      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => user.institutionId === this.institutionId);
+      this.filtrertBrukerListe = this.filtrertBrukerListe.sort((a, b) => a.lastName.localeCompare(b.lastName));
     }
   }
 
@@ -84,7 +84,7 @@ export class EpostComponent implements OnInit {
     this.epostListe = [];
 
     this.filtrertBrukerListe.forEach(user => {
-      this.epostListe.push(user.epost)
+      this.epostListe.push(user.email)
     });
   }
 
@@ -97,10 +97,10 @@ export class EpostComponent implements OnInit {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
       case "Fornavn":
-        propertyOf = (x: User) => x.fornavn;
+        propertyOf = (x: User) => x.firstName;
         break;
       case "Etternavn":
-        propertyOf = (x: User) => x.etternavn;
+        propertyOf = (x: User) => x.lastName;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");

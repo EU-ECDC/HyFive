@@ -2,6 +2,6 @@
   <select class="form-select form-control--rounded"
           [(ngModel)]="valgtAktivitetTypeId"
           (ngModelChange)="valgtAktivitetTypeEndret()">
-    <option *ngFor="let aktivitetType of aktivitetTyper" [value]="aktivitetType.id+''" >{{aktivitetType.navn}}</option>
+    <option *ngFor="let aktivitetType of aktivitetTyper" [value]="aktivitetType.id+''" >{{aktivitetType.name}}</option>
   </select>
 </div>

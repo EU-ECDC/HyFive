@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output, OnDestroy} from '@angular/core';
 import { InstitusjonType } from '../../../models/api/InstitusjonType';
 import { OpprettInstitusjonRequest } from '../../../models/api/OpprettInstitusjonRequest';
-import { InstitusjonService } from '../../../services/data/institusjon.service';
+import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
-import { Institusjon } from '../../../models/api/Institusjon';
+import { Institution } from '../../../models/api/Institution';
 import { Helseforetak } from 'src/app/models/api/Helseforetak';
 import { HelseforetakService } from 'src/app/services/data/helseforetak.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
@@ -23,9 +23,9 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   visHelseforetak: boolean = false;
   visKommune: boolean = false;
 
-  @Output() institusjonOpprettetEvent: EventEmitter<Institusjon> = new EventEmitter<Institusjon>();
+  @Output() institusjonOpprettetEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
-  constructor(private institusjonService: InstitusjonService, private toastrService: ToastrService,
+  constructor(private institusjonService: InstitutionService, private toastrService: ToastrService,
               private kommuneService: KommuneService, 
               private helseforetakService: HelseforetakService) { }
 
@@ -53,12 +53,12 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   }
 
   finnDefaultInstitusjonstype() {
-    return this.institusjonstyper.find(p => p.kode === InstitusjonstypeKonstanter.Sykehus);
+    return this.institusjonstyper.find(p => p.code === InstitusjonstypeKonstanter.Sykehus);
   }
 
   opprettInstitusjon() {
     this.institusjonService.opprettInstitusjon(this.nyInstitusjon).subscribe((resultat) => {
-        this.toastrService.success('Institusjon opprettet', `Institusjon med ID: ${resultat.id} opprettet`);
+        this.toastrService.success('Institution opprettet', `Institution med ID: ${resultat.id} opprettet`);
         this.institusjonOpprettetEvent.emit(resultat);
       },
         (err) => this.toastrService.error(`En feil skjedde under opprettelse av institusjon. Feilmelding fra server: ${err}`, 'Feil under opprettelse av institusjon', { disableTimeOut: true }),
@@ -102,12 +102,12 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   visHelseforetakEllerRegion(institusjonTypeId: number)
   {
     var valgtInstitusjonstype = this.institusjonstyper.find(i => i.id === institusjonTypeId);
-    if(valgtInstitusjonstype.kode === InstitusjonstypeKonstanter.Sykehus)
+    if(valgtInstitusjonstype.code === InstitusjonstypeKonstanter.Sykehus)
     {
       this.visHelseforetak = true;
       this.visKommune = false;
     }
-    else if(valgtInstitusjonstype.kode === InstitusjonstypeKonstanter.Sykehjem)
+    else if(valgtInstitusjonstype.code === InstitusjonstypeKonstanter.Sykehjem)
     {
       this.visKommune = true;
       this.visHelseforetak = false;

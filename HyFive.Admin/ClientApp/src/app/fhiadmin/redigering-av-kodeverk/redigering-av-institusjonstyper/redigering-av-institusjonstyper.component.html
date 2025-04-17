@@ -6,14 +6,14 @@
   </div>
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyInstitusjonstype.kode' placeholder="Kode">
+      <input type="text" class="form-control" [(ngModel)]='nyInstitusjonstype.code' placeholder="Kode">
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyInstitusjonstype.navn' placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]='nyInstitusjonstype.name' placeholder="Navn">
     </div>
     <div class="col-6">
       <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="opprettInstitusjonstype()" [disabled]="!nyInstitusjonstype.kode || !nyInstitusjonstype.navn">Legg til</button>
+      <button class="form-control btn fhi-btn-primary" (click)="opprettInstitusjonstype()" [disabled]="!nyInstitusjonstype.code || !nyInstitusjonstype.name">Legg til</button>
     </div>
   </div>
 
@@ -31,8 +31,8 @@
           <tbody>
             <tr *ngFor="let institusjonstype of institusjonstyper">
               <ng-container *ngIf="institusjonstypeSomEndres?.id !== institusjonstype.id">
-                <td>{{institusjonstype.kode}}</td>
-                <td>{{institusjonstype.navn}}</td>
+                <td>{{institusjonstype.code}}</td>
+                <td>{{institusjonstype.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtInstitusjonstype(institusjonstype)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -40,9 +40,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="institusjonstypeSomEndres?.id === institusjonstype.id">
-                <td>{{institusjonstypeSomEndres.kode}}</td>
+                <td>{{institusjonstypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="institusjonstypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="institusjonstypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterInstitusjonstype(institusjonstypeSomEndres)">

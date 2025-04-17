@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
-import { SesjonType } from '../../../models/api/SesjonType';
-import { ObservasjonService } from '../../../services/data/observasjon.service';
+import { SessionType } from '../../../models/api/SessionType';
+import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
 import { AvdelingService } from '../../../services/data/avdeling.service';
-import { Avdeling } from '../../../models/api/Avdeling';
+import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -20,20 +20,20 @@ import { forkJoin } from 'rxjs';
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdelingsid: number;
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   fraDato: Date;
   tilDato: Date;
   valgtInstitusjonId: number = null;
   institusjonsidISok: number;
 
   sesjontypeAlternativer = [
-    { navn: "FireIndikasjoner", verdi: SesjonType.FireIndikasjoner, type: SesjonType[SesjonType.FireIndikasjoner] },
-    { navn: "Håndsmykker", verdi: SesjonType.Handsmykker, type: SesjonType[SesjonType.Handsmykker] },
-    { navn: "Hansker", verdi: SesjonType.Hansker, type: SesjonType[SesjonType.Hansker] },
-    { navn: "Beskyttelsesutstyr", verdi: SesjonType.Beskyttelsesutstyr, type: SesjonType[SesjonType.Beskyttelsesutstyr] },
+    { name: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
+    { name: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
+    { name: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
+    { name: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
   ];
 
-  avdeling: Avdeling;
+  avdeling: Department;
   session: SessionOverviewReport[] = [];
   laster: boolean;
   valgtRolle: AuthorizedRole;
@@ -42,10 +42,10 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private avdelingService: AvdelingService,
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService,
-    private institusjonService: InstitusjonService
+    private institusjonService: InstitutionService
   ) { }
 
 
@@ -68,7 +68,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
       const avdelingSesjonerRequest = [
         this.avdelingService.hentAvdeling(this.avdelingsid),
-        this.observasjonService.hentSesjonerForAvdeling(
+        this.observationService.getSessionsForDepartment(
           this.avdelingsid,
           this.valgtSesjontype ? this.valgtSesjontype : null,
           this.fraDato,
@@ -79,7 +79,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
       forkJoin(avdelingSesjonerRequest).subscribe((result) => {
         let i = 0;
-        this.avdeling = result[i++] as Avdeling;
+        this.avdeling = result[i++] as Department;
         this.session = result[i++] as SessionOverviewReport[];
 
         this.laster = false;
@@ -104,12 +104,12 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   }
 
   erKoordinatorByttetInstitusjon() {
-    return this.avdeling.institusjonId !== this.valgtInstitusjonId && this.valgtRolle == AuthorizedRole.Coordinator;
+    return this.avdeling.institutionId !== this.valgtInstitusjonId && this.valgtRolle == AuthorizedRole.Coordinator;
   }
 
-  hentSesjonerForAvdeling() {
+  getSessionsForDepartment() {
     
-    this.observasjonService.hentSesjonerForAvdeling(
+    this.observationService.getSessionsForDepartment(
       this.avdelingsid,
       this.valgtSesjontype ? this.valgtSesjontype : null,
       this.fraDato,

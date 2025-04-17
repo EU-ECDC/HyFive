@@ -5,7 +5,7 @@
   </div>
   <div class="row">
     <div class="col" *ngIf="user && !laster">
-      <p> Hei, {{user?.navn}}.
+      <p> Hei, {{user?.name}}.
     </div>
   </div>
 
@@ -15,7 +15,7 @@
       <ng-container *ngIf="!user?.erKoordinator && !user?.erFhiAdmin">
         <div>Du er ikke registeret som koordinator og dermed ikke tilgang til administrasjon av NOST. Ta kontakt med koordinator i din institusjon for tilgang. Hvis du er observatør, gå til nost.fhi.no.</div>
         <div class="mt-3">
-          <i>Ditt pseudonym: {{user?.identPseudonym}}</i>
+          <i>Ditt pseudonym: {{user?.identityPseudonym}}</i>
         </div>
         <div class="col-12 ml-n3">
           <button class="btn fhi-btn-secondary"

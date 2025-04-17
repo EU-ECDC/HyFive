@@ -3,7 +3,7 @@
     <div class="row">
       <h3>Vedlikehold av klinikker</h3>
     </div>
-    <app-opprett-klinikk (klinikkOpprettetEvent)="hentKlinikker()" [institusjonId]="institusjonId" *ngIf="institusjonId > 0 && klinikkId == 0"></app-opprett-klinikk>
+    <app-opprett-klinikk (klinikkOpprettetEvent)="hentKlinikker()" [institutionId]="institutionId" *ngIf="institutionId > 0 && klinikkId == 0"></app-opprett-klinikk>
     <div class="row mb-5 mt-5">
       <ng-container>
         <div class="table-responsive">
@@ -17,7 +17,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let klinikk of klinikker">
-                <td>{{klinikk.navn}}</td>
+                <td>{{klinikk.name}}</td>
                 <td>{{hentAvdelingsnavn(klinikk)}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="navigerTilKlinikk(klinikk.id)">

@@ -26,14 +26,14 @@
           <tbody>
             
             <tr *ngIf="nyKoordinator != null">
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.fornavn" name="fornavn" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.etternavn" name="etternavn" placeholder="Etternavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.epost" name="epost" placeholder="Epost"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.firstName" name="firstName" placeholder="Fornavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.lastName" name="lastName" placeholder="Etternavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.email" name="email" placeholder="Epost"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
                 <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
               </td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.identPseudonym" name="identPseudonym" placeholder="Pseudonym"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
                 <ng-multiselect-dropdown [placeholder]="'Velg'"
@@ -43,7 +43,7 @@
                 </ng-multiselect-dropdown>
               </td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="opprettKoordinator()">
+                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createCoordinator()">
                   <i class="icon-plus"></i><span class="btn__text">Opprett</span>
                 </button>
                 <button class="my-2 btn fhi-btn-icon" (click)="avbrytRedigering($event)">
@@ -55,15 +55,15 @@
             <tr *ngFor="let koordinator of filtrertKoordinatorer">
               
               <ng-container *ngIf="!erKoordinatorSomEndres(koordinator)">
-                <td>{{koordinator.fornavn}}</td>
-                <td>{{koordinator.etternavn}} </td>
-                <td>{{koordinator.epost}}</td>
+                <td>{{koordinator.firstName}}</td>
+                <td>{{koordinator.lastName}} </td>
+                <td>{{koordinator.email}}</td>
                 <td>{{koordinator.hprNummer}}</td>
                 <td>
-                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identPseudonym"></app-pseudonym-dialog>
+                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identityPseudonym"></app-pseudonym-dialog>
                 </td>
                 <td>
-                  <input type="checkbox" class="form-check-input" [(ngModel)]="koordinator.erDeaktivert" name="erDeaktivert" disabled="disabled">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="koordinator.isDisabled" name="isDisabled" disabled="disabled">
                 </td>
                 <td>
                   {{visInstitusjonerForKoordinator(koordinator)}}
@@ -76,9 +76,9 @@
 
               </ng-container>
               <ng-container *ngIf="erKoordinatorSomEndres(koordinator)">
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.fornavn" name="fornavn" placeholder="Fornavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.etternavn" name="etternavn" placeholder="Etternavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.epost" name="epost" placeholder="Epost"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.firstName" name="firstName" placeholder="Fornavn"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.lastName" name="lastName" placeholder="Etternavn"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.email" name="email" placeholder="Epost"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
                   <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
@@ -90,7 +90,7 @@
                                         (identityPseudonymChanged)="identPseudonymEndret(koordinatorSomEndres, $event)">
                   </app-pseudonym-dialog>
                 </td>
-                <td><input type="checkbox" class="form-check-input" [(ngModel)]="koordinatorSomEndres.erDeaktivert" name="erDeaktivert"></td>
+                <td><input type="checkbox" class="form-check-input" [(ngModel)]="koordinatorSomEndres.isDisabled" name="isDisabled"></td>
                 <td>      
                   <ng-multiselect-dropdown [placeholder]="'Velg'"
                                            [settings]="dropdownSettings"
@@ -99,7 +99,7 @@
                   </ng-multiselect-dropdown>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon"
-                          (click)="oppdaterKoordinator(koordinatorSomEndres)"
+                          (click)="updateCoordinator(koordinatorSomEndres)"
                           [disabled]="kanEndres(koordinatorSomEndres) == false">
                           <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
 
 @Component({
   selector: 'app-redigering-av-koordinatorer',
@@ -8,8 +8,8 @@ import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 })
 export class RedigeringAvKoordinatorerComponent implements OnInit {
 
-  institusjonRapport: InstitusjonRapport = null;
-  constructor(private institusjonService: InstitusjonService) { }
+  institusjonRapport: InstitutionReport = null;
+  constructor(private institusjonService: InstitutionService) { }
 
   ngOnInit(): void {
     let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
@@ -17,12 +17,12 @@ export class RedigeringAvKoordinatorerComponent implements OnInit {
       this.institusjonRapport = {
         id: result.id,
         herId: result.herId,
-        forkortelse: result.forkortelse,
-        institusjontype: result.institusjontype,
-        navn: result.navn,
+        abbreviation: result.abbreviation,
+        institutionType: result.institutionType,
+        name: result.name,
         region: result.region,
-        helseforetak: result.helseforetak
-      } as InstitusjonRapport;
+        healthcareCompany: result.healthcareCompany
+      } as InstitutionReport;
     });
   }
 }

@@ -1,8 +1,8 @@
-<div class="container" *ngIf="institusjonId == 0">
+<div class="container" *ngIf="institutionId == 0">
   <div class="row">
     <h3>Vedlikehold av institusjoner</h3>
   </div>
-  <app-opprett-institusjon (institusjonOpprettetEvent)="hentInstitusjoner()"></app-opprett-institusjon>
+  <app-opprett-institusjon (institusjonOpprettetEvent)="getInstitutions()"></app-opprett-institusjon>
 
   <div class="row">
     <div class="col-12">
@@ -35,10 +35,10 @@
           <tbody>
             <tr *ngFor="let institusjon of filtrertInstitusjoner">
               <td>{{institusjon.herId}}</td>
-              <td>{{institusjon.navn}}</td>
+              <td>{{institusjon.name}}</td>
               <td>{{institusjon.forkortelse}}</td>
-              <td>{{institusjon.institusjontype?.navn}}</td>
-              <td>{{ institusjon.helseforetak?.navn || institusjon.kommune?.navn }}</td>
+              <td>{{institusjon.institusjontype?.name}}</td>
+              <td>{{ institusjon.helseforetak?.name || institusjon.kommune?.name }}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="navigerTilInstitusjon(institusjon.id)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -56,7 +56,7 @@
   </div>
 
 </div>
-<ng-container *ngIf="institusjonId > 0">
-  <app-rediger-en-institusjon [institusjonId]="institusjonId" (institusjonSlettetEvent)="slettInstitusjon($event)" (institusjonOppdatertEvent)="oppdaterInstitusjon($event)"></app-rediger-en-institusjon>
+<ng-container *ngIf="institutionId > 0">
+  <app-rediger-en-institusjon [institutionId]="institutionId" (institusjonSlettetEvent)="slettInstitusjon($event)" (institusjonOppdatertEvent)="oppdaterInstitusjon($event)"></app-rediger-en-institusjon>
 </ng-container>
 

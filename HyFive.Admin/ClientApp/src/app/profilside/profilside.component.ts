@@ -29,8 +29,8 @@ export class ProfilsideComponent implements OnInit {
       this.user = user;
     });
 
-    this.authorizationService.getRoller().subscribe((roller) => {
-      if (roller.length > 1) {
+    this.authorizationService.getRoller().subscribe((roles) => {
+      if (roles.length > 1) {
         this.kanBytteRolle = true;
       }
     });

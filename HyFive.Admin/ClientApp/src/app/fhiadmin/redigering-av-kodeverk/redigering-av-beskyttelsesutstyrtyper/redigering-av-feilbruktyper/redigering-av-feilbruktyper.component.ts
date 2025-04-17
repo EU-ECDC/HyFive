@@ -50,14 +50,14 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
 
   tomRequest(): OpprettFeilbrukTypeRequest {
     return {
-      navn: null
+      name: null
     };
   }
 
   opprettFeilbruktype(): void {
     this.beskyttelsesutstyrtyperService.opprettFeilbruktype(this.utstyrtype.id, this.nyFeilbruktype).subscribe(
       (opprettetFeilbruktype) => this.toastrService.success(`Feilbruktype opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av feilbruktype ${this.nyFeilbruktype.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av feilbruktype ${this.nyFeilbruktype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyFeilbruktype = this.tomRequest(); this.lastFeilbruktyper(); }
     );
   }

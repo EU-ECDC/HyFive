@@ -3,7 +3,7 @@
     <table class="table mb-0">
       <thead>
       <tr>
-        <th>Rolle</th>
+        <th>Role</th>
         <th>Med/Uten Indikasjoner</th>
         <th>Indikasjoner</th>
         <th>Hanske benyttet</th>
@@ -15,27 +15,27 @@
       <tbody>
       <ng-container *ngFor="let observasjon of observasjoner">
         <tr (click)="velgObservasjon(observasjon)" *ngIf="hanskeObservasjonSomEndres?.id !== observasjon.id" >
-          <td>{{observasjon.rolle.navn}}</td>
+          <td>{{observasjon.rolle.name}}</td>
           <td *ngIf="observasjon.hanskeObservasjon.hanskeMedIndikasjonTyper.length > 0">Hanske med indikasjoner</td>
           <td *ngIf="observasjon.hanskeObservasjon.hanskeUtenIndikasjonTyper.length > 0">Hanske uten indikasjoner</td>
           <td *ngIf="observasjon.hanskeObservasjon.hanskeUtenIndikasjonTyper.length <= 0 && observasjon.hanskeObservasjon.hanskeMedIndikasjonTyper.length <= 0">-</td>
           <td>
             <ul style="padding-left: 20px;" *ngIf="observasjon.hanskeObservasjon.hanskeMedIndikasjonTyper.length > 0">
               <li *ngFor="let hanskeMedIndikasjonType of observasjon.hanskeObservasjon.hanskeMedIndikasjonTyper">
-                {{hanskeMedIndikasjonType.navn}}
+                {{hanskeMedIndikasjonType.name}}
               </li>
             </ul>
             <ul style="padding-left: 20px;" *ngIf="observasjon.hanskeObservasjon.hanskeUtenIndikasjonTyper.length > 0">
               <li *ngFor="let hanskeUtenIndikasjonType of observasjon.hanskeObservasjon.hanskeUtenIndikasjonTyper">
-                {{hanskeUtenIndikasjonType.navn}}
+                {{hanskeUtenIndikasjonType.name}}
               </li>
             </ul>
           </td>
           <td>{{observasjon.hanskeObservasjon.benyttetHanske ? "Ja" : 'Nei'}}</td>
           <td>
                   <span>
-                    {{ observasjon.hanskeObservasjon.handhygieneEtterHanskebrukType?.navn
-                    ? observasjon.hanskeObservasjon.handhygieneEtterHanskebrukType?.navn
+                    {{ observasjon.hanskeObservasjon.handhygieneEtterHanskebrukType?.name
+                    ? observasjon.hanskeObservasjon.handhygieneEtterHanskebrukType?.name
                     : ' '}}
                   </span>
           </td>
@@ -67,9 +67,9 @@
               <ng-container *ngIf="hanskeMedIndikasjonerValgt">
                 <ul *ngFor="let hanskeMedIndikasjonType of hanskeMedIndikasjonTyper">
                   <div class="form-check">
-                    <input [checked]="hanskeMedIndikasjonType.erValgt" (change)="hanskeMedIndikasjonType.erValgt = !hanskeMedIndikasjonType.erValgt" class="form-check-input" type="checkbox"  id="customCheck{{hanskeMedIndikasjonType.kode}}">
-                    <label class="form-check-label" for="customCheck{{hanskeMedIndikasjonType.kode}}">
-                      {{hanskeMedIndikasjonType.navn}}
+                    <input [checked]="hanskeMedIndikasjonType.erValgt" (change)="hanskeMedIndikasjonType.erValgt = !hanskeMedIndikasjonType.erValgt" class="form-check-input" type="checkbox"  id="customCheck{{hanskeMedIndikasjonType.code}}">
+                    <label class="form-check-label" for="customCheck{{hanskeMedIndikasjonType.code}}">
+                      {{hanskeMedIndikasjonType.name}}
                     </label>
                   </div>
                 </ul>
@@ -77,9 +77,9 @@
               <ng-container *ngIf="!hanskeMedIndikasjonerValgt">
                 <ul *ngFor="let hanskeUtenIndikasjonType of hanskeUtenIndikasjonTyper">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" [checked]="hanskeUtenIndikasjonType.erValgt" (change)="hanskeUtenIndikasjonType.erValgt = !hanskeUtenIndikasjonType.erValgt" id="customCheck{{hanskeUtenIndikasjonType.kode}}">
-                    <label class="form-check-label" for="customCheck{{hanskeUtenIndikasjonType.kode}}">
-                      {{hanskeUtenIndikasjonType.navn}}
+                    <input class="form-check-input" type="checkbox" [checked]="hanskeUtenIndikasjonType.erValgt" (change)="hanskeUtenIndikasjonType.erValgt = !hanskeUtenIndikasjonType.erValgt" id="customCheck{{hanskeUtenIndikasjonType.code}}">
+                    <label class="form-check-label" for="customCheck{{hanskeUtenIndikasjonType.code}}">
+                      {{hanskeUtenIndikasjonType.name}}
                     </label>
                   </div>
                 </ul>
@@ -101,8 +101,8 @@
               
               <div class="w-100" *ngIf="hanskeObservasjonSomEndres.benyttetHanske">
                 <div class="d-flex justify-content-center" *ngFor="let type of handhygieneEtterHanskebrukTyper">
-                  <input type="radio" class="btn-check fhi-btn-group__check" id="type-{{type.navn}}" [value]="type.kode" [(ngModel)]="valgtHygieneEtterHanskebrukKode"> 
-                  <label class="btn fhi-btn-group__btn" for="type-{{type.navn}}">{{type.navn}}</label>
+                  <input type="radio" class="btn-check fhi-btn-group__check" id="type-{{type.name}}" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebrukKode"> 
+                  <label class="btn fhi-btn-group__btn" for="type-{{type.name}}">{{type.name}}</label>
                 </div>
               </div>
 

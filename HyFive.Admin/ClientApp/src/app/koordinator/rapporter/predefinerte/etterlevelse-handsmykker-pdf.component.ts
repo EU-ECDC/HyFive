@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SesjonType } from 'src/app/models/api/SesjonType';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 @Component({
   selector: 'app-etterlevelse-handsmykker-pdf',
@@ -10,5 +10,5 @@ export class EtterlevelseHandsmykkerPdfComponent {
   constructor(
     ) { }
 
-  sesjonType = SesjonType.Handsmykker;
+  sesjonType = SessionType.Handsmykker;
 }

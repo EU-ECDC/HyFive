@@ -1,6 +1,6 @@
-import {Rolle} from '../api/Rolle';
+import {Role} from '../api/Role';
 
 export interface Rollevalg {
-    rolle: Rolle;
+    rolle: Role;
     erValgt: boolean;
 }

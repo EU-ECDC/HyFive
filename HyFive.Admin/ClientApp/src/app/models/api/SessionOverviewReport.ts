@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Avdeling } from './Avdeling';
+import { Department} from './Department';
 import { ObservasjonOversiktRapport } from './ObservasjonOversiktRapport';
 
 export interface SessionOverviewReport
@@ -10,9 +10,9 @@ export interface SessionOverviewReport
 	id: any;
 	type: string;
 	observatorNavn: string;
-	avdeling: Avdeling;
+	avdeling: Department;
 	starttidspunkt: any;
-	opprettettidspunkt: any;
+	timeOfCreation: any;
 	comment: string;
 	overforingstatus: any;
 	observasjoner: ObservasjonOversiktRapport[];

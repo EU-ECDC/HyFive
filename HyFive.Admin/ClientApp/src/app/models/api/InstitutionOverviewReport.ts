@@ -4,11 +4,11 @@
 
 import { AvdelingOversiktRapport } from './AvdelingOversiktRapport';
 
-export interface InstitusjonOversiktRapport
+export interface InstitutionOverviewReport
 {
 	id: number;
-	navn: string;
-	antallSesjoner: number;
-	antallObservasjoner: number;
-	avdelinger: AvdelingOversiktRapport[];
+	name: string;
+	numberSessions: number;
+	numberObservations: number;
+	departments: AvdelingOversiktRapport[];
 }

@@ -29,6 +29,6 @@ export class IndikasjonsValgComponent implements OnInit {
 
   changed(indikasjon: IndikasjonType): void {
     let valg = this.indikasjonTypeValg.filter(x => x.erValgt);
-    this.indikasjonsValgChangedEvent.emit(this.tilgjengeligeIndikasjoner.filter(x => valg.some(y => y.kode === x.kode)));
+    this.indikasjonsValgChangedEvent.emit(this.tilgjengeligeIndikasjoner.filter(x => valg.some(y => y.code === x.code)));
   }
 }

@@ -1,19 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Rolle } from '../../../models/api/Rolle';
+import { Role } from '../../../models/api/Role';
 import { RolleService } from '../../../services/data/rolle.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
-  selector: 'app-redigering-av-roller',
-  templateUrl: './redigering-av-roller.component.html'
+  selector: 'app-redigering-av-roles',
+  templateUrl: './redigering-av-roles.component.html'
+
 })
 export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
 
-  roller: Rolle[];
+  roles: Role[];
 
-  rolleSomEndres: Rolle = null;
-  nyRolle: Rolle = this.opprettTomRolle();
+  rolleSomEndres: Role = null;
+  nyRolle: Role = this.opprettTomRolle();
   deaktiverOpprett: boolean = true;
 
 
@@ -37,37 +38,37 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
 
   lastRoller() {
     this.rolleService.hentRoller().subscribe(
-      (roller) => this.roller = roller,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av roller: ' + error?.message, '', { disableTimeOut: true}),
+      (roles) => this.roles = roles,
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
   opprettTomRolle() {
     return {
       id: 0,
-      navn: '',
+      name: '',
       beskrivelse: '',
       institusjonIder: []
-    } as Rolle;
+    } as Role;
   }
 
   opprettRolle() {
     this.rolleService.opprettRolle(this.nyRolle).subscribe(
-      (opprettetRolle) => this.toastrService.success('Rolle opprettet'),
+      (opprettetRolle) => this.toastrService.success('Role opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av rolle: ' + error?.message, '', { disableTimeOut: true}),
       () => { this.nyRolle = this.opprettTomRolle(); this.lastRoller(); }
     );
   }
 
-  valgtRolle(rolle: Rolle): void {
+  valgtRolle(rolle: Role): void {
     if (this.rolleSomEndres?.id == rolle.id) return;
     this.rolleSomEndres = JSON.parse(JSON.stringify(rolle));
   }
 
-  oppdaterRolle(rolle: Rolle) {
+  oppdaterRolle(rolle: Role) {
     this.rolleService.oppdaterRolle(rolle).subscribe(
       (oppdatertRolle) => {
-        this.toastrService.success("Rolle oppdatert");
+        this.toastrService.success("Role oppdatert");
         this.lastRoller();
       },
       error => this.toastrService.error('Det oppstod en feil under oppdatering av rolle: ' + error?.error, '', { disableTimeOut: true}),

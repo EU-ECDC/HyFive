@@ -47,7 +47,7 @@ export class UrlService {
     } else if (!this.registrerteUrlParametere.includes(nyParameterNavn)) {
       this.registrerteUrlParametere.push(nyParameterNavn);
     } else {
-      const errorMsg = 'UrlService.registrerNyParameter(): UrlParam med navn "'
+      const errorMsg = 'UrlService.registrerNyParameter(): UrlParam med name "'
         + nyParameterNavn + '" kan ikke registreres mer enn en gang!';
       throw new Error(errorMsg);
     }

@@ -11,7 +11,7 @@ import { RedigeringAvHanskeutenindikasjontyperComponent } from './redigering-av-
 import { RedigeringAvHandhygieneetterhanskebruktyperComponent } from './redigering-av-handhygieneetterhanskebruktyper/redigering-av-handhygieneetterhanskebruktyper.component';
 import { RedigeringAvAvdelingstyperComponent } from './redigering-av-avdelingstyper/redigering-av-avdelingstyper.component';
 import { RedigeringAvRegionComponent } from './redigering-av-region/redigering-av-region.component';
-import { RedigeringAvRollerComponent } from './redigering-av-roller/redigering-av-roller.component';
+import { RedigeringAvRollerComponent } from './redigering-av-roles/redigering-av-roles.component';
 
 @Component({
   selector: 'app-redigering-av-kodeverk',
@@ -22,18 +22,18 @@ export class RedigeringAvKodeverkComponent implements OnInit {
   @ViewChild('kodeverkContainer', { static: true, read: ViewContainerRef }) kodeverkContainer: ViewContainerRef;
 
   kodeverk = [
-    { navn: 'Aktivitetstyper', erAktiv: false, component: RedigeringAvAktivitettypeComponent },
-    { navn: 'Avdelingstyper', erAktiv: false, component: RedigeringAvAvdelingstyperComponent },
-    { navn: 'Beskyttelsesutstyrtyper', erAktiv: false, component: RedigeringAvBeskyttelsesutstyrtyperComponent },
-    { navn: 'Beskyttelsesustyrsettingtyper', erAktiv: false, component: RedigeringAvBeskyttelsesutstyrsettingtyperComponent },
-    { navn: 'Handsmykketyper', erAktiv: false, component: RedigeringAvHandsmykketypeComponent },
-    { navn: '\'Hanske ved indikasjon\'-typer', erAktiv: false, component: RedigeringAvHanskemedindikasjontyperComponent },
-    { navn: '\'Hanske uten indikasjon\'-typer', erAktiv: false, component: RedigeringAvHanskeutenindikasjontyperComponent },
-    { navn: '\'Håndhygiene etter hanskebruk\'-typer', erAktiv: false, component: RedigeringAvHandhygieneetterhanskebruktyperComponent },
-    { navn: 'Indikasjonstyper', erAktiv: false, component: RedigeringAvIndikasjonstyperComponent },
-    { navn: 'Institusjonstyper', erAktiv: false, component: RedigeringAvInstitusjonstyperComponent },
-    { navn: 'Region', erAktiv: false, component: RedigeringAvRegionComponent },
-    { navn: 'Roller', erAktiv: false, component: RedigeringAvRollerComponent }
+    { name: 'Aktivitetstyper', erAktiv: false, component: RedigeringAvAktivitettypeComponent },
+    { name: 'Avdelingstyper', erAktiv: false, component: RedigeringAvAvdelingstyperComponent },
+    { name: 'Beskyttelsesutstyrtyper', erAktiv: false, component: RedigeringAvBeskyttelsesutstyrtyperComponent },
+    { name: 'Beskyttelsesustyrsettingtyper', erAktiv: false, component: RedigeringAvBeskyttelsesutstyrsettingtyperComponent },
+    { name: 'Handsmykketyper', erAktiv: false, component: RedigeringAvHandsmykketypeComponent },
+    { name: '\'Hanske ved indikasjon\'-typer', erAktiv: false, component: RedigeringAvHanskemedindikasjontyperComponent },
+    { name: '\'Hanske uten indikasjon\'-typer', erAktiv: false, component: RedigeringAvHanskeutenindikasjontyperComponent },
+    { name: '\'Håndhygiene etter hanskebruk\'-typer', erAktiv: false, component: RedigeringAvHandhygieneetterhanskebruktyperComponent },
+    { name: 'Indikasjonstyper', erAktiv: false, component: RedigeringAvIndikasjonstyperComponent },
+    { name: 'Institusjonstyper', erAktiv: false, component: RedigeringAvInstitusjonstyperComponent },
+    { name: 'Region', erAktiv: false, component: RedigeringAvRegionComponent },
+    { name: 'Roller', erAktiv: false, component: RedigeringAvRollerComponent }
   ] as KodeverkSidemenyModel[];
 
   kodeverkValgt = false;
@@ -48,7 +48,7 @@ export class RedigeringAvKodeverkComponent implements OnInit {
     this.kodeverkValgt = true;
     this.kodeverkContainer.clear();
 
-    this.kodeverk = this.kodeverk.map(x => { x.erAktiv = (x.navn === kodeverk.navn) ? true : false; return x; });
+    this.kodeverk = this.kodeverk.map(x => { x.erAktiv = (x.name === kodeverk.name) ? true : false; return x; });
 
     const factory = this.resolver.resolveComponentFactory(kodeverk.component);
     const componentRef = this.kodeverkContainer.createComponent(factory);

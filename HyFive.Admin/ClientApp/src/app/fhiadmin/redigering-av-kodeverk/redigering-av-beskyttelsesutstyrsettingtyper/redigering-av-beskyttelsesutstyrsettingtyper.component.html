@@ -19,8 +19,8 @@
           <tbody>
             <tr *ngFor="let settingType of beskyttelsesutstyrsettingTyper">
               <ng-container *ngIf="settingTypeSomEndres?.id !== settingType.id">
-                <td>{{settingType.kode}}</td>
-                <td>{{settingType.navn}}</td>
+                <td>{{settingType.code}}</td>
+                <td>{{settingType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtSettingType(settingType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -28,9 +28,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="settingTypeSomEndres?.id === settingType.id">
-                <td>{{settingTypeSomEndres.kode}}</td>
+                <td>{{settingTypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="settingTypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="settingTypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterSettingType(settingTypeSomEndres)">

@@ -6,15 +6,15 @@
   </div>
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyRegion.kode' placeholder="Kode">
+      <input type="text" class="form-control" [(ngModel)]='nyRegion.code' placeholder="Kode">
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyRegion.navn' placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]='nyRegion.name' placeholder="Navn">
     </div>
     <div class="col-6">
       <label></label>
       <button class="form-control btn fhi-btn-primary"
-              [disabled]="!nyRegion.kode || !nyRegion.navn"
+              [disabled]="!nyRegion.code || !nyRegion.name"
               (click)="opprettRegion()">
         Legg til
       </button>
@@ -35,8 +35,8 @@
           <tbody>
             <tr *ngFor="let region of regioner">
               <ng-container *ngIf="regionSomEndres?.id !== region.id">
-                <td>{{region.kode}}</td>
-                <td>{{region.navn}}</td>
+                <td>{{region.code}}</td>
+                <td>{{region.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtRegion(region)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -44,9 +44,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="regionSomEndres?.id === region.id">
-                <td>{{regionSomEndres.kode}}</td>
+                <td>{{regionSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="regionSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="regionSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterRegion(regionSomEndres)">

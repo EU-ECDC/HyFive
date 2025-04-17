@@ -4,14 +4,14 @@
     <div class="form-row">
       <div class="form-group col-12 mb-3">
         <label for="klinikknavn">Navn</label>
-        <input type="text" id="klinikknavn" class="form-control" placeholder="e.g. Medisinsk klinikk" [(ngModel)]="nyKlinikk.navn">
+        <input type="text" id="klinikknavn" class="form-control" placeholder="e.g. Medisinsk klinikk" [(ngModel)]="nyKlinikk.name">
       </div>
       <div class="form-group col-12 mb-3">
         Avdelinger som skal være tilknyttet klinikken
         <div class="custom-control custom-checkbox my-1" *ngFor="let valg of avdelingsvalg">
           <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'rolle'+avdelingsvalg.indexOf(valg)" class="form-check-input">
           <label [htmlFor]="'rolle'+avdelingsvalg.indexOf(valg)" class="custom-control-label ms-2">
-            <span>{{ valg.avdeling.navn }}</span>
+            <span>{{ valg.avdeling.name }}</span>
           </label>
           <fa-icon *ngIf="valg.erAlleredePaKlinikk" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="Brukes av en annen klinikk!"></fa-icon>
         </div>

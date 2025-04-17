@@ -3,10 +3,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
-import { Avdeling } from 'src/app/models/api/Avdeling';
-import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
-import { SesjonType } from 'src/app/models/api/SesjonType';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { Department} from 'src/app/models/api/Department';
+import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
+import { SessionType } from 'src/app/models/api/SessionType';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { RapportService } from 'src/app/services/data/rapport.service';
 import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 
@@ -16,7 +16,7 @@ import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 })
 export class EtterlevelsePdfComponent {
   constructor(
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private rapportService: RapportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
@@ -31,22 +31,22 @@ export class EtterlevelsePdfComponent {
       else if (this.valgtRolle === AuthorizedRole.Administrator) {
         this.kanVelgeInstitusjon = true;
         
-        this.institusjonService.hentInstitusjoner().subscribe(
+        this.institusjonService.getInstitutions().subscribe(
           (institusjoner) => {
             this.institusjoner = institusjoner;
           });
         }
       }
       
-  @Input() sesjonType: SesjonType;
+  @Input() sesjonType: SessionType;
   
   valgtInstitusjonId: number;
   valgtAvdelingId: number;
   fraDato: Date = null;
   tilDato: Date = null;
 
-  avdelinger: Avdeling[];
-  institusjoner: InstitusjonRapport[] = [];
+  avdelinger: Department[];
+  institusjoner: InstitutionReport[] = [];
   kanVelgeInstitusjon = false;
   lagerRapport = false;
   lagInstitusjonsrapport = false;
@@ -80,7 +80,7 @@ export class EtterlevelsePdfComponent {
   lagRapport() {
     this.toastrService.clear();
 
-    this.rapportService.rapportForSesjonTypeHarData(this.sesjonType, this.valgtInstitusjonId, this.valgtAvdelingId,
+    this.rapportService.rapportForSessionTypeHarData(this.sesjonType, this.valgtInstitusjonId, this.valgtAvdelingId,
       this.fraDato, this.tilDato, this.valgtRolle).subscribe(
         rapportHarData => {
           if (rapportHarData) {
@@ -101,24 +101,24 @@ export class EtterlevelsePdfComponent {
   private lastNedPdf(): Observable<any> {
     let url = '/api/v1/rapport/';
 
-    if (this.sesjonType == SesjonType.FireIndikasjoner) {
+    if (this.sesjonType == SessionType.FireIndikasjoner) {
       url += 'fireindikasjoner';
-    } else if (this.sesjonType == SesjonType.Handsmykker) {
+    } else if (this.sesjonType == SessionType.Handsmykker) {
       url += 'handsmykke';
     }
 
     url += '/avdeling/pdf/';
     url += `?fraTid=${this.fraDato}&tilTid=${this.tilDato}`;
     url += `&rolle=${this.valgtRolle}`;
-    url += `&institusjonId=${this.valgtInstitusjonId}&avdelingId=${this.valgtAvdelingId}`;
+    url += `&institutionId=${this.valgtInstitusjonId}&avdelingId=${this.valgtAvdelingId}`;
 ''
     return LastNedFilHjelper.lastNedFil(url, 'application/pdf, */*')
   }
 
-  private hentInstitusjon(institusjonId: number) {
-    this.institusjonService.hentInstitusjon(institusjonId).subscribe(
-      institusjon => {
-        this.avdelinger = institusjon.avdelinger;
+  private hentInstitusjon(institutionId: number) {
+    this.institusjonService.hentInstitusjon(institutionId).subscribe(
+      institution => {
+        this.avdelinger = institution.departments;
       })
   };
 }

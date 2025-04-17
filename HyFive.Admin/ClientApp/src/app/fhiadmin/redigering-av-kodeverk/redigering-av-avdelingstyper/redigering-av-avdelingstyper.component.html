@@ -7,14 +7,14 @@
   
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.kode' placeholder="Kode">
+      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.code' placeholder="Kode">
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.navn' placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.name' placeholder="Navn">
     </div>
     <div class="col-6">
       <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="opprettAvdelingType()" [disabled]="!nyAvdelingType.kode || !nyAvdelingType.navn">Legg til</button>
+      <button class="form-control btn fhi-btn-primary" (click)="opprettAvdelingType()" [disabled]="!nyAvdelingType.code || !nyAvdelingType.name">Legg til</button>
     </div>
   </div>
 
@@ -32,8 +32,8 @@
           <tbody>
             <tr *ngFor="let avdelingtype of avdelingtyper">
               <ng-container *ngIf="avdelingtypeSomEndres?.id !== avdelingtype.id">
-                <td>{{avdelingtype.kode}}</td>
-                <td>{{avdelingtype.navn}}</td>
+                <td>{{avdelingtype.code}}</td>
+                <td>{{avdelingtype.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtAvdelingType(avdelingtype)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -41,9 +41,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="avdelingtypeSomEndres?.id === avdelingtype.id">
-                <td>{{avdelingtypeSomEndres.kode}}</td>
+                <td>{{avdelingtypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="avdelingtypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="avdelingtypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterAvdelingType(avdelingtypeSomEndres)">

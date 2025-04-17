@@ -19,8 +19,8 @@
           <tbody>
             <tr *ngFor="let hanskeUtenIndikasjonType of hanskeUtenIndikasjonTyper">
               <ng-container *ngIf="hanskeUtenIndikasjonTypeSomEndres?.id !== hanskeUtenIndikasjonType.id">
-                <td>{{hanskeUtenIndikasjonType.kode}}</td>
-                <td>{{hanskeUtenIndikasjonType.navn}}</td>
+                <td>{{hanskeUtenIndikasjonType.code}}</td>
+                <td>{{hanskeUtenIndikasjonType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtHanskeUtenIndikasjonType(hanskeUtenIndikasjonType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -28,9 +28,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="hanskeUtenIndikasjonTypeSomEndres?.id === hanskeUtenIndikasjonType.id">
-                <td>{{hanskeUtenIndikasjonTypeSomEndres.kode}}</td>
+                <td>{{hanskeUtenIndikasjonTypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="hanskeUtenIndikasjonTypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="hanskeUtenIndikasjonTypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterHanskeUtenIndikasjonType(hanskeUtenIndikasjonTypeSomEndres)">

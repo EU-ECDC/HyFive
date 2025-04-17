@@ -1,60 +1,60 @@
 <div class="container">
   <div class="ml-n3 mb-3">
     <app-navigasjonslenke [routerLink]="'/'+ UrlPaths.editingByInstitutions"> Tilbake til oversikt</app-navigasjonslenke>
-    <h4 class="col-12">Institusjon: {{institusjon?.navn}}</h4>
+    <h4 class="col-12">Institution: {{institution?.name}}</h4>
   </div>
 </div>
 
-<app-spinner *ngIf="!institusjon"></app-spinner>
+<app-spinner *ngIf="!institution"></app-spinner>
 
-<div class="container" *ngIf="institusjon">
+<div class="container" *ngIf="institution">
   <ul ngbNav #nav="ngbNav" class="nav nav-tabs mt-4 fhi-nav-tabs fhi-main-menu__nav" [(activeId)]="active">
     <li [ngbNavItem]="1" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Institusjon</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Institution</a>
       <ng-template ngbNavContent>
         <div class="row border-bottom pb-2">
           <div class="col-12">
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="institusjonsnavn">Navn</label>
-                <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Oslo Universitetssykehus HF" [(ngModel)]="institusjon.navn">
+                <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Oslo Universitetssykehus HF" [(ngModel)]="institution.name">
               </div>
               <div class="col-md-2">
                 <label for="forkortelse">Kortnavn</label>
-                <input type="text" id="forkortelse" class="form-control" placeholder="e.g. OUS" [(ngModel)]="institusjon.forkortelse">
+                <input type="text" id="forkortelse" class="form-control" placeholder="e.g. OUS" [(ngModel)]="institution.abbreviation">
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <label for="institusjonstype">Institusjonstype</label>
-                <select class="form-select" id="institusjonstype" [(ngModel)]="institusjontypeId" (ngModelChange)="institusjonTypeEndret()">
-                  <option *ngFor="let institusjonstype of institusjontyper" [ngValue]="institusjonstype.id">{{institusjonstype.navn}}</option>
+                <label for="institutionType">Institusjonstype</label>
+                <select class="form-select" id="institutionType" [(ngModel)]="institusjontypeId" (ngModelChange)="institusjonTypeEndret()">
+                  <option *ngFor="let institutionType of institusjontyper" [ngValue]="institutionType.id">{{institutionType.name}}</option>
                 </select>
               </div>
               <div class="col-md-2" *ngIf="visKommune">
                 <label for="kommune">Kommune</label>
                 <select class="form-select" id="kommune" [(ngModel)]="kommuneId" (ngModelChange)="kommuneEndret()">
                   <option value="0"></option>
-                  <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.navn}}</option>
+                  <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.name}}</option>
                 </select>
               </div>
               <div class="form-group col-12 col-md-3" *ngIf="visHelseforetak">
                 <label for="helseforetak">Helseforetak</label>
                 <select class="form-select" id="helseforetak" [(ngModel)]="helseforetakId" (ngModelChange)="helseforetakEndret()">
                   <option value="0"></option>
-                  <option *ngFor="let helseforetak of listAvHelseforetak" [ngValue]="helseforetak.id">{{helseforetak.navn}}</option>
+                  <option *ngFor="let helseforetak of listAvHelseforetak" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
                 </select>
               </div>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-2">
-              <button (click)="lagreInstitusjon()" class="btn fhi-btn-primary" [disabled]="kanIkkeLagreInstitusjon()">Oppdater institusjon</button>
+              <button (click)="lagreInstitusjon()" class="btn fhi-btn-primary" [disabled]="kanIkkeLagreInstitusjon()">Oppdater institution</button>
             </div>
             <div class="col-md-2">
               <app-bekreftelsesdialog
                 [buttonClass]="'btn fhi-btn-secondary'"
-                [knappTekst]="'Slett institusjon'"
+                [knappTekst]="'Slett institution'"
                 (bekreftetEvent)="slettInstitusjon()"
                 [dialogmelding]="'Sletting av institusjonen medfører at alle data som er knyttet til institusjonen slettes. Vil du slette?'">
               </app-bekreftelsesdialog>
@@ -67,7 +67,7 @@
       <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Koordinatorer</a>
       <ng-template ngbNavContent>
         <div class="border-bottom">
-          <app-rediger-koordinatorer [institusjonId]="institusjonId"></app-rediger-koordinatorer>
+          <app-edit-coordinators [institutionId]="institutionId"></app-edit-coordinators>
         </div>
       </ng-template>
     </li>
@@ -75,14 +75,14 @@
       <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Observatører</a>
       <ng-template ngbNavContent>
         <div class="border-bottom">
-          <app-rediger-observatorer [institusjonId]="institusjonId"></app-rediger-observatorer>
+          <app-rediger-observatorer [institutionId]="institutionId"></app-rediger-observatorer>
         </div>
       </ng-template>
     </li>
     <li [ngbNavItem]="4" class="fhi-main-menu__nav-item">
       <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Avdelinger</a>
       <ng-template ngbNavContent>
-        <app-redigering-av-avdelinger [institusjonId]="institusjonId"></app-redigering-av-avdelinger>
+        <app-redigering-av-avdelinger [institutionId]="institutionId"></app-redigering-av-avdelinger>
       </ng-template>
     </li>
   </ul>

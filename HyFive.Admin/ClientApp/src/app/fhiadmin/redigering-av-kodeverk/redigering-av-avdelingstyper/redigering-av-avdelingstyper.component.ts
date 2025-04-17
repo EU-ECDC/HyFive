@@ -42,15 +42,15 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
   tomRequest(): AvdelingType {
     return {
       id: 0,
-      kode: null,
-      navn: null
+      code: null,
+      name: null
     };
   }
 
   opprettAvdelingType() {
     this.avdelingService.opprettAvdelingType(this.nyAvdelingType).subscribe(
-      (avdelingstype) => this.toastrService.success(`Avdelingtype med navn ${avdelingstype.navn} ble opprettet`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av avdelingtype ${this.nyAvdelingType.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      (avdelingstype) => this.toastrService.success(`Avdelingtype med name ${avdelingstype.name} ble opprettet`),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av avdelingtype ${this.nyAvdelingType.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyAvdelingType = this.tomRequest(); this.lastAvdelingTyper(); }
     );
   }

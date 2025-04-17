@@ -12,20 +12,20 @@ export class ForesporselOmBrukertilgangService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentAlleForesporsler(institusjonId: number): Observable<ForesporselOmBrukertilgang[]> {
+  hentAlleForesporsler(institutionId: number): Observable<ForesporselOmBrukertilgang[]> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/alleforesporsler`;
 
     let params = new HttpParams();
-    params = params.append("institusjonId", institusjonId.toString());
+    params = params.append("institutionId", institutionId.toString());
 
     return this.http.get<ForesporselOmBrukertilgang[]>(url, {params: params});
   }
 
-  hentForesporslerSomVenterPaGodkjenning(institusjonId: number): Observable<ForesporselOmBrukertilgang[]> {
+  hentForesporslerSomVenterPaGodkjenning(institutionId: number): Observable<ForesporselOmBrukertilgang[]> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/foresporslersomventerpagodkjenning`;
 
     let params = new HttpParams();
-    params = params.append("institusjonId", institusjonId.toString());
+    params = params.append("institutionId", institutionId.toString());
 
     return this.http.get<ForesporselOmBrukertilgang[]>(url, {params: params});
   }

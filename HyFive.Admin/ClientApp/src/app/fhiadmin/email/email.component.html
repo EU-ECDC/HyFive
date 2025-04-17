@@ -5,10 +5,10 @@
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
-                <label for="institusjon">Institusjon</label>
-                <select class="form-select" id="institusjon" [(ngModel)]="institusjonId" (ngModelChange)="oppdaterBrukerListe()">
+                <label for="institusjon">Institution</label>
+                <select class="form-select" id="institusjon" [(ngModel)]="institutionId" (ngModelChange)="oppdaterBrukerListe()">
                     <option value="0"></option>
-                    <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.navn}}</option>
+                    <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.name}}</option>
                 </select>
             </div>
             
@@ -34,9 +34,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of filtrertBrukerListe">
-                        <td>{{user.fornavn}}</td>
-                        <td>{{user.etternavn}}</td>
-                        <td>{{user.epost}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
                     </tr>
                 </tbody>
             </table>

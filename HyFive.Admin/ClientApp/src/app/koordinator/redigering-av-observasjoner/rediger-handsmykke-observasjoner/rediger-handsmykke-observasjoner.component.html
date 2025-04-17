@@ -3,7 +3,7 @@
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Rolle</th>
+          <th>Role</th>
           <th>Handsmykke(r)</th>
           <th>Registrert</th>
           <th>Kommentar</th>
@@ -12,11 +12,11 @@
       <tbody>
         <ng-container *ngFor="let observasjon of observasjoner">
           <tr (click)="velgObservasjon(observasjon)" *ngIf="handsmykkeObservasjonSomEndres?.id !== observasjon.id">
-            <td>{{observasjon.rolle.navn}}</td>
+            <td>{{observasjon.rolle.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
                 <li *ngFor="let ht of observasjon.handsmykketyper">
-                  {{ht.navn}}
+                  {{ht.name}}
                 </li>
               </ul>
             </td>
@@ -37,7 +37,7 @@
                   <div class="form-check">
                     <input [checked]="hsv.erValgt" (change)="hsv.erValgt = !hsv.erValgt" class="form-check-input" type="checkbox" id="customCheck{{hsv.type}}">
                     <label class="form-check-label" for="customCheck{{hsv.type}}">
-                      {{hsv.navn}}
+                      {{hsv.name}}
                     </label>
                   </div>
                 </ul>
@@ -58,13 +58,13 @@
                     <app-bekreftelsesdialog
                                           [knappTekst]="'Lagre'" 
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
-                                          (bekreftetEvent)="oppdaterHandsmykkeObservasjon()"
+                                          (bekreftetEvent)="updateHandJewelryObservation()"
                                           [dialogmelding]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'">
                     </app-bekreftelsesdialog>
                     <app-bekreftelsesdialog 
                                           [knappTekst]="'Slett'"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
-                                          (bekreftetEvent)="slettHandsmykkeObservasjon()" 
+                                          (bekreftetEvent)="deleteHandJewelryObservation()" 
                                           [dialogmelding]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
                     </app-bekreftelsesdialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"

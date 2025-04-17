@@ -6,7 +6,7 @@
              (ngModelChange)="changed(indikasjon)"
              [id]="'fireindikasjoner'+parentId.substr(4)+indikasjonTypeValg.indexOf(indikasjon)">
       <label class="form-check-label ps-1 my-2" [for]="'fireindikasjoner'+parentId.substr(4)+indikasjonTypeValg.indexOf(indikasjon)">
-        {{ indikasjon.nummer }}. {{ indikasjon.navn }}
+        {{ indikasjon.nummer }}. {{ indikasjon.name }}
       </label>
     </label>
   </div>

@@ -7,16 +7,16 @@
 </div>
 <div class="row ms-1">
   <div class="col">
-    <h5>Feilbruktyper for {{utstyrtype.navn}}</h5>
+    <h5>Feilbruktyper for {{utstyrtype.name}}</h5>
   </div>
 </div>
 <div class="row ms-1">
   <div class="col-3">
-    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.navn' placeholder="Navn">
+    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.name' placeholder="Navn">
   </div>
   <div class="col-6">
     <label></label>
-    <button class="form-control btn fhi-btn-primary" (click)="opprettFeilbruktype()" [disabled]="!nyFeilbruktype.navn">Legg til feilbruktype</button>
+    <button class="form-control btn fhi-btn-primary" (click)="opprettFeilbruktype()" [disabled]="!nyFeilbruktype.name">Legg til feilbruktype</button>
   </div>
 </div>
 
@@ -33,7 +33,7 @@
         <tbody>
           <tr *ngFor="let feilbruktype of feilbruktyper">
             <ng-container *ngIf="feilbruktypeSomEndres?.id !== feilbruktype.id">
-              <td>{{feilbruktype.navn}}</td>
+              <td>{{feilbruktype.name}}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="valgtFeilbruktype(feilbruktype)">
                   <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -42,7 +42,7 @@
             </ng-container>
             <ng-container *ngIf="feilbruktypeSomEndres?.id === feilbruktype.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.navn">
+                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.name">
               </td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="oppdaterFeilbruktype(feilbruktypeSomEndres)">

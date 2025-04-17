@@ -11,7 +11,7 @@
     <div class="d-flex flex-column">
       <div class="hh-card-slider__card"
            [ngClass]="{ 'hh-card-slider__card--active': true }"
-           [ngStyle]="{'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.rolle.navn)}">
+           [ngStyle]="{'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.rolle.name)}">
 
         <div class="row">
           <div class="col-12" *ngIf="beskyttelsesutstyrIndikert().length > 0">
@@ -29,11 +29,11 @@
                     <fa-icon [icon]="faCircle" stackItemSize="2x"
                              class="hh-round-checkbox-list__circle"
                              [ngClass]="{ 'hh-round-checkbox-list__circle--chosen': valg.bleBenyttet, 'hh-round-checkbox-list__circle--active': true }"></fa-icon>
-                    <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.kode)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
+                    <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
                     <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.bleBenyttet"></fa-icon>
                   </fa-stack>
                   <br />
-                  <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.navn }}</strong></span>
+                  <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
                 </label>
               </div>
             </div>
@@ -58,7 +58,7 @@
               <label class="w-50" ngbButtonLabel>
                 <input type="checkbox" ngbButton [(ngModel)]="valg.bleBenyttet" (change)="changed($event, valg)">
                 <fa-icon class="mr-2" *ngIf="valg.bleBenyttet" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
-                <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.navn }}</strong></span>
+                <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
               </label>
             </div>
           </div>
@@ -72,13 +72,13 @@
       <select class="form-control" id="setting" [(ngModel)]="valgtSetting" (ngModelChange)="velgSetting()">
         <option *ngFor="let setting of sorterteSettinger()"
                 [ngValue]="setting"
-        >{{setting.navn}}</option>
+        >{{setting.name}}</option>
       </select>
     </div>
   </div>
   <div class="row">
     <div class="col-10 col-lg-3 col-md-4">
-      <label class="form-label">Rolle</label>
+      <label class="form-label">Role</label>
       <app-rolle-valg-dropdown [rolleId]="observasjon.rolle.id"
                                [avdelingId]="avdeling.id"
                                (rolleValgt)="velgRolle($event)"

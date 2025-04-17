@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
 import { InnloggetBruker } from '../../models/api/InnloggetBruker';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { RolleEventService } from '../../services/events/rolle-event.service';
 import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
@@ -14,19 +14,19 @@ import { InstitusjonForKoordinatorEventService } from '../../services/events/ins
 export class ByttInstitusjonComponent implements OnInit {
 
   user: InnloggetBruker = null;
-  roller: string;
+  roles: string;
   faUser = faUser;
-  valgtInstitusjon: InstitusjonRapport = null;
-  valgtInstitusjonTemp: InstitusjonRapport = null;
+  valgtInstitusjon: InstitutionReport = null;
+  valgtInstitusjonTemp: InstitutionReport = null;
   visVelgInstitusjon = false;
   visByttInstitusjonBoks = false;
   
-  visteInstitusjoner: InstitusjonRapport[] = [];
-  institusjoner: InstitusjonRapport[] = [];
+  visteInstitusjoner: InstitutionReport[] = [];
+  institusjoner: InstitutionReport[] = [];
 
   constructor(
     private authorizationService: AuthorizationService,
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private rolleEventService: RolleEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService
   ) { }
@@ -73,7 +73,7 @@ export class ByttInstitusjonComponent implements OnInit {
     }
   }
 
-  byttInstitusjon(institusjon: InstitusjonRapport) {  
+  byttInstitusjon(institusjon: InstitutionReport) {  
     this.valgtInstitusjon = institusjon;
     this.institusjonService.oppdaterValgtInstitusjonId(this.valgtInstitusjon.id);
     window.location.reload();

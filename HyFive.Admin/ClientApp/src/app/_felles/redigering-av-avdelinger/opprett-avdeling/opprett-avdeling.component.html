@@ -4,21 +4,21 @@
     <div class="form-row">
       <div class="form-group col-12 mb-3" >
         <label for="avdelingtype">Avdelingstype</label>
-        <select class="form-select" id="avdelingtype" [(ngModel)]="nyAvdeling.avdelingTypeId">
+        <select class="form-select" id="avdelingtype" [(ngModel)]="nyAvdeling.departmentTypeId">
           <option value="0">Ikke valgt</option>
-          <option *ngFor="let type of avdelingstyper" [ngValue]="type.id" [selected]="nyAvdeling.avdelingTypeId == type.id">{{type.navn}}</option>
+          <option *ngFor="let type of avdelingstyper" [ngValue]="type.id" [selected]="nyAvdeling.departmentTypeId == type.id">{{type.name}}</option>
         </select>
       </div>
       <div class="form-group col-12 mb-3">
         <label for="institusjonsnavn">Navn</label>
-        <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Nevrologisk avdeling" [(ngModel)]="nyAvdeling.navn">
+        <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Nevrologisk avdeling" [(ngModel)]="nyAvdeling.name">
       </div>
       <div class="form-group col-12 mb-4" >
         Roller som skal kunne observeres
         <div class="custom-control custom-checkbox my-1" *ngFor=  "let valg of rollevalg">
           <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'rolle'+rollevalg.indexOf(valg)" class="form-check-input">
           <label [htmlFor]="'rolle'+rollevalg.indexOf(valg)" class="custom-control-label ms-2">
-            <span>{{ valg.rolle.navn }} </span>
+            <span>{{ valg.rolle.name }} </span>
             <span *ngIf="valg.rolle.beskrivelse != null"> - {{ valg.rolle.beskrivelse }}</span>
           </label>
         </div>

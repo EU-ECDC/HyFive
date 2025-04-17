@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
 import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
-import { RedigerEnInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/rediger-en-institusjon/rediger-en-institusjon.component';
+import { RedigerEnInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
 import { OpprettInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/opprett-institusjon.component';
 import { RedigerObservatorerComponent } from './_felles/rediger-observatorer/rediger-observatorer.component';
 import { BekrefelsesdialogComponent } from './fhiadmin/redigering-av-institusjoner/bekreftelsesdialog/bekreftelsesdialog.component';
@@ -40,14 +40,14 @@ import { OpprettKlinikkComponent } from './koordinator/redigering-av-klinikker/o
 import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
 import { RedigeringAvRegionComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-region/redigering-av-region.component';
 import { RolleValgDropdownComponent } from './_felles/rolle-valg-dropdown/rolle-valg-dropdown.component';
-import { RedigeringAvRollerComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-roller/redigering-av-roller.component';
+import { RedigeringAvRollerComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-roles/redigering-av-roles.component';
 import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
 import { RedigerFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/rediger-fhiadmin/rediger-fhiadmin.component';
 import {AuthenticationFailedModalComponent} from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {RedigerFireIndikasjonerObservasjonerComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/rediger-fire-indikasjoner-observasjoner.component";
+import {RedigerFourIndicationsObservationerComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/rediger-fire-indikasjoner-observasjoner.component";
 import {RedigerHandsmykkeObservasjonerComponent} from "./koordinator/redigering-av-observasjoner/rediger-handsmykke-observasjoner/rediger-handsmykke-observasjoner.component";
 import {RedigerHanskeObservasjonerComponent} from "./koordinator/redigering-av-observasjoner/rediger-hanske-observasjoner/rediger-hanske-observasjoner.component";
 import {IndikasjonsValgComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indikasjonsvalg/indikasjonsvalg.component";
@@ -62,9 +62,9 @@ import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.comp
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
-import { RedigerKoordinatorerComponent } from './_felles/edit-coordinators/rediger-koordinatorer.component';
+import { EditCoordinatorsComponent } from './_felles/edit-coordinators/editCoordinators.component';
 import { PseudonymDialogComponent } from './_felles/edit-coordinators/pseudonym-dialog.component';
-import { EpostComponent } from './fhiadmin/epost/epost.component';
+import { EmailComponent } from './fhiadmin/email/email.component';
 import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
@@ -90,7 +90,7 @@ export const httpInterceptorProviders = [
     OpprettInstitusjonComponent,
     RedigerObservatorerComponent,
     RedigeringAvHandsmykketypeComponent,
-    RedigerKoordinatorerComponent,
+    EditCoordinatorsComponent,
     BekrefelsesdialogComponent,
     RedigeringAvKodeverkComponent,
     RedigeringAvIndikasjonstyperComponent,
@@ -123,7 +123,7 @@ export const httpInterceptorProviders = [
     OversiktFhiAdminComponent,
     RedigerFhiAdminComponent,
     AuthenticationFailedModalComponent,
-    RedigerFireIndikasjonerObservasjonerComponent,
+    RedigerFourIndicationsObservationerComponent,
     RedigerHandsmykkeObservasjonerComponent,
     RedigerHanskeObservasjonerComponent,
     RedigerBeskyttelsesutstyrObservasjonerComponent,
@@ -136,7 +136,7 @@ export const httpInterceptorProviders = [
     RedigeringAvKoordinatorerComponent,
     RedigerKoordinatorerForHelseforetakComponent,
     PseudonymDialogComponent,
-    EpostComponent,
+    EmailComponent,
     RapporterComponent,
     EtterlevelseComponent,
     SortableColumnComponent,

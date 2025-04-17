@@ -4,7 +4,7 @@
     <table class="table mb-0">
       <thead>
       <tr>
-        <th>Rolle</th>
+        <th>Role</th>
         <th>Setting</th>
         <th>Benyttede utstyr</th>
         <th>Ikke benyttede utstyr</th>
@@ -15,7 +15,7 @@
       <tbody>
       <ng-container *ngFor="let observasjon of observasjoner">
         <tr *ngIf="beskyttelsesutstyrObservasjonSomEndres?.id !== observasjon.id" (click)="velgObservasjon(observasjon)" >
-          <td>{{observasjon.rolle.navn}}</td>
+          <td>{{observasjon.rolle.name}}</td>
           <td>{{observasjon.beskyttelsesutstyrsetting}}</td>
           <td>
             <ul style="padding-left: 20px;">
@@ -58,7 +58,7 @@
                     (observasjonSlettetEvent)="this.observasjonSlettetEvent.emit()"
                     (observasjonOppdatertEvent)="oppdaterObservasjonMedEndringerFraKort($event)"
                     [avdeling]="avdeling"
-                    [institusjonid]="avdeling.institusjonId"
+                    [institusjonid]="avdeling.institutionId"
                     [isReadonly]="false"
                     [sesjonId]="this.sesjonId"
                     [observasjonId]="observasjon.id">

@@ -3,10 +3,10 @@ import { UrlService } from './url.service';
 
 export class UrlParam {
   constructor(
-    private navn: string,
+    private name: string,
     private urlService: UrlService
   ) {
-    this.urlService.registrerNyParameter(this.navn);
+    this.urlService.registrerNyParameter(this.name);
   }
 
   private paramSubject = new Subject<string>();
@@ -16,7 +16,7 @@ export class UrlParam {
   }
 
   get verdi(): string {
-    return this.urlService.alleUrlParametere[this.navn];
+    return this.urlService.alleUrlParametere[this.name];
   }
 
   set verdi(verdi: string) {
@@ -24,7 +24,7 @@ export class UrlParam {
       this.nullstill();
     } else {
       this.urlService.updateUrlTree({
-        [this.navn]: verdi
+        [this.name]: verdi
       });
       this.paramSubject.next(verdi);
     }
@@ -33,14 +33,14 @@ export class UrlParam {
   avregistrerParameter(): void {
     const array = this.urlService.registrerteUrlParametere;
     for (let i = 0; i < array.length; i++) {
-      if (array[i] === this.navn) {
+      if (array[i] === this.name) {
         array.splice(i, 1);
       }
     }
   }
 
   private nullstill(): void {
-    delete this.urlService.alleUrlParametere[this.navn];
+    delete this.urlService.alleUrlParametere[this.name];
   }
 
 }

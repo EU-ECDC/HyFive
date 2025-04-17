@@ -19,8 +19,8 @@
           <tbody>
             <tr *ngFor="let handhygieneEtterHanskebrukType of handhygieneEtterHanskebrukTyper">
               <ng-container *ngIf="handhygieneEtterHanskebrukTypeSomEndres?.id !== handhygieneEtterHanskebrukType.id">
-                <td>{{handhygieneEtterHanskebrukType.kode}}</td>
-                <td>{{handhygieneEtterHanskebrukType.navn}}</td>
+                <td>{{handhygieneEtterHanskebrukType.code}}</td>
+                <td>{{handhygieneEtterHanskebrukType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -28,9 +28,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="handhygieneEtterHanskebrukTypeSomEndres?.id === handhygieneEtterHanskebrukType.id">
-                <td>{{handhygieneEtterHanskebrukTypeSomEndres.kode}}</td>
+                <td>{{handhygieneEtterHanskebrukTypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="handhygieneEtterHanskebrukTypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="handhygieneEtterHanskebrukTypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukTypeSomEndres)">

@@ -1,101 +1,101 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TransferstatusTypeConstants } from '../../../models/api/TransferstatusTypeConstants';
-import { SesjonType } from '../../../models/api/SesjonType';
-import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
-import { Rolle } from '../../../models/api/Rolle';
+import { SessionType } from '../../../models/api/SessionType';
+import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
+import { Role } from '../../../models/api/Role';
 import { IndikasjonType } from '../../../models/api/IndikasjonType';
 import { AktivitetType } from '../../../models/api/AktivitetType';
 import { AktivitetTypeKonstanter } from '../../../models/api/AktivitetTypeKonstanter';
-import { ObservasjonService } from '../../../services/data/observasjon.service';
+import { ObservationService } from '../../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
-import {HandsmykkeObservasjon} from "../../../models/api/HandsmykkeObservasjon";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {BraceletObservation} from "../../../models/api/BraceletObservation";
+import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 
 @Component({
   selector: 'app-rediger-fire-indikasjoner-observasjoner',
   templateUrl: './rediger-fire-indikasjoner-observasjoner.component.html'
 })
-export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
+export class RedigerFourIndicationsObservationerComponent implements OnInit {
 
-  @Input() observasjoner: FireIndikasjonerObservasjon[]
+  @Input() observasjoner: FourIndicationsObservation[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
 
-  fireIndikasjonerObservasjonSomEndres: FireIndikasjonerObservasjon = null;
-  handsmykkeObservasjonSomEndres: HandsmykkeObservasjon = null;
+  fourIndicationsObservationSomEndres: FourIndicationsObservation = null;
+  handsmykkeObservasjonSomEndres: BraceletObservation = null;
 
   sekunderBrukt: number;
 
   kanLagres = true;
   transferstatusTypeConstants = TransferstatusTypeConstants;
-  SesjonType = SesjonType;
+  SessionType = SessionType;
 
   constructor(
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      if (this.fireIndikasjonerObservasjonSomEndres)
-        this.fireIndikasjonerObservasjonSomEndres= null;
+      if (this.fourIndicationsObservationSomEndres)
+        this.fourIndicationsObservationSomEndres= null;
     });
   }
 
-  velgObservasjon(observasjon: FireIndikasjonerObservasjon) {
+  velgObservasjon(observasjon: FourIndicationsObservation) {
     if(!this.kanRedigere){
       return;
     }
 
-    this.fireIndikasjonerObservasjonSomEndres = JSON.parse(JSON.stringify(observasjon));
-    this.fireIndikasjonerObservasjonSomEndres.sesjonId = this.sesjonId;
+    this.fourIndicationsObservationSomEndres = JSON.parse(JSON.stringify(observasjon));
+    this.fourIndicationsObservationSomEndres.sesjonId = this.sesjonId;
   }
 
-  velgRolle(rolle: Rolle) {
-    this.fireIndikasjonerObservasjonSomEndres.rolle = rolle;
+  velgRolle(rolle: Role) {
+    this.fourIndicationsObservationSomEndres.rolle = rolle;
   }
 
   indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
-    this.fireIndikasjonerObservasjonSomEndres.indikasjonstyper = valgteIndikasjoner;
+    this.fourIndicationsObservationSomEndres.indicationTypes = valgteIndikasjoner;
   }
 
   velgAktivitet(aktivitetType: AktivitetType) {
-    this.fireIndikasjonerObservasjonSomEndres.aktivitet.aktivitetType = aktivitetType;
+    this.fourIndicationsObservationSomEndres.activity.aktivitetType = aktivitetType;
   }
 
   endretSekunderBrukt(sekunderBrukt: number) {
-    this.fireIndikasjonerObservasjonSomEndres.aktivitet.sekunderBrukt = sekunderBrukt;
+    this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = sekunderBrukt;
   }
 
   endretKommentar(kommentar: string) {
-    this.fireIndikasjonerObservasjonSomEndres.kommentar = kommentar;
+    this.fourIndicationsObservationSomEndres.kommentar = kommentar;
   }
 
-  oppdaterFireIndikasjonerObservasjon() {
-    if (this.fireIndikasjonerObservasjonSomEndres.aktivitet.aktivitetType.kode === AktivitetTypeKonstanter.IkkeUtfort
-      || this.fireIndikasjonerObservasjonSomEndres.aktivitet.aktivitetType.kode === AktivitetTypeKonstanter.IkkeRegistrert) {
-      this.fireIndikasjonerObservasjonSomEndres.aktivitet.sekunderBrukt = 0;
-      this.fireIndikasjonerObservasjonSomEndres.aktivitet.tidtakingBleUtfort = false;
+  updateFourIndicationsObservation() {
+    if (this.fourIndicationsObservationSomEndres.activity.aktivitetType.code === AktivitetTypeKonstanter.IkkeUtfort
+      || this.fourIndicationsObservationSomEndres.activity.aktivitetType.code === AktivitetTypeKonstanter.IkkeRegistrert) {
+      this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = 0;
+      this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = false;
     }
     else {
-      this.fireIndikasjonerObservasjonSomEndres.aktivitet.benyttetHanske = null;
-      if (this.fireIndikasjonerObservasjonSomEndres.aktivitet.sekunderBrukt <= 0){
-        this.fireIndikasjonerObservasjonSomEndres.aktivitet.sekunderBrukt = 0;
-        this.fireIndikasjonerObservasjonSomEndres.aktivitet.tidtakingBleUtfort = false;
+      this.fourIndicationsObservationSomEndres.activity.benyttetHanske = null;
+      if (this.fourIndicationsObservationSomEndres.activity.sekunderBrukt <= 0){
+        this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = 0;
+        this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = false;
       }
       else {
-        this.fireIndikasjonerObservasjonSomEndres.aktivitet.tidtakingBleUtfort = true;
+        this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = true;
       }
     }
 
     if (this.kanLagres) {
-      this.observasjonService.oppdaterFireIndikasjonerObservasjon(this.fireIndikasjonerObservasjonSomEndres).subscribe(
+      this.observationService.updateFourIndicationsObservation(this.fourIndicationsObservationSomEndres).subscribe(
         (erOppdatert) => {
-          this.fireIndikasjonerObservasjonSomEndres = null;
+          this.fourIndicationsObservationSomEndres = null;
           this.toastrService.success('Observasjonen ble oppdatert');
           this.observasjonOppdatertEvent.emit();
         },
@@ -106,10 +106,10 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
     }
   }
 
-  slettFireIndikasjonerObservasjon() {
-    this.observasjonService.slettFireIndikasjonerObservasjon(this.fireIndikasjonerObservasjonSomEndres.id, this.sesjonId).subscribe(
+  deleteFourIndicationsObservation() {
+    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationSomEndres.id, this.sesjonId).subscribe(
       () => {
-        this.fireIndikasjonerObservasjonSomEndres = null;
+        this.fourIndicationsObservationSomEndres = null;
         this.toastrService.success('Observasjonen ble slettet');
         this.observasjonSlettetEvent.emit();
       },
@@ -120,6 +120,6 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
 
   avbrytRedigeringAvObservasjon(event) {
     event.stopPropagation();
-    this.fireIndikasjonerObservasjonSomEndres = null;
+    this.fourIndicationsObservationSomEndres = null;
   }
 }

@@ -33,7 +33,7 @@
             <tr *ngFor="let foresporsel of foresporsler">
               <td>{{foresporsel.brukerFornavn}}</td>
               <td>{{foresporsel.brukerEtternavn}} </td>
-              <td>{{foresporsel.opprettettidspunkt | date:'dd.MM.yyyy HH:mm'}}</td>
+              <td>{{foresporsel.timeOfCreation | date:'dd.MM.yyyy HH:mm'}}</td>
               <td class="text-end py-2 align-middle">
                 <div *ngIf="foresporsel.status == foresporselStatus.Registrert">
                   <button class="btn fhi-btn-icon mx-2" (click)="godkjennForesporsel(foresporsel.id)">

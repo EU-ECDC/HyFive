@@ -7,8 +7,8 @@
             <select class="form-select" id="observator" [(ngModel)]="valgtObservator" (ngModelChange)="nullstillSokeresultat()">
               <option [ngValue]="null">Alle</option>
               <option *ngFor="let observator of observatorer" [ngValue]="observator.id">
-                {{observator.fornavn}} {{observator.etternavn}}
-                <ng-container *ngIf="observator.erDeaktivert">(deaktivert user)</ng-container>
+                {{observator.firstName}} {{observator.lastName}}
+                <ng-container *ngIf="observator.isDisabled">(deaktivert user)</ng-container>
               </option>
             </select>
           </div>
@@ -16,7 +16,7 @@
             <label for="sesjonType">Modul</label>
             <select class="form-select" id="sesjontype" [(ngModel)]="valgtSesjontype" (ngModelChange)="nullstillSokeresultat()">
               <option [ngValue]="null">Alle</option>
-              <option *ngFor="let alternativ of sesjontypeAlternativer" [ngValue]="alternativ.verdi">{{alternativ.navn}}</option>
+              <option *ngFor="let alternativ of sesjontypeAlternativer" [ngValue]="alternativ.verdi">{{alternativ.name}}</option>
             </select>
           </div>
 

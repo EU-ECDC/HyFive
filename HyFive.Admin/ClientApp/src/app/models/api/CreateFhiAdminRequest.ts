@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface Rolle
+export interface CreateFhiAdminRequest
 {
-	id: number;
-	navn: string;
-	beskrivelse: string;
+	identityPseudonym: string;
+	firstName: string;
+	lastName: string;
 }

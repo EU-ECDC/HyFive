@@ -9,7 +9,7 @@
             *ngFor="let kodeverk of kodeverk"
             [ngClass]="{ 'active text-black bg-primary-subtle ': kodeverk.erAktiv }"
             (click)="openComponent(kodeverk)">
-          {{ kodeverk.navn }}
+          {{ kodeverk.name }}
         </li>
       </ul>
     </div>

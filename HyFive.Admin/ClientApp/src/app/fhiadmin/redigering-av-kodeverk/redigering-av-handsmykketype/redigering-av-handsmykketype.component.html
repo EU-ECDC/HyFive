@@ -19,8 +19,8 @@
           <tbody>
             <tr *ngFor="let handsmykketype of handsmykketyper">
               <ng-container *ngIf="handsymkketypeSomEndres?.id !== handsmykketype.id">
-                <td>{{handsmykketype.kode}}</td>
-                <td>{{handsmykketype.navn}}</td>
+                <td>{{handsmykketype.code}}</td>
+                <td>{{handsmykketype.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtHandsmykketype(handsmykketype)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -28,9 +28,9 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="handsymkketypeSomEndres?.id === handsmykketype.id">
-                <td>{{handsymkketypeSomEndres.kode}}</td>
+                <td>{{handsymkketypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="handsymkketypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="handsymkketypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterHandsmykketype(handsymkketypeSomEndres)">

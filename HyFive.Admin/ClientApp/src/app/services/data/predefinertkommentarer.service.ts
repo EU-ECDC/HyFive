@@ -4,7 +4,7 @@ import { PredefinertKommentar } from '../../models/api/PredefinertKommentar';
 import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
 import { OpprettPredefinertKommentarRequest } from '../../models/api/OpprettPredefinertKommentarRequest';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './institution.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,12 @@ export class PredefinertKommentarerService {
 
   constructor(
     private httpClient: HttpClient,
-    private institusjonService: InstitusjonService
+    private institusjonService: InstitutionService
   ) { }
 
   hentPredefinertKommentarer(): Observable<PredefinertKommentar[]> {
     let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institusjonId=${valgtInstitusjonId}`;
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institutionId=${valgtInstitusjonId}`;
     return this.httpClient.get<PredefinertKommentar[]>(url);
   }
 

@@ -7,7 +7,7 @@
         <label for="sesjonType">Modul</label>
         <select class="form-select" id="sesjontype" [(ngModel)]="valgtSesjontype" (ngModelChange)="nullstillSokeresultat()">
           <option value="null">Alle</option>
-          <option *ngFor="let sesjontype of sesjontyper" [ngValue]="sesjontype.verdi">{{sesjontype.navn}}</option>
+          <option *ngFor="let sesjontype of sesjontyper" [ngValue]="sesjontype.verdi">{{sesjontype.name}}</option>
         </select>
       </div>
       <div class="col-md-2">
@@ -23,14 +23,14 @@
         <select id="institusjoner" class="form-select" [(ngModel)]="valgtInstitusjonId" (ngModelChange)="nullstillSokeresultat()">
           <option value="null">Alle</option>
           <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id.toString()">
-            {{institusjon.navn}}
+            {{institusjon.name}}
           </option>
         </select>
       </div>
       <div class="form-group col-12 col-md-3">
         <label style="opacity:0;">-</label>
         <br />
-        <button class="btn btn-sm fhi-btn-primary me-2" (click)="hentInstitusjonerMedSesjoner()">Søk</button>
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getInstitutionsWithSessions()">Søk</button>
         <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="nullstill()">Tøm filtere</button>
       </div>
     </div>
@@ -44,16 +44,16 @@
   <div class="row mb-5" *ngIf="institusjonOversiktRapportListe.length">
     <app-accordion class="col-12"
                    [items]="institusjonOversiktRapportListe"
-                   [headerTemplate]="headerInstitusjonOversiktRapport"
-                   [contentTemplate]="contentInstitusjonOversiktRapport"
+                   [headerTemplate]="headerInstitutionOverviewReport"
+                   [contentTemplate]="contentInstitutionOverviewReport"
                    (shownEvent)="findId($event)">
     </app-accordion>
 
-    <ng-template #headerInstitusjonOversiktRapport let-item="item">
-      {{item.navn}}. Sesjoner: {{item.antallSesjoner}}. Observasjoner: {{item.antallObservasjoner}}.
+    <ng-template #headerInstitutionOverviewReport let-item="item">
+      {{item.name}}. Sesjoner: {{item.antallSesjoner}}. Observasjoner: {{item.antallObservasjoner}}.
     </ng-template>
 
-    <ng-template #contentInstitusjonOversiktRapport let-item="item">
+    <ng-template #contentInstitutionOverviewReport let-item="item">
       <h5>Avdelinger</h5>
       <ng-container>
         <div class="table-responsive">
@@ -68,7 +68,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let avdeling of item.avdelinger">
-                <td>{{avdeling.navn}}</td>
+                <td>{{avdeling.name}}</td>
                 <td>{{avdeling.antallSesjoner}}</td>
                 <td>{{avdeling.antallObservasjoner}}</td>
                 <td class="py-2">

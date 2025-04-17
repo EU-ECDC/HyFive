@@ -7,8 +7,8 @@ import { FeilbrukType } from './FeilbrukType';
 export interface BeskyttelsesutstyrType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 	erDefaultIndikert: boolean;
 	erIndikert: boolean;
 	feilbruktyper: FeilbrukType[];

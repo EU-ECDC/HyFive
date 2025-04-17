@@ -33,7 +33,7 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
   }
 
   kopierPseudonymKlikk() {
-    this.clipboardService.copy(this.user?.identPseudonym);
+    this.clipboardService.copy(this.user?.identityPseudonym);
     this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
   }
 }

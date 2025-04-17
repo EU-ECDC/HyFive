@@ -23,14 +23,14 @@
           </thead>
           <tbody>
             <tr *ngIf="nyObservator != null">
-              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.fornavn" name="fornavn" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.etternavn" name="etternavn" placeholder="Etternavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.epost" name="epost" placeholder="Epost"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.firstName" name="firstName" placeholder="Fornavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.lastName" name="lastName" placeholder="Etternavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.email" name="email" placeholder="Epost"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="nyObservator.hprNummer" name="hprNummer" placeholder="HPR-nummer">
                 <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
               </td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.identPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyObservator.identityPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
                 <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createObserver()">
@@ -45,14 +45,14 @@
             <tr *ngFor="let observator of filtrerteObservatorer">
               
               <ng-container *ngIf="observatorSomEndres?.id != observator.id">
-                <td>{{observator.fornavn}}</td>
-                <td>{{observator.etternavn}} </td>
-                <td>{{observator.epost}}</td>
+                <td>{{observator.firstName}}</td>
+                <td>{{observator.lastName}} </td>
+                <td>{{observator.email}}</td>
                 <td>{{observator.hprNummer}}</td>
                 <td>
-                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="observator.identPseudonym"></app-pseudonym-dialog>
+                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="observator.identityPseudonym"></app-pseudonym-dialog>
                 </td>
-                <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observator.erDeaktivert" name="erDeaktivert" disabled="disabled"></td>
+                <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observator.isDisabled" name="isDisabled" disabled="disabled"></td>
               
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="setObservatorSomEndres(observator)">
@@ -62,9 +62,9 @@
               </ng-container>
               
               <ng-container *ngIf="observatorSomEndres?.id == observator.id">
-                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.fornavn" name="fornavn" placeholder="Fornavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.etternavn" name="etternavn" placeholder="Etternavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.epost" name="epost" placeholder="Epost"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.firstName" name="firstName" placeholder="Fornavn"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.lastName" name="lastName" placeholder="Etternavn"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observatorSomEndres.email" name="email" placeholder="Epost"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="observatorSomEndres.hprNummer" name="hprNummer" placeholder="HPR-nummer">
                   <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
@@ -73,26 +73,26 @@
                   <app-pseudonym-dialog 
                                         [text]="'Endre'"
                                         [editable]="true"
-                                        [identityPseudonym]="observator.identPseudonym"
+                                        [identityPseudonym]="observator.identityPseudonym"
                                         (identityPseudonymChanged)="identPseudonymEndret($event)">
                   </app-pseudonym-dialog> 
                 </td>
                 <td>
-                  <input type="checkbox" class="form-check-input" [(ngModel)]="observatorSomEndres.erDeaktivert" name="erDeaktivert">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="observatorSomEndres.isDisabled" name="isDisabled">
                 </td>
               
                 <td>
                   <ng-container *ngIf="observator.id == observatorSomEndres?.id">
                     <button class="btn fhi-btn-icon mr-2 w-100"
-                            (click)="oppdaterObservator(observatorSomEndres)"
+                            (click)="updateObserver(observatorSomEndres)"
                             [disabled]="kanEndres(observatorSomEndres) == false">
                       <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                     </button>
                     <div *ngIf="user.erFhiAdmin">
                       <app-bekreftelsesdialog 
                                                     [knappTekst]="'Slett'"
-                                                    (bekreftetEvent)="slettObservator(observator.id)"
-                                                    [dialogmelding]="'Er du sikker på at du vil slette observatøren ' + observator.fornavn + ' ' +  observator.etternavn +  ' fra systemet?'"
+                                                    (bekreftetEvent)="deleteObserver(observator.id)"
+                                                    [dialogmelding]="'Er du sikker på at du vil slette observatøren ' + observator.firstName + ' ' +  observator.lastName +  ' fra systemet?'"
                                                     [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
                                                     [skalBrukeIkon]=true>
                       </app-bekreftelsesdialog>

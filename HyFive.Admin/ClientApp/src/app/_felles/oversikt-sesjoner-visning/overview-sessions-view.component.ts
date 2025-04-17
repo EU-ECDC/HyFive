@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angu
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
-import { SesjonType } from '../../models/api/SesjonType';
-import { ObservasjonService } from '../../services/data/observasjon.service';
+import { SessionType } from '../../models/api/SessionType';
+import { ObservationService } from '../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
 import {SessionService} from '../../services/data/session.service';
 
@@ -25,10 +25,10 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   isOppositeToFhi = false;
   transferstatusTypeConstants = TransferstatusTypeConstants;
-  SesjonType = SesjonType;
+  SessionType = SessionType;
 
   constructor(
-    private observasjonService: ObservasjonService,
+    private observationService: ObservationService,
     private sessionService: SessionService,
     private toastrService: ToastrService,
     private datePipe: DatePipe) { }
@@ -40,8 +40,8 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  isOverfortTilFhi(kode) {
-    return kode === TransferstatusTypeConstants.OverfortTilFhi;
+  isOverfortTilFhi(code) {
+    return code === TransferstatusTypeConstants.OverfortTilFhi;
   }
 
   overfor(sesjonId, event) {
@@ -56,7 +56,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   deleteSession(sessionOverviewReport: SessionOverviewReport) {
     const feilmelding = `En feil skjedde under sletting av sesjon med id ${sessionOverviewReport.id}`;
-    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.avdeling.institusjonId).subscribe(
+    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.avdeling.institutionId).subscribe(
       (erSlettet) => {
         if (erSlettet){
           this.toastrService.success(`Sesjon med id ${sessionOverviewReport.id} ble slettet`);
@@ -74,7 +74,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   hentSlettemelding(sessionOverviewReport: SessionOverviewReport) {
     return `Du er i ferd med å slette sesjon registrert av ${sessionOverviewReport.observatorNavn},
-    opprettet ${this.datePipe.transform(sessionOverviewReport.opprettettidspunkt, 'dd.MM.yyyy HH:mm')} med ${sessionOverviewReport.observasjoner?.length} tilhørende observasjon${sessionOverviewReport.observasjoner?.length > 1 ? 'er' : ''}.
+    opprettet ${this.datePipe.transform(sessionOverviewReport.timeOfCreation, 'dd.MM.yyyy HH:mm')} med ${sessionOverviewReport.observasjoner?.length} tilhørende observasjon${sessionOverviewReport.observasjoner?.length > 1 ? 'er' : ''}.
     Er du sikker på at du vil slette denne sesjonen?`;
   }
 }

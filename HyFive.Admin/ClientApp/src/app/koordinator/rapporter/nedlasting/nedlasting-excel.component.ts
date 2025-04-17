@@ -3,10 +3,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
-import { Avdeling } from 'src/app/models/api/Avdeling';
-import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
-import { SesjonType } from 'src/app/models/api/SesjonType';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { Department} from 'src/app/models/api/Department';
+import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
+import { SessionType } from 'src/app/models/api/SessionType';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { RapportService } from 'src/app/services/data/rapport.service';
 import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 import { SesjonstypeRapportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
@@ -19,7 +19,7 @@ import { Sesjonstyper } from 'src/app/utils/sesjontyper';
 
 export class NedlastingExcelComponent {
   constructor(
-    private institusjonService: InstitusjonService,
+    private institusjonService: InstitutionService,
     private rapportService: RapportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
@@ -34,7 +34,7 @@ export class NedlastingExcelComponent {
     else if (this.valgtRolle === AuthorizedRole.Administrator) {
       this.kanVelgeInstitusjon = true;
 
-      this.institusjonService.hentInstitusjoner().subscribe(
+      this.institusjonService.getInstitutions().subscribe(
         (institusjoner) => {
           this.institusjoner = institusjoner;
         });
@@ -43,13 +43,13 @@ export class NedlastingExcelComponent {
 
   sesjontyper = Sesjonstyper.HentSesjonstyper();
 
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   valgtAvdelingId: number;
   fraDato: Date = null;
   tilDato: Date = null;
   
-  avdelinger: Avdeling[];
-  institusjoner: InstitusjonRapport[] = [];
+  avdelinger: Department[];
+  institusjoner: InstitutionReport[] = [];
   kanVelgeInstitusjon = false;
   lagerRapport = false;
   valgtInstitusjonId: number;
@@ -92,14 +92,14 @@ export class NedlastingExcelComponent {
   lagRapport() {
     this.toastrService.clear();
     
-    this.rapportService.rapportForSesjonTypeHarData(this.valgtSesjontype, this.valgtInstitusjonId, this.valgtAvdelingId,
+    this.rapportService.rapportForSessionTypeHarData(this.valgtSesjontype, this.valgtInstitusjonId, this.valgtAvdelingId,
       this.fraDato, this.tilDato, this.valgtRolle).subscribe(
         rapportHarData => {
           if (rapportHarData) {
             this.lagerRapport = true;
 
             let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.valgtSesjontype);
-            let url = `${baseUrl}?fraTid=${this.fraDato}&tilTid=${this.tilDato}&avdelingId=${this.valgtAvdelingId}&institusjonId=${this.valgtInstitusjonId}&rolle=${this.valgtRolle}`;
+            let url = `${baseUrl}?fraTid=${this.fraDato}&tilTid=${this.tilDato}&avdelingId=${this.valgtAvdelingId}&institutionId=${this.valgtInstitusjonId}&rolle=${this.valgtRolle}`;
         
             this.lastNedExcel(url).subscribe(() => {
               this.lagerRapport = false;
@@ -118,10 +118,10 @@ export class NedlastingExcelComponent {
     return LastNedFilHjelper.lastNedFil(url, 'application/xlsx, */*')
   }
 
-  private hentInstitusjon(institusjonId: number) {
-    this.institusjonService.hentInstitusjon(institusjonId).subscribe(
-      institusjon => {
-        this.avdelinger = institusjon.avdelinger;
+  private hentInstitusjon(institutionId: number) {
+    this.institusjonService.hentInstitusjon(institutionId).subscribe(
+      institution => {
+        this.avdelinger = institution.departments;
       })
   };
 }

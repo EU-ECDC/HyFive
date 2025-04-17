@@ -5,7 +5,7 @@
 <div class="container" *ngIf="avdeling">
   <div class="row mb-3">
     <div class="col">
-      <h4>Avdeling: {{avdeling.navn}}</h4>
+      <h4>Department: {{avdeling.name}}</h4>
       <p>
         <span *ngIf="fraDato">Fra date: {{visFormatedDato(fraDato)}}</span> <br />
         <span *ngIf="tilDato">Til date: {{visFormatedDato(tilDato)}}</span>
@@ -33,8 +33,8 @@
   </div>
 
   <app-overview-sessions-view [session]="sesjoner"
-                                 (observationUpdatedEvent)="hentSesjonerForAvdeling()"
-                                 (observationDeletedEvent)="hentSesjonerForAvdeling()">
+                                 (observationUpdatedEvent)="getSessionsForDepartment()"
+                                 (observationDeletedEvent)="getSessionsForDepartment()">
   </app-overview-sessions-view>
 
 </div>
