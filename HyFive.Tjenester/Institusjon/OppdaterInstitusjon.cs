@@ -38,7 +38,7 @@ namespace HyFive.Services.Institusjon
 
                 var institusjon = await _context.Institution
                                                 .Include(i => i.Municipality)
-                                                .Include(i => i.HealthcareProvider)
+                                                .Include(i => i.HealthcareOrganization)
                                                 .FirstOrDefaultAsync(i => i.Id == command.Institusjon.Id);
 
                 if (command.Institusjon.Comment != null && command.Institusjon.InstitutionType.Code == InstitutionTypeConstants.NursingHome)
@@ -53,12 +53,12 @@ namespace HyFive.Services.Institusjon
 
                 if (command.Institusjon.HealthcareProvider != null && command.Institusjon.InstitutionType.Code == InstitutionTypeConstants.NursingHome)
                 {
-                    var helseforetak = await _context.HealthcareProvider.FirstOrDefaultAsync(h => h.Id == command.Institusjon.HealthcareProvider.Id);
-                    institusjon.HealthcareProvider = helseforetak;
+                    var helseforetak = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Institusjon.HealthcareProvider.Id);
+                    institusjon.HealthcareOrganization = helseforetak;
                 }
                 else
                 {
-                    institusjon.HealthcareProvider = null;
+                    institusjon.HealthcareOrganization = null;
                 }
                 
                 institusjon.Name = command.Institusjon.Name;

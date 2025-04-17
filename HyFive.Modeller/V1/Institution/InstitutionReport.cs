@@ -13,6 +13,6 @@ namespace HyFive.Models.V1.Institution
         public InstitutionType InstitutionType { get; set; }
         public Region Region { get; set; }
         public Comment Comment { get; set; }
-        public HealthcareEnterprise HealthcareEnterprise { get; set; }
+        public HealthcareOrganization HealthcareEnterprise { get; set; }
     }
 }

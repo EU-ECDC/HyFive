@@ -28,7 +28,7 @@ namespace HyFive.Services.RegionaltHelseforetak
             }
             public Task<List<Models.V1.Institution.RegionalInstitution>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var regionaltHelseforetak = _context.RegionaltHealthcareProvider
+                var regionaltHelseforetak = _context.RegionaltHealthcareOrganization
                                                     .AsNoTracking()
                                                     .ProjectTo<Models.V1.Institution.RegionalInstitution>(_mapper.ConfigurationProvider)
                                                     .ToListAsync(cancellationToken);

@@ -7,13 +7,13 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Services.ForesporselOmBrukertilgang
+namespace HyFive.Services.UserAccessRequest
 {
-    public class HentAlleForesporsler
+    public class GetAllRequests
     {
         public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest[]>
         {
-            public int InstitusjonId { get; set; }
+            public int InstitutionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest[]>
@@ -32,7 +32,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
             {
                 return await _context.UserAccessRequest
                     .AsNoTracking()
-                    .Where(f => f.InstitusjonId.Value == request.InstitusjonId)
+                    .Where(f => f.InstitutionId.Value == request.InstitutionId)
                     .ProjectTo<Models.V1.UserAccessRequest.UserAccessRequest>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }

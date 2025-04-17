@@ -39,7 +39,7 @@ namespace HyFive.Services.Institusjon
 
                 var kommune = await _context.Municipality.FirstOrDefaultAsync(k => k.Id == command.Request.MunicipalityId);
                 
-                var helseforetak = await _context.HealthcareProvider.FirstOrDefaultAsync(h => h.Id == command.Request.InstitutionId);
+                var helseforetak = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Request.InstitutionId);
                 
                 var koordinator = new Koordinator()
                 {

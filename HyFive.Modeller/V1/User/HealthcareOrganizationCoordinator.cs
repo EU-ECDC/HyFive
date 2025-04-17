@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace HyFive.Models.V1.User
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
-    public class HealthcareInstitutionCoordinator
+    public class HealthcareOrganizationCoordinator
     {
         public DateTime CreatedTime { get; set; }
         public string FirstName { get; set; }

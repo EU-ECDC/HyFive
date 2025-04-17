@@ -24,7 +24,7 @@ namespace HyFive.Domain.Place
         public ICollection<PredefinedComments> PredefinedComments { get; set; }
         public InstitutionType InstitutionType { get; set; }
         public Region Region { get; set; }
-        public HealthcareProvider HealthcareProvider { get; set; }
+        public HealthcareOrganization HealthcareOrganization { get; set; }
         public Municipality Municipality { get; set; }
     }
 }

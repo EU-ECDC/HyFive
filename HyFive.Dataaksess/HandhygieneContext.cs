@@ -48,8 +48,8 @@ namespace HyFive.DataAccess
         public DbSet<Activity> Activity { get; set; }
         public DbSet<IndicationTypes> IndicationTypes { get; set; }
         public DbSet<MisuseType> MisuseType { get; set; }
-        public DbSet<HealthcareProvider> HealthcareProvider { get; set; }
-        public DbSet<RegionaltHealthcareProvider> RegionaltHealthcareProvider { get; set; }
+        public DbSet<HealthcareOrganization> HealthcareOrganization { get; set; }
+        public DbSet<RegionaltHealthcareProvider> RegionaltHealthcareOrganization { get; set; }
         public DbSet<Municipality> Municipality { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
@@ -168,9 +168,9 @@ namespace HyFive.DataAccess
             mb.Entity<User>().HasIndex(b => b.HPRNumber);
 
             mb.Entity<UserAccessRequest>().Property(b => b.UserFirstName).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.UserSurname).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.IdentPseudonym).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.HPRNummer).HasMaxLength(50);
+            mb.Entity<UserAccessRequest>().Property(b => b.UserLastName).HasMaxLength(100).IsRequired();
+            mb.Entity<UserAccessRequest>().Property(b => b.IdentityPseudonym).HasMaxLength(100).IsRequired();
+            mb.Entity<UserAccessRequest>().Property(b => b.HPRNumber).HasMaxLength(50);
             mb.Entity<UserAccessRequest>().HasIndex(b => b.Status);
 
             mb.Entity<PPEConfigurationType>()
@@ -184,7 +184,7 @@ namespace HyFive.DataAccess
                 .WithMany(c => c.PPEConfigurationTypes)
                 .HasForeignKey(bc => bc.ProtectiveEquipmentSettingTypeId);
 
-            mb.Entity<HealthcareProvider>().Property(h => h.Name).HasMaxLength(250).IsRequired();
+            mb.Entity<HealthcareOrganization>().Property(h => h.Name).HasMaxLength(250).IsRequired();
 
             mb.Entity<RegionaltHealthcareProvider>().Property(rh => rh.Name).HasMaxLength(50);
 

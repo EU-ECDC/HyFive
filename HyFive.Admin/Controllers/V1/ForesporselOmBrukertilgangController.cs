@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.ForesporselOmBrukertilgang;
+using HyFive.Services.UserAccessRequest;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,9 +37,9 @@ namespace HyFive.Admin.Controllers.V1
             try
             {
                 var bruker = await _brukerservice.GetUser();
-                var response = await _mediator.Send(new HentAlleForesporsler.Query
+                var response = await _mediator.Send(new GetAllRequests.Query
                 {
-                    InstitusjonId = institusjonId
+                    InstitutionId = institusjonId
                 });
                 return Ok(response);
             }
@@ -60,9 +60,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new HentForesporslerSomVenterPaGodkjenning.Query()
+                var response = await _mediator.Send(new GetPendingApprovalRequests.Query()
                 {
-                    InstitusjonId = institusjonId
+                    InstitutionId = institusjonId
                 });
                 return Ok(response);
             }
@@ -79,11 +79,11 @@ namespace HyFive.Admin.Controllers.V1
             {
                 var bruker = await _brukerservice.GetUser();
                 
-                var response = await _mediator.Send(new OpprettBrukerFraForesporsel.Command()
+                var response = await _mediator.Send(new CreateUserRequest.Command()
                 {
-                    ForespørselId = foresporselId,
-                    IdentPseudonym = bruker.IdentityPseudonym,
-                    HPRNummer = bruker.HPRNumber
+                    RequestId = foresporselId,
+                    IdentityPseudonym = bruker.IdentityPseudonym,
+                    HPRNumber = bruker.HPRNumber
                 });
                 return Ok(response);
             }
@@ -101,11 +101,11 @@ namespace HyFive.Admin.Controllers.V1
             {
                 var bruker = await _brukerservice.GetUser();
 
-                var response = await _mediator.Send(new AvvisForesporsel.Command()
+                var response = await _mediator.Send(new RejectRequest.Command()
                 {
-                    ForespørselId = foresporselId,
-                    IdentPseudonym = bruker.IdentityPseudonym,
-                    HPRNummer = bruker.HPRNumber
+                    RequestId = foresporselId,
+                    IdentityPseudonym = bruker.IdentityPseudonym,
+                    HPRNumber = bruker.HPRNumber
                 });
                 return Ok(response);
             }

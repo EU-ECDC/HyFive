@@ -8,14 +8,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Helseforetak
+namespace HyFive.Services.HealthcareOrganization
 {
     public class GetAllHealthcareProviders
     {
-        public class Query : IRequest<List<Models.V1.Institution.HealthcareEnterprise>>
+        public class Query : IRequest<List<Models.V1.Institution.HealthcareOrganization>>
         {  }
 
-        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.HealthcareEnterprise>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.HealthcareOrganization>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,14 +26,14 @@ namespace HyFive.Services.Helseforetak
                 _mapper = mapper;
             }
 
-            public async Task<List<Models.V1.Institution.HealthcareEnterprise>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Models.V1.Institution.HealthcareOrganization>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (_context.HealthcareProvider.Any())
+                if (_context.HealthcareOrganization.Any())
                 {
-                    var allHealthcareProvides = await _context.HealthcareProvider
+                    var allHealthcareProvides = await _context.HealthcareOrganization
                                                          .AsNoTracking()
                                                          .OrderBy(h => h.Name)
-                                                         .ProjectTo<Models.V1.Institution.HealthcareEnterprise>(_mapper.ConfigurationProvider)
+                                                         .ProjectTo<Models.V1.Institution.HealthcareOrganization>(_mapper.ConfigurationProvider)
                                                          .ToListAsync();
 
                     return allHealthcareProvides;

@@ -8,13 +8,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Helseforetak
+namespace HyFive.Services.HealthcareOrganization
 {
-    public class HentInstitiusjonerForHelseforetak
+    public class GetHealthcareOrganization
     {
         public class Query : IRequest<InstitutionReport[]>
         {
-            public int HelseforetakId { get; set; }
+            public int HealthcareOrganizationId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, InstitutionReport[]>
@@ -30,7 +30,7 @@ namespace HyFive.Services.Helseforetak
 
             public async Task<InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Institution.Where(x=>x.HealthcareProvider.Id == request.HelseforetakId);
+                var query = _context.Institution.Where(x=>x.HealthcareOrganization.Id == request.HealthcareOrganizationId);
 
                 var result = await query
                     .ProjectTo<InstitutionReport>(_mapper.ConfigurationProvider)

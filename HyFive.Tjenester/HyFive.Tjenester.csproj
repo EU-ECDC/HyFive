@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
+    <ProjectReference Include="..\HyFive.Domene\HyFive.Domain.csproj" />
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj" />
   </ItemGroup>

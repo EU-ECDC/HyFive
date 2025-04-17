@@ -4,7 +4,7 @@ using HyFive.Modeller.V1.User;
 using HyFive.Modeller.V1.Institution;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Helseforetak;
+using HyFive.Services.HealthcareOrganization;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -42,9 +42,9 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> OpprettEtHelseforetak([FromBody] CreateHealthEnterpriseRequest helseforetakRequest)
         {
-            var erOpprettet = await _mediator.Send(new OpprettHelseforetak.Command
+            var erOpprettet = await _mediator.Send(new CreateHealthcareOrganization.Command
             {
-                Helseforetak = helseforetakRequest
+                HealthcareOrganization = helseforetakRequest
             });
             return Ok(erOpprettet);
         }
@@ -54,9 +54,9 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> OppdaterHeleforetaket([FromBody] HealthcareEnterprise helseforetak)
         {
-            var erOppdatert = await _mediator.Send(new OppdaterHelseforetaket.Command
+            var erOppdatert = await _mediator.Send(new UpdateHealthcareOrganization.Command
             {
-                HealthcareProvider = helseforetak
+                HealthcareOrganization = helseforetak
             });
             return Ok(erOppdatert);
         }
@@ -67,9 +67,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                var koordinatorMedInstitusjonerListe = await _mediator.Send(new HentKoordinatorerForHelseforetak.Query
+                var koordinatorMedInstitusjonerListe = await _mediator.Send(new GetCoordinatorsForHealthcareOrganization.Query
                 {
-                    HelseforetakId = id
+                    HealthcareOrganizationId = id
                 });
                 return Ok(koordinatorMedInstitusjonerListe);
             }
@@ -82,9 +82,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                return await _mediator.Send(new HentInstitiusjonerForHelseforetak.Query
+                return await _mediator.Send(new GetHealthcareOrganization.Query
                 {
-                    HelseforetakId = id
+                    HealthcareOrganizationId = id
                 });
             }
 
@@ -98,10 +98,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                var oppdatertStatus = await _mediator.Send(new OppdaterKoordinatorForHelseforetak.Command
+                var oppdatertStatus = await _mediator.Send(new UpdateCoordinatorForHealthcareOrganization.Command
                 {
-                    Koordinator = koordinator,
-                    HelseforetakId = id
+                    Coordinator = koordinator,
+                    HealthcareOrganizationId = id
                 });
                 return Ok(oppdatertStatus);
             }
@@ -115,10 +115,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                var opprettetStatus = await _mediator.Send(new OpprettKoordinatorForHelseforetak.Command
+                var opprettetStatus = await _mediator.Send(new CreateCoordinatorForHealthcareOrganization.Command
                 {
-                    Koordinator = koordinator,
-                    HelseforetakId = id
+                    Coordinator = koordinator,
+                    HealthcareOrganizationId = id
                 });
                 return Ok(opprettetStatus);
             }

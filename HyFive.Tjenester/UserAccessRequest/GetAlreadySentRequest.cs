@@ -3,17 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domene.Bruker;
+using HyFive.Domain.User;
 using MediatR;
 
-namespace HyFive.Services.ForesporselOmBrukertilgang
+namespace HyFive.Services.UserAccessRequest
 {
-    public class HentForesporselSomSendtAllerede
+    public class GetAlreadySentRequest
     {
         public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest>
         {
-            public string HprNummer { get; set; }
-            public string IdentPseudonym { get; set; }
+            public string HprNumber { get; set; }
+            public string IdentityPseudonym { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest>
@@ -28,22 +28,22 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
             }
             public async Task<Models.V1.UserAccessRequest.UserAccessRequest> Handle(Query request, CancellationToken cancellationToken)
             {
-                var foresporsel = _context.UserAccessRequest
-                                    .OrderByDescending(f => f.Opprettettidspunkt)
+                var userAccessRequest = _context.UserAccessRequest
+                                    .OrderByDescending(f => f.CreatedTime)
                                     .FirstOrDefault(f =>
-                                    f.HPRNummer == request.HprNummer &&
-                                    f.IdentPseudonym == request.IdentPseudonym &&
-                                    f.Status == ForesporselOmBrukertilgangStatus.Registrert);
+                                    f.HPRNumber == request.HprNumber &&
+                                    f.IdentityPseudonym == request.IdentityPseudonym &&
+                                    f.Status == UserAccessRequestStatus.Registered);
 
-                if (foresporsel == null)
+                if (userAccessRequest == null)
                     return null;
 
-                var institusjon = _context.Institution.FirstOrDefault(i => i.Id == foresporsel.InstitusjonId);
+                var institution = _context.Institution.FirstOrDefault(i => i.Id == userAccessRequest.InstitutionId);
 
-                if (institusjon == null)
+                if (institution == null)
                     return null;
 
-                return _mapper.Map<Models.V1.UserAccessRequest.UserAccessRequest>(foresporsel);
+                return _mapper.Map<Models.V1.UserAccessRequest.UserAccessRequest>(userAccessRequest);
             }
         }
     }

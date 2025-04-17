@@ -3,11 +3,11 @@
 namespace HyFive.Models.V1.Institution
 {
     [TsInterface(IncludeNamespace = false, AutoI = false)]
-    public class HealthcareEnterprise
+    public class HealthcareOrganization
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int RegionaltHealthcareEnterpriseId { get; set; }
-        public RegionalInstitution RegionalHealthcareEnterprise { get; set; }
+        public int RegionaltHealthcareOrganizationId { get; set; }
+        public RegionalInstitution RegionalHealthcareOrganization { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace HyFive.Domain.User
         public int Id { get; set; }
         public int? InstitutionId { get; set; }
         public string UserFirstName { get; set; }
-        public string UserSurname { get; set; }
-        public string IdentPseudonym { get; set; }
-        public string HPRNummer { get; set; }
+        public string UserLastName { get; set; }
+        public string IdentityPseudonym { get; set; }
+        public string HPRNumber { get; set; }
         public UserAccessRequestStatus Status { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime? ProcessedTime { get; set; }

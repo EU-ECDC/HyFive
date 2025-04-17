@@ -6,9 +6,9 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Services.ForesporselOmBrukertilgang
+namespace HyFive.Services.UserAccessRequest
 {
-    public class HentInstitusjoner
+    public class GetInstitutions
     {
         public class Query : IRequest<List<Models.V1.UserAccessRequest.InstitutionForUserAccessRequest>>
         {
@@ -16,7 +16,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
 
         public class Handler : IRequestHandler<Query, List<Models.V1.UserAccessRequest.InstitutionForUserAccessRequest>>
         {
-            private readonly int InstitusjonIdForFHI = 1;
+            private readonly int InstitutionIdForFHI = 1;
 
             private readonly HandHygieneContext _context;
 
@@ -26,8 +26,8 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
             }
             public async Task<List<Models.V1.UserAccessRequest.InstitutionForUserAccessRequest>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var institusjoner = _context.Institution.AsNoTracking()
-                             .Where(i=> i.Id != InstitusjonIdForFHI)
+                var institutions = _context.Institution.AsNoTracking()
+                             .Where(i=> i.Id != InstitutionIdForFHI)
                              .Select(i => new Models.V1.UserAccessRequest.InstitutionForUserAccessRequest()
                              {
                                  Id = i.Id, 
@@ -36,7 +36,7 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
                              .OrderBy(i=>i.Name)
                              .ToList();
 
-                return institusjoner;
+                return institutions;
             }
         }
     }

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.ForesporselOmBrukertilgang
+namespace HyFive.Services.UserAccessRequest
 {
-    public class HentInstitusjon
+    public class GetInstitution
     {
         public class Query : IRequest<InstitutionForUserAccessRequest>
         {
-            public int InstitusjonId { get; set; }
+            public int InstitutionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, InstitutionForUserAccessRequest>
@@ -25,16 +25,16 @@ namespace HyFive.Services.ForesporselOmBrukertilgang
             }
             public async Task<InstitutionForUserAccessRequest> Handle(Query request, CancellationToken cancellationToken)
             {
-                var institusjon = _context.Institution.AsNoTracking()
-                    .FirstOrDefault(i => i.Id == request.InstitusjonId);
+                var institution = _context.Institution.AsNoTracking()
+                    .FirstOrDefault(i => i.Id == request.InstitutionId);
 
-                var institusjonForForesporselOmBrukertilgang = new InstitutionForUserAccessRequest
+                var institutionForUserAccessRequest = new InstitutionForUserAccessRequest
                 {
-                    Id = institusjon.Id,
-                    Name = institusjon.Name
+                    Id = institution.Id,
+                    Name = institution.Name
                 };
 
-                return institusjonForForesporselOmBrukertilgang;
+                return institutionForUserAccessRequest;
             }
         }
     }

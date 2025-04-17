@@ -3,9 +3,9 @@
 namespace HyFive.Models.V1.Institution
 {
     [TsInterface(IncludeNamespace = false, AutoI = false)]
-    public class CreateHealthEnterpriseRequest
+    public class CreateHealthcareOrganizationRequest
     {
         public string Name { get; set; }
-        public int RegionaltHealthcareProvider { get; set; }
+        public int RegionaltHealthcareOrganizationId { get; set; }
     }
 }
