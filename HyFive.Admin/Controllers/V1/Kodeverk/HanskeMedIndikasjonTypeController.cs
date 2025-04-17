@@ -27,7 +27,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<IndicatedGloveType>> HentHanskeMedIndikasjonTyper()
         {
-            var hanskeVedIndikasjonTyper = await _mediator.Send(new HentHanskeMedIndikasjonTyper.Query());
+            var hanskeVedIndikasjonTyper = await _mediator.Send(new GetGloveWithIndicationTypes.Query());
             return hanskeVedIndikasjonTyper;
         }
 
@@ -40,9 +40,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<IndicatedGloveType> OppdaterHanskeMedIndikasjonType([FromBody] IndicatedGloveType hanskeMedIndikasjonType)
         {
-            var erOppdatert = await _mediator.Send(new OppdaterHanskeMedIndikasjonType.Command
+            var erOppdatert = await _mediator.Send(new UpdateGloveWithIndicationType.Command
             {
-                HanskeMedIndikasjonType = hanskeMedIndikasjonType
+                GloveWithIndicationType = hanskeMedIndikasjonType
             });
 
             return erOppdatert;

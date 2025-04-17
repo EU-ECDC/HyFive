@@ -49,11 +49,11 @@ namespace HyFive.Observasjon.Controllers.V1
 
             if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
-                var resultat = await _mediator.Send(new LagreSesjon.Command
+                var resultat = await _mediator.Send(new SaveSession.Command
                 {
-                    HPRNummer = _brukerservice.GetHprNumber(),
+                    HPRNumber = _brukerservice.GetHprNumber(),
                     Pseudonym = _brukerservice.GetPseudonym(),
-                    Sesjon = sesjon
+                    Session = sesjon
                 });
 
                 return CreatedAtRoute("HentHanskeSesjon", new { sesjonId = sesjon.Id }, resultat);
@@ -65,21 +65,21 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("hanskemedindikasjontype")]
         public async Task<IEnumerable<IndicatedGloveType>> HentHanskeMedIndikasjonTyper()
         {
-            var resultat = await _mediator.Send(new HentHanskeMedIndikasjonTyper.Query());
+            var resultat = await _mediator.Send(new GetGloveWithIndicationTypes.Query());
             return resultat;
         }
 
         [HttpGet("hanskeutenindikasjontype")]
         public async Task<IEnumerable<GeneralPurposeGloveType>> HentHanskeUtenIndikasjonTyper()
         {
-            var resultat = await _mediator.Send(new HentHanskeUtenIndikasjonTyper.Query());
+            var resultat = await _mediator.Send(new GetGloveWithoutIndicationTypes.Query());
             return resultat;
         }
 
         [HttpGet("handhygieneetterhanskebruktype")]
         public async Task<IEnumerable<PostGloveHandHygieneType>> HentHandhygieneEtterHanskebrukTyper()
         {
-            var resultat = await _mediator.Send(new HentHandhygieneEtterHanskebrukTyper.Query());
+            var resultat = await _mediator.Send(new GetHandHygieneAfterGloveUseTypes.Query());
             return resultat;
         }
 

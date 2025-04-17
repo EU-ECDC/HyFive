@@ -11,7 +11,7 @@ using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using HyFive.Services.Handsmykke;
+using HyFive.Services.HandJewelry;
 using HyFive.Services.Rapport.Observasjoner;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -46,11 +46,11 @@ namespace HyFive.Observasjon.Controllers.V1
             }
             if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
-                var resultat = await _mediator.Send(new LagreSesjon.Command()
+                var resultat = await _mediator.Send(new SaveSession.Command()
                 {
-                    HPRNummer = _brukerservice.GetHprNumber(),
+                    HprNumber = _brukerservice.GetHprNumber(),
                     Pseudonym = _brukerservice.GetPseudonym(),
-                    Sesjon = sesjon
+                    Session = sesjon
                 });
 
                 return CreatedAtRoute("HentHandsmykkeSesjon", new { sesjonId = sesjon.Id }, resultat);
@@ -62,7 +62,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("handsmykketyper")]
         public async Task<IEnumerable<HandJewelryType>> HentHandsmykkeTyper()
         {
-            var resultat = await _mediator.Send(new HentHandsmykkeTyper.Query());
+            var resultat = await _mediator.Send(new GetHandJewelryType.Query());
             return resultat;
         }
 

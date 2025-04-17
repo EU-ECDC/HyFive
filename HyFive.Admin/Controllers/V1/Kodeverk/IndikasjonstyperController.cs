@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FourIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<List<IndicationType>> HentIndikasjonstyper()
         {
-            var indikasjonstyper = await _mediator.Send(new HentIndikasjonstyper.Query());
+            var indikasjonstyper = await _mediator.Send(new GetIndicationTypes.Query());
             return indikasjonstyper;
         }
 
@@ -42,7 +42,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<IndicationType> OppdaterIndikasjonstype([FromBody] IndicationType indikasjonstype)
         {
-            return await _mediator.Send(new OppdaterIndikasjonstype.Command() { Indikasjonstype = indikasjonstype });
+            return await _mediator.Send(new UpdateIndicationType.Command() { IndicationType = indikasjonstype });
         }
     }
 }

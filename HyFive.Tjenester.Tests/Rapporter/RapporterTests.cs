@@ -2,7 +2,7 @@ using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.Department;
-using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FourIndication;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,14 +28,14 @@ namespace HyFive.Services.Tests.Rapporter
         //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForInstitution.Query(){InstitutionId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
-        //        new HentAktivitetTyper.Handler(DatabaseContext, Mapper);
+        //        new GetActivityTypes.Handler(DatabaseContext, Mapper);
         //    var aktivitettyper =
-        //        await hentAktivitettyperHandler.Handle(new HentAktivitetTyper.Query(), CancellationToken.None);
+        //        await hentAktivitettyperHandler.Handle(new GetActivityTypes.Query(), CancellationToken.None);
 
         //    var hentIndikasjonstyperHandler =
-        //        new HentIndikasjonstyper.Handler(DatabaseContext, Mapper);
+        //        new GetIndicationTypes.Handler(DatabaseContext, Mapper);
         //    var indikasjonstyper =
-        //        await hentIndikasjonstyperHandler.Handle(new HentIndikasjonstyper.Query(), CancellationToken.None);
+        //        await hentIndikasjonstyperHandler.Handle(new GetIndicationTypes.Query(), CancellationToken.None);
 
         //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
 

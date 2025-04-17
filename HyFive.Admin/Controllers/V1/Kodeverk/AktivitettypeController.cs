@@ -1,5 +1,5 @@
 ﻿using HyFive.Modeller.V1.Observation;
-using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FourIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +28,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
         [HttpGet]
         public async Task<IEnumerable<ActivityType>> HentAktivitettyper()
-            => await _mediator.Send(new HentAktivitetTyper.Query());
+            => await _mediator.Send(new GetActivityTypes.Query());
 
         /// <summary>
         /// Oppdaterer en aktivitettype
@@ -39,7 +39,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<ActivityType> OppdaterAktivitettype([FromBody] ActivityType aktivitettype)
         {
-            var result = await _mediator.Send(new OppdaterAktivitetType.Command() { Aktivitettype = aktivitettype });
+            var result = await _mediator.Send(new UpdateActivityType.Command() { ActivityType = aktivitettype });
             return result;
         }
     }

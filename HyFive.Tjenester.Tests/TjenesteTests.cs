@@ -14,7 +14,7 @@ using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.User;
-using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FourIndication;
 using HyFive.Services.Institusjon;
 using Moq;
 using Microsoft.Extensions.Logging;
@@ -117,7 +117,7 @@ namespace HyFive.Services.Tests
             Role rolle = null,
             List<IndicationType> indikasjontyper = null)
         {
-            var logger = new Mock<ILogger<LagreSesjon.Handler>>();
+            var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
                 avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
@@ -125,7 +125,7 @@ namespace HyFive.Services.Tests
             var aktivitetTyper = DatabaseContext.ActivityType.ToList();
             var indikasjonTyper = DatabaseContext.IndicationTypes.ToList();
 
-            var lagreFireIndikasjonSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+            var lagreFireIndikasjonSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
             var observasjon = new FourIndicatorsObservation()
             {
                 Activity = brukDefaultAktivitet
@@ -154,9 +154,9 @@ namespace HyFive.Services.Tests
                 SessionId = sesjonId.ToString()
             };
 
-            var fireIndikasjonerSesjonGuid = await lagreFireIndikasjonSesjonHandler.Handle(new LagreSesjon.Command()
+            var fireIndikasjonerSesjonGuid = await lagreFireIndikasjonSesjonHandler.Handle(new SaveSession.Command()
             {
-                Sesjon = new FourIndicationsSession
+                Session = new FourIndicationsSession
                 {
                     Id = sesjonId.ToString(),
                     Avdeling = avdelingModell,
@@ -169,7 +169,7 @@ namespace HyFive.Services.Tests
                     Kommentar = "Kommentar til sesjonen",
                     Starttidspunkt = DateTime.Now
                 },
-                HPRNummer = hprnummer
+                HprNumber = hprnummer
             }, CancellationToken.None);
 
             return fireIndikasjonerSesjonGuid;

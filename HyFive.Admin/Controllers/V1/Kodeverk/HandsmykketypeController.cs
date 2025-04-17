@@ -1,5 +1,5 @@
 ﻿using HyFive.Modeller.V1.Observation;
-using HyFive.Services.Handsmykke;
+using HyFive.Services.HandJewelry;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [HttpGet]
         public async Task<IEnumerable<HandJewelryType>> HentHandsmykketyper()
-            => await _mediator.Send(new HentHandsmykkeTyper.Query());
+            => await _mediator.Send(new GetHandJewelryType.Query());
 
         /// <summary>
         /// Oppdaterer en handsmykketype
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<HandJewelryType> OppdaterHandsmykketype([FromBody] HandJewelryType handsmykketype)
         {
-            var result = await _mediator.Send(new OppdaterHandsmykkeType.Command() { Handsmykketype = handsmykketype });
+            var result = await _mediator.Send(new UpdateHandJewelryType.Command() { HandJewelryType = handsmykketype });
             return result;
         }
     }

@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
-using HyFive.Domene.Bruker;
-using HyFive.Domene.Observation;
-using HyFive.Domene.Observation.ProtectiveEquipment;
-using HyFive.Domene.Observation.Gloves;
-using HyFive.Domene.Session;
+using HyFive.Domain.User;
+using HyFive.Domain.Observation;
+using HyFive.Domain.Observation.ProtectiveEquipment;
+using HyFive.Domain.Observation.Gloves;
+using HyFive.Domain.Session;
 using HyFive.Models.V1.Constants;
 using MediatR;
 

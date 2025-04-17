@@ -27,7 +27,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<PostGloveHandHygieneType>> HentHandhygieneEtterHanskebrukTyper()
         {
-            var handhygieneEtterHanskebrukTyper = await _mediator.Send(new HentHandhygieneEtterHanskebrukTyper.Query());
+            var handhygieneEtterHanskebrukTyper = await _mediator.Send(new GetHandHygieneAfterGloveUseTypes.Query());
             return handhygieneEtterHanskebrukTyper;
         }
 
@@ -40,9 +40,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<PostGloveHandHygieneType> OppdaterHandhygieneEtterHanskebrukType([FromBody] PostGloveHandHygieneType handhygieneEtterHanskebrukType)
         {
-            var erOppdatert = await _mediator.Send(new OppdaterHandhygieneEtterHanskebrukType.Command
+            var erOppdatert = await _mediator.Send(new UpdateHandHygieneAfterGloveUseType.Command
             {
-                HandhygieneEtterHanskebrukType = handhygieneEtterHanskebrukType
+                HandHygieneAfterGloveUseType = handhygieneEtterHanskebrukType
             });
 
             return erOppdatert;

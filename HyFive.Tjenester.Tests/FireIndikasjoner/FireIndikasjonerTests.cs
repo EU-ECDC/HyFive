@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.FireIndikasjoner;
-using HyFive.Services.FireIndikasjoner.Helpers;
+using HyFive.Services.FourIndication;
+using HyFive.Services.FourIndication.Helpers;
 using HyFive.Services.Sesjon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -170,10 +170,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var observasjon = opprettetSesjon.Observations.First();
         //    observasjon.Comment = "Oppdatert";
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = observasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = observasjon };
 
         //    // Act
         //    await handler.Handle(command, CancellationToken.None);
@@ -194,10 +194,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Id = new Guid().ToString();
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -216,10 +216,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.IndicationTypes.Clear();
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -238,10 +238,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Activity = null;
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -260,10 +260,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Activity = new Activity();
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -282,14 +282,14 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Activity = new Activity()
         //    {
         //        ActivityType = Mapper.Map<Modeller.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
         //        TimeRecordingWasDone = true
         //    };
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -308,10 +308,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
-        //    var handler = new OppdaterFireIndikasjonerObservasjon.Handler(DatabaseContext, Mapper, new NullLogger<OppdaterFireIndikasjonerObservasjon.Handler>());
+        //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Role = null;
-        //    var command = new OppdaterFireIndikasjonerObservasjon.Command() { Observation = oppdatertObservasjon };
+        //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -338,8 +338,8 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         {
             // Arrange
             var eksisterendeTyper = DatabaseContext.ActivityType.Select(x => x.Id).ToList();
-            var hentAktivitetTyper = new HentAktivitetTyper.Handler(DatabaseContext, Mapper);
-            var query = new HentAktivitetTyper.Query();
+            var hentAktivitetTyper = new GetActivityTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetActivityTypes.Query();
 
             // Act
             var res = await hentAktivitetTyper.Handle(query, new System.Threading.CancellationToken());
@@ -358,10 +358,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         {
             // Arrange
             var opprettetAktivitetType = await OpprettAktivitetType();
-            var oppdaterAktivitetTypeHandler = new OppdaterAktivitetType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterAktivitetType.Command()
+            var oppdaterAktivitetTypeHandler = new UpdateActivityType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateActivityType.Command()
             {
-                Aktivitettype = new Modeller.V1.Observation.ActivityType()
+                ActivityType = new Modeller.V1.Observation.ActivityType()
                 {
                     Id = opprettetAktivitetType.Id,
                     Code = "DV",
@@ -376,8 +376,8 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetAktivitetType.Id));
-                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.Aktivitettype.Name));
-                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.Aktivitettype.Code));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.ActivityType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.ActivityType.Code));
             });
         }
 
@@ -385,10 +385,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         public void OppdaterAvdelingType_IkkeEksisterendeId()
         {
             // Arrange
-            var oppdaterAktivitetTypeHandler = new OppdaterAktivitetType.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterAktivitetType.Command()
+            var oppdaterAktivitetTypeHandler = new UpdateActivityType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateActivityType.Command()
             {
-                Aktivitettype = new Modeller.V1.Observation.ActivityType()
+                ActivityType = new Modeller.V1.Observation.ActivityType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -415,8 +415,8 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         {
             // Arrange
             var eksisterendeTyper = DatabaseContext.IndicationTypes.Select(x => x.Id).ToList();
-            var hentIndikasjonTyper = new HentIndikasjonstyper.Handler(DatabaseContext, Mapper);
-            var query = new HentIndikasjonstyper.Query();
+            var hentIndikasjonTyper = new GetIndicationTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetIndicationTypes.Query();
 
             // Act
             var res = await hentIndikasjonTyper.Handle(query, new System.Threading.CancellationToken());
@@ -435,10 +435,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         {
             // Arrange
             var opprettetIndikasjonType = await OpprettIndikasjonType();
-            var oppdaterIndikasjonTypeHandler = new OppdaterIndikasjonstype.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterIndikasjonstype.Command()
+            var oppdaterIndikasjonTypeHandler = new UpdateIndicationType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateIndicationType.Command()
             {
-                Indikasjonstype = new Modeller.V1.Observation.IndicationType()
+                IndicationType = new Modeller.V1.Observation.IndicationType()
                 {
                     Id = opprettetIndikasjonType.Id,
                     Code = "DV",
@@ -453,8 +453,8 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetIndikasjonType.Id));
-                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.Indikasjonstype.Name));
-                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.Indikasjonstype.Code));
+                Assert.That(resultatOppdater.Name, Is.EqualTo(oppdaterCommand.IndicationType.Name));
+                Assert.That(resultatOppdater.Code, Is.Not.EqualTo(oppdaterCommand.IndicationType.Code));
             });
         }
 
@@ -462,10 +462,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         public void OppdaterIndikasjonType_IkkeEksisterendeId()
         {
             // Arrange
-            var oppdaterIndikasjonTypeHandler = new OppdaterIndikasjonstype.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new OppdaterIndikasjonstype.Command()
+            var oppdaterIndikasjonTypeHandler = new UpdateIndicationType.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateIndicationType.Command()
             {
-                Indikasjonstype = new Modeller.V1.Observation.IndicationType()
+                IndicationType = new Modeller.V1.Observation.IndicationType()
                 {
                     Id = 99999999,
                     Code = "DV",

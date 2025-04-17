@@ -15,8 +15,8 @@ using HyFive.Modeller.V1.Observation.Gloves;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.ProtectiveEquipment;
-using HyFive.Services.FireIndikasjoner;
-using HyFive.Services.Handsmykke;
+using HyFive.Services.FourIndication;
+using HyFive.Services.HandJewelry;
 using HyFive.Services.Glove;
 using HyFive.Services;
 
@@ -186,9 +186,9 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new OppdaterFireIndikasjonerObservasjon.Command
+                    var result = await _mediator.Send(new UpdateFourIndicationsObservation.Command
                     {
-                        Observasjon = observasjon
+                        Observation = observasjon
                     });
 
                     return Ok(result);
@@ -211,10 +211,10 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new SlettFireIndikasjonerObservasjon.Command
+                    var result = await _mediator.Send(new DeleteFourIndicationObservation.Command
                     {
-                        ObservasjonId = observajonId,
-                        SesjonId = sesjonId
+                        ObservationId = observajonId,
+                        SessionId = sesjonId
                     });
 
                     return Ok(result);
@@ -237,9 +237,9 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new OppdaterHandsmykkeObservasjon.Command
+                    var result = await _mediator.Send(new UpdateBraceletObservation.Command
                     {
-                        Observasjon = observasjon
+                        Observation = observasjon
                     });
 
                     return Ok(result);
@@ -261,10 +261,10 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new SlettHandsmykkeObservasjon.Command
+                    var result = await _mediator.Send(new DeleteHandJewelryObservation.Command
                     {
-                        ObservasjonId = observajonId,
-                        SesjonId = sesjonId
+                        ObservationId = observajonId,
+                        SessionId = sesjonId
                     });
                     
                     return Ok(result);
@@ -286,9 +286,9 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new OppdaterHanskeObservasjon.Command
+                    var result = await _mediator.Send(new UpdateGloveObservation.Command
                     {
-                        Observasjon = observasjon
+                        Observation = observasjon
                     });
 
                     return Ok(result);
@@ -310,10 +310,10 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new SlettHanskeObservasjon.Command
+                    var result = await _mediator.Send(new DeleteGloveObservation.Command
                     {
-                        ObservasjonId = observajonId,
-                        SesjonId = sesjonId
+                        ObservationId = observajonId,
+                        SessionId = sesjonId
                     });
 
                     return Ok(result);

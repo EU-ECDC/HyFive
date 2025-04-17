@@ -3,7 +3,7 @@ using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.FireIndikasjoner;
+using HyFive.Services.FourIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,11 +50,11 @@ namespace HyFive.Observasjon.Controllers.V1
             if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
             {
                 
-                var resultat = await _mediator.Send(new LagreSesjon.Command()
+                var resultat = await _mediator.Send(new SaveSession.Command()
                 {
-                    HPRNummer = _brukerservice.GetHprNumber(),
+                    HprNumber = _brukerservice.GetHprNumber(),
                     Pseudonym = _brukerservice.GetPseudonym(),
-                    Sesjon = sesjon
+                    Session = sesjon
                 });
 
                 return CreatedAtRoute("HentFireIndikasjonerSesjon", new { sesjonId = sesjon.Id }, resultat);
@@ -66,14 +66,14 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("indikasjonstyper")]
         public async Task<IEnumerable<IndicationType>> HentIndikasjonstyper()
         {
-            var resultat = await _mediator.Send(new HentIndikasjonstyper.Query());
+            var resultat = await _mediator.Send(new GetIndicationTypes.Query());
             return resultat;
         }
 
         [HttpGet("aktivitettyper")]
         public async Task<IEnumerable<ActivityType>> HentAktivitetTyper()
         {
-            var resultat = await _mediator.Send(new HentAktivitetTyper.Query());
+            var resultat = await _mediator.Send(new GetActivityTypes.Query());
             return resultat;
         }
 
