@@ -99,15 +99,15 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   oppdaterLister() {
-    this.sessionsCoordinator = this.sessions.filter(x => x.overforingstatus.code === TransferstatusTypeConstants.OverfortTilKoordinator);
-    this.sessionsFHI = this.sessions.filter(x => x.overforingstatus.code === TransferstatusTypeConstants.OverfortTilFhi);
+    this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToCoordinator);
+    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToFhi);
   }
 
   overfor(sesjonId) {
     this.laster = true;
     this.observationService.oppositeSessionToFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
-        this.sessions.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
+        this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
         this.oppdaterLister();
         this.laster = false;
@@ -117,11 +117,11 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   merkAlleSesjoner() {
-    this.sessionsCoordinator.forEach(s => s.erValgt = true);
+    this.sessionsCoordinator.forEach(s => s.isSelected = true);
   }
 
   overforSesjoner() {
-    let valgteSesjoner = this.sessionsCoordinator.filter(s => s.erValgt);
+    let valgteSesjoner = this.sessionsCoordinator.filter(s => s.isSelected);
   
     valgteSesjoner.forEach(sesjon => {
       this.overfor(sesjon.id);
@@ -148,7 +148,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   harVelgtMinstEnSesjon(): boolean {
-    return this.sessionsCoordinator.some(s => s.erValgt);
+    return this.sessionsCoordinator.some(s => s.isSelected);
   }
 
   compareFornavnForBrukere(a: User, b: User): number {

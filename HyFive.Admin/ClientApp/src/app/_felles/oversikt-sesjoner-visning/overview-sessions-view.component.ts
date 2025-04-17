@@ -40,41 +40,41 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  isOverfortTilFhi(code) {
-    return code === TransferstatusTypeConstants.OverfortTilFhi;
+  isTransferToFhi(code) {
+    return code === TransferstatusTypeConstants.TransferToFhi;
   }
 
-  overfor(sesjonId, event) {
+  opposite(sessionId, event) {
     event.stopPropagation();
-    this.oppositeEvent.emit(sesjonId);
+    this.oppositeEvent.emit(sessionId);
   }
 
-  velgOverforTilFhi(sesjonId, event) {
+  selectOverToFhi(sessionId, event) {
     event.stopPropagation();
-    this.session.find(s => s.id === sesjonId).erValgt = event.target.checked; 
+    this.session.find(s => s.id === sessionId).isSelected = event.target.checked; 
   }
 
   deleteSession(sessionOverviewReport: SessionOverviewReport) {
-    const feilmelding = `En feil skjedde under sletting av sesjon med id ${sessionOverviewReport.id}`;
-    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.avdeling.institutionId).subscribe(
-      (erSlettet) => {
-        if (erSlettet){
-          this.toastrService.success(`Sesjon med id ${sessionOverviewReport.id} ble slettet`);
+    const errorMessage = `An error occurred while deleting session with id ${sessionOverviewReport.id}`;
+    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.department.institutionId).subscribe(
+      (isDeleted) => {
+        if (isDeleted){
+          this.toastrService.success(`Session with id ${sessionOverviewReport.id} was deleted`);
           this.session = this.session.filter((s) => s.id !== sessionOverviewReport.id);
         }
         else {
-          this.toastrService.error(feilmelding, '', { disableTimeOut: true});
+          this.toastrService.error(errorMessage, '', { disableTimeOut: true});
         }
       },
       (error) => {
-        this.toastrService.error(feilmelding + ' : ' + error?.error ? error.error : error, '',  { disableTimeOut: true});
+        this.toastrService.error(errorMessage + ' : ' + error?.error ? error.error : error, '',  { disableTimeOut: true});
       }
     );
   }
 
-  hentSlettemelding(sessionOverviewReport: SessionOverviewReport) {
-    return `Du er i ferd med å slette sesjon registrert av ${sessionOverviewReport.observatorNavn},
-    opprettet ${this.datePipe.transform(sessionOverviewReport.timeOfCreation, 'dd.MM.yyyy HH:mm')} med ${sessionOverviewReport.observasjoner?.length} tilhørende observasjon${sessionOverviewReport.observasjoner?.length > 1 ? 'er' : ''}.
-    Er du sikker på at du vil slette denne sesjonen?`;
+  getDeleteMessage(sessionOverviewReport: SessionOverviewReport) {
+    return `You are about to delete session registered by ${sessionOverviewReport.observerName},
+    created ${this.datePipe.transform(sessionOverviewReport.timeOfCreation, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
+    Are you sure you want to delete this session?`;
   }
 }

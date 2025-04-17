@@ -4,6 +4,6 @@
 
 export class TransferstatusTypeConstants
 {
-	public static OverfortTilFhi: string = `OVERFORT_TIL_FHI`;
-	public static OverfortTilKoordinator: string = `OVERFORT_TIL_KOORDINATOR`;
+	public static TransferToFhi: string = `TRANSFER_TO_FHI`;
+	public static TransferToCoordinator: string = `TRANSFER_TO_COORDINATOR`;
 }

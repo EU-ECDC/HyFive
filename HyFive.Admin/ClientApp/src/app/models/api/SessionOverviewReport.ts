@@ -9,12 +9,12 @@ export interface SessionOverviewReport
 {
 	id: any;
 	type: string;
-	observatorNavn: string;
-	avdeling: Department;
-	starttidspunkt: any;
+	observerName: string;
+	department: Department;
+	startTime: any;
 	timeOfCreation: any;
 	comment: string;
-	overforingstatus: any;
-	observasjoner: ObservasjonOversiktRapport[];
-	erValgt: boolean;
+	transferStatus: any;
+	observations: ObservasjonOversiktRapport[];
+	isSelected: boolean;
 }
