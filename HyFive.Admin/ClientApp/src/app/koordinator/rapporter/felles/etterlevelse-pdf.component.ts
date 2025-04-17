@@ -101,9 +101,9 @@ export class EtterlevelsePdfComponent {
   private lastNedPdf(): Observable<any> {
     let url = '/api/v1/rapport/';
 
-    if (this.sesjonType == SessionType.FireIndikasjoner) {
+    if (this.sesjonType == SessionType.FourIndications) {
       url += 'fireindikasjoner';
-    } else if (this.sesjonType == SessionType.Handsmykker) {
+    } else if (this.sesjonType == SessionType.Handjewelry) {
       url += 'handsmykke';
     }
 

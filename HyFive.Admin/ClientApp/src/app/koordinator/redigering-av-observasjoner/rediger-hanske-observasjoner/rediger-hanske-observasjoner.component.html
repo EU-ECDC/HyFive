@@ -122,13 +122,13 @@
                   <app-bekreftelsesdialog 
                                         [knappTekst]="'Lagre'"
                                         [buttonClass]="'btn fhi-btn-primary me-3'"
-                                        (bekreftetEvent)="oppdaterHanskeObservasjon()"
+                                        (bekreftetEvent)="updateGloveObservation()"
                                         [dialogmelding]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'">
                   </app-bekreftelsesdialog>
                   <app-bekreftelsesdialog 
                                         [knappTekst]="'Slett'"
                                         [buttonClass]="'btn fhi-btn-secondary me-3'"
-                                        (bekreftetEvent)="slettHanskeObservasjon()" 
+                                        (bekreftetEvent)="deleteGloveObservation()" 
                                         [dialogmelding]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
                   </app-bekreftelsesdialog>
                   <button class="btn fhi-btn-primary bg-dark me-3"

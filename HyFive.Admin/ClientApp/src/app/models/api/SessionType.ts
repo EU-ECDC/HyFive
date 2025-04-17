@@ -3,10 +3,10 @@
 //     the code is regenerated.
 
 export enum SessionType {
-	FireIndikasjoner = 1,
-	InnUt = 2,
-	Handsmykker = 3,
-	Hansker = 4,
-	Beskyttelsesutstyr = 5,
-	IkkeValgt = 6
+	FourIndications = 1,
+	InOut = 2,
+	Handjewelry = 3,
+	Gloves = 4,
+	ProtectiveEquipment = 5,
+	NotSelected = 6
 }

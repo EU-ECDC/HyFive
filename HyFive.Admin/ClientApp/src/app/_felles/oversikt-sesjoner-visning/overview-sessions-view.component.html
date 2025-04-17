@@ -89,7 +89,7 @@
     </div>
     <h3 class="text-dark mb-3"><strong>Observasjoner</strong></h3>
     <!-- Fireindikasjoner -->
-    <ng-container *ngIf="item.type === SessionType[SessionType.FireIndikasjoner]">
+    <ng-container *ngIf="item.type === SessionType[SessionType.FourIndications]">
       <app-rediger-fire-indikasjoner-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                                    (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit(true)"
                                                    (observasjonSlettetEvent)="observasjonSlettetEvent.emit(true)"
@@ -98,7 +98,7 @@
                                                    [sesjonId]="item.id"></app-rediger-fire-indikasjoner-observasjoner>
     </ng-container>
     <!-- Håndsmykker -->
-    <ng-container *ngIf="item.type === SessionType[SessionType.Handsmykker]">
+    <ng-container *ngIf="item.type === SessionType[SessionType.Handjewelry]">
       <app-rediger-handsmykke-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                             [sesjonId]="item.id"
                                             [observasjoner]="item.observasjoner"
@@ -107,7 +107,7 @@
                                             (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit()"></app-rediger-handsmykke-observasjoner>
     </ng-container>
     <!-- Hansker -->
-    <ng-container *ngIf="item.type === SessionType[SessionType.Hansker]">
+    <ng-container *ngIf="item.type === SessionType[SessionType.Gloves]">
       <app-rediger-hanske-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                         [sesjonId]="item.id"
                                         [observasjoner]="item.observasjoner"
@@ -116,7 +116,7 @@
                                         (observasjonOppdatertEvent)="observasjonOppdatertEvent.emit()"></app-rediger-hanske-observasjoner>
     </ng-container>
     <!-- Beskyttelsesutstyr -->
-    <ng-container *ngIf="item.type === SessionType[SessionType.Beskyttelsesutstyr]">
+    <ng-container *ngIf="item.type === SessionType[SessionType.ProtectiveEquipment]">
       <app-rediger-beskyttelsesutstyr-observasjoner [kanRedigere]="!isOverfortTilFhi(item.overforingstatus.code)"
                                                     [sesjonId]="item.id"
                                                     [observasjoner]="item.observasjoner"

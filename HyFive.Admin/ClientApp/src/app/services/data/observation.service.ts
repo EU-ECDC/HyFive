@@ -8,8 +8,8 @@ import { SessionType } from '../../models/api/SessionType';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { User } from '../../models/api/User';
 import {BraceletObservation} from "../../models/api/BraceletObservation";
-import {HanskeObservasjon} from "../../models/api/HanskeObservasjon";
-import {BeskyttelsesutstyrObservasjon} from "../../models/api/BeskyttelsesutstyrObservasjon";
+import {GloveObservation} from "../../models/api/GloveObservation";
+import {ProtectiveEquipmentObservation} from "../../models/api/ProtectiveEquipmentObservation";
 import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
 
 @Injectable({
@@ -112,28 +112,28 @@ export class ObservationService {
     return this.http.delete<boolean>(url);
   }
 
-  oppdaterHanskeObservasjon(observation: HanskeObservasjon) : Observable<boolean>{
-    const url = `${environment.apiBaseUrl}/v1/observation/hanske/oppdater`;
+  updateGloveObservation(observation: GloveObservation) : Observable<boolean>{
+    const url = `${environment.apiBaseUrl}/v1/observation/glove/update`;
     return this.http.put<boolean>(url, observation);
   }
 
-  slettHanskeObservasjon(observationId: string, sessionId: string): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/observation/hanske/slett?observajonId=${observationId}&sessionId=${sessionId}`;
+  deleteGloveObservation(observationId: string, sessionId: string): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/observation/glove/delete?observationId=${observationId}&sessionId=${sessionId}`;
     return this.http.delete<boolean>(url);
   }
 
-  oppdaterBeskyttelsesutstyrObservasjon(observation: BeskyttelsesutstyrObservasjon) : Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/observation/beskyttelsesutstyr/oppdater`;
+  updateProtectiveEquipmentObservation(observation: ProtectiveEquipmentObservation) : Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/observation/protectiveequipment/update`;
     return this.http.put<boolean>(url, observation);
   }
 
-  slettBeskyttelsesutstyrObservasjon(observationId: string, sessionId: string): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/observation/beskyttelsesutstyr/slett?observajonId=${observationId}&sessionId=${sessionId}`;
+  deleteProtectiveEquipmentObservation(observationId: string, sessionId: string): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/observation/protectiveequipment/delete?observationId=${observationId}&sessionId=${sessionId}`;
     return this.http.delete<boolean>(url);
   }
 
-  hentBeskyttelsesutstyrObservasjon(observationId: string, sessionId: string) : Observable<BeskyttelsesutstyrObservasjon> {
-    const url = `${environment.apiBaseUrl}/v1/observation/beskyttelsesutstyr?observationId=${observationId}&sessionId=${sessionId}`;
-    return this.http.get<BeskyttelsesutstyrObservasjon>(url);
+  getProtectiveEquipmentObservation(observationId: string, sessionId: string) : Observable<ProtectiveEquipmentObservation> {
+    const url = `${environment.apiBaseUrl}/v1/observation/protectiveequipment?observationId=${observationId}&sessionId=${sessionId}`;
+    return this.http.get<ProtectiveEquipmentObservation>(url);
   }
 }

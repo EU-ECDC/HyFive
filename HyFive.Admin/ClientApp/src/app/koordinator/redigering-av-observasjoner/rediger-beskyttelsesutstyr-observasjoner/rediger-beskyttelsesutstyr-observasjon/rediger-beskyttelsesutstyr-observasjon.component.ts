@@ -4,7 +4,7 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Beskyttelsesutstyr } from 'src/app/models/api/Beskyttelsesutstyr';
-import { BeskyttelsesutstyrObservasjon } from "src/app/models/api/BeskyttelsesutstyrObservasjon";
+import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Department} from "src/app/models/api/Department";
 import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
 import {ToastrService} from "ngx-toastr";
@@ -29,7 +29,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   valgtSetting: BeskyttelsesutstyrsettingType;
   kommentar: string;
   valgtUtstyr = null;
-  observasjon: BeskyttelsesutstyrObservasjon;
+  observasjon: ProtectiveEquipmentObservation;
   observasjonLaster: boolean = true;
 
   faSave = faSave;
@@ -50,10 +50,10 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   @Input() institusjonid: number;
   @Input() sesjonId: string;
   @Output() observasjonSlettetEvent = new EventEmitter();
-  @Output() observasjonOppdatertEvent = new EventEmitter<BeskyttelsesutstyrObservasjon>();
+  @Output() observasjonOppdatertEvent = new EventEmitter<ProtectiveEquipmentObservation>();
 
   ngOnInit(): void {
-    this.observationService.hentBeskyttelsesutstyrObservasjon(this.observasjonId, this.sesjonId).subscribe(
+    this.observationService.getProtectiveEquipmentObservation(this.observasjonId, this.sesjonId).subscribe(
       (o) => {
         this.observasjon = o;
         this.beskyttelsesutstyr = this.observasjon.beskyttelsesutstyrliste;

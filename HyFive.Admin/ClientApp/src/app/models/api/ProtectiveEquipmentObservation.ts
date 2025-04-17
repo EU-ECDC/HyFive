@@ -6,7 +6,7 @@ import { Observasjon } from './Observasjon';
 import { Beskyttelsesutstyr } from './Beskyttelsesutstyr';
 import { BeskyttelsesutstyrsettingType } from './BeskyttelsesutstyrsettingType';
 
-export interface BeskyttelsesutstyrObservasjon extends Observasjon
+export interface ProtectiveEquipmentObservation extends Observasjon
 {
 	beskyttelsesutstyrliste: Beskyttelsesutstyr[];
 	settingtype: BeskyttelsesutstyrsettingType;

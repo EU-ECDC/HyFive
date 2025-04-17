@@ -28,10 +28,10 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   faFilePdf = faFilePdf;
 
   sesjontyper = [
-    { name: 'Beskyttelsesutstyr', verdi: SessionType.Beskyttelsesutstyr },
-    { name: 'Fire indikasjoner', verdi: SessionType.FireIndikasjoner },
-    { name: 'Hansker', verdi: SessionType.Hansker },
-    { name: 'Håndsmykker', verdi: SessionType.Handsmykker }
+    { name: 'ProtectiveEquipment', verdi: SessionType.ProtectiveEquipment },
+    { name: 'Fire indikasjoner', verdi: SessionType.FourIndications },
+    { name: 'Gloves', verdi: SessionType.Gloves },
+    { name: 'Håndsmykker', verdi: SessionType.Handjewelry }
   ];
 
   valgtSesjontype: SessionType = null;
@@ -121,8 +121,8 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
       this.tilDato,
       this.valgtRolle
     ).subscribe((resultater) => {
-      if(this.valgtSesjontype !== SessionType.FireIndikasjoner && this.valgtSesjontype !== SessionType.Handsmykker &&
-        this.valgtSesjontype !== SessionType.Hansker && this.valgtSesjontype !== SessionType.Beskyttelsesutstyr)
+      if(this.valgtSesjontype !== SessionType.FourIndications && this.valgtSesjontype !== SessionType.Handjewelry &&
+        this.valgtSesjontype !== SessionType.Gloves && this.valgtSesjontype !== SessionType.ProtectiveEquipment)
         this.valgtSesjontype = null;
       this.institusjonOversiktRapportListe = resultater;
       this.soker = false;
@@ -164,14 +164,14 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   lagValgtSesjonstypeTekst(): string {
-    if (this.valgtSesjontype == SessionType.Beskyttelsesutstyr)
-      return "Beskyttelsesutstyr";
-    if (this.valgtSesjontype == SessionType.FireIndikasjoner)
-      return "FireIndikasjoner";
-    if (this.valgtSesjontype == SessionType.Handsmykker)
-      return "Handsmykker";
-    if (this.valgtSesjontype == SessionType.Hansker)
-      return "Hansker";
+    if (this.valgtSesjontype == SessionType.ProtectiveEquipment)
+      return "ProtectiveEquipment";
+    if (this.valgtSesjontype == SessionType.FourIndications)
+      return "FourIndications";
+    if (this.valgtSesjontype == SessionType.Handjewelry)
+      return "Handjewelry";
+    if (this.valgtSesjontype == SessionType.Gloves)
+      return "Gloves";
 
     return "Alle";
   }

@@ -7,7 +7,7 @@ import { HanskeMedIndikasjonType } from './HanskeMedIndikasjonType';
 import { HanskeUtenIndikasjonType } from './HanskeUtenIndikasjonType';
 import { HandhygieneEtterHanskebrukType } from './HandhygieneEtterHanskebrukType';
 
-export interface HanskeObservasjon extends Observasjon
+export interface GloveObservation extends Observasjon
 {
 	hanskeMedIndikasjonTyper?: HanskeMedIndikasjonType[];
 	hanskeUtenIndikasjonTyper?: HanskeUtenIndikasjonType[];

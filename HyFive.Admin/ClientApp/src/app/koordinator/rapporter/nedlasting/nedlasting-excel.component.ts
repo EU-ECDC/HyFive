@@ -10,7 +10,7 @@ import { InstitutionService } from 'src/app/services/data/institution.service';
 import { RapportService } from 'src/app/services/data/rapport.service';
 import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 import { SesjonstypeRapportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
-import { Sesjonstyper } from 'src/app/utils/sesjontyper';
+import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 @Component({
   selector: 'app-avdelingsrapport',
@@ -41,7 +41,7 @@ export class NedlastingExcelComponent {
     }
   }
 
-  sesjontyper = Sesjonstyper.HentSesjonstyper();
+  sessionTypes = SessionTypes.GetSessionTypes();
 
   valgtSesjontype: SessionType = null;
   valgtAvdelingId: number;

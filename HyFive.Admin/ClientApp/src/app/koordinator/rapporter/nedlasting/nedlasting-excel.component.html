@@ -27,7 +27,7 @@
       <label for="sesjonType">Modul</label>
       <select class="form-select" id="sesjontype" [(ngModel)]="valgtSesjontype">
         <option value=""></option>
-        <option *ngFor="let sesjontype of sesjontyper" [ngValue]="sesjontype.verdi">{{sesjontype.name}}</option>
+        <option *ngFor="let sessionType of sessionTypes" [ngValue]="sessionType.value">{{sessionType.name}}</option>
       </select>
     </div>
     <div class="col-md-2">

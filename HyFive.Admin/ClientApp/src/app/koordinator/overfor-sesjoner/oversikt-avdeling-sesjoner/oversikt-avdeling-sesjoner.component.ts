@@ -24,10 +24,10 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   valgteInstitusjonAlternativer: number = null;
 
   sesjontypeAlternativer = [
-    { name: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner },
-    { name: "Håndsmykker", verdi: SessionType.Handsmykker },
-    { name: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr },
-    { name: "Hansker", verdi: SessionType.Hansker }
+    { name: "FourIndications", verdi: SessionType.FourIndications },
+    { name: "Håndsmykker", verdi: SessionType.Handjewelry },
+    { name: "ProtectiveEquipment", verdi: SessionType.ProtectiveEquipment },
+    { name: "Gloves", verdi: SessionType.Gloves }
   ];
 
   avdeling: Department;

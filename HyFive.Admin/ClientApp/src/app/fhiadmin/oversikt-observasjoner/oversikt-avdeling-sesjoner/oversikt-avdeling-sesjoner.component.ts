@@ -27,10 +27,10 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   institusjonsidISok: number;
 
   sesjontypeAlternativer = [
-    { name: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
-    { name: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
-    { name: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
-    { name: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
+    { name: "FourIndications", verdi: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
+    { name: "Håndsmykker", verdi: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "Gloves", verdi: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
+    { name: "ProtectiveEquipment", verdi: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
   ];
 
   avdeling: Department;

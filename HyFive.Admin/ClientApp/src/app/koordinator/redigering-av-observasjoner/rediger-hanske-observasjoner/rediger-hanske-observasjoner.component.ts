@@ -10,14 +10,14 @@ import {HandhygieneEtterHanskebrukTypeService} from "../../../services/data/hand
 import {HanskeMedIndikasjonType} from "../../../models/api/HanskeMedIndikasjonType";
 import {HanskeUtenIndikasjonType} from "../../../models/api/HanskeUtenIndikasjonType";
 import {Role} from "../../../models/api/Role";
-import {HanskeObservasjon} from "../../../models/api/HanskeObservasjon";
+import {GloveObservation} from "../../../models/api/GloveObservation";
 import {HandhygieneEtterHanskebrukType} from "../../../models/api/HandhygieneEtterHanskebrukType";
 
 @Component({
   selector: 'app-rediger-hanske-observasjoner',
   templateUrl: './rediger-hanske-observasjoner.component.html'
 })
-export class RedigerHanskeObservasjonerComponent implements OnInit{
+export class RedigerGloveObservationerComponent implements OnInit{
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
@@ -27,7 +27,7 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
 
-  hanskeObservasjonSomEndres: HanskeObservasjon;
+  hanskeObservasjonSomEndres: GloveObservation;
   valgtHygieneEtterHanskebrukKode: any;
 
   hanskeMedIndikasjonerValgt: boolean;
@@ -105,7 +105,7 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
     this.hanskeObservasjonSomEndres.kommentar = kommentar;
   }
 
-  oppdaterHanskeObservasjon() {
+  updateGloveObservation() {
     if(this.hanskeObservasjonSomEndres.benyttetHanske){
       this.hanskeObservasjonSomEndres.handhygieneEtterHanskebrukType = this.handhygieneEtterHanskebrukTyper.find(x => x.code === this.valgtHygieneEtterHanskebrukKode);
     }
@@ -123,7 +123,7 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
       this.hanskeObservasjonSomEndres.hanskeMedIndikasjonTyper = [];
     }
 
-    this.observationService.oppdaterHanskeObservasjon(this.hanskeObservasjonSomEndres).subscribe(
+    this.observationService.updateGloveObservation(this.hanskeObservasjonSomEndres).subscribe(
       (erOppdatert) => {
         this.hanskeObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble oppdatert');
@@ -135,8 +135,8 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
     );
   }
 
-  slettHanskeObservasjon() {
-    this.observationService.slettHanskeObservasjon(this.hanskeObservasjonSomEndres.id, this.sesjonId).subscribe(
+  deleteGloveObservation() {
+    this.observationService.deleteGloveObservation(this.hanskeObservasjonSomEndres.id, this.sesjonId).subscribe(
       () => {
         this.hanskeObservasjonSomEndres = null;
         this.toastrService.success('Observasjonen ble slettet');
