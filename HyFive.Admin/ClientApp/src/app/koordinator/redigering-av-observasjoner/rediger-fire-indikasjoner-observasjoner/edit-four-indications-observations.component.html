@@ -13,28 +13,28 @@
       </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let observasjon of observasjoner">
-          <ng-container *ngIf="fourIndicationsObservationSomEndres === null || fourIndicationsObservationSomEndres.id !== observasjon.id">
-            <tr (click)="velgObservasjon(observasjon)">
-              <td class="col-2">{{observasjon.rolle.name}}</td>
+        <ng-container *ngFor="let observation of observations">
+          <ng-container *ngIf="fourIndicationsObservationSomEndres === null || fourIndicationsObservationSomEndres.id !== observation.id">
+            <tr (click)="velgObservasjon(observation)">
+              <td class="col-2">{{observation.rolle.name}}</td>
               <td class="col-2">
                 <ul style="padding-left: 20px;">
-                  <li *ngFor="let indikasjon of observasjon.indikasjonstyper">
+                  <li *ngFor="let indikasjon of observation.indicationTypes">
                     {{indikasjon.name}}
                   </li>
                 </ul>
               </td>
-              <td class="col-2">{{observasjon.aktivitet.aktivitetType.name}}</td>
-              <td class="col-1">{{observasjon.aktivitet.tidtakingBleUtfort && observasjon.aktivitet.sekunderBrukt > 0 ? observasjon.aktivitet.sekunderBrukt + ' sekund(er)' : '-' }}</td>
-              <td class="col-1">{{observasjon.aktivitet.benyttetHanske === null ? '-' : observasjon.aktivitet.benyttetHanske ? "Ja" : "Nei"}}</td>
-              <td class="col-2">{{observasjon.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</td>
-              <td class="col-2">{{observasjon.kommentar}}</td>
+              <td class="col-2">{{observation.activity.activityType.name}}</td>
+              <td class="col-1">{{observation.activity.tidtakingBleUtfort && observation.activity.sekunderBrukt > 0 ? observation.activity.sekunderBrukt + ' sekund(er)' : '-' }}</td>
+              <td class="col-1">{{observation.activity.benyttetHanske === null ? '-' : observation.activity.benyttetHanske ? "Ja" : "Nei"}}</td>
+              <td class="col-2">{{observation.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</td>
+              <td class="col-2">{{observation.kommentar}}</td>
             </tr>
           </ng-container>
-          <ng-container *ngIf="fourIndicationsObservationSomEndres !== null && fourIndicationsObservationSomEndres.id === observasjon.id">
+          <ng-container *ngIf="fourIndicationsObservationSomEndres !== null && fourIndicationsObservationSomEndres.id === observation.id">
             <tr>
               <td colspan="12">
-                <i>ID: {{observasjon.id}}</i>
+                <i>ID: {{observation.id}}</i>
               </td>
             </tr>
             <tr></tr>
@@ -45,31 +45,31 @@
                     <app-rolle-valg-dropdown [rolleId]="fourIndicationsObservationSomEndres.rolle.id" [avdelingId]="avdeling.id" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
                   </div>
                   <div class="col-2">
-                    <app-indikasjonsvalg [valgteIndikasjoner]="fourIndicationsObservationSomEndres.indikasjonstyper"
+                    <app-indikasjonsvalg [valgteIndikasjoner]="fourIndicationsObservationSomEndres.indicationTypes"
                                          (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
                                          [parentId]="fourIndicationsObservationSomEndres.id">
                     </app-indikasjonsvalg>
                   </div>
                   <div class="col-2">
-                    <app-aktivitet-valg-dropdown [aktivitetTypeId]="fourIndicationsObservationSomEndres.aktivitet.aktivitetType.id" (aktivitetTypeValgt)="velgAktivitet($event)"></app-aktivitet-valg-dropdown>
+                    <app-activity-valg-dropdown [activityTypeId]="fourIndicationsObservationSomEndres.activity.activityType.id" (activityTypeValgt)="velgAktivitet($event)"></app-activity-valg-dropdown>
                   </div>
                   <div class="col-1">
                     <input type="number" [min]="0"  style="width: 3rem;"
-                           [(ngModel)]="fourIndicationsObservationSomEndres.aktivitet.sekunderBrukt"
+                           [(ngModel)]="fourIndicationsObservationSomEndres.activity.sekunderBrukt"
                            (ngModelChange)="endretSekunderBrukt($event)"/>
-                    <i>Tidtaking {{fourIndicationsObservationSomEndres.aktivitet.sekunderBrukt <= 0 ? 'ikke' : ''}} utført</i>
+                    <i>Tidtaking {{fourIndicationsObservationSomEndres.activity.sekunderBrukt <= 0 ? 'ikke' : ''}} utført</i>
                   </div>
                   <div class="col-1">
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="riktigBruk" name="riktigBruk" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationSomEndres.aktivitet.benyttetHanske">
+                      <input type="radio" id="riktigBruk" name="riktigBruk" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationSomEndres.activity.benyttetHanske">
                       <label class="custom-control-label" for="riktigBruk">Ja</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="feilBruk" name="feilBruk" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationSomEndres.aktivitet.benyttetHanske">
+                      <input type="radio" id="feilBruk" name="feilBruk" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationSomEndres.activity.benyttetHanske">
                       <label class="custom-control-label" for="feilBruk">Nei</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="ikkeRegistrert" name="ikkeRegistrert" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationSomEndres.aktivitet.benyttetHanske">
+                      <input type="radio" id="ikkeRegistrert" name="ikkeRegistrert" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationSomEndres.activity.benyttetHanske">
                       <label class="custom-control-label" for="ikkeRegistrert">Ikke registrert</label>
                     </div>
                   </div>
@@ -86,13 +86,13 @@
                                           [knappTekst]="'Lagre'"
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
                                           (bekreftetEvent)="updateFourIndicationsObservation()"
-                                          [dialogmelding]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'">
+                                          [dialogmelding]="'Er du sikker på at du vil lagre endringer på observation med id ' + observation.id + '?'">
                     </app-bekreftelsesdialog>
                     <app-bekreftelsesdialog 
                                           [knappTekst]="'Slett'"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
                                           (bekreftetEvent)="deleteFourIndicationsObservation()" 
-                                          [dialogmelding]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
+                                          [dialogmelding]='"Vil du slette observation med id: " + observation.id + "?"'>
                     </app-bekreftelsesdialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"
                             (click)="avbrytRedigeringAvObservasjon($event)">

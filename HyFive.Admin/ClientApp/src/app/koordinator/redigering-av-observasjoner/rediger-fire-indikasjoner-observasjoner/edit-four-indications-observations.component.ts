@@ -13,17 +13,17 @@ import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 
 @Component({
-  selector: 'app-rediger-fire-indikasjoner-observasjoner',
-  templateUrl: './rediger-fire-indikasjoner-observasjoner.component.html'
+  selector: 'app-edit-four-indications-observations',
+  templateUrl: './edit-four-indications-observations.component.html'
 })
-export class RedigerFourIndicationsObservationerComponent implements OnInit {
+export class EditFourIndicationsObservationsComponent implements OnInit {
 
-  @Input() observasjoner: FourIndicationsObservation[]
-  @Input() sesjonId: string;
-  @Input() avdeling: Department;
-  @Input() kanRedigere = false;
-  @Output() observasjonOppdatertEvent = new EventEmitter();
-  @Output() observasjonSlettetEvent = new EventEmitter();
+  @Input() observations: FourIndicationsObservation[]
+  @Input() sessionId: string;
+  @Input() department: Department;
+  @Input() canEdit = false;
+  @Output() observationUpdatedEvent = new EventEmitter();
+  @Output() observationDeletedEvent = new EventEmitter();
 
   fourIndicationsObservationSomEndres: FourIndicationsObservation = null;
   handsmykkeObservasjonSomEndres: BraceletObservation = null;
@@ -47,12 +47,12 @@ export class RedigerFourIndicationsObservationerComponent implements OnInit {
   }
 
   velgObservasjon(observasjon: FourIndicationsObservation) {
-    if(!this.kanRedigere){
+    if(!this.canEdit){
       return;
     }
 
     this.fourIndicationsObservationSomEndres = JSON.parse(JSON.stringify(observasjon));
-    this.fourIndicationsObservationSomEndres.sesjonId = this.sesjonId;
+    this.fourIndicationsObservationSomEndres.sesjonId = this.sessionId;
   }
 
   velgRolle(rolle: Role) {
@@ -97,7 +97,7 @@ export class RedigerFourIndicationsObservationerComponent implements OnInit {
         (erOppdatert) => {
           this.fourIndicationsObservationSomEndres = null;
           this.toastrService.success('Observasjonen ble oppdatert');
-          this.observasjonOppdatertEvent.emit();
+          this.observationUpdatedEvent.emit();
         },
         (error) => {
           this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observasjon', { disableTimeOut: true});
@@ -107,11 +107,11 @@ export class RedigerFourIndicationsObservationerComponent implements OnInit {
   }
 
   deleteFourIndicationsObservation() {
-    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationSomEndres.id, this.sesjonId).subscribe(
+    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationSomEndres.id, this.sessionId).subscribe(
       () => {
         this.fourIndicationsObservationSomEndres = null;
         this.toastrService.success('Observasjonen ble slettet');
-        this.observasjonSlettetEvent.emit();
+        this.observationDeletedEvent.emit();
       },
       (error) => {
         this.toastrService.error(error?.error ? error.error : error,'Feil ved sletting av observasjon', { disableTimeOut: true});

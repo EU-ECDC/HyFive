@@ -47,7 +47,7 @@ import {AuthenticationFailedModalComponent} from './shared/authentication-failed
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {RedigerFourIndicationsObservationerComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/rediger-fire-indikasjoner-observasjoner.component";
+import {EditFourIndicationsObservationsComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-four-indications-observations.component";
 import {RedigerHandsmykkeObservasjonerComponent} from "./koordinator/redigering-av-observasjoner/rediger-handsmykke-observasjoner/rediger-handsmykke-observasjoner.component";
 import {RedigerGloveObservationerComponent} from "./koordinator/redigering-av-observasjoner/rediger-hanske-observasjoner/rediger-hanske-observasjoner.component";
 import {IndikasjonsValgComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indikasjonsvalg/indikasjonsvalg.component";
@@ -123,7 +123,7 @@ export const httpInterceptorProviders = [
     OversiktFhiAdminComponent,
     RedigerFhiAdminComponent,
     AuthenticationFailedModalComponent,
-    RedigerFourIndicationsObservationerComponent,
+    EditFourIndicationsObservationsComponent,
     RedigerHandsmykkeObservasjonerComponent,
     RedigerGloveObservationerComponent,
     RedigerBeskyttelsesutstyrObservasjonerComponent,
