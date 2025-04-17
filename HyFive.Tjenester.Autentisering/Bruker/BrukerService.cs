@@ -55,8 +55,8 @@ namespace HyFive.Tjenester.Autentisering.Bruker
                 .Where(k => k.Institusjon != null)
                 .Select(k => k.Institusjon.Id)
                 .ToListAsync();
-            bruker.Fornavn = HentFornavn();
-            bruker.Etternavn = HentEtternavn();
+            bruker.Fornavn = "Grønn";//HentFornavn();
+            bruker.Etternavn = "Vits";//HentEtternavn();
 
             if (string.IsNullOrEmpty(bruker?.HPRNummer))
             {
