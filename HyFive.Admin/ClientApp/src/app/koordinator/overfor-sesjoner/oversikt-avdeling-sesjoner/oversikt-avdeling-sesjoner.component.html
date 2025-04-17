@@ -5,7 +5,7 @@
 <div class="container" *ngIf="avdeling">
   <div class="row mb-3">
     <div class="col">
-      <h4>Avdeling: {{avdeling.navn}}</h4>
+      <h4>Department: {{avdeling.navn}}</h4>
       <p>
         <span *ngIf="fraDato">Fra date: {{visFormatedDato(fraDato)}}</span> <br />
         <span *ngIf="tilDato">Til date: {{visFormatedDato(tilDato)}}</span>
@@ -45,7 +45,7 @@
             <th class="col-3">Type</th>
             <th class="col-3">Observatør navn</th>
             <th class="col-3">Starttidspunkt</th>
-            <th class="col-3">Registrerttidspunkt</th>
+            <th class="col-3">RegistrationTime</th>
           </tr>
         </thead>
         <tbody>
@@ -76,7 +76,7 @@
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Indikasjoner</th>
                   <th>Aktivitet</th>
                   <th>Sekunder brukt</th>
@@ -112,7 +112,7 @@
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Handsmykke(r)</th>
                   <th>Registrert</th>
                   <th>Kommentar</th>
@@ -141,7 +141,7 @@
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Setting</th>
                   <th>Benyttede utstyr</th>
                   <th>Ikke beynttede utstyr</th>
@@ -196,7 +196,7 @@
             <table class="table mb-0">
               <thead>
                 <tr>
-                  <th>Rolle</th>
+                  <th>Role</th>
                   <th>Ved/Uten Indikasjoner</th>
                   <th>Indikasjoner</th>
                   <th>Hanske benyttet</th>

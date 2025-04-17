@@ -1,8 +1,8 @@
-import { Rolle } from '../api/Rolle';
+import { Role } from '../api/Role';
 
 export interface Kort
 {
   id: string;
-  rolle: Rolle;
+  rolle: Role;
   erAktivt: boolean
 }

@@ -31,12 +31,12 @@ namespace HyFive.Services.Sesjon
 
             public async Task<List<SessionReport>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sessions = await _context.Sesjon
+                var sessions = await _context.Session
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
-                    .Where(s => s.Observator.ErDeaktivert == false
-                                && ((HarHprNummer(request.HPRNummer) && s.Observator.HPRNummer == request.HPRNummer) ||
-                                    (HarIdentPseudonym(request.Pseudonym) && s.Observator.IdentPseudonym == request.Pseudonym)))
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
+                    .Where(s => s.Observer.ErDeaktivert == false
+                                && ((HarHprNummer(request.HPRNummer) && s.Observer.HPRNummer == request.HPRNummer) ||
+                                    (HarIdentPseudonym(request.Pseudonym) && s.Observer.IdentityPseudonym == request.Pseudonym)))
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 

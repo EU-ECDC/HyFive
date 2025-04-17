@@ -57,8 +57,8 @@ namespace HyFive.Services.Tests.BrukerTjenester
             {
                 Assert.That(opprettetFhiAdmin.Id, Is.GreaterThan(0));
                 Assert.That(opprettetFhiAdmin.IdentityPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentityPseudonym));
-                Assert.That(opprettetFhiAdmin.FirstName, Is.EqualTo(opprettetFhiAdminFraDatabase.Fornavn));
-                Assert.That(opprettetFhiAdmin.Surname, Is.EqualTo(opprettetFhiAdminFraDatabase.Etternavn));
+                Assert.That(opprettetFhiAdmin.FirstName, Is.EqualTo(opprettetFhiAdminFraDatabase.FirstName));
+                Assert.That(opprettetFhiAdmin.Surname, Is.EqualTo(opprettetFhiAdminFraDatabase.LastName));
             });
         }
 
@@ -147,9 +147,9 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Assert.That(oppdatertFhiAdmin.LastName, Is.Not.EqualTo(opprettetFhiAdmin.Surname));
 
                 Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.User.IdentityPseudonym));
-                Assert.That(oppdatertFhiAdminFraDatabase.Fornavn, Is.EqualTo(command.User.FirstName));
-                Assert.That(oppdatertFhiAdminFraDatabase.Etternavn, Is.EqualTo(command.User.LastName));
-                Assert.That(oppdatertFhiAdminFraDatabase.ErDeaktivert, Is.EqualTo(command.User.IsDisabled));
+                Assert.That(oppdatertFhiAdminFraDatabase.FirstName, Is.EqualTo(command.User.FirstName));
+                Assert.That(oppdatertFhiAdminFraDatabase.LastName, Is.EqualTo(command.User.LastName));
+                Assert.That(oppdatertFhiAdminFraDatabase.IsDisabled, Is.EqualTo(command.User.IsDisabled));
             });
         }
 

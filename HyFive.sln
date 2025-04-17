@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Domain", "HyFive.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.DataAccess", "HyFive.Dataaksess\HyFive.DataAccess.csproj", "{D39EEA6F-7909-4C7B-95D6-DB8104EB5B7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Tjenester", "HyFive.Tjenester\HyFive.Tjenester.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services", "HyFive.Tjenester\HyFive.Services.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Authentication", "HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
 EndProject

@@ -25,7 +25,7 @@
             <param name="sesjon"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Observasjon.Controllers.V1.HanskeController.LagreSesjon(HyFive.Modeller.V1.Sesjon.HanskeSesjon)">
+        <member name="M:HyFive.Observasjon.Controllers.V1.HanskeController.LagreSesjon(HyFive.Modeller.V1.Sesjon.GloveSession)">
             <summary>
             Lagre en Hanske-sesjon.
             </summary>
@@ -38,7 +38,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Observasjon.Controllers.V1.InstitusjonController.HentPredefinerteKommentarer(System.Int32,HyFive.Modeller.V1.Sesjon.SesjonType)">
+        <member name="M:HyFive.Observasjon.Controllers.V1.InstitusjonController.HentPredefinerteKommentarer(System.Int32,HyFive.Modeller.V1.Sesjon.SessionType)">
             <summary>
             Hent predefinerte kommentarer for gitt institusjon og sesjonstype
             </summary>

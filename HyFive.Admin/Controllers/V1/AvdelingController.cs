@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Roller;
+using HyFive.Services.Roles;
 using System;
 
 namespace HyFive.Admin.Controllers.V1
@@ -56,7 +56,7 @@ namespace HyFive.Admin.Controllers.V1
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(request.InstitutionId))
             {
                 var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
-                return CreatedAtRoute("HentAvdelinger", new { id = result.InstitusjonId }, result);
+                return CreatedAtRoute("HentAvdelinger", new { id = result.InstitutionId }, result);
             }
             return Unauthorized();
         }
@@ -69,14 +69,14 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<ActionResult<Department>> OppdaterAvdeling([FromBody] Department avdeling)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(avdeling.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(avdeling.InstitutionId))
             {
                 var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
                     Id = avdeling.Id,
                     DepartmentTypeId = avdeling.AvdelingTypeId,
-                    Name = avdeling.Navn,
-                    Role = avdeling.Roller
+                    Name = avdeling.Name,
+                    Role = avdeling.Roles
                 });
                 return Ok(result);
             }
@@ -137,7 +137,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
-                return await _mediator.Send(new HentRollerForAvdeling.Query { AvdelingId = id });
+                return await _mediator.Send(new HentRollerForAvdeling.Query { DepartmentId = id });
             }
             return Unauthorized();
 

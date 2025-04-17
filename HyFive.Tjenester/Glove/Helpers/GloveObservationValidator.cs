@@ -30,7 +30,7 @@ namespace HyFive.Services.Glove.Helpers
             
             if (observation.Role == null)
             {
-                throw new GloveObservationValidationException("H-V-06: Rolle må registreres.");
+                throw new GloveObservationValidationException("H-V-06: Role må registreres.");
             }
 
             return true;

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HyFive.Services.Klinikk;
+using HyFive.Services.Clinic;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonsId))
             {
-                return await _mediator.Send(new HentKlinikk.Query() { Id = id, InstitusjonId = institusjonsId });
+                return await _mediator.Send(new GetClinic.Query() { Id = id, InstitutionId = institusjonsId });
             }
 
             return Unauthorized();
@@ -53,7 +53,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
-                var klinikker = await _mediator.Send(new HentKlinikkerForInstitusjon.Query() { InstitusjonId = institusjonId });
+                var klinikker = await _mediator.Send(new GetClinicsForInstitution.Query() { InstitutionId = institusjonId });
                 return Ok(klinikker);
             }
 
@@ -70,7 +70,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitutionId))
             {
-                return await _mediator.Send(new OpprettKlinikk.Command() { Klinikk = klinikk });
+                return await _mediator.Send(new CreateClinic.Command() { Clinic = klinikk });
             }
 
             return Unauthorized();
@@ -86,7 +86,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(klinikk.InstitutionId))
             {
-                return await _mediator.Send(new OppdaterKlinikk.Command() { Klinikk = klinikk });
+                return await _mediator.Send(new UpdateClinic.Command() { Clinic = klinikk });
             }
 
             return Unauthorized();

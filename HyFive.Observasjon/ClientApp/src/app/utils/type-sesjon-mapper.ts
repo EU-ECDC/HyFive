@@ -1,14 +1,14 @@
-import { SesjonType } from '../models/api/SesjonType';
+import { SessionType } from '../models/api/SessionType';
 
 export class SesjonTypeMapper {
 
-  public static getNavnMap(): Map<SesjonType, string>{
-    var navnMap = new Map<SesjonType, string>();
-    navnMap.set(SesjonType.Handsmykker, 'Håndsmykker');
-    navnMap.set(SesjonType.FireIndikasjoner, 'Fire indikasjoner');
-    navnMap.set(SesjonType.Hansker, 'Hansker');
-    navnMap.set(SesjonType.InnUt, 'Inn/Ut');
-    navnMap.set(SesjonType.Beskyttelsesutstyr, 'Verneutstyr');
+  public static getNavnMap(): Map<SessionType, string>{
+    var navnMap = new Map<SessionType, string>();
+    navnMap.set(SessionType.Handsmykker, 'Håndsmykker');
+    navnMap.set(SessionType.FireIndikasjoner, 'Fire indikasjoner');
+    navnMap.set(SessionType.Hansker, 'Hansker');
+    navnMap.set(SessionType.InnUt, 'Inn/Ut');
+    navnMap.set(SessionType.Beskyttelsesutstyr, 'Verneutstyr');
     return navnMap;
   }
 }

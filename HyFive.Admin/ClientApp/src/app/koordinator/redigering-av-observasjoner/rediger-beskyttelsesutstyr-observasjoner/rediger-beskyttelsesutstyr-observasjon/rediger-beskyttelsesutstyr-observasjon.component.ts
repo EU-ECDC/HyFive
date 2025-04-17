@@ -5,12 +5,12 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Beskyttelsesutstyr } from 'src/app/models/api/Beskyttelsesutstyr';
 import { BeskyttelsesutstyrObservasjon } from "src/app/models/api/BeskyttelsesutstyrObservasjon";
-import { Avdeling } from "src/app/models/api/Avdeling";
+import { Department } from "src/app/models/api/Department";
 import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
 import {ToastrService} from "ngx-toastr";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
 import { ObservasjonService } from 'src/app/services/data/observasjon.service';
-import { Rolle } from "../../../../models/api/Rolle";
+import { Role } from "../../../../models/api/Role";
 import { Farger } from 'src/app/utils/farger';
 import {BeskyttelsesutstyrsettingtyperService} from "../../../../services/data/beskyttelsesutstyrsettingtyper.service";
 import {BeskyttelsesutstyrsettingType} from "../../../../models/api/BeskyttelsesutstyrsettingType";
@@ -46,7 +46,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observasjonId: string;
 
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() institusjonid: number;
   @Input() sesjonId: string;
   @Output() observasjonSlettetEvent = new EventEmitter();
@@ -151,7 +151,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
     this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.utstyrstyper, valg).find(x => x.utstyrstype.id === valg.utstyrstype.id);
   }
 
-  velgRolle($event: Rolle) {
+  velgRolle($event: Role) {
     this.observasjon.rolle = $event;
     this.oppdater();
   }

@@ -13,7 +13,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Observator = HyFive.Domain.User.Observer;
+using Observer = HyFive.Domain.User.Observer;
 
 namespace HyFive.Services.Authentication.User
 {
@@ -174,7 +174,7 @@ namespace HyFive.Services.Authentication.User
             var hrpNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
             return _context.User.AsNoTracking()
-                .OfType<Observator>()
+                .OfType<Observer>()
                 .Include(o => o.Institution)
                 .Where(HasHprOrPseudonymAndIsActive<Domain.User.Observer>(hrpNumber, pseudonym)).First(o => o.Institution.Id == institutionId)?.Id ?? 0;
         }

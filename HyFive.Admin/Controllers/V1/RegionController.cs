@@ -29,7 +29,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Region>>> HentRegionTyper()
         {
-            var regioner = await _mediator.Send(new HentRegioner.Query());
+            var regioner = await _mediator.Send(new GetRegions.Query());
             return Ok(regioner);
         }
 
@@ -41,7 +41,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}", Name = "HentRegion")]
         public async Task<ActionResult<Region>> HentRegion(int id)
         {
-            var region = await _mediator.Send(new HentRegion.Query() { Id = id });
+            var region = await _mediator.Send(new GetRegion.Query() { Id = id });
             return Ok(region);
         }
 
@@ -55,9 +55,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var opprettetRegion = await _mediator.Send(new OpprettRegion.Command
+                var opprettetRegion = await _mediator.Send(new CreateRegion.Command
                 {
-                    NyRegion = nyRegionsType
+                    NewRegion = nyRegionsType
                 });
 
                 return CreatedAtRoute("HentRegion", new { id = opprettetRegion.Id }, opprettetRegion);
@@ -76,7 +76,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<ActionResult<Region>> OppdaterRegionType([FromBody] Region regionType)
         {
-            var oppdatertRegion = await _mediator.Send(new OppdaterRegion.Command
+            var oppdatertRegion = await _mediator.Send(new UpdateRegion.Command
             {
                 RegionType = regionType
             });

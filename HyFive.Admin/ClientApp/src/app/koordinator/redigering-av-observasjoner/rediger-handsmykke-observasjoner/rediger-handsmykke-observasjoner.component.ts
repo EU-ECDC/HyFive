@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
 import {HandsmykkeObservasjon} from "../../../models/api/HandsmykkeObservasjon";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
-import {Rolle} from "../../../models/api/Rolle";
+import {Role} from "../../../models/api/Role";
 import {ObservasjonService} from "../../../services/data/observasjon.service";
 import {ToastrService} from "ngx-toastr";
 import {Handsmykkevalg} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
@@ -18,7 +18,7 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
@@ -106,7 +106,7 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
     this.handsmykkeObservasjonSomEndres = null;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.handsmykkeObservasjonSomEndres.rolle = rolle;
   }
 }

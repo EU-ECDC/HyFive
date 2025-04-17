@@ -29,7 +29,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 var resultat = await _mediator.Send(new SlettSesjon.Command
                 {
-                    InstitusjonId = institusjonId,
+                    InstitutionId = institusjonId,
                     OverforingstatusKode = TransferStatusTypeConstants.TransferredToCoordinator,
                     SesjonId = sesjonId
                 });
@@ -44,12 +44,12 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut]
         public async Task<IActionResult> OppdaterSesjon([FromBody] OppdaterSesjonRequest sesjon)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjon(sesjon.InstitusjonId))
+            if (_brukerservice.ErKoordinatorForInstitusjon(sesjon.InstitutionId))
             {
                 var resultat = await _mediator.Send(new OppdaterSesjon.Command
                 {
                     SesjonId = sesjon.SesjonId,
-                    InstitusjonId = sesjon.InstitusjonId,
+                    InstitutionId = sesjon.InstitutionId,
                     Kommentar = sesjon.Kommentar
                 });
 

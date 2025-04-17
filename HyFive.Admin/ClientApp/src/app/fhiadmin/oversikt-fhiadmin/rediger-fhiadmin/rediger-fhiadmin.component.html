@@ -12,8 +12,8 @@
       <table class="table" *ngIf="brukere.length > 0 || nyFhiAdmin">
         <thead>
           <tr>
-            <th scope="col">Fornavn</th>
-            <th scope="col">Etternavn</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
             <th scope="col">Pseudonym</th>
             <th scope="col">Deaktivert</th>
             <th scope="col">Opprettet tidspunkt</th>
@@ -23,9 +23,9 @@
   
         <tbody>
           <tr *ngIf="nyFhiAdmin != null">
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.fornavn" name="fornavn" placeholder="Fornavn"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.etternavn" name="etternavn" placeholder="Etternavn"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.identPseudonym" name="identPseudonym" placeholder="IdentPseudonym"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.fornavn" name="fornavn" placeholder="FirstName"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.etternavn" name="etternavn" placeholder="LastName"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="nyFhiAdmin.identPseudonym" name="identPseudonym" placeholder="IdentityPseudonym"></td>
             <td></td>
             <td></td>
 
@@ -47,9 +47,9 @@
               <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdmin.erDeaktivert" name="erDeaktivert" disabled="disabled"></td>
             </ng-container>
             <ng-container *ngIf="fhiAdminSomEndres?.id == fhiAdmin.id">
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.fornavn" name="fornavn" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.etternavn" name="etternavn" placeholder="Etternavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.identPseudonym" name="identPseudonym" placeholder="IdentPseudonym"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.fornavn" name="fornavn" placeholder="FirstName"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.etternavn" name="etternavn" placeholder="LastName"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminSomEndres.identPseudonym" name="identPseudonym" placeholder="IdentityPseudonym"></td>
               <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminSomEndres.erDeaktivert" name="erDeaktivert"></td>
             </ng-container>
 

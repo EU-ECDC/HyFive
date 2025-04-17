@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Institution;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +32,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet(Name = "HentInstitusjonstyper")]
         public async Task<IEnumerable<InstitutionType>> HentInstitusjonstyper()
         {
-            var institusjonstyper = await _mediator.Send(new HentInstitusjonstyper.Query());
+            var institusjonstyper = await _mediator.Send(new GetInstitutionTypes.Query());
             return institusjonstyper;
         }
 
@@ -43,9 +43,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("oppdater")]
         public async Task<InstitutionType> OppdaterInstitusjonstype([FromBody] InstitutionType institusjonstype)
         {
-            return await _mediator.Send(new OppdaterInstitusjonstype.Command()
+            return await _mediator.Send(new UpdateInstitutionType.Command()
             {
-                Institusjonstype = institusjonstype
+                InstitutionType = institusjonstype
             });
         }
 
@@ -61,9 +61,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new OpprettInstitusjonstype.Command()
+                var response = await _mediator.Send(new CreateInstitutionType.Command()
                 {
-                    Institusjonstype = institusjonstype
+                    InstitutionType = institusjonstype
                 });
 
                 return CreatedAtRoute("HentInstitusjonstyper", response);

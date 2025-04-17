@@ -6,7 +6,7 @@ import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon'
 import { Queryparameters } from '../../konstanter/queryparameters';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
 import { InstitusjonService } from '../../services/data/institusjon.service';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
 import { Kort } from '../../models/registrering/kort.model';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +22,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
   Urls = Urls;
   sesjonsvisning: FireIndikasjonerSesjonsvisning;
   sesjonsdata: FireIndikasjonerSesjon = null;
-  roller: Rolle[];
+  roller: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
 
@@ -72,7 +72,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Rolle) {
+  leggTilNyttKort(rolle: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
     this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);

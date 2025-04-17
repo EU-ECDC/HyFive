@@ -1658,9 +1658,9 @@
           "CsvHelper.Excel.Core": "[27.2.1, )",
           "Fhi.HelseId.Web": "[7.0.1, )",
           "HyFive.Models": "[1.0.0, )",
+          "HyFive.Services": "[1.0.0, )",
           "HyFive.Services.Authentication": "[1.0.0, )",
           "HyFive.Services.Reports": "[1.0.0, )",
-          "HyFive.Tjenester": "[1.0.0, )",
           "MediatR": "[12.4.1, )",
           "Microsoft.ApplicationInsights.AspNetCore": "[2.22.0, )",
           "Microsoft.AspNetCore.SpaServices.Extensions": "[8.0.12, )",
@@ -1705,6 +1705,17 @@
           "Reinforced.Typings": "[1.6.3, )"
         }
       },
+      "hyfive.services": {
+        "type": "Project",
+        "dependencies": {
+          "AutoMapper": "[13.0.1, )",
+          "HyFive.DataAccess": "[1.0.0, )",
+          "HyFive.Domain": "[1.0.0, )",
+          "HyFive.Models": "[1.0.0, )",
+          "HyFive.Services.Authentication": "[1.0.0, )",
+          "MediatR": "[12.4.1, )"
+        }
+      },
       "hyfive.services.authentication": {
         "type": "Project",
         "dependencies": {
@@ -1718,19 +1729,9 @@
         "type": "Project",
         "dependencies": {
           "HyFive.Models": "[1.0.0, )",
-          "HyFive.Tjenester": "[1.0.0, )",
+          "HyFive.Services": "[1.0.0, )",
           "MediatR": "[12.4.1, )",
           "iTextSharp.LGPLv2.Core": "[3.4.22, )"
-        }
-      },
-      "hyfive.tjenester": {
-        "type": "Project",
-        "dependencies": {
-          "AutoMapper": "[13.0.1, )",
-          "HyFive.DataAccess": "[1.0.0, )",
-          "HyFive.Models": "[1.0.0, )",
-          "HyFive.Services.Authentication": "[1.0.0, )",
-          "MediatR": "[12.4.1, )"
         }
       }
     }

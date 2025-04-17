@@ -38,6 +38,6 @@
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj" />
     <ProjectReference Include="..\HyFive.Tjenester.Rapporter\HyFive.Services.Reports.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Tjenester.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Services.csproj" />
   </ItemGroup>
 </Project>

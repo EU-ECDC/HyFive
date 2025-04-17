@@ -20,7 +20,7 @@ export class AuthorizationService {
         if (bruker.erFhiAdmin) {
           this.lagreValgtRolle(AuthorizedRole.Administrator);
         } else if (bruker.erKoordinator) {
-          this.lagreValgtRolle(AuthorizedRole.Koordinator);
+          this.lagreValgtRolle(AuthorizedRole.Coordinator);
         }
       }
     }));
@@ -34,7 +34,7 @@ export class AuthorizationService {
       }
       
       if (bruker.erKoordinator) {
-        authorizedRoles.push(AuthorizedRole.Koordinator);
+        authorizedRoles.push(AuthorizedRole.Coordinator);
       }
 
       return authorizedRoles;

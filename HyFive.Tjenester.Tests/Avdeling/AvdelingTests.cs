@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 
-namespace HyFive.Services.Tests.Avdeling
+namespace HyFive.Services.Tests.Department
 {
     public class AvdelingTests : TjenesteTests
     {
@@ -17,7 +17,7 @@ namespace HyFive.Services.Tests.Avdeling
             var hentAvdelingHandler = new GetDepartment.Handler(DatabaseContext, Mapper);
             var query = new GetDepartment.Query() { Id = 9999 };
 
-            var avdeling = new Domain.Place.Avdeling { Id = 9999, InstitusjonId = DatabaseContext.Institution.First().Id };
+            var avdeling = new Domain.Place.Department { Id = 9999, InstitutionId = DatabaseContext.Institution.First().Id };
             DatabaseContext.Department.Add(avdeling);
             DatabaseContext.SaveChanges();
 
@@ -46,8 +46,8 @@ namespace HyFive.Services.Tests.Avdeling
         {
             // Arrange
             var institusjon = new Domain.Place.Institution { Id = 9999 };
-            var avdeling = new Domain.Place.Avdeling { Id = 9999, InstitusjonId = institusjon.Id };
-            var avdeling2 = new Domain.Place.Avdeling { Id = 99999, InstitusjonId = institusjon.Id };
+            var avdeling = new Domain.Place.Department { Id = 9999, InstitutionId = institusjon.Id };
+            var avdeling2 = new Domain.Place.Department { Id = 99999, InstitutionId = institusjon.Id };
             DatabaseContext.Institution.Add(institusjon);
             DatabaseContext.Department.Add(avdeling);
             DatabaseContext.Department.Add(avdeling2);
@@ -63,7 +63,7 @@ namespace HyFive.Services.Tests.Avdeling
             Assert.Multiple(() =>
             {
                 Assert.That(res.ToList(), Has.Count.EqualTo(2));
-                Assert.That(res.All(x => x.InstitusjonId == institusjon.Id));
+                Assert.That(res.All(x => x.InstitutionId == institusjon.Id));
             });
         }
 
@@ -90,17 +90,17 @@ namespace HyFive.Services.Tests.Avdeling
             // Arrange and Act
             var opprettetAvdeling = await OpprettAvdeling();
             var opprettetAvdelingFraDatabase = DatabaseContext.Department
-                .Include(a => a.Institusjon)
-                .Include(a => a.Roller)
+                .Include(a => a.Institution)
+                .Include(a => a.Roles)
                 .FirstOrDefault(a => a.Id == opprettetAvdeling.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(opprettetAvdeling.Id, Is.GreaterThan(0));
-                Assert.That(opprettetAvdeling.Navn, Is.EqualTo(opprettetAvdelingFraDatabase.Navn));
-                Assert.That(opprettetAvdeling.InstitusjonId, Is.EqualTo(opprettetAvdelingFraDatabase.Institusjon.Id));
-                Assert.That(opprettetAvdeling.Roller.Any(r => r.Id == opprettetAvdelingFraDatabase.Roller.First().Id));
+                Assert.That(opprettetAvdeling.Name, Is.EqualTo(opprettetAvdelingFraDatabase.Name));
+                Assert.That(opprettetAvdeling.InstitutionId, Is.EqualTo(opprettetAvdelingFraDatabase.Institution.Id));
+                Assert.That(opprettetAvdeling.Roles.Any(r => r.Id == opprettetAvdelingFraDatabase.Roles.First().Id));
             });
         }
 
@@ -146,10 +146,10 @@ namespace HyFive.Services.Tests.Avdeling
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetAvdeling.Id));
-                Assert.That(resultatOppdater.Navn, Is.Not.EqualTo(opprettetAvdeling.Navn));
+                Assert.That(resultatOppdater.Name, Is.Not.EqualTo(opprettetAvdeling.Name));
                 Assert.That(resultatOppdater.AvdelingTypeId, Is.Not.EqualTo(opprettetAvdeling.AvdelingTypeId));
-                Assert.That(resultatOppdater.Roller.Count, Is.EqualTo(oppdaterCommand.Role.Count));
-                Assert.That(resultatOppdater.Roller, Does.Not.Contain(opprettetAvdeling.Roller.First().Id));
+                Assert.That(resultatOppdater.Roles.Count, Is.EqualTo(oppdaterCommand.Role.Count));
+                Assert.That(resultatOppdater.Roles, Does.Not.Contain(opprettetAvdeling.Roles.First().Id));
             });
         }
 
@@ -174,10 +174,10 @@ namespace HyFive.Services.Tests.Avdeling
             Assert.Multiple(() =>
             {
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetAvdeling.Id));
-                Assert.That(resultatOppdater.Navn, Is.Not.EqualTo(opprettetAvdeling.Navn));
+                Assert.That(resultatOppdater.Name, Is.Not.EqualTo(opprettetAvdeling.Name));
                 Assert.That(resultatOppdater.AvdelingTypeId, Is.EqualTo(opprettetAvdeling.AvdelingTypeId));
-                Assert.That(resultatOppdater.Roller, Has.Count.EqualTo(opprettetAvdeling.Roller.Count));
-                Assert.That(resultatOppdater.Roller.Select(r => r.Id), Is.EqualTo(opprettetAvdeling.Roller.Select(r => r.Id)));
+                Assert.That(resultatOppdater.Roles, Has.Count.EqualTo(opprettetAvdeling.Roles.Count));
+                Assert.That(resultatOppdater.Roles.Select(r => r.Id), Is.EqualTo(opprettetAvdeling.Roles.Select(r => r.Id)));
             });
         }
 

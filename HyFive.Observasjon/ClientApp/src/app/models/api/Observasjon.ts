@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Rolle } from './Rolle';
+import { Role } from './Role';
 
 export interface Observasjon
 {
 	id: string;
-	rolle: Rolle;
+	rolle: Role;
 	registrerttidspunkt?: Date;
 	sesjonId: string;
 	kommentar?: string;

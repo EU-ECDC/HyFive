@@ -117,7 +117,7 @@ export class HelseforetakComponent implements OnInit, OnDestroy
   sorter($event: IColumnSortedEvent) {
     let propertyOf: (x: Helseforetak) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: Helseforetak) => x.navn.toLowerCase();
         break;
       case "Regionalt helseforetak":

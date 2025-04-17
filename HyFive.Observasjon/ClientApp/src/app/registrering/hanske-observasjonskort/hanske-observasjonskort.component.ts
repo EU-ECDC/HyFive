@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faCheck, faCircle, faEraser  } from '@fortawesome/free-solid-svg-icons';
 import { faHandPaper } from "@fortawesome/free-regular-svg-icons";
-import { Rolle } from "src/app/models/api/Rolle";
+import { Role } from "src/app/models/api/Role";
 import { Kort } from "src/app/models/registrering/kort.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HanskeSesjon } from "../../models/api/HanskeSesjon";
+import { GloveSession } from "../../models/api/GloveSession";
 import { HanskeSesjonsvisning } from "../../models/registrering/hansker-sesjonsvisning.model";
 import { HanskeObservasjon } from "../../models/api/HanskeObservasjon";
 import { HanskeMedIndikasjonTypeService } from "../../services/data/hanske-med-indikasjon-type.service";
@@ -42,8 +42,8 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   faHandPaper = faHandPaper;
   farger = Farger;
 
-  sesjonsdata: HanskeSesjon = null;
-  roller: Rolle[];
+  sesjonsdata: GloveSession = null;
+  roller: Role[];
   hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
   hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
   handhygieneEtterHanskebrukTyper: HandhygieneEtterHanskebrukType[] = [];
@@ -54,7 +54,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   uuid: string;
 
   @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Rolle[];
+  @Input("rollevalg") rollevalg: Role[];
   @Input("sesjonsvisning") sesjonsvisning: HanskeSesjonsvisning;
 
   @Output() observasjonRegistrert = new EventEmitter();
@@ -141,7 +141,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     }
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.kort.rolle = rolle;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HandsmykkeSesjon } from 'src/app/models/api/HandsmykkeSesjon';
-import { Rolle } from 'src/app/models/api/Rolle';
+import { Role } from 'src/app/models/api/Role';
 import { HandsmykkeSesjonService } from 'src/app/services/data/handsmykke-sesjon.service';
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
 import { InstitusjonService } from '../../services/data/institusjon.service';
@@ -24,7 +24,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   Urls = Urls;
   sesjonsvisning: HandsmykkeSesjonsvisning;
   sesjonsdata: HandsmykkeSesjon = null;
-  roller: Rolle[];
+  roller: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
 
@@ -80,7 +80,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Rolle) {
+  leggTilNyttKort(rolle: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
     this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Rolle} from '../../models/api/Rolle';
+import {Role} from '../../models/api/Role';
 import { AvdelingService } from '../../services/data/avdeling.service';
 
 @Component({
@@ -11,9 +11,9 @@ export class RolleValgDropdownComponent implements OnInit{
   @Input('avdelingId') avdelingId : number;
   @Input('rolleId') rolleId: number;
   @Input() customClass = "";
-  @Output('rolleValgt') rolleValgt: EventEmitter<Rolle> = new EventEmitter<Rolle>();
-  valgtRolle: Rolle;
-  roller: Rolle[] = [];
+  @Output('rolleValgt') rolleValgt: EventEmitter<Role> = new EventEmitter<Role>();
+  valgtRolle: Role;
+  roller: Role[] = [];
 
   valgtRolleId: string;
 

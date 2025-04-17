@@ -1,8 +1,8 @@
 import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { Kort } from '../../models/registrering/kort.model';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
 import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
@@ -35,8 +35,8 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
   }
 
   public lagSesjonsvisning(
-    rollerSomObserveres: Rolle[],
-    avdeling: Avdeling
+    rollerSomObserveres: Role[],
+    avdeling: Department
   ): string {
     let id = Uuid.generateUUID();
 

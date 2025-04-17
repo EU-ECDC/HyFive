@@ -73,15 +73,15 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private lagGjeldendeMenyvalg() {
 
     let erAdmin = this.authorizedRoles.find(p => p === AuthorizedRole.Administrator);
-    let erKoordinator = this.authorizedRoles.find(p => p === AuthorizedRole.Koordinator);
+    let erKoordinator = this.authorizedRoles.find(p => p === AuthorizedRole.Coordinator);
     let valgtRolle: AuthorizedRole = null;
 
     if (erAdmin) {
       valgtRolle = AuthorizedRole.Administrator;
     } else if (erKoordinator) {
-      valgtRolle = AuthorizedRole.Koordinator;
+      valgtRolle = AuthorizedRole.Coordinator;
     } else {
-      valgtRolle = AuthorizedRole.Observator;
+      valgtRolle = AuthorizedRole.Observer;
     }
 
     this.gjeldendeMenyvalg = this.alleMenyvalg.filter(menyvalg => {
@@ -99,17 +99,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       {
         name: 'Forside',
         routerLink: `/${UrlPaths.forside}`,
-        roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator, AuthorizedRole.Observator]
+        roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator, AuthorizedRole.Observer]
       },
       {
         name: 'Observasjoner',
         routerLink: `/${UrlPaths.observasjoner}`,
-        roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
         name: 'Overfør sessions til FHI',
         routerLink: `/${UrlPaths.overforSesjoner}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Institusjoner',
@@ -119,22 +119,22 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       {
         name: 'Avdelinger',
         routerLink: `/${UrlPaths.redigeringAvAvdelinger}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Klinikker',
         routerLink: `/${UrlPaths.redigeringAvKlinikker}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Koordinatorer',
         routerLink: `/${UrlPaths.redigeringAvKoordinatorer}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Observatører',
         routerLink: `/${UrlPaths.redigeringAvObservatorer}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Kodeverk',
@@ -149,12 +149,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       {
         name: 'Forespørsler',
         routerLink: `/${UrlPaths.foresporsel}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Predefinert kommentarer',
         routerLink: `/${UrlPaths.redigeringAvPredefinertkommentarer}`,
-        roles: [AuthorizedRole.Koordinator]
+        roles: [AuthorizedRole.Coordinator]
       },
       {
         name: 'Helseforetak',
@@ -169,7 +169,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       {
        name: 'Rapporter',
        routerLink: `/${UrlPaths.rapporter}`,
-       roles: [AuthorizedRole.Administrator, AuthorizedRole.Koordinator]
+       roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
     ];
   }

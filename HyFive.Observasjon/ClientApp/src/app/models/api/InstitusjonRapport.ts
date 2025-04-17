@@ -4,7 +4,7 @@
 
 import { InstitusjonType } from './InstitusjonType';
 import { Region } from './Region';
-import { Kommune } from './Kommune';
+import { Municipality } from './Municipality';
 import { Helseforetak } from './Helseforetak';
 
 export interface InstitusjonRapport
@@ -15,6 +15,6 @@ export interface InstitusjonRapport
 	herId: string;
 	institusjontype: InstitusjonType;
 	region: Region;
-	kommune: Kommune;
+	kommune: Municipality;
 	helseforetak: Helseforetak;
 }

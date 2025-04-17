@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 import { ObservasjonService } from '../../services/data/observasjon.service';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
 import { UrlPaths } from '../../_felles/konstanter/url-paths';
 import { faArrowRight, faFileDownload, faFileExcel, faFilePdf } from '@fortawesome/free-solid-svg-icons';
@@ -21,20 +21,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
 
-  SesjonType = SesjonType;
+  SessionType = SessionType;
   faArrowRight = faArrowRight;
   faFileDownload = faFileDownload;
   faFileExcel = faFileExcel;
   faFilePdf = faFilePdf;
 
   sesjontyper = [
-    { navn: 'Beskyttelsesutstyr', verdi: SesjonType.Beskyttelsesutstyr },
-    { navn: 'Fire indikasjoner', verdi: SesjonType.FireIndikasjoner },
-    { navn: 'Hansker', verdi: SesjonType.Hansker },
-    { navn: 'Håndsmykker', verdi: SesjonType.Handsmykker }
+    { navn: 'Beskyttelsesutstyr', verdi: SessionType.Beskyttelsesutstyr },
+    { navn: 'Fire indikasjoner', verdi: SessionType.FireIndikasjoner },
+    { navn: 'Hansker', verdi: SessionType.Hansker },
+    { navn: 'Håndsmykker', verdi: SessionType.Handsmykker }
   ];
 
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   institusjonIdForRapportSomLastesNed = 0;
 
   fraDato: Date = null;
@@ -71,8 +71,8 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
         }
 
         this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype], 10) || null;
-        this.fraDato = params[QueryParameters.FraDato] || null;
-        this.tilDato = params[QueryParameters.TilDato] || null;
+        this.fraDato = params[QueryParameters.FromDate] || null;
+        this.tilDato = params[QueryParameters.ToDate] || null;
         if (this.valgtRolle === AuthorizedRole.Administrator)
           this.valgtInstitusjonId = params[QueryParameters.InstitusjonsidISok] || null;
         this.hentInstitusjonerMedSesjoner();
@@ -81,7 +81,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
     if (this.valgtRolle === AuthorizedRole.Administrator) {
       this.kanVelgeInstitusjon = true;
       this.hentInstitusjon();
-    } else if (this.valgtRolle === AuthorizedRole.Koordinator) {
+    } else if (this.valgtRolle === AuthorizedRole.Coordinator) {
       this.kanVelgeInstitusjon = false;
     }
   }
@@ -91,7 +91,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   hentInstitusjonId(): string {
-    if(this.valgtRolle === AuthorizedRole.Koordinator)
+    if(this.valgtRolle === AuthorizedRole.Coordinator)
       return this.institusjonService.hentValgtInstitusjonId().toString();
     return "null";
   }
@@ -121,8 +121,8 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
       this.tilDato,
       this.valgtRolle
     ).subscribe((resultater) => {
-      if(this.valgtSesjontype !== SesjonType.FireIndikasjoner && this.valgtSesjontype !== SesjonType.Handsmykker &&
-        this.valgtSesjontype !== SesjonType.Hansker && this.valgtSesjontype !== SesjonType.Beskyttelsesutstyr)
+      if(this.valgtSesjontype !== SessionType.FireIndikasjoner && this.valgtSesjontype !== SessionType.Handsmykker &&
+        this.valgtSesjontype !== SessionType.Hansker && this.valgtSesjontype !== SessionType.Beskyttelsesutstyr)
         this.valgtSesjontype = null;
       this.institusjonOversiktRapportListe = resultater;
       this.soker = false;
@@ -164,13 +164,13 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   }
 
   lagValgtSesjonstypeTekst(): string {
-    if (this.valgtSesjontype == SesjonType.Beskyttelsesutstyr)
+    if (this.valgtSesjontype == SessionType.Beskyttelsesutstyr)
       return "Beskyttelsesutstyr";
-    if (this.valgtSesjontype == SesjonType.FireIndikasjoner)
+    if (this.valgtSesjontype == SessionType.FireIndikasjoner)
       return "FireIndikasjoner";
-    if (this.valgtSesjontype == SesjonType.Handsmykker)
+    if (this.valgtSesjontype == SessionType.Handsmykker)
       return "Handsmykker";
-    if (this.valgtSesjontype == SesjonType.Hansker)
+    if (this.valgtSesjontype == SessionType.Hansker)
       return "Hansker";
 
     return "Alle";
@@ -192,7 +192,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
 
     let propertyOf: (x: AvdelingOversiktRapport) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: AvdelingOversiktRapport) => x.navn;
         break;
       default:

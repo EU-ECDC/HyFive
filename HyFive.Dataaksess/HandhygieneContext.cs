@@ -14,7 +14,7 @@ namespace HyFive.DataAccess
         {
         }
 
-        public DbSet<Session> Session  { get; set; }
+        public DbSet<Session> Session { get; set; }
         public DbSet<FourIndicationsSession> FourIndicationsSession { get; set; }
         public DbSet<HandJewelrySession> HandJewelrySession { get; set; }
         public DbSet<ProtectiveEquipmentSession> ProtectiveEquipmentSession { get; set; }

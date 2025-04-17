@@ -66,7 +66,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
+        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingTypeConstants.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Gloves)
         //            .WasUsed, Is.EqualTo(true));
@@ -92,7 +92,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
-        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
+        //            .SettingType.Code, Is.EqualTo(ProtectiveEquipmentSettingTypeConstants.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
         //            .WasUsed, Is.EqualTo(true));
@@ -119,7 +119,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .SettingType
-        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
+        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingTypeConstants.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
         //            .WasUsed, Is.EqualTo(true));
@@ -146,7 +146,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    {
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .SettingType
-        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingType.ContactTransmission));
+        //            .Code, Is.EqualTo(ProtectiveEquipmentSettingTypeConstants.ContactTransmission));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
         //            .WasUsed, Is.EqualTo(true));
@@ -308,13 +308,13 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             return beskyttelsesutstyrSesjon;
         }
 
-        protected async Task<Guid> OpprettSesjon(Domain.Place.Avdeling avdeling = null)
+        protected async Task<Guid> OpprettSesjon(Domain.Place.Department avdeling = null)
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
             var settingTyper = DatabaseContext.ProtectiveEquipmentSettingType.ToList();
             var utstyrsTyper = DatabaseContext.ProtectiveEquipmentType.ToList();
 
@@ -324,9 +324,9 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                 Session = new ProtectiveEquipmentSession()
                 {
                     Id = sesjonId.ToString(),
-                    Avdeling = avdelingModell,
+                    Department = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
-                    InstitusjonId = institusjon.Id,
+                    InstitutionId = institusjon.Id,
                     Kommentar = "Sesjon kommentar",
                     Starttidspunkt = DateTime.Now,
                     Observasjoner = new List<ProtectiveEquipmentObservation>()
@@ -337,7 +337,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                             SessionId = sesjonId.ToString(),
                             Comment = "Observasjon kommentar",
                             RegistrationTime = DateTime.Now,
-                            Role = avdelingModell.Roller.First(),
+                            Role = avdelingModell.Roles.First(),
                             SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                             {
                                 Id = settingTyper.First(x => x.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.ContactTransmission).Id,

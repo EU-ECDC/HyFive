@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InstitusjonService } from '../../../services/data/institusjon.service';
-import { Institusjon } from '../../../models/api/Institusjon';
+import { Institution } from '../../../models/api/Institution';
 import { InstitusjonType } from '../../../models/api/InstitusjonType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
@@ -8,7 +8,7 @@ import { Helseforetak } from 'src/app/models/api/Helseforetak';
 import { HelseforetakService } from 'src/app/services/data/helseforetak.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
 import { KommuneService } from 'src/app/services/data/kommune.service';
-import { Kommune } from 'src/app/models/api/Kommune';
+import { Municipality } from 'src/app/models/api/Municipality';
 
 @Component({
   selector: 'app-rediger-en-institusjon',
@@ -21,13 +21,13 @@ export class RedigerEnInstitusjonComponent implements OnInit {
               private kommuneService: KommuneService,
               private helseforetakService: HelseforetakService) { }
 
-  institusjon: Institusjon = null;
+  institusjon: Institution = null;
   institusjontyper: InstitusjonType[] = [];
   institusjontypeId = 0;
   listAvHelseforetak: Helseforetak[] = [];
 
-  kommune: Kommune = null;
-  kommuner: Kommune[];
+  kommune: Municipality = null;
+  kommuner: Municipality[];
   kommuneId = 0;
   UrlPaths = UrlPaths;
   helseforetakId = 0;
@@ -37,7 +37,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
 
   @Input() institusjonId: number;
   @Output() institusjonSlettetEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() institusjonOppdatertEvent: EventEmitter<Institusjon> = new EventEmitter<Institusjon>();
+  @Output() institusjonOppdatertEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   ngOnInit(): void {
     if (this.institusjonId === 0) {

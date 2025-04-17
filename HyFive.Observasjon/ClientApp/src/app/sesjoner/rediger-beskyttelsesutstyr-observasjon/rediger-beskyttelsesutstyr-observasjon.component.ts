@@ -5,12 +5,12 @@ import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper
 import { Farger } from '../../utils/farger';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { BeskyttelsesutstyrObservasjon } from '../../models/api/BeskyttelsesutstyrObservasjon';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
-import { SesjonType } from 'src/app/models/api/SesjonType';
+import { SessionType } from 'src/app/models/api/SessionType';
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -26,7 +26,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   beskyttelsesutstyr: Beskyttelsesutstyr[] = [];
   kommentar: string;
   valgtUtstyr = null;
-  beskyttelsesutstyrsesjontype: SesjonType = SesjonType.Beskyttelsesutstyr;
+  beskyttelsesutstyrsesjontype: SessionType = SessionType.Beskyttelsesutstyr;
 
   kanIkkeLagreMelding = Dialogtekster.KanIkkeLagreBeskyttelsesutstyrObservasjon;
 
@@ -42,7 +42,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observasjon") observasjon: BeskyttelsesutstyrObservasjon;
-  @Input("avdeling") avdeling: Avdeling;
+  @Input("avdeling") avdeling: Department;
   @Input("institusjonid") institusjonid: number;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent = new EventEmitter();
 

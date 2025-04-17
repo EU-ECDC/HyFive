@@ -18,7 +18,7 @@ using ProtectiveEquipmentSession = HyFive.Domain.Session.ProtectiveEquipmentSess
 using FourIndicationsSession = HyFive.Domain.Session.FourIndicationsSession;
 using HandJewelrySession = HyFive.Domain.Session.HandJewelrySession;
 using GloveSession = HyFive.Domain.Session.GloveSession;
-using SesjonType = HyFive.Models.V1.Session.SessionType;
+using SessionType = HyFive.Models.V1.Session.SessionType;
 
 namespace HyFive.Services.AutoMapperProfiler.V1
 {

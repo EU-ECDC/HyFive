@@ -4,17 +4,17 @@
         <name>HyFive.Modeller</name>
     </assembly>
     <members>
-        <member name="T:HyFive.Modeller.V1.Institusjon.OpprettAvdelingRequest">
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettAvdelingRequest">
             <summary>
             Interface brukt for å opprette institusjoner fra Admin-grensesnittet
             </summary>
         </member>
-        <member name="T:HyFive.Modeller.V1.Institusjon.OpprettInstitusjonRequest">
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettInstitusjonRequest">
             <summary>
             Interface brukt for å opprette institusjoner fra Admin-grensesnittet
             </summary>
         </member>
-        <member name="T:HyFive.Modeller.V1.Institusjon.OpprettInstitusjonstypeRequest">
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettInstitusjonstypeRequest">
             <summary>
             Interface brukt for å opprette institusjoner fra Admin-grensesnittet
             </summary>

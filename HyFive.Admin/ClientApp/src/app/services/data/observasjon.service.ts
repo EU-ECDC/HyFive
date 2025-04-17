@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { InstitusjonOversiktRapport } from '../../models/api/InstitusjonOversiktRapport';
 import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
 import { Bruker } from '../../models/api/Bruker';
 import {HandsmykkeObservasjon} from "../../models/api/HandsmykkeObservasjon";
@@ -19,7 +19,7 @@ export class ObservasjonService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentInstitusjonerMedSesjoner(institusjonId: string, sesjontype: SesjonType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<InstitusjonOversiktRapport[]> {
+  hentInstitusjonerMedSesjoner(institusjonId: string, sesjontype: SessionType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<InstitusjonOversiktRapport[]> {
     let url = `${environment.apiBaseUrl}/v1/observasjon/institusjonerMedSesjoner`;
 
     let params = new HttpParams();
@@ -40,7 +40,7 @@ export class ObservasjonService {
     return this.http.get<InstitusjonOversiktRapport[]>(url, { params: params });
   }
 
-  hentSesjonerForAvdeling(avdelingsid: number, sesjontype: SesjonType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<SesjonOversiktRapport[]> {
+  hentSesjonerForAvdeling(avdelingsid: number, sesjontype: SessionType, fraDato: Date, tilDato: Date, valgtRolle: AuthorizedRole): Observable<SesjonOversiktRapport[]> {
     const url = `${environment.apiBaseUrl}/v1/observasjon/avdeling`;
     let params = new HttpParams();
 
@@ -61,7 +61,7 @@ export class ObservasjonService {
     return this.http.get<SesjonOversiktRapport[]>(url, { params: params });
   }
 
-  hentSesjonerForInstitusjon(institusjonId: number, observator?: Bruker, sesjontype?: SesjonType, fraDato?: Date, tilDato?: Date): Observable<SesjonOversiktRapport[]> {
+  hentSesjonerForInstitusjon(institusjonId: number, observator?: Bruker, sesjontype?: SessionType, fraDato?: Date, tilDato?: Date): Observable<SesjonOversiktRapport[]> {
     const url = `${environment.apiBaseUrl}/v1/observasjon/institusjon`;
     let params = new HttpParams();
 

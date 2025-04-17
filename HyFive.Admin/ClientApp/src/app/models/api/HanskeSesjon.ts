@@ -5,6 +5,6 @@
 import { HanskeObservasjon } from './HanskeObservasjon';
 import { Sesjon } from './Sesjon';
 
-export interface HanskeSesjon extends Sesjon<HanskeObservasjon>
+export interface GloveSession extends Sesjon<HanskeObservasjon>
 {
 }

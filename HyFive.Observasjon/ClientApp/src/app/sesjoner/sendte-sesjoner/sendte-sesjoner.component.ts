@@ -3,7 +3,7 @@ import { Urls } from "../../konstanter/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { SendteSesjonerService } from "../../services/data/sendte-sessions.service";
-import { SesjonType } from "../../models/api/SesjonType";
+import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
 import { SesjonRapport } from "../../models/api/SesjonRapport";
 
@@ -18,7 +18,7 @@ export class SendteSesjonerComponent {
   sesjonerFiltrert: SesjonRapport[];
   harLastetSesjoner = false;
   sokeord: string = null;
-  sesjonsnavnMap: Map<SesjonType, string>;
+  sesjonsnavnMap: Map<SessionType, string>;
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
   subscriptions: Subscription[] = [];
@@ -67,15 +67,15 @@ export class SendteSesjonerComponent {
     }
   }
 
-  getSesjonstypeUrl(sesjonstype: SesjonType): string {
+  getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
-      case SesjonType.FireIndikasjoner:
+      case SessionType.FireIndikasjoner:
         return Urls.SendteFireIndikasjonerSesjonUrl;
-      case SesjonType.Handsmykker:
+      case SessionType.Handsmykker:
         return Urls.SendteHandsmykkeSesjonUrl;
-      case SesjonType.Beskyttelsesutstyr:
+      case SessionType.Beskyttelsesutstyr:
         return Urls.SendteBeskyttelsesutstyrSesjonUrl;
-      case SesjonType.Hansker:
+      case SessionType.Hansker:
         return Urls.SendteHanskeSesjonUrl;
       default:
         return "";

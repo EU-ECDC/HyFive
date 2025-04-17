@@ -35,7 +35,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
       this.lastAvdelinger();
     }
     else {
-      this.toastrService.error('Avdeling ikke lastet', 'Teknisk feil', { disableTimeOut: true});
+      this.toastrService.error('Department ikke lastet', 'Teknisk feil', { disableTimeOut: true});
     }
   }
   

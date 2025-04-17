@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef,
 import { Farger } from "../../utils/farger";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { faUserNurse, faCheck, faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Rolle } from "../../models/api/Rolle";
+import { Role } from "../../models/api/Role";
 import { Rollevalg } from "../../models/registrering/rollevalg.model";
 
 export const NyttKortModalComponentConfig = {
@@ -26,7 +26,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
 
   closeResult = '';
 
-  @Input() roller: Rolle[] = [];
+  @Input() roller: Role[] = [];
   rollevalg: Rollevalg[] = [];
 
   @Output() onClose = new EventEmitter();
@@ -61,7 +61,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
       windowClass: NyttKortModalComponentConfig.windowClass
     });
 
-    this.modalRef.result.then((result: Rolle[]) => {
+    this.modalRef.result.then((result: Role[]) => {
 
       this.onClose.emit(result);
       this.resetRollevalg();

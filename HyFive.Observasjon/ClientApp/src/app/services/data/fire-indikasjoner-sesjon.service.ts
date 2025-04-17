@@ -2,10 +2,10 @@ import { Uuid } from '../../utils/uuid';
 import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
 import { Kort } from '../../models/registrering/kort.model';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -37,8 +37,8 @@ export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikas
   public lagSesjonsvisning(
     hanskebrukSkalRegistreres: boolean,
     tidtakingSkalRegistreres: boolean,
-    rollerSomObserveres: Rolle[],
-    avdeling: Avdeling
+    rollerSomObserveres: Role[],
+    avdeling: Department
   ): string {
     let id = Uuid.generateUUID();
 

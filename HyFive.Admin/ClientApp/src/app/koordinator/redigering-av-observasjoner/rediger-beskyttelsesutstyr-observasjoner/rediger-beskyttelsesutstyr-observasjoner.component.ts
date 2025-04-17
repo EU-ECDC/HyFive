@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {Department} from "../../../models/api/Department";
 import {ObservasjonService} from "../../../services/data/observasjon.service";
 import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
-import {Rolle} from "../../../models/api/Rolle";
+import {Role} from "../../../models/api/Role";
 import {BeskyttelsesutstyrObservasjon} from "../../../models/api/BeskyttelsesutstyrObservasjon";
 
 @Component({
@@ -15,7 +15,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
@@ -97,7 +97,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
     this.kanOppdatereBeskyttelsesutstyrObservasjon = false;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.beskyttelsesutstyrObservasjonSomEndres.rolle = rolle;
   }
 

@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="row mb-1">
       <div class="col-md-6">
-        <label for="institusjonsnavn" class="mb-1">Navn</label>
+        <label for="institusjonsnavn" class="mb-1">Name</label>
         <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Oslo Universitetssykehus HF" [(ngModel)]="nyInstitusjon.institusjonsnavn">
       </div>
       <div class="col-md-2">
@@ -18,7 +18,7 @@
         </select>
       </div>
       <div class="col-md-6" *ngIf="visKommune">
-        <label for="kommune" class="mb-1">Kommune</label>
+        <label for="kommune" class="mb-1">Municipality</label>
         <select class="form-select" id="kommune" [(ngModel)]="nyInstitusjon.kommuneId">
           <option value="0"></option>
           <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.navn}}</option>
@@ -33,13 +33,13 @@
       </div>
     </div>
     <div class="row mb-2">
-      <h5 class="col-12">Koordinator</h5>
+      <h5 class="col-12">Coordinator</h5>
       <div class="col-md-3">
-        <label for="koordinatorfornavn" class="mb-1">Fornavn</label>
+        <label for="koordinatorfornavn" class="mb-1">FirstName</label>
         <input type="text" id="koordinatorfornavn" class="form-control" [(ngModel)]="nyInstitusjon.koordinatorFornavn">
       </div>
       <div class="col-md-3">
-        <label for="koordinatorEtternavn" class="mb-1">Etternavn</label>
+        <label for="koordinatorEtternavn" class="mb-1">LastName</label>
         <input type="text" id="koordinatoretternavn" class="form-control" [(ngModel)]="nyInstitusjon.koordinatorEtternavn">
       </div>
       <div class="col-md-4">

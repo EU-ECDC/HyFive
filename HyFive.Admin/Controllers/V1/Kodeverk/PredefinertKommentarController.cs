@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Institution;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -33,9 +33,9 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
-                return await _mediator.Send(new HentPredefinertKommentarerForKoordinator.Query
+                return await _mediator.Send(new GetPredefinedCommentsForCoordinator.Query
                 {
-                    Institusjonid = institusjonId
+                    InstitutionId = institusjonId
                 });
             }
             return Unauthorized();
@@ -54,10 +54,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
-                var erOppdatert = await _mediator.Send(new OppdaterPredefinertKommentar.Command
+                var erOppdatert = await _mediator.Send(new UpdatePredefinedComment.Command
                 {
-                    PredefinertKommentar = predefinertKommentar,
-                    Institusjonid = institusjonId
+                    PredefinedComment = predefinertKommentar,
+                    InstitutionId = institusjonId
                 });
                 return erOppdatert;
             }
@@ -79,10 +79,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsCoordinatorForInstitutionOrFhiAdmin(institusjonId))
             {
-                var erOpprettet = await _mediator.Send(new OpprettPredefinertKommentar.Command
+                var erOpprettet = await _mediator.Send(new CreatePredefinedComment.Command
                 {
-                    NyPredefinertKommentar = nyPredefinertKommentar,
-                    Institusjonid = institusjonId
+                    NewPredefinedComment = nyPredefinertKommentar,
+                    InstitutionId = institusjonId
                 });
 
                 return CreatedAtRoute("HentPredefinertKommentarer", erOpprettet);

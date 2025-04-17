@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Avdeling } from './Avdeling';
+import { Department } from './Department';
 
 export interface Sesjon<TObservasjon>
 {
 	id: string;
-	avdeling: Avdeling;
+	avdeling: Department;
 	starttidspunkt: Date;
 	observasjoner?: TObservasjon[];
 	institusjonsnavn?: string;

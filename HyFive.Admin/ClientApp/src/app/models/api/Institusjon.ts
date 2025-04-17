@@ -2,22 +2,22 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Avdeling } from './Avdeling';
+import { Department } from './Department';
 import { InstitusjonType } from './InstitusjonType';
 import { Region } from './Region';
-import { Kommune } from './Kommune';
+import { Municipality } from './Municipality';
 import { Helseforetak } from './Helseforetak';
 
-export interface Institusjon
+export interface Institution
 {
 	id: number;
 	navn: string;
 	forkortelse: string;
 	herId: string;
-	avdelinger: Avdeling[];
+	avdelinger: Department[];
 	institusjontype: InstitusjonType;
 	region: Region;
-	kommune: Kommune;
+	kommune: Municipality;
 	harObservasjoner: boolean;
 	helseforetak: Helseforetak;
 }

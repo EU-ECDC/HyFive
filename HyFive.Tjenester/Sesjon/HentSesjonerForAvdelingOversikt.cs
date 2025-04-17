@@ -78,10 +78,10 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
-                                     .Where(s => s.Avdeling.Id == request.Avdelingsid)
+                                     .Where(s => s.Department.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.TransmissionStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var fireIndikasjonerSesjonerRapport = _mapper.Map<List<Domene.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fireIndikasjonerSesjoner);
@@ -97,10 +97,10 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.TransmissionStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
-                                     .Where(s => s.Avdeling.Id == request.Avdelingsid)
+                                     .Where(s => s.Department.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.TransmissionStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var handsmykkeSesjonerRapport = _mapper.Map<List<Domene.Session.HandJewelrySession>, List<SessionOverviewReport>>(handsmykkeSesjoner);
@@ -118,10 +118,10 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.GeneralPurposeGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
-                                     .Where(s => s.Avdeling.Id == request.Avdelingsid)
+                                     .Where(s => s.Department.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.TransmissionStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var hanskeSesjonerRapport = _mapper.Map<List<Domene.Session.GloveSession>, List<SessionOverviewReport>>(hanskeSesjoner);
@@ -139,10 +139,10 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.SettingType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
-                                     .Where(s => s.Avdeling.Id == request.Avdelingsid)
+                                     .Where(s => s.Department.Id == request.Avdelingsid)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.Overforingstatus.Kode))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.OverforingsstatusType).Contains(s.TransmissionStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var beskyttelsesutstyrSesjonerRapport = _mapper.Map<List<Domene.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(beskyttelsesutstyrSesjoner);

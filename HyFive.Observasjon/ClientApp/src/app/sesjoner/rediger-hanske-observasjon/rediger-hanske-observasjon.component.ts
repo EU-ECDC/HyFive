@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots, faHandPaper } from '@fortawesome/free-regular-svg-icons';
 import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
 import { Farger } from '../../utils/farger';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
 import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
 import { HanskeMedIndikasjonTypeService } from '../../services/data/hanske-med-indikasjon-type.service';
@@ -50,7 +50,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observasjon: HanskeObservasjon;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
   visInfoModal = false;
   observasjonMangelTekst: any;
@@ -129,7 +129,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.observasjon.kommentar = kommentar;
   }
 
-  rolleValgt(rolle: Rolle) {
+  rolleValgt(rolle: Role) {
     this.observasjon.rolle = rolle;
   }
 

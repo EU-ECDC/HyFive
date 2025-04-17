@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Observation;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using HyFive.Services.Roller;
+using HyFive.Services.Roles;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -31,7 +31,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(IEnumerable<Role>), StatusCodes.Status201Created)]
         public async Task<ActionResult<IEnumerable<Role>>> HentRoller()
         {
-            var result = await _mediator.Send(new HentRoller.Query() {});
+            var result = await _mediator.Send(new GetRoles.Query() {});
             return Ok(result);
         }
 

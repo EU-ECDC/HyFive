@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Farger} from '../../utils/farger'
-import {Rolle} from '../../models/api/Rolle';
+import {Role} from '../../models/api/Role';
 import {Uuid} from '../../utils/uuid';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,10 +11,10 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 export class RolleValgDropdownComponent implements OnInit{
 
   @Input('isReadonly') isReadonly = false;
-  @Input('rollevalg') rollevalg : Rolle[];
+  @Input('rollevalg') rollevalg : Role[];
   @Input('rolleId') rolleId: number;
-  @Output('rolleValgt') rolleValgt: EventEmitter<Rolle> = new EventEmitter<Rolle>();
-  valgtRolle: Rolle;
+  @Output('rolleValgt') rolleValgt: EventEmitter<Role> = new EventEmitter<Role>();
+  valgtRolle: Role;
 
   valgtRolleId: string;
   farger = Farger;

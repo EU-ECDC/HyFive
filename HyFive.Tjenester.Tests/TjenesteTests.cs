@@ -15,7 +15,7 @@ using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.User;
 using HyFive.Services.FourIndication;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using Moq;
 using Microsoft.Extensions.Logging;
 using HyFive.Services.Authentication.User;
@@ -70,11 +70,11 @@ namespace HyFive.Services.Tests
 
         protected async Task<(Modeller.V1.Institution.Institution, Modeller.V1.User.User)> OpprettInstitusjon()
         {
-            var opprettInstitusjonHandler = new OpprettInstitusjon.Handler(DatabaseContext, Mapper);
+            var opprettInstitusjonHandler = new CreateInstitution.Handler(DatabaseContext, Mapper);
 
             DatabaseContext.Role.AddRange(new Domain.Observation.Role("Lege"), new Domain.Observation.Role("Sykepleier"));
             DatabaseContext.SaveChanges();
-            var institusjon = await opprettInstitusjonHandler.Handle(new OpprettInstitusjon.Command()
+            var institusjon = await opprettInstitusjonHandler.Handle(new CreateInstitution.Command()
             {
                 Request = new CreateInstitutionRequest()
                 {
@@ -109,7 +109,7 @@ namespace HyFive.Services.Tests
         protected async Task<Guid> OpprettFireIndikasjonerSesjon(
             Guid sesjonId,
             Guid observasjonId,
-            Domain.Place.Avdeling avdeling,
+            Domain.Place.Department avdeling,
             string hprnummer,
             bool brukDefaultAktivitet = true,
             Activity aktivitet = null,
@@ -120,8 +120,8 @@ namespace HyFive.Services.Tests
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
             var aktivitetTyper = DatabaseContext.ActivityType.ToList();
             var indikasjonTyper = DatabaseContext.IndicationTypes.ToList();
 
@@ -150,7 +150,7 @@ namespace HyFive.Services.Tests
                 },
                 Comment = "Kommentar til observasjonen",
                 RegistrationTime = DateTime.Now,
-                Role = brukDefaultRolle ? avdelingModell.Roller.First() : rolle,
+                Role = brukDefaultRolle ? avdelingModell.Roles.First() : rolle,
                 SessionId = sesjonId.ToString()
             };
 
@@ -159,9 +159,9 @@ namespace HyFive.Services.Tests
                 Session = new FourIndicationsSession
                 {
                     Id = sesjonId.ToString(),
-                    Avdeling = avdelingModell,
+                    Department = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
-                    InstitusjonId = institusjon.Id,
+                    InstitutionId = institusjon.Id,
                     Observasjoner = new List<FourIndicatorsObservation>()
                     {
                         observasjon

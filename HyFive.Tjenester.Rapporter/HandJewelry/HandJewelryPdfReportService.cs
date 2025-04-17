@@ -288,7 +288,7 @@ namespace HyFive.Services.Reports.HandJewelry
             pdfStamper.AcroFields.SetField("institution", $"Institution: {report.Institution}");
             pdfStamper.AcroFields.SetField("department", $"Department: {report.Department}");
             pdfStamper.AcroFields.SetField("time period", "Registered time period: " +
-                                                      $"{report.FromTime.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)} - " +
+                                                      $"{report.FromDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)} - " +
                                                       $"{report.ToTime.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)}");
             pdfStamper.AcroFields.SetField("report date", $"Report date: {DateTime.Today.ToString(Helpers.DateFormat)}");
 

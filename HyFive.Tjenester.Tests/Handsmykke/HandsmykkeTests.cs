@@ -81,9 +81,9 @@ namespace HyFive.Services.Tests.Handsmykke
                 Session = new HandJewelrySession()
                 {
                     Id = sesjonId.ToString(),
-                    Avdeling = avdelingModell,
+                    Department = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
-                    InstitusjonId = institusjon.Id,
+                    InstitutionId = institusjon.Id,
                     Observasjoner = new List<HandJewelryObservation>()
                     {
                         new HandJewelryObservation()

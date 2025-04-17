@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers
         [HttpGet("kodeverk")]
         public async Task<IActionResult> SeedKodeverk()
         {
-            var ok = await _mediator.Send(new Services.Seed.SeedKodeverk.Command());
+            var ok = await _mediator.Send(new Services.Seed.SeedCodebook.Command());
             return Ok();
         }
 
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers
         [HttpGet("institusjoner")]
         public async Task<IActionResult> SeedInstitusjoner()
         {
-            var ok = await _mediator.Send(new Services.Seed.SeedInstitusjoner.Command());
+            var ok = await _mediator.Send(new Services.Seed.SeedInstitutions.Command());
             return Ok();
         }
     }

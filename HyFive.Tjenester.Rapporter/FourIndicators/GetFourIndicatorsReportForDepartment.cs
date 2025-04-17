@@ -18,7 +18,7 @@ namespace HyFive.Services.Reports.FourIndicators
         public class Query : IRequest<FourIndicatorsReportForDepartment>
         {
             public int DepartmentId { get; set; }
-            public DateTime FromTime { get; set; }
+            public DateTime FromDate { get; set; }
             public DateTime ToTime { get; set; }
             public AuthorizedRole Role { get; set; }
         }
@@ -41,7 +41,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 reportDto.Clinics = GetReportsForClinics(request);
                 reportDto.Institution = GetInstitutionData(request);
                 reportDto.ComparableDepartments = await GetComparableDepartmentData(request);
-                reportDto.SetDisplayTimestamps(request.FromTime, request.ToTime);
+                reportDto.SetDisplayTimestamps(request.FromDate, request.ToTime);
                 return reportDto;
             }
 
@@ -61,7 +61,7 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromTime.Date)
+                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
                         && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
                     .ToList();
 
@@ -73,7 +73,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 foreach (var session in departmentSessionsWithObservations)
                 {
                     session.Observations = session.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromTime.Date &&
+                            o.RegistrationTime.Date >= request.FromDate.Date &&
                             o.RegistrationTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
@@ -83,7 +83,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return new FourIndicatorsReport()
                 {
                     Name = department.Name,
-                    FromDate = request.FromTime,
+                    FromDate = request.FromDate,
                     ToDate = request.ToTime,
                     Roles = GetRoleWithCombinationsReportList(departmentSessionsWithObservations),
                     NumberOfObservations = numberOfObservations,
@@ -112,7 +112,7 @@ namespace HyFive.Services.Reports.FourIndicators
                     .Where(s =>
                         s.Department.Id != request.DepartmentId
                         && s.Department.DepartmentType.Code == comparedDepartment.DepartmentType.Code
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromTime.Date)
+                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
                         && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date)
                         && s.Observations.Any())
                     .ToListAsync();
@@ -125,7 +125,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 foreach (var session in SessionsOfComparableDepartments)
                 {
                     session.Observations = session.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromTime.Date &&
+                            o.RegistrationTime.Date >= request.FromDate.Date &&
                             o.RegistrationTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
@@ -135,7 +135,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return new FourIndicatorsReport()
                 {
                     Name = $"Comparable departments for {comparedDepartment.Name}",
-                    FromDate = request.FromTime,
+                    FromDate = request.FromDate,
                     ToDate = request.ToTime,
                     Roles = GetRoleWithCombinationsReportList(SessionsOfComparableDepartments),
                     NumberOfObservations = observationsNumber,
@@ -173,7 +173,7 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.InstitutionId == institutionId
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromTime.Date)
+                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
                         && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
                     .ToList();
 
@@ -185,7 +185,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 foreach (var sesjon in institutionSessionsMinusRequestedDepartment)
                 {
                     sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromTime.Date &&
+                            o.RegistrationTime.Date >= request.FromDate.Date &&
                             o.RegistrationTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
@@ -195,7 +195,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return new FourIndicatorsReport()
                 {
                     Name = $"{institution.InstitutionType}: {institution.Name} ",
-                    FromDate = request.FromTime,
+                    FromDate = request.FromDate,
                     ToDate = request.ToTime,
                     Roles = GetRoleWithCombinationsReportList(institutionSessionsMinusRequestedDepartment),
                     NumberOfObservations = observationsNumber,
@@ -241,7 +241,7 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Clinics.Any(k => k.Id == clinicId)
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromTime.Date)
+                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
                         && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
                     .ToList();
 
@@ -253,7 +253,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 foreach (var sesjon in AssociatedClinicSessions)
                 {
                     sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromTime.Date &&
+                            o.RegistrationTime.Date >= request.FromDate.Date &&
                             o.RegistrationTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
@@ -264,7 +264,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 var report = new FourIndicatorsReport()
                 {
                     Name = $"Clinic: {clinicName}",
-                    FromDate = request.FromTime,
+                    FromDate = request.FromDate,
                     ToDate = request.ToTime,
                     Roles = GetRoleWithCombinationsReportList(AssociatedClinicSessions),
                     NumberOfObservations = observationsNumber,

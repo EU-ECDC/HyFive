@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OverforingstatusTypeKonstanter } from '../../../models/api/OverforingstatusTypeKonstanter';
-import { SesjonType } from '../../../models/api/SesjonType';
+import { SessionType } from '../../../models/api/SessionType';
 import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
-import { Rolle } from '../../../models/api/Rolle';
+import { Role } from '../../../models/api/Role';
 import { IndikasjonType } from '../../../models/api/IndikasjonType';
 import { AktivitetType } from '../../../models/api/AktivitetType';
 import { AktivitetTypeKonstanter } from '../../../models/api/AktivitetTypeKonstanter';
 import { ObservasjonService } from '../../../services/data/observasjon.service';
 import { ToastrService } from 'ngx-toastr';
 import {HandsmykkeObservasjon} from "../../../models/api/HandsmykkeObservasjon";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 
 @Component({
@@ -20,7 +20,7 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
 
   @Input() observasjoner: FireIndikasjonerObservasjon[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
@@ -32,7 +32,7 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
 
   kanLagres = true;
   overforingstatusTypeKonstanter = OverforingstatusTypeKonstanter;
-  SesjonType = SesjonType;
+  SessionType = SessionType;
 
   constructor(
     private observasjonService: ObservasjonService,
@@ -55,7 +55,7 @@ export class RedigerFireIndikasjonerObservasjonerComponent implements OnInit {
     this.fireIndikasjonerObservasjonSomEndres.sesjonId = this.sesjonId;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.fireIndikasjonerObservasjonSomEndres.rolle = rolle;
   }
 

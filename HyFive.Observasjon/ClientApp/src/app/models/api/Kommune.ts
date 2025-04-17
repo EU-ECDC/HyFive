@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface Kommune
+export interface Municipality
 {
 	id: number;
 	nummer: string;

@@ -100,7 +100,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    var lagRapportQuery = new GetFourIndicatorsReportForDepartment.Query()
         //    {
         //        DepartmentId = enAvdeling.Id, 
-        //        FromTime = DateTime.Now.AddDays(-1),
+        //        FromDate = DateTime.Now.AddDays(-1),
         //        ToTime = DateTime.Now.AddDays(1),
         //        Role = AuthorizedRole.Coordinator,
         //    };

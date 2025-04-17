@@ -55,7 +55,7 @@
     <ProjectReference Include="..\HyFive.Api.Common\HyFive.Api.Common.csproj" />
     <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
     <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Tjenester.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="HyFive.Observasjon.xml">

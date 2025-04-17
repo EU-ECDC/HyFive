@@ -3,8 +3,8 @@ import { BaseSesjonService } from './base-sesjon.service';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
 import { BeskyttelsesutstyrSesjon } from "src/app/models/api/BeskyttelsesutstyrSesjon";
 import { BeskyttelsesutstyrObservasjon } from "src/app/models/api/BeskyttelsesutstyrObservasjon";
-import { Rolle } from "src/app/models/api/Rolle";
-import { Avdeling } from "src/app/models/api/Avdeling";
+import { Role } from "src/app/models/api/Role";
+import { Department } from "src/app/models/api/Department";
 import { Uuid } from "src/app/utils/uuid";
 import { BeskyttelsesutstyrsettingType } from '../../models/api/BeskyttelsesutstyrsettingType';
 import { Kort } from '../../models/registrering/kort.model';
@@ -42,8 +42,8 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
   beskyttelsesutstyrOppdatert: EventEmitter<BeskyttelsesutstyrType[]> = new EventEmitter<BeskyttelsesutstyrType[]>()
 
   lagSesjonsvisning(
-    rollerSomObserveres: Rolle[],
-    avdeling: Avdeling,
+    rollerSomObserveres: Role[],
+    avdeling: Department,
     setting: BeskyttelsesutstyrsettingType): string {
     let id = Uuid.generateUUID();
 
@@ -81,7 +81,7 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
       0);
   }
 
-  private genererKort(roller: Rolle[], setting: BeskyttelsesutstyrsettingType): BeskyttelsesutstyrKort[] {
+  private genererKort(roller: Role[], setting: BeskyttelsesutstyrsettingType): BeskyttelsesutstyrKort[] {
     return roller.map((r, i) => {
       return { id: Uuid.generateUUID(), rolle: r, utstyr: setting.utstyrstyper, erAktivt: i == 0 } as BeskyttelsesutstyrKort
     });

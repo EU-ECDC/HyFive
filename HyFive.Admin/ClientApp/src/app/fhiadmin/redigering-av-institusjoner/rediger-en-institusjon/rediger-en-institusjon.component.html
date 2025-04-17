@@ -1,7 +1,7 @@
 <div class="container">
   <div class="ml-n3 mb-3">
     <app-navigasjonslenke [routerLink]="'/'+ UrlPaths.redigeringAvInstitusjoner"> Tilbake til oversikt</app-navigasjonslenke>
-    <h4 class="col-12">Institusjon: {{institusjon?.navn}}</h4>
+    <h4 class="col-12">Institution: {{institusjon?.navn}}</h4>
   </div>
 </div>
 
@@ -10,13 +10,13 @@
 <div class="container" *ngIf="institusjon">
   <ul ngbNav #nav="ngbNav" class="nav nav-tabs mt-4 fhi-nav-tabs fhi-main-menu__nav" [(activeId)]="active">
     <li [ngbNavItem]="1" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Institusjon</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Institution</a>
       <ng-template ngbNavContent>
         <div class="row border-bottom pb-2">
           <div class="col-12">
             <div class="row mb-3">
               <div class="col-md-3">
-                <label for="institusjonsnavn">Navn</label>
+                <label for="institusjonsnavn">Name</label>
                 <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Oslo Universitetssykehus HF" [(ngModel)]="institusjon.navn">
               </div>
               <div class="col-md-2">
@@ -32,7 +32,7 @@
                 </select>
               </div>
               <div class="col-md-2" *ngIf="visKommune">
-                <label for="kommune">Kommune</label>
+                <label for="kommune">Municipality</label>
                 <select class="form-select" id="kommune" [(ngModel)]="kommuneId" (ngModelChange)="kommuneEndret()">
                   <option value="0"></option>
                   <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.navn}}</option>

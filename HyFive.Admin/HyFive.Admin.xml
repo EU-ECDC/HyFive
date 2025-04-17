@@ -16,7 +16,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.SeedController.SeedInstitusjoner">
             <summary>
-            Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roller og Brukere.
+            Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roles og Brukere.
             Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.Dataaksess\Scripts\Institusjoner, avdelinger mm.sql".
             NB! Du må bruke ENTEN denne api-metoden ELLER scriptet
             </summary>
@@ -29,28 +29,28 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdeling(HyFive.Modeller.V1.Institusjon.OpprettAvdelingRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdeling(HyFive.Modeller.V1.Institution.OpprettAvdelingRequest)">
             <summary>
             Opprett avdeling med roller
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdeling(HyFive.Modeller.V1.Institusjon.Avdeling)">
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdeling(HyFive.Modeller.V1.Institution.Department)">
             <summary>
             Oppdater avdeling 
             </summary>
             <param name="avdeling"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdelingType(HyFive.Modeller.V1.Institusjon.AvdelingType)">
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OpprettAvdelingType(HyFive.Modeller.V1.Institution.AvdelingType)">
             <summary>
             Opprett avdelingstype
             </summary>
             <param name="avdelingType"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdelingType(HyFive.Modeller.V1.Institusjon.AvdelingType)">
+        <member name="M:HyFive.Admin.Controllers.V1.AvdelingController.OppdaterAvdelingType(HyFive.Modeller.V1.Institution.AvdelingType)">
             <summary>
             Oppdater avdelingstype
             </summary>
@@ -154,7 +154,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentInstitusjoner">
             <summary>
-            Hent alle tilgjengelige institusjoner <see cref="T:HyFive.Modeller.V1.Institusjon.InstitusjonRapport"/>
+            Hent alle tilgjengelige institusjoner <see cref="T:HyFive.Modeller.V1.Institution.InstitusjonRapport"/>
             </summary>
             <returns></returns>
         </member>
@@ -188,18 +188,18 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.HentInstitusjontyper">
             <summary>
-            Hent  <see cref="T:HyFive.Modeller.V1.Institusjon.InstitusjonType"/>r
+            Hent  <see cref="T:HyFive.Modeller.V1.Institution.InstitusjonType"/>r
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OpprettInstitusjon(HyFive.Modeller.V1.Institusjon.OpprettInstitusjonRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OpprettInstitusjon(HyFive.Modeller.V1.Institution.OpprettInstitusjonRequest)">
             <summary>
             Opprett institusjon med koordinator
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OppdaterInstitusjon(HyFive.Modeller.V1.Institusjon.Institusjon)">
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonController.OppdaterInstitusjon(HyFive.Modeller.V1.Institution.Institution)">
             <summary>
             Oppdaterer en institusjon. Ignorerer eventuelle avdelinger eller roller som sendes med.
             </summary>
@@ -228,13 +228,13 @@
             <param name="institusjonId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OpprettKlinikk(HyFive.Modeller.V1.Institusjon.Klinikk)">
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OpprettKlinikk(HyFive.Modeller.V1.Institution.Klinikk)">
             <summary>
             Opprett klinikk
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OppdaterKlinikk(HyFive.Modeller.V1.Institusjon.Klinikk)">
+        <member name="M:HyFive.Admin.Controllers.V1.KlinikkController.OppdaterKlinikk(HyFive.Modeller.V1.Institution.Klinikk)">
             <summary>
             Opprett klinikk
             </summary>
@@ -381,13 +381,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OppdaterInstitusjonstype(HyFive.Modeller.V1.Institusjon.InstitusjonType)">
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OppdaterInstitusjonstype(HyFive.Modeller.V1.Institution.InstitusjonType)">
             <summary>
             Oppdater indikasjonstype
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OpprettInstitusjonstype(HyFive.Modeller.V1.Institusjon.OpprettInstitusjonstypeRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.InstitusjonstyperController.OpprettInstitusjonstype(HyFive.Modeller.V1.Institution.OpprettInstitusjonstypeRequest)">
             <summary>
             Opprett institusjonstype
             </summary>
@@ -400,7 +400,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OppdaterPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institusjon.PredefinertKommentar)">
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OppdaterPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institution.PredefinertKommentar)">
             <summary>
             Oppdater predefinert kommentar
             </summary>
@@ -408,7 +408,7 @@
             <param name="institusjonId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OpprettPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institusjon.OpprettPredefinertKommentarRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinertKommentarController.OpprettPredefinertKommentar(System.Int32,HyFive.Modeller.V1.Institution.OpprettPredefinertKommentarRequest)">
             <summary>
             Opprett predefinert kommentar
             </summary>
@@ -416,19 +416,19 @@
             <param name="institusjonId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentInstitusjonerMedSesjoner(System.String,System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentInstitusjonerMedSesjoner(System.String,System.Nullable{HyFive.Modeller.V1.Sesjon.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
             <summary>
             Lag rapport for institusjon(er) <see cref="T:HyFive.Modeller.V1.Oversikt.InstitusjonOversiktRapport"/>
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilAvdeling(System.Int32,System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilAvdeling(System.Int32,System.Nullable{HyFive.Modeller.V1.Sesjon.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Tjenester.AuthorizedRole)">
             <summary>
             Hent alle sesjonene til en avdeling <see cref="T:HyFive.Modeller.V1.Oversikt.SesjonOversiktRapport"/>
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilInstitusjon(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Modeller.V1.Sesjon.SesjonType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservasjonController.HentSesjonerTilInstitusjon(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Modeller.V1.Sesjon.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Hent alle sesjonene til en institusjon <see cref="T:HyFive.Modeller.V1.Oversikt.SesjonOversiktRapport"/>
             </summary>
@@ -519,14 +519,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OpprettRegionType(HyFive.Modeller.V1.Institusjon.OpprettRegionRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OpprettRegionType(HyFive.Modeller.V1.Institution.OpprettRegionRequest)">
             <summary>
             Opprett Regiontype
             </summary>
             <param name="nyRegionsType"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OppdaterRegionType(HyFive.Modeller.V1.Institusjon.Region)">
+        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OppdaterRegionType(HyFive.Modeller.V1.Institution.Region)">
             <summary>
             Oppdater Regiontype
             </summary>

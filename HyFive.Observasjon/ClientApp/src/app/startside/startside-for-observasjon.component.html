@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-      <h2 class="h5">Institusjon</h2>
+      <h2 class="h5">Institution</h2>
       <div class="form-group">
         <select
           class="form-select"
@@ -44,7 +44,7 @@
     </div>
 
     <div class="col-md-6" *ngIf="institusjon">
-      <h2 class="h5">Avdeling</h2>
+      <h2 class="h5">Department</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
           class="hh-avdeling-dropdown"
@@ -74,12 +74,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SesjonType.FireIndikasjoner" 
+                [id]="SessionType.FireIndikasjoner" 
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SesjonType.FireIndikasjoner"
-                [value]="SesjonType.FireIndikasjoner"
+                [checked]="valgtSesjonType == SessionType.FireIndikasjoner"
+                [value]="SessionType.FireIndikasjoner"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SesjonType.FireIndikasjoner">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FireIndikasjoner">
                 <span class="fhi-form-check-tile__label-text">4 indikasjoner</span>
               </label>
             </div>
@@ -91,12 +91,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SesjonType.Handsmykker"
+                [id]="SessionType.Handsmykker"
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SesjonType.Handsmykker"
-                [value]="SesjonType.Handsmykker"
+                [checked]="valgtSesjonType == SessionType.Handsmykker"
+                [value]="SessionType.Handsmykker"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SesjonType.Handsmykker">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Handsmykker">
                 <span class="fhi-form-check-tile__label-text">Smykker, klokker og negler</span>
               </label>
             </div>
@@ -108,12 +108,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SesjonType.Hansker"
+                [id]="SessionType.Hansker"
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SesjonType.Hansker"
-                [value]="SesjonType.Hansker"
+                [checked]="valgtSesjonType == SessionType.Hansker"
+                [value]="SessionType.Hansker"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SesjonType.Hansker">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Hansker">
                 <span class="fhi-form-check-tile__label-text">Hansker</span>
               </label>
             </div>
@@ -125,12 +125,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SesjonType.Beskyttelsesutstyr"
+                [id]="SessionType.Beskyttelsesutstyr"
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SesjonType.Beskyttelsesutstyr"
-                [value]="SesjonType.Beskyttelsesutstyr"
+                [checked]="valgtSesjonType == SessionType.Beskyttelsesutstyr"
+                [value]="SessionType.Beskyttelsesutstyr"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SesjonType.Beskyttelsesutstyr">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Beskyttelsesutstyr">
                 <span class="fhi-form-check-tile__label-text">Verneutstyr</span>
               </label>
             </div>
@@ -141,14 +141,14 @@
 
     <ng-container
       *ngIf="
-        valgtSesjonType === SesjonType.InnUt ||
-        valgtSesjonType === SesjonType.FireIndikasjoner ||
-        valgtSesjonType === SesjonType.Hansker
+        valgtSesjonType === SessionType.InnUt ||
+        valgtSesjonType === SessionType.FireIndikasjoner ||
+        valgtSesjonType === SessionType.Hansker
       "
     >
       <div class="d-flex mt-n2 mb-5">
         <div class="d-flex mx-auto">
-          <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SesjonType.Hansker">
+          <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SessionType.Hansker">
             <h2 class="h5 text-center">Tidtaking</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !tidtaking ? 'bold' : '' }">Av</span>
@@ -161,7 +161,7 @@
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ valgtSesjonType == SesjonType.FireIndikasjoner ? "Hanskebruk" : "Handhygiene" }}</h2>
+            <h2 class="h5 text-center">{{ valgtSesjonType == SessionType.FireIndikasjoner ? "Hanskebruk" : "Handhygiene" }}</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !hanskebruk ? 'bold' : '' }">Av</span>
               <label class="hh-switch">

@@ -1,7 +1,7 @@
 ﻿using HyFive.Models.V1.Institution;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet()]
         public async Task<IEnumerable<Institution>> HentObservatorensInstitusjoner()
         {
-            var result = await _mediator.Send(new HentInstitusjonerForObservator.Query() { HPRNummer = _brukerservice.GetHprNumber(), Pseudonym = _brukerservice.GetPseudonym()});
+            var result = await _mediator.Send(new GetInstitutionsForObserver.Query() { HPRNumber = _brukerservice.GetHprNumber(), Pseudonym = _brukerservice.GetPseudonym()});
             return result;
         }
 
@@ -44,10 +44,10 @@ namespace HyFive.Observasjon.Controllers.V1
         {
             if (_brukerservice.IsObserverForInstitution(institusjonid))
             {
-                var result = await _mediator.Send(new HentPredefinerteKommentarer.Query
+                var result = await _mediator.Send(new GetPredefinedComments.Query
                 {
-                    InstitusjonId = institusjonid,
-                    Sesjontype = sesjontype
+                    InstitutionId = institusjonid,
+                    SessionType = sesjontype
                 });
                 return Ok(result);
             }

@@ -1,6 +1,6 @@
 ﻿using HyFive.Modeller.V1.Overview;
 using HyFive.Modeller.V1.Session;
-using HyFive.Services.Institusjon;
+using HyFive.Services.Institution;
 using HyFive.Services.Sesjon;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +42,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("institusjonerMedSesjoner")]
         public async Task<ActionResult<IEnumerable<InstitutionOverviewReport>>> HentInstitusjonerMedSesjoner(
             [FromQuery] string institusjonid,
-            [FromQuery] SesjonType? sesjontype,
+            [FromQuery] SessionType? sesjontype,
             [FromQuery] DateTime? fradato,
             [FromQuery] DateTime? tildato,
             [FromQuery] AuthorizedRole rolle)
@@ -70,13 +70,13 @@ namespace HyFive.Admin.Controllers.V1
                 return Forbid();
             }
 
-            return await _mediator.Send(new HentInstitusjonerMedSesjoner.Query
+            return await _mediator.Send(new GetInstitutionsWithSessions.Query
             {
-                Sesjontype = sesjontype,
-                FraDato = fradato,
-                TilDato = tildato,
-                InstitusjonId = institusjonidSomInt,
-                OverforingsstatusType = overføringsstatusType
+                SessionType = sesjontype,
+                FromDate = fradato,
+                ToDate = tildato,
+                InstitutionId = institusjonidSomInt,
+                TransferStatusType = overføringsstatusType
             });
         }
 
@@ -88,7 +88,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("avdeling")]
         public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> HentSesjonerTilAvdeling(
             [FromQuery] int avdelingsid,
-            [FromQuery] SesjonType? sesjontype,
+            [FromQuery] SessionType? sesjontype,
             [FromQuery] DateTime? fradato,
             [FromQuery] DateTime? tildato,
             [FromQuery] AuthorizedRole rolle)
@@ -136,7 +136,7 @@ namespace HyFive.Admin.Controllers.V1
         public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> HentSesjonerTilInstitusjon(
             [FromQuery] int institusjonid,
             [FromQuery] int? observatorid,
-            [FromQuery] SesjonType? sesjontype,
+            [FromQuery] SessionType? sesjontype,
             [FromQuery] DateTime? fradato,
             [FromQuery] DateTime? tildato)
         {
@@ -144,7 +144,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 var resultat = await _mediator.Send(new HentSesjonerForInstitusjon.Query()
                 {
-                    InstitusjonId = institusjonid,
+                    InstitutionId = institusjonid,
                     ObservatorId = observatorid,
                     Sesjontype = sesjontype,
                     Fra = fradato,

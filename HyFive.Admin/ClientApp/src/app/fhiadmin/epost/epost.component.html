@@ -5,7 +5,7 @@
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
-                <label for="institusjon">Institusjon</label>
+                <label for="institusjon">Institution</label>
                 <select class="form-select" id="institusjon" [(ngModel)]="institusjonId" (ngModelChange)="oppdaterBrukerListe()">
                     <option value="0"></option>
                     <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.navn}}</option>
@@ -27,8 +27,8 @@
             <table class="table" sortable-table (sorted)="sorter($event)" >
                 <thead>
                     <tr>
-                        <th sortable-column="Fornavn"></th>
-                        <th sortable-column="Etternavn"></th>
+                        <th sortable-column="FirstName"></th>
+                        <th sortable-column="LastName"></th>
                         <th scope="col">Epost</th>
                     </tr>
                 </thead>

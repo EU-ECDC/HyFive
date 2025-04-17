@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Rolle } from 'src/app/models/api/Rolle';
+import { Role } from 'src/app/models/api/Role';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../konstanter/queryparameters';
@@ -9,7 +9,7 @@ import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { Kort } from '../../models/registrering/kort.model';
 import { Uuid } from '../../utils/uuid';
 import { HanskeSesjonsvisning } from '../../models/registrering/hansker-sesjonsvisning.model';
-import { HanskeSesjon } from '../../models/api/HanskeSesjon';
+import { GloveSession } from '../../models/api/GloveSession';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
 import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
 import { ToastrService } from 'ngx-toastr';
@@ -23,8 +23,8 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: HanskeSesjonsvisning;
-  sesjonsdata: HanskeSesjon = null;
-  roller: Rolle[];
+  sesjonsdata: GloveSession = null;
+  roller: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
 
@@ -79,7 +79,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Rolle) {
+  leggTilNyttKort(rolle: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
     this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);

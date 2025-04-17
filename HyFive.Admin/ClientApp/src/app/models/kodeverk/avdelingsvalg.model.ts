@@ -1,7 +1,7 @@
-import {Avdeling} from '../api/Avdeling';
+import {Department} from '../api/Department';
 
 export interface Avdelingsvalg {
-    avdeling: Avdeling;
+    avdeling: Department;
     erValgt: boolean;
     erAlleredePaKlinikk: boolean;
 }

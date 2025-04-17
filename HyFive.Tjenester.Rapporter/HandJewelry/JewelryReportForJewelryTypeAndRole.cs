@@ -8,7 +8,7 @@ namespace HyFive.Services.Reports.HandJewelry
     {
         public string Department { get; set; }
         public string Institution { get; set; }
-        public DateTime FromTime { get; set; }
+        public DateTime FromDate { get; set; }
         public DateTime ToTime { get; set; }
         public ReportForUnit ReportForDepartment { get; set; }
         public ReportForUnit ReportForInstitution { get; set; }

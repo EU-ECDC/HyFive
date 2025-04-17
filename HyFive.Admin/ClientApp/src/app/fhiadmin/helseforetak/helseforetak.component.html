@@ -2,7 +2,7 @@
   <div class="row" *ngIf="!laster">
     <div class="col-4">
       <h5>Helseforetak</h5>
-      <input type="text" class="form-control" [(ngModel)]="nyHelseforetak.navn" name="navn" placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]="nyHelseforetak.navn" name="navn" placeholder="Name">
     </div>
     <div class="col-4">
       <h5>Regionalt helseforetak</h5>
@@ -22,7 +22,7 @@
           <table class="table" sortable-table (sorted)="sorter($event)" >
             <thead>
               <tr>
-                <th sortable-column="Navn"></th>
+                <th sortable-column="Name"></th>
                 <th sortable-column="Regionalt helseforetak"></th>
                 <th class="text-end" scope="col">Handling</th>
               </tr>
@@ -43,7 +43,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="helseforetakSomEndres?.id == helseforetak.id">
-                  <td class="col-4"><input type="text" class="form-control" [(ngModel)]="helseforetakSomEndres.navn" name="navn" placeholder="Navn"></td>
+                  <td class="col-4"><input type="text" class="form-control" [(ngModel)]="helseforetakSomEndres.navn" name="navn" placeholder="Name"></td>
                   <td class="col-4">
                     <select class="form-select" [(ngModel)]="helseforetakSomEndres.regionaltHelseforetakId">
                       <option value="0">Ikke valgt</option>

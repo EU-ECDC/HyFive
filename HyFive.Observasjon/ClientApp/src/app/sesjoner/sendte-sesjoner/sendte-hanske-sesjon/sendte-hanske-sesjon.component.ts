@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
 import { HandsmykkeType } from 'src/app/models/api/HandsmykkeType';
-import { HanskeSesjon } from '../../../models/api/HanskeSesjon';
+import { GloveSession } from '../../../models/api/GloveSession';
 import { HanskeObservasjon } from '../../../models/api/HanskeObservasjon';
 import {ToastrService} from 'ngx-toastr';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
@@ -16,7 +16,7 @@ import {Dialogtekster} from '../../../konstanter/dialogtekster';
 })
 export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: HanskeSesjon;
+  sesjon: GloveSession;
   handsmykkeTyper: HandsmykkeType[] = [];
   erOnline: boolean = true;
   faFileExcel = faFileExcel

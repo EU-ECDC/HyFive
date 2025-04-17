@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { AvdelingType } from "../../models/api/AvdelingType";
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AvdelingService } from 'src/app/services/data/avdeling.service';
-import { Rolle } from 'src/app/models/api/Rolle';
+import { Role } from 'src/app/models/api/Role';
 import { RolleService } from 'src/app/services/data/rolle.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
@@ -19,13 +19,13 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   
   @Input() institusjonId: number;
 
-  avdelinger: Avdeling[] = [];
-  filtrerteAvdelinger: Avdeling[] = [];
+  avdelinger: Department[] = [];
+  filtrerteAvdelinger: Department[] = [];
   avdelingId = 0;
-  avdelingSomEndres: Avdeling;
+  avdelingSomEndres: Department;
   avdelingstyper: AvdelingType[];
-  roller: Rolle[];
-  valgteRoller: Rolle[] = [];
+  roller: Role[];
+  valgteRoller: Role[] = [];
   kanRedigere: boolean;
   institusjonNavn: string;
   sokeord: string;
@@ -65,7 +65,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
   private kanBrukerRedigere() {
     let rolle = this.authorizationService.hentValgtRolle();
-    if(rolle === AuthorizedRole.Koordinator || rolle === AuthorizedRole.Administrator)
+    if(rolle === AuthorizedRole.Coordinator || rolle === AuthorizedRole.Administrator)
       return true;
     return false;
   }
@@ -108,7 +108,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     return (this.institusjonId > 0 && this.avdelingId == 0 && this.kanRedigere);
   }
 
-  hentRollebeskrivelser(avdeling: Avdeling) {
+  hentRollebeskrivelser(avdeling: Department) {
     return avdeling.roller?.map(r => r.navn).join(', ');
   }
 
@@ -121,7 +121,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
       this.filtrerteAvdelinger = this.avdelinger;
   }
 
-  setAvdelingSomEndres(avdeling: Avdeling){
+  setAvdelingSomEndres(avdeling: Department){
     if(!this.kanRedigere || this.avdelingSomEndres?.id === avdeling.id) return;
 
     this.nullstillValgteRoller();
@@ -135,13 +135,13 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     this.valgteRoller.splice(0, this.valgteRoller.length);
   }
 
-  oppdaterAvdeling(avdeling: Avdeling): void {
+  oppdaterAvdeling(avdeling: Department): void {
     avdeling.roller = this.valgteRoller;
     this.avdelingService.oppdaterAvdeling(avdeling).subscribe(
       () => {
         this.avdelingSomEndres = null;
         this.hentAvdelinger();
-        this.toastrService.success("Avdeling oppdatert");
+        this.toastrService.success("Department oppdatert");
       },
       (error) => {
         this.toastrService.error(error.error.message, 'Oppdatering av avdeling feilet', { disableTimeOut: true});
@@ -149,7 +149,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     );
   }
 
-  slettAvdeling(avdeling: Avdeling): void {
+  slettAvdeling(avdeling: Department): void {
     this.avdelingService.harOverfortSesjonTilFHI(avdeling.id).subscribe(
       (resultat) => {
         if (resultat) 
@@ -161,7 +161,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
           this.avdelingService.slettAvdeling(avdeling.id).subscribe(
             () => {
               this.hentAvdelinger();
-              this.toastrService.success("Avdeling slettet");
+              this.toastrService.success("Department slettet");
             },
             (error) => {
               this.toastrService.error(error.error.message, 'Sletting av avdeling feilet', { disableTimeOut: true});
@@ -188,13 +188,13 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Avdeling) => any;
+    let propertyOf: (x: Department) => any;
     switch ($event.columnName) {
-      case "Navn":
-        propertyOf = (x: Avdeling) => x.navn;
+      case "Name":
+        propertyOf = (x: Department) => x.navn;
         break;
       case "Avdelingstype":
-        propertyOf = (x: Avdeling) => x.avdelingType.navn;
+        propertyOf = (x: Department) => x.avdelingType.navn;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -202,7 +202,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Avdeling, b: Avdeling) => {
+    const sortFunc = (a: Department, b: Department) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

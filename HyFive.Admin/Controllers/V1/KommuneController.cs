@@ -1,5 +1,5 @@
 ﻿using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Kommune;
+using HyFive.Services.Municipality;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<ActionResult<List<Modeller.V1.Institution.Comment>>> HentKommuner()
         {
-            var result = await _mediator.Send(new HentKommuner.Query());
+            var result = await _mediator.Send(new GetMunicipalities.Query());
 
             return Ok(result);
         }

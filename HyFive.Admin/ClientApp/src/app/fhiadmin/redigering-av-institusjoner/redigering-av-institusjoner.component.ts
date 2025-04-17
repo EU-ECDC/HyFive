@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InstitusjonService } from '../../services/data/institusjon.service';
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
@@ -74,13 +74,13 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       });
   }
 
-  oppdaterInstitusjon(institusjon: Institusjon) {
+  oppdaterInstitusjon(institusjon: Institution) {
     this.institusjoner[this.institusjoner.map(i => i.id).indexOf(institusjon.id)] = institusjon;
   }
 
   slettInstitusjon(institusjonId: number) {
     this.hentInstitusjoner();
-    this.toastrService.success('Slettet institusjon med id: ' + institusjonId, 'Institusjon slettet');
+    this.toastrService.success('Slettet institusjon med id: ' + institusjonId, 'Institution slettet');
     this.navigerTilInstitusjon(0);
   }
 
@@ -105,13 +105,13 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   sorter($event: IColumnSortedEvent) {
-    let propertyOf: (x: Institusjon) => any;
+    let propertyOf: (x: Institution) => any;
     switch ($event.columnName) {
-      case "Navn":
-        propertyOf = (x: Institusjon) => x.navn;
+      case "Name":
+        propertyOf = (x: Institution) => x.navn;
         break;
         case "Institusjonstype":
-          propertyOf = (x: Institusjon) => x.institusjontype.navn;
+          propertyOf = (x: Institution) => x.institusjontype.navn;
         break;
       default:
         throw new Error("Ugyldig sorteringskolonne");
@@ -119,7 +119,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Institusjon, b: Institusjon) => {
+    const sortFunc = (a: Institution, b: Institution) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

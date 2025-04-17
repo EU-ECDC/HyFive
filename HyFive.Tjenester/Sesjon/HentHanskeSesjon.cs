@@ -38,14 +38,14 @@ namespace HyFive.Services.Sesjon
                 var sesjon = await _context.GloveSession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(r => r.Institusjon)
-                    .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
+                    .Include(s => s.Observer).ThenInclude(r => r.Institution)
+                    .Include(s => s.Observasjoner).ThenInclude(o => o.Role)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeMedIndikasjonTyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HanskeUtenIndikasjonTyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
                     .FirstOrDefaultAsync(s => s.Id == request.SesjonId, cancellationToken);
 
-                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observator))
+                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observer))
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med HPR-nummer {request.HPRNummer}");
 

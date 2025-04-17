@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
 
 @Injectable({
@@ -13,18 +13,18 @@ export class InstitusjonService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getInstitusjon(id: number): Observable<Institusjon> {
-    return this.getInstitusjoner().pipe(map((p: Institusjon[]) => p.find(x => x.id === id)));
+  getInstitusjon(id: number): Observable<Institution> {
+    return this.getInstitusjoner().pipe(map((p: Institution[]) => p.find(x => x.id === id)));
   }
 
-  getValgtInstitusjon(): Observable<Institusjon> {
+  getValgtInstitusjon(): Observable<Institution> {
     let valgtInstitusjonId = this.hentValgtInstitusjonId();
     return this.getInstitusjon(valgtInstitusjonId);
   }
 
-  getInstitusjoner(): Observable<Institusjon[]> {
+  getInstitusjoner(): Observable<Institution[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjon/`;
-    return this.http.get<Institusjon[]>(url);
+    return this.http.get<Institution[]>(url);
   }
 
   hentValgtInstitusjonId(): number | null {

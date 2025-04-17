@@ -15,6 +15,6 @@ namespace HyFive.Models.V1.Institution
         public Region Region { get; set; }
         public Comment Comment { get; set; }
         public bool HasObservations { get; set; }
-        public HealthcareOrganization HealthcareProvider { get; set; }
+        public HealthcareOrganization HealthcareOrganization { get; set; }
     }
 }

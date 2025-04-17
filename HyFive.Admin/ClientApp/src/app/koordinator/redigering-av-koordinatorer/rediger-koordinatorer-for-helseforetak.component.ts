@@ -109,7 +109,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.helseforetakService.opprettKoordinator(this.institusjon.helseforetak.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
-          this.toastrService.success('Koordinator(er) og observatør(er) opprettet');
+          this.toastrService.success('Coordinator(er) og observatør(er) opprettet');
           this.nyKoordinator = null;
           this.lastKoordinatorer();
         }
@@ -155,7 +155,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.helseforetakService.oppdaterKoordinator(this.institusjon.helseforetak.id, koordinator).subscribe(
       (status) => {
         if (status.suksess) {
-          this.toastrService.success('Koordinator oppdatert');
+          this.toastrService.success('Coordinator oppdatert');
 
           if (erKoordinatorSomEndresLikInnloggetBruker) {
             if (koordinator.erDeaktivert)
@@ -243,10 +243,10 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   sorter($event: IColumnSortedEvent) {
     let propertyOf: (x: KoordinatorForHelseforetak) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "FirstName":
         propertyOf = (x: KoordinatorForHelseforetak) => x.fornavn;
         break;
-      case "Etternavn":
+      case "LastName":
         propertyOf = (x: KoordinatorForHelseforetak) => x.etternavn;
         break;
       default:

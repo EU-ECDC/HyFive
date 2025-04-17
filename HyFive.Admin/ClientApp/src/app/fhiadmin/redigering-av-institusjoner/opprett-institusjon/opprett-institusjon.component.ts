@@ -3,11 +3,11 @@ import { InstitusjonType } from '../../../models/api/InstitusjonType';
 import { OpprettInstitusjonRequest } from '../../../models/api/OpprettInstitusjonRequest';
 import { InstitusjonService } from '../../../services/data/institusjon.service';
 import { ToastrService } from 'ngx-toastr';
-import { Institusjon } from '../../../models/api/Institusjon';
+import { Institution } from '../../../models/api/Institution';
 import { Helseforetak } from 'src/app/models/api/Helseforetak';
 import { HelseforetakService } from 'src/app/services/data/helseforetak.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
-import { Kommune } from 'src/app/models/api/Kommune';
+import { Municipality } from 'src/app/models/api/Municipality';
 import { KommuneService } from 'src/app/services/data/kommune.service';
 
 @Component({
@@ -18,12 +18,12 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   institusjonstyper: InstitusjonType[] = [];
   nyInstitusjon: OpprettInstitusjonRequest = null;
-  kommuner: Kommune[] = [];
+  kommuner: Municipality[] = [];
   listAvHelseforetak: Helseforetak[] = [];
   visHelseforetak: boolean = false;
   visKommune: boolean = false;
 
-  @Output() institusjonOpprettetEvent: EventEmitter<Institusjon> = new EventEmitter<Institusjon>();
+  @Output() institusjonOpprettetEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   constructor(private institusjonService: InstitusjonService, private toastrService: ToastrService,
               private kommuneService: KommuneService, 
@@ -58,7 +58,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   opprettInstitusjon() {
     this.institusjonService.opprettInstitusjon(this.nyInstitusjon).subscribe((resultat) => {
-        this.toastrService.success('Institusjon opprettet', `Institusjon med ID: ${resultat.id} opprettet`);
+        this.toastrService.success('Institution opprettet', `Institution med ID: ${resultat.id} opprettet`);
         this.institusjonOpprettetEvent.emit(resultat);
       },
         (err) => this.toastrService.error(`En feil skjedde under opprettelse av institusjon. Feilmelding fra server: ${err}`, 'Feil under opprettelse av institusjon', { disableTimeOut: true }),

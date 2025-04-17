@@ -33,7 +33,7 @@ export class RedigeringAvKodeverkComponent implements OnInit {
     { navn: 'Indikasjonstyper', erAktiv: false, component: RedigeringAvIndikasjonstyperComponent },
     { navn: 'Institusjonstyper', erAktiv: false, component: RedigeringAvInstitusjonstyperComponent },
     { navn: 'Region', erAktiv: false, component: RedigeringAvRegionComponent },
-    { navn: 'Roller', erAktiv: false, component: RedigeringAvRollerComponent }
+    { navn: 'Roles', erAktiv: false, component: RedigeringAvRollerComponent }
   ] as KodeverkSidemenyModel[];
 
   kodeverkValgt = false;

@@ -22,7 +22,7 @@ namespace HyFive.Services.Tests.Hanske
         private Guid observasjonId = Guid.NewGuid();
         private readonly string hprnummer = "9383840";
 
-        #region HanskeSesjon
+        #region GloveSession
 
         //[Test]
         //public async Task LagreSesjonTest()
@@ -81,7 +81,7 @@ namespace HyFive.Services.Tests.Hanske
         //    });
         //}
 
-        private async Task<HanskeSesjon> HentSesjon(Guid sesjonGuidFraRequestGuid)
+        private async Task<GloveSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
             var hentHentHanskeSesjonHandler = new HentHanskeSesjon.Handler(DatabaseContext, Mapper, BrukerService);
             var handsmykkeSesjon = await hentHentHanskeSesjonHandler.Handle(new HentHanskeSesjon.Query()
@@ -93,25 +93,25 @@ namespace HyFive.Services.Tests.Hanske
             return handsmykkeSesjon;
         }
 
-        private async Task<Guid> OpprettSesjonMedIndikasjonTyper(Domain.Place.Avdeling avdeling = null)
+        private async Task<Guid> OpprettSesjonMedIndikasjonTyper(Domain.Place.Department avdeling = null)
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var lagreHanskeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
             var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institusjon).Include(x => x.Roller).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitusjonId);
+                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
             var hanskeMedIndikasjonTyper = DatabaseContext.IndicatedGloveType.ToList();
             var handhygieneEtterHanskebrukTyper = DatabaseContext.PostGloveHandHygiene.ToList();
 
             var hanskeSesjonGuid = await lagreHanskeSesjonHandler.Handle(new SaveSession.Command()
             {
-                Session = new HanskeSesjon()
+                Session = new GloveSession()
                 {
                     Id = sesjonId.ToString(),
-                    Avdeling = avdelingModell,
+                    Department = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
-                    InstitusjonId = institusjon.Id,
+                    InstitutionId = institusjon.Id,
                     Observasjoner = new List<GloveObservation>()
                     {
                         new GloveObservation()
@@ -163,12 +163,12 @@ namespace HyFive.Services.Tests.Hanske
 
             var hanskeSesjonGuid = await lagreHanskeSesjonHandler.Handle(new SaveSession.Command()
             {
-                Session = new HanskeSesjon()
+                Session = new GloveSession()
                 {
                     Id = sesjonId.ToString(),
-                    Avdeling = avdelingModell,
+                    Department = avdelingModell,
                     Institusjonsnavn = institusjon.Name,
-                    InstitusjonId = institusjon.Id,
+                    InstitutionId = institusjon.Id,
                     Observasjoner = new List<GloveObservation>()
                     {
                         new GloveObservation()
@@ -176,7 +176,7 @@ namespace HyFive.Services.Tests.Hanske
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
                             RegistrationTime = DateTime.Now,
-                            Role = avdelingModell.Roller.First(),
+                            Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             GeneralPurposeGloveTypes = new List<GeneralPurposeGloveType>()
                             {

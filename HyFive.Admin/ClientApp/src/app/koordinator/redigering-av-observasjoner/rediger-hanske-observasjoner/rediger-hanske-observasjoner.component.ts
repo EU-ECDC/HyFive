@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
-import {Avdeling} from "../../../models/api/Avdeling";
+import {Department} from "../../../models/api/Department";
 import {ObservasjonService} from "../../../services/data/observasjon.service";
 import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
@@ -9,7 +9,7 @@ import {HanskeUtenIndikasjonTypeService} from "../../../services/data/hanskeuten
 import {HandhygieneEtterHanskebrukTypeService} from "../../../services/data/handhygieneetterhanskebruktype.service";
 import {HanskeMedIndikasjonType} from "../../../models/api/HanskeMedIndikasjonType";
 import {HanskeUtenIndikasjonType} from "../../../models/api/HanskeUtenIndikasjonType";
-import {Rolle} from "../../../models/api/Rolle";
+import {Role} from "../../../models/api/Role";
 import {HanskeObservasjon} from "../../../models/api/HanskeObservasjon";
 import {HandhygieneEtterHanskebrukType} from "../../../models/api/HandhygieneEtterHanskebrukType";
 
@@ -21,7 +21,7 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Input() kanRedigere = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
@@ -153,7 +153,7 @@ export class RedigerHanskeObservasjonerComponent implements OnInit{
     this.valgtHygieneEtterHanskebrukKode = null;
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.hanskeObservasjonSomEndres.rolle = rolle;
   }
 

@@ -6,7 +6,7 @@ using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.ProtectiveEquipment;
-using HyFive.Services.Rapport.Observasjoner;
+using HyFive.Services.Rapport.Observations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,7 +53,7 @@ namespace HyFive.Observasjon.Controllers.V1
                 return BadRequest("Sesjonen må ha minst én observasjon");
             }
 
-            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitusjonId))
+            if (_brukerservice.ErObservatorForInstitusjon(sesjon.Department.InstitutionId))
             {
                 var resultat = await _mediator.Send(new SaveSession.Command()
                 {
@@ -74,12 +74,12 @@ namespace HyFive.Observasjon.Controllers.V1
             var observatorIdForInstitusjon = _brukerservice.GetObserverIdForInstitution(institusjonId);
             if (observatorIdForInstitusjon > 0)
             {
-                var query = new HentBeskyttelsesutstyrObservasjoner.Query()
+                var query = new GetProtectiveEquipmentObservations.Query()
                 {
-                    ObservatorId = observatorIdForInstitusjon,
-                    InstitusjonId = institusjonId,
-                    SesjonId = sesjonId,
-                    Rolle = AuthorizedRole.Coordinator
+                    ObserverId = observatorIdForInstitusjon,
+                    InstitutionId = institusjonId,
+                    SessionId = sesjonId,
+                    Role = AuthorizedRole.Coordinator
                 };
                 var observasjoner = await _mediator.Send(query);
                 return observasjoner;

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { Rolle } from "src/app/models/api/Rolle";
+import { Role } from "src/app/models/api/Role";
 import { Kort } from "src/app/models/registrering/kort.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
@@ -16,7 +16,7 @@ import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from "../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
 import { Dialogtekster } from '../../konstanter/dialogtekster';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import {BeskyttelsesutstyrSesjonService} from "../../services/data/beskyttelsesutstyr-sesjon.service";
 
@@ -34,9 +34,9 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
   sesjonsdata: BeskyttelsesutstyrSesjon = null;
-  roller: Rolle[];
+  roller: Role[];
   beskyttelsesutstyrValg: Beskyttelsesutstyr[] = [];
-  beskyttelsesutstyrsesjontype: number = SesjonType.Beskyttelsesutstyr;
+  beskyttelsesutstyrsesjontype: number = SessionType.Beskyttelsesutstyr;
   institusjonid: number;
 
   faEraser = faEraser;
@@ -49,7 +49,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
 
   @Input("kort") kort: BeskyttelsesutstyrKort;
-  @Input("rollevalg") rollevalg: Rolle[];
+  @Input("rollevalg") rollevalg: Role[];
   @Input("sesjonsvisning") sesjonsvisning: BeskyttelsesutstyrSesjonsvisning;
 
   @Output() observasjonRegistrert = new EventEmitter();
@@ -153,7 +153,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     });
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.kort.rolle = rolle;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;

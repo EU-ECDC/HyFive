@@ -2,14 +2,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { SesjonType } from './SesjonType';
+import { SessionType } from './SessionType';
 
 export interface SesjonRapport
 {
 	id: string;
 	avdelingsnavn: string;
 	starttidspunkt: any;
-	type: SesjonType;
+	type: SessionType;
 	institusjonsnavn: string;
 	erValgt?: boolean;
 }

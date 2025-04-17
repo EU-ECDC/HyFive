@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Rolle } from './Rolle';
+import { Role } from './Role';
 import { IndikasjonType } from './IndikasjonType';
 import { Aktivitet } from './Aktivitet';
 import { HandsmykkeType } from './HandsmykkeType';
@@ -13,7 +13,7 @@ import { BeskyttelsesutstyrObservasjon } from './BeskyttelsesutstyrObservasjon';
 export interface ObservasjonOversiktRapport
 {
 	id: any;
-	rolle: Rolle;
+	rolle: Role;
 	kommentar: string;
 	registrerttidspunkt: any;
 	indikasjonstyper: IndikasjonType[];

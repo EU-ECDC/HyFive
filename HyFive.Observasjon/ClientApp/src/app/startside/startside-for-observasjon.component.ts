@@ -2,14 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { FireIndikasjonerSesjonService } from "../services/data/fire-indikasjoner-sesjon.service";
 import { InstitusjonService } from "../services/data/institusjon.service";
-import { Institusjon } from "../models/api/Institusjon";
+import { Institution } from "../models/api/Institution";
 import { Rollevalg } from "../models/registrering/rollevalg.model";
 import { Urls } from "../konstanter/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Farger } from "../utils/farger";
 import { HandsmykkeSesjonService } from "../services/data/handsmykke-sesjon.service";
-import { Avdeling } from "../models/api/Avdeling";
-import { SesjonType } from "../models/api/SesjonType";
+import { Department } from "../models/api/Department";
+import { SessionType } from "../models/api/SessionType";
 import { HanskeSesjonService } from "../services/data/hansker-sesjon.service";
 import { AutoriseringService } from "../services/data/autorisering.service";
 import { InnloggetBruker } from "../models/api/InnloggetBruker";
@@ -19,8 +19,8 @@ import { InnloggetBruker } from "../models/api/InnloggetBruker";
   templateUrl: "./startside-for-observasjon.component.html",
 })
 export class StartsideForObservasjonComponent implements OnInit {
-  SesjonType = SesjonType;
-  valgtSesjonType: SesjonType;
+  SessionType = SessionType;
+  valgtSesjonType: SessionType;
   tidtaking: boolean;
   hanskebruk: boolean;
   rollevalg: Rollevalg[];
@@ -29,9 +29,9 @@ export class StartsideForObservasjonComponent implements OnInit {
   visStartside: boolean;
   visBeskyttelsesutstyr: boolean;
   bruker: InnloggetBruker;
-  institusjonAlternativer: Institusjon[];
+  institusjonAlternativer: Institution[];
   valgtInstitusjonAlternativId: number;
-  institusjon: Institusjon;
+  institusjon: Institution;
 
   faCircle = faCircle;
   faUserNurse = faUserNurse;
@@ -56,7 +56,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   resetState() {
-    this.valgtSesjonType = SesjonType.IkkeValgt;
+    this.valgtSesjonType = SessionType.IkkeValgt;
     this.tidtaking = false;
     this.hanskebruk = false;
     this.rollevalg = [];
@@ -68,9 +68,9 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.institusjon = null;
     this.institusjonService
       .getInstitusjoner()
-      .subscribe((institusjoner: Institusjon[]) => {
+      .subscribe((institusjoner: Institution[]) => {
         this.institusjonAlternativer = institusjoner;
-        let enesteInstitusjon: Institusjon = null;
+        let enesteInstitusjon: Institution = null;
         if (this.institusjonAlternativer?.length == 1) {
           enesteInstitusjon = this.institusjonAlternativer[0];
         }
@@ -109,26 +109,26 @@ export class StartsideForObservasjonComponent implements OnInit {
     }
 
     switch (this.valgtSesjonType) {
-      case SesjonType.IkkeValgt:
+      case SessionType.IkkeValgt:
         alert("Velg sesjonstypen du ønsker å starte");
         break;
-      case SesjonType.FireIndikasjoner:
+      case SessionType.FireIndikasjoner:
         this.startFireIndikasjonerSesjon();
         break;
-      case SesjonType.Handsmykker:
+      case SessionType.Handsmykker:
         this.startHandsmykkeSesjon();
         break;
-      case SesjonType.Hansker:
+      case SessionType.Hansker:
         this.startHanskeSesjon();
         break;
-      case SesjonType.Beskyttelsesutstyr:
+      case SessionType.Beskyttelsesutstyr:
         this.visStartside = false;
         this.visBeskyttelsesutstyr = true;
         break;
       default:
         alert(
           `Observasjon av ${
-            Object.values(SesjonType)[this.valgtSesjonType]
+            Object.values(SessionType)[this.valgtSesjonType]
           } er ikke støttet enda`
         );
         break;
@@ -184,7 +184,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.valgtAvdelingEndret();
   }
 
-  hentValgtAvdeling(): Avdeling {
+  hentValgtAvdeling(): Department {
     return this.institusjon.avdelinger.find(
       (x) => x.id === parseInt(this.valgtAvdelingId)
     );
@@ -202,7 +202,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     return (
       this.valgtAvdelingId === null ||
       this.rollevalg.filter((r) => r.erValgt).length === 0 ||
-      this.valgtSesjonType === SesjonType.IkkeValgt
+      this.valgtSesjonType === SessionType.IkkeValgt
     );
   }
 }

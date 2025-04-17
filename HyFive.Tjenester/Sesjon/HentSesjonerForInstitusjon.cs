@@ -16,7 +16,7 @@ namespace HyFive.Services.Sesjon
     {
         public class Query : IRequest<List<SessionOverviewReport>>
         {
-            public int InstitusjonId { get; set; }
+            public int InstitutionId { get; set; }
             public int? ObservatorId { get; set; }
             public SessionType? Sesjontype { get; set; }
             public DateTime? Fra { get; set; }
@@ -77,8 +77,8 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
-                                     .Where(s => s.Avdeling.InstitusjonId == request.InstitusjonId)
-                                     .Where(s => request.ObservatorId == null || s.Observator.Id == request.ObservatorId)
+                                     .Where(s => s.Department.InstitutionId == request.InstitutionId)
+                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .AsNoTracking()
@@ -96,8 +96,8 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.TransmissionStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
-                                     .Where(s => s.Avdeling.InstitusjonId == request.InstitusjonId)
-                                     .Where(s => request.ObservatorId == null || s.Observator.Id == request.ObservatorId)
+                                     .Where(s => s.Department.InstitutionId == request.InstitutionId)
+                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .AsNoTracking()
@@ -117,8 +117,8 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.GeneralPurposeGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandhygieneEtterHanskebrukType)
-                                     .Where(s => s.Avdeling.InstitusjonId == request.InstitusjonId)
-                                     .Where(s => request.ObservatorId == null || s.Observator.Id == request.ObservatorId)
+                                     .Where(s => s.Department.InstitutionId == request.InstitutionId)
+                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .AsNoTracking()
@@ -138,8 +138,8 @@ namespace HyFive.Services.Sesjon
                                      .Include(s => s.Observations).ThenInclude(o => o.SettingType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
-                                     .Where(s => s.Avdeling.InstitusjonId == request.InstitusjonId)
-                                     .Where(s => request.ObservatorId == null || s.Observator.Id == request.ObservatorId)
+                                     .Where(s => s.Department.InstitutionId == request.InstitutionId)
+                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
                                      .Where(s => request.Fra == null || s.Opprettettidspunkt.Date >= request.Fra.Value.Date)
                                      .Where(s => request.Til == null || s.Opprettettidspunkt.Date <= request.Til.Value.Date)
                                      .AsNoTracking()

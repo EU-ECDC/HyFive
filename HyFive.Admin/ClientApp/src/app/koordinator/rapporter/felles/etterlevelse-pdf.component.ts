@@ -3,9 +3,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
-import { Avdeling } from 'src/app/models/api/Avdeling';
+import { Department } from 'src/app/models/api/Department';
 import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
-import { SesjonType } from 'src/app/models/api/SesjonType';
+import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitusjonService } from 'src/app/services/data/institusjon.service';
 import { RapportService } from 'src/app/services/data/rapport.service';
 import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
@@ -24,7 +24,7 @@ export class EtterlevelsePdfComponent {
     ngOnInit(): void {
       this.valgtRolle = this.authorizationService.hentValgtRolle();
       
-      if (this.valgtRolle === AuthorizedRole.Koordinator) {
+      if (this.valgtRolle === AuthorizedRole.Coordinator) {
         this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
         this.hentInstitusjon(this.valgtInstitusjonId)
       }
@@ -38,14 +38,14 @@ export class EtterlevelsePdfComponent {
         }
       }
       
-  @Input() sesjonType: SesjonType;
+  @Input() sesjonType: SessionType;
   
   valgtInstitusjonId: number;
   valgtAvdelingId: number;
   fraDato: Date = null;
   tilDato: Date = null;
 
-  avdelinger: Avdeling[];
+  avdelinger: Department[];
   institusjoner: InstitusjonRapport[] = [];
   kanVelgeInstitusjon = false;
   lagerRapport = false;
@@ -101,9 +101,9 @@ export class EtterlevelsePdfComponent {
   private lastNedPdf(): Observable<any> {
     let url = '/api/v1/rapport/';
 
-    if (this.sesjonType == SesjonType.FireIndikasjoner) {
+    if (this.sesjonType == SessionType.FireIndikasjoner) {
       url += 'fireindikasjoner';
-    } else if (this.sesjonType == SesjonType.Handsmykker) {
+    } else if (this.sesjonType == SessionType.Handsmykker) {
       url += 'handsmykke';
     }
 

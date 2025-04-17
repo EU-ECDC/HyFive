@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, OnDestroy} from '@angular/core';
 import {OpprettAvdelingRequest} from '../../../models/api/OpprettAvdelingRequest';
 import {AvdelingService} from '../../../services/data/avdeling.service';
-import {Avdeling} from '../../../models/api/Avdeling';
+import {Department} from '../../../models/api/Department';
 import {ToastrService} from 'ngx-toastr';
 import {Rollevalg} from '../../../models/kodeverk/rollevalg.model';
 import {AvdelingType} from '../../../models/api/AvdelingType';
-import { Rolle } from '../../../models/api/Rolle';
+import { Role } from '../../../models/api/Role';
 import { RolleService } from '../../../services/data/rolle.service';
 
 @Component({
@@ -17,10 +17,10 @@ export class OpprettAvdelingComponent implements OnInit, OnDestroy {
   nyAvdeling: OpprettAvdelingRequest;
   rollevalg: Rollevalg[] = [];
   avdelingstyper: AvdelingType[];
-  roller: Rolle[] = [];
+  roller: Role[] = [];
 
   @Input() institusjonId: number;
-  @Output() avdelingOpprettetEvent: EventEmitter<Avdeling> = new EventEmitter<Avdeling>();
+  @Output() avdelingOpprettetEvent: EventEmitter<Department> = new EventEmitter<Department>();
 
 
   constructor(private rolleService: RolleService, private avdelingService: AvdelingService, private toastrService: ToastrService) { }
@@ -44,7 +44,7 @@ export class OpprettAvdelingComponent implements OnInit, OnDestroy {
   opprettAvdeling() {
     this.nyAvdeling.rolleIder = this.rollevalg.filter(r => r.erValgt).map(r => r.rolle.id);
     this.avdelingService.opprettAvdeling(this.nyAvdeling).subscribe((avdeling) => {
-        this.toastrService.success('Avdeling opprettet', `Avdeling med ID: ${avdeling.id} opprettet`);
+        this.toastrService.success('Department opprettet', `Department med ID: ${avdeling.id} opprettet`);
         this.rollevalg = this.roller.map<Rollevalg>((r) => ({rolle: r, erValgt: false}) );
         this.avdelingOpprettetEvent.emit(avdeling);
       },

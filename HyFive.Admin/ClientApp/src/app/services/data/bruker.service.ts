@@ -13,7 +13,7 @@ export class BrukerService {
 
   constructor(private readonly http: HttpClient) { }
 
-  // ---- Observator ----
+  // ---- Observer ----
 
   opprettObservator(bruker: Bruker): Observable<Bruker> {
     const url = `${environment.apiBaseUrl}/v1/bruker/observator/opprett`;
@@ -35,7 +35,7 @@ export class BrukerService {
     return this.http.get<boolean>(url);
   }
 
-  // ---- Koordinator ----
+  // ---- Coordinator ----
 
   opprettKoordinator(bruker: Bruker): Observable<Bruker> {
     const url = `${environment.apiBaseUrl}/v1/bruker/koordinator/opprett`;

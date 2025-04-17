@@ -78,7 +78,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   opprettKoordinator() {
     this.brukerService.opprettKoordinator(this.nyKoordinator).subscribe(
       () => {
-        this.toastrService.success('Koordinator og observatør opprettet');
+        this.toastrService.success('Coordinator og observatør opprettet');
       },
       (error) => this.toastrService.error('Det oppstod en feil under opprettelse av koordinator eller observator: ' + error?.message, '', { disableTimeOut: true }),
       () => { this.nyKoordinator = null; this.lastKoordinatorer(); }
@@ -94,7 +94,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   oppdaterKoordinator(koordinator: Bruker) {
     this.brukerService.oppdaterKoordinator(koordinator).subscribe(
       (oppdatertBruker) => {
-        this.toastrService.success('Koordinator oppdatert');
+        this.toastrService.success('Coordinator oppdatert');
         this.lastKoordinatorer();
       },
       (error) => this.toastrService.error('Det oppstod en feil under oppdatering av koordinator: ' + error?.message, '', { disableTimeOut: true }),
@@ -104,7 +104,7 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
 
   slettKoordinator(koordinator: Bruker) {
     this.brukerService.slettKoordinator(koordinator.id).subscribe(
-      () => this.toastrService.success('Koordinator slettet'),
+      () => this.toastrService.success('Coordinator slettet'),
       (error) => {
         if (error.error.includes('NotSupportedException')) {
           this.toastrService.error('Koordinatoren har sessions, og kunne ikke slettes', '', { disableTimeOut: true });
@@ -152,10 +152,10 @@ export class RedigerKoordinatorerComponent implements OnInit, OnDestroy {
   sorter($event: IColumnSortedEvent) {
     let propertyOf: (x: Bruker) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "FirstName":
         propertyOf = (x: Bruker) => x.fornavn;
         break;
-      case "Etternavn":
+      case "LastName":
         propertyOf = (x: Bruker) => x.etternavn;
         break;
       default:

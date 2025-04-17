@@ -37,12 +37,12 @@ namespace HyFive.Services.Sesjon
                 var sesjon = await _context.HandJewelrySession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
-                    .Include(s => s.Observasjoner).ThenInclude(o => o.Handsmykker)
-                    .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
+                    .Include(s => s.Observations).ThenInclude(o => o.Handsmykker)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SesjonId, cancellationToken);
 
-                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observator))
+                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observer))
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med HPR-nummer {request.HPRNummer}");
 

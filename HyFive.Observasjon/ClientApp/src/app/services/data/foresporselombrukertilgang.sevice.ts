@@ -3,7 +3,7 @@ import { ForesporselOmBrukertilgang } from '../../models/api/ForesporselOmBruker
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Institusjon } from 'src/app/models/api/Institusjon';
+import { Institution } from 'src/app/models/api/Institution';
 import { OpprettForesporselOmBrukertilgangRequest } from '../../models/api/OpprettForesporselOmBrukertilgangRequest';
 @Injectable({
   'providedIn': 'root'
@@ -12,9 +12,9 @@ export class ForesporselOmBrukertilgangService {
 
   constructor(private readonly httpClient: HttpClient){  }
 
-  hentInstitusjoner(): Observable<Institusjon[]> {
+  hentInstitusjoner(): Observable<Institution[]> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/institusjoner`;
-    return this.httpClient.get<Institusjon[]>(url);
+    return this.httpClient.get<Institution[]>(url);
   }
 
   sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang: OpprettForesporselOmBrukertilgangRequest): Observable<boolean>{
@@ -27,10 +27,10 @@ export class ForesporselOmBrukertilgangService {
     return this.httpClient.get<ForesporselOmBrukertilgang>(url);
   }
 
-  hentInstitusjon(id: number): Observable<Institusjon> {
+  hentInstitusjon(id: number): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/institusjon`;
     let params = new HttpParams();
     params = params.append("institusjonId", id.toString());
-    return this.httpClient.get<Institusjon>(url, {params});
+    return this.httpClient.get<Institution>(url, {params});
   }
 }

@@ -6,7 +6,7 @@
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Navn: {{bruker.navn}}
+      Name: {{bruker.navn}}
     </div>
   </div>
   <div class="row mt-1" *ngIf="bruker.hprNummer">
@@ -35,8 +35,8 @@
                name="velgRolle"
                id="koordinator"
                [(ngModel)]="valgtRolle"
-               value="Koordinator" />
-        <label class="form-check-label" for="koordinator">Koordinator</label>
+               value="Coordinator" />
+        <label class="form-check-label" for="koordinator">Coordinator</label>
       </div>
       <a class="btn fhi-btn-primary ml-2" (click)="byttRolle()">Bytt rolle</a>
     </div>

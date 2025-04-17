@@ -33,7 +33,7 @@ namespace HyFive.Services.Sesjon
 
             public async Task<SessionOverviewReport> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.Sesjon
+                var sesjon = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer)
                     .Include(s => s.TransmissionStatus)

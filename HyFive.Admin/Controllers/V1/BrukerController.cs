@@ -27,7 +27,7 @@ namespace HyFive.Admin.Controllers.V1
             _brukerservice = brukerservice;
         }
 
-        #region Observator
+        #region Observer
 
         /// <summary>
         /// Oppdaterer en observatør.
@@ -79,7 +79,7 @@ namespace HyFive.Admin.Controllers.V1
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
                     UserId = observatorId,
-                    UserType = typeof(Observator)
+                    UserType = typeof(Observer)
                 });
                 return Ok(result);
             }
@@ -101,7 +101,7 @@ namespace HyFive.Admin.Controllers.V1
 
         #endregion
 
-        #region Koordinator
+        #region Coordinator
 
         /// <summary>
         /// Oppretter en koordinator.
@@ -153,7 +153,7 @@ namespace HyFive.Admin.Controllers.V1
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
                     UserId = koordinatorId,
-                    UserType = typeof(Koordinator)
+                    UserType = typeof(Coordinator)
                 });
                 return result;
             }

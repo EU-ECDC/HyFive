@@ -111,7 +111,7 @@ namespace HyFive.Services.Tests
                     new TransmissionStatusType()
                     {
                         Code = TransferStatusTypeConstants.TransferredToCoordinator,
-                        Name = "Overført til Koordinator"
+                        Name = "Overført til Coordinator"
                     },
                     new TransmissionStatusType()
                     {
@@ -138,43 +138,43 @@ namespace HyFive.Services.Tests
 
         private void SeedBrukere()
         {
-            _context.Observer.Add(new Observator()
+            _context.Observer.Add(new Observer()
             {
-                Etternavn = SeedObservatorEtternavn,
-                Fornavn = SeedObservatorFornavn,
+                LastName = SeedObservatorEtternavn,
+                FirstName = SeedObservatorFornavn,
                 HPRNummer = SeedObservatorHprNummer,
-                Institusjon = _context.Institution.FirstOrDefault()
+                Institution = _context.Institution.FirstOrDefault()
             });
 
-            _context.Observer.Add(new Observator()
+            _context.Observer.Add(new Observer()
             {
-                Etternavn = SeedObservatorEtternavn,
-                Fornavn = SeedObservatorFornavn,
+                LastName = SeedObservatorEtternavn,
+                FirstName = SeedObservatorFornavn,
                 HPRNummer = SeedObservatorHprNummer,
-                Institusjon = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
+                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
-            _context.Coordinator.Add(new Koordinator()
+            _context.Coordinator.Add(new Coordinator()
             {
-                Etternavn = SeedKoordinatorEtternavn,
-                Fornavn = SeedKoordinatorFornavn,
+                LastName = SeedKoordinatorEtternavn,
+                FirstName = SeedKoordinatorFornavn,
                 HPRNummer = SeedKoordinatorHprNummer,
-                Institusjon = _context.Institution.FirstOrDefault()
+                Institution = _context.Institution.FirstOrDefault()
             });
 
-            _context.Coordinator.Add(new Koordinator()
+            _context.Coordinator.Add(new Coordinator()
             {
-                Etternavn = SeedKoordinatorEtternavn,
-                Fornavn = SeedKoordinatorFornavn,
+                LastName = SeedKoordinatorEtternavn,
+                FirstName = SeedKoordinatorFornavn,
                 HPRNummer = SeedKoordinatorHprNummer,
-                Institusjon = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
+                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
             _context.FhiAdmin.Add(new FhiAdmin()
             {
-                Fornavn = SeedFhiAdminFornavn,
-                Etternavn = SeedFhiAdminEtternavn,
-                IdentPseudonym = SeedFhiAdminIdentPseudonym
+                FirstName = SeedFhiAdminFornavn,
+                LastName = SeedFhiAdminEtternavn,
+                IdentityPseudonym = SeedFhiAdminIdentPseudonym
             });
 
             _context.SaveChanges();
@@ -290,36 +290,36 @@ namespace HyFive.Services.Tests
                         Name = "Oslo universitetssykehus HF",
                         Abbreviation = "OUS",
                         InstitutionType = institusjontyper.First(),
-                        Departments = new List<Domain.Place.Avdeling>()
+                        Departments = new List<Domain.Place.Department>()
                         {
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Nevrokirurgisk",
-                                Roller = new List<Domain.Observation.Role>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Nevrokirurgisk",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Allergi og lungeseksjonen",
-                                Roller = new List<Domain.Observation.Role>()
+                                Name = "Allergi og lungeseksjonen",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[0],
                                     roller[1],
                                     roller[2],
                                     roller[3],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(1).First()
+                                DepartmentType = avdelingtyper.Skip(1).First()
                             },
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Avdeling for mikrobiologi",
-                                Roller = new List<Domain.Observation.Role>()
+                                Name = "Department for mikrobiologi",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[5],
                                     roller[6],
                                     roller[1],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(2).First()
+                                DepartmentType = avdelingtyper.Skip(2).First()
                             }
                         },
                         PredefinedComments = new List<PredefinedComments>()
@@ -336,31 +336,31 @@ namespace HyFive.Services.Tests
                         Name = "Lillehammer sykehus",
                         Abbreviation = "LS",
                         InstitutionType = institusjontyper.First(),
-                        Departments = new List<Domain.Place.Avdeling>()
+                        Departments = new List<Domain.Place.Department>()
                         {
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Akutt",
-                                Roller = new List<Domain.Observation.Role>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Akutt",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Medisin",
-                                Roller = new List<Domain.Observation.Role>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Medisin",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domain.Place.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Kirurgisk",
-                                Roller = new List<Domain.Observation.Role>()
+                                Name = "Kirurgisk",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[0],
                                     roller[1],
                                     roller[2],
                                     roller[3],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(1).First()
+                                DepartmentType = avdelingtyper.Skip(1).First()
                             }
                         },
                         PredefinedComments = new List<PredefinedComments>()

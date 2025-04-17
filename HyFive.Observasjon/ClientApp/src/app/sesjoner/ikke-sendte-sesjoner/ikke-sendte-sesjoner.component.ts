@@ -6,7 +6,7 @@ import { Sesjon } from "../../models/api/Sesjon";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { BeskyttelsesutstyrSesjonService } from "../../services/data/beskyttelsesutstyr-sesjon.service";
-import { SesjonType } from "../../models/api/SesjonType";
+import { SessionType } from "../../models/api/SessionType";
 import { SesjonRapport } from "../../models/api/SesjonRapport";
 import { ToastrService } from "ngx-toastr";
 import { HanskeSesjonService } from "../../services/data/hansker-sesjon.service";
@@ -23,7 +23,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   sessions: SesjonRapport[];
   sesjonerFiltrert: SesjonRapport[];
   sokeord: string = null;
-  sesjonsnavnMap: Map<SesjonType, string>;
+  sesjonsnavnMap: Map<SessionType, string>;
   erOnline: boolean = true;
 
   harValgtEnSesjon: boolean = false;
@@ -51,21 +51,21 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   lastSesjoner() {
     this.sessions = this.fireIndikasjonerSesjonService
       .hentSesjoner()
-      .map((f) => this.lagSesjonsvisning(f, SesjonType.FireIndikasjoner))
+      .map((f) => this.lagSesjonsvisning(f, SessionType.FireIndikasjoner))
       .concat(
         this.handsmykkeSesjonService
           .hentSesjoner()
-          .map((h) => this.lagSesjonsvisning(h, SesjonType.Handsmykker))
+          .map((h) => this.lagSesjonsvisning(h, SessionType.Handsmykker))
       )
       .concat(
         this.hanskeSesjonService
           .hentSesjoner()
-          .map((h) => this.lagSesjonsvisning(h, SesjonType.Hansker))
+          .map((h) => this.lagSesjonsvisning(h, SessionType.Hansker))
       )
       .concat(
         this.beskyttelsesutstyrSesjonService
           .hentSesjoner()
-          .map((b) => this.lagSesjonsvisning(b, SesjonType.Beskyttelsesutstyr))
+          .map((b) => this.lagSesjonsvisning(b, SessionType.Beskyttelsesutstyr))
       )
       .sort((a, b) => {
         if (a.starttidspunkt > b.starttidspunkt) {
@@ -97,7 +97,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
 
   lagSesjonsvisning(
     sesjon: Sesjon<any>,
-    sesjonstype: SesjonType
+    sesjonstype: SessionType
   ): SesjonRapport {
     return {
       avdelingsnavn: sesjon.avdeling?.navn,
@@ -108,15 +108,15 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     };
   }
 
-  getSesjonstypeUrl(sesjonstype: SesjonType): string {
+  getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
-      case SesjonType.FireIndikasjoner:
+      case SessionType.FireIndikasjoner:
         return Urls.FireIndikasjonerSesjonUrl;
-      case SesjonType.Handsmykker:
+      case SessionType.Handsmykker:
         return Urls.HandsmykkeSesjonUrl;
-      case SesjonType.Hansker:
+      case SessionType.Hansker:
         return Urls.HanskeSesjonUrl;
-      case SesjonType.Beskyttelsesutstyr:
+      case SessionType.Beskyttelsesutstyr:
         return Urls.BeskyttelsesutstyrSesjonUrl;
       default:
         return "";
@@ -130,7 +130,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
       if (s.erValgt) {
         let observable;
         switch (s.type) {
-          case SesjonType.FireIndikasjoner:
+          case SessionType.FireIndikasjoner:
             observable = this.fireIndikasjonerSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {
@@ -147,7 +147,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
               );
             break;
    
-          case SesjonType.Handsmykker:
+          case SessionType.Handsmykker:
             observable = this.handsmykkeSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {
@@ -164,7 +164,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
               );
             break;
    
-          case SesjonType.Hansker:
+          case SessionType.Hansker:
             observable = this.hanskeSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {
@@ -181,7 +181,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
               );
             break;
    
-          case SesjonType.Beskyttelsesutstyr:
+          case SessionType.Beskyttelsesutstyr:
             observable = this.beskyttelsesutstyrSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {

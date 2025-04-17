@@ -1,22 +1,22 @@
 import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { Kort } from '../../models/registrering/kort.model';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HanskeSesjonsvisning } from '../../models/registrering/hansker-sesjonsvisning.model';
-import { HanskeSesjon } from '../../models/api/HanskeSesjon';
+import { GloveSession } from '../../models/api/GloveSession';
 import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
 import { InstitusjonService } from './institusjon.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, HanskeSesjon, HanskeObservasjon> {
+export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, GloveSession, HanskeObservasjon> {
 
   sesjonLocalStoragePath = Localstoragepaths.HanskeSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
@@ -36,8 +36,8 @@ export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning,
 
   public lagSesjonsvisning(
     hanskebrukSkalRegistreres: boolean,
-    rollerSomObserveres: Rolle[],
-    avdeling: Avdeling
+    rollerSomObserveres: Role[],
+    avdeling: Department
   ): string {
     let id = Uuid.generateUUID();
 

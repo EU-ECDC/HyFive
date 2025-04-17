@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { Aktivitet } from '../../models/api/Aktivitet';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -53,7 +53,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
 
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observasjon") observasjon: FireIndikasjonerObservasjon;
-  @Input("avdeling") avdeling: Avdeling;
+  @Input("avdeling") avdeling: Department;
   @Input("hanskebrukSkalRegistreres") hanskebrukSkalRegistreres: boolean;
   @Input("tidtakingSkalRegistreres") tidtakingSkalRegistreres: boolean;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FireIndikasjonerObservasjon> = new EventEmitter<FireIndikasjonerObservasjon>();

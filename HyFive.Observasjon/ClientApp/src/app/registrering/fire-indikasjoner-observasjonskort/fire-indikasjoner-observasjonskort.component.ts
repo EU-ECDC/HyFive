@@ -10,7 +10,7 @@ import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg
 import { Farger } from '../../utils/farger';
 import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
 import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { IndikasjonType } from '../../models/api/IndikasjonType';
 import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
 import { AktivitetService } from '../../services/data/aktivitet.service';
@@ -53,7 +53,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   farger = Farger;
 
   @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Rolle[]
+  @Input("rollevalg") rollevalg: Role[]
   @Input("sesjonsvisning") sesjonsvisning: FireIndikasjonerSesjonsvisning
 
   @Output() observasjonRegistrert = new EventEmitter();
@@ -86,7 +86,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.kort.rolle = rolle;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;

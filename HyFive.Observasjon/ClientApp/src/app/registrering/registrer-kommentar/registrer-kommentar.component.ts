@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { PredefinertKommentarerService } from '../../services/data/predefinert-kommentarer.service';
 
 
@@ -21,7 +21,7 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
   @Input("kommentarinput") kommentarinput;
   @Input('deaktivert') deaktivert = false;
   @Input('institusjonid') institusjonid;
-  @Input("sesjontype") sesjontype: SesjonType;
+  @Input("sesjontype") sesjontype: SessionType;
   @Output() kommentarRegistertEvent = new EventEmitter<string>();
 
   constructor(

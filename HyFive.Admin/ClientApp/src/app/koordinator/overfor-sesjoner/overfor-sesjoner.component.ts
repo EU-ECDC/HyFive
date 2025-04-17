@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 import { ObservasjonService } from '../../services/data/observasjon.service';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
 import { Bruker } from '../../models/api/Bruker';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { OverforingstatusTypeKonstanter } from '../../models/api/OverforingstatusTypeKonstanter';
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { forEach } from 'lodash-es';
 
 @Component({
@@ -22,13 +22,13 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   faPaperPlane = faPaperPlane;
 
   sesjontypeAlternativer = [
-    { navn: "Beskyttelsesutstyr", verdi: SesjonType.Beskyttelsesutstyr, type: SesjonType[SesjonType.Beskyttelsesutstyr] },
-    { navn: "FireIndikasjoner", verdi: SesjonType.FireIndikasjoner, type: SesjonType[SesjonType.FireIndikasjoner] },
-    { navn: "Hansker", verdi: SesjonType.Hansker, type: SesjonType[SesjonType.Hansker] },
-    { navn: "Håndsmykker", verdi: SesjonType.Handsmykker, type: SesjonType[SesjonType.Handsmykker] },
+    { navn: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
+    { navn: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
+    { navn: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
+    { navn: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
   ];
 
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   fraDato: Date = null;
   tilDato: Date = null;
 
@@ -54,7 +54,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institusjon) => {
+    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjon = {
         id: result.id,
         herId: result.herId,

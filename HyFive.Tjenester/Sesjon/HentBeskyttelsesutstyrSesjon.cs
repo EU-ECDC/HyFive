@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domene.Bruker;
+using HyFive.Domain.User;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using MediatR;
@@ -38,15 +38,15 @@ namespace HyFive.Services.Sesjon
                 var sesjon = await _context.ProtectiveEquipmentSession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institusjon)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Utstyrstype)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Utstyrstype).ThenInclude(u => u.Feilbruktyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Beskyttelsesutstyrliste).ThenInclude(o => o.Feilbruktyper)
                     .Include(s => s.Observasjoner).ThenInclude(o => o.Settingtype)
-                    .Include(s => s.Observasjoner).ThenInclude(o => o.Rolle)
+                    .Include(s => s.Observasjoner).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SesjonId);
                 
-                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observator>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observator))
+                if (!_brukerService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNummer, request.Pseudonym).Compile()(sesjon.Observer))
                     throw new Exception(
                         $"Sesjonen med ID {request.SesjonId} er ikke tilknyttet bruker med HPR-nummer {request.HPRNummer} / Pseudonym XXX ");
                 

@@ -3,7 +3,7 @@ import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { HandsmykkeSesjonsvisning } from "src/app/models/registrering/handsmykke-sesjonsvisning.model";
 import { HandsmykkeSesjon } from "src/app/models/api/HandsmykkeSesjon";
-import { Rolle } from "src/app/models/api/Rolle";
+import { Role } from "src/app/models/api/Role";
 import { HandsmykkeObservasjon } from 'src/app/models/api/HandsmykkeObservasjon';
 import { Kort } from "src/app/models/registrering/kort.model";
 import { HandsmykkeType } from '../../models/api/HandsmykkeType';
@@ -42,13 +42,13 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
 
   sesjonsdata: HandsmykkeSesjon = null;
-  roller: Rolle[];
+  roller: Role[];
   handsmykkeTyper: HandsmykkeType[] = [];
 
   handsmykkevalg = [] as Handsmykkevalg[];
 
   @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Rolle[];
+  @Input("rollevalg") rollevalg: Role[];
   @Input("sesjonsvisning") sesjonsvisning: HandsmykkeSesjonsvisning;
 
   @Output() observasjonRegistrert = new EventEmitter();
@@ -107,7 +107,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
   }
 
-  velgRolle(rolle: Rolle) {
+  velgRolle(rolle: Role) {
     this.kort.rolle = rolle;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;

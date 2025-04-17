@@ -13,8 +13,8 @@
         <table class="table" *ngIf="koordinatorer.length > 0 || nyKoordinator" sortable-table (sorted)="sorter($event)">
           <thead>
             <tr>
-              <th sortable-column="Fornavn"></th>
-              <th sortable-column="Etternavn"></th>
+              <th sortable-column="FirstName"></th>
+              <th sortable-column="LastName"></th>
               <th>Epost</th>
               <th>HPR-nummer</th>
               <th>Pseudonym</th>
@@ -26,8 +26,8 @@
           <tbody>
             
             <tr *ngIf="nyKoordinator != null">
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.fornavn" name="fornavn" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.etternavn" name="etternavn" placeholder="Etternavn"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.fornavn" name="fornavn" placeholder="FirstName"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.etternavn" name="etternavn" placeholder="LastName"></td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.epost" name="epost" placeholder="Epost"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
@@ -76,8 +76,8 @@
 
               </ng-container>
               <ng-container *ngIf="erKoordinatorSomEndres(koordinator)">
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.fornavn" name="fornavn" placeholder="Fornavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.etternavn" name="etternavn" placeholder="Etternavn"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.fornavn" name="fornavn" placeholder="FirstName"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.etternavn" name="etternavn" placeholder="LastName"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.epost" name="epost" placeholder="Epost"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">

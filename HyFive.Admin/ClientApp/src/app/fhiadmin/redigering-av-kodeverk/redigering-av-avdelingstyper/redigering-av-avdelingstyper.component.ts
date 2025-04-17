@@ -49,7 +49,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
 
   opprettAvdelingType() {
     this.avdelingService.opprettAvdelingType(this.nyAvdelingType).subscribe(
-      (avdelingstype) => this.toastrService.success(`Avdelingtype med navn ${avdelingstype.navn} ble opprettet`),
+      (avdelingstype) => this.toastrService.success(`DepartmentType med navn ${avdelingstype.navn} ble opprettet`),
       error => this.toastrService.error(`En feil skjedde under opprettelse av avdelingtype ${this.nyAvdelingType.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyAvdelingType = this.tomRequest(); this.lastAvdelingTyper(); }
     );
@@ -63,7 +63,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
   oppdaterAvdelingType(avdelingstype: AvdelingType): void {
     this.avdelingService.oppdaterAvdelingType(avdelingstype).subscribe(
       (result) => {
-        this.toastrService.success('Avdelingtype ble oppdatert');
+        this.toastrService.success('DepartmentType ble oppdatert');
         this.lastAvdelingTyper();
       },
       (error) => {

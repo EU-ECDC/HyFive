@@ -16,7 +16,7 @@ export class ProfilsideComponent implements OnInit {
   faUser = faUser;
 
   rolleAdministrator = 'Administrator';
-  rolleKoordinator = 'Koordinator'
+  rolleKoordinator = 'Coordinator'
   valgtRolle = this.rolleAdministrator;
   kanBytteRolle = false;
 
@@ -39,7 +39,7 @@ export class ProfilsideComponent implements OnInit {
     if (valgtRolle) {
       if (valgtRolle === AuthorizedRole.Administrator) {
         this.valgtRolle = this.rolleAdministrator;
-      } else if (valgtRolle === AuthorizedRole.Koordinator) {
+      } else if (valgtRolle === AuthorizedRole.Coordinator) {
         this.valgtRolle = this.rolleKoordinator;
       }
     }
@@ -51,7 +51,7 @@ export class ProfilsideComponent implements OnInit {
     if (this.valgtRolle === this.rolleAdministrator) {
       rolle = AuthorizedRole.Administrator;
     } else if (this.valgtRolle === this.rolleKoordinator) {
-      rolle = AuthorizedRole.Koordinator;
+      rolle = AuthorizedRole.Coordinator;
     }
 
     this.rolleEventService.byttRolleEvent.emit(rolle);

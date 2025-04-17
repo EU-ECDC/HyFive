@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Rapport.Observasjoner;
+using HyFive.Services.Rapport.Observations;
 using HyFive.Services.Rapporter.FourIndicators;
 using HyFive.Services.Rapporter.HandJewelry;
 using HyFive.Services.Rapporter.Pdf;
@@ -56,13 +56,13 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentHanskeObservasjoner.Query
+            var query = new GetGloveObservations.Query
             {
-                AvdelingId = avdelingId,
-                InstitusjonId = institusjonId,
-                FraTid = fraTid,
-                TilTid = tilTid,
-                Rolle = rolle
+                DepartmentId = avdelingId,
+                InstitutionId = institusjonId,
+                FromDate = fraTid,
+                ToTime = tilTid,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
@@ -91,13 +91,13 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentHandsmykkeObservasjoner.Query
+            var query = new GetHandJewelryObservations.Query
             {
-                AvdelingId = avdelingId,
-                InstitusjonId = institusjonId,
-                FraTid = fraTid,
-                TilTid = tilTid,
-                Rolle = rolle
+                DepartmentId = avdelingId,
+                InstitutionId = institusjonId,
+                FromDate = fraTid,
+                ToTime = tilTid,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
@@ -126,13 +126,13 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentBeskyttelsesutstyrObservasjoner.Query
+            var query = new GetProtectiveEquipmentObservations.Query
             {
-                AvdelingId = avdelingId,
-                InstitusjonId = institusjonId,
-                FraTid = fraTid,
-                TilTid = tilTid,
-                Rolle = rolle
+                DepartmentId = avdelingId,
+                InstitutionId = institusjonId,
+                FromDate = fraTid,
+                ToTime = tilTid,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
@@ -162,13 +162,13 @@ namespace HyFive.Admin.Controllers.V1
             if (!BrukerErAutorisert(institusjonId))
                 return Unauthorized();
 
-            var query = new HentFireIndikasjonerObservasjoner.Query
+            var query = new GetFourIndicationsObservations.Query
             {
-                AvdelingId = avdelingId,
-                InstitusjonId = institusjonId,
-                FraTid = fraTid,
-                TilTid = tilTid,
-                Rolle = rolle
+                DepartmentId = avdelingId,
+                InstitutionId = institusjonId,
+                FromDate = fraTid,
+                ToTime = tilTid,
+                Role = rolle
             };
 
             var rapportData = await _mediator.Send(query);
@@ -199,7 +199,7 @@ namespace HyFive.Admin.Controllers.V1
 
             var query = new GetFourIndicatorsReportForDepartment.Query
             {
-                FromTime = fraTid,
+                FromDate = fraTid,
                 ToTime = tilTid,
                 DepartmentId = avdelingId,
                 Role = rolle
@@ -262,12 +262,12 @@ namespace HyFive.Admin.Controllers.V1
 
             var query = new RapportForSesjonTypeHarData.Query
             {
-                SesjonType = sesjonType,
-                InstitusjonId = institusjonId,
-                AvdelingId = avdelingId,
-                FraDato = fraDato,
-                TilDato = tilDato,
-                Rolle = rolleId
+                SessionType = sesjonType,
+                InstitutionId = institusjonId,
+                DepartmentId = avdelingId,
+                FromDate = fraDato,
+                ToDate = tilDato,
+                Role = rolleId
             };
 
             var harData = await _mediator.Send(query);

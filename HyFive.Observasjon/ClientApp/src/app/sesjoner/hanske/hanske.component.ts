@@ -6,7 +6,7 @@ import { Urls } from '../../konstanter/urls';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { HanskeSesjon } from '../../models/api/HanskeSesjon';
+import { GloveSession } from '../../models/api/GloveSession';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
 import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
 
@@ -16,7 +16,7 @@ import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
 })
 export class HanskeComponent implements OnInit {
 
-  sesjon: HanskeSesjon;
+  sesjon: GloveSession;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   kommentar: string;

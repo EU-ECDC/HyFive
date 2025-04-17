@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
-import { Avdeling } from '../../../../models/api/Avdeling';
-import { Rolle } from '../../../../models/api/Rolle';
+import { Department } from '../../../../models/api/Department';
+import { Role } from '../../../../models/api/Role';
 import { InstitusjonService } from '../../../../services/data/institusjon.service';
 import { RapportService } from '../../../../services/data/rapport.service';
 import { RolleService } from '../../../../services/data/rolle.service';
@@ -17,14 +17,14 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   tilAr: number = 2024;
   fraManed: number = 1;
   tilManed: number = 1;
-  rolle: Rolle = null;
-  avdeling: Avdeling = null;
+  rolle: Role = null;
+  avdeling: Department = null;
   intervall: string = 'maned';
   maneder: any [];
 
   visGraf = false;
-  roller: Rolle[];
-  avdelinger: Avdeling[];
+  roller: Role[];
+  avdelinger: Department[];
 
   prosentDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',

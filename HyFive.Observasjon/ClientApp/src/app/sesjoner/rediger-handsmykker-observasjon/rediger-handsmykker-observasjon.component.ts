@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { HandsmykkeObservasjon } from '../../models/api/HandsmykkeObservasjon';
 import { HandsmykkeType } from '../../models/api/HandsmykkeType';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { Handsmykkevalg } from '../../models/registrering/handsmykkevalg.model';
 import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
 import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
 import { Farger } from '../../utils/farger';
-import { Rolle } from '../../models/api/Rolle';
+import { Role } from '../../models/api/Role';
 import { HandsmykkeTypeKonstanter } from '../../models/api/HandsmykkeTypeKonstanter';
 import { HandsmykkeTypeService } from '../../services/data/handsmykketype.service';
 
@@ -40,7 +40,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observasjon: HandsmykkeObservasjon;
-  @Input() avdeling: Avdeling;
+  @Input() avdeling: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
 
 
@@ -83,7 +83,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
     this.observasjon.kommentar = kommentar;
   }
 
-  rolleValgt(rolle: Rolle) {
+  rolleValgt(rolle: Role) {
     this.observasjon.rolle = rolle;
   }
 }

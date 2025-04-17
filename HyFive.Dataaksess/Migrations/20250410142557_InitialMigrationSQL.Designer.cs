@@ -155,7 +155,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Fornavn")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
@@ -164,11 +164,11 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("IdentPseudonym")
+                    b.Property<string>("IdentityPseudonym")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("InstitusjonId")
+                    b.Property<int?>("InstitutionId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Opprettettidspunkt")
@@ -178,9 +178,9 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("HPRNummer");
 
-                    b.HasIndex("IdentPseudonym");
+                    b.HasIndex("IdentityPseudonym");
 
-                    b.HasIndex("InstitusjonId");
+                    b.HasIndex("InstitutionId");
 
                     b.ToTable("Bruker");
 
@@ -220,12 +220,12 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("IdentPseudonym")
+                    b.Property<string>("IdentityPseudonym")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("InstitusjonId")
+                    b.Property<int?>("InstitutionId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Opprettettidspunkt")
@@ -276,21 +276,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("AktivitetType");
                 });
@@ -346,7 +346,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("Opprettettidspunkt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Registrerttidspunkt")
+                    b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RolleId")
@@ -361,7 +361,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Opprettettidspunkt");
 
-                    b.HasIndex("Registrerttidspunkt");
+                    b.HasIndex("RegistrationTime");
 
                     b.HasIndex("RolleId");
 
@@ -378,21 +378,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("BeskyttelsesutstyrType");
                 });
@@ -405,21 +405,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("BeskyttelsesutstyrsettingType");
                 });
@@ -453,7 +453,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("BeskyttelsesutstyrTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -461,7 +461,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("BeskyttelsesutstyrTypeId");
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("FeilbrukType");
                 });
@@ -485,7 +485,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("Opprettettidspunkt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Registrerttidspunkt")
+                    b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RolleId")
@@ -499,7 +499,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Opprettettidspunkt");
 
-                    b.HasIndex("Registrerttidspunkt");
+                    b.HasIndex("RegistrationTime");
 
                     b.HasIndex("RolleId");
 
@@ -521,7 +521,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("Opprettettidspunkt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Registrerttidspunkt")
+                    b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RolleId")
@@ -533,7 +533,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Opprettettidspunkt");
 
-                    b.HasIndex("Registrerttidspunkt");
+                    b.HasIndex("RegistrationTime");
 
                     b.HasIndex("RolleId");
 
@@ -551,12 +551,12 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<bool>("ErAktiv")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -565,7 +565,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
                     b.ToTable("HandsmykkeType");
@@ -579,21 +579,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("HandhygieneEtterHanskebrukType");
                 });
@@ -606,21 +606,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("HanskeMedIndikasjonType");
                 });
@@ -646,7 +646,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("Opprettettidspunkt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Registrerttidspunkt")
+                    b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RolleId")
@@ -660,7 +660,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Opprettettidspunkt");
 
-                    b.HasIndex("Registrerttidspunkt");
+                    b.HasIndex("RegistrationTime");
 
                     b.HasIndex("RolleId");
 
@@ -675,21 +675,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("HanskeUtenIndikasjonType");
                 });
@@ -702,12 +702,12 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -717,15 +717,15 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("IndikasjonType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Rolle", b =>
+            modelBuilder.Entity("HyFive.Domene.Observasjon.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -737,15 +737,15 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
-                    b.ToTable("Rolle");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sesjon.OverforingstatusType", b =>
@@ -756,21 +756,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("OverforingstatusType");
                 });
@@ -781,7 +781,7 @@ namespace HyFive.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("AvdelingId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Discriminator")
@@ -807,7 +807,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvdelingId");
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("Discriminator");
 
@@ -826,7 +826,7 @@ namespace HyFive.DataAccess.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Avdeling", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -837,10 +837,10 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("AvdelingtypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("InstitusjonId")
+                    b.Property<int>("InstitutionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -848,11 +848,11 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("AvdelingtypeId");
 
-                    b.HasIndex("InstitusjonId");
+                    b.HasIndex("InstitutionId");
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
-                    b.ToTable("Avdeling");
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.AvdelingType", b =>
@@ -863,21 +863,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("AvdelingType");
                 });
@@ -890,7 +890,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
@@ -905,7 +905,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Helseforetak");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institusjon", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -930,7 +930,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("KommuneId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -952,11 +952,11 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("KommuneId");
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("Institusjon");
+                    b.ToTable("Institution");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.InstitusjonType", b =>
@@ -967,21 +967,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("InstitusjonType");
                 });
@@ -994,23 +994,23 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("InstitusjonId")
+                    b.Property<int?>("InstitutionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitusjonId");
+                    b.HasIndex("InstitutionId");
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("Klinikk");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Kommune", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Municipality", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1018,7 +1018,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -1028,7 +1028,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kommune");
+                    b.ToTable("Municipality");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.PredefinertKommentar", b =>
@@ -1039,19 +1039,19 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("InstitusjonId")
+                    b.Property<int>("InstitutionId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Kommentar")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<int>("SesjonType")
+                    b.Property<int>("SessionType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitusjonId");
+                    b.HasIndex("InstitutionId");
 
                     b.ToTable("PredefinertKommentar");
                 });
@@ -1064,21 +1064,21 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Kode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kode")
+                    b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Navn");
+                    b.HasIndex("Name");
 
                     b.ToTable("Region");
                 });
@@ -1091,7 +1091,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Navn")
+                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -1107,18 +1107,18 @@ namespace HyFive.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("FhiAdmin");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Koordinator", b =>
+            modelBuilder.Entity("HyFive.Domene.Bruker.Coordinator", b =>
                 {
                     b.HasBaseType("HyFive.Domene.Bruker.Bruker");
 
-                    b.HasDiscriminator().HasValue("Koordinator");
+                    b.HasDiscriminator().HasValue("Coordinator");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Observator", b =>
+            modelBuilder.Entity("HyFive.Domene.Bruker.Observer", b =>
                 {
                     b.HasBaseType("HyFive.Domene.Bruker.Bruker");
 
-                    b.HasDiscriminator().HasValue("Observator");
+                    b.HasDiscriminator().HasValue("Observer");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sesjon.BeskyttelsesutstyrSesjon", b =>
@@ -1142,16 +1142,16 @@ namespace HyFive.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("HandsmykkeSesjon");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.HanskeSesjon", b =>
+            modelBuilder.Entity("HyFive.Domene.Sesjon.GloveSession", b =>
                 {
                     b.HasBaseType("HyFive.Domene.Sesjon.Sesjon");
 
-                    b.HasDiscriminator().HasValue("HanskeSesjon");
+                    b.HasDiscriminator().HasValue("GloveSession");
                 });
 
             modelBuilder.Entity("AvdelingKlinikk", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Avdeling", null)
+                    b.HasOne("HyFive.Domene.Sted.Department", null)
                         .WithMany()
                         .HasForeignKey("AvdelingerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1166,13 +1166,13 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("AvdelingRolle", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Avdeling", null)
+                    b.HasOne("HyFive.Domene.Sted.Department", null)
                         .WithMany()
                         .HasForeignKey("AvdelingerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Rolle", null)
+                    b.HasOne("HyFive.Domene.Observasjon.Role", null)
                         .WithMany()
                         .HasForeignKey("RollerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1256,11 +1256,11 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("HyFive.Domene.Bruker.Bruker", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institusjon", "Institusjon")
+                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
                         .WithMany("Brukere")
-                        .HasForeignKey("InstitusjonId");
+                        .HasForeignKey("InstitutionId");
 
-                    b.Navigation("Institusjon");
+                    b.Navigation("Institution");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Observasjon.Aktivitet", b =>
@@ -1293,7 +1293,7 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany("Observasjoner")
                         .HasForeignKey("BeskyttelsesutstyrSesjonId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Rolle", "Rolle")
+                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RolleId");
 
@@ -1303,7 +1303,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.Navigation("BeskyttelsesutstyrSesjon");
 
-                    b.Navigation("Rolle");
+                    b.Navigation("Role");
 
                     b.Navigation("Settingtype");
                 });
@@ -1347,7 +1347,7 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany("Observasjoner")
                         .HasForeignKey("FireIndikasjonerSesjonId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Rolle", "Rolle")
+                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RolleId");
 
@@ -1355,7 +1355,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.Navigation("FireIndikasjonerSesjon");
 
-                    b.Navigation("Rolle");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Observasjon.HandsmykkeObservasjon", b =>
@@ -1364,13 +1364,13 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany("Observasjoner")
                         .HasForeignKey("HandsmykkeSesjonId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Rolle", "Rolle")
+                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RolleId");
 
                     b.Navigation("HandsmykkeSesjon");
 
-                    b.Navigation("Rolle");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HanskeObservasjon", b =>
@@ -1379,57 +1379,57 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("HandhygieneEtterHanskebrukTypeId");
 
-                    b.HasOne("HyFive.Domene.Sesjon.HanskeSesjon", "HanskeSesjon")
+                    b.HasOne("HyFive.Domene.Sesjon.GloveSession", "GloveSession")
                         .WithMany("Observasjoner")
                         .HasForeignKey("HanskeSesjonId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Rolle", "Rolle")
+                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RolleId");
 
                     b.Navigation("HandhygieneEtterHanskebrukType");
 
-                    b.Navigation("HanskeSesjon");
+                    b.Navigation("GloveSession");
 
-                    b.Navigation("Rolle");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sesjon.Sesjon", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Avdeling", "Avdeling")
+                    b.HasOne("HyFive.Domene.Sted.Department", "Department")
                         .WithMany("Sesjoner")
-                        .HasForeignKey("AvdelingId");
+                        .HasForeignKey("DepartmentId");
 
-                    b.HasOne("HyFive.Domene.Bruker.Observator", "Observator")
+                    b.HasOne("HyFive.Domene.Bruker.Observer", "Observer")
                         .WithMany()
                         .HasForeignKey("ObservatorId");
 
-                    b.HasOne("HyFive.Domene.Sesjon.OverforingstatusType", "Overforingstatus")
+                    b.HasOne("HyFive.Domene.Sesjon.OverforingstatusType", "TransmissionStatus")
                         .WithMany("Sesjoner")
                         .HasForeignKey("OverforingstatusId");
 
-                    b.Navigation("Avdeling");
+                    b.Navigation("Department");
 
-                    b.Navigation("Observator");
+                    b.Navigation("Observer");
 
-                    b.Navigation("Overforingstatus");
+                    b.Navigation("TransmissionStatus");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Avdeling", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.AvdelingType", "Avdelingtype")
+                    b.HasOne("HyFive.Domene.Sted.AvdelingType", "DepartmentType")
                         .WithMany()
                         .HasForeignKey("AvdelingtypeId");
 
-                    b.HasOne("HyFive.Domene.Sted.Institusjon", "Institusjon")
+                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
                         .WithMany("Avdelinger")
-                        .HasForeignKey("InstitusjonId")
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Avdelingtype");
+                    b.Navigation("DepartmentType");
 
-                    b.Navigation("Institusjon");
+                    b.Navigation("Institution");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.Helseforetak", b =>
@@ -1441,7 +1441,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("RegionaltHelseforetak");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institusjon", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
                 {
                     b.HasOne("HyFive.Domene.Sted.Helseforetak", "Helseforetak")
                         .WithMany()
@@ -1451,7 +1451,7 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("InstitusjontypeId");
 
-                    b.HasOne("HyFive.Domene.Sted.Kommune", "Kommune")
+                    b.HasOne("HyFive.Domene.Sted.Municipality", "Municipality")
                         .WithMany()
                         .HasForeignKey("KommuneId");
 
@@ -1463,25 +1463,25 @@ namespace HyFive.DataAccess.Migrations
 
                     b.Navigation("Institusjontype");
 
-                    b.Navigation("Kommune");
+                    b.Navigation("Municipality");
 
                     b.Navigation("Region");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.Klinikk", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institusjon", "Institusjon")
+                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
                         .WithMany("Klinikker")
-                        .HasForeignKey("InstitusjonId");
+                        .HasForeignKey("InstitutionId");
 
-                    b.Navigation("Institusjon");
+                    b.Navigation("Institution");
                 });
 
             modelBuilder.Entity("HyFive.Domene.Sted.PredefinertKommentar", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institusjon", null)
+                    b.HasOne("HyFive.Domene.Sted.Institution", null)
                         .WithMany("PredefinerteKommmentarer")
-                        .HasForeignKey("InstitusjonId")
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1508,12 +1508,12 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("Sesjoner");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Avdeling", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
                 {
                     b.Navigation("Sesjoner");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institusjon", b =>
+            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
                 {
                     b.Navigation("Avdelinger");
 
@@ -1539,7 +1539,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("Observasjoner");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.HanskeSesjon", b =>
+            modelBuilder.Entity("HyFive.Domene.Sesjon.GloveSession", b =>
                 {
                     b.Navigation("Observasjoner");
                 });

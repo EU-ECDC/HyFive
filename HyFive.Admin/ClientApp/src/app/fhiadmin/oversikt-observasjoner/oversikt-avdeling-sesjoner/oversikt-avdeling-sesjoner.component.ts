@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
-import { SesjonType } from '../../../models/api/SesjonType';
+import { SessionType } from '../../../models/api/SessionType';
 import { ObservasjonService } from '../../../services/data/observasjon.service';
 import { SesjonOversiktRapport } from '../../../models/api/SesjonOversiktRapport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
 import { AvdelingService } from '../../../services/data/avdeling.service';
-import { Avdeling } from '../../../models/api/Avdeling';
+import { Department } from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
 import { InstitusjonService } from 'src/app/services/data/institusjon.service';
@@ -20,20 +20,20 @@ import { forkJoin } from 'rxjs';
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdelingsid: number;
-  valgtSesjontype: SesjonType = null;
+  valgtSesjontype: SessionType = null;
   fraDato: Date;
   tilDato: Date;
   valgtInstitusjonId: number = null;
   institusjonsidISok: number;
 
   sesjontypeAlternativer = [
-    { navn: "FireIndikasjoner", verdi: SesjonType.FireIndikasjoner, type: SesjonType[SesjonType.FireIndikasjoner] },
-    { navn: "Håndsmykker", verdi: SesjonType.Handsmykker, type: SesjonType[SesjonType.Handsmykker] },
-    { navn: "Hansker", verdi: SesjonType.Hansker, type: SesjonType[SesjonType.Hansker] },
-    { navn: "Beskyttelsesutstyr", verdi: SesjonType.Beskyttelsesutstyr, type: SesjonType[SesjonType.Beskyttelsesutstyr] },
+    { navn: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
+    { navn: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
+    { navn: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
+    { navn: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
   ];
 
-  avdeling: Avdeling;
+  avdeling: Department;
   sessions: SesjonOversiktRapport[] = [];
   laster: boolean;
   valgtRolle: AuthorizedRole;
@@ -60,8 +60,8 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         if (!params[QueryParameters.Avdelingsid]) this.router.navigate([`/${UrlPaths.observasjoner}`]);
 
         this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype]) || null;
-        this.fraDato = params[QueryParameters.FraDato] || null;
-        this.tilDato = params[QueryParameters.TilDato] || null;
+        this.fraDato = params[QueryParameters.FromDate] || null;
+        this.tilDato = params[QueryParameters.ToDate] || null;
         this.institusjonsidISok = params[QueryParameters.InstitusjonsidISok] || null;
         this.avdelingsid = parseInt(params[QueryParameters.Avdelingsid]) || null;
       });
@@ -79,7 +79,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
       forkJoin(avdelingSesjonerRequest).subscribe((result) => {
         let i = 0;
-        this.avdeling = result[i++] as Avdeling;
+        this.avdeling = result[i++] as Department;
         this.sessions = result[i++] as SesjonOversiktRapport[];
 
         this.laster = false;
@@ -98,13 +98,13 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   }
 
   hentInstitusjonId(): number {
-    if(this.valgtRolle === AuthorizedRole.Koordinator) 
+    if(this.valgtRolle === AuthorizedRole.Coordinator) 
       return this.institusjonService.hentValgtInstitusjonId()
     return null;
   }
 
   erKoordinatorByttetInstitusjon() {
-    return this.avdeling.institusjonId !== this.valgtInstitusjonId && this.valgtRolle == AuthorizedRole.Koordinator;
+    return this.avdeling.institusjonId !== this.valgtInstitusjonId && this.valgtRolle == AuthorizedRole.Coordinator;
   }
 
   hentSesjonerForAvdeling() {

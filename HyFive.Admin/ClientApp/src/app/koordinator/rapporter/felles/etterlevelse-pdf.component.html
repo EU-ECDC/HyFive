@@ -1,6 +1,6 @@
 <div class="row mt-4" *ngIf="kanVelgeInstitusjon">
     <div class="col-md-5">
-      <label for="institusjon">Institusjon</label>
+      <label for="institusjon">Institution</label>
       <select class="form-select" id="institusjon" [(ngModel)]="valgtInstitusjonId" (ngModelChange)="velgInstitusjon()">
         <option value=""></option>
         <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.navn}}</option>
@@ -9,7 +9,7 @@
   </div>
   <div class="row mt-4">
     <div class="col-md-5">
-      <label for="avdeling">Avdeling</label>
+      <label for="avdeling">Department</label>
       <select class="form-select" id="avdeling" [(ngModel)]="valgtAvdelingId" [disabled]="lagInstitusjonsrapport">
         <option value=""></option>
         <option *ngFor="let avdeling of avdelinger" [ngValue]="avdeling.id">{{avdeling.navn}}</option>

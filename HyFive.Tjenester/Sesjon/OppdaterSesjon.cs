@@ -12,7 +12,7 @@ namespace HyFive.Services.Sesjon
         public class Command : IRequest<OppdaterSesjonRespons>
         {
             public Guid SesjonId { get; set; }
-            public int InstitusjonId { get; set; }
+            public int InstitutionId { get; set; }
             public string Kommentar { get; set; }
             public DateTime? Starttidspunkt { get; set; }
         }
@@ -30,7 +30,7 @@ namespace HyFive.Services.Sesjon
             {
                 var respons = new OppdaterSesjonRespons();
 
-                var sesjon = _databaseContext.Sesjon.FirstOrDefault(s => s.Id == request.SesjonId && s.Department.InstitusjonId == request.InstitusjonId);
+                var sesjon = _databaseContext.Session.FirstOrDefault(s => s.Id == request.SesjonId && s.Department.InstitutionId == request.InstitutionId);
 
                 if (sesjon == null)
                 {

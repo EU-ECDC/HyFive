@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angu
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { OverforingstatusTypeKonstanter } from '../../models/api/OverforingstatusTypeKonstanter';
 import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
-import { SesjonType } from '../../models/api/SesjonType';
+import { SessionType } from '../../models/api/SessionType';
 import { ObservasjonService } from '../../services/data/observasjon.service';
 import { ToastrService } from 'ngx-toastr';
 import {SesjonService} from '../../services/data/sesjon.service';
@@ -25,7 +25,7 @@ export class OversiktSesjonerVisningComponent implements OnInit, OnDestroy {
 
   erOverfortTilFhi = false;
   overforingstatusTypeKonstanter = OverforingstatusTypeKonstanter;
-  SesjonType = SesjonType;
+  SessionType = SessionType;
 
   constructor(
     private observasjonService: ObservasjonService,

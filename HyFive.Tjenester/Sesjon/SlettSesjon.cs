@@ -14,7 +14,7 @@ namespace HyFive.Services.Sesjon
         public class Command : IRequest<SlettSesjonRespons>
         {
             public Guid SesjonId { get; set; }
-            public int InstitusjonId { get; set; }
+            public int InstitutionId { get; set; }
             public string OverforingstatusKode { get; set; }
         }
 
@@ -30,14 +30,14 @@ namespace HyFive.Services.Sesjon
             public async Task<SlettSesjonRespons> Handle(Command request, CancellationToken cancellationToken)
             {
                 var respons = new SlettSesjonRespons();
-                var sesjonOgType = await _databaseContext.Sesjon
+                var sesjonOgType = await _databaseContext.Session
                     .AsNoTracking()
-                    .Include(s => s.Department).ThenInclude(a => a.Institusjon)
-                    .Select(s => new {s.Id, s.Discriminator, OverforingstatusKode = s.Overforingstatus.Kode, InstitusjonId = s.Avdeling.Institusjon.Id})
+                    .Include(s => s.Department).ThenInclude(a => a.Institution)
+                    .Select(s => new {s.Id, s.Discriminator, OverforingstatusKode = s.TransmissionStatus.Code, InstitutionId = s.Department.Institution.Id})
                     .FirstOrDefaultAsync(s => 
                         s.Id == request.SesjonId
                         && s.OverforingstatusKode == request.OverforingstatusKode
-                        && s.InstitusjonId == request.InstitusjonId
+                        && s.InstitutionId == request.InstitutionId
                     );
 
                 if (sesjonOgType == null)

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Avdeling } from '../../models/api/Avdeling';
+import { Department } from '../../models/api/Department';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Klinikk } from '../../models/api/Klinikk';
 import { KlinikkService } from '../../services/data/klinikk.service';
 import { QueryParameters } from "../../_felles/konstanter/queryparameters";
-import { Institusjon } from '../../models/api/Institusjon';
+import { Institution } from '../../models/api/Institution';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   hentKlinikker() {
     this.laster = true;
     let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institusjon) => {
+    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjonNavn = result.navn;
       this.institusjonId = result.id;
       this.klinikkService.hentKlinikkerForInstitusjon(this.institusjonId).subscribe(klinikker => {
@@ -73,7 +73,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   sorter($event: IColumnSortedEvent) {
     let propertyOf: (x: Klinikk) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: Klinikk) => x.navn;
         break;
       default:

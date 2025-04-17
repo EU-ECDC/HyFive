@@ -1,5 +1,5 @@
 ﻿using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.RegionaltHelseforetak;
+using HyFive.Services.RegionalHealthOrganization;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<ActionResult<List<Modeller.V1.Institution.RegionalInstitution>>> HentAlleRegionaltHelseforetak()
         {
-            var result = await  _mediator.Send(new HentAlleRegionaltHelseforetak.Query());
+            var result = await  _mediator.Send(new GetAllRegionalHealthOrganization.Query());
 
             return Ok(result);
         }

@@ -6,7 +6,7 @@ import { SesjonRapport } from '../../models/api/SesjonRapport';
 import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
 import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
 import {BeskyttelsesutstyrSesjon} from '../../models/api/BeskyttelsesutstyrSesjon';
-import { HanskeSesjon } from '../../models/api/HanskeSesjon';
+import { GloveSession } from '../../models/api/GloveSession';
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -33,10 +33,10 @@ export class SendteSesjonerService {
     return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handsmykker`, {params});
   }
 
-  hentHanskeSesjon(sesjonId: string): Observable<HanskeSesjon> {
+  hentHanskeSesjon(sesjonId: string): Observable<GloveSession> {
     let params = new HttpParams();
     params = params.append("sesjonId", sesjonId);
-    return this.httpClient.get<HanskeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/hanske`, { params });
+    return this.httpClient.get<GloveSession>(`${environment.apiBaseUrl}/v1/sesjon/hanske`, { params });
   }
 
   hentBeskyttelsesutstyrSesjon(sesjonId: string): Observable<BeskyttelsesutstyrSesjon> {

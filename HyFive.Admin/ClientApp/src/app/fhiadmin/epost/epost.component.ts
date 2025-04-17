@@ -96,10 +96,10 @@ export class EpostComponent implements OnInit {
   sorter($event: IColumnSortedEvent) {
     let propertyOf: (x: Bruker) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "FirstName":
         propertyOf = (x: Bruker) => x.fornavn;
         break;
-      case "Etternavn":
+      case "LastName":
         propertyOf = (x: Bruker) => x.etternavn;
         break;
       default:

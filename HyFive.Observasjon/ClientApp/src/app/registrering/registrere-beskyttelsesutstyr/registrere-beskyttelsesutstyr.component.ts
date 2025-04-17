@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Rolle } from 'src/app/models/api/Rolle';
+import { Role } from 'src/app/models/api/Role';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../konstanter/queryparameters';
@@ -28,7 +28,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
   mainMenuIsOpen: boolean;
   visTomForKortTekst: boolean = false;
 
-  roller: Rolle[];
+  roller: Role[];
   visRolleliste: boolean = false;
   endreSettingModus: boolean = false;
 
@@ -81,7 +81,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Rolle) {
+  leggTilNyttKort(rolle: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
     this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true, utstyr: this.sesjonsvisning.setting.utstyrstyper });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);
