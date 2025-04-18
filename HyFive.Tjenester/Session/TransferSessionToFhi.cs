@@ -11,13 +11,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Sesjon
+namespace HyFive.Services.Session
 {
-    public class OverforSesjonTilFHI
+    public class TransferSessionToFhi
     {
         public class Query : IRequest<SessionOverviewReport>
         {
-            public Guid SesjonId { get; set; }
+            public Guid SessionId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, SessionOverviewReport>
@@ -33,19 +33,19 @@ namespace HyFive.Services.Sesjon
 
             public async Task<SessionOverviewReport> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.Session
+                var session = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer)
                     .Include(s => s.TransmissionStatus)
-                    .FirstOrDefaultAsync(x => x.Id == request.SesjonId);
+                    .FirstOrDefaultAsync(x => x.Id == request.SessionId);
 
-                var overfortTilFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
+                var transferredToFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
 
-                sesjon.TransmissionStatus = overfortTilFHI;
+                session.TransmissionStatus = transferredToFHI;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<Domene.Session.Session, SessionOverviewReport>(sesjon);
+                return _mapper.Map<Domain.Session.Session, SessionOverviewReport>(session);
             }
         }
     }

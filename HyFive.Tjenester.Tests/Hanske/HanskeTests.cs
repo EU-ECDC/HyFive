@@ -8,7 +8,7 @@ using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation.Gloves;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.Glove;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -83,8 +83,8 @@ namespace HyFive.Services.Tests.Hanske
 
         private async Task<GloveSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentHentHanskeSesjonHandler = new HentHanskeSesjon.Handler(DatabaseContext, Mapper, BrukerService);
-            var handsmykkeSesjon = await hentHentHanskeSesjonHandler.Handle(new HentHanskeSesjon.Query()
+            var hentHentHanskeSesjonHandler = new GetGloveSession.Handler(DatabaseContext, Mapper, BrukerService);
+            var handsmykkeSesjon = await hentHentHanskeSesjonHandler.Handle(new GetGloveSession.Query()
             {
                 HPRNummer = hprnummer,
                 SesjonId = sesjonGuidFraRequestGuid

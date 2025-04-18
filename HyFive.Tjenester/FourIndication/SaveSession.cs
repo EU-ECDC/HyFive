@@ -51,7 +51,7 @@ namespace HyFive.Services.FourIndication
                 var activityTypes = _context.ActivityType.ToList();
 
                 var session = _mapper.Map<Domain.Session.FourIndicationsSession>(request.Session);
-                session.CreatedTime = DateTime.UtcNow;
+                session.CreatedDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
 
                 // This is how we want to handle errors if we try to save a session with a department that no longer exists

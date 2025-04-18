@@ -2,7 +2,7 @@
 using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.HandJewelry;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -57,8 +57,8 @@ namespace HyFive.Services.Tests.Handsmykke
 
         private async Task<HandJewelrySession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentHentHandsmykkeSesjonHandler = new HentHandsmykkeSesjon.Handler(DatabaseContext, Mapper, BrukerService);
-            var handsmykkeSesjon = await hentHentHandsmykkeSesjonHandler.Handle(new HentHandsmykkeSesjon.Query()
+            var hentHentHandsmykkeSesjonHandler = new GetHandJewelrySession.Handler(DatabaseContext, Mapper, BrukerService);
+            var handsmykkeSesjon = await hentHentHandsmykkeSesjonHandler.Handle(new GetHandJewelrySession.Query()
             {
                 HPRNummer = hprnummer,
                 SesjonId = sesjonGuidFraRequestGuid

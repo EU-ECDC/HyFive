@@ -43,8 +43,8 @@ namespace HyFive.Services.Institution
                     .Include(i => i.Departments)
                     .ThenInclude(a => a.Sessions
                         .Where(s => query.SessionType == null || s.Discriminator == sessionType)
-                        .Where(s => query.FromDate == null || s.CreatedTime.Date >= query.FromDate.Value.Date)
-                        .Where(s => query.ToDate == null || s.CreatedTime.Date <= query.ToDate.Value.Date)
+                        .Where(s => query.FromDate == null || s.CreatedDate.Date >= query.FromDate.Value.Date)
+                        .Where(s => query.ToDate == null || s.CreatedDate.Date <= query.ToDate.Value.Date)
                         .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(s.TransmissionStatus.Code))
                     )
                     .Where(x => query.InstitutionId == null || query.InstitutionId == x.Id)

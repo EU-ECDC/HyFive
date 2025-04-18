@@ -8,7 +8,7 @@ using HyFive.Modeller.V1.Observation;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.FourIndication;
 using HyFive.Services.FourIndication.Helpers;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
@@ -149,11 +149,11 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         private async Task<FourIndicationsSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentFireIndikasjonSesjonHandler = new HentFireIndikasjonerSesjon.Handler(DatabaseContext, Mapper, BrukerService);
-            var fireIndikasjonSesjon = await hentFireIndikasjonSesjonHandler.Handle(new HentFireIndikasjonerSesjon.Query()
+            var hentFireIndikasjonSesjonHandler = new GetFourIndicationsSession.Handler(DatabaseContext, Mapper, BrukerService);
+            var fireIndikasjonSesjon = await hentFireIndikasjonSesjonHandler.Handle(new GetFourIndicationsSession.Query()
             {
-                HPRNummer = _hprnummer,
-                SesjonId = sesjonGuidFraRequestGuid
+                HPRNumber = _hprnummer,
+                SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 
             return fireIndikasjonSesjon;

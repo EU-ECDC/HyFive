@@ -7,8 +7,8 @@ namespace HyFive.Domain.Session
 
     public class Session
     {
-        public DateTime CreatedTime { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
         public Guid Id { get; set; }
         public Department Department { get; set; }
         public Observer Observer { get; set; }

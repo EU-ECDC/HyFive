@@ -82,7 +82,7 @@ namespace HyFive.Services.Tests.Rapporter
         //        Session = new FourIndicationsSession()
         //        {
         //            Department = enAvdeling,
-        //            StartTime = DateTime.Now,
+        //            StartDate = DateTime.Now,
         //            Observations = new List<FourIndicationsObservation>()
         //            {
         //                etterlevdObservasjonKombinasjonA,

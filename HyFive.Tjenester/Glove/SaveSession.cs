@@ -51,7 +51,7 @@ namespace HyFive.Services.Glove
                 var handHygieneAfterGloveUseTypes = _context.PostGloveHandHygiene.ToList();
 
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
-                session.CreatedTime = DateTime.Now;
+                session.CreatedDate = DateTime.Now;
                 session.Department = await HentAvdeling(request, cancellationToken);
                 session.Observer = observator;
 

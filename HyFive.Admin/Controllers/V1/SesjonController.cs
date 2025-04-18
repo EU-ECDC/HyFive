@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.Authentication.User;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,10 +27,10 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdminOrCoordinator(institusjonId))
             {
-                var resultat = await _mediator.Send(new SlettSesjon.Command
+                var resultat = await _mediator.Send(new DeleteSession.Command
                 {
                     InstitutionId = institusjonId,
-                    OverforingstatusKode = TransferStatusTypeConstants.TransferredToCoordinator,
+                    TransferStatusCode = TransferStatusTypeConstants.TransferredToCoordinator,
                     SesjonId = sesjonId
                 });
 
@@ -46,11 +46,11 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.ErKoordinatorForInstitusjon(sesjon.InstitutionId))
             {
-                var resultat = await _mediator.Send(new OppdaterSesjon.Command
+                var resultat = await _mediator.Send(new UpdateSession.Command
                 {
                     SesjonId = sesjon.SesjonId,
                     InstitutionId = sesjon.InstitutionId,
-                    Kommentar = sesjon.Kommentar
+                    Comment = sesjon.Kommentar
                 });
 
                 return Ok(resultat.Suksess);

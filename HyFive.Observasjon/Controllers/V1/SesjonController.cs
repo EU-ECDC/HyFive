@@ -1,6 +1,6 @@
 ﻿using HyFive.Models.Session;
 using HyFive.Models.V1.Session;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +29,7 @@ namespace HyFive.Observasjon.Controllers.V1
         public async Task<List<SessionReport>> HentSesjoner()
         {
             
-            var resultat = await _mediator.Send(new HentMineSesjoner.Query()
+            var resultat = await _mediator.Send(new GetMySessions.Query()
             {
                 HPRNummer = _brukerservice.GetHprNumber(),
                 Pseudonym = _brukerservice.GetPseudonym()
@@ -40,11 +40,11 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("fireindikasjoner", Name = "HentFireIndikasjonerSesjon")]
         public async Task<FourIndicationsSession> HentFireIndikasjonerSesjon([FromQuery] Guid sesjonId)
         {
-            var sesjon = await _mediator.Send(new HentFireIndikasjonerSesjon.Query()
+            var sesjon = await _mediator.Send(new GetFourIndicationsSession.Query()
             {
-                HPRNummer = _brukerservice.GetHprNumber(),  
+                HPRNumber = _brukerservice.GetHprNumber(),  
                 Pseudonym =  _brukerservice.GetPseudonym(), 
-                SesjonId = sesjonId
+                SessionId = sesjonId
             });
             return sesjon;
         }
@@ -52,7 +52,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("handsmykker", Name = "HentHandsmykkeSesjon")]
         public async Task<HandJewelrySession> HentHandsmykkeSesjon([FromQuery] Guid sesjonId)
         {
-            var sesjon = await _mediator.Send(new HentHandsmykkeSesjon.Query()
+            var sesjon = await _mediator.Send(new GetHandJewelrySession.Query()
             {
                 HPRNummer = _brukerservice.GetHprNumber(), 
                 Pseudonym = _brukerservice.GetPseudonym(),
@@ -64,11 +64,11 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("beskyttelsesutstyr", Name = "HentBeskyttelsesutstyrSesjon")]
         public async Task<ProtectiveEquipmentSession> HentBeskyttelsesutstyrSesjon([FromQuery] Guid sesjonId)
         {
-            var sesjon = await _mediator.Send(new HentBeskyttelsesutstyrSesjon.Query()
+            var sesjon = await _mediator.Send(new GetProtectiveEquipmentSession.Query()
             {
-                HPRNummer = _brukerservice.GetHprNumber(),
+                HPRNumber = _brukerservice.GetHprNumber(),
                 Pseudonym = _brukerservice.GetPseudonym(),
-                SesjonId = sesjonId
+                SessionId = sesjonId
             });
             return sesjon;
         }
@@ -76,7 +76,7 @@ namespace HyFive.Observasjon.Controllers.V1
         [HttpGet("hanske", Name = "HentHanskeSesjon")]
         public async Task<GloveSession> HentHanskeSesjon([FromQuery] Guid sesjonId)
         {
-            var sesjon = await _mediator.Send(new HentHanskeSesjon.Query
+            var sesjon = await _mediator.Send(new GetGloveSession.Query
             {
                 HPRNummer = _brukerservice.GetHprNumber(),
                 Pseudonym = _brukerservice.GetPseudonym(),

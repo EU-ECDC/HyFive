@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Modeller.V1.Constants;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using NUnit.Framework;
 
 namespace HyFive.Services.Tests.Sesjon
@@ -20,10 +20,10 @@ namespace HyFive.Services.Tests.Sesjon
         //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), DatabaseContext.Department.First(), Seed.SeedObservatorHprNummer);
         //    var avdeling = DatabaseContext.Department.First();
         //    // Act
-        //    var handler = new SlettSesjon.Handler(DatabaseContext);
-        //    var slettRequest = new SlettSesjon.Command()
+        //    var handler = new DeleteSession.Handler(DatabaseContext);
+        //    var slettRequest = new DeleteSession.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.TransferredToFhi,
+        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToFhi,
         //        SessionId = sesjonId,
         //        InstitutionId = avdeling.InstitutionId
         //    };
@@ -46,10 +46,10 @@ namespace HyFive.Services.Tests.Sesjon
         //    Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
             
         //    // Act
-        //    var handler = new SlettSesjon.Handler(DatabaseContext);
-        //    var slettRequest = new SlettSesjon.Command()
+        //    var handler = new DeleteSession.Handler(DatabaseContext);
+        //    var slettRequest = new DeleteSession.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.TransferredToCoordinator,
+        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToCoordinator,
         //        SessionId = sesjonId,
         //        InstitutionId = avdeling.InstitutionId
         //    };
@@ -58,7 +58,7 @@ namespace HyFive.Services.Tests.Sesjon
         //    // Assert
         //    Assert.Multiple(() =>
         //    {
-        //        Assert.That(resultat.Suksess, Is.True);
+        //        Assert.That(resultat.Success, Is.True);
         //        Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Null);
         //    });
         //}

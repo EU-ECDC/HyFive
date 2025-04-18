@@ -56,8 +56,8 @@ namespace HyFive.DataAccess
         {
             mb.Entity<Session>().Property(s => s.Comment).HasMaxLength(1000);
             mb.Entity<Session>().HasIndex(s => s.Discriminator);
-            mb.Entity<Session>().HasIndex(s => s.CreatedTime);
-            mb.Entity<Session>().HasIndex(s => s.StartTime);
+            mb.Entity<Session>().HasIndex(s => s.CreatedDate);
+            mb.Entity<Session>().HasIndex(s => s.StartDate);
 
             mb.Entity<FourIndicationsObservation>().Property(fio => fio.Comment).HasMaxLength(1000);
             mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.CreatedTime);

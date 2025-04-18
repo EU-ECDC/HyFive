@@ -48,7 +48,7 @@ namespace HyFive.Services.ProtectiveEquipment
                         $"Could not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
-                session.CreatedTime = DateTime.Now;
+                session.CreatedDate = DateTime.Now;
                 session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observer;
 

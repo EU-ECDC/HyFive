@@ -4,6 +4,6 @@ export class QueryParameters {
   static FromDate = 'fra';
   static ToDate = 'til';
   static Institusjonider = 'institusjonider';
-  static Avdelingsid = 'avdelingsid';
+  static DepartmentId = 'avdelingsid';
   static InstitusjonsidISok = 'institusjonsidISok';
 }

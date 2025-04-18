@@ -7,7 +7,7 @@ using HyFive.Modeller.V1.Constants;
 using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.ProtectiveEquipment;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -298,11 +298,11 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
 
         protected async Task<ProtectiveEquipmentSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentBeskyttelsesutstyrSesjonHandler = new HentBeskyttelsesutstyrSesjon.Handler(DatabaseContext, Mapper, BrukerService);
-            var beskyttelsesutstyrSesjon = await hentBeskyttelsesutstyrSesjonHandler.Handle(new HentBeskyttelsesutstyrSesjon.Query()
+            var hentBeskyttelsesutstyrSesjonHandler = new GetProtectiveEquipmentSession.Handler(DatabaseContext, Mapper, BrukerService);
+            var beskyttelsesutstyrSesjon = await hentBeskyttelsesutstyrSesjonHandler.Handle(new GetProtectiveEquipmentSession.Query()
             {
-                HPRNummer = hprnummer,
-                SesjonId = sesjonGuidFraRequestGuid
+                HPRNumber = hprnummer,
+                SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 
             return beskyttelsesutstyrSesjon;

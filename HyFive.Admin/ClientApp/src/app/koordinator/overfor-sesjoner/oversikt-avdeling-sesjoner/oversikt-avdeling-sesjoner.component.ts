@@ -49,12 +49,12 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        if (!params[QueryParameters.Avdelingsid]) this.router.navigate([`/${UrlPaths.observasjoner}`]);
+        if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observasjoner}`]);
 
         this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype]) || null;
         this.fraDato = params[QueryParameters.FromDate] || null;
         this.tilDato = params[QueryParameters.ToDate] || null;
-        this.avdelingsid = parseInt(params[QueryParameters.Avdelingsid]) || null;
+        this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
         this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.Institusjonider]) || null;
 
         this.hentAvdeling();

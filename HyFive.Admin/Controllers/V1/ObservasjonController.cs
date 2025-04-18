@@ -1,7 +1,7 @@
 ﻿using HyFive.Modeller.V1.Overview;
 using HyFive.Modeller.V1.Session;
 using HyFive.Services.Institution;
-using HyFive.Services.Sesjon;
+using HyFive.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -113,13 +113,13 @@ namespace HyFive.Admin.Controllers.V1
 
             if (_brukerservice.IsCoordinatorForDepartment(avdelingsid) || _brukerservice.IsFhiAdmin())
             {
-                var resultat = await _mediator.Send(new HentSesjonerForAvdelingOversikt.Query()
+                var resultat = await _mediator.Send(new GetSessionsForDepartmentOverview.Query()
                 {
-                    Avdelingsid = avdelingsid,
+                    DepartmentId = avdelingsid,
                     Sesjontype = sesjontype,
-                    Fra = fradato,
-                    Til = tildato,
-                    OverforingsstatusType = overføringsstatusType
+                    FromDate = fradato,
+                    ToDate = tildato,
+                    TransferStatusType = overføringsstatusType
                 });
                 return Ok(resultat);
             }
@@ -142,13 +142,13 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdminOrCoordinator(institusjonid))
             {
-                var resultat = await _mediator.Send(new HentSesjonerForInstitusjon.Query()
+                var resultat = await _mediator.Send(new GetSessionsForInstitution.Query()
                 {
                     InstitutionId = institusjonid,
                     ObservatorId = observatorid,
-                    Sesjontype = sesjontype,
-                    Fra = fradato,
-                    Til = tildato
+                    SessionType = sesjontype,
+                    FromDate = fradato,
+                    ToDate = tildato
                 });
                 return Ok(resultat);
             }
@@ -168,7 +168,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_brukerservice.IsFhiAdminOrCoordinator(institusjonid))
             {
-                var resultat = await _mediator.Send(new OverforSesjonTilFHI.Query()
+                var resultat = await _mediator.Send(new TransferSessionToFhi.Query()
                 {
                     SesjonId = sesjonId
                 });

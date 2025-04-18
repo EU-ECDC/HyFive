@@ -8,13 +8,13 @@ using HyFive.Models.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Services.Sesjon
+namespace HyFive.Services.Session
 {
-    public class HentMineSesjoner
+    public class GetMySessions
     {
         public class Query : IRequest<List<SessionReport>>
         {
-            public string HPRNummer { get; set; }
+            public string HPRNumber { get; set; }
             public string Pseudonym { get; set; }
         }
 
@@ -34,24 +34,24 @@ namespace HyFive.Services.Sesjon
                 var sessions = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
-                    .Where(s => s.Observer.ErDeaktivert == false
-                                && ((HarHprNummer(request.HPRNummer) && s.Observer.HPRNummer == request.HPRNummer) ||
-                                    (HarIdentPseudonym(request.Pseudonym) && s.Observer.IdentityPseudonym == request.Pseudonym)))
+                    .Where(s => s.Observer.IsDisabled == false
+                                && ((HasHprNumber(request.HPRNumber) && s.Observer.HPRNumber == request.HPRNumber) ||
+                                    (HasIdentityPseudonym(request.Pseudonym) && s.Observer.IdentityPseudonym == request.Pseudonym)))
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                var mapped = _mapper.Map<List<Domene.Session.Session>, List<SessionReport>>(sessions);
+                var mapped = _mapper.Map<List<Domain.Session.Session>, List<SessionReport>>(sessions);
                 return mapped;
             }
 
-            private static bool HarIdentPseudonym(string identPseudonym)
+            private static bool HasIdentityPseudonym(string identityPseudonym)
             {
-                return !string.IsNullOrEmpty(identPseudonym);
+                return !string.IsNullOrEmpty(identityPseudonym);
             }
 
-            private static bool HarHprNummer(string hprnummer)
+            private static bool HasHprNumber(string hprNumber)
             {
-                if (string.IsNullOrEmpty(hprnummer))
+                if (string.IsNullOrEmpty(hprNumber))
                     return false;
                 
                 return true;
