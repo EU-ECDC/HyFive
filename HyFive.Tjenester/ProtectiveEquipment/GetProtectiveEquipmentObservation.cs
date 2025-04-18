@@ -46,7 +46,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     .ThenInclude(bu => bu.MisuseTypes)
                     .Include(b => b.ProtectiveEquipmentSession)
                     .ThenInclude(b => b.Department)
-                    .ThenInclude(b => b.Role)
+                    .ThenInclude(b => b.Roles)
                     .Include(b => b.SettingType)
                     .ThenInclude(b => b.PPEConfigurationTypes)
                     .ThenInclude(b => b.ProtectiveEquipmentType)

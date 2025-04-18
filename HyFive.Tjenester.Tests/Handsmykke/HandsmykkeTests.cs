@@ -42,7 +42,7 @@ namespace HyFive.Services.Tests.Handsmykke
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var department = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var department = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjon(department);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -51,7 +51,7 @@ namespace HyFive.Services.Tests.Handsmykke
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].HandJewelry.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(department.Role.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(department.Roles.First().Name));
         //    });
         //}
 

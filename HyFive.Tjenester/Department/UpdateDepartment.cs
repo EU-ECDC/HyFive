@@ -38,7 +38,7 @@ namespace HyFive.Services.Department
             public async Task<Models.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
             {
                 var department = await _context.Department
-                                             .Include(a => a.Role)
+                                             .Include(a => a.Roles)
                                              .FirstOrDefaultAsync(a => a.Id == command.Id);
 
                 if (command.DepartmentTypeId > 0)
@@ -56,7 +56,7 @@ namespace HyFive.Services.Department
                                                              .Include(r => r.Departments)
                                                              .Where(r => departmentRoleIds.Contains(r.Id))
                                                              .ToList();
-                    department.Role = departmentRoles;
+                    department.Roles = departmentRoles;
                 }
 
                 department.Name = command.Name;

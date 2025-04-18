@@ -31,7 +31,7 @@ namespace HyFive.Services.Department
             public async Task<IEnumerable<Models.V1.Institution.Department>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Department
-                    .Include(a => a.Role)
+                    .Include(a => a.Roles)
                     .Include(a => a.DepartmentType)
                     .AsNoTracking()
                     .Where(a => a.InstitutionId == request.InstitutionId)

@@ -205,11 +205,11 @@ namespace HyFive.Services.Authentication.User
                 .Any(b => b.Institution.Id == institutionId && b.Discriminator == GetDiscriminator<TRole>());
         }
 
-        private bool IsCoordinatorForHealthcareProvider(string hrpNumber, string identPseudonym, int healthcareProvider)
+        private bool IsCoordinatorForHealthcareProvider(string hrpNumber, string identPseudonym, int healthcareOrganization)
         {
-            return _context.User.OfType<Coordinator>().AsNoTracking().Include(b => b.Institution).ThenInclude(i=>i.HealthcareProvider)
+            return _context.User.OfType<Coordinator>().AsNoTracking().Include(b => b.Institution).ThenInclude(i=>i.HealthcareOrganization)
                 .Where(HasHprOrPseudonymAndIsActive<Coordinator>(hrpNumber, identPseudonym))
-                .Any(b => b.Institution.HealthcareProvider.Id == healthcareProvider);
+                .Any(b => b.Institution.HealthcareOrganization.Id == healthcareOrganization);
         }
 
         private bool IsRoleForInstitutions<TRole>(int[] institutionIds) where TRole : Domain.User.User

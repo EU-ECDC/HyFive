@@ -55,7 +55,7 @@ namespace HyFive.Services.Department
                 {
                     InstitutionId = institution.Id,
                     Name = command.Request.Name,
-                    Role = GetRoles(command.Request.RoleIds),
+                    Roles = GetRoles(command.Request.RoleIds),
                     DepartmentType = departmentType
                 };
 

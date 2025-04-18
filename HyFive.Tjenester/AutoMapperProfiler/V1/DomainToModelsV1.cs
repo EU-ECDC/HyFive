@@ -36,7 +36,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.User.UserAccessRequest, Models.V1.UserAccessRequest.UserAccessRequest>(MemberList.None);
             CreateMap<Domain.Place.Department, Models.V1.Institution.Department>(MemberList.None)
                 .ForMember(dst => dst.DepartmentTypeId, opt => opt.MapFrom(o => o.DepartmentType != null ? o.DepartmentType.Id : 0))
-                .ForMember(dst => dst.Role, opt => opt.MapFrom(o => o.Role.ToList()));
+                .ForMember(dst => dst.Roles, opt => opt.MapFrom(o => o.Roles.ToList()));
             CreateMap<Domain.Observation.Role, Models.V1.Observation.Role>(MemberList.None);
             CreateMap<Domain.Place.DepartmentType, Models.V1.Institution.DepartmentType>(MemberList.None);
 
@@ -93,9 +93,9 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.Place.Institution, Models.V1.Institution.InstitutionReport>(MemberList.None);
 
             CreateMap<Domain.Place.Institution, Models.V1.Overview.InstitutionOverviewReport>(MemberList.None)
-                .ForMember(dest => dest.NumberOfSessions, opt => opt.MapFrom(src => src.Departments.Sum(x => x.Session.Count)));
+                .ForMember(dest => dest.NumberOfSessions, opt => opt.MapFrom(src => src.Departments.Sum(x => x.Sessions.Count)));
             CreateMap<Domain.Place.Department, Models.V1.Overview.DepartmentOverviewReport>(MemberList.None)
-                .ForMember(dest => dest.NumberOfSessions, opt => opt.MapFrom(src => src.Session.Count));
+                .ForMember(dest => dest.NumberOfSessions, opt => opt.MapFrom(src => src.Sessions.Count));
 
             CreateMap<Domain.Session.Session, SessionReport>(MemberList.None)
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Name))

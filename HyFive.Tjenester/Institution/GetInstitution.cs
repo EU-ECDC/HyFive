@@ -37,7 +37,7 @@ namespace HyFive.Services.Institution
                 var institution = await _context.Institution
                     .AsNoTracking()
                     .Include(i => i.Departments)
-                    .ThenInclude(a => a.Role)
+                    .ThenInclude(a => a.Roles)
                     .Include(i => i.PredefinedComments)
                     .Include(i => i.InstitutionType)
                     .ProjectTo<Models.V1.Institution.Institution>(_mapper.ConfigurationProvider)

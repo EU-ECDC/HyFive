@@ -30,7 +30,7 @@ namespace HyFive.Admin.Controllers
         }
 
         /// <summary>
-        /// Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Role og Users.
+        /// Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roles og Users.
         /// Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.DataAccess\Scripts\Institutions, avdelinger mm.sql".
         /// NB! Du må bruke ENTEN denne api-metoden ELLER scriptet
         /// </summary>

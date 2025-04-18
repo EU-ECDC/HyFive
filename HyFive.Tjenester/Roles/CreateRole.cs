@@ -31,8 +31,8 @@ namespace HyFive.Services.Roles
 
             public async Task<Models.V1.Observation.Role> Handle(Command command, CancellationToken cancellationToken)
             {
-                // sjekk institution
-                var rolle = new Domene.Observation.Role()
+                // check institution
+                var rolle = new Domain.Observation.Role()
                 {
                     Name = command.Request.Name,
                     Description = command.Request.Description

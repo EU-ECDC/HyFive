@@ -27,7 +27,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task LagreSesjonTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public void LagreSesjon_IngenIndikasjonTyper_KasterException()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -61,7 +61,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public void LagreSesjon_IngenAktivitet_KasterException()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -78,7 +78,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public void LagreSesjon_IngenAktivitetType_KasterException()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -95,7 +95,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public void LagreSesjon_TidtakingUtfortTrueMenManglerTid_KasterException()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
@@ -116,11 +116,11 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public void LagreSesjon_ManglerRolle_KasterException()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Role må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Roles må registreres"),
         //        async () =>
         //        {
         //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
@@ -133,7 +133,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -143,7 +143,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationTypes.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Activity.ActivityType.Code, Is.EqualTo(AktivitetTypeKonstanter.Handwash));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //    });
         //}
 
@@ -167,7 +167,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_Test()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -191,7 +191,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_IkkeEksisterendeObservasjonId_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -213,7 +213,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_IngenIndikasjonTyper_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -235,7 +235,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_IngenAktivitet_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -257,7 +257,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_IngenAktivitetType_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -279,7 +279,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_TidtakingUtfortTrueMenManglerTid_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
@@ -305,17 +305,17 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //public async Task OppdaterObservasjon_ManglerRolle_KasterException()
         //{
         //    //Arrange
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
-        //    oppdatertObservasjon.Role = null;
+        //    oppdatertObservasjon.Roles = null;
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
         //    Assert.ThrowsAsync(
-        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Role må registreres"),
+        //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Roles må registreres"),
         //        async () =>
         //        {
         //            await handler.Handle(command, CancellationToken.None);

@@ -48,7 +48,7 @@ namespace HyFive.Services.UserAccessRequest
 
                 request.Status = UserAccessRequestStatus.Approved;
                 request.ProcessedTime = DateTime.UtcNow;
-                request.UserFirstName = user.Id;
+                request.UserFirstName = user.FirstName;
                 request.ProcessedByUsername = user.FirstName + " " + user.LastName;
 
                 await _context.SaveChangesAsync(cancellationToken);

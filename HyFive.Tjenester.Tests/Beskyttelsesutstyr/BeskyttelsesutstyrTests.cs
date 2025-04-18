@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettSesjon(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonId);
 
@@ -51,7 +51,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].ProtectiveEquipmentList.Count, Is.EqualTo(8));
         //    });
         //}

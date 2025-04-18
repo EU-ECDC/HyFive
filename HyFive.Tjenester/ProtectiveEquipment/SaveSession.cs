@@ -67,7 +67,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 {
                     observation.CreatedTime = DateTime.Now;
                     observation.SettingType = settingTypes.First(s => s.Id == observation.SettingType.Id);
-                    observation.Role = session.Department.Role.FirstOrDefault(r => r.Id == observation.Role.Id);
+                    observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     foreach (var equipment in observation.ProtectiveEquipmentList)
                     {
                         equipment.EquipmentType = equipmentTypes.First(u => u.Id == equipment.EquipmentType.Id);
@@ -94,7 +94,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
             private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Department.Include(a => a.Role)
+                return await _context.Department.Include(a => a.Roles)
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 

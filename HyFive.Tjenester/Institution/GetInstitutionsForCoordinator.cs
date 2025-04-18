@@ -41,7 +41,7 @@ namespace HyFive.Services.Institution
                 var query = _context.Institution
                     .AsNoTracking()
                     .Include(i => i.Departments)
-                    .ThenInclude(a => a.Role)
+                    .ThenInclude(a => a.Roles)
                     .Include(i => i.Users)
                     .Include(i => i.PredefinedComments)
                     .Include(i => i.InstitutionType)

@@ -32,7 +32,7 @@ namespace HyFive.Services.Roles
             {
                 var roller = await _context.Department
                     .Where(a => a.Id == request.DepartmentId)
-                    .SelectMany(a => a.Role)
+                    .SelectMany(a => a.Roles)
                     .ProjectTo<Models.V1.Observation.Role>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 

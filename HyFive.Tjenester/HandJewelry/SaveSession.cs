@@ -62,7 +62,7 @@ namespace HyFive.Services.HandJewelry
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.Now;
-                    observation.Role = session.Department.Role.FirstOrDefault(r => r.Id == observation.Role.Id);
+                    observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.HandJewelry = handJewelryTypes.Where(ht => observation.HandJewelry.Select(oh => oh.Id).Contains(ht.Id)).ToList();
                     observation.Comment = string.IsNullOrEmpty(observation.Comment) ? null : observation.Comment;
                 }
@@ -77,7 +77,7 @@ namespace HyFive.Services.HandJewelry
 
             private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Department.Include(a => a.Role).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
+                return await _context.Department.Include(a => a.Roles).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
             private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)

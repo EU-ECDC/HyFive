@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.Hanske
         //public async Task HentSesjonMedIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjonMedIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -56,7 +56,7 @@ namespace HyFive.Services.Tests.Hanske
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygiene.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Ja));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //    });
         //}
 
@@ -64,7 +64,7 @@ namespace HyFive.Services.Tests.Hanske
         //public async Task HentSesjonUtenIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjonUtenIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -77,7 +77,7 @@ namespace HyFive.Services.Tests.Hanske
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.True);
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygiene.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Nei));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Role.Name, Is.EqualTo(avdeling.Role.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //    });
         //}
 

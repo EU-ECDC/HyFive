@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using HyFive.Models.V1.Session;
-using HyFive.Services.FourIndications;
-using HyFive.Services.Reports.FourIndications;
+using HyFive.Services.FourIndication;
+using HyFive.Services.Reports.FourIndicators;
 using HyFive.Services.Reports.HandJewelry;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ namespace HyFive.Api.Common.ExtensionMethods
             services.AddSwagger(apiTitle, apiType);
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(GetMediatRAssemblies()));
             services.AddAutoMapper(GetAutomapperAssemblies());
-            services.AddScoped<FourIndicationsPdfReportService>();
+            services.AddScoped<FourIndicationsPDFReportService>();
             services.AddScoped<HandJewelryPdfReportService>();
 
             return services;

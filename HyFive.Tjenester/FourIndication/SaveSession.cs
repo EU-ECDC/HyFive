@@ -66,7 +66,7 @@ namespace HyFive.Services.FourIndication
                 {
                     FourIndicatorsObservationValidator.ValidateObservation(observation);
                     observation.CreatedTime = DateTime.Now;
-                    observation.Role = session.Department.Role.FirstOrDefault(r => r.Id == observation.Role.Id);
+                    observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicationTypes = indicationTypes
                         .Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
                     observation.Activity.ActivityType = observation.Activity.ActivityType != null
@@ -84,7 +84,7 @@ namespace HyFive.Services.FourIndication
 
             private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Department.Include(a => a.Role)
+                return await _context.Department.Include(a => a.Roles)
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 

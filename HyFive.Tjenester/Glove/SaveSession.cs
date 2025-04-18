@@ -65,7 +65,7 @@ namespace HyFive.Services.Glove
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.Now;
-                    observation.Role = session.Department.Role.FirstOrDefault(r => r.Id == observation.Role.Id);
+                    observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes
                                                             .Where(hmi => observation.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                                                             .ToList();
@@ -89,7 +89,7 @@ namespace HyFive.Services.Glove
 
             private async Task<Domain.Place.Department> HentAvdeling(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Department.Include(a => a.Role)
+                return await _context.Department.Include(a => a.Roles)
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
