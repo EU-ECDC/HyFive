@@ -83,20 +83,20 @@
                 <div class="form-row">
                   <div class="col mt-3">
                     <app-confirmation-dialog 
-                                          [buttonText]="'Lagre'"
+                                          [buttonText]="'Save'"
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
                                           (confirmEvent)="updateFourIndicationsObservation()"
-                                          [dialogMessage]="'Er du sikker på at du vil lagre endringer på observation med id ' + observation.id + '?'">
+                                          [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
                     </app-confirmation-dialog>
                     <app-confirmation-dialog 
-                                          [buttonText]="'Slett'"
+                                          [buttonText]="'Delete'"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
                                           (confirmEvent)="deleteFourIndicationsObservation()" 
-                                          [dialogMessage]='"Vil du slette observation med id: " + observation.id + "?"'>
+                                          [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
                     </app-confirmation-dialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"
                             (click)="cancelEditOfObservation($event)">
-                      Avbryt
+                      Cancel
                     </button>
                   </div>
                 </div>
