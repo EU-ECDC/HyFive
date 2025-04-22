@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Klinikk } from '../../../models/api/Klinikk';
 import { InstitutionService } from '../../../services/data/institution.service';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
@@ -25,7 +25,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
 
   constructor(
     private institusjonService: InstitutionService,
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private toastrService: ToastrService,
     private klinikkService: KlinikkService) { }
 

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Department} from '../../models/api/Department';
 import { InstitutionService } from '../../services/data/institution.service';
-import { AvdelingType } from "../../models/api/AvdelingType";
+import { DepartmentType } from "../../models/api/DepartmentType";
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
-import { AvdelingService } from 'src/app/services/data/avdeling.service';
+import { DepartmentService } from 'src/app/services/data/department.service';
 import { Role } from 'src/app/models/api/Role';
 import { RolleService } from 'src/app/services/data/rolle.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -23,7 +23,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   filtrerteAvdelinger: Department[] = [];
   avdelingId = 0;
   avdelingSomEndres: Department;
-  avdelingstyper: AvdelingType[];
+  departmentTypes: DepartmentType[];
   roles: Role[];
   valgteRoller: Role[] = [];
   kanRedigere: boolean;
@@ -34,7 +34,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
   constructor(private institusjonService: InstitutionService,
     private authorizationService: AuthorizationService,
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private rolleService: RolleService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService) { }
@@ -85,12 +85,12 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   hentAvdelingstyper() {
-    this.avdelingService.hentAvdelingstyper().subscribe(
-      (avdelingstyper) => {
-        this.avdelingstyper = avdelingstyper;
+    this.departmentService.getDepartmentTypes().subscribe(
+      (departmentTypes) => {
+        this.departmentTypes = departmentTypes;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Lasting av avdelingstype feilet', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, 'Lasting av departmentType feilet', {disableTimeOut: true});
     });
   }
 
@@ -137,7 +137,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
   oppdaterAvdeling(avdeling: Department): void {
     avdeling.roles = this.valgteRoller;
-    this.avdelingService.oppdaterAvdeling(avdeling).subscribe(
+    this.departmentService.updateDepartment(avdeling).subscribe(
       () => {
         this.avdelingSomEndres = null;
         this.hentAvdelinger();
@@ -150,7 +150,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   slettAvdeling(avdeling: Department): void {
-    this.avdelingService.hasTransferredSessionToFHI(avdeling.id).subscribe(
+    this.departmentService.hasTransferredSessionToFHI(avdeling.id).subscribe(
       (resultat) => {
         if (resultat) 
         {
@@ -158,7 +158,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
         }
         else
         {
-          this.avdelingService.slettAvdeling(avdeling.id).subscribe(
+          this.departmentService.deleteDepartment(avdeling.id).subscribe(
             () => {
               this.hentAvdelinger();
               this.toastrService.success("Departmentslettet");

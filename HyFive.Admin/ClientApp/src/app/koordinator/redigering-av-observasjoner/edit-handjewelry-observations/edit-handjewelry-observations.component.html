@@ -31,7 +31,7 @@
             </tr>
             <tr></tr>
             <tr>
-              <td><app-rolle-valg-dropdown [rolleId]="handjewelryObservationAsChanged.rolle.id" [avdelingId]="avdeling.id" (rolleValgt)="velgRolle($event)" [customClass]="''"></app-rolle-valg-dropdown></td>
+              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.rolle.id" [departmentId]="avdeling.id" (roleSelected)="velgRolle($event)" [customClass]="''"></app-role-selection-dropdown></td>
               <td>
                 <ul *ngFor="let hsv of handsmykkeValg">
                   <div class="form-check">

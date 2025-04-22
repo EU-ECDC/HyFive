@@ -41,7 +41,7 @@
                 <td>
                   <select class="form-control" id="avdelingtype" [(ngModel)]="avdelingSomEndres.departmentTypeId">
                     <option value="0">Ikke valgt</option>
-                    <option *ngFor="let type of avdelingstyper" [ngValue]="type.id" [selected]="avdelingSomEndres.departmentTypeId == type.id">{{type.name}}</option>
+                    <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="avdelingSomEndres.departmentTypeId == type.id">{{type.name}}</option>
                   </select>
                 </td>
                 <td>

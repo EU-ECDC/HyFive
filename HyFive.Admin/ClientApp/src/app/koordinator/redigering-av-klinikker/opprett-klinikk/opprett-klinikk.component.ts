@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { Klinikk } from '../../../models/api/Klinikk';
 import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { DepartmentService } from '../../../services/data/department.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -27,7 +27,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   constructor(
     private institusjonService: InstitutionService,
     private klinikkService: KlinikkService,
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {

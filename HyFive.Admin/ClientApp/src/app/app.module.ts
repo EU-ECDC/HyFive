@@ -39,7 +39,7 @@ import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klin
 import { OpprettKlinikkComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/opprett-klinikk.component';
 import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
 import { RedigeringAvRegionComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-region/redigering-av-region.component';
-import { RolleValgDropdownComponent } from './_felles/rolle-valg-dropdown/rolle-valg-dropdown.component';
+import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { RedigeringAvRollerComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-roles/redigering-av-roles.component';
 import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
 import { RedigerFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/rediger-fhiadmin/rediger-fhiadmin.component';
@@ -116,7 +116,7 @@ export const httpInterceptorProviders = [
     OpprettKlinikkComponent,
     RedigerEnKlinikkComponent,
     RedigeringAvRegionComponent,
-    RolleValgDropdownComponent,
+    RoleSelectionDropdownComponent,
     IndikasjonsValgComponent,
     AktivitetValgDropdownComponent,
     RedigeringAvRollerComponent,

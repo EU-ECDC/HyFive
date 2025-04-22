@@ -6,7 +6,7 @@ import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { DepartmentService } from '../../../services/data/department.service';
 import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
@@ -38,7 +38,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService  ) { }
@@ -57,13 +57,13 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
         this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
-        this.hentAvdeling();
+        this.getDepartment();
         this.getSessionsForDepartment();
       });
   }
 
-  hentAvdeling() {
-    this.avdelingService.hentAvdeling(
+  getDepartment() {
+    this.departmentService.getDepartment(
       this.avdelingsid
     ).subscribe((resultat) => {
       this.avdeling = resultat;

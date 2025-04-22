@@ -3,7 +3,7 @@
 //     the code is regenerated.
 
 import { Role } from './Role';
-import { AvdelingType } from './AvdelingType';
+import { DepartmentType } from './DepartmentType';
 
 export interface Department
 {
@@ -12,5 +12,5 @@ export interface Department
 	departmentTypeId: number;
 	name: string;
 	roles: Role[];
-	departmentType: AvdelingType;
+	departmentType: DepartmentType;
 }

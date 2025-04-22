@@ -50,7 +50,7 @@
           </tr>
           <tr>
             <td>
-              <app-rolle-valg-dropdown [rolleId]="hanskeObservasjonSomEndres.rolle.id" [avdelingId]="avdeling.id" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
+              <app-role-selection-dropdown [roleId]="hanskeObservasjonSomEndres.rolle.id" [departmentId]="avdeling.id" (roleSelected)="velgRolle($event)"></app-role-selection-dropdown>
             </td>
             <td>
               <div class="w-100">

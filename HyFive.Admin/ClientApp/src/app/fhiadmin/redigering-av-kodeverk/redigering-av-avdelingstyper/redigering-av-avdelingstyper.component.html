@@ -7,14 +7,14 @@
   
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.code' placeholder="Kode">
+      <input type="text" class="form-control" [(ngModel)]='newDepartmentType.code' placeholder="Kode">
     </div>
     <div class="col-3">
-      <input type="text" class="form-control" [(ngModel)]='nyAvdelingType.name' placeholder="Navn">
+      <input type="text" class="form-control" [(ngModel)]='newDepartmentType.name' placeholder="Navn">
     </div>
     <div class="col-6">
       <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="opprettAvdelingType()" [disabled]="!nyAvdelingType.code || !nyAvdelingType.name">Legg til</button>
+      <button class="form-control btn fhi-btn-primary" (click)="opprettAvdelingType()" [disabled]="!newDepartmentType.code || !newDepartmentType.name">Legg til</button>
     </div>
   </div>
 
@@ -30,23 +30,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let avdelingtype of avdelingtyper">
-              <ng-container *ngIf="avdelingtypeSomEndres?.id !== avdelingtype.id">
-                <td>{{avdelingtype.code}}</td>
-                <td>{{avdelingtype.name}}</td>
+            <tr *ngFor="let departmentType of departmentTypes">
+              <ng-container *ngIf="departmentTypeAsChanged?.id !== departmentType.id">
+                <td>{{departmentType.code}}</td>
+                <td>{{departmentType.name}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtAvdelingType(avdelingtype)">
+                  <button class="btn fhi-btn-icon" (click)="valgtAvdelingType(departmentType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="avdelingtypeSomEndres?.id === avdelingtype.id">
-                <td>{{avdelingtypeSomEndres.code}}</td>
+              <ng-container *ngIf="departmentTypeAsChanged?.id === departmentType.id">
+                <td>{{departmentTypeAsChanged.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="avdelingtypeSomEndres.name">
+                  <input type="text" class="form-control" [(ngModel)]="departmentTypeAsChanged.name">
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="oppdaterAvdelingType(avdelingtypeSomEndres)">
+                  <button class="btn fhi-btn-icon" (click)="oppdaterAvdelingType(departmentTypeAsChanged)">
                     <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
@@ -62,5 +62,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="avdelingtyper?.length == 0">Laster avdelingstyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="departmentTypes?.length == 0">Laster avdelingstyper</app-spinner>
 </div>

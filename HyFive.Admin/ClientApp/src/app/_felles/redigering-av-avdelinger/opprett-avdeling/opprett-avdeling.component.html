@@ -6,7 +6,7 @@
         <label for="avdelingtype">Avdelingstype</label>
         <select class="form-select" id="avdelingtype" [(ngModel)]="nyAvdeling.departmentTypeId">
           <option value="0">Ikke valgt</option>
-          <option *ngFor="let type of avdelingstyper" [ngValue]="type.id" [selected]="nyAvdeling.departmentTypeId == type.id">{{type.name}}</option>
+          <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="nyAvdeling.departmentTypeId == type.id">{{type.name}}</option>
         </select>
       </div>
       <div class="form-group col-12 mb-3">

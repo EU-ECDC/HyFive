@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, OnDestroy} from '@angular/core';
-import {OpprettAvdelingRequest} from '../../../models/api/OpprettAvdelingRequest';
-import {AvdelingService} from '../../../services/data/avdeling.service';
+import {CreateDepartmentRequest} from '../../../models/api/CreateDepartmentRequest';
+import {DepartmentService} from '../../../services/data/department.service';
 import {Department} from '../../../models/api/Department';
 import {ToastrService} from 'ngx-toastr';
 import {Rollevalg} from '../../../models/kodeverk/rollevalg.model';
-import {AvdelingType} from '../../../models/api/AvdelingType';
+import {DepartmentType} from '../../../models/api/DepartmentType';
 import { Role } from '../../../models/api/Role';
 import { RolleService } from '../../../services/data/rolle.service';
 
@@ -14,16 +14,16 @@ import { RolleService } from '../../../services/data/rolle.service';
 })
 export class OpprettAvdelingComponent implements OnInit, OnDestroy {
 
-  nyAvdeling: OpprettAvdelingRequest;
+  nyAvdeling: CreateDepartmentRequest;
   rollevalg: Rollevalg[] = [];
-  avdelingstyper: AvdelingType[];
+  departmentTypes: DepartmentType[];
   roles: Role[] = [];
 
   @Input() institutionId: number;
   @Output() avdelingOpprettetEvent: EventEmitter<Department> = new EventEmitter<Department>();
 
 
-  constructor(private rolleService: RolleService, private avdelingService: AvdelingService, private toastrService: ToastrService) { }
+  constructor(private rolleService: RolleService, private departmentService: DepartmentService, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.nullstillSkjema();
@@ -42,8 +42,8 @@ export class OpprettAvdelingComponent implements OnInit, OnDestroy {
   }
 
   opprettAvdeling() {
-    this.nyAvdeling.rolleIder = this.rollevalg.filter(r => r.erValgt).map(r => r.rolle.id);
-    this.avdelingService.opprettAvdeling(this.nyAvdeling).subscribe((avdeling) => {
+    this.nyAvdeling.roleIds = this.rollevalg.filter(r => r.erValgt).map(r => r.rolle.id);
+    this.departmentService.createDepartment(this.nyAvdeling).subscribe((avdeling) => {
         this.toastrService.success('Departmentopprettet', `Departmentmed ID: ${avdeling.id} opprettet`);
         this.rollevalg = this.roles.map<Rollevalg>((r) => ({rolle: r, erValgt: false}) );
         this.avdelingOpprettetEvent.emit(avdeling);
@@ -54,9 +54,9 @@ export class OpprettAvdelingComponent implements OnInit, OnDestroy {
   }
 
   lastAvdelingstyper() {
-    this.avdelingService.hentAvdelingstyper().subscribe(
-      (avdelingstyper) => {
-        this.avdelingstyper = avdelingstyper;
+    this.departmentService.getDepartmentTypes().subscribe(
+      (departmentTypes) => {
+        this.departmentTypes = departmentTypes;
       },
       (err) => this.toastrService.error(`Kunne ikke laste inn roles: ${err?.message ? err.message : err}`, 'Teknisk feil', { disableTimeOut: true})
     );
@@ -67,7 +67,7 @@ export class OpprettAvdelingComponent implements OnInit, OnDestroy {
       name: null,
       institutionId: this.institutionId,
       departmentTypeId: 0,
-      rolleIder: []
+      roleIds: []
     };
   }
 
