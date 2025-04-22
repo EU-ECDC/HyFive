@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndikasjonstyperService } from '../../../services/data/indikasjonstyper.service';
+import { IndicationTypesService } from '../../../services/data/indicationTypes.service';
 import { IndicationType } from '../../../models/api/IndicationType';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
@@ -14,7 +14,7 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
   indikasjonstypeSomEndres: IndicationType = null;
 
   constructor(
-    private indikasjonstyperService: IndikasjonstyperService,
+    private indikasjonstyperService: IndicationTypesService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -32,7 +32,7 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
   }
   
   lastIndikasjonstyper() {
-    this.indikasjonstyperService.hentIndikasjonstyper().subscribe(
+    this.indikasjonstyperService.getIndicationTypes().subscribe(
       (resultat) => this.indicationtypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Indikasjonstyper: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -45,7 +45,7 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
 
   oppdaterIndikasjonstype(indicationtype: IndicationType): void {
     indicationtype.number = indicationtype.number.toString();
-    this.indikasjonstyperService.oppdaterIndikasjonstype(indicationtype).subscribe(
+    this.indikasjonstyperService.updateIndicationTypes(indicationtype).subscribe(
       (oppdatertIndikasjonstype) => {
         this.toastrService.success("Indikasjonstype oppdatert");
         this.lastIndikasjonstyper();

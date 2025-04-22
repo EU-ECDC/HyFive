@@ -8,19 +8,19 @@ import { environment } from "src/environments/environment";
   providedIn: 'root'
 })
 
-export class IndikasjonstyperService {
+export class IndicationTypesService {
 
   constructor(private httpClient: HttpClient) {
 
   }
 
-  hentIndikasjonstyper(): Observable<IndicationType[]> {
+  getIndicationTypes(): Observable<IndicationType[]> {
     const url = `${environment.apiBaseUrl}/v1/indicationtypes`;
     return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
-  oppdaterIndikasjonstype(indicationtype: IndicationType): Observable<IndicationType> {
+  updateIndicationTypes(indicationtype: IndicationType): Observable<IndicationType> {
     const url = `${environment.apiBaseUrl}/v1/indicationtypes/update`;
     return this.httpClient.put<IndicationType>(url, indicationtype)
     .pipe();

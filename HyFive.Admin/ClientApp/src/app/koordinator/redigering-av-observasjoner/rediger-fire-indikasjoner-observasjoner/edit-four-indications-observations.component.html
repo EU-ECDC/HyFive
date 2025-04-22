@@ -45,10 +45,10 @@
                     <app-role-selection-dropdown [roleId]="fourIndicationsObservationWhichChanged.role.id" [departmentId]="avdeling.id" (roleSelected)="selectRole($event)"></app-role-selection-dropdown>
                   </div>
                   <div class="col-2">
-                    <app-indikasjonsvalg [selectedIndications]="fourIndicationsObservationWhichChanged.indicationTypes"
+                    <app-indication-selection [selectedIndications]="fourIndicationsObservationWhichChanged.indicationTypes"
                                          (indicationOptionChangedEvent)="indicationOptionChanged($event)"
                                          [parentId]="fourIndicationsObservationWhichChanged.id">
-                    </app-indikasjonsvalg>
+                    </app-indication-selection>
                   </div>
                   <div class="col-2">
                     <app-activity-valg-dropdown [activityTypeId]="fourIndicationsObservationWhichChanged.activity.activityType.id" (activityTypeValgt)="selectActivity($event)"></app-activity-valg-dropdown>
