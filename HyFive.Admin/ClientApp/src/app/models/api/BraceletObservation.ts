@@ -4,9 +4,9 @@
 
 
 import { Observation } from './Observation';
-import { HandsmykkeType } from './HandsmykkeType';
+import { BraceletType } from './BraceletType';
 
 export interface BraceletObservation extends Observation
 {
-	handJewelry?: HandsmykkeType[];
+	handJewelry?: BraceletType[];
 }

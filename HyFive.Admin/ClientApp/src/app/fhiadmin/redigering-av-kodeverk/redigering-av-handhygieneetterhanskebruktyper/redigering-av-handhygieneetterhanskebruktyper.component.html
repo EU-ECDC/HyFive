@@ -17,23 +17,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let handhygieneEtterHanskebrukType of handhygieneEtterHanskebrukTyper">
-              <ng-container *ngIf="handhygieneEtterHanskebrukTypeSomEndres?.id !== handhygieneEtterHanskebrukType.id">
-                <td>{{handhygieneEtterHanskebrukType.code}}</td>
-                <td>{{handhygieneEtterHanskebrukType.name}}</td>
+            <tr *ngFor="let handHygieneAfterGloveUseType of handHygieneAfterGloveUseTypes">
+              <ng-container *ngIf="handHygieneAfterGloveUseTypeWhichChanges?.id !== handHygieneAfterGloveUseType.id">
+                <td>{{handHygieneAfterGloveUseType.code}}</td>
+                <td>{{handHygieneAfterGloveUseType.name}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukType)">
+                  <button class="btn fhi-btn-icon" (click)="valgtHandhygieneEtterHanskebrukType(handHygieneAfterGloveUseType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="handhygieneEtterHanskebrukTypeSomEndres?.id === handhygieneEtterHanskebrukType.id">
-                <td>{{handhygieneEtterHanskebrukTypeSomEndres.code}}</td>
+              <ng-container *ngIf="handHygieneAfterGloveUseTypeWhichChanges?.id === handHygieneAfterGloveUseType.id">
+                <td>{{handHygieneAfterGloveUseTypeWhichChanges.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="handhygieneEtterHanskebrukTypeSomEndres.name">
+                  <input type="text" class="form-control" [(ngModel)]="handHygieneAfterGloveUseTypeWhichChanges.name">
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="oppdaterHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukTypeSomEndres)">
+                  <button class="btn fhi-btn-icon" (click)="oppdaterHandhygieneEtterHanskebrukType(handHygieneAfterGloveUseTypeWhichChanges)">
                     <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
@@ -48,5 +48,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="handhygieneEtterHanskebrukTyper?.length == 0">Laster hanskevedindikasjontyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="handHygieneAfterGloveUseTypes?.length == 0">Laster hanskevedindikasjontyper</app-spinner>
 </div>

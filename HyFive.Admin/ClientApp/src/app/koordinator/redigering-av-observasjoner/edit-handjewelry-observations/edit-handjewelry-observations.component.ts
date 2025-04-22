@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
+import {ObservationOverviewReport} from "../../../models/api/ObservationOverviewReport";
 import {BraceletObservation} from "../../../models/api/BraceletObservation";
 import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
@@ -8,7 +8,7 @@ import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
 import {HandsmykketypeService} from "../../../services/data/handsmykketype.service";
-import {HandsmykkeType} from "../../../models/api/HandsmykkeType";
+import {BraceletType} from "../../../models/api/BraceletType";
 
 @Component({
   selector: 'app-edit-handjewelry-observations',
@@ -16,7 +16,7 @@ import {HandsmykkeType} from "../../../models/api/HandsmykkeType";
 })
 export class EditHandjewelryObservationsComponent implements OnInit {
 
-  @Input() observasjoner: ObservasjonOversiktRapport[]
+  @Input() observations: ObservationOverviewReport[]
   @Input() sesjonId: string;
   @Input() avdeling: Department;
   @Input() kanRedigere = false;
@@ -26,7 +26,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
 
   handjewelryObservationAsChanged: BraceletObservation;
   handsmykkeValg: HandJewelrySelection[] = [];
-  handsmykketyper: HandsmykkeType[] = [];
+  handsmykketyper: BraceletType[] = [];
 
   constructor(
     private observationService: ObservationService,
@@ -45,7 +45,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     });
   }
 
-  velgObservasjon(observasjon: ObservasjonOversiktRapport) {
+  velgObservasjon(observasjon: ObservationOverviewReport) {
     if(!this.kanRedigere){
       return;
     }
@@ -54,7 +54,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
       return {
         type: t.code,
         disabled: false,
-        isSelected: observasjon.handsmykketyper.map(ht => ht.code).indexOf(t.code) !== -1,
+        isSelected: observasjon.typesOfHandJewelry.map(ht => ht.code).indexOf(t.code) !== -1,
         name: t.name
       };
     })
@@ -62,10 +62,10 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     this.handjewelryObservationAsChanged = {
       id: observasjon.id,
       sessionId:  this.sesjonId,
-      handJewelry: observasjon.handsmykketyper,
-      comment: observasjon.kommentar,
-      role: observasjon.rolle,
-      registrationTime: observasjon.registrerttidspunkt
+      handJewelry: observasjon.typesOfHandJewelry,
+      comment: observasjon.comment,
+      role: observasjon.role,
+      registrationTime: observasjon.registrationTime
     }
   }
 

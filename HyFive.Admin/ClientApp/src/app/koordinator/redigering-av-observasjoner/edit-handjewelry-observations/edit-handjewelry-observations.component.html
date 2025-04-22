@@ -10,23 +10,23 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let observasjon of observasjoner">
-          <tr (click)="velgObservasjon(observasjon)" *ngIf="handjewelryObservationAsChanged?.id !== observasjon.id">
-            <td>{{observasjon.rolle.name}}</td>
+        <ng-container *ngFor="let observation of observations">
+          <tr (click)="velgObservasjon(observation)" *ngIf="handjewelryObservationAsChanged?.id !== observation.id">
+            <td>{{observation.rolle.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
-                <li *ngFor="let ht of observasjon.handsmykketyper">
+                <li *ngFor="let ht of observation.typesOfHandJewelry">
                   {{ht.name}}
                 </li>
               </ul>
             </td>
-            <td>{{observasjon.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</td>
-            <td>{{observasjon.kommentar}}</td>
+            <td>{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{observation.comment}}</td>
           </tr>
-          <ng-container *ngIf="handjewelryObservationAsChanged && handjewelryObservationAsChanged.id === observasjon.id">
+          <ng-container *ngIf="handjewelryObservationAsChanged && handjewelryObservationAsChanged.id === observation.id">
             <tr>
               <td colspan="12">
-                <i>ID: {{observasjon.id}}</i>
+                <i>ID: {{observation.id}}</i>
               </td>
             </tr>
             <tr></tr>
@@ -46,7 +46,7 @@
                 {{handjewelryObservationAsChanged.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}
               </td>
               <td>
-                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.kommentar" (ngModelChange)="endretKommentar($event)">{{handjewelryObservationAsChanged.kommentar}}</textarea>
+                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.comment" (ngModelChange)="endretKommentar($event)">{{handjewelryObservationAsChanged.comment}}</textarea>
               </td>
             </tr>
             <tr></tr>
@@ -59,13 +59,13 @@
                                           [buttonText]="'Lagre'" 
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
                                           (confirmEvent)="updateHandJewelryObservation()"
-                                          [dialogMessage]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'">
+                                          [dialogMessage]="'Er du sikker på at du vil lagre endringer på observation med id ' + observation.id + '?'">
                     </app-confirmation-dialog>
                     <app-confirmation-dialog 
                                           [buttonText]="'Slett'"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
                                           (confirmEvent)="deleteHandJewelryObservation()" 
-                                          [dialogMessage]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
+                                          [dialogMessage]='"Vil du slette observation med id: " + observation.id + "?"'>
                     </app-confirmation-dialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"
                             (click)="avbrytRedigeringAvObservasjon($event)">

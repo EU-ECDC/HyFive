@@ -49,7 +49,7 @@ import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authenti
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {EditFourIndicationsObservationsComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-four-indications-observations.component";
 import {EditHandjewelryObservationsComponent} from "./koordinator/redigering-av-observasjoner/edit-handjewelry-observations/edit-handjewelry-observations.component";
-import {RedigerGloveObservationerComponent} from "./koordinator/redigering-av-observasjoner/rediger-hanske-observasjoner/rediger-hanske-observasjoner.component";
+import {EditGloveObservationsComponent} from "./koordinator/redigering-av-observasjoner/edit-glove-observations/edit-glove-observations.component";
 import {IndicationSelectionComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indication-selection/indication-selection.component";
 import {ActivityChoiceDropdownComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/activity-choice/activity-choice-dropdown.component";
 import { RedigerBeskyttelsesutstyrObservasjonerComponent } from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjoner.component";
@@ -125,7 +125,7 @@ export const httpInterceptorProviders = [
     AuthenticationFailedModalComponent,
     EditFourIndicationsObservationsComponent,
     EditHandjewelryObservationsComponent,
-    RedigerGloveObservationerComponent,
+    EditGloveObservationsComponent,
     RedigerBeskyttelsesutstyrObservasjonerComponent,
     RedigerBeskyttelsesutstyrObservasjonComponent,
     BeskyttelsesutstyrModalComponent,

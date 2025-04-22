@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HandhygieneEtterHanskebrukType } from '../../../models/api/HandhygieneEtterHanskebrukType';
+import { HandHygieneAfterGloveUseType } from '../../../models/api/HandHygieneAfterGloveUseType';
 import { ToastrService } from 'ngx-toastr';
 import { HandhygieneEtterHanskebrukTypeService } from '../../../services/data/handhygieneetterhanskebruktype.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
@@ -10,8 +10,8 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnInit, OnDestroy {
 
-  handhygieneEtterHanskebrukTyper: HandhygieneEtterHanskebrukType[] = [];
-  handhygieneEtterHanskebrukTypeSomEndres: HandhygieneEtterHanskebrukType = null;
+  handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
+  handHygieneAfterGloveUseTypeWhichChanges: HandHygieneAfterGloveUseType = null;
 
   constructor(
     private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
@@ -33,24 +33,24 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
 
   lastHandhygieneEtterHanskebrukTyper() {
     this.handhygieneEtterHanskebrukTypeService.hentHandhygieneEtterHanskebrukTyper().subscribe(
-      (resultat) => this.handhygieneEtterHanskebrukTyper = resultat,
+      (resultat) => this.handHygieneAfterGloveUseTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HandhygieneEtterHanskebrukTyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukType: HandhygieneEtterHanskebrukType): void {
-    if (this.handhygieneEtterHanskebrukTypeSomEndres?.id == handhygieneEtterHanskebrukType.id) return;
-    this.handhygieneEtterHanskebrukTypeSomEndres = JSON.parse(JSON.stringify(handhygieneEtterHanskebrukType));
+  valgtHandhygieneEtterHanskebrukType(handhygieneEtterHanskebrukType: HandHygieneAfterGloveUseType): void {
+    if (this.handHygieneAfterGloveUseTypeWhichChanges?.id == handhygieneEtterHanskebrukType.id) return;
+    this.handHygieneAfterGloveUseTypeWhichChanges = JSON.parse(JSON.stringify(handhygieneEtterHanskebrukType));
   }
 
   oppdaterHandhygieneEtterHanskebrukType(): void {
-    this.handhygieneEtterHanskebrukTypeService.oppdaterHandhygieneEtterHanskebrukType(this.handhygieneEtterHanskebrukTypeSomEndres).subscribe(
+    this.handhygieneEtterHanskebrukTypeService.oppdaterHandhygieneEtterHanskebrukType(this.handHygieneAfterGloveUseTypeWhichChanges).subscribe(
       (oppdaterHandhygieneEtterHanskebrukType) => {
-        this.toastrService.success("HandhygieneEtterHanskebrukType oppdatert");
+        this.toastrService.success("HandHygieneAfterGloveUseType oppdatert");
         this.lastHandhygieneEtterHanskebrukTyper();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av HandhygieneEtterHanskebrukType: ' + error?.error, '', { disableTimeOut: true}),
-      () => this.handhygieneEtterHanskebrukTypeSomEndres = null
+      error => this.toastrService.error('Det oppstod en feil under oppdatering av HandHygieneAfterGloveUseType: ' + error?.error, '', { disableTimeOut: true}),
+      () => this.handHygieneAfterGloveUseTypeWhichChanges = null
     );
   }
 
@@ -59,6 +59,6 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.handhygieneEtterHanskebrukTypeSomEndres = null;
+    this.handHygieneAfterGloveUseTypeWhichChanges = null;
   }
 }

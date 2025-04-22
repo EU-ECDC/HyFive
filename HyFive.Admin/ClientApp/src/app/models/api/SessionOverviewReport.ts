@@ -3,7 +3,7 @@
 //     the code is regenerated.
 
 import { Department} from './Department';
-import { ObservasjonOversiktRapport } from './ObservasjonOversiktRapport';
+import { ObservationOverviewReport } from './ObservationOverviewReport';
 
 export interface SessionOverviewReport
 {
@@ -15,6 +15,6 @@ export interface SessionOverviewReport
 	timeOfCreation: any;
 	comment: string;
 	transferStatus: any;
-	observations: ObservasjonOversiktRapport[];
+	observations: ObservationOverviewReport[];
 	isSelected: boolean;
 }

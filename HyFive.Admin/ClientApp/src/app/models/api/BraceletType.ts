@@ -2,10 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface HanskeMedIndikasjonType
+export interface BraceletType
 {
 	id: number;
 	code: string;
 	name: string;
-	erValgt: boolean;
 }

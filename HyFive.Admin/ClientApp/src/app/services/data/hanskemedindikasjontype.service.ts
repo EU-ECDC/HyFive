@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HanskeMedIndikasjonType } from '../../models/api/HanskeMedIndikasjonType';
+import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -11,13 +11,13 @@ import { environment } from "src/environments/environment";
 export class HanskeMedIndikasjonTypeService {
   constructor(private httpClient: HttpClient) { }
 
-  hentHanskeMedIndikasjonTyper(): Observable<HanskeMedIndikasjonType[]> {
+  hentHanskeMedIndikasjonTyper(): Observable<GloveWithIndicationType[]> {
     const url = `${environment.apiBaseUrl}/v1/hanskemedindikasjontype`;
-    return this.httpClient.get<HanskeMedIndikasjonType[]>(url);
+    return this.httpClient.get<GloveWithIndicationType[]>(url);
   }
 
-  oppdaterHanskeMedIndikasjonType(hanskeMedIndikasjonType: HanskeMedIndikasjonType): Observable<HanskeMedIndikasjonType> {
+  oppdaterHanskeMedIndikasjonType(hanskeMedIndikasjonType: GloveWithIndicationType): Observable<GloveWithIndicationType> {
     const url = `${environment.apiBaseUrl}/v1/hanskemedindikasjontype/oppdater`;
-    return this.httpClient.put<HanskeMedIndikasjonType>(url, hanskeMedIndikasjonType);
+    return this.httpClient.put<GloveWithIndicationType>(url, hanskeMedIndikasjonType);
   }
 }

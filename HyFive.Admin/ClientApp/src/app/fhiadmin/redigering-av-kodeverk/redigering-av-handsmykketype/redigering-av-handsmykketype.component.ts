@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { HandsmykkeType } from '../../../models/api/HandsmykkeType';
+import { BraceletType } from '../../../models/api/BraceletType';
 import { HandsmykketypeService } from '../../../services/data/handsmykketype.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,8 +10,8 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
 
-  handsmykketyper: HandsmykkeType[] = [];
-  handsymkketypeSomEndres: HandsmykkeType = null;
+  handsmykketyper: BraceletType[] = [];
+  handsymkketypeSomEndres: BraceletType = null;
 
   constructor(
     private handsmykketypeService: HandsmykketypeService,
@@ -39,12 +39,12 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
     );
   }
 
-  valgtHandsmykketype(handsmykketype: HandsmykkeType): void {
+  valgtHandsmykketype(handsmykketype: BraceletType): void {
     if (this.handsymkketypeSomEndres?.id == handsmykketype.id) return;
     this.handsymkketypeSomEndres = JSON.parse(JSON.stringify(handsmykketype));
   }
 
-  oppdaterHandsmykketype(handsmykketype: HandsmykkeType): void {
+  oppdaterHandsmykketype(handsmykketype: BraceletType): void {
     this.handsmykketypeService.oppdaterHandsmykketype(handsmykketype).subscribe(
       (oppdatertHandsmykketype) => {
         this.toastrService.success("Håndsmykketype oppdatert");

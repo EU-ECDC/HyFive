@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { HandsmykkeType } from '../../models/api/HandsmykkeType';
+import { BraceletType } from '../../models/api/BraceletType';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,13 @@ export class HandsmykketypeService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentHandsmykketyper(): Observable<HandsmykkeType[]> {
+  hentHandsmykketyper(): Observable<BraceletType[]> {
     const url = `${environment.apiBaseUrl}/v1/handsmykketype/`;
-    return this.http.get<HandsmykkeType[]>(url);
+    return this.http.get<BraceletType[]>(url);
   }
 
-  oppdaterHandsmykketype(handsmykketype: HandsmykkeType): Observable<HandsmykkeType> {
+  oppdaterHandsmykketype(handsmykketype: BraceletType): Observable<BraceletType> {
     const url = `${environment.apiBaseUrl}/v1/handsmykketype/oppdater`;
-    return this.http.put<HandsmykkeType>(url, handsmykketype);
+    return this.http.put<BraceletType>(url, handsmykketype);
   }
 }

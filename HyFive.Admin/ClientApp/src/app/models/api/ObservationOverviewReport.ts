@@ -5,22 +5,22 @@
 import { Role } from './Role';
 import { IndicationType } from './IndicationType';
 import { Activity } from './Activity';
-import { HandsmykkeType } from './HandsmykkeType';
+import { BraceletType } from './BraceletType';
 import { BeskyttelsesutstyrOversiktRapport } from './BeskyttelsesutstyrOversiktRapport';
 import { GloveObservation } from './GloveObservation';
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 
-export interface ObservasjonOversiktRapport
+export interface ObservationOverviewReport
 {
 	id: any;
-	rolle: Role;
-	kommentar: string;
-	registrerttidspunkt: any;
-	indikasjonstyper: IndicationType[];
+	role: Role;
+	comment: string;
+	registrationTime: any;
+	indicationTypes: IndicationType[];
 	activity: Activity;
-	handsmykketyper: HandsmykkeType[];
-	beskyttelsesutstyrsetting: string;
-	beskyttelsesutstyr: BeskyttelsesutstyrOversiktRapport[];
-	hanskeObservasjon: GloveObservation;
-	beskyttelsesutstyrObservasjon: ProtectiveEquipmentObservation;
+	typesOfHandJewelry: BraceletType[];
+	protectiveEquipmentSetting: string;
+	protectiveEquipment: BeskyttelsesutstyrOversiktRapport[];
+	gloveObservation: GloveObservation;
+	protectiveEquipmentObservation: ProtectiveEquipmentObservation;
 }

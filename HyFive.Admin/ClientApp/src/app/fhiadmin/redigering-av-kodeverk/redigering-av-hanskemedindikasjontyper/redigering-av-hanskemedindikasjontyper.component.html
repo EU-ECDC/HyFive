@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="col">
-      <h5>HanskeVedIndikasjonTyper</h5>
+      <h5>GloveWoodIndicationTypes</h5>
     </div>
   </div>
 
@@ -11,33 +11,33 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Kode</th>
-              <th>Navn</th>
+              <th>Code</th>
+              <th>Name</th>
               <th class="text-end" scope="col">Handling</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let hanskeMedIndikasjonType of hanskeMedIndikasjonTyper">
-              <ng-container *ngIf="hanskeMedIndikasjonTypeSomEndres?.id !== hanskeMedIndikasjonType.id">
-                <td>{{hanskeMedIndikasjonType.code}}</td>
-                <td>{{hanskeMedIndikasjonType.name}}</td>
+            <tr *ngFor="let gloveWithIndicationType of gloveWithIndicationTypes">
+              <ng-container *ngIf="gloveWithIndicationTypeThatChanges?.id !== gloveWithIndicationType.id">
+                <td>{{gloveWithIndicationType.code}}</td>
+                <td>{{gloveWithIndicationType.name}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtHanskeMedIndikasjonType(hanskeMedIndikasjonType)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                  <button class="btn fhi-btn-icon" (click)="valgtHanskeMedIndikasjonType(gloveWithIndicationType)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="hanskeMedIndikasjonTypeSomEndres?.id === hanskeMedIndikasjonType.id">
-                <td>{{hanskeMedIndikasjonTypeSomEndres.code}}</td>
+              <ng-container *ngIf="gloveWithIndicationTypeThatChanges?.id === gloveWithIndicationType.id">
+                <td>{{gloveWithIndicationTypeThatChanges.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="hanskeMedIndikasjonTypeSomEndres.name">
+                  <input type="text" class="form-control" [(ngModel)]="gloveWithIndicationTypeThatChanges.name">
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="oppdaterHanskeMedIndikasjonType(hanskeMedIndikasjonTypeSomEndres)">
-                    <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                  <button class="btn fhi-btn-icon" (click)="oppdaterHanskeMedIndikasjonType(gloveWithIndicationTypeThatChanges)">
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>
@@ -48,5 +48,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="hanskeMedIndikasjonTyper?.length == 0">Laster hanskevedindikasjontyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="gloveWithIndicationTypes?.length == 0">Loading glove indication types</app-spinner>
 </div>

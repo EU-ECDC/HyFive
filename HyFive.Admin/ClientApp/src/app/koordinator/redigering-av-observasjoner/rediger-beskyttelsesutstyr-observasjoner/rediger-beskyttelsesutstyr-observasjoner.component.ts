@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ObservasjonOversiktRapport} from "../../../models/api/ObservasjonOversiktRapport";
+import {ObservationOverviewReport} from "../../../models/api/ObservationOverviewReport";
 import {Department} from "../../../models/api/Department";
 import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
@@ -13,7 +13,7 @@ import {ProtectiveEquipmentObservation} from "../../../models/api/ProtectiveEqui
 })
 export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
 
-  @Input() observasjoner: ObservasjonOversiktRapport[]
+  @Input() observasjoner: ObservationOverviewReport[]
   @Input() sesjonId: string;
   @Input() avdeling: Department;
   @Input() kanRedigere = false;
@@ -41,14 +41,14 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
     });
   }
   
-  velgObservasjon(observasjon: ObservasjonOversiktRapport) {
+  velgObservasjon(observation: ObservationOverviewReport) {
 
     if(!this.kanRedigere){
       return;
     }
 
     this.avbrytRedigeringAvObservasjon(null)
-    this.beskyttelsesutstyrObservasjonSomEndres = observasjon.beskyttelsesutstyrObservasjon
+    this.beskyttelsesutstyrObservasjonSomEndres = observation.protectiveEquipmentObservation
   }
 
   endretKommentar(kommentar: string) {
@@ -71,7 +71,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
         this.observasjonOppdatertEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observasjon: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observation: ', { disableTimeOut: true});
       }
     );
   }
@@ -84,7 +84,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
         this.observasjonSlettetEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved sletting av observasjon', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Feil ved sletting av observation', { disableTimeOut: true});
       });
   }
 

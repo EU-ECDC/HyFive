@@ -99,8 +99,8 @@
     </ng-container>
     <!-- Håndsmykker -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Handjewelry]">
-      <app-edit-handjewelry-observations [kanRedigere]="!isTransferToFhi(item.transferStatus.code)"
-                                            [sesjonId]="item.id"
+      <app-edit-handjewelry-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                            [sessionId]="item.id"
                                             [observations]="item.observations"
                                             [department]="item.department"
                                             (observationDeletedEvent)="observationDeletedEvent.emit()"
@@ -108,17 +108,17 @@
     </ng-container>
     <!-- Hansker -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Gloves]">
-      <app-rediger-hanske-observasjoner [kanRedigere]="!isTransferToFhi(item.transferStatus.code)"
-                                        [sesjonId]="item.id"
+      <app-edit-glove-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                        [sessionId]="item.id"
                                         [observations]="item.observations"
                                         [department]="item.department"
                                         (observationDeletedEvent)="observationDeletedEvent.emit()"
-                                        (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-rediger-hanske-observasjoner>
+                                        (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-glove-observations>
     </ng-container>
     <!-- Beskyttelsesutstyr -->
     <ng-container *ngIf="item.type === SessionType[SessionType.ProtectiveEquipment]">
-      <app-rediger-beskyttelsesutstyr-observasjoner [kanRedigere]="!isTransferToFhi(item.transferStatus.code)"
-                                                    [sesjonId]="item.id"
+      <app-rediger-beskyttelsesutstyr-observasjoner [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                                    [sessionId]="item.id"
                                                     [observations]="item.observations"
                                                     [department]="item.department"
                                                     (observationDeletedEvent)="observationDeletedEvent.emit()"
