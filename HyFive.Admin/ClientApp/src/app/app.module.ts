@@ -51,7 +51,7 @@ import {EditFourIndicationsObservationsComponent} from "./koordinator/redigering
 import {EditHandjewelryObservationsComponent} from "./koordinator/redigering-av-observasjoner/edit-handjewelry-observations/edit-handjewelry-observations.component";
 import {RedigerGloveObservationerComponent} from "./koordinator/redigering-av-observasjoner/rediger-hanske-observasjoner/rediger-hanske-observasjoner.component";
 import {IndicationSelectionComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indication-selection/indication-selection.component";
-import {AktivitetValgDropdownComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/aktivitetvalg/aktivitet-valg-dropdown.component";
+import {ActivityChoiceDropdownComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/activity-choice/activity-choice-dropdown.component";
 import { RedigerBeskyttelsesutstyrObservasjonerComponent } from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjoner.component";
 import { RedigerBeskyttelsesutstyrObservasjonComponent } from './koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
 import {BeskyttelsesutstyrModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
@@ -118,7 +118,7 @@ export const httpInterceptorProviders = [
     RedigeringAvRegionComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
-    AktivitetValgDropdownComponent,
+    ActivityChoiceDropdownComponent,
     RedigeringAvRollerComponent,
     OversiktFhiAdminComponent,
     RedigerFhiAdminComponent,

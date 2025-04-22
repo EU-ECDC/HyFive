@@ -1,0 +1,7 @@
+<div class="form-group col-3" [style]="{ 'min-width': '200px !important', 'margin-left': '-18px' }">
+  <select class="form-select form-control--rounded"
+          [(ngModel)]="selectedActivityTypeId"
+          (ngModelChange)="selectedActivityTypeChanged()">
+    <option *ngFor="let activityType of activityTypes" [value]="activityType.id+''" >{{activityType.name}}</option>
+  </select>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ActivityType } from '../../../models/api/ActivityType';
-import { AktivitettypeService } from '../../../services/data/aktivitettype.service';
+import { ActivityTypeService } from '../../../services/data/activity-type.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
   activitytypeAsChanged: ActivityType = null;
 
   constructor(
-    private aktivitettypeService: AktivitettypeService,
+    private activityTypeService: ActivityTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -32,7 +32,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
   }
 
   lastAktivitettype() {
-    this.aktivitettypeService.hentAktivitettyper().subscribe(
+    this.activityTypeService.getActivityTypes().subscribe(
       (resultat) => this.activityTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Aktivitettyper: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -44,7 +44,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
   }
 
   lagreAktivitettype(aktivitettype: ActivityType): void {
-    this.aktivitettypeService.oppdaterAktivitettype(aktivitettype).subscribe(
+    this.activityTypeService.updateActivityType(aktivitettype).subscribe(
       (oppdatertAktivitettype) => {
         this.toastrService.success("Aktivitettype oppdatert");
         this.lastAktivitettype();

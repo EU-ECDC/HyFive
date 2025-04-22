@@ -51,25 +51,25 @@
                     </app-indication-selection>
                   </div>
                   <div class="col-2">
-                    <app-activity-valg-dropdown [activityTypeId]="fourIndicationsObservationWhichChanged.activity.activityType.id" (activityTypeValgt)="selectActivity($event)"></app-activity-valg-dropdown>
+                    <app-activity-choice-dropdown [activityTypeId]="fourIndicationsObservationWhichChanged.activity.activityType.id" (activityTypeSelected)="selectActivity($event)"></app-activity-choice-dropdown>
                   </div>
                   <div class="col-1">
                     <input type="number" [min]="0"  style="width: 3rem;"
                            [(ngModel)]="fourIndicationsObservationWhichChanged.activity.secondsUsed"
                            (ngModelChange)="changeSecondsUsed($event)"/>
-                    <i>Tidtaking {{fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0 ? 'ikke' : ''}} utført</i>
+                    <i>Timekeeping {{fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0 ? 'not' : ''}} performed</i>
                   </div>
                   <div class="col-1">
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="riktigBruk" name="riktigBruk" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.benyttetHanske">
-                      <label class="custom-control-label" for="riktigBruk">Yes</label>
+                      <input type="radio" id="appropriateUse" name="appropriateUse" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
+                      <label class="custom-control-label" for="appropriateUse">Yes</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="feilBruk" name="feilBruk" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.benyttetHanske">
-                      <label class="custom-control-label" for="feilBruk">No</label>
+                      <input type="radio" id="wrongUse" name="wrongUse" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
+                      <label class="custom-control-label" for="wrongUse">No</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.benyttetHanske">
+                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
                       <label class="custom-control-label" for="notRegistered">Ikke registrert</label>
                     </div>
                   </div>
