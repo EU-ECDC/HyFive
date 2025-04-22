@@ -2,11 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Observasjon } from './Observasjon';
+
+import { Observation } from './Observation';
 import { Beskyttelsesutstyr } from './Beskyttelsesutstyr';
 import { BeskyttelsesutstyrsettingType } from './BeskyttelsesutstyrsettingType';
 
-export interface ProtectiveEquipmentObservation extends Observasjon
+export interface ProtectiveEquipmentObservation extends Observation
 {
 	beskyttelsesutstyrliste: Beskyttelsesutstyr[];
 	settingtype: BeskyttelsesutstyrsettingType;

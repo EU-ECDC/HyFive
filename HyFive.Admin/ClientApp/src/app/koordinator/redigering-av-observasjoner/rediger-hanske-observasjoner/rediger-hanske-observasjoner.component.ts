@@ -73,10 +73,10 @@ export class RedigerGloveObservationerComponent implements OnInit{
     this.hanskeObservasjonSomEndres = {
       benyttetHanske: observasjon.hanskeObservasjon.benyttetHanske,
       id: observasjon.id,
-      sesjonId:  this.sesjonId,
-      kommentar: observasjon.kommentar,
-      rolle: observasjon.rolle,
-      registrerttidspunkt: observasjon.registrerttidspunkt,
+      sessionId:  this.sesjonId,
+      comment: observasjon.kommentar,
+      role: observasjon.rolle,
+      registrationTime: observasjon.registrerttidspunkt,
       handhygieneEtterHanskebrukType: observasjon.hanskeObservasjon.handhygieneEtterHanskebrukType,
     }
     this.hanskeMedIndikasjonTyper.map((h) =>{
@@ -102,7 +102,7 @@ export class RedigerGloveObservationerComponent implements OnInit{
   }
 
   endretKommentar(kommentar: string) {
-    this.hanskeObservasjonSomEndres.kommentar = kommentar;
+    this.hanskeObservasjonSomEndres.comment = kommentar;
   }
 
   updateGloveObservation() {
@@ -154,7 +154,7 @@ export class RedigerGloveObservationerComponent implements OnInit{
   }
 
   velgRolle(rolle: Role) {
-    this.hanskeObservasjonSomEndres.rolle = rolle;
+    this.hanskeObservasjonSomEndres.role = rolle;
   }
 
   settBenyttetHanskeHvisAktuelt(hanskeMedIndikasjonerValgt: boolean) {

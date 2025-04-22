@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IndikasjonType } from '../../models/api/IndikasjonType';
+import { IndicationType } from '../../models/api/IndicationType';
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -14,15 +14,15 @@ export class IndikasjonstyperService {
 
   }
 
-  hentIndikasjonstyper(): Observable<IndikasjonType[]> {
-    const url = `${environment.apiBaseUrl}/v1/indikasjonstyper`;
-    return this.httpClient.get<IndikasjonType[]>(url)
+  hentIndikasjonstyper(): Observable<IndicationType[]> {
+    const url = `${environment.apiBaseUrl}/v1/indicationtypes`;
+    return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
-  oppdaterIndikasjonstype(indikasjonstype: IndikasjonType): Observable<IndikasjonType> {
-    const url = `${environment.apiBaseUrl}/v1/indikasjonstyper/oppdater`;
-    return this.httpClient.put<IndikasjonType>(url, indikasjonstype)
+  oppdaterIndikasjonstype(indicationtype: IndicationType): Observable<IndicationType> {
+    const url = `${environment.apiBaseUrl}/v1/indicationtypes/update`;
+    return this.httpClient.put<IndicationType>(url, indicationtype)
     .pipe();
   }
 }

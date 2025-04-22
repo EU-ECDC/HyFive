@@ -4,11 +4,11 @@
 
 import { Role } from './Role';
 
-export interface Observasjon
+export interface Observation
 {
 	id: string;
-	rolle: Role;
-	registrerttidspunkt?: Date;
-	sesjonId: string;
-	kommentar?: string;
+	role: Role;
+	registrationTime?: Date;
+	sessionId: string;
+	comment?: string;
 }

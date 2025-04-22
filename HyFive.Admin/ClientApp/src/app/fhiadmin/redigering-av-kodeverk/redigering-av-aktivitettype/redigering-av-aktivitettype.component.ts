@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AktivitetType } from '../../../models/api/AktivitetType';
+import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitettypeService } from '../../../services/data/aktivitettype.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,8 +10,8 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
 
-  aktivitettyper: AktivitetType[] = [];
-  aktivitettypeSomEndres: AktivitetType = null;
+  activityTypes: ActivityType[] = [];
+  activitytypeAsChanged: ActivityType = null;
 
   constructor(
     private aktivitettypeService: AktivitettypeService,
@@ -33,24 +33,24 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
 
   lastAktivitettype() {
     this.aktivitettypeService.hentAktivitettyper().subscribe(
-      (resultat) => this.aktivitettyper = resultat,
+      (resultat) => this.activityTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Aktivitettyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtAktivitettype(aktivitettype: AktivitetType): void {
-    if (this.aktivitettypeSomEndres?.id == aktivitettype.id) return;
-    this.aktivitettypeSomEndres = JSON.parse(JSON.stringify(aktivitettype));
+  valgtAktivitettype(aktivitettype: ActivityType): void {
+    if (this.activitytypeAsChanged?.id == aktivitettype.id) return;
+    this.activitytypeAsChanged = JSON.parse(JSON.stringify(aktivitettype));
   }
 
-  lagreAktivitettype(aktivitettype: AktivitetType): void {
+  lagreAktivitettype(aktivitettype: ActivityType): void {
     this.aktivitettypeService.oppdaterAktivitettype(aktivitettype).subscribe(
       (oppdatertAktivitettype) => {
         this.toastrService.success("Aktivitettype oppdatert");
         this.lastAktivitettype();
       },
       error => this.toastrService.error('Det oppstod en feil under oppdatering av Aktivitettype: ' + error?.error, '', { disableTimeOut: true}),
-      () => this.aktivitettypeSomEndres = null
+      () => this.activitytypeAsChanged = null
     );
   }
 
@@ -59,6 +59,6 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.aktivitettypeSomEndres = null;
+    this.activitytypeAsChanged = null;
   }
 }

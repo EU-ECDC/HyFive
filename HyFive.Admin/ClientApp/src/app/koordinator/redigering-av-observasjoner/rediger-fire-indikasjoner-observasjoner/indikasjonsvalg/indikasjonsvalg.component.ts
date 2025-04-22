@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import {IndikasjonTypeValg} from "../../../../models/fireindikasjoner/indikasjontypevalg.model";
-import {IndikasjonType} from "../../../../models/api/IndikasjonType";
+import {IndicationType} from "../../../../models/api/IndicationType";
 import {IndikasjonstyperService} from "../../../../services/data/indikasjonstyper.service";
 import {IndikasjonTypeMapper} from "../../../../utils/indikasjontype-mapper";
 
@@ -14,9 +14,9 @@ export class IndikasjonsValgComponent implements OnInit {
   indikasjonTypeValg: IndikasjonTypeValg[] = [];
 
   @Input("parentId") parentId: string;
-  @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndikasjonType[];
-  @Input("valgteIndikasjoner") valgteIndikasjoner: IndikasjonType[] = [];
-  @Output() indikasjonsValgChangedEvent = new EventEmitter<IndikasjonType[]>();
+  @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndicationType[];
+  @Input("valgteIndikasjoner") valgteIndikasjoner: IndicationType[] = [];
+  @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
 
   constructor(private indikasjonstyperService: IndikasjonstyperService) { }
 
@@ -27,7 +27,7 @@ export class IndikasjonsValgComponent implements OnInit {
     });
   }
 
-  changed(indikasjon: IndikasjonType): void {
+  changed(indikasjon: IndicationType): void {
     let valg = this.indikasjonTypeValg.filter(x => x.erValgt);
     this.indikasjonsValgChangedEvent.emit(this.tilgjengeligeIndikasjoner.filter(x => valg.some(y => y.code === x.code)));
   }

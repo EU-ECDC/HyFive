@@ -18,18 +18,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let indikasjonstype of indikasjonstyper">
-              <ng-container *ngIf="indikasjonstypeSomEndres?.id !== indikasjonstype.id">
-                <td>{{indikasjonstype.code}}</td>
-                <td>{{indikasjonstype.name}}</td>
-                <td>{{indikasjonstype.nummer}}</td>
+            <tr *ngFor="let indicationtype of indicationtypes">
+              <ng-container *ngIf="indikasjonstypeSomEndres?.id !== indicationtype.id">
+                <td>{{indicationtype.code}}</td>
+                <td>{{indicationtype.name}}</td>
+                <td>{{indicationtype.number}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtIndikasjonstype(indikasjonstype)">
+                  <button class="btn fhi-btn-icon" (click)="valgtIndikasjonstype(indicationtype)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="indikasjonstypeSomEndres?.id === indikasjonstype.id">
+              <ng-container *ngIf="indikasjonstypeSomEndres?.id === indicationtype.id">
                 <td>{{indikasjonstypeSomEndres.code}}</td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.name">
@@ -52,5 +52,5 @@
     </ng-container>
   </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="indikasjonstyper?.length == 0">Laster indikasjonstyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="indicationtypes?.length == 0">Laster indicationtypes</app-spinner>
 </div>

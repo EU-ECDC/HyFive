@@ -61,16 +61,16 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
     this.handsmykkeObservasjonSomEndres = {
       id: observasjon.id,
-      sesjonId:  this.sesjonId,
+      sessionId:  this.sesjonId,
       handsmykker: observasjon.handsmykketyper,
-      kommentar: observasjon.kommentar,
-      rolle: observasjon.rolle,
-      registrerttidspunkt: observasjon.registrerttidspunkt
+      comment: observasjon.kommentar,
+      role: observasjon.rolle,
+      registrationTime: observasjon.registrerttidspunkt
     }
   }
 
   endretKommentar(kommentar: string) {
-    this.handsmykkeObservasjonSomEndres.kommentar = kommentar;
+    this.handsmykkeObservasjonSomEndres.comment = kommentar;
   }
 
   updateHandJewelryObservation() {
@@ -107,6 +107,6 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
   }
 
   velgRolle(rolle: Role) {
-    this.handsmykkeObservasjonSomEndres.rolle = rolle;
+    this.handsmykkeObservasjonSomEndres.role = rolle;
   }
 }

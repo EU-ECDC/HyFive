@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Observasjon } from './Observasjon';
-import { IndikasjonType } from './IndikasjonType';
-import { Aktivitet } from './Aktivitet';
+import { Observation } from './Observation';
+import { IndicationType } from './IndicationType';
+import { Activity } from './Activity';
 
-export interface FourIndicationsObservation extends Observasjon
+export interface FourIndicationsObservation extends Observation
 {
-	indicationTypes?: IndikasjonType[];
-	activity?: Aktivitet;
+	indicationTypes?: IndicationType[];
+	activity?: Activity;
 }

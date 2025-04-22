@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12 pb-2">
     <h4>[ Redigeringsmodus aktiv ]</h4>
-    <i>Observasjon: {{observasjonId}}</i><br/>
-    <i>Registrert: {{observasjon.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</i>
+    <i>Observation: {{observasjonId}}</i><br/>
+    <i>Registrert: {{observasjon.registrationTime | date:'dd.MM.yyyy HH:mm' }}</i>
     <app-spinner *ngIf="observasjonLaster"></app-spinner>
   </div>
 </div>

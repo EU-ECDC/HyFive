@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AktivitetType} from "../../../../models/api/AktivitetType";
+import {ActivityType} from "../../../../models/api/ActivityType";
 import {AktivitettypeService} from "../../../../services/data/aktivitettype.service";
 
 @Component({
@@ -9,9 +9,9 @@ import {AktivitettypeService} from "../../../../services/data/aktivitettype.serv
 export class AktivitetValgDropdownComponent implements OnInit{
 
   @Input('aktivitetTypeId') aktivitetTypeId: number;
-  @Output('aktivitetTypeValgt') aktivitetTypeValgt: EventEmitter<AktivitetType> = new EventEmitter<AktivitetType>();
-  valgtAktivitetType: AktivitetType;
-  aktivitetTyper: AktivitetType[] = [];
+  @Output('aktivitetTypeValgt') aktivitetTypeValgt: EventEmitter<ActivityType> = new EventEmitter<ActivityType>();
+  valgtAktivitetType: ActivityType;
+  aktivitetTyper: ActivityType[] = [];
 
   valgtAktivitetTypeId: string;
 

@@ -3,8 +3,8 @@ import { TransferstatusTypeConstants } from '../../../models/api/TransferstatusT
 import { SessionType } from '../../../models/api/SessionType';
 import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { Role } from '../../../models/api/Role';
-import { IndikasjonType } from '../../../models/api/IndikasjonType';
-import { AktivitetType } from '../../../models/api/AktivitetType';
+import { IndicationType } from '../../../models/api/IndicationType';
+import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetTypeKonstanter } from '../../../models/api/AktivitetTypeKonstanter';
 import { ObservationService } from '../../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -25,10 +25,10 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   @Output() observationUpdatedEvent = new EventEmitter();
   @Output() observationDeletedEvent = new EventEmitter();
 
-  fourIndicationsObservationSomEndres: FourIndicationsObservation = null;
+  fourIndicationsObservationWhichChanged: FourIndicationsObservation = null;
   handsmykkeObservasjonSomEndres: BraceletObservation = null;
 
-  sekunderBrukt: number;
+  secondsUsed: number;
 
   kanLagres = true;
   transferstatusTypeConstants = TransferstatusTypeConstants;
@@ -41,8 +41,8 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      if (this.fourIndicationsObservationSomEndres)
-        this.fourIndicationsObservationSomEndres= null;
+      if (this.fourIndicationsObservationWhichChanged)
+        this.fourIndicationsObservationWhichChanged= null;
     });
   }
 
@@ -51,51 +51,51 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
       return;
     }
 
-    this.fourIndicationsObservationSomEndres = JSON.parse(JSON.stringify(observasjon));
-    this.fourIndicationsObservationSomEndres.sesjonId = this.sessionId;
+    this.fourIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observasjon));
+    this.fourIndicationsObservationWhichChanged.sessionId = this.sessionId;
   }
 
   velgRolle(rolle: Role) {
-    this.fourIndicationsObservationSomEndres.rolle = rolle;
+    this.fourIndicationsObservationWhichChanged.role = rolle;
   }
 
-  indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
-    this.fourIndicationsObservationSomEndres.indicationTypes = valgteIndikasjoner;
+  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
+    this.fourIndicationsObservationWhichChanged.indicationTypes = valgteIndikasjoner;
   }
 
-  velgAktivitet(aktivitetType: AktivitetType) {
-    this.fourIndicationsObservationSomEndres.activity.aktivitetType = aktivitetType;
+  velgAktivitet(ActivityType: ActivityType) {
+    this.fourIndicationsObservationWhichChanged.activity.activityType = ActivityType;
   }
 
-  endretSekunderBrukt(sekunderBrukt: number) {
-    this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = sekunderBrukt;
+  endretSekunderBrukt(secondsUsed: number) {
+    this.fourIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
   }
 
   endretKommentar(kommentar: string) {
-    this.fourIndicationsObservationSomEndres.kommentar = kommentar;
+    this.fourIndicationsObservationWhichChanged.comment = kommentar;
   }
 
   updateFourIndicationsObservation() {
-    if (this.fourIndicationsObservationSomEndres.activity.aktivitetType.code === AktivitetTypeKonstanter.IkkeUtfort
-      || this.fourIndicationsObservationSomEndres.activity.aktivitetType.code === AktivitetTypeKonstanter.IkkeRegistrert) {
-      this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = 0;
-      this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = false;
+    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === AktivitetTypeKonstanter.IkkeUtfort
+      || this.fourIndicationsObservationWhichChanged.activity.activityType.code === AktivitetTypeKonstanter.IkkeRegistrert) {
+      this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+      this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = false;
     }
     else {
-      this.fourIndicationsObservationSomEndres.activity.benyttetHanske = null;
-      if (this.fourIndicationsObservationSomEndres.activity.sekunderBrukt <= 0){
-        this.fourIndicationsObservationSomEndres.activity.sekunderBrukt = 0;
-        this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = false;
+      this.fourIndicationsObservationWhichChanged.activity.usedGlove = null;
+      if (this.fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
+        this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+        this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = false;
       }
       else {
-        this.fourIndicationsObservationSomEndres.activity.tidtakingBleUtfort = true;
+        this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = true;
       }
     }
 
     if (this.kanLagres) {
-      this.observationService.updateFourIndicationsObservation(this.fourIndicationsObservationSomEndres).subscribe(
+      this.observationService.updateFourIndicationsObservation(this.fourIndicationsObservationWhichChanged).subscribe(
         (erOppdatert) => {
-          this.fourIndicationsObservationSomEndres = null;
+          this.fourIndicationsObservationWhichChanged = null;
           this.toastrService.success('Observasjonen ble oppdatert');
           this.observationUpdatedEvent.emit();
         },
@@ -107,9 +107,9 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   }
 
   deleteFourIndicationsObservation() {
-    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationSomEndres.id, this.sessionId).subscribe(
+    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationWhichChanged.id, this.sessionId).subscribe(
       () => {
-        this.fourIndicationsObservationSomEndres = null;
+        this.fourIndicationsObservationWhichChanged = null;
         this.toastrService.success('Observasjonen ble slettet');
         this.observationDeletedEvent.emit();
       },
@@ -120,6 +120,6 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
 
   avbrytRedigeringAvObservasjon(event) {
     event.stopPropagation();
-    this.fourIndicationsObservationSomEndres = null;
+    this.fourIndicationsObservationWhichChanged = null;
   }
 }

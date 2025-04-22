@@ -52,13 +52,13 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
   }
 
   endretKommentar(kommentar: string) {
-    this.beskyttelsesutstyrObservasjonSomEndres.kommentar = kommentar;
+    this.beskyttelsesutstyrObservasjonSomEndres.comment = kommentar;
   }
 
   oppdaterRegistrerttidspunkt(dateString: string) {
     if (dateString) {
       this.registrertDato = new Date(dateString);
-      this.beskyttelsesutstyrObservasjonSomEndres.registrerttidspunkt = this.registrertDato;
+      this.beskyttelsesutstyrObservasjonSomEndres.registrationTime = this.registrertDato;
     }
   }
 
@@ -98,7 +98,7 @@ export class RedigerBeskyttelsesutstyrObservasjonerComponent implements OnInit {
   }
 
   velgRolle(rolle: Role) {
-    this.beskyttelsesutstyrObservasjonSomEndres.rolle = rolle;
+    this.beskyttelsesutstyrObservasjonSomEndres.role = rolle;
   }
 
   oppdaterObservasjonMedEndringerFraKort($event: ProtectiveEquipmentObservation) {

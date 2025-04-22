@@ -57,7 +57,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
       (o) => {
         this.observasjon = o;
         this.beskyttelsesutstyr = this.observasjon.beskyttelsesutstyrliste;
-        this.observasjon.sesjonId = this.sesjonId;
+        this.observasjon.sessionId = this.sesjonId;
         this.settingService.hentBeskyttelsesutstyrsettingtyper().subscribe((settinger) => {
           this.settinger = settinger;
           this.valgtSetting = this.observasjon.settingtype;
@@ -70,7 +70,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   }
 
   registrerKommentar(kommentar: string) {
-    this.observasjon.kommentar = kommentar;
+    this.observasjon.comment = kommentar;
     this.oppdater();
   }
 
@@ -152,7 +152,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   }
 
   velgRolle($event: Role) {
-    this.observasjon.rolle = $event;
+    this.observasjon.role = $event;
     this.oppdater();
   }
 

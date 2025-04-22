@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Observasjon } from './Observasjon';
+import { Observation } from './Observation';
 import { HanskeMedIndikasjonType } from './HanskeMedIndikasjonType';
 import { HanskeUtenIndikasjonType } from './HanskeUtenIndikasjonType';
 import { HandhygieneEtterHanskebrukType } from './HandhygieneEtterHanskebrukType';
 
-export interface GloveObservation extends Observasjon
+export interface GloveObservation extends Observation
 {
 	hanskeMedIndikasjonTyper?: HanskeMedIndikasjonType[];
 	hanskeUtenIndikasjonTyper?: HanskeUtenIndikasjonType[];

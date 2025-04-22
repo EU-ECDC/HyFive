@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IndikasjonType } from '../../models/api/IndikasjonType';
+import { IndicationType } from '../../models/api/IndicationType';
 import { environment } from 'src/environments/environment';
 import { InstitusjonType } from '../../models/api/InstitusjonType';
 import { OpprettInstitusjonstypeRequest } from '../../models/api/OpprettInstitusjonstypeRequest';
@@ -18,7 +18,7 @@ export class InstitusjonstyperService {
 
   hentInstitusjonstyper(): Observable<InstitusjonType[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjonstyper`;
-    return this.httpClient.get<IndikasjonType[]>(url)
+    return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
