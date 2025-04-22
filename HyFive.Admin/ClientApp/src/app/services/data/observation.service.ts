@@ -41,7 +41,7 @@ export class ObservationService {
   }
 
   getSessionsForDepartment(departmentid: number, sessiontype: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<SessionOverviewReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/observation/avdeling`;
+    const url = `${environment.apiBaseUrl}/v1/observation/department`;
     let params = new HttpParams();
 
     if (departmentid !== null)
@@ -62,7 +62,7 @@ export class ObservationService {
   }
 
   getSessionsForInstitution(institutionId: number, observer?: User, sessiontype?: SessionType, fromDate?: Date, toDate?: Date): Observable<SessionOverviewReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/observation/institusjon`;
+    const url = `${environment.apiBaseUrl}/v1/observation/institution`;
     let params = new HttpParams();
 
     params = params.append("institutionid", institutionId?.toString());

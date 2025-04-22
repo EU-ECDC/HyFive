@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let observasjon of observasjoner">
-          <tr (click)="velgObservasjon(observasjon)" *ngIf="handsmykkeObservasjonSomEndres?.id !== observasjon.id">
+          <tr (click)="velgObservasjon(observasjon)" *ngIf="handjewelryObservationAsChanged?.id !== observasjon.id">
             <td>{{observasjon.rolle.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
@@ -23,7 +23,7 @@
             <td>{{observasjon.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</td>
             <td>{{observasjon.kommentar}}</td>
           </tr>
-          <ng-container *ngIf="handsmykkeObservasjonSomEndres && handsmykkeObservasjonSomEndres.id === observasjon.id">
+          <ng-container *ngIf="handjewelryObservationAsChanged && handjewelryObservationAsChanged.id === observasjon.id">
             <tr>
               <td colspan="12">
                 <i>ID: {{observasjon.id}}</i>
@@ -31,7 +31,7 @@
             </tr>
             <tr></tr>
             <tr>
-              <td><app-rolle-valg-dropdown [rolleId]="handsmykkeObservasjonSomEndres.rolle.id" [avdelingId]="avdeling.id" (rolleValgt)="velgRolle($event)" [customClass]="''"></app-rolle-valg-dropdown></td>
+              <td><app-rolle-valg-dropdown [rolleId]="handjewelryObservationAsChanged.rolle.id" [avdelingId]="avdeling.id" (rolleValgt)="velgRolle($event)" [customClass]="''"></app-rolle-valg-dropdown></td>
               <td>
                 <ul *ngFor="let hsv of handsmykkeValg">
                   <div class="form-check">
@@ -43,10 +43,10 @@
                 </ul>
               </td>
               <td>
-                {{handsmykkeObservasjonSomEndres.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}
+                {{handjewelryObservationAsChanged.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}
               </td>
               <td>
-                <textarea style="width: 12rem;" [(ngModel)]="handsmykkeObservasjonSomEndres.kommentar" (ngModelChange)="endretKommentar($event)">{{handsmykkeObservasjonSomEndres.kommentar}}</textarea>
+                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.kommentar" (ngModelChange)="endretKommentar($event)">{{handjewelryObservationAsChanged.kommentar}}</textarea>
               </td>
             </tr>
             <tr></tr>

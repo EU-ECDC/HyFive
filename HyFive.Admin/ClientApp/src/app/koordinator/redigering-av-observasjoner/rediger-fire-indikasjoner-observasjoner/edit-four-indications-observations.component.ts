@@ -5,7 +5,7 @@ import { FourIndicationsObservation } from '../../../models/api/FourIndicationsO
 import { Role } from '../../../models/api/Role';
 import { IndicationType } from '../../../models/api/IndicationType';
 import { ActivityType } from '../../../models/api/ActivityType';
-import { AktivitetTypeKonstanter } from '../../../models/api/AktivitetTypeKonstanter';
+import { ActivityTypeConstants } from '../../../models/api/ActivityTypeConstants';
 import { ObservationService } from '../../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
 import {BraceletObservation} from "../../../models/api/BraceletObservation";
@@ -26,11 +26,11 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   @Output() observationDeletedEvent = new EventEmitter();
 
   fourIndicationsObservationWhichChanged: FourIndicationsObservation = null;
-  handsmykkeObservasjonSomEndres: BraceletObservation = null;
+  braceletObservationAsChanged: BraceletObservation = null;
 
   secondsUsed: number;
 
-  kanLagres = true;
+  canBeStored = true;
   transferstatusTypeConstants = TransferstatusTypeConstants;
   SessionType = SessionType;
 
@@ -46,38 +46,38 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
     });
   }
 
-  velgObservasjon(observasjon: FourIndicationsObservation) {
+  selectObservation(observation: FourIndicationsObservation) {
     if(!this.canEdit){
       return;
     }
 
-    this.fourIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observasjon));
+    this.fourIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observation));
     this.fourIndicationsObservationWhichChanged.sessionId = this.sessionId;
   }
 
-  velgRolle(rolle: Role) {
-    this.fourIndicationsObservationWhichChanged.role = rolle;
+  selectRole(role: Role) {
+    this.fourIndicationsObservationWhichChanged.role = role;
   }
 
-  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
-    this.fourIndicationsObservationWhichChanged.indicationTypes = valgteIndikasjoner;
+  indicationOptionChanged(selectedIndications: IndicationType[]) {
+    this.fourIndicationsObservationWhichChanged.indicationTypes = selectedIndications;
   }
 
-  velgAktivitet(ActivityType: ActivityType) {
+  selectActivity(ActivityType: ActivityType) {
     this.fourIndicationsObservationWhichChanged.activity.activityType = ActivityType;
   }
 
-  endretSekunderBrukt(secondsUsed: number) {
+  changeSecondsUsed(secondsUsed: number) {
     this.fourIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
   }
 
-  endretKommentar(kommentar: string) {
-    this.fourIndicationsObservationWhichChanged.comment = kommentar;
+  changeComment(comment: string) {
+    this.fourIndicationsObservationWhichChanged.comment = comment;
   }
 
   updateFourIndicationsObservation() {
-    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === AktivitetTypeKonstanter.IkkeUtfort
-      || this.fourIndicationsObservationWhichChanged.activity.activityType.code === AktivitetTypeKonstanter.IkkeRegistrert) {
+    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRequired
+      || this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
       this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
       this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = false;
     }
@@ -92,15 +92,15 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
       }
     }
 
-    if (this.kanLagres) {
+    if (this.canBeStored) {
       this.observationService.updateFourIndicationsObservation(this.fourIndicationsObservationWhichChanged).subscribe(
-        (erOppdatert) => {
+        (isUpdated) => {
           this.fourIndicationsObservationWhichChanged = null;
-          this.toastrService.success('Observasjonen ble oppdatert');
+          this.toastrService.success('The observation was updated');
           this.observationUpdatedEvent.emit();
         },
         (error) => {
-          this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observasjon', { disableTimeOut: true});
+          this.toastrService.error(error?.error ? error.error : error, 'Error when updating the observation', { disableTimeOut: true});
         }
       );
     }
@@ -110,15 +110,15 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
     this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationWhichChanged.id, this.sessionId).subscribe(
       () => {
         this.fourIndicationsObservationWhichChanged = null;
-        this.toastrService.success('Observasjonen ble slettet');
+        this.toastrService.success('The observation was deleted');
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error,'Feil ved sletting av observasjon', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error,'Error when deleting observation', { disableTimeOut: true});
       });
   }
 
-  avbrytRedigeringAvObservasjon(event) {
+  cancelEditOfObservation(event) {
     event.stopPropagation();
     this.fourIndicationsObservationWhichChanged = null;
   }

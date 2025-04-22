@@ -99,12 +99,12 @@
     </ng-container>
     <!-- Håndsmykker -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Handjewelry]">
-      <app-rediger-handsmykke-observasjoner [kanRedigere]="!isTransferToFhi(item.transferStatus.code)"
+      <app-edit-handjewelry-observations [kanRedigere]="!isTransferToFhi(item.transferStatus.code)"
                                             [sesjonId]="item.id"
                                             [observations]="item.observations"
                                             [department]="item.department"
                                             (observationDeletedEvent)="observationDeletedEvent.emit()"
-                                            (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-rediger-handsmykke-observasjoner>
+                                            (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-handjewelry-observations>
     </ng-container>
     <!-- Hansker -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Gloves]">

@@ -11,10 +11,10 @@ import {HandsmykketypeService} from "../../../services/data/handsmykketype.servi
 import {HandsmykkeType} from "../../../models/api/HandsmykkeType";
 
 @Component({
-  selector: 'app-rediger-handsmykke-observasjoner',
-  templateUrl: './rediger-handsmykke-observasjoner.component.html'
+  selector: 'app-edit-handjewelry-observations',
+  templateUrl: './edit-handjewelry-observations.component.html'
 })
-export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
+export class EditHandjewelryObservationsComponent implements OnInit {
 
   @Input() observasjoner: ObservasjonOversiktRapport[]
   @Input() sesjonId: string;
@@ -24,7 +24,7 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
 
-  handsmykkeObservasjonSomEndres: BraceletObservation;
+  handjewelryObservationAsChanged: BraceletObservation;
   handsmykkeValg: HandJewelrySelection[] = [];
   handsmykketyper: HandsmykkeType[] = [];
 
@@ -40,8 +40,8 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
       this.handsmykketyper = typer;
     })
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      if (this.handsmykkeObservasjonSomEndres)
-        this.handsmykkeObservasjonSomEndres = null;
+      if (this.handjewelryObservationAsChanged)
+        this.handjewelryObservationAsChanged = null;
     });
   }
 
@@ -59,10 +59,10 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
       };
     })
 
-    this.handsmykkeObservasjonSomEndres = {
+    this.handjewelryObservationAsChanged = {
       id: observasjon.id,
       sessionId:  this.sesjonId,
-      handsmykker: observasjon.handsmykketyper,
+      handJewelry: observasjon.handsmykketyper,
       comment: observasjon.kommentar,
       role: observasjon.rolle,
       registrationTime: observasjon.registrerttidspunkt
@@ -70,15 +70,15 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
   }
 
   endretKommentar(kommentar: string) {
-    this.handsmykkeObservasjonSomEndres.comment = kommentar;
+    this.handjewelryObservationAsChanged.comment = kommentar;
   }
 
   updateHandJewelryObservation() {
     var typer = this.handsmykkeValg.filter(h => h.isSelected).map(hsv => hsv.type)
-    this.handsmykkeObservasjonSomEndres.handsmykker = this.handsmykketyper.filter(h => typer.indexOf(h.code) !== -1)
-    this.observationService.updateHandJewelryObservation(this.handsmykkeObservasjonSomEndres).subscribe(
+    this.handjewelryObservationAsChanged.handJewelry = this.handsmykketyper.filter(h => typer.indexOf(h.code) !== -1)
+    this.observationService.updateHandJewelryObservation(this.handjewelryObservationAsChanged).subscribe(
       (erOppdatert) => {
-        this.handsmykkeObservasjonSomEndres = null;
+        this.handjewelryObservationAsChanged = null;
         this.toastrService.success('Observasjonen ble oppdatert');
         this.observasjonOppdatertEvent.emit();
       },
@@ -90,9 +90,9 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
   }
 
   deleteHandJewelryObservation() {
-    this.observationService.deleteHandJewelryObservation(this.handsmykkeObservasjonSomEndres.id, this.sesjonId).subscribe(
+    this.observationService.deleteHandJewelryObservation(this.handjewelryObservationAsChanged.id, this.sesjonId).subscribe(
       () => {
-        this.handsmykkeObservasjonSomEndres = null;
+        this.handjewelryObservationAsChanged = null;
         this.toastrService.success('Observasjonen ble slettet');
         this.observasjonSlettetEvent.emit();
       },
@@ -103,10 +103,10 @@ export class RedigerHandsmykkeObservasjonerComponent implements OnInit {
 
   avbrytRedigeringAvObservasjon(event) {
     event.stopPropagation();
-    this.handsmykkeObservasjonSomEndres = null;
+    this.handjewelryObservationAsChanged = null;
   }
 
   velgRolle(rolle: Role) {
-    this.handsmykkeObservasjonSomEndres.role = rolle;
+    this.handjewelryObservationAsChanged.role = rolle;
   }
 }
