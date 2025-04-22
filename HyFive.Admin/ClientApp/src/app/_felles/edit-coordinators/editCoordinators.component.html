@@ -101,13 +101,13 @@
                           <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>
                   <div *ngIf="canDelete">
-                    <app-bekreftelsesdialog 
-                                                  [knappTekst]="'Slett'"
-                                                  (bekreftetEvent)="deleteCoordinator(koordinator)"
-                                                  [dialogmelding]='"Vil du slette " + koordinator.firstName + " " + koordinator.lastName + "?"'
+                    <app-confirmation-dialog 
+                                                  [buttonText]="'Slett'"
+                                                  (confirmEvent)="deleteCoordinator(koordinator)"
+                                                  [dialogMessage]='"Vil du slette " + koordinator.firstName + " " + koordinator.lastName + "?"'
                                                   [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
-                                                  [skalBrukeIkon]=true>
-                    </app-bekreftelsesdialog>
+                                                  [shouldUseIcon]=true>
+                    </app-confirmation-dialog>
                   </div>
     
                   <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">

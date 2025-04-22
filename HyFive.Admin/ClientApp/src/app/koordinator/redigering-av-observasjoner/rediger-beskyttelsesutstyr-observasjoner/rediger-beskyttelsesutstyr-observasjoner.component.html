@@ -73,20 +73,20 @@
               <div class="form-row">
                 <div class="col mt-3">
     
-                  <app-bekreftelsesdialog       
-                    [knappTekst]="'Lagre'"
+                  <app-confirmation-dialog       
+                    [buttonText]="'Lagre'"
                     [disabled]="!kanOppdatereBeskyttelsesutstyrObservasjon"
                     [buttonClass]="'btn fhi-btn-primary me-3'"
-                    (bekreftetEvent)="updateProtectiveEquipmentObservation()"
-                    [dialogmelding]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'" >                          
-                  </app-bekreftelsesdialog>
-                  <app-bekreftelsesdialog 
-                                      [knappTekst]="'Slett'"
+                    (confirmEvent)="updateProtectiveEquipmentObservation()"
+                    [dialogMessage]="'Er du sikker på at du vil lagre endringer på observasjon med id ' + observasjon.id + '?'" >                          
+                  </app-confirmation-dialog>
+                  <app-confirmation-dialog 
+                                      [buttonText]="'Slett'"
                                       [buttonClass]="'btn fhi-btn-secondary me-3'"
-                                      (bekreftetEvent)="deleteProtectiveEquipmentObservation()" 
-                                      [dialogmelding]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
+                                      (confirmEvent)="deleteProtectiveEquipmentObservation()" 
+                                      [dialogMessage]='"Vil du slette observasjon med id: " + observasjon.id + "?"'>
                     Slett
-                  </app-bekreftelsesdialog>
+                  </app-confirmation-dialog>
                   <button class="btn fhi-btn-primary bg-dark me-3"
                           (click)="avbrytRedigeringAvObservasjon($event)">
                     Avbryt

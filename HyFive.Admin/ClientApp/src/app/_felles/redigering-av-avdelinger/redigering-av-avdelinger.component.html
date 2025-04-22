@@ -60,13 +60,13 @@
                   <button class="my-2 btn fhi-btn-icon" (click)="avbrytRedigering($event)">
                     <i class="icon-x"></i><span class="btn__text">Avbryt</span>
                   </button>
-                    <app-bekreftelsesdialog
+                    <app-confirmation-dialog
                       [buttonClass]="'my-2 btn fhi-btn-icon'"
-                      [knappTekst]="'Slett'"
-                      [skalBrukeIkon] = true
-                      (bekreftetEvent)="slettAvdeling(avdelingSomEndres)"
-                      [dialogmelding]="'Ved å gå videre vil avdelingen og alle data bli slettet. Vil du fortsette?'">
-                    </app-bekreftelsesdialog>
+                      [buttonText]="'Slett'"
+                      [shouldUseIcon] = true
+                      (confirmEvent)="slettAvdeling(avdelingSomEndres)"
+                      [dialogMessage]="'Ved å gå videre vil avdelingen og alle data bli slettet. Vil du fortsette?'">
+                    </app-confirmation-dialog>
                 </td>
               </ng-container>
             </tr>

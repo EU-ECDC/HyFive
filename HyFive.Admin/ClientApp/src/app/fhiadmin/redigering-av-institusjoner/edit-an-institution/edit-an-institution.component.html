@@ -52,12 +52,12 @@
               <button (click)="lagreInstitusjon()" class="btn fhi-btn-primary" [disabled]="kanIkkeLagreInstitusjon()">Oppdater institution</button>
             </div>
             <div class="col-md-2">
-              <app-bekreftelsesdialog
+              <app-confirmation-dialog
                 [buttonClass]="'btn fhi-btn-secondary'"
-                [knappTekst]="'Slett institution'"
-                (bekreftetEvent)="slettInstitusjon()"
-                [dialogmelding]="'Sletting av institusjonen medfører at alle data som er knyttet til institusjonen slettes. Vil du slette?'">
-              </app-bekreftelsesdialog>
+                [buttonText]="'Slett institution'"
+                (confirmEvent)="slettInstitusjon()"
+                [dialogMessage]="'Sletting av institusjonen medfører at alle data som er knyttet til institusjonen slettes. Vil du slette?'">
+              </app-confirmation-dialog>
             </div>
           </div>
         </div>

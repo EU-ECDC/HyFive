@@ -89,13 +89,13 @@
                       <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                     </button>
                     <div *ngIf="user.erFhiAdmin">
-                      <app-bekreftelsesdialog 
-                                                    [knappTekst]="'Slett'"
-                                                    (bekreftetEvent)="deleteObserver(observator.id)"
-                                                    [dialogmelding]="'Er du sikker på at du vil slette observatøren ' + observator.firstName + ' ' +  observator.lastName +  ' fra systemet?'"
+                      <app-confirmation-dialog 
+                                                    [buttonText]="'Slett'"
+                                                    (confirmEvent)="deleteObserver(observator.id)"
+                                                    [dialogMessage]="'Er du sikker på at du vil slette observatøren ' + observator.firstName + ' ' +  observator.lastName +  ' fra systemet?'"
                                                     [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
-                                                    [skalBrukeIkon]=true>
-                      </app-bekreftelsesdialog>
+                                                    [shouldUseIcon]=true>
+                      </app-confirmation-dialog>
                     </div>
                     <button class="my-2 btn fhi-btn-icon w-100" (click)="avbrytRedigering($event)">
                       <i class="icon-x"></i><span class="btn__text">Avbryt</span>

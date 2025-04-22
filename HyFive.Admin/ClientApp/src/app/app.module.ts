@@ -11,7 +11,7 @@ import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-ins
 import { RedigerEnInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
 import { OpprettInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/opprett-institusjon.component';
 import { RedigerObservatorerComponent } from './_felles/rediger-observatorer/rediger-observatorer.component';
-import { BekrefelsesdialogComponent } from './fhiadmin/redigering-av-institusjoner/bekreftelsesdialog/bekreftelsesdialog.component';
+import { ConfirmationDialogComponent } from './fhiadmin/redigering-av-institusjoner/confirmation-dialog/confirmation-dialog.component';
 import { RedigeringAvIndikasjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-indikasjonstyper/redigering-av-indikasjonstyper.component';
 import { RedigeringAvHandsmykketypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-handsmykketype/redigering-av-handsmykketype.component';
 import { RedigeringAvInstitusjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-institusjonstyper/redigering-av-institusjonstyper.component';
@@ -91,7 +91,7 @@ export const httpInterceptorProviders = [
     RedigerObservatorerComponent,
     RedigeringAvHandsmykketypeComponent,
     EditCoordinatorsComponent,
-    BekrefelsesdialogComponent,
+    ConfirmationDialogComponent,
     RedigeringAvKodeverkComponent,
     RedigeringAvIndikasjonstyperComponent,
     RedigeringAvAktivitettypeComponent,

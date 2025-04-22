@@ -58,12 +58,12 @@
         </button>
       </div>
       <div>
-        <app-bekreftelsesdialog *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferToCoordinator"
-                                [knappTekst]="'Slett sesjon'"
-                                (bekreftetEvent)="deleteSession(item)"
-                                [dialogmelding]="getDeleteMessage(item)"
+        <app-confirmation-dialog *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferToCoordinator"
+                                [buttonText]="'Slett sesjon'"
+                                (confirmEvent)="deleteSession(item)"
+                                [dialogMessage]="getDeleteMessage(item)"
                                 [buttonClass]="'btn btn-sm fhi-btn-secondary col-md-8'">
-        </app-bekreftelsesdialog>
+        </app-confirmation-dialog>
       </div>
     </div>
 
