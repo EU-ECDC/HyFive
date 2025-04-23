@@ -8,26 +8,26 @@ import { MisuseType } from 'src/app/models/api/MisuseType';
 import { ProtectiveEquipmentMapper } from 'src/app/utils/protective-equipment-mapper';
 import {Farger} from "../../../../../../../../HyFive.Observasjon/ClientApp/src/app/utils/farger";
 
-export const BeskyttelsesutstyrModalComponentConfig = {
+export const ProtectiveEquipmentModalComponentConfig = {
   windowClass: 'hh-modal'
 };
 
 @Component({
-  selector: 'app-beskyttelsesutstyr-modal',
-  templateUrl: './beskyttelsesutstyr-modal.component.html',
+  selector: 'app-protective-equipment-modal',
+  templateUrl: './protective-equipment-modal.component.html',
 })
-export class BeskyttelsesutstyrModalComponent implements OnInit {
+export class ProtectiveEquipmentModalComponent implements OnInit {
 
   faCircle = faCircle;
   farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
-  feilbrukTyper: MisuseType[] = [];
+  iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
+  misuseTypes: MisuseType[] = [];
 
   closeResult = '';
 
   @Input() selectedEquipment: ProtectiveEquipment;
-  @Input() visningsmodus = false;
-  @Input() visKnappForSlettingAvUtstyr: boolean = false;
+  @Input() displayMode = false;
+  @Input() showEquipmentDeleteButton: boolean = false;
 
   constructor(private activeModal: NgbActiveModal) {
   }
@@ -41,31 +41,31 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
 
   dismiss() {
     this.selectedEquipment.wasUsed = false;
-    this.activeModal.dismiss('lukk');
+    this.activeModal.dismiss('lock');
   }
 
-  nullstillFeilbrukOgMarkerBenyttet(val: boolean) {
+  resetErrorAndMarkerUsed(selection: boolean) {
     this.selectedEquipment.wasUsed = true;
-    this.selectedEquipment.wasUsedProperly = val;
+    this.selectedEquipment.wasUsedProperly = selection;
   }
 
-  aktiverTilbakeTilKortVedFeilbruk(feilbruk: MisuseType) {
-    if (feilbruk) {
-      if (feilbruk.isSelected === false) {
-        this.feilbrukTyper.push(feilbruk);
+  enableBackToCardOnError(misuse: MisuseType) {
+    if (misuse) {
+      if (misuse.isSelected === false) {
+        this.misuseTypes.push(misuse);
       }
       else {
-        const index = this.feilbrukTyper.indexOf(feilbruk);
-        this.feilbrukTyper.splice(index, 1);
+        const index = this.misuseTypes.indexOf(misuse);
+        this.misuseTypes.splice(index, 1);
       }
     }
   }
 
-  kanLagre() : boolean {
-    return this.selectedEquipment.wasUsedProperly || this.harRegistrertFeilbrukEllerKommentar()
+  canSave() : boolean {
+    return this.selectedEquipment.wasUsedProperly || this.hasRegisteredMisuseOrComment()
   }
 
-  harRegistrertFeilbrukEllerKommentar() : boolean {
+  hasRegisteredMisuseOrComment() : boolean {
     return this.selectedEquipment.equipmentTypeq.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
   }
 }

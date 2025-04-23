@@ -52,9 +52,9 @@ import {EditHandjewelryObservationsComponent} from "./koordinator/redigering-av-
 import {EditGloveObservationsComponent} from "./koordinator/redigering-av-observasjoner/edit-glove-observations/edit-glove-observations.component";
 import {IndicationSelectionComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indication-selection/indication-selection.component";
 import {ActivityChoiceDropdownComponent} from "./koordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/activity-choice/activity-choice-dropdown.component";
-import { RedigerBeskyttelsesutstyrObservasjonerComponent } from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjoner.component";
-import { RedigerBeskyttelsesutstyrObservasjonComponent } from './koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
-import {BeskyttelsesutstyrModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
+import { EditProtectiveEquipmentObservationsComponent } from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/edit-protective-equipment-observations.component";
+import { EditProtectiveEquipmentObservationComponent } from './koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/edit-protective-equipment-observation.component';
+import {ProtectiveEquipmentModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
 import { SokHprnummerLenkeComponent } from './_felles/sok-hprnummer-lenke/sok-hprnummer-lenke.component';
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { ForesporselComponent } from "./koordinator/foresporsel/foresporsel.component";
@@ -126,9 +126,9 @@ export const httpInterceptorProviders = [
     EditFourIndicationsObservationsComponent,
     EditHandjewelryObservationsComponent,
     EditGloveObservationsComponent,
-    RedigerBeskyttelsesutstyrObservasjonerComponent,
-    RedigerBeskyttelsesutstyrObservasjonComponent,
-    BeskyttelsesutstyrModalComponent,
+    EditProtectiveEquipmentObservationsComponent,
+    EditProtectiveEquipmentObservationComponent,
+    ProtectiveEquipmentModalComponent,
     SokHprnummerLenkeComponent,
     EditSessionDataComponent,
     ForesporselComponent,
