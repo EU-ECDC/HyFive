@@ -64,7 +64,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   }
 
   private kanBrukerRedigere() {
-    let rolle = this.authorizationService.hentValgtRolle();
+    let rolle = this.authorizationService.getSelectedRole();
     if(rolle === AuthorizedRole.Coordinator || rolle === AuthorizedRole.Administrator)
       return true;
     return false;

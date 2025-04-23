@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { InnloggetBruker } from '../models/api/InnloggetBruker';
+import { LoggedinUser } from '../models/api/LoggedinUser';
 import { AuthorizedRole } from '../_felles/authorization/authorized-role';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { RolleEventService } from '../services/events/rolle-event.service';
@@ -11,7 +11,7 @@ import { RolleEventService } from '../services/events/rolle-event.service';
 })
 export class ProfilsideComponent implements OnInit {
 
-  user: InnloggetBruker = null;
+  user: LoggedinUser = null;
   AuthorizedRoleValues = AuthorizedRole;
   faUser = faUser;
 
@@ -25,17 +25,17 @@ export class ProfilsideComponent implements OnInit {
     private rolleEventService: RolleEventService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((user) => {
+    this.authorizationService.getUser().subscribe((user) => {
       this.user = user;
     });
 
-    this.authorizationService.getRoller().subscribe((roles) => {
+    this.authorizationService.getRoles().subscribe((roles) => {
       if (roles.length > 1) {
         this.kanBytteRolle = true;
       }
     });
 
-    let valgtRolle = this.authorizationService.hentValgtRolle();
+    let valgtRolle = this.authorizationService.getSelectedRole();
     if (valgtRolle) {
       if (valgtRolle === AuthorizedRole.Administrator) {
         this.valgtRolle = this.rolleAdministrator;
@@ -55,6 +55,6 @@ export class ProfilsideComponent implements OnInit {
     }
 
     this.rolleEventService.byttRolleEvent.emit(rolle);
-    this.authorizationService.lagreValgtRolle(rolle);
+    this.authorizationService.saveSelectedRole(rolle);
   }
 }

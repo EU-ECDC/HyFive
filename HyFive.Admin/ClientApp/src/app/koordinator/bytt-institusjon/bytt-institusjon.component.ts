@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
-import { InnloggetBruker } from '../../models/api/InnloggetBruker';
+import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
@@ -13,7 +13,7 @@ import { InstitusjonForKoordinatorEventService } from '../../services/events/ins
 })
 export class ByttInstitusjonComponent implements OnInit {
 
-  user: InnloggetBruker = null;
+  user: LoggedinUser = null;
   roles: string;
   faUser = faUser;
   valgtInstitusjon: InstitutionReport = null;
@@ -32,9 +32,9 @@ export class ByttInstitusjonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((user: InnloggetBruker) => {
+    this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
       this.user = user;
-      let valgtRolle = this.authorizationService.hentValgtRolle();
+      let valgtRolle = this.authorizationService.getSelectedRole();
       this.initialiser(valgtRolle);
     });
 
@@ -45,7 +45,7 @@ export class ByttInstitusjonComponent implements OnInit {
 
     this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.subscribe(
       () => {
-        let valgtRolle = this.authorizationService.hentValgtRolle();
+        let valgtRolle = this.authorizationService.getSelectedRole();
         this.initialiser(valgtRolle);
       });
   }

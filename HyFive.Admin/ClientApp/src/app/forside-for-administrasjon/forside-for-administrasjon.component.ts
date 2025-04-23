@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { InnloggetBruker } from '../models/api/InnloggetBruker';
+import { LoggedinUser } from '../models/api/LoggedinUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';
@@ -11,7 +11,7 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
   laster = true;
-  user: InnloggetBruker = null;
+  user: LoggedinUser = null;
   faCopy = faCopy;
 
   constructor(
@@ -20,7 +20,7 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
     private clipboardService: ClipboardService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((user) => {
+    this.authorizationService.getUser().subscribe((user) => {
       this.user = user;
     },
       (error) => (this.toastrService.error("En feil skjedde under innlasting av user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),

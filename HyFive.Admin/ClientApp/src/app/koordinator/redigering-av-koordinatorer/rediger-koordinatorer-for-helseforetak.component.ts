@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { InnloggetBruker } from '../../models/api/InnloggetBruker';
+import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 import { UserService } from '../../services/data/user.service';
@@ -28,7 +28,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
   dropdownSettings: IDropdownSettings;
   valgteInstitusjoner: InstitutionReport[] = [];
-  user: InnloggetBruker = null;
+  user: LoggedinUser = null;
   sokeord: string = '';
   filtrertKoordinatorer: CoordinatorForHealthcareCompanies[];
 
@@ -47,7 +47,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       this.avbrytRedigering();
     });
 
-    this.authorizationService.getBruker().subscribe((user) => {
+    this.authorizationService.getUser().subscribe((user) => {
       this.user = user;
     });
 
@@ -159,7 +159,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
           if (erKoordinatorSomEndresLikInnloggetBruker) {
             if (coordinator.isDisabled)
-              this.authorizationService.loggUt();
+              this.authorizationService.logout();
 
             if (nåværendeInstitusjonErFortsattValgt)
               this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.emit();

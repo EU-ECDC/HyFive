@@ -46,7 +46,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   }
 
   setCanDelete() {
-    let role = this.authorizationService.hentValgtRolle();
+    let role = this.authorizationService.getSelectedRole();
     this.canDelete = (role === AuthorizedRole.Administrator);
   }
 

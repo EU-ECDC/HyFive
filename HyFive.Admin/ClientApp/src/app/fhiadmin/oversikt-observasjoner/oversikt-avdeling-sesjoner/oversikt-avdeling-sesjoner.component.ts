@@ -51,7 +51,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   ngOnInit(): void {
     this.laster = true;
-    this.valgtRolle = this.authorizationService.hentValgtRolle();
+    this.valgtRolle = this.authorizationService.getSelectedRole();
     this.valgtInstitusjonId = this.hentInstitusjonId();
 
     this.route

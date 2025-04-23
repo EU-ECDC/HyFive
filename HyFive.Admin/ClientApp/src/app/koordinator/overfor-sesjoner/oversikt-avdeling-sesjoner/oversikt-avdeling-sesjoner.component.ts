@@ -45,7 +45,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.hentValgtRolle();
+    this.valgtRolle = this.authorizationService.getSelectedRole();
     this.route
       .queryParams
       .subscribe(params => {

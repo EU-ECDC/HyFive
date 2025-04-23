@@ -22,7 +22,7 @@ export class EtterlevelsePdfComponent {
     private authorizationService: AuthorizationService) { }
     
     ngOnInit(): void {
-      this.valgtRolle = this.authorizationService.hentValgtRolle();
+      this.valgtRolle = this.authorizationService.getSelectedRole();
       
       if (this.valgtRolle === AuthorizedRole.Coordinator) {
         this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();

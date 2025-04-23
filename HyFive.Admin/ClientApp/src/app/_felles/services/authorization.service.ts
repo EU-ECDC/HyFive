@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { InnloggetBruker } from '../../models/api/InnloggetBruker';
+import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { map, tap } from 'rxjs/operators';
@@ -13,27 +13,27 @@ export class AuthorizationService {
   constructor(private http: HttpClient) {
   }
 
-  getBruker(): Observable<InnloggetBruker> {
-    return this.http.get<InnloggetBruker>('/account').pipe(tap(user => {
-      let valgtRolle = this.hentValgtRolle();
-      if (!valgtRolle) {
-        if (user.erFhiAdmin) {
-          this.lagreValgtRolle(AuthorizedRole.Administrator);
-        } else if (user.erKoordinator) {
-          this.lagreValgtRolle(AuthorizedRole.Coordinator);
+  getUser(): Observable<LoggedinUser> {
+    return this.http.get<LoggedinUser>('/account').pipe(tap(user => {
+      let selectedRole = this.getSelectedRole();
+      if (!selectedRole) {
+        if (user.isFhiAdmin) {
+          this.saveSelectedRole(AuthorizedRole.Administrator);
+        } else if (user.isCoordinator) {
+          this.saveSelectedRole(AuthorizedRole.Coordinator);
         }
       }
     }));
   }
 
-  getRoller(): Observable<AuthorizedRole[]> {
-    return this.getBruker().pipe(map(user => {
+  getRoles(): Observable<AuthorizedRole[]> {
+    return this.getUser().pipe(map(user => {
       const authorizedRoles: AuthorizedRole[] = [];
-      if (user.erFhiAdmin) {
+      if (user.isFhiAdmin) {
         authorizedRoles.push(AuthorizedRole.Administrator);
       }
       
-      if (user.erKoordinator) {
+      if (user.isCoordinator) {
         authorizedRoles.push(AuthorizedRole.Coordinator);
       }
 
@@ -41,19 +41,19 @@ export class AuthorizationService {
     }));
   }
 
-  loggUt() {
+  logout() {
     localStorage.clear();
     window.location.href = '/account/logout';
   }
 
-  lagreValgtRolle(role: AuthorizedRole): AuthorizedRole | null {
+  saveSelectedRole(role: AuthorizedRole): AuthorizedRole | null {
     localStorage.setItem(Localstoragepaths.SelectedRole, JSON.stringify(role));
-    return this.hentValgtRolle();
+    return this.getSelectedRole();
   }
 
-  hentValgtRolle(): AuthorizedRole {
-    const valgtRolleString = localStorage.getItem(Localstoragepaths.SelectedRole);
-    return valgtRolleString ? parseInt(valgtRolleString) : null;
+  getSelectedRole(): AuthorizedRole {
+    const selectedRoleString = localStorage.getItem(Localstoragepaths.SelectedRole);
+    return selectedRoleString ? parseInt(selectedRoleString) : null;
   }
 
 }

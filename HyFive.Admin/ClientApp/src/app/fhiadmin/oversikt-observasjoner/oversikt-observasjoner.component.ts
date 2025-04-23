@@ -60,7 +60,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
     private httpClient: HttpClient) { }
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.hentValgtRolle();
+    this.valgtRolle = this.authorizationService.getSelectedRole();
     this.valgtInstitusjonId = this.hentInstitusjonId();
 
     this.route

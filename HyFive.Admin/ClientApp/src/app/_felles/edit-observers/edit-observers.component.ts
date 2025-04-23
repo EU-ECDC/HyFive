@@ -4,66 +4,66 @@ import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/api/User';
 import { KeyEventService } from '../../services/events/key-event.service';
-import { InnloggetBruker } from '../../models/api/InnloggetBruker';
+import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-rediger-observatorer',
-  templateUrl: './rediger-observatorer.component.html'
+  selector: 'app-edit-observers',
+  templateUrl: './edit-observers.component.html'
 })
-export class RedigerObservatorerComponent implements OnInit, OnDestroy {
+export class EditObserversComponent implements OnInit, OnDestroy {
 
   @Input() institutionId: 0;
-  observatorer: User[];
+  observers: User[];
 
-  observatorSomEndres: User = null;
-  nyObservator: User = null;
-  user: InnloggetBruker = null;
-  sokeord: string = '';
-  filtrerteObservatorer: User[];
+  observerAsChanged: User = null;
+  newObserver: User = null;
+  user: LoggedinUser = null;
+  keyword: string = '';
+  filteredObservers: User[];
 
-  constructor(private institusjonService: InstitutionService,
+  constructor(private institutionService: InstitutionService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
   ) { }
 
-  identPseudonymEndret(endretIdentPseudonym: string) {
-    this.observatorSomEndres.identityPseudonym = endretIdentPseudonym;
+  identityPseudonymChanged(changedIdentityPseudonym: string) {
+    this.observerAsChanged.identityPseudonym = changedIdentityPseudonym;
   }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe(
+    this.authorizationService.getUser().subscribe(
       (user) =>{
         this.user = user;
     });
 
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
-    this.lastObservatorer();
+    this.loadObservers();
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  lastObservatorer() {
-    this.institusjonService.hentObservatorer(this.institutionId).subscribe(
-      (observatorer) => {
-        this.observatorer = observatorer;
-        this.filtrerteObservatorer = this.observatorer;
+  loadObservers() {
+    this.institutionService.hentObservatorer(this.institutionId).subscribe(
+      (observers) => {
+        this.observers = observers;
+        this.filteredObservers = this.observers;
       },
       (error) => this.toastrService.error('Det oppstod en feil under lasting av observatører: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
   opprettTomObservator() {
-    this.avbrytRedigering();
-    this.nyObservator = {
+    this.cancelEdit();
+    this.newObserver = {
       id: 0,
       institutionId: this.institutionId,
       lastName: '',
@@ -77,27 +77,27 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
   }
 
   createObserver() {
-    this.userService.createObserver(this.nyObservator).subscribe(
+    this.userService.createObserver(this.newObserver).subscribe(
       () => this.toastrService.success('Observatør opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av observatør: ' + error?.message, '', { disableTimeOut: true}),
-      () => { this.nyObservator = null; this.lastObservatorer(); }
+      () => { this.newObserver = null; this.loadObservers(); }
     );
   }
 
   setObservatorSomEndres(observator: User) {
-    this.avbrytRedigering();
-    if (this.observatorSomEndres?.id == observator.id) return;
-    this.observatorSomEndres = JSON.parse(JSON.stringify(observator));
+    this.cancelEdit();
+    if (this.observerAsChanged?.id == observator.id) return;
+    this.observerAsChanged = JSON.parse(JSON.stringify(observator));
   }
 
   updateObserver(observator: User) {
     this.userService.updateObserver(observator).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success('Observatør oppdatert');
-        this.lastObservatorer();
+        this.loadObservers();
       },
       error => this.toastrService.error('Det oppstod en feil under oppdatering av observatør: ' + error?.message, '', { disableTimeOut: true}),
-      () => this.observatorSomEndres = null
+      () => this.observerAsChanged = null
     );
   }
 
@@ -120,7 +120,7 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
                 this.toastrService.error('Feil under sletting av observatør: ' + error?.message ? error.message : error, '', { disableTimeOut: true});
               }
             },
-            () => this.lastObservatorer()
+            () => this.loadObservers()
           );
         }
       },
@@ -131,9 +131,9 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
   }
 
   kanOpprettes() {
-    return this.nyObservator.firstName.length > 0
-      && this.nyObservator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(this.nyObservator);
+    return this.newObserver.firstName.length > 0
+      && this.newObserver.lastName.length > 0
+      && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
   }
 
   kanEndres(observator: User) {
@@ -142,20 +142,20 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
       && this.userService.hasValidHprnumberOrPseudonym(observator);
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.observatorSomEndres = null;
-    this.nyObservator = null;
+    this.observerAsChanged = null;
+    this.newObserver = null;
   }
 
   filtrerObservatorer(): void {
-    if(this.sokeord.length >= 2)
-      this.filtrerteObservatorer = SearchHelper.filterUsers(this.sokeord, this.observatorer);
-    else if (this.sokeord.length === 0)
-      this.filtrerteObservatorer = this.observatorer;
+    if(this.keyword.length >= 2)
+      this.filteredObservers = SearchHelper.filterUsers(this.keyword, this.observers);
+    else if (this.keyword.length === 0)
+      this.filteredObservers = this.observers;
   }
 
 
@@ -179,6 +179,6 @@ export class RedigerObservatorerComponent implements OnInit, OnDestroy {
       return result * sortOrder;
     };
 
-    this.filtrerteObservatorer = this.filtrerteObservatorer.sort(sortFunc);
+    this.filteredObservers = this.filteredObservers.sort(sortFunc);
   }
 }

@@ -7,7 +7,7 @@ import { BrowserViewportService } from './_felles/services/browser-viewport.serv
 import { UrlService } from './_felles/services/url.service';
 import { InstitutionService } from './services/data/institution.service';
 import { AuthorizationService } from './_felles/services/authorization.service';
-import { InnloggetBruker } from './models/api/InnloggetBruker';
+import { LoggedinUser } from './models/api/LoggedinUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
 import { UrlPaths } from './_felles/konstanter/url-paths';
 
@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
         this.isMobile = isMobile;
       }));
 
-    this.authorizationService.getBruker().subscribe((user: InnloggetBruker) => {
-      if (user.erKoordinator) {
+    this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
+      if (user.isCoordinator) {
         let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
         if (valgtInstitusjonId === null) {
           this.institusjonService.getInstitutions().subscribe((resultat) => {

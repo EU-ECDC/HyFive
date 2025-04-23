@@ -29,7 +29,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authorizationService.getRoller().subscribe((roles) => {
+    this.authorizationService.getRoles().subscribe((roles) => {
       this.authorizedRoles = roles;
       this.setValgtRolle();
       this.lagGjeldendeMenyvalg();
@@ -42,7 +42,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   setValgtRolle() {
-    var valgtRolle = this.authorizationService.hentValgtRolle();
+    var valgtRolle = this.authorizationService.getSelectedRole();
     if (valgtRolle != null) {
       let authorizedrolle = this.authorizedRoles.find(p => p === valgtRolle);
       if (authorizedrolle != null) {
