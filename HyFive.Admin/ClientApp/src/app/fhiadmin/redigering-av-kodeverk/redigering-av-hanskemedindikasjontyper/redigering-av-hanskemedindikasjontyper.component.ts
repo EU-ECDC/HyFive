@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GloveWithIndicationType } from '../../../models/api/GloveWithIndicationType';
-import { HanskeMedIndikasjonTypeService } from '../../../services/data/hanskemedindikasjontype.service';
+import { GloveWithIndicationTypeService
+ } from '../../../services/data/gloveWithIndicationType.service';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -14,7 +15,7 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
   gloveWithIndicationTypeThatChanges: GloveWithIndicationType = null;
 
   constructor(
-    private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
+    private hanskeMedIndikasjonTypeService: GloveWithIndicationTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -32,7 +33,7 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
   }
 
   lastHanskeVedIndikasjonType() {
-    this.hanskeMedIndikasjonTypeService.hentHanskeMedIndikasjonTyper().subscribe(
+    this.hanskeMedIndikasjonTypeService.getGloveWithIndicationTypes().subscribe(
       (resultat) => this.gloveWithIndicationTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HanskeVedIndikasjonType: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -43,8 +44,8 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
     this.gloveWithIndicationTypeThatChanges = JSON.parse(JSON.stringify(hanskeMedIndikasjonType));
   }
 
-  oppdaterHanskeMedIndikasjonType(): void {
-    this.hanskeMedIndikasjonTypeService.oppdaterHanskeMedIndikasjonType(this.gloveWithIndicationTypeThatChanges).subscribe(
+  updateGloveWithIndicationType(): void {
+    this.hanskeMedIndikasjonTypeService.updateGloveWithIndicationType(this.gloveWithIndicationTypeThatChanges).subscribe(
       (oppdatertHanskeMedIndikasjonType) => {
         this.toastrService.success("HanskeVedIndikasjonType oppdatert");
         this.lastHanskeVedIndikasjonType();

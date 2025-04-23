@@ -9,7 +9,7 @@
       <input type="text" class="form-control" [(ngModel)]='nyRolle.name' placeholder="Navn">
     </div>
     <div class="col-7">
-      <input type="text" class="form-control" [(ngModel)]='nyRolle.beskrivelse' placeholder="Beskrivelse">
+      <input type="text" class="form-control" [(ngModel)]='nyRolle.description' placeholder="Beskrivelse">
     </div>
     <div class="col-2">
       <label></label>
@@ -32,7 +32,7 @@
             <tr *ngFor="let rolle of roles">
               <ng-container *ngIf="rolleSomEndres?.id !== rolle.id">
                 <td>{{rolle.name}}</td>
-                <td>{{rolle.beskrivelse}}</td>
+                <td>{{rolle.description}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtRolle(rolle)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
@@ -42,7 +42,7 @@
               <ng-container *ngIf="rolleSomEndres?.id === rolle.id">
                 <td>{{rolleSomEndres.name}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="rolleSomEndres.beskrivelse">
+                  <input type="text" class="form-control" [(ngModel)]="rolleSomEndres.description">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterRolle(rolleSomEndres)">

@@ -2,8 +2,8 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface OpprettRolleRequest
+export interface CreateRoleRequest
 {
 	name: string;
-	beskrivelse: string;
+	description: string;
 }

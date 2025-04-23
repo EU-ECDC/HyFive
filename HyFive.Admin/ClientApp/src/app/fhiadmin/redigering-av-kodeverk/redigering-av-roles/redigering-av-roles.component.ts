@@ -47,7 +47,7 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
     return {
       id: 0,
       name: '',
-      beskrivelse: '',
+      description: '',
       institusjonIder: []
     } as Role;
   }

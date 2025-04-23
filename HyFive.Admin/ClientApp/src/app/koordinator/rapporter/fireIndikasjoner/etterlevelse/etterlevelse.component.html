@@ -14,7 +14,7 @@
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Fra måned</label>
         <select class="form-select" id="maned" [(ngModel)]="fraManed">
-          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.beskrivelse}}</option>
+          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.description}}</option>
         </select>
       </div>
 
@@ -26,7 +26,7 @@
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Til måned</label>
         <select class="form-select" id="maned" [(ngModel)]="tilManed">
-          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.beskrivelse}}</option>
+          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.description}}</option>
         </select>
       </div>
 

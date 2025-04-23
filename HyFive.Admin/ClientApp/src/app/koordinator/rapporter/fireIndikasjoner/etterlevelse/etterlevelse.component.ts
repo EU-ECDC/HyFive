@@ -115,17 +115,17 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
 
   initManeder() {
     return [
-      { verdi: 1, beskrivelse: "Januar" },
-      { verdi: 2, beskrivelse: "Februar" },
-      { verdi: 3, beskrivelse: "Mars" },
-      { verdi: 4, beskrivelse: "April" },
-      { verdi: 5, beskrivelse: "Mai" },
-      { verdi: 6, beskrivelse: "Juni" },
-      { verdi: 7, beskrivelse: "Juli" },
-      { verdi: 8, beskrivelse: "August" },
-      { verdi: 9, beskrivelse: "September" },
-      { verdi: 10, beskrivelse: "Oktober" },
-      { verdi: 11, beskrivelse: "November" },
-      { verdi: 12, beskrivelse: "Desember" }];
+      { verdi: 1, description: "Januar" },
+      { verdi: 2, description: "Februar" },
+      { verdi: 3, description: "Mars" },
+      { verdi: 4, description: "April" },
+      { verdi: 5, description: "Mai" },
+      { verdi: 6, description: "Juni" },
+      { verdi: 7, description: "Juli" },
+      { verdi: 8, description: "August" },
+      { verdi: 9, description: "September" },
+      { verdi: 10, description: "Oktober" },
+      { verdi: 11, description: "November" },
+      { verdi: 12, description: "Desember" }];
   }
 }

@@ -4,20 +4,20 @@
       <thead>
       <tr>
         <th>Role</th>
-        <th>Med/Uten Indikasjoner</th>
-        <th>Indikasjoner</th>
-        <th>Hanske benyttet</th>
-        <th>Håndhygiene etter hanskebruk</th>
-        <th>Registrert</th>
-        <th>Kommentar</th>
+        <th>With/Without Indications</th>
+        <th>Indications</th>
+        <th>Glove used</th>
+        <th>Hand hygiene after wearing gloves</th>
+        <th>Registered</th>
+        <th>Comment</th>
       </tr>
       </thead>
       <tbody>
       <ng-container *ngFor="let observation of observations">
-        <tr (click)="velgObservasjon(observation)" *ngIf="gloveObservationAsChanged?.id !== observation.id" >
-          <td>{{observation.rolle.name}}</td>
-          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes.length > 0">Hanske med indikasjoner</td>
-          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes.length > 0">Hanske uten indikasjoner</td>
+        <tr (click)="selectObservation(observation)" *ngIf="gloveObservationAsChanged?.id !== observation.id" >
+          <td>{{observation.role.name}}</td>
+          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes.length > 0">Glove with indications</td>
+          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes.length > 0">Glove without indications</td>
           <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes.length <= 0 && observation.gloveObservation.gloveWithIndicationTypes.length <= 0">-</td>
           <td>
             <ul style="padding-left: 20px;" *ngIf="observation.gloveObservation.gloveWithIndicationTypes.length > 0">
@@ -50,16 +50,16 @@
           </tr>
           <tr>
             <td>
-              <app-role-selection-dropdown [roleId]="gloveObservationAsChanged.rolle.id" [departmentId]="avdeling.id" (roleSelected)="velgRolle($event)"></app-role-selection-dropdown>
+              <app-role-selection-dropdown [roleId]="gloveObservationAsChanged.role.id" [departmentId]="avdeling.id" (roleSelected)="selectRole($event)"></app-role-selection-dropdown>
             </td>
             <td>
               <div class="w-100">
                 <div class="d-flex justify-content-center">
-                  <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnmedindikasjon" [value]="true" [(ngModel)]="gloveWithIndicationsSelected" >
-                  <label class="btn fhi-btn-group__btn" for="btnmedindikasjon"> Med indikasjoner</label>
+                  <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnmedindication" [value]="true" [(ngModel)]="gloveWithIndicationsSelected" >
+                  <label class="btn fhi-btn-group__btn" for="btnmedindication">With indications</label>
                   
-                  <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnutenindikasjon" [value]="false" [(ngModel)]="gloveWithIndicationsSelected" >
-                  <label class="btn fhi-btn-group__btn" for="btnutenindikasjon">Uten indikasjoner</label>
+                  <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnwithoutindication" [value]="false" [(ngModel)]="gloveWithIndicationsSelected" >
+                  <label class="btn fhi-btn-group__btn" for="btnwithoutindication">Without indications</label>
                 </div>
               </div>
             </td>
@@ -87,13 +87,13 @@
             </td>
             <td>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="hanskebenyttet"
+                <input class="form-check-input" type="checkbox" id="gloveused"
                        [disabled]="gloveWithIndicationsSelected == false"
                        [checked]="gloveObservationAsChanged.usedGlove"
                        (change)="gloveObservationAsChanged.usedGlove = !gloveObservationAsChanged.usedGlove"
                        >
-                <label class="form-check-label" for="hanskebenyttet">
-                  Hanske benyttet?
+                <label class="form-check-label" for="gloveused">
+                  Glove used?
                 </label>
               </div>
             </td>
@@ -110,7 +110,7 @@
             </td>
             <td>{{gloveObservationAsChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
             <td>
-              <textarea style="width: 12rem;" [(ngModel)]="gloveObservationAsChanged.comment" (ngModelChange)="endretKommentar($event)">{{gloveObservationAsChanged.comment}}</textarea>
+              <textarea style="width: 12rem;" [(ngModel)]="gloveObservationAsChanged.comment" (ngModelChange)="changeComment($event)">{{gloveObservationAsChanged.comment}}</textarea>
             </td>
           </tr>
           <tr></tr>
@@ -120,20 +120,20 @@
                 <div class="col mt-3">
     
                   <app-confirmation-dialog 
-                                        [buttonText]="'Lagre'"
+                                        [buttonText]="'Save'"
                                         [buttonClass]="'btn fhi-btn-primary me-3'"
                                         (confirmEvent)="updateGloveObservation()"
-                                        [dialogMessage]="'Er du sikker på at du vil lagre endringer på observation med id ' + observation.id + '?'">
+                                        [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
                   </app-confirmation-dialog>
                   <app-confirmation-dialog 
-                                        [buttonText]="'Slett'"
+                                        [buttonText]="'Delete'"
                                         [buttonClass]="'btn fhi-btn-secondary me-3'"
                                         (confirmEvent)="deleteGloveObservation()" 
-                                        [dialogMessage]='"Vil du slette observation med id: " + observation.id + "?"'>
+                                        [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
                   </app-confirmation-dialog>
                   <button class="btn fhi-btn-primary bg-dark me-3"
-                          (click)="avbrytRedigeringAvObservasjon($event)">
-                    Avbryt
+                          (click)="cancelEditObservation($event)">
+                    Cancel
                   </button>
     
                 </div>

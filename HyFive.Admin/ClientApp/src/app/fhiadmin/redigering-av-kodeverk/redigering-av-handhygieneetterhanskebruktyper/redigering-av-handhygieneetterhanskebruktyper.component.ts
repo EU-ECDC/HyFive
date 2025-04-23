@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HandHygieneAfterGloveUseType } from '../../../models/api/HandHygieneAfterGloveUseType';
 import { ToastrService } from 'ngx-toastr';
-import { HandhygieneEtterHanskebrukTypeService } from '../../../services/data/handhygieneetterhanskebruktype.service';
+import { HandHygieneAfterGloveUseTypeService } from '../../../services/data/handHygieneAfterGloveUseType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
   handHygieneAfterGloveUseTypeWhichChanges: HandHygieneAfterGloveUseType = null;
 
   constructor(
-    private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
+    private handhygieneEtterHanskebrukTypeService: HandHygieneAfterGloveUseTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -32,7 +32,7 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
   }
 
   lastHandhygieneEtterHanskebrukTyper() {
-    this.handhygieneEtterHanskebrukTypeService.hentHandhygieneEtterHanskebrukTyper().subscribe(
+    this.handhygieneEtterHanskebrukTypeService.getHandHygieneAfterGloveUseTypes().subscribe(
       (resultat) => this.handHygieneAfterGloveUseTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HandhygieneEtterHanskebrukTyper: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -43,9 +43,9 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
     this.handHygieneAfterGloveUseTypeWhichChanges = JSON.parse(JSON.stringify(handhygieneEtterHanskebrukType));
   }
 
-  oppdaterHandhygieneEtterHanskebrukType(): void {
-    this.handhygieneEtterHanskebrukTypeService.oppdaterHandhygieneEtterHanskebrukType(this.handHygieneAfterGloveUseTypeWhichChanges).subscribe(
-      (oppdaterHandhygieneEtterHanskebrukType) => {
+  updateHandHygieneAfterGloveUseType(): void {
+    this.handhygieneEtterHanskebrukTypeService.updateHandHygieneAfterGloveUseType(this.handHygieneAfterGloveUseTypeWhichChanges).subscribe(
+      (updateHandHygieneAfterGloveUseType) => {
         this.toastrService.success("HandHygieneAfterGloveUseType oppdatert");
         this.lastHandhygieneEtterHanskebrukTyper();
       },

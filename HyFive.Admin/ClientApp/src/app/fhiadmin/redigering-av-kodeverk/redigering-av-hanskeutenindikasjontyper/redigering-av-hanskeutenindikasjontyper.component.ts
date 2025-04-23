@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GloveWithoutIndicationType } from '../../../models/api/GloveWithoutIndicationType';
 import { ToastrService } from 'ngx-toastr';
-import { HanskeUtenIndikasjonTypeService } from '../../../services/data/hanskeutenindikasjontype.service';
+import { GloveWithoutIndicationTypeService } from '../../../services/data/gloveWithoutIndicationType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, O
   hanskeUtenIndikasjonTypeSomEndres: GloveWithoutIndicationType = null;
 
   constructor(
-    private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,
+    private hanskeUtenIndikasjonTypeService: GloveWithoutIndicationTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -32,7 +32,7 @@ export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, O
   }
 
   lastHanskeUtenIndikasjonType() {
-    this.hanskeUtenIndikasjonTypeService.hentHanskeUtenIndikasjonTyper().subscribe(
+    this.hanskeUtenIndikasjonTypeService.getGloveWithoutIndicationTypes().subscribe(
       (resultat) => this.hanskeUtenIndikasjonTyper = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av GloveWithoutIndicationType: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -43,8 +43,8 @@ export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, O
     this.hanskeUtenIndikasjonTypeSomEndres = JSON.parse(JSON.stringify(hanskeUtenIndikasjonType));
   }
 
-  oppdaterHanskeUtenIndikasjonType(): void {
-    this.hanskeUtenIndikasjonTypeService.oppdaterHanskeUtenIndikasjonType(this.hanskeUtenIndikasjonTypeSomEndres).subscribe(
+  updateGloveWithoutIndicationType(): void {
+    this.hanskeUtenIndikasjonTypeService.updateGloveWithoutIndicationType(this.hanskeUtenIndikasjonTypeSomEndres).subscribe(
       (oppdatertHanskeUtenIndikasjonType) => {
         this.toastrService.success("GloveWithoutIndicationType oppdatert");
         this.lastHanskeUtenIndikasjonType();

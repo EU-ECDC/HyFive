@@ -4,9 +4,10 @@ import {Department} from "../../../models/api/Department";
 import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
-import {HanskeMedIndikasjonTypeService} from "../../../services/data/hanskemedindikasjontype.service";
-import {HanskeUtenIndikasjonTypeService} from "../../../services/data/hanskeutenindikasjontype.service";
-import {HandhygieneEtterHanskebrukTypeService} from "../../../services/data/handhygieneetterhanskebruktype.service";
+import {GloveWithIndicationTypeService
+} from "../../../services/data/gloveWithIndicationType.service";
+import {GloveWithoutIndicationTypeService} from "../../../services/data/gloveWithoutIndicationType.service";
+import {HandHygieneAfterGloveUseTypeService} from "../../../services/data/handHygieneAfterGloveUseType.service";
 import {GloveWithIndicationType} from "../../../models/api/GloveWithIndicationType";
 import {GloveWithoutIndicationType} from "../../../models/api/GloveWithoutIndicationType";
 import {Role} from "../../../models/api/Role";
@@ -40,22 +41,22 @@ export class EditGloveObservationsComponent implements OnInit{
     private observationService: ObservationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
-    private hanskeMedIndikasjonService: HanskeMedIndikasjonTypeService,
-    private hanskeUtenIndikasjonService: HanskeUtenIndikasjonTypeService,
-    private handhygieneEtterHanskebrukService: HandhygieneEtterHanskebrukTypeService
+    private gloveWithIndicationService: GloveWithIndicationTypeService,
+    private gloveWithoutIndicationService: GloveWithoutIndicationTypeService,
+    private handhygieneAfterGloveuseService: HandHygieneAfterGloveUseTypeService
 
   ) { }
 
   ngOnInit(): void {
-    this.handhygieneEtterHanskebrukService.hentHandhygieneEtterHanskebrukTyper().subscribe((typer) => {
+    this.handhygieneAfterGloveuseService.getHandHygieneAfterGloveUseTypes().subscribe((typer) => {
       this.handHygieneAfterGloveUseTypes = typer;
     })
 
-    this.hanskeMedIndikasjonService.hentHanskeMedIndikasjonTyper().subscribe((typer)=> {
+    this.gloveWithIndicationService.getGloveWithIndicationTypes().subscribe((typer)=> {
       this.gloveWithIndicationTypes = typer;
     })
 
-    this.hanskeUtenIndikasjonService.hentHanskeUtenIndikasjonTyper().subscribe((typer)=> {
+    this.gloveWithoutIndicationService.getGloveWithoutIndicationTypes().subscribe((typer)=> {
       this.gloveWithoutIndicationTypes = typer;
     })
 
@@ -65,7 +66,7 @@ export class EditGloveObservationsComponent implements OnInit{
     });
   }
 
-  velgObservasjon(observation: ObservationOverviewReport) {
+  selectObservation(observation: ObservationOverviewReport) {
     if(!this.canEdit){
       return;
     }
@@ -101,7 +102,7 @@ export class EditGloveObservationsComponent implements OnInit{
     }
   }
 
-  endretKommentar(comment: string) {
+  changeComment(comment: string) {
     this.gloveObservationAsChanged.comment = comment;
   }
 
@@ -126,11 +127,11 @@ export class EditGloveObservationsComponent implements OnInit{
     this.observationService.updateGloveObservation(this.gloveObservationAsChanged).subscribe(
       (erOppdatert) => {
         this.gloveObservationAsChanged = null;
-        this.toastrService.success('Observasjonen ble oppdatert');
+        this.toastrService.success('Observation was updated');
         this.observationUpdatedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observation: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Error updating observation: ', { disableTimeOut: true});
       }
     );
   }
@@ -139,25 +140,25 @@ export class EditGloveObservationsComponent implements OnInit{
     this.observationService.deleteGloveObservation(this.gloveObservationAsChanged.id, this.sessionId).subscribe(
       () => {
         this.gloveObservationAsChanged = null;
-        this.toastrService.success('Observasjonen ble slettet');
+        this.toastrService.success('Observation was deleted');
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved sletting av observation', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Error deleting observation', { disableTimeOut: true});
       });
   }
 
-  avbrytRedigeringAvObservasjon(event) {
+  cancelEditObservation(event) {
     event.stopPropagation();
     this.gloveObservationAsChanged = null;
     this.selectedHygieneAfterGloveuseCode = null;
   }
 
-  velgRolle(role: Role) {
+  selectRole(role: Role) {
     this.gloveObservationAsChanged.role = role;
   }
 
-  settBenyttetHanskeHvisAktuelt(gloveWithIndicationsSelected: boolean) {
+  setUsedGloveIfCurrent(gloveWithIndicationsSelected: boolean) {
     if(gloveWithIndicationsSelected == false){
       this.gloveObservationAsChanged.usedGlove = true;
     }

@@ -19,7 +19,7 @@
           <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'rolle'+rollevalg.indexOf(valg)" class="form-check-input">
           <label [htmlFor]="'rolle'+rollevalg.indexOf(valg)" class="custom-control-label ms-2">
             <span>{{ valg.rolle.name }} </span>
-            <span *ngIf="valg.rolle.beskrivelse != null"> - {{ valg.rolle.beskrivelse }}</span>
+            <span *ngIf="valg.rolle.description != null"> - {{ valg.rolle.description }}</span>
           </label>
         </div>
       </div>
