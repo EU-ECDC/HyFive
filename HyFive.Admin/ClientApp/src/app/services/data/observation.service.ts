@@ -7,7 +7,7 @@ import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { User } from '../../models/api/User';
-import {BraceletObservation} from "../../models/api/BraceletObservation";
+import {HandJewelryObservation} from "../../models/api/HandJewelryObservation";
 import {GloveObservation} from "../../models/api/GloveObservation";
 import {ProtectiveEquipmentObservation} from "../../models/api/ProtectiveEquipmentObservation";
 import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
@@ -102,7 +102,7 @@ export class ObservationService {
     return this.http.delete<boolean>(url);
   }
 
-  updateHandJewelryObservation(observation: BraceletObservation) : Observable<boolean>{
+  updateHandJewelryObservation(observation: HandJewelryObservation) : Observable<boolean>{
     const url = `${environment.apiBaseUrl}/v1/observation/handjewelry/update`;
     return this.http.put<boolean>(url, observation);
   }

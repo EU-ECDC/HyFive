@@ -8,7 +8,7 @@ import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityTypeConstants } from '../../../models/api/ActivityTypeConstants';
 import { ObservationService } from '../../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
-import {BraceletObservation} from "../../../models/api/BraceletObservation";
+import {HandJewelryObservation} from "../../../models/api/HandJewelryObservation";
 import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 
@@ -26,7 +26,7 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   @Output() observationDeletedEvent = new EventEmitter();
 
   fourIndicationsObservationWhichChanged: FourIndicationsObservation = null;
-  braceletObservationAsChanged: BraceletObservation = null;
+  handJewelryObservationAsChanged: HandJewelryObservation = null;
 
   secondsUsed: number;
 

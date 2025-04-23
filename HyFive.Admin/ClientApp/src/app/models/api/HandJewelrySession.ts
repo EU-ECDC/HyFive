@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { BraceletObservation } from './BraceletObservation';
+import { HandJewelryObservation } from './HandJewelryObservation';
 import { Sesjon } from './Sesjon';
 
-export interface HandsmykkeSesjon extends Sesjon<BraceletObservation>
+export interface HandJewelrySession extends Sesjon<HandJewelryObservation>
 {
 }

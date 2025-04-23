@@ -5,7 +5,7 @@
 import { Role } from './Role';
 import { IndicationType } from './IndicationType';
 import { Activity } from './Activity';
-import { BraceletType } from './BraceletType';
+import { HandJewelryType } from './HandJewelryType';
 import { ProtectiveEquipmentOverviewReport } from './ProtectiveEquipmentOverviewReport';
 import { GloveObservation } from './GloveObservation';
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
@@ -18,7 +18,7 @@ export interface ObservationOverviewReport
 	registrationTime: any;
 	indicationTypes: IndicationType[];
 	activity: Activity;
-	typesOfHandJewelry: BraceletType[];
+	typesOfHandJewelry: HandJewelryType[];
 	protectiveEquipmentSetting: string;
 	protectiveEquipment: ProtectiveEquipmentOverviewReport[];
 	gloveObservation: GloveObservation;

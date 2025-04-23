@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservationOverviewReport} from "../../../models/api/ObservationOverviewReport";
-import {BraceletObservation} from "../../../models/api/BraceletObservation";
+import {HandJewelryObservation} from "../../../models/api/HandJewelryObservation";
 import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 import {Role} from "../../../models/api/Role";
@@ -8,7 +8,7 @@ import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
 import {HandJewelryTypeService} from "../../../services/data/handJewelryType.service";
-import {BraceletType} from "../../../models/api/BraceletType";
+import {HandJewelryType} from "../../../models/api/HandJewelryType";
 
 @Component({
   selector: 'app-edit-handjewelry-observations',
@@ -24,9 +24,9 @@ export class EditHandjewelryObservationsComponent implements OnInit {
   @Output() observationUpdatedEvent = new EventEmitter();
   @Output() observationDeletedEvent = new EventEmitter();
 
-  handjewelryObservationAsChanged: BraceletObservation;
+  handjewelryObservationAsChanged: HandJewelryObservation;
   handJewelrySelection: HandJewelrySelection[] = [];
-  handJewelryTypes: BraceletType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
     private observationService: ObservationService,

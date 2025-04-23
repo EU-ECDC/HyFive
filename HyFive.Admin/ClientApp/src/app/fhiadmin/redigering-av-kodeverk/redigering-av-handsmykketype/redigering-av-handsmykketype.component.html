@@ -17,23 +17,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let handsmykketype of handsmykketyper">
-              <ng-container *ngIf="handsymkketypeSomEndres?.id !== handsmykketype.id">
-                <td>{{handsmykketype.code}}</td>
-                <td>{{handsmykketype.name}}</td>
+            <tr *ngFor="let handJewelryType of handJewelryTypes">
+              <ng-container *ngIf="handJewelryTypeAsChanged?.id !== handJewelryType.id">
+                <td>{{handJewelryType.code}}</td>
+                <td>{{handJewelryType.name}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtHandsmykketype(handsmykketype)">
+                  <button class="btn fhi-btn-icon" (click)="valgtHandsmykketype(handJewelryType)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="handsymkketypeSomEndres?.id === handsmykketype.id">
-                <td>{{handsymkketypeSomEndres.code}}</td>
+              <ng-container *ngIf="handJewelryTypeAsChanged?.id === handJewelryType.id">
+                <td>{{handJewelryTypeAsChanged.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="handsymkketypeSomEndres.name">
+                  <input type="text" class="form-control" [(ngModel)]="handJewelryTypeAsChanged.name">
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="updateHandJewelryType(handsymkketypeSomEndres)">
+                  <button class="btn fhi-btn-icon" (click)="updateHandJewelryType(handJewelryTypeAsChanged)">
                     <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
@@ -48,5 +48,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="handsmykketyper?.length == 0">Laster handsmykketyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="handJewelryTypes?.length == 0">Laster handJewelryTypes</app-spinner>
 </div>
