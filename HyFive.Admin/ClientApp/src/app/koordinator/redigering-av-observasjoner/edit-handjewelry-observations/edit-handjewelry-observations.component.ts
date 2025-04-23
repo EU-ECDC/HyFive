@@ -7,7 +7,7 @@ import {Role} from "../../../models/api/Role";
 import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
-import {HandsmykketypeService} from "../../../services/data/handsmykketype.service";
+import {HandJewelryTypeService} from "../../../services/data/handJewelryType.service";
 import {BraceletType} from "../../../models/api/BraceletType";
 
 @Component({
@@ -17,27 +17,27 @@ import {BraceletType} from "../../../models/api/BraceletType";
 export class EditHandjewelryObservationsComponent implements OnInit {
 
   @Input() observations: ObservationOverviewReport[]
-  @Input() sesjonId: string;
+  @Input() sessionId: string;
   @Input() department: Department;
   @Input() canEdit = false;
 
-  @Output() observasjonOppdatertEvent = new EventEmitter();
-  @Output() observasjonSlettetEvent = new EventEmitter();
+  @Output() observationUpdatedEvent = new EventEmitter();
+  @Output() observationDeletedEvent = new EventEmitter();
 
   handjewelryObservationAsChanged: BraceletObservation;
-  handsmykkeValg: HandJewelrySelection[] = [];
-  handsmykketyper: BraceletType[] = [];
+  handJewelrySelection: HandJewelrySelection[] = [];
+  handJewelryTypes: BraceletType[] = [];
 
   constructor(
     private observationService: ObservationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
-    private handsmykketypeService: HandsmykketypeService
+    private handJewelryTypeService: HandJewelryTypeService
     ) { }
 
   ngOnInit(): void {
-    this.handsmykketypeService.hentHandsmykketyper().subscribe((typer) => {
-      this.handsmykketyper = typer;
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((types) => {
+      this.handJewelryTypes = types;
     })
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
       if (this.handjewelryObservationAsChanged)
@@ -45,68 +45,68 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     });
   }
 
-  velgObservasjon(observasjon: ObservationOverviewReport) {
+  selectObservation(observation: ObservationOverviewReport) {
     if(!this.canEdit){
       return;
     }
 
-    this.handsmykkeValg = this.handsmykketyper.map((t) => {
+    this.handJewelrySelection = this.handJewelryTypes.map((t) => {
       return {
         type: t.code,
         disabled: false,
-        isSelected: observasjon.typesOfHandJewelry.map(ht => ht.code).indexOf(t.code) !== -1,
+        isSelected: observation.typesOfHandJewelry.map(ht => ht.code).indexOf(t.code) !== -1,
         name: t.name
       };
     })
 
     this.handjewelryObservationAsChanged = {
-      id: observasjon.id,
-      sessionId:  this.sesjonId,
-      handJewelry: observasjon.typesOfHandJewelry,
-      comment: observasjon.comment,
-      role: observasjon.role,
-      registrationTime: observasjon.registrationTime
+      id: observation.id,
+      sessionId:  this.sessionId,
+      handJewelry: observation.typesOfHandJewelry,
+      comment: observation.comment,
+      role: observation.role,
+      registrationTime: observation.registrationTime
     }
   }
 
-  endretKommentar(kommentar: string) {
-    this.handjewelryObservationAsChanged.comment = kommentar;
+  changeComment(comment: string) {
+    this.handjewelryObservationAsChanged.comment = comment;
   }
 
   updateHandJewelryObservation() {
-    var typer = this.handsmykkeValg.filter(h => h.isSelected).map(hsv => hsv.type)
-    this.handjewelryObservationAsChanged.handJewelry = this.handsmykketyper.filter(h => typer.indexOf(h.code) !== -1)
+    var types = this.handJewelrySelection.filter(h => h.isSelected).map(hsv => hsv.type)
+    this.handjewelryObservationAsChanged.handJewelry = this.handJewelryTypes.filter(h => types.indexOf(h.code) !== -1)
     this.observationService.updateHandJewelryObservation(this.handjewelryObservationAsChanged).subscribe(
-      (erOppdatert) => {
+      (isUpdated) => {
         this.handjewelryObservationAsChanged = null;
-        this.toastrService.success('Observasjonen ble oppdatert');
-        this.observasjonOppdatertEvent.emit();
+        this.toastrService.success('The observation was updated');
+        this.observationUpdatedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved oppdatering av observasjon: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Error updating observation: ', { disableTimeOut: true});
       }
     );
 
   }
 
   deleteHandJewelryObservation() {
-    this.observationService.deleteHandJewelryObservation(this.handjewelryObservationAsChanged.id, this.sesjonId).subscribe(
+    this.observationService.deleteHandJewelryObservation(this.handjewelryObservationAsChanged.id, this.sessionId).subscribe(
       () => {
         this.handjewelryObservationAsChanged = null;
-        this.toastrService.success('Observasjonen ble slettet');
-        this.observasjonSlettetEvent.emit();
+        this.toastrService.success('The observation was deleted');
+        this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Feil ved sletting av observasjon', { disableTimeOut: true});
+        this.toastrService.error(error?.error ? error.error : error, 'Error deleting observation', { disableTimeOut: true});
       });
   }
 
-  avbrytRedigeringAvObservasjon(event) {
+  cancelEditObservation(event) {
     event.stopPropagation();
     this.handjewelryObservationAsChanged = null;
   }
 
-  velgRolle(rolle: Role) {
-    this.handjewelryObservationAsChanged.role = rolle;
+  selectRole(role: Role) {
+    this.handjewelryObservationAsChanged.role = role;
   }
 }

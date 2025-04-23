@@ -8,17 +8,17 @@ import { BraceletType } from '../../models/api/BraceletType';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykketypeService {
+export class HandJewelryTypeService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentHandsmykketyper(): Observable<BraceletType[]> {
-    const url = `${environment.apiBaseUrl}/v1/handsmykketype/`;
+  getHandJewelryTypes(): Observable<BraceletType[]> {
+    const url = `${environment.apiBaseUrl}/v1/handJewelryType/`;
     return this.http.get<BraceletType[]>(url);
   }
 
-  oppdaterHandsmykketype(handsmykketype: BraceletType): Observable<BraceletType> {
-    const url = `${environment.apiBaseUrl}/v1/handsmykketype/oppdater`;
-    return this.http.put<BraceletType>(url, handsmykketype);
+  updateHandJewelryType(handJewelryType: BraceletType): Observable<BraceletType> {
+    const url = `${environment.apiBaseUrl}/v1/handJewelryType/update`;
+    return this.http.put<BraceletType>(url, handJewelryType);
   }
 }

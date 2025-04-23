@@ -4,14 +4,14 @@
       <thead>
         <tr>
           <th>Role</th>
-          <th>Handsmykke(r)</th>
-          <th>Registrert</th>
-          <th>Kommentar</th>
+          <th>Hand jewelry(ies)</th>
+          <th>Registered</th>
+          <th>Comment</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngFor="let observation of observations">
-          <tr (click)="velgObservasjon(observation)" *ngIf="handjewelryObservationAsChanged?.id !== observation.id">
+          <tr (click)="selectObservation(observation)" *ngIf="handjewelryObservationAsChanged?.id !== observation.id">
             <td>{{observation.role.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
@@ -31,22 +31,22 @@
             </tr>
             <tr></tr>
             <tr>
-              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="department.id" (roleSelected)="velgRolle($event)" [customClass]="''"></app-role-selection-dropdown></td>
+              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="department.id" (roleSelected)="selectRole($event)" [customClass]="''"></app-role-selection-dropdown></td>
               <td>
-                <ul *ngFor="let hsv of handsmykkeValg">
+                <ul *ngFor="let handJewelry of handJewelrySelection">
                   <div class="form-check">
-                    <input [checked]="hsv.erValgt" (change)="hsv.erValgt = !hsv.erValgt" class="form-check-input" type="checkbox" id="customCheck{{hsv.type}}">
-                    <label class="form-check-label" for="customCheck{{hsv.type}}">
-                      {{hsv.name}}
+                    <input [checked]="handJewelry.isSelected" (change)="handJewelry.isSelected = !handJewelry.isSelected" class="form-check-input" type="checkbox" id="customCheck{{handJewelry.type}}">
+                    <label class="form-check-label" for="customCheck{{handJewelry.type}}">
+                      {{handJewelry.name}}
                     </label>
                   </div>
                 </ul>
               </td>
               <td>
-                {{handjewelryObservationAsChanged.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}
+                {{handjewelryObservationAsChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}
               </td>
               <td>
-                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.comment" (ngModelChange)="endretKommentar($event)">{{handjewelryObservationAsChanged.comment}}</textarea>
+                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.comment" (ngModelChange)="changeComment($event)">{{handjewelryObservationAsChanged.comment}}</textarea>
               </td>
             </tr>
             <tr></tr>
@@ -56,20 +56,20 @@
                   <div class="col mt-3">
     
                     <app-confirmation-dialog
-                                          [buttonText]="'Lagre'" 
+                                          [buttonText]="'Save'" 
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
                                           (confirmEvent)="updateHandJewelryObservation()"
-                                          [dialogMessage]="'Er du sikker på at du vil lagre endringer på observation med id ' + observation.id + '?'">
+                                          [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
                     </app-confirmation-dialog>
                     <app-confirmation-dialog 
-                                          [buttonText]="'Slett'"
+                                          [buttonText]="'Delete'"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
                                           (confirmEvent)="deleteHandJewelryObservation()" 
-                                          [dialogMessage]='"Vil du slette observation med id: " + observation.id + "?"'>
+                                          [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
                     </app-confirmation-dialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"
-                            (click)="avbrytRedigeringAvObservasjon($event)">
-                      Avbryt
+                            (click)="cancelEditObservation($event)">
+                      Cancel
                     </button>
                   </div>
                 </div>

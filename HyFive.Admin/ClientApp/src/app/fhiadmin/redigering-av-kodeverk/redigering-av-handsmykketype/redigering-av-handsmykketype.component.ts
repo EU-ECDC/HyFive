@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BraceletType } from '../../../models/api/BraceletType';
-import { HandsmykketypeService } from '../../../services/data/handsmykketype.service';
+import { HandJewelryTypeService } from '../../../services/data/handJewelryType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
   handsymkketypeSomEndres: BraceletType = null;
 
   constructor(
-    private handsmykketypeService: HandsmykketypeService,
+    private handsmykketypeService: HandJewelryTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -33,7 +33,7 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
 
 
   lastHandsmykketyper() {
-    this.handsmykketypeService.hentHandsmykketyper().subscribe(
+    this.handsmykketypeService.getHandJewelryTypes().subscribe(
       (resultat) => this.handsmykketyper = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Håndsmykketyper: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -44,8 +44,8 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
     this.handsymkketypeSomEndres = JSON.parse(JSON.stringify(handsmykketype));
   }
 
-  oppdaterHandsmykketype(handsmykketype: BraceletType): void {
-    this.handsmykketypeService.oppdaterHandsmykketype(handsmykketype).subscribe(
+  updateHandJewelryType(handsmykketype: BraceletType): void {
+    this.handsmykketypeService.updateHandJewelryType(handsmykketype).subscribe(
       (oppdatertHandsmykketype) => {
         this.toastrService.success("Håndsmykketype oppdatert");
         this.lastHandsmykketyper();

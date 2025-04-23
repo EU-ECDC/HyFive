@@ -46,7 +46,7 @@
               </ng-container>
             </ul>
           </td>
-          <td>{{observasjon.registrerttidspunkt | date:'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{observasjon.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
           <td>{{observasjon.kommentar}}</td>
         </tr>
         <ng-container *ngIf="beskyttelsesutstyrObservasjonSomEndres?.id === observasjon.id">
