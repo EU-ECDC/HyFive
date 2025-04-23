@@ -50,7 +50,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   hentBrukere(institutionId: number) {
-    this.institusjonService.hentObservatorer(institutionId).subscribe((resultat) => {
+    this.institusjonService.getObservers(institutionId).subscribe((resultat) => {
       this.brukere.push(...resultat);
     });
     this.institusjonService.hentKoordinatorer(institutionId).subscribe((resultat) => {

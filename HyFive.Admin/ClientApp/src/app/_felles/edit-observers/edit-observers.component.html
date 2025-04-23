@@ -1,39 +1,39 @@
   <div class="row">
     <div class="col-12">
-      <button class="btn fhi-btn-primary mb-5 mt-3" (click)="opprettTomObservator()">Opprett observatør</button>
+      <button class="btn fhi-btn-primary mb-5 mt-3" (click)="createEmptyObserver()">Create observer</button>
     </div>
   </div>
   <div class="row" *ngIf="observers">
-    <input type="text" *ngIf="observers.length > 0" placeholder="Søk etter...(Fornavn/Etternavn/HPR-nummer)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filtrerObservatorer()">
-    <label class="col-12" *ngIf="observers.length === 0 && !newObserver">Fant ingen observatører på denne institusjonen</label>
+    <input type="text" *ngIf="observers.length > 0" placeholder="Search for...(First name/Last name/HPR number)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
+    <label class="col-12" *ngIf="observers.length === 0 && !newObserver">No observers found at this institution</label>
     
     <ng-container>
       <div class="table-responsive">
-        <table class="table" *ngIf="observers.length > 0 || newObserver" sortable-table (sorted)="sorter($event)">
+        <table class="table" *ngIf="observers.length > 0 || newObserver" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <td sortable-column="Fornavn"></td>
-              <td sortable-column="Etternavn"></td>
-              <td scope="col">Epost</td>
-              <td scope="col">HPR-nummer</td>
+              <td sortable-column="Firstname"></td>
+              <td sortable-column="Lastname"></td>
+              <td scope="col">Email</td>
+              <td scope="col">HPR-number</td>
               <td scope="col">Pseudonym</td>
-              <td scope="col">Deaktivert</td>
-              <td class="text-end" scope="col">Handling</td>
+              <td scope="col">Disabled</td>
+              <td class="text-end" scope="col">Action</td>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="newObserver != null">
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" placeholder="Fornavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" placeholder="Etternavn"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.email" name="email" placeholder="Epost"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" placeholder="Firstname"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" placeholder="Lastname"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.email" name="email" placeholder="Email"></td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="newObserver.hprNummer" name="hprNummer" placeholder="HPR-nummer">
+                <input type="text" class="form-control" [(ngModel)]="newObserver.hprNummer" name="hprNummer" placeholder="HPR-number">
                 <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="newObserver.identityPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
-                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createObserver()">
+                <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createObserver()">
                   <i class="icon-plus"></i><span class="btn__text">Opprett</span>
                 </button>
                 <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
@@ -55,18 +55,18 @@
                 <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observer.isDisabled" name="isDisabled" disabled="disabled"></td>
               
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="setObservatorSomEndres(observer)">
+                  <button class="btn fhi-btn-icon" (click)="setObserverAsChanged(observer)">
                     <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
                   </button>
                 </td>
               </ng-container>
               
               <ng-container *ngIf="observerAsChanged?.id == observer.id">
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" name="firstName" placeholder="Fornavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" name="lastName" placeholder="Etternavn"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.email" name="email" placeholder="Epost"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.email" name="email" placeholder="Email"></td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNummer" name="hprNummer" placeholder="HPR-nummer">
+                  <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNummer" name="hprNummer" placeholder="HPR-number">
                   <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
                 </td>
                 <td>
@@ -85,7 +85,7 @@
                   <ng-container *ngIf="observer.id == observerAsChanged?.id">
                     <button class="btn fhi-btn-icon mr-2 w-100"
                             (click)="updateObserver(observerAsChanged)"
-                            [disabled]="kanEndres(observerAsChanged) == false">
+                            [disabled]="canChange(observerAsChanged) == false">
                       <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                     </button>
                     <div *ngIf="user.erFhiAdmin">

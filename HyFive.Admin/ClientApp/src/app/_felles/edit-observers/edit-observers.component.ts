@@ -52,16 +52,16 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   }
 
   loadObservers() {
-    this.institutionService.hentObservatorer(this.institutionId).subscribe(
+    this.institutionService.getObservers(this.institutionId).subscribe(
       (observers) => {
         this.observers = observers;
         this.filteredObservers = this.observers;
       },
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av observatører: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading observers: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  opprettTomObservator() {
+  createEmptyObserver() {
     this.cancelEdit();
     this.newObserver = {
       id: 0,
@@ -78,13 +78,13 @@ export class EditObserversComponent implements OnInit, OnDestroy {
 
   createObserver() {
     this.userService.createObserver(this.newObserver).subscribe(
-      () => this.toastrService.success('Observatør opprettet'),
-      error => this.toastrService.error('Det oppstod en feil under opprettelse av observatør: ' + error?.message, '', { disableTimeOut: true}),
+      () => this.toastrService.success('Observer created'),
+      error => this.toastrService.error('An error occurred while creating observer: ' + error?.message, '', { disableTimeOut: true}),
       () => { this.newObserver = null; this.loadObservers(); }
     );
   }
 
-  setObservatorSomEndres(observator: User) {
+  setObserverAsChanged(observator: User) {
     this.cancelEdit();
     if (this.observerAsChanged?.id == observator.id) return;
     this.observerAsChanged = JSON.parse(JSON.stringify(observator));
@@ -93,10 +93,10 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   updateObserver(observator: User) {
     this.userService.updateObserver(observator).subscribe(
       (oppdatertBruker) => {
-        this.toastrService.success('Observatør oppdatert');
+        this.toastrService.success('Observer updated');
         this.loadObservers();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av observatør: ' + error?.message, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating observer: ' + error?.message, '', { disableTimeOut: true}),
       () => this.observerAsChanged = null
     );
   }
@@ -104,20 +104,20 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   deleteObserver(observatorId: number) {
 
     this.userService.hasTransferredSessionToFHI(observatorId).subscribe(
-      (harOverfortSesjon) => { 
-        if (harOverfortSesjon) {
-          this.toastrService.error('Observatøren har sesjoner overført til FHI, og kunne ikke slettes.', '', { disableTimeOut: true});
+      (hasTranferedSession) => { 
+        if (hasTranferedSession) {
+          this.toastrService.error('Observer has sessions transferred to FHI, and could not be deleted.', '', { disableTimeOut: true});
           return;
         }
         else {
           this.userService.deleteObserver(observatorId).subscribe(
-            () => this.toastrService.success('Observatør slettet'),
+            () => this.toastrService.success('Observer deleted'),
             (error) => {
               if (error.error.includes("NotSupportedException")) {
-                this.toastrService.error('Observatøren har sesjoner, og kunne ikke slettes.', '', { disableTimeOut: true});
+                this.toastrService.error('The observer has sessions and could not be deleted.', '', { disableTimeOut: true});
               }
               else {
-                this.toastrService.error('Feil under sletting av observatør: ' + error?.message ? error.message : error, '', { disableTimeOut: true});
+                this.toastrService.error('Error deleting observer: ' + error?.message ? error.message : error, '', { disableTimeOut: true});
               }
             },
             () => this.loadObservers()
@@ -125,18 +125,18 @@ export class EditObserversComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        this.toastrService.error('Feil under sletting av observatør: ' + error?.message, '', { disableTimeOut: true});
+        this.toastrService.error('Error deleting observer: ' + error?.message, '', { disableTimeOut: true});
       }
     );
   }
 
-  kanOpprettes() {
+  canCreate() {
     return this.newObserver.firstName.length > 0
       && this.newObserver.lastName.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
   }
 
-  kanEndres(observator: User) {
+  canChange(observator: User) {
     return observator.firstName.length > 0
       && observator.lastName.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(observator);
@@ -151,7 +151,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.newObserver = null;
   }
 
-  filtrerObservatorer(): void {
+  filterObservers(): void {
     if(this.keyword.length >= 2)
       this.filteredObservers = SearchHelper.filterUsers(this.keyword, this.observers);
     else if (this.keyword.length === 0)
@@ -159,17 +159,17 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   }
 
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "Firstname":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "Etternavn":
+      case "Lastname":
         propertyOf = (x: User) => x.lastName;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;

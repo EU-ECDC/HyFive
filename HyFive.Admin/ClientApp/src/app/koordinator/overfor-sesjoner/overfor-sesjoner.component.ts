@@ -64,7 +64,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
         region: result.region
       } as InstitutionReport;
 
-      this.institusjonService.hentObservatorer(this.institusjon.id).subscribe((observatorer) => {
+      this.institusjonService.getObservers(this.institusjon.id).subscribe((observatorer) => {
         this.observatorer = observatorer.sort(this.compareFornavnForBrukere);
         this.observatorer = this.visDeaktivertObservatorerNedest(observatorer);
       });

@@ -54,7 +54,7 @@ export class EmailComponent implements OnInit {
   }
 
   hentObservatorerForInstitusjon(id: number) {
-    this.institusjonService.hentObservatorer(id).subscribe((observatorer) => {
+    this.institusjonService.getObservers(id).subscribe((observatorer) => {
       observatorer.forEach(observator => {
         if(observator.email != null && observator.email != "") {
           this.observatorListe.push(observator);

@@ -23,12 +23,12 @@ export class InstitutionService {
   }
 
   hentInstitusjonerForKoordinator(): Observable<InstitutionReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/hentInstitusjonerForKoordinator/`;
+    const url = `${environment.apiBaseUrl}/v1/institution/hentInstitusjonerForKoordinator/`;
     return this.http.get<InstitutionReport[]>(url);
   }
 
   hentInstitusjon(id: number): Observable<Institution> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/${id}`;
+    const url = `${environment.apiBaseUrl}/v1/institution/${id}`;
     return this.http.get<Institution>(url);
   }
 
@@ -42,38 +42,38 @@ export class InstitutionService {
     return this.hentValgtInstitusjonId();
   }
 
-  hentObservatorer(id: number): Observable<User[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/observatorer`;
+  getObservers(id: number): Observable<User[]> {
+    const url = `${environment.apiBaseUrl}/v1/institution/${id}/observers`;
     return this.http.get<User[]>(url);
   }
 
   hentKoordinatorer(id: number): Observable<User[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/koordinatorer`;
+    const url = `${environment.apiBaseUrl}/v1/institution/${id}/koordinatorer`;
     return this.http.get<User[]>(url);
   }
 
   hentAvdelinger(id: number): Observable<Department[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/${id}/avdelinger/`;
+    const url = `${environment.apiBaseUrl}/v1/institution/${id}/avdelinger/`;
     return this.http.get<Department[]>(url);
   }
 
   hentInstitusjontyper(): Observable<InstitusjonType[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/typer`;
+    const url = `${environment.apiBaseUrl}/v1/institution/typer`;
     return this.http.get<InstitusjonType[]>(url);
   }
 
   opprettInstitusjon(request: OpprettInstitusjonRequest): Observable<Institution> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/opprett`;
+    const url = `${environment.apiBaseUrl}/v1/institution/opprett`;
     return this.http.post<Institution>(url, request);
   }
 
-  oppdaterInstitusjon(institusjon: Institution): Observable<Institution> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/oppdater`;
-    return this.http.put<Institution>(url, institusjon);
+  oppdaterInstitusjon(institution: Institution): Observable<Institution> {
+    const url = `${environment.apiBaseUrl}/v1/institution/oppdater`;
+    return this.http.put<Institution>(url, institution);
   }
 
   slettInstitusjon(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/institusjon/slett?institutionId=${id}`;
+    const url = `${environment.apiBaseUrl}/v1/institution/slett?institutionId=${id}`;
     return this.http.delete<boolean>(url);
   }
 }
