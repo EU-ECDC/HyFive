@@ -11,7 +11,7 @@ import {ToastrService} from "ngx-toastr";
 import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../protective-equipment-modal/protective-equipment-modal.component';
 import { ObservationService } from 'src/app/services/data/observation.service';
 import { Role } from "../../../../models/api/Role";
-import { Farger } from 'src/app/utils/farger';
+import { Colors } from 'src/app/utils/Colors';
 import {ProtectiveEquipmentSettingTypesService} from "../../../../services/data/protectiveEquipmentSettingTypes.service";
 import {ProtectiveEquipmentType} from "../../../../models/api/ProtectiveEquipmentType";
 
@@ -22,7 +22,7 @@ import {ProtectiveEquipmentType} from "../../../../models/api/ProtectiveEquipmen
 })
 export class EditProtectiveEquipmentObservationComponent implements OnInit {
 
-  Farger = Farger;
+  Colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
   settings: ProtectiveEquipmentType[];

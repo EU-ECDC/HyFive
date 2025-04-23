@@ -6,7 +6,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ProtectiveEquipment } from 'src/app/models/api/ProtectiveEquipment';
 import { MisuseType } from 'src/app/models/api/MisuseType';
 import { ProtectiveEquipmentMapper } from 'src/app/utils/protective-equipment-mapper';
-import {Farger} from "../../../../../../../../HyFive.Observasjon/ClientApp/src/app/utils/farger";
+import {Colors} from "src/app/utils/Colors";
 
 export const ProtectiveEquipmentModalComponentConfig = {
   windowClass: 'hh-modal'
@@ -19,7 +19,7 @@ export const ProtectiveEquipmentModalComponentConfig = {
 export class ProtectiveEquipmentModalComponent implements OnInit {
 
   faCircle = faCircle;
-  farger = Farger;
+  colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   misuseTypes: MisuseType[] = [];
 

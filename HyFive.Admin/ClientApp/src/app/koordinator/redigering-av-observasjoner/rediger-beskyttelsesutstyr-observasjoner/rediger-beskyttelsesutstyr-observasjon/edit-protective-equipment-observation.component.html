@@ -11,7 +11,7 @@
     <div class="d-flex flex-column">
       <div class="hh-card-slider__card"
            [ngClass]="{ 'hh-card-slider__card--active': true }"
-           [ngStyle]="{'background-color': Farger.hentFhiFargeHexFraTekst(observation.role.name)}">
+           [ngStyle]="{'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
 
         <div class="row">
           <div class="col-12" *ngIf="protectiveEquipmentIndicated().length > 0">
