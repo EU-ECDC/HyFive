@@ -4,11 +4,11 @@
 
 
 import { Observation } from './Observation';
-import { Beskyttelsesutstyr } from './Beskyttelsesutstyr';
-import { BeskyttelsesutstyrsettingType } from './BeskyttelsesutstyrsettingType';
+import { ProtectiveEquipment } from './ProtectiveEquipment';
+import { ProtectiveEquipmentType } from './ProtectiveEquipmentType';
 
 export interface ProtectiveEquipmentObservation extends Observation
 {
-	beskyttelsesutstyrliste: Beskyttelsesutstyr[];
-	settingtype: BeskyttelsesutstyrsettingType;
+	protectiveEquipmentList: ProtectiveEquipment[];
+	settingtype: ProtectiveEquipmentType;
 }

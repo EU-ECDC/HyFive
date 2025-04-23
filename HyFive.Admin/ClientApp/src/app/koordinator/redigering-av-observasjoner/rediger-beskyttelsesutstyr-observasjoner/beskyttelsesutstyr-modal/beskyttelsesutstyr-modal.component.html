@@ -1,14 +1,14 @@
 <div class="hh-modal">
-  <ng-container *ngIf="valgtUtstyr">
+  <ng-container *ngIf="selectedEquipment">
 
     <div class="modal-header pt-6">
       <h4 class="d-flex align-items-center">
         <fa-stack>
           <fa-icon [icon]="faCircle" stackItemSize="2x" [styles]="{ 'color': '#DBE6EC' }"></fa-icon>
-          <fa-icon [icon]="ikonTypeMap.get(valgtUtstyr.utstyrstype.code)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
+          <fa-icon [icon]="ikonTypeMap.get(selectedEquipment.equipmentTypeq.code)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
         </fa-stack>
         <span class="modal-title" id="modal-basic-title">
-          {{valgtUtstyr.utstyrstype.name}}
+          {{selectedEquipment.equipmentTypeq.name}}
         </span>
       </h4>
       <button type="button" class="close" aria-label="Close" (click)="dismiss()">
@@ -18,23 +18,23 @@
 
     <div class="modal-body px-7 py-1">
       <div class="custom-control custom-checkbox pb-2">
-        <input type="checkbox" class="custom-control-input" id="erIndikert" [(ngModel)]="valgtUtstyr.erIndikert" [disabled]="visningsmodus">
-        <label class="custom-control-label" for="erIndikert">
+        <input type="checkbox" class="custom-control-input" id="isIndicated" [(ngModel)]="selectedEquipment.isIndicated" [disabled]="visningsmodus">
+        <label class="custom-control-label" for="isIndicated">
           Er indikert
         </label>
       </div>
       <div class="custom-control custom-radio pb-2">
-        <input type="radio" id="riktigBruk" name="riktigBruk" class="custom-control-input" [value]="true" [(ngModel)]="valgtUtstyr.bleBenyttetRiktig" (click)="nullstillFeilbrukOgMarkerBenyttet(true)" [disabled]="visningsmodus">
+        <input type="radio" id="riktigBruk" name="riktigBruk" class="custom-control-input" [value]="true" [(ngModel)]="selectedEquipment.wasUsedProperly" (click)="nullstillFeilbrukOgMarkerBenyttet(true)" [disabled]="visningsmodus">
         <label class="custom-control-label" for="riktigBruk">Riktig bruk</label>
       </div>
       <div class="custom-control custom-radio pb-2">
-        <input type="radio" id="feilBruk" name="feilBruk" class="custom-control-input" [value]="false" [(ngModel)]="valgtUtstyr.bleBenyttetRiktig" (click)="nullstillFeilbrukOgMarkerBenyttet(false)" [disabled]="visningsmodus">
+        <input type="radio" id="feilBruk" name="feilBruk" class="custom-control-input" [value]="false" [(ngModel)]="selectedEquipment.wasUsedProperly" (click)="nullstillFeilbrukOgMarkerBenyttet(false)" [disabled]="visningsmodus">
         <label class="custom-control-label" for="feilBruk">Feil bruk</label>
       </div>
-      <div class="mt-2" *ngIf="valgtUtstyr.bleBenyttetRiktig === false">
+      <div class="mt-2" *ngIf="selectedEquipment.wasUsedProperly === false">
         <ng-container *ngIf="!visningsmodus">
-          <label class="text-info"><small><strong><em>Velg minst én av alternativene under, eller fyll ut en kommentar</em></strong></small></label>
-          <ng-container *ngFor="let fb of valgtUtstyr.utstyrstype.feilbruktyper">
+          <label class="text-info"><small><strong><em>Velg minst én av alternativene under, eller fyll ut en comment</em></strong></small></label>
+          <ng-container *ngFor="let fb of selectedEquipment.equipmentTypeq.misuseTypes">
             <div class="custom-control custom-checkbox pb-2">
               <input type="checkbox" class="custom-control-input" [id]="fb.name" [(ngModel)]="fb.erValgt" (click)="aktiverTilbakeTilKortVedFeilbruk(fb)" [disabled]="visningsmodus">
               <label class="custom-control-label" [for]="fb.name">
@@ -44,7 +44,7 @@
           </ng-container>
         </ng-container>
         <ng-container *ngIf="visningsmodus">
-          <ng-container *ngFor="let fb of valgtUtstyr.feilbruktyper">
+          <ng-container *ngFor="let fb of selectedEquipment.misuseTypes">
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" [id]="fb.name" [disabled]="true" [checked]="true">
               <label class="custom-control-label" [for]="fb.name">
@@ -55,16 +55,16 @@
         </ng-container>
         <div class="form-group mt-n3" *ngIf="visningsmodus == false">
           <label for="FormInput"></label>
-          <input type="text" id="FormInput" class="form-control" placeholder="Legg til kommentar..." [(ngModel)]="valgtUtstyr.kommentar" (input)="aktiverTilbakeTilKortVedFeilbruk()">
+          <input type="text" id="FormInput" class="form-control" placeholder="Legg til comment..." [(ngModel)]="selectedEquipment.comment" (input)="aktiverTilbakeTilKortVedFeilbruk()">
         </div>
-        <div class="mt-3" *ngIf="visningsmodus && valgtUtstyr.kommentar">
-          <span>Kommentar: <i>{{valgtUtstyr.kommentar}}</i></span>
+        <div class="mt-3" *ngIf="visningsmodus && selectedEquipment.comment">
+          <span>Kommentar: <i>{{selectedEquipment.comment}}</i></span>
         </div>
       </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">
       <div class="col">
-        <button type="button" *ngIf="visKnappForSlettingAvUtstyr && valgtUtstyr.bleBenyttet" class="btn btn-sm fhi-btn-primary flex-grow p-1" (click)="dismiss()">Slett utstyret</button>
+        <button type="button" *ngIf="visKnappForSlettingAvUtstyr && selectedEquipment.wasUsed" class="btn btn-sm fhi-btn-primary flex-grow p-1" (click)="dismiss()">Slett utstyret</button>
       </div>
       <div class="col">
         <button type="button" class="btn fhi-btn-secondary p-2" (click)="close()" [disabled]="!kanLagre()">

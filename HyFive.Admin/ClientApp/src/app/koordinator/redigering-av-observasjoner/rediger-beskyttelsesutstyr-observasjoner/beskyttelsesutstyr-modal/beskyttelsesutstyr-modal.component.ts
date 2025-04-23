@@ -3,9 +3,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Beskyttelsesutstyr } from 'src/app/models/api/Beskyttelsesutstyr';
-import { FeilbrukType } from 'src/app/models/api/FeilbrukType';
-import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
+import { ProtectiveEquipment } from 'src/app/models/api/ProtectiveEquipment';
+import { MisuseType } from 'src/app/models/api/MisuseType';
+import { ProtectiveEquipmentMapper } from 'src/app/utils/protective-equipment-mapper';
 import {Farger} from "../../../../../../../../HyFive.Observasjon/ClientApp/src/app/utils/farger";
 
 export const BeskyttelsesutstyrModalComponentConfig = {
@@ -20,12 +20,12 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
 
   faCircle = faCircle;
   farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
-  feilbrukTyper: FeilbrukType[] = [];
+  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
+  feilbrukTyper: MisuseType[] = [];
 
   closeResult = '';
 
-  @Input() valgtUtstyr: Beskyttelsesutstyr;
+  @Input() selectedEquipment: ProtectiveEquipment;
   @Input() visningsmodus = false;
   @Input() visKnappForSlettingAvUtstyr: boolean = false;
 
@@ -36,22 +36,22 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
   }
 
   close() {
-    this.activeModal.close(this.valgtUtstyr);
+    this.activeModal.close(this.selectedEquipment);
   }
 
   dismiss() {
-    this.valgtUtstyr.bleBenyttet = false;
+    this.selectedEquipment.wasUsed = false;
     this.activeModal.dismiss('lukk');
   }
 
   nullstillFeilbrukOgMarkerBenyttet(val: boolean) {
-    this.valgtUtstyr.bleBenyttet = true;
-    this.valgtUtstyr.bleBenyttetRiktig = val;
+    this.selectedEquipment.wasUsed = true;
+    this.selectedEquipment.wasUsedProperly = val;
   }
 
-  aktiverTilbakeTilKortVedFeilbruk(feilbruk: FeilbrukType) {
+  aktiverTilbakeTilKortVedFeilbruk(feilbruk: MisuseType) {
     if (feilbruk) {
-      if (feilbruk.erValgt === false) {
+      if (feilbruk.isSelected === false) {
         this.feilbrukTyper.push(feilbruk);
       }
       else {
@@ -62,10 +62,10 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
   }
 
   kanLagre() : boolean {
-    return this.valgtUtstyr.bleBenyttetRiktig || this.harRegistrertFeilbrukEllerKommentar()
+    return this.selectedEquipment.wasUsedProperly || this.harRegistrertFeilbrukEllerKommentar()
   }
 
   harRegistrertFeilbrukEllerKommentar() : boolean {
-    return this.valgtUtstyr.utstyrstype.feilbruktyper?.filter(fb => fb.erValgt).length > 0 || this.valgtUtstyr.kommentar?.length > 0;
+    return this.selectedEquipment.equipmentTypeq.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
   }
 }

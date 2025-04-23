@@ -16,7 +16,7 @@
   </div>
   <div class="col-6">
     <label></label>
-    <button class="form-control btn fhi-btn-primary" (click)="opprettFeilbruktype()" [disabled]="!nyFeilbruktype.name">Legg til feilbruktype</button>
+    <button class="form-control btn fhi-btn-primary" (click)="createMisuseType()" [disabled]="!nyFeilbruktype.name">Legg til feilbruktype</button>
   </div>
 </div>
 
@@ -45,7 +45,7 @@
                 <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.name">
               </td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="oppdaterFeilbruktype(feilbruktypeSomEndres)">
+                <button class="btn fhi-btn-icon" (click)="updateMisuseType(feilbruktypeSomEndres)">
                   <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                 </button>
                 <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">

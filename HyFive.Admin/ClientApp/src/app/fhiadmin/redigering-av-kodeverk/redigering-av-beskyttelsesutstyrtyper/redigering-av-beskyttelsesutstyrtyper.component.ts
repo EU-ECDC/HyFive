@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BeskyttelsesutstyrtyperService } from 'src/app/services/data/beskyttelsesutstyrtyper.service';
-import { BeskyttelsesutstyrType } from '../../../models/api/BeskyttelsesutstyrType';
+import { ProtectiveEquipmentTypeqsService } from 'src/app/services/data/protectiveEquipmentTypeqs.service';
+import { ProtectiveEquipmentTypeq } from '../../../models/api/ProtectiveEquipmentTypeq';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,12 +10,12 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnDestroy {
 
-  utstyrtyper: BeskyttelsesutstyrType[] = [];
-  utstyrtypeSomEndres: BeskyttelsesutstyrType = null;
+  utstyrtyper: ProtectiveEquipmentTypeq[] = [];
+  utstyrtypeSomEndres: ProtectiveEquipmentTypeq = null;
   visRedigerAvBeskyttelsesutstyrtyper: boolean;
 
   constructor(
-    private beskyttelsesutstyrtyperService: BeskyttelsesutstyrtyperService,
+    private protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -35,19 +35,19 @@ export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnD
   }
 
   lastBeskyttelsesutstyrtyper() {
-    this.beskyttelsesutstyrtyperService.hentBeskyttelsesutstyrtyper().subscribe(
+    this.protectiveEquipmentTypeqsService.getProtectiveEquipmentTypes().subscribe(
       (resultat) => this.utstyrtyper = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Beskyttelsesutstyrtyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtUtstyrtype(utstyrtype: BeskyttelsesutstyrType): void {
+  valgtUtstyrtype(utstyrtype: ProtectiveEquipmentTypeq): void {
     if (this.utstyrtypeSomEndres?.id == utstyrtype.id) return;
     this.utstyrtypeSomEndres = JSON.parse(JSON.stringify(utstyrtype));
   }
 
-  oppdaterUtstyrtype(utstyrtype: BeskyttelsesutstyrType): void {
-    this.beskyttelsesutstyrtyperService.oppdaterBeskyttelsesutstyrtyper(utstyrtype).subscribe(
+  oppdaterUtstyrtype(utstyrtype: ProtectiveEquipmentTypeq): void {
+    this.protectiveEquipmentTypeqsService.updateProtectiveEquipmentTypes(utstyrtype).subscribe(
       (oppdatertUtstyrtype) => {
         this.toastrService.success("Beskyttelsesutstyrtype oppdatert");
         this.lastBeskyttelsesutstyrtyper();
@@ -57,7 +57,7 @@ export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnD
     );
   }
 
-  navigerTilFeilbruktyper(utstyrtype: BeskyttelsesutstyrType): void {
+  navigerTilFeilbruktyper(utstyrtype: ProtectiveEquipmentTypeq): void {
     this.visRedigerAvBeskyttelsesutstyrtyper = false;
     this.utstyrtypeSomEndres = utstyrtype;
   }

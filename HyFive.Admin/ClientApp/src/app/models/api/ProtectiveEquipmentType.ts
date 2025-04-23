@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { BeskyttelsesutstyrType } from './BeskyttelsesutstyrType';
+import { ProtectiveEquipmentTypeq } from './ProtectiveEquipmentTypeq';
 
-export interface BeskyttelsesutstyrsettingType
+export interface ProtectiveEquipmentType
 {
 	id: number;
 	code: string;
 	name: string;
-	utstyrstyper: BeskyttelsesutstyrType[];
+	equipmentTypeqs: ProtectiveEquipmentTypeq[];
 }

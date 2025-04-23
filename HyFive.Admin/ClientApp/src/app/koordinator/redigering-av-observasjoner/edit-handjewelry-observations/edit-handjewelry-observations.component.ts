@@ -18,8 +18,8 @@ export class EditHandjewelryObservationsComponent implements OnInit {
 
   @Input() observations: ObservationOverviewReport[]
   @Input() sesjonId: string;
-  @Input() avdeling: Department;
-  @Input() kanRedigere = false;
+  @Input() department: Department;
+  @Input() canEdit = false;
 
   @Output() observasjonOppdatertEvent = new EventEmitter();
   @Output() observasjonSlettetEvent = new EventEmitter();
@@ -46,7 +46,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
   }
 
   velgObservasjon(observasjon: ObservationOverviewReport) {
-    if(!this.kanRedigere){
+    if(!this.canEdit){
       return;
     }
 

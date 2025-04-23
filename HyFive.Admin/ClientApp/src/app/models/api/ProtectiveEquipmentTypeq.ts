@@ -2,14 +2,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { FeilbrukType } from './FeilbrukType';
+import { MisuseType } from './MisuseType';
 
-export interface BeskyttelsesutstyrType
+export interface ProtectiveEquipmentTypeq
 {
 	id: number;
 	code: string;
 	name: string;
-	erDefaultIndikert: boolean;
-	erIndikert: boolean;
-	feilbruktyper: FeilbrukType[];
+	isDefaultIndicated: boolean;
+	isIndicated: boolean;
+	misuseTypes: MisuseType[];
 }

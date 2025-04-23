@@ -3,33 +3,33 @@ import { faCheck, faCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Beskyttelsesutstyr } from 'src/app/models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipment } from 'src/app/models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Department} from "src/app/models/api/Department";
-import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
+import { ProtectiveEquipmentMapper } from 'src/app/utils/protective-equipment-mapper';
 import {ToastrService} from "ngx-toastr";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
 import { ObservationService } from 'src/app/services/data/observation.service';
 import { Role } from "../../../../models/api/Role";
 import { Farger } from 'src/app/utils/farger';
-import {BeskyttelsesutstyrsettingtyperService} from "../../../../services/data/beskyttelsesutstyrsettingtyper.service";
-import {BeskyttelsesutstyrsettingType} from "../../../../models/api/BeskyttelsesutstyrsettingType";
+import {ProtectiveEquipmentSettingTypesService} from "../../../../services/data/protectiveEquipmentSettingTypes.service";
+import {ProtectiveEquipmentType} from "../../../../models/api/ProtectiveEquipmentType";
 
 
 @Component({
-  selector: 'app-rediger-beskyttelsesutstyr-observasjon',
+  selector: 'app-rediger-beskyttelsesutstyr-observation',
   templateUrl: './rediger-beskyttelsesutstyr-observasjon.component.html'
 })
 export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
 
   Farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
-  beskyttelsesutstyr: Beskyttelsesutstyr[] = [];
-  settinger: BeskyttelsesutstyrsettingType[];
-  valgtSetting: BeskyttelsesutstyrsettingType;
-  kommentar: string;
+  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
+  beskyttelsesutstyr: ProtectiveEquipment[] = [];
+  settinger: ProtectiveEquipmentType[];
+  valgtSetting: ProtectiveEquipmentType;
+  comment: string;
   valgtUtstyr = null;
-  observasjon: ProtectiveEquipmentObservation;
+  observation: ProtectiveEquipmentObservation;
   observasjonLaster: boolean = true;
 
   faSave = faSave;
@@ -40,7 +40,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private observationService: ObservationService,
-    private settingService: BeskyttelsesutstyrsettingtyperService,
+    private settingService: ProtectiveEquipmentSettingTypesService,
     private toastrService: ToastrService) { }
 
   @Input() isReadonly: boolean = false;
@@ -55,116 +55,116 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit {
   ngOnInit(): void {
     this.observationService.getProtectiveEquipmentObservation(this.observasjonId, this.sesjonId).subscribe(
       (o) => {
-        this.observasjon = o;
-        this.beskyttelsesutstyr = this.observasjon.beskyttelsesutstyrliste;
-        this.observasjon.sessionId = this.sesjonId;
-        this.settingService.hentBeskyttelsesutstyrsettingtyper().subscribe((settinger) => {
+        this.observation = o;
+        this.beskyttelsesutstyr = this.observation.protectiveEquipmentList;
+        this.observation.sessionId = this.sesjonId;
+        this.settingService.getProtectiveEquipmentTypes().subscribe((settinger) => {
           this.settinger = settinger;
-          this.valgtSetting = this.observasjon.settingtype;
+          this.valgtSetting = this.observation.settingtype;
         })
       },
-      (error) => this.toastrService.error("En feil skjedde under lasting av observasjon med id " + this.observasjonId, '', {disableTimeOut: true}),
+      (error) => this.toastrService.error("En feil skjedde under lasting av observation med id " + this.observasjonId, '', {disableTimeOut: true}),
       () => this.observasjonLaster = false
     );
 
   }
 
-  registrerKommentar(kommentar: string) {
-    this.observasjon.comment = kommentar;
+  registrerKommentar(comment: string) {
+    this.observation.comment = comment;
     this.oppdater();
   }
 
-  beskyttelsesutstyrIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyr.filter(b => b.erIndikert);
+  beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyr.filter(b => b.isIndicated);
   }
 
-  beskyttelsesutstyrIkkeIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyr.filter(b => b.erIndikert === false);
+  beskyttelsesutstyrIkkeIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyr.filter(b => b.isIndicated === false);
   }
 
-  changed(event, valg: Beskyttelsesutstyr) {
+  changed(event, valg: ProtectiveEquipment) {
     event.srcElement.blur();
     event.preventDefault();
 
-    valg.bleBenyttet = true;
-    valg.utstyrstype.feilbruktyper.filter(fb => fb.erValgt == true).map(fb => fb.erValgt = false);
+    valg.wasUsed = true;
+    valg.equipmentTypeq.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
-    valg.feilbruktyper.forEach(f => {
-      const index = valg.utstyrstype.feilbruktyper.findIndex(fb => fb.id == f.id);
-      valg.utstyrstype.feilbruktyper[index].erValgt = true;
+    valg.misuseTypes.forEach(f => {
+      const index = valg.equipmentTypeq.misuseTypes.findIndex(fb => fb.id == f.id);
+      valg.equipmentTypeq.misuseTypes[index].isSelected = true;
     });
 
-    if (valg.bleBenyttet) {
+    if (valg.wasUsed) {
       this.visModal(valg);
     }
     this.oppdater();
   }
 
-  visModal(valgtUtstyr: Beskyttelsesutstyr) {
+  visModal(valgtUtstyr: ProtectiveEquipment) {
 
     const modalRef = this.modalService.open(BeskyttelsesutstyrModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
       windowClass: BeskyttelsesutstyrModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as Beskyttelsesutstyr;
+    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as ProtectiveEquipment;
 
     modalRef.componentInstance.visningsmodus = false;
 
-    if (valgtUtstyr.bleBenyttet) {
-      if (valgtUtstyr.bleBenyttetRiktig || valgtUtstyr.feilbruktyper.length > 0 || valgtUtstyr.kommentar !== '') {
+    if (valgtUtstyr.wasUsed) {
+      if (valgtUtstyr.wasUsedProperly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '') {
         modalRef.componentInstance.visKnappForSlettingAvUtstyr = true;
       }
       else {
-        modalRef.componentInstance.valgtUtstyr.bleBenyttetRiktig = null;
+        modalRef.componentInstance.valgtUtstyr.wasUsedProperly = null;
       }
     }
 
-    modalRef.result.then((result: Beskyttelsesutstyr) => {
-      valgtUtstyr.erIndikert = result.erIndikert;
-      if (result.bleBenyttet === false) {
+    modalRef.result.then((result: ProtectiveEquipment) => {
+      valgtUtstyr.isIndicated = result.isIndicated;
+      if (result.wasUsed === false) {
         this.nullstillUtstyr(valgtUtstyr);
       }
       else {
-        valgtUtstyr.bleBenyttetRiktig = result.bleBenyttetRiktig;
-        valgtUtstyr.kommentar = result.kommentar;
-        valgtUtstyr.feilbruktyper = result.utstyrstype.feilbruktyper.filter(x => x.erValgt);
-        valgtUtstyr.bleBenyttet = result.bleBenyttetRiktig || valgtUtstyr.feilbruktyper.length > 0 || valgtUtstyr.kommentar !== '';
+        valgtUtstyr.wasUsedProperly = result.wasUsedProperly;
+        valgtUtstyr.comment = result.comment;
+        valgtUtstyr.misuseTypes = result.equipmentTypeq.misuseTypes.filter(x => x.isSelected);
+        valgtUtstyr.wasUsed = result.wasUsedProperly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '';
       }
       this.oppdater();
     }, (error) => {
-      valgtUtstyr.bleBenyttet = false;
+      valgtUtstyr.wasUsed = false;
       this.nullstillUtstyr(valgtUtstyr);
     });
   }
 
   setAlleUtstyrTilRiktigBrukt(event) {
     this.beskyttelsesutstyrIndikert().forEach(x => {
-      x.bleBenyttet = true;
-      x.bleBenyttetRiktig = true;
+      x.wasUsed = true;
+      x.wasUsedProperly = true;
     });
     this.oppdater();
   }
 
-  nullstillUtstyr(valg: Beskyttelsesutstyr) {
-    let valgIndex = this.beskyttelsesutstyr.findIndex(x => x.utstyrstype.id === valg.utstyrstype.id);
-    this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.utstyrstyper, valg).find(x => x.utstyrstype.id === valg.utstyrstype.id);
+  nullstillUtstyr(valg: ProtectiveEquipment) {
+    let valgIndex = this.beskyttelsesutstyr.findIndex(x => x.equipmentTypeq.id === valg.equipmentTypeq.id);
+    this.beskyttelsesutstyr[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypeqs, valg).find(x => x.equipmentTypeq.id === valg.equipmentTypeq.id);
   }
 
   velgRolle($event: Role) {
-    this.observasjon.role = $event;
+    this.observation.role = $event;
     this.oppdater();
   }
 
   velgSetting() {
-    this.observasjon.settingtype = this.valgtSetting;
+    this.observation.settingtype = this.valgtSetting;
     this.oppdater();
   }
 
   oppdater(){
-    this.observasjonOppdatertEvent.emit(this.observasjon);
+    this.observasjonOppdatertEvent.emit(this.observation);
   }
-  sorterteSettinger() : BeskyttelsesutstyrsettingType[]
+  sorterteSettinger() : ProtectiveEquipmentType[]
   {
     let kombinerteSettinger = this.settinger.filter(s => s.code != this.valgtSetting.code)
     kombinerteSettinger.push(this.valgtSetting);

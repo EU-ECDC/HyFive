@@ -106,7 +106,7 @@
                                             (observationDeletedEvent)="observationDeletedEvent.emit()"
                                             (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-handjewelry-observations>
     </ng-container>
-    <!-- Hansker -->
+    <!-- Gloves -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Gloves]">
       <app-edit-glove-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                         [sessionId]="item.id"
@@ -115,7 +115,7 @@
                                         (observationDeletedEvent)="observationDeletedEvent.emit()"
                                         (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-glove-observations>
     </ng-container>
-    <!-- Beskyttelsesutstyr -->
+    <!-- ProtectiveEquipment -->
     <ng-container *ngIf="item.type === SessionType[SessionType.ProtectiveEquipment]">
       <app-rediger-beskyttelsesutstyr-observasjoner [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                                     [sessionId]="item.id"

@@ -12,7 +12,7 @@
       <tbody>
         <ng-container *ngFor="let observation of observations">
           <tr (click)="velgObservasjon(observation)" *ngIf="handjewelryObservationAsChanged?.id !== observation.id">
-            <td>{{observation.rolle.name}}</td>
+            <td>{{observation.role.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
                 <li *ngFor="let ht of observation.typesOfHandJewelry">
@@ -31,7 +31,7 @@
             </tr>
             <tr></tr>
             <tr>
-              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.rolle.id" [departmentId]="avdeling.id" (roleSelected)="velgRolle($event)" [customClass]="''"></app-role-selection-dropdown></td>
+              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="department.id" (roleSelected)="velgRolle($event)" [customClass]="''"></app-role-selection-dropdown></td>
               <td>
                 <ul *ngFor="let hsv of handsmykkeValg">
                   <div class="form-check">
