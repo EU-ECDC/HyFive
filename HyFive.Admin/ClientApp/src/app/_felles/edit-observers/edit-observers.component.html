@@ -28,16 +28,16 @@
               <td><input type="text" class="form-control" [(ngModel)]="newObserver.email" name="email" placeholder="Email"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="newObserver.hprNummer" name="hprNummer" placeholder="HPR-number">
-                <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+                <app-search-hprnumber-link></app-search-hprnumber-link>
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="newObserver.identityPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
                 <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createObserver()">
-                  <i class="icon-plus"></i><span class="btn__text">Opprett</span>
+                  <i class="icon-plus"></i><span class="btn__text">Create</span>
                 </button>
                 <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
-                  <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
                 </button>
               </td>
             </tr>
@@ -56,7 +56,7 @@
               
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="setObserverAsChanged(observer)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
@@ -67,11 +67,11 @@
                 <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.email" name="email" placeholder="Email"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNummer" name="hprNummer" placeholder="HPR-number">
-                  <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+                  <app-search-hprnumber-link></app-search-hprnumber-link>
                 </td>
                 <td>
                   <app-pseudonym-dialog 
-                                        [text]="'Endre'"
+                                        [text]="'Change'"
                                         [editable]="true"
                                         [identityPseudonym]="observer.identityPseudonym"
                                         (identityPseudonymChanged)="identityPseudonymChanged($event)">
@@ -86,19 +86,19 @@
                     <button class="btn fhi-btn-icon mr-2 w-100"
                             (click)="updateObserver(observerAsChanged)"
                             [disabled]="canChange(observerAsChanged) == false">
-                      <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                      <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
-                    <div *ngIf="user.erFhiAdmin">
+                    <div *ngIf="user.isFhiAdmin">
                       <app-confirmation-dialog 
-                                                    [buttonText]="'Slett'"
+                                                    [buttonText]="'Delete'"
                                                     (confirmEvent)="deleteObserver(observer.id)"
-                                                    [dialogMessage]="'Er du sikker på at du vil slette observatøren ' + observer.firstName + ' ' +  observer.lastName +  ' fra systemet?'"
+                                                    [dialogMessage]="'Are you sure you want to delete the observer ' + observer.firstName + ' ' +  observer.lastName +  ' from the system?'"
                                                     [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
                                                     [shouldUseIcon]=true>
                       </app-confirmation-dialog>
                     </div>
                     <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">
-                      <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                      <i class="icon-x"></i><span class="btn__text">Cancel</span>
                     </button>
                   </ng-container>
                 </td>

@@ -31,7 +31,7 @@
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.email" name="email" placeholder="Epost"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
-                <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+                <app-search-hprnumber-link></app-search-hprnumber-link>
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
               <td></td>
@@ -81,7 +81,7 @@
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.email" name="email" placeholder="Epost"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
-                  <app-sok-hprnummer-lenke></app-sok-hprnummer-lenke>
+                  <app-search-hprnumber-link></app-search-hprnumber-link>
                 </td>
                 <td>
                   <app-pseudonym-dialog [text]="'Endre'"

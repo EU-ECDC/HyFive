@@ -4,7 +4,7 @@
 </fhi-modal>
 
 <fhi-modal *ngIf="editable"
-            [actionButtons]="[{name: 'Lagre', disabled: !isOk()}]"
+            [actionButtons]="[{name: 'Save', disabled: !isOk()}]"
             (modalAction)="ok()">
   <ng-container fhi-modal.button>{{text}}</ng-container>
   <ng-container fhi-modal.body>

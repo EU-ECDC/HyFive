@@ -55,7 +55,7 @@ import {ActivityChoiceDropdownComponent} from "./koordinator/redigering-av-obser
 import { EditProtectiveEquipmentObservationsComponent } from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/edit-protective-equipment-observations.component";
 import { EditProtectiveEquipmentObservationComponent } from './koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/edit-protective-equipment-observation.component';
 import {ProtectiveEquipmentModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
-import { SokHprnummerLenkeComponent } from './_felles/sok-hprnummer-lenke/sok-hprnummer-lenke.component';
+import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { ForesporselComponent } from "./koordinator/foresporsel/foresporsel.component";
 import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.component';
@@ -129,7 +129,7 @@ export const httpInterceptorProviders = [
     EditProtectiveEquipmentObservationsComponent,
     EditProtectiveEquipmentObservationComponent,
     ProtectiveEquipmentModalComponent,
-    SokHprnummerLenkeComponent,
+    SearchHprNumberLinkComponent,
     EditSessionDataComponent,
     ForesporselComponent,
     HelseforetakComponent,
