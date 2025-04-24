@@ -3,7 +3,7 @@ import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { Klinikk } from '../../../models/api/Klinikk';
-import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
+import { Avdelingsvalg } from '../../../models/code-work/avdelingsvalg.model';
 import { DepartmentService } from '../../../services/data/department.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
@@ -68,7 +68,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
             erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id))
           }));
         },
-        (err) => this.toastrService.error(`Kunne ikke laste inn klinikker: ${err?.message ? err.message : err}`, 'Teknisk feil', { disableTimeOut: true})
+        (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
       );
     });
   }

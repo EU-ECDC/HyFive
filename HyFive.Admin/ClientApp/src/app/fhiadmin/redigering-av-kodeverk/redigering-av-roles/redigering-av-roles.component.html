@@ -13,7 +13,7 @@
     </div>
     <div class="col-2">
       <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="opprettRolle()" [disabled]="!nyRolle.name">Legg til</button>
+      <button class="form-control btn fhi-btn-primary" (click)="createRole()" [disabled]="!nyRolle.name">Legg til</button>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
                   <input type="text" class="form-control" [(ngModel)]="rolleSomEndres.description">
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="oppdaterRolle(rolleSomEndres)">
+                  <button class="btn fhi-btn-icon" (click)="updateRole(rolleSomEndres)">
                     <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">

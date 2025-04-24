@@ -6,7 +6,7 @@ import { AuthorizationService } from 'src/app/_felles/services/authorization.ser
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { DepartmentService } from 'src/app/services/data/department.service';
 import { Role } from 'src/app/models/api/Role';
-import { RolleService } from 'src/app/services/data/rolle.service';
+import { RoleService } from 'src/app/services/data/role.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from 'src/app/services/events/key-event.service';
@@ -35,7 +35,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   constructor(private institutionService: InstitutionService,
     private authorizationService: AuthorizationService,
     private departmentService: DepartmentService,
-    private rolleService: RolleService,
+    private roleService: RoleService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService) { }
 
@@ -46,7 +46,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
 
     this.getDepartments();
     this.hentAvdelingstyper();
-    this.hentRoller();
+    this.getRoles();
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -94,8 +94,8 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     });
   }
 
-  hentRoller() {
-    this.rolleService.hentRoller().subscribe(
+  getRoles() {
+    this.roleService.getRoles().subscribe(
       (roles) => {
         this.roles = roles;
       },

@@ -1,5 +1,5 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { KodeverkSidemenyModel } from '../../models/kodeverk/kodeverk-sidemeny.model';
+import { KodeverkSidemenyModel } from '../../models/code-work/kodeverk-sidemeny.model';
 import { RedigeringAvAktivitettypeComponent } from './redigering-av-aktivitettype/redigering-av-aktivitettype.component';
 import { RedigeringAvIndikasjonstyperComponent } from './redigering-av-indikasjonstyper/redigering-av-indikasjonstyper.component';
 import { RedigeringAvInstitusjonstyperComponent } from './redigering-av-institusjonstyper/redigering-av-institusjonstyper.component';

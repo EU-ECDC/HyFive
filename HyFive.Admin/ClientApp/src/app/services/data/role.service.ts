@@ -7,22 +7,22 @@ import { Role } from '../../models/api/Role';
 @Injectable({
   providedIn: 'root'
 })
-export class RolleService {
+export class RoleService {
 
   constructor(private readonly http: HttpClient) { }
 
-  opprettRolle(rolle: Role): Observable<Role> {
-    const url = `${environment.apiBaseUrl}/v1/rolle`;
+  createRole(rolle: Role): Observable<Role> {
+    const url = `${environment.apiBaseUrl}/v1/role`;
     return this.http.post<Role>(url, rolle);
   }
 
-  oppdaterRolle(rolle: Role): Observable<Role> {
-    const url = `${environment.apiBaseUrl}/v1/rolle`;
+  updateRole(rolle: Role): Observable<Role> {
+    const url = `${environment.apiBaseUrl}/v1/role`;
     return this.http.put<Role>(url, rolle);
   }
 
-  hentRoller(): Observable<Role[]> {
-    const url = `${environment.apiBaseUrl}/v1/rolle`;
+  getRoles(): Observable<Role[]> {
+    const url = `${environment.apiBaseUrl}/v1/role`;
     return this.http.get<Role[]>(url);
   }
 }

@@ -1,0 +1,32 @@
+<div class="row">
+  <h5 class="col-12 mt-2 mb-3">Create department</h5>
+  <div class="col-12 col-lg-6">
+    <div class="form-row">
+      <div class="form-group col-12 mb-3" >
+        <label for="departmenttype">Department type</label>
+        <select class="form-select" id="departmenttype" [(ngModel)]="newDepartment.departmentTypeId">
+          <option value="0">Not selected</option>
+          <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="newDepartment.departmentTypeId == type.id">{{type.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-12 mb-3">
+        <label for="institutionname">Name</label>
+        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Neurological Department" [(ngModel)]="newDepartment.name">
+      </div>
+      <div class="form-group col-12 mb-4" >
+        Roles that must be observable
+        <div class="custom-control custom-checkbox my-1" *ngFor=  "let selection of roleSelected">
+          <input type="checkbox" [(ngModel)]="selection.isSelected" [id]="'role'+roleSelected.indexOf(selection)" class="form-check-input">
+          <label [htmlFor]="'role'+roleSelected.indexOf(selection)" class="custom-control-label ms-2">
+            <span>{{ selection.role.name }} </span>
+            <span *ngIf="selection.role.description != null"> - {{ selection.role.description }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row col-3">
+  <button class="btn fhi-btn-primary ms-3 mt-1" [disabled]="canNotCreateDepartment()" (click)="createDepartment()">Create department</button>
+</div>

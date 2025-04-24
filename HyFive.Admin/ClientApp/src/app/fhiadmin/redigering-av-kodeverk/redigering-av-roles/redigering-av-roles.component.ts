@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../../models/api/Role';
-import { RolleService } from '../../../services/data/rolle.service';
+import { RoleService } from '../../../services/data/role.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private rolleService: RolleService,
+    private roleService: RoleService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
@@ -37,7 +37,7 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
   }
 
   lastRoller() {
-    this.rolleService.hentRoller().subscribe(
+    this.roleService.getRoles().subscribe(
       (roles) => this.roles = roles,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -52,8 +52,8 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
     } as Role;
   }
 
-  opprettRolle() {
-    this.rolleService.opprettRolle(this.nyRolle).subscribe(
+  createRole() {
+    this.roleService.createRole(this.nyRolle).subscribe(
       (opprettetRolle) => this.toastrService.success('Role opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av rolle: ' + error?.message, '', { disableTimeOut: true}),
       () => { this.nyRolle = this.opprettTomRolle(); this.lastRoller(); }
@@ -65,8 +65,8 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
     this.rolleSomEndres = JSON.parse(JSON.stringify(rolle));
   }
 
-  oppdaterRolle(rolle: Role) {
-    this.rolleService.oppdaterRolle(rolle).subscribe(
+  updateRole(rolle: Role) {
+    this.roleService.updateRole(rolle).subscribe(
       (oppdatertRolle) => {
         this.toastrService.success("Role oppdatert");
         this.lastRoller();

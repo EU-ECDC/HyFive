@@ -5,7 +5,7 @@ import { Department} from '../../../../models/api/Department';
 import { Role } from '../../../../models/api/Role';
 import { InstitutionService } from '../../../../services/data/institution.service';
 import { RapportService } from '../../../../services/data/rapport.service';
-import { RolleService } from '../../../../services/data/rolle.service';
+import { RoleService } from '../../../../services/data/role.service';
 
 @Component({
   selector: 'app-etterlevelse',
@@ -40,7 +40,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   constructor(
     private grafService: RapportService,
     private institutionService: InstitutionService,
-    private rolleService: RolleService,
+    private roleService: RoleService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   }
 
   lastRoller() {
-    this.rolleService.hentRoller().subscribe(
+    this.roleService.getRoles().subscribe(
       (roles) => this.roles = roles,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
     );

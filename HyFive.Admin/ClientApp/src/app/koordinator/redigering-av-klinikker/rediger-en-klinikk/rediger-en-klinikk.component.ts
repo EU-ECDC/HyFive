@@ -4,7 +4,7 @@ import { InstitutionService } from '../../../services/data/institution.service';
 import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
-import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
+import { Avdelingsvalg } from '../../../models/code-work/avdelingsvalg.model';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,7 +35,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
       this.lastAvdelinger();
     }
     else {
-      this.toastrService.error('Departmentikke lastet', 'Teknisk feil', { disableTimeOut: true});
+      this.toastrService.error('Departmentikke lastet', 'Technical error', { disableTimeOut: true});
     }
   }
   
@@ -56,7 +56,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
               erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id) && k.id !== this.klinikkKopi.id)
             }));
         },
-        (err) => this.toastrService.error(`Kunne ikke laste inn klinikker: ${err?.message ? err.message : err}`, 'Teknisk feil', { disableTimeOut: true})
+        (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
       );
 
      });
@@ -84,7 +84,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
         this.klinikk.avdelinger = k.avdelinger;
         this.toastrService.success('Klinikk oppdatert');
       },
-      (err) => this.toastrService.error(`Teknisk feil ved oppdatering: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})
+      (err) => this.toastrService.error(`Technical error ved oppdatering: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})
     );
   }
 }
