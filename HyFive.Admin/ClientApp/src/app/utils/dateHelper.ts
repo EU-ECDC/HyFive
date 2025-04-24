@@ -1,6 +1,6 @@
 import * as dayjs from "dayjs";
 
-export class DatoHjelper{
+export class DateHelper{
   static leggTilTimerOgMinutter (dato: Date, timer:number, minutter:number) : Date{
     var dayjsobject = dayjs(dato);
     dayjsobject = dayjsobject.hour(timer)

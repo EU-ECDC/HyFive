@@ -18,7 +18,7 @@ export class LibraryMenuService {
     const items: LibraryMenuLevel2Item[] = [];
 
     libraryExamples.forEach(example => {
-      items[i] = this.getKomponentMenuItem(example);
+      items[i] = this.getComponentMenuItem(example);
       i = i + 1;
     });
     return items;
@@ -39,7 +39,7 @@ export class LibraryMenuService {
           items: []
         };
       }
-      categories[catId].items.push(this.getKomponentMenuItem(example));
+      categories[catId].items.push(this.getComponentMenuItem(example));
       i = i + 1;
     });
     return this.moveUndefinedToEndOfList(categories);
@@ -60,7 +60,7 @@ export class LibraryMenuService {
     return text.replace(/\s+/g, '-').toLowerCase();
   }
 
-  private getKomponentMenuItem(example: LibraryExample): LibraryMenuLevel2Item {
+  private getComponentMenuItem(example: LibraryExample): LibraryMenuLevel2Item {
     return {
       id: example.id,
       title: example.title

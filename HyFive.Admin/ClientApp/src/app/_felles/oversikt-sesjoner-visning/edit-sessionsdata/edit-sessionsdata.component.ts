@@ -3,7 +3,7 @@ import {SessionOverviewReport} from "../../../models/api/SessionOverviewReport";
 import {SessionService} from "../../../services/data/session.service";
 import {UpdateSessionRequest} from "../../../models/api/UpdateSessionRequest";
 import {ToastrService} from "ngx-toastr";
-import {DatoHjelper} from "../../../utils/datohjelper";
+import {DateHelper} from "../../../utils/dateHelper";
 
 @Component({
   selector: 'app-edit-sessionsdata',

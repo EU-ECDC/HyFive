@@ -6,7 +6,7 @@ export class UrlParam {
     private name: string,
     private urlService: UrlService
   ) {
-    this.urlService.registrerNyParameter(this.name);
+    this.urlService.registerNewParameter(this.name);
   }
 
   private paramSubject = new Subject<string>();
@@ -15,23 +15,23 @@ export class UrlParam {
     return this.paramSubject.asObservable();
   }
 
-  get verdi(): string {
-    return this.urlService.alleUrlParametere[this.name];
+  get value(): string {
+    return this.urlService.allUrlParameters[this.name];
   }
 
-  set verdi(verdi: string) {
-    if (verdi.length === 0) {
-      this.nullstill();
+  set value(value: string) {
+    if (value.length === 0) {
+      this.reset();
     } else {
       this.urlService.updateUrlTree({
-        [this.name]: verdi
+        [this.name]: value
       });
-      this.paramSubject.next(verdi);
+      this.paramSubject.next(value);
     }
   }
 
-  avregistrerParameter(): void {
-    const array = this.urlService.registrerteUrlParametere;
+  unregisterParameter(): void {
+    const array = this.urlService.registeredUrlParameters;
     for (let i = 0; i < array.length; i++) {
       if (array[i] === this.name) {
         array.splice(i, 1);
@@ -39,8 +39,8 @@ export class UrlParam {
     }
   }
 
-  private nullstill(): void {
-    delete this.urlService.alleUrlParametere[this.name];
+  private reset(): void {
+    delete this.urlService.allUrlParameters[this.name];
   }
 
 }

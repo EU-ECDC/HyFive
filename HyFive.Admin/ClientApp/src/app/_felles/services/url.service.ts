@@ -7,83 +7,83 @@ import { Subject } from 'rxjs';
 })
 export class UrlService {
 
-  private urlOppdaterttidspunkt: number;
+  private urlUpdatedTime: number;
 
-  private alleUrlParametereSubject = new Subject<Params>();
-  private urlSegmenterSubject = new Subject<UrlSegment[]>();
-  alleUrlParametere$ = this.alleUrlParametereSubject.asObservable();
-  urlSegmenter$ = this.urlSegmenterSubject.asObservable();
+  private allUrlParametersSubject = new Subject<Params>();
+  private urlSegmentsSubject = new Subject<UrlSegment[]>();
+  allUrlParameters$ = this.allUrlParametersSubject.asObservable();
+  urlSegments$ = this.urlSegmentsSubject.asObservable();
 
-  urlTre: UrlTree;
-  urlSegmenter: UrlSegment[];
+  urlTree: UrlTree;
+  urlSegments: UrlSegment[];
   urlFragment: string;
-  urlUtenParmetere: string;
-  alleUrlParametere: Params;
-  registrerteUrlParametere: Array<string>;
+  urlWithoutParameters: string;
+  allUrlParameters: Params;
+  registeredUrlParameters: Array<string>;
 
-  updateAfterNavigationEnd(urlTre: UrlTree): void {
-    this.sjekkForDobbelOppdatering();
-    this.urlTre = urlTre;
-    this.urlSegmenter = this.getSegments();
+  updateAfterNavigationEnd(urlTree: UrlTree): void {
+    this.checkForDoubleUpdate();
+    this.urlTree = urlTree;
+    this.urlSegments = this.getSegments();
     this.urlFragment = this.getFragment();
-    this.alleUrlParametere = this.getQueryParams();
+    this.allUrlParameters = this.getQueryParams();
 
-    if (this.urlSegmenter !== undefined) {
-      this.urlSegmenterSubject.next(this.urlSegmenter);
+    if (this.urlSegments !== undefined) {
+      this.urlSegmentsSubject.next(this.urlSegments);
     }
-    if (this.alleUrlParametere !== undefined) {
-      this.alleUrlParametereSubject.next(this.alleUrlParametere);
+    if (this.allUrlParameters !== undefined) {
+      this.allUrlParametersSubject.next(this.allUrlParameters);
     }
   }
 
   updateUrlTree(params: Params, fragment?: string): void {
-    this.urlTre.queryParams = Object.assign(this.alleUrlParametere, params);
-    this.urlTre.fragment = fragment;
+    this.urlTree.queryParams = Object.assign(this.allUrlParameters, params);
+    this.urlTree.fragment = fragment;
   }
 
-  registrerNyParameter(nyParameterNavn: string): void {
-    if (this.registrerteUrlParametere === undefined) {
-      this.registrerteUrlParametere = [nyParameterNavn];
-    } else if (!this.registrerteUrlParametere.includes(nyParameterNavn)) {
-      this.registrerteUrlParametere.push(nyParameterNavn);
+  registerNewParameter(newParameterName: string): void {
+    if (this.registeredUrlParameters === undefined) {
+      this.registeredUrlParameters = [newParameterName];
+    } else if (!this.registeredUrlParameters.includes(newParameterName)) {
+      this.registeredUrlParameters.push(newParameterName);
     } else {
-      const errorMsg = 'UrlService.registrerNyParameter(): UrlParam med name "'
-        + nyParameterNavn + '" kan ikke registreres mer enn en gang!';
+      const errorMsg = 'UrlService.registerNewParameter(): UrlParam with name "'
+        + newParameterName + '" cannot be registered more than once!';
       throw new Error(errorMsg);
     }
   }
 
   private getSegments(): Array<UrlSegment> {
-    if (this.urlTre.root.numberOfChildren !== 0) {
-      return this.urlTre.root.children.primary.segments;
+    if (this.urlTree.root.numberOfChildren !== 0) {
+      return this.urlTree.root.children.primary.segments;
     } else {
       return undefined;
     }
   }
 
   private getFragment(): any {
-    if (this.urlTre.fragment) {
-      return this.urlTre.fragment;
+    if (this.urlTree.fragment) {
+      return this.urlTree.fragment;
     } else {
       return undefined;
     }
   }
 
   private getQueryParams(): Params {
-    return this.urlTre.queryParams;
+    return this.urlTree.queryParams;
   }
 
-  private sjekkForDobbelOppdatering(): void {
-    const tidsdifferanse = Date.now() - this.urlOppdaterttidspunkt;
-    const errorMsg = 'UrlService.sjekkForDobbelOppdatering(): '
-      + 'TIDEN MELLOM TO OPPDATERINGER AV URL ER < 75 MS!\n'
-      + 'Dette kan tyde på at det er introdusert en dobbel oppdatering av URL!\n'
-      + 'Differanse [ms]: ' + tidsdifferanse;
+  private checkForDoubleUpdate(): void {
+    const timeDifference = Date.now() - this.urlUpdatedTime;
+    const errorMsg = 'UrlService.checkForDoubleUpdate(): '
+      + 'THE TIME BETWEEN TWO URL UPDATES IS < 75 MS!\n'
+      + 'This may indicate that a double update has been introduced URL!\n'
+      + 'Difference [ms]: ' + timeDifference;
 
-    if (tidsdifferanse < 75) {
+    if (timeDifference < 75) {
       console.error(errorMsg);
     }
-    this.urlOppdaterttidspunkt = Date.now();
+    this.urlUpdatedTime = Date.now();
   }
 
 }

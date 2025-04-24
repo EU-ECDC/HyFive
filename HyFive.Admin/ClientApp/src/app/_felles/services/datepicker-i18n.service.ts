@@ -5,10 +5,10 @@ import { NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 const I18N_VALUES = {
   nb: {
-    weekdays: ['Ma', 'Ti', 'On', 'To', 'Fr', 'Lø', 'Sø'],
+    weekdays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
     months: [
-      'Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni',
-      'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
     ]
   }
 };
