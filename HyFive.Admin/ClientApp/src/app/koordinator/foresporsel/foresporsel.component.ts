@@ -17,7 +17,7 @@ export class ForesporselComponent implements OnInit, OnDestroy {
 
   constructor(
     private foresporselOmBrukertilgangService: ForesporselOmBrukertilgangService,
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private toastrService: ToastrService
   ) {}
 
@@ -31,7 +31,7 @@ export class ForesporselComponent implements OnInit, OnDestroy {
   
   lastAlleForesporsler() {
     this.visAlleForesporsel = true;
-    var institutionId = this.institusjonService.hentValgtInstitusjonId();
+    var institutionId = this.institutionService.getSelectedInstitutionId();
     this.foresporselOmBrukertilgangService.hentAlleForesporsler(institutionId).subscribe(
       (foresporsler) => this.foresporsler = foresporsler,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av forespørsler om brukertilgang: ' + error?.message, '', { disableTimeOut: true})
@@ -40,7 +40,7 @@ export class ForesporselComponent implements OnInit, OnDestroy {
 
   lastForesporslerSomVenterPaGodkjenning() {
     this.visAlleForesporsel = false;
-    var institutionId = this.institusjonService.hentValgtInstitusjonId();
+    var institutionId = this.institutionService.getSelectedInstitutionId();
     this.foresporselOmBrukertilgangService.hentForesporslerSomVenterPaGodkjenning(institutionId).subscribe(
       (foresporsler) => this.foresporsler = foresporsler,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av forespørsler om brukertilgang: ' + error?.message, '', { disableTimeOut: true})

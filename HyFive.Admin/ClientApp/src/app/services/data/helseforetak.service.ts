@@ -30,7 +30,7 @@ export class HelseforetakService {
     return this.httpClient.put<boolean>(url, helseforetak);
   }
 
-  hentKoordinatorer(id: number): Observable<CoordinatorForHealthcareCompanies[]> {
+  getCoordinators(id: number): Observable<CoordinatorForHealthcareCompanies[]> {
     const url = `${environment.apiBaseUrl}/v1/helseforetak/${id}/koordinatorer`;
     return this.httpClient.get<CoordinatorForHealthcareCompanies[]>(url);
   }

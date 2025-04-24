@@ -23,7 +23,7 @@ export class EmailComponent implements OnInit {
   koordinaterValgt: boolean;
   observatorValgt: boolean;
 
-  constructor(private institusjonService: InstitutionService) {}
+  constructor(private institutionService: InstitutionService) {}
 
   ngOnInit(): void {
     this.koordinatorListe = [];
@@ -32,7 +32,7 @@ export class EmailComponent implements OnInit {
     this.epostListe = [];
     this.alleBrukereListe = [];
 
-    this.institusjonService.getInstitutions().subscribe((institusjoner) => {
+    this.institutionService.getInstitutions().subscribe((institusjoner) => {
       this.institusjoner = institusjoner;
       
       this.institusjoner.forEach(institusjon => {
@@ -43,7 +43,7 @@ export class EmailComponent implements OnInit {
   }
 
   hentKoordinaterForInstitusjon(id: number) {
-    this.institusjonService.hentKoordinatorer(id).subscribe((koordinatorer) => {
+    this.institutionService.getCoordinators(id).subscribe((koordinatorer) => {
       koordinatorer.forEach(koordinator => {
         if(koordinator.email != null && koordinator.email != "") {
           this.koordinatorListe.push(koordinator);
@@ -54,7 +54,7 @@ export class EmailComponent implements OnInit {
   }
 
   hentObservatorerForInstitusjon(id: number) {
-    this.institusjonService.getObservers(id).subscribe((observatorer) => {
+    this.institutionService.getObservers(id).subscribe((observatorer) => {
       observatorer.forEach(observator => {
         if(observator.email != null && observator.email != "") {
           this.observatorListe.push(observator);

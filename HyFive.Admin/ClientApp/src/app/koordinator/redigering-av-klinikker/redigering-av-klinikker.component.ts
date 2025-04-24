@@ -22,7 +22,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
 
   laster: boolean = false;
 
-  constructor(private institusjonService: InstitutionService,
+  constructor(private institutionService: InstitutionService,
     private klinikkService: KlinikkService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -33,8 +33,8 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
 
   hentKlinikker() {
     this.laster = true;
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjonNavn = result.name;
       this.institutionId = result.id;
       this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(klinikker => {

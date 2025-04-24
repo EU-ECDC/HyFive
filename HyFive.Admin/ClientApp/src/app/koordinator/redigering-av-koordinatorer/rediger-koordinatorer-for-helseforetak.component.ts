@@ -70,7 +70,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastKoordinatorer() {
-    this.helseforetakService.hentKoordinatorer(this.institution.healthcareCompany.id).subscribe(
+    this.helseforetakService.getCoordinators(this.institution.healthcareCompany.id).subscribe(
       (koordinatorer) => {
         this.koordinatorer = koordinatorer;
         this.filtrertKoordinatorer = this.koordinatorer

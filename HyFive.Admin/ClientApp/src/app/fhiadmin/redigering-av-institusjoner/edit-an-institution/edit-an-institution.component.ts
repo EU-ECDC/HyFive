@@ -16,7 +16,7 @@ import { Kommune } from 'src/app/models/api/Kommune';
 })
 export class RedigerEnInstitusjonComponent implements OnInit {
 
-  constructor(private institusjonService: InstitutionService,
+  constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private kommuneService: KommuneService,
               private helseforetakService: HelseforetakService) { }
@@ -44,13 +44,13 @@ export class RedigerEnInstitusjonComponent implements OnInit {
       this.institution = null;
       return;
     }
-    this.institusjonService.hentInstitusjon(this.institutionId).subscribe((institution) => {
+    this.institutionService.getInstitution(this.institutionId).subscribe((institution) => {
       this.institution = institution;
       this.institusjontypeId = institution.institutionType.id;
       this.kommuneId = institution.municipality?.id;
       this.helseforetakId = institution.healthcareCompany?.id;
       
-      this.institusjonService.hentInstitusjontyper().subscribe((typer) => {
+      this.institutionService.getInstitutionTypes().subscribe((typer) => {
         this.institusjontyper = typer;
         this.visKommune = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehjem;
         this.visHelseforetak = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehus;
@@ -68,9 +68,9 @@ export class RedigerEnInstitusjonComponent implements OnInit {
     });
   }
 
-  slettInstitusjon() {
+  deleteInstitution() {
       if (this.institutionId > 0) {
-        this.institusjonService.slettInstitusjon(this.institutionId).subscribe(() => {
+        this.institutionService.deleteInstitution(this.institutionId).subscribe(() => {
           this.institution = null;
           this.institusjonSlettetEvent.emit(this.institutionId);
         },
@@ -92,7 +92,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
   }
 
   lagreInstitusjon() {
-    this.institusjonService.oppdaterInstitusjon(this.institution).subscribe(
+    this.institutionService.updateInstitution(this.institution).subscribe(
       (institution) => {
         this.toastrService.success('Institusjonen ble oppdatert');
         this.institusjonOppdatertEvent.emit(institution);

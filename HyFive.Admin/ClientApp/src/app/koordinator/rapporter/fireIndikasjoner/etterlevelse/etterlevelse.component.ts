@@ -39,7 +39,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   };
   constructor(
     private grafService: RapportService,
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private rolleService: RolleService,
     private toastrService: ToastrService) { }
 
@@ -61,15 +61,15 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   }
 
   lastAvdelinger() {
-    var institutionId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentAvdelinger(institutionId).subscribe(
+    var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getDepartments(institutionId).subscribe(
       (avdelinger) => this.avdelinger = avdelinger,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
   hentEtterlevelseForFireindikasjoner() {
-    var institutionId = this.institusjonService.hentValgtInstitusjonId();
+    var institutionId = this.institutionService.getSelectedInstitutionId();
     this.grafService.hentEtterlevelseForFireindikasjoner(institutionId, this.intervall, this.fraManed, this.fraAr, this.tilManed, this.tilAr, this.rolle?.id, this.avdeling?.id).subscribe(
       (grafer) => {
 

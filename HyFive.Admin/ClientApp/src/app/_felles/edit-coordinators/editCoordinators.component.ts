@@ -51,7 +51,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   }
 
   loadCoordinators() {
-    this.institutionService.hentKoordinatorer(this.institutionId).subscribe(
+    this.institutionService.getCoordinators(this.institutionId).subscribe(
       (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators;
@@ -104,7 +104,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
 
   deleteCoordinator(coordinator: User) {
     this.userService.deleteCoordinator(coordinator.id).subscribe(
-      () => this.toastrService.success('Koordinator deleted'),
+      () => this.toastrService.success('Coordinator deleted'),
       (error) => {
         if (error.error.includes('NotSupportedException')) {
           this.toastrService.error('The coordinator has sessions and could not be deleted', '', { disableTimeOut: true });

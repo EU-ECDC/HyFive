@@ -32,7 +32,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
   laster: boolean = false;
   dropdownSettings: IDropdownSettings;
 
-  constructor(private institusjonService: InstitutionService,
+  constructor(private institutionService: InstitutionService,
     private authorizationService: AuthorizationService,
     private departmentService: DepartmentService,
     private rolleService: RolleService,
@@ -44,7 +44,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     
     this.kanRedigere = this.kanBrukerRedigere();
 
-    this.hentAvdelinger();
+    this.getDepartments();
     this.hentAvdelingstyper();
     this.hentRoller();
 
@@ -70,9 +70,9 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     return false;
   }
 
-  hentAvdelinger() {
-    let valgtInstitusjonsId = this.institutionId ?? this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe(
+  getDepartments() {
+    let valgtInstitusjonsId = this.institutionId ?? this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe(
       (institution) => {
         this.institusjonNavn = institution.name;
         this.institutionId = institution.id;
@@ -140,7 +140,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
     this.departmentService.updateDepartment(avdeling).subscribe(
       () => {
         this.avdelingSomEndres = null;
-        this.hentAvdelinger();
+        this.getDepartments();
         this.toastrService.success("Departmentoppdatert");
       },
       (error) => {
@@ -160,7 +160,7 @@ export class RedigeringAvAvdelingerComponent implements OnInit {
         {
           this.departmentService.deleteDepartment(avdeling.id).subscribe(
             () => {
-              this.hentAvdelinger();
+              this.getDepartments();
               this.toastrService.success("Departmentslettet");
             },
             (error) => {

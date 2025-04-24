@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     private browserViewportService: BrowserViewportService,
     private urlService: UrlService,
     public authorizationService: AuthorizationService,
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private keyEventService: KeyEventService
   ) { }
 
@@ -64,10 +64,10 @@ export class AppComponent implements OnInit {
 
     this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
       if (user.isCoordinator) {
-        let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
+        let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
         if (valgtInstitusjonId === null) {
-          this.institusjonService.getInstitutions().subscribe((resultat) => {
-            this.institusjonService.oppdaterValgtInstitusjonId(resultat[0].id);
+          this.institutionService.getInstitutions().subscribe((resultat) => {
+            this.institutionService.updateSelectedInstitutionId(resultat[0].id);
             window.location.reload();
           });
         }

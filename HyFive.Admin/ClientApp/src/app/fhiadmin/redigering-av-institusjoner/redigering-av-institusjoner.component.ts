@@ -22,7 +22,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   sokeordPerson: string = '';
   brukere: User[] = [];
 
-  constructor(private institusjonService: InstitutionService,
+  constructor(private institutionService: InstitutionService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -39,7 +39,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   getInstitutions() {
-    this.institusjonService.getInstitutions().subscribe((resultat) => {
+    this.institutionService.getInstitutions().subscribe((resultat) => {
       this.institusjoner = resultat;
       this.filtrertInstitusjoner = this.institusjoner;
       
@@ -50,10 +50,10 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   hentBrukere(institutionId: number) {
-    this.institusjonService.getObservers(institutionId).subscribe((resultat) => {
+    this.institutionService.getObservers(institutionId).subscribe((resultat) => {
       this.brukere.push(...resultat);
     });
-    this.institusjonService.hentKoordinatorer(institutionId).subscribe((resultat) => {
+    this.institutionService.getCoordinators(institutionId).subscribe((resultat) => {
       this.brukere.push(...resultat);
     });
   }
@@ -74,11 +74,11 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       });
   }
 
-  oppdaterInstitusjon(institusjon: Institution) {
+  updateInstitution(institusjon: Institution) {
     this.institusjoner[this.institusjoner.map(i => i.id).indexOf(institusjon.id)] = institusjon;
   }
 
-  slettInstitusjon(institutionId: number) {
+  deleteInstitution(institutionId: number) {
     this.getInstitutions();
     this.toastrService.success('Slettet institusjon med id: ' + institutionId, 'Institution slettet');
     this.navigerTilInstitusjon(0);

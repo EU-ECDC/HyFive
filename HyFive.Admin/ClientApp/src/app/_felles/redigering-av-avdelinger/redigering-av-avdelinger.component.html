@@ -2,7 +2,7 @@
   <div class="row" *ngIf="kanRedigere && !laster">
     <h3>Vedlikehold av avdelinger</h3>
   </div>
-  <app-opprett-avdeling (avdelingOpprettetEvent)="hentAvdelinger()" [institutionId]="institutionId" *ngIf="kanOpprette()"></app-opprett-avdeling>
+  <app-opprett-avdeling (avdelingOpprettetEvent)="getDepartments()" [institutionId]="institutionId" *ngIf="kanOpprette()"></app-opprett-avdeling>
   <div class="row mb-5 mt-5" *ngIf="avdelinger?.length > 0">
     <input type="text" placeholder="Søk etter name eller avdelingstype..." autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="sokeord" (ngModelChange)="filtrerAvdelinger()">
   

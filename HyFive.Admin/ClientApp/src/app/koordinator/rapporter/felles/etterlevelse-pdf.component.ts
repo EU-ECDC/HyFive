@@ -16,7 +16,7 @@ import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 })
 export class EtterlevelsePdfComponent {
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private rapportService: RapportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
@@ -25,13 +25,13 @@ export class EtterlevelsePdfComponent {
       this.valgtRolle = this.authorizationService.getSelectedRole();
       
       if (this.valgtRolle === AuthorizedRole.Coordinator) {
-        this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-        this.hentInstitusjon(this.valgtInstitusjonId)
+        this.valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
+        this.getInstitution(this.valgtInstitusjonId)
       }
       else if (this.valgtRolle === AuthorizedRole.Administrator) {
         this.kanVelgeInstitusjon = true;
         
-        this.institusjonService.getInstitutions().subscribe(
+        this.institutionService.getInstitutions().subscribe(
           (institusjoner) => {
             this.institusjoner = institusjoner;
           });
@@ -57,7 +57,7 @@ export class EtterlevelsePdfComponent {
     this.avdelinger = null;
     this.valgtAvdelingId = null;
     if (this.valgtInstitusjonId != null) {
-      this.hentInstitusjon(this.valgtInstitusjonId)
+      this.getInstitution(this.valgtInstitusjonId)
     }
   };
 
@@ -115,8 +115,8 @@ export class EtterlevelsePdfComponent {
     return LastNedFilHjelper.lastNedFil(url, 'application/pdf, */*')
   }
 
-  private hentInstitusjon(institutionId: number) {
-    this.institusjonService.hentInstitusjon(institutionId).subscribe(
+  private getInstitution(institutionId: number) {
+    this.institutionService.getInstitution(institutionId).subscribe(
       institution => {
         this.avdelinger = institution.departments;
       })

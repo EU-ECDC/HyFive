@@ -26,7 +26,7 @@ export class ByttInstitusjonComponent implements OnInit {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private rolleEventService: RolleEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService
   ) { }
@@ -54,18 +54,18 @@ export class ByttInstitusjonComponent implements OnInit {
     if (valgtRolle === AuthorizedRole.Administrator) {
       this.visByttInstitusjonBoks = false;
     } else if (valgtRolle === AuthorizedRole.Coordinator) {
-      this.institusjonService.hentInstitusjonerForKoordinator().subscribe((institusjoner) => {
+      this.institutionService.getInstitutionsForCoordinator().subscribe((institusjoner) => {
         if (institusjoner.length > 0) {
           this.visByttInstitusjonBoks = true;
         }
 
         this.institusjoner = institusjoner;
-        let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId()
+        let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId()
         this.valgtInstitusjon = this.institusjoner.find(x => x.id === valgtInstitusjonId);
 
         if (!this.valgtInstitusjon) {
           this.valgtInstitusjon = this.institusjoner[0];
-          this.institusjonService.oppdaterValgtInstitusjonId(this.valgtInstitusjon.id);
+          this.institutionService.updateSelectedInstitutionId(this.valgtInstitusjon.id);
         }
 
         this.visteInstitusjoner = this.institusjoner.filter(x => x.id !== this.valgtInstitusjon.id);
@@ -75,7 +75,7 @@ export class ByttInstitusjonComponent implements OnInit {
 
   byttInstitusjon(institusjon: InstitutionReport) {  
     this.valgtInstitusjon = institusjon;
-    this.institusjonService.oppdaterValgtInstitusjonId(this.valgtInstitusjon.id);
+    this.institutionService.updateSelectedInstitutionId(this.valgtInstitusjon.id);
     window.location.reload();
   }
 }

@@ -14,23 +14,23 @@ export class PredefinertKommentarerService {
 
   constructor(
     private httpClient: HttpClient,
-    private institusjonService: InstitutionService
+    private institutionService: InstitutionService
   ) { }
 
   hentPredefinertKommentarer(): Observable<PredefinertKommentar[]> {
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
+    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
     const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institutionId=${valgtInstitusjonId}`;
     return this.httpClient.get<PredefinertKommentar[]>(url);
   }
 
   oppdaterPredefinertKommentar(predefinertKommentar: PredefinertKommentar): Observable<boolean>{
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
+    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
     const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/oppdater`;
     return this.httpClient.put<boolean>(url, predefinertKommentar);
   }
 
   opprettPredefinertKommentar(nypredefinertKommentar: OpprettPredefinertKommentarRequest): Observable<boolean> {
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
+    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
     const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/opprett`;
     return this.httpClient.post<boolean>(url, nypredefinertKommentar);
   }

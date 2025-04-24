@@ -24,7 +24,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   fawarningicon = faExclamationTriangle;
 
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private departmentService: DepartmentService,
     private toastrService: ToastrService,
     private klinikkService: KlinikkService) { }
@@ -48,7 +48,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
     this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institusjon) => {
       this.klinikkerListe = institusjon;
 
-      this.institusjonService.hentAvdelinger(this.klinikkKopi.institutionId).subscribe(
+      this.institutionService.getDepartments(this.klinikkKopi.institutionId).subscribe(
         (avdelinger) => {
           this.avdelingsvalg = avdelinger.map(a => (
             {

@@ -47,14 +47,14 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   sokGjort: boolean = false;
 
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private observationService: ObservationService,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjon = {
         id: result.id,
         herId: result.herId,
@@ -64,7 +64,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
         region: result.region
       } as InstitutionReport;
 
-      this.institusjonService.getObservers(this.institusjon.id).subscribe((observatorer) => {
+      this.institutionService.getObservers(this.institusjon.id).subscribe((observatorer) => {
         this.observatorer = observatorer.sort(this.compareFornavnForBrukere);
         this.observatorer = this.visDeaktivertObservatorerNedest(observatorer);
       });

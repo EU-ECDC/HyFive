@@ -25,12 +25,12 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   @Output() institusjonOpprettetEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
-  constructor(private institusjonService: InstitutionService, private toastrService: ToastrService,
+  constructor(private institutionService: InstitutionService, private toastrService: ToastrService,
               private kommuneService: KommuneService, 
               private helseforetakService: HelseforetakService) { }
 
   ngOnInit(): void {
-    this.institusjonService.hentInstitusjontyper().subscribe((resultat) => {
+    this.institutionService.getInstitutionTypes().subscribe((resultat) => {
       this.institusjonstyper = resultat;
       this.nyInstitusjon = this.opprettDefaultInstitusjon();
     });
@@ -56,8 +56,8 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
     return this.institusjonstyper.find(p => p.code === InstitusjonstypeKonstanter.Sykehus);
   }
 
-  opprettInstitusjon() {
-    this.institusjonService.opprettInstitusjon(this.nyInstitusjon).subscribe((resultat) => {
+  createInstitution() {
+    this.institutionService.createInstitution(this.nyInstitusjon).subscribe((resultat) => {
         this.toastrService.success('Institution opprettet', `Institution med ID: ${resultat.id} opprettet`);
         this.institusjonOpprettetEvent.emit(resultat);
       },

@@ -51,7 +51,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
   private valgtRolle: AuthorizedRole;
 
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private observationService: ObservationService,
     private route: ActivatedRoute,
     private router: Router,
@@ -80,7 +80,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
 
     if (this.valgtRolle === AuthorizedRole.Administrator) {
       this.kanVelgeInstitusjon = true;
-      this.hentInstitusjon();
+      this.getInstitution();
     } else if (this.valgtRolle === AuthorizedRole.Coordinator) {
       this.kanVelgeInstitusjon = false;
     }
@@ -92,12 +92,12 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
 
   hentInstitusjonId(): string {
     if(this.valgtRolle === AuthorizedRole.Coordinator)
-      return this.institusjonService.hentValgtInstitusjonId().toString();
+      return this.institutionService.getSelectedInstitutionId().toString();
     return "null";
   }
 
-  hentInstitusjon() {
-    this.institusjonService.getInstitutions().subscribe(
+  getInstitution() {
+    this.institutionService.getInstitutions().subscribe(
       (institusjoner) => {
         this.institusjoner = institusjoner;
       },

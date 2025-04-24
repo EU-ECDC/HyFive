@@ -45,7 +45,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService,
-    private institusjonService: InstitutionService
+    private institutionService: InstitutionService
   ) { }
 
 
@@ -99,7 +99,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   hentInstitusjonId(): number {
     if(this.valgtRolle === AuthorizedRole.Coordinator) 
-      return this.institusjonService.hentValgtInstitusjonId()
+      return this.institutionService.getSelectedInstitutionId()
     return null;
   }
 

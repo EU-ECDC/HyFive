@@ -9,11 +9,11 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 export class RedigeringAvKoordinatorerComponent implements OnInit {
 
   institusjonRapport: InstitutionReport = null;
-  constructor(private institusjonService: InstitutionService) { }
+  constructor(private institutionService: InstitutionService) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result) => {
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result) => {
       this.institusjonRapport = {
         id: result.id,
         herId: result.herId,

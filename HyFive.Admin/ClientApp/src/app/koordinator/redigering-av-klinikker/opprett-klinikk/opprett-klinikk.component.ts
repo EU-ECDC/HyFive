@@ -25,7 +25,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private klinikkService: KlinikkService,
     private departmentService: DepartmentService,
     private toastrService: ToastrService) { }
@@ -60,7 +60,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
     this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe((result: Klinikk[]) => {
       this.klinikkerListe = result;
 
-      this.institusjonService.hentAvdelinger(this.institutionId).subscribe(
+      this.institutionService.getDepartments(this.institutionId).subscribe(
         (avdelinger) => {
           this.avdelingsvalg = avdelinger.map(a =>
           ({

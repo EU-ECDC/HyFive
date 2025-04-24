@@ -19,7 +19,7 @@ import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 export class NedlastingExcelComponent {
   constructor(
-    private institusjonService: InstitutionService,
+    private institutionService: InstitutionService,
     private rapportService: RapportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
@@ -28,13 +28,13 @@ export class NedlastingExcelComponent {
     this.valgtRolle = this.authorizationService.getSelectedRole();
 
     if (this.valgtRolle === AuthorizedRole.Coordinator) {
-      this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-      this.hentInstitusjon(this.valgtInstitusjonId)
+      this.valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
+      this.getInstitution(this.valgtInstitusjonId)
     }
     else if (this.valgtRolle === AuthorizedRole.Administrator) {
       this.kanVelgeInstitusjon = true;
 
-      this.institusjonService.getInstitutions().subscribe(
+      this.institutionService.getInstitutions().subscribe(
         (institusjoner) => {
           this.institusjoner = institusjoner;
         });
@@ -61,7 +61,7 @@ export class NedlastingExcelComponent {
     this.avdelinger = null;
     this.valgtAvdelingId = null;
     if (this.valgtInstitusjonId != null) {
-      this.hentInstitusjon(this.valgtInstitusjonId)
+      this.getInstitution(this.valgtInstitusjonId)
     }
   };
 
@@ -118,8 +118,8 @@ export class NedlastingExcelComponent {
     return LastNedFilHjelper.lastNedFil(url, 'application/xlsx, */*')
   }
 
-  private hentInstitusjon(institutionId: number) {
-    this.institusjonService.hentInstitusjon(institutionId).subscribe(
+  private getInstitution(institutionId: number) {
+    this.institutionService.getInstitution(institutionId).subscribe(
       institution => {
         this.avdelinger = institution.departments;
       })
