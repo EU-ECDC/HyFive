@@ -3,7 +3,7 @@ import { AuthorizationService } from '../_felles/services/authorization.service'
 import { LoggedinUser } from '../models/api/LoggedinUser';
 import { AuthorizedRole } from '../_felles/authorization/authorized-role';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { RolleEventService } from '../services/events/rolle-event.service';
+import { RoleEventService } from '../services/events/role-event.service';
 
 @Component({
   selector: 'app-profilside',
@@ -22,7 +22,7 @@ export class ProfilsideComponent implements OnInit {
 
   constructor(
     public authorizationService: AuthorizationService,
-    private rolleEventService: RolleEventService) { }
+    private roleEventService: RoleEventService) { }
 
   ngOnInit(): void {
     this.authorizationService.getUser().subscribe((user) => {
@@ -54,7 +54,7 @@ export class ProfilsideComponent implements OnInit {
       rolle = AuthorizedRole.Coordinator;
     }
 
-    this.rolleEventService.byttRolleEvent.emit(rolle);
+    this.roleEventService.switchRoleEvent.emit(rolle);
     this.authorizationService.saveSelectedRole(rolle);
   }
 }

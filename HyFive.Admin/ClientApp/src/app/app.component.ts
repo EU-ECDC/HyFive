@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
 
   private subscription = new Subscription(); 
 
-  prosjektnavn = 'NOST - Administrasjon';
+  projectName = 'ECDC - Administration';
   isMobile: boolean;
   profilRoute = UrlPaths.profile;
 

@@ -4,7 +4,7 @@ import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
-import { RolleEventService } from '../../services/events/rolle-event.service';
+import { RoleEventService } from '../../services/events/role-event.service';
 import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
 @Component({
@@ -27,7 +27,7 @@ export class ByttInstitusjonComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private institutionService: InstitutionService,
-    private rolleEventService: RolleEventService,
+    private roleEventService: RoleEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService
   ) { }
 
@@ -38,7 +38,7 @@ export class ByttInstitusjonComponent implements OnInit {
       this.initialiser(valgtRolle);
     });
 
-    this.rolleEventService.byttRolleEvent.subscribe(
+    this.roleEventService.switchRoleEvent.subscribe(
       (valgtRolle) => {
         this.initialiser(valgtRolle);
       });

@@ -5,9 +5,9 @@ import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
   providedIn: 'root'
 })
 
-export class RolleEventService {
+export class RoleEventService {
 
-  byttRolleEvent : EventEmitter<AuthorizedRole> = new EventEmitter<AuthorizedRole>();
+  switchRoleEvent : EventEmitter<AuthorizedRole> = new EventEmitter<AuthorizedRole>();
 
   constructor() { }
 }
