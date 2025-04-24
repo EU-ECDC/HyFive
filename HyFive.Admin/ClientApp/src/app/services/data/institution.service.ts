@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Institution } from '../../models/api/Institution';
-import { OpprettInstitusjonRequest } from '../../models/api/OpprettInstitusjonRequest';
-import { InstitusjonType } from '../../models/api/InstitusjonType';
+import { CreateInstitutionRequest } from '../../models/api/CreateInstitutionRequest';
+import { InstitutionType } from '../../models/api/InstitutionType';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from '../../models/api/User';
 import { Department} from "../../models/api/Department";
@@ -57,12 +57,12 @@ export class InstitutionService {
     return this.http.get<Department[]>(url);
   }
 
-  getInstitutionTypes(): Observable<InstitusjonType[]> {
+  getInstitutionTypes(): Observable<InstitutionType[]> {
     const url = `${environment.apiBaseUrl}/v1/institution/types`;
-    return this.http.get<InstitusjonType[]>(url);
+    return this.http.get<InstitutionType[]>(url);
   }
 
-  createInstitution(request: OpprettInstitusjonRequest): Observable<Institution> {
+  createInstitution(request: CreateInstitutionRequest): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/institution/create`;
     return this.http.post<Institution>(url, request);
   }

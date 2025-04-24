@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output, OnDestroy} from '@angular/core';
-import { InstitusjonType } from '../../../models/api/InstitusjonType';
-import { OpprettInstitusjonRequest } from '../../../models/api/OpprettInstitusjonRequest';
+import { InstitutionType } from '../../../models/api/InstitutionType';
+import { CreateInstitutionRequest } from '../../../models/api/CreateInstitutionRequest';
 import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { Institution } from '../../../models/api/Institution';
@@ -16,8 +16,8 @@ import { KommuneService } from 'src/app/services/data/kommune.service';
 })
 export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
-  institusjonstyper: InstitusjonType[] = [];
-  nyInstitusjon: OpprettInstitusjonRequest = null;
+  institusjonstyper: InstitutionType[] = [];
+  nyInstitusjon: CreateInstitutionRequest = null;
   kommuner: Kommune[] = [];
   listAvHelseforetak: Helseforetak[] = [];
   visHelseforetak: boolean = false;
@@ -69,7 +69,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
     );
   }
 
- private opprettDefaultInstitusjon(): OpprettInstitusjonRequest {
+ private opprettDefaultInstitusjon(): CreateInstitutionRequest {
     let defaultInstitusjonType = this.finnDefaultInstitusjonstype();
     this.visHelseforetakEllerRegion(defaultInstitusjonType.id);
     return {

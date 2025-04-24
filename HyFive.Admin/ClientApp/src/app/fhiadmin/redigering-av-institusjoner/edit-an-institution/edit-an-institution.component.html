@@ -28,7 +28,7 @@
               <div class="col-md-3">
                 <label for="institutionType">Institusjonstype</label>
                 <select class="form-select" id="institutionType" [(ngModel)]="institusjontypeId" (ngModelChange)="institusjonTypeEndret()">
-                  <option *ngFor="let institutionType of institusjontyper" [ngValue]="institutionType.id">{{institutionType.name}}</option>
+                  <option *ngFor="let institutionType of institutionTypes" [ngValue]="institutionType.id">{{institutionType.name}}</option>
                 </select>
               </div>
               <div class="col-md-2" *ngIf="visKommune">

@@ -48,16 +48,16 @@ export class EditGloveObservationsComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.handhygieneAfterGloveuseService.getHandHygieneAfterGloveUseTypes().subscribe((typer) => {
-      this.handHygieneAfterGloveUseTypes = typer;
+    this.handhygieneAfterGloveuseService.getHandHygieneAfterGloveUseTypes().subscribe((types) => {
+      this.handHygieneAfterGloveUseTypes = types;
     })
 
-    this.gloveWithIndicationService.getGloveWithIndicationTypes().subscribe((typer)=> {
-      this.gloveWithIndicationTypes = typer;
+    this.gloveWithIndicationService.getGloveWithIndicationTypes().subscribe((types)=> {
+      this.gloveWithIndicationTypes = types;
     })
 
-    this.gloveWithoutIndicationService.getGloveWithoutIndicationTypes().subscribe((typer)=> {
-      this.gloveWithoutIndicationTypes = typer;
+    this.gloveWithoutIndicationService.getGloveWithoutIndicationTypes().subscribe((types)=> {
+      this.gloveWithoutIndicationTypes = types;
     })
 
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { InstitusjonType } from '../../../models/api/InstitusjonType';
+import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
 import { InstitusjonstyperService } from '../../../services/data/institusjonstyper.service';
 import { OpprettInstitusjonstypeRequest } from 'src/app/models/api/OpprettInstitusjonstypeRequest';
@@ -11,9 +11,9 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy {
 
-  institusjonstyper: InstitusjonType[] = [];
+  institusjonstyper: InstitutionType[] = [];
   nyInstitusjonstype: OpprettInstitusjonstypeRequest = this.tomRequest();
-  institusjonstypeSomEndres: InstitusjonType = null;
+  institusjonstypeSomEndres: InstitutionType = null;
 
   constructor(
     private institusjonstyperService: InstitusjonstyperService,
@@ -55,12 +55,12 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
     );
   }
 
-  valgtInstitusjonstype(institusjonstype: InstitusjonType): void {
+  valgtInstitusjonstype(institusjonstype: InstitutionType): void {
     if (this.institusjonstypeSomEndres?.id == institusjonstype.id) return;
     this.institusjonstypeSomEndres = JSON.parse(JSON.stringify(institusjonstype));
   }
 
-  oppdaterInstitusjonstype(institusjonstype: InstitusjonType): void {
+  oppdaterInstitusjonstype(institusjonstype: InstitutionType): void {
     this.institusjonstyperService.oppdaterInstitusjonstype(institusjonstype).subscribe(
       (oppdatertInstitusjonstype) => {
         this.toastrService.success("Institusjonstype oppdatert");

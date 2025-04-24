@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InstitutionService } from '../../../services/data/institution.service';
 import { Institution } from '../../../models/api/Institution';
-import { InstitusjonType } from '../../../models/api/InstitusjonType';
+import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { Helseforetak } from 'src/app/models/api/Helseforetak';
@@ -22,7 +22,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
               private helseforetakService: HelseforetakService) { }
 
   institution: Institution = null;
-  institusjontyper: InstitusjonType[] = [];
+  institutionTypes: InstitutionType[] = [];
   institusjontypeId = 0;
   listAvHelseforetak: Helseforetak[] = [];
 
@@ -50,10 +50,10 @@ export class RedigerEnInstitusjonComponent implements OnInit {
       this.kommuneId = institution.municipality?.id;
       this.helseforetakId = institution.healthcareCompany?.id;
       
-      this.institutionService.getInstitutionTypes().subscribe((typer) => {
-        this.institusjontyper = typer;
-        this.visKommune = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehjem;
-        this.visHelseforetak = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehus;
+      this.institutionService.getInstitutionTypes().subscribe((types) => {
+        this.institutionTypes = types;
+        this.visKommune = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehjem;
+        this.visHelseforetak = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehus;
       });
     });
 
@@ -80,9 +80,9 @@ export class RedigerEnInstitusjonComponent implements OnInit {
   }
 
   institusjonTypeEndret() {
-    this.institution.institutionType = this.institusjontyper.find(i => i.id === this.institusjontypeId);
-    this.visKommune = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehjem;
-     this.visHelseforetak = this.institusjontyper.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehus;
+    this.institution.institutionType = this.institutionTypes.find(i => i.id === this.institusjontypeId);
+    this.visKommune = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehjem;
+     this.visHelseforetak = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitusjonstypeKonstanter.Sykehus;
   }
 
   kommuneEndret() {

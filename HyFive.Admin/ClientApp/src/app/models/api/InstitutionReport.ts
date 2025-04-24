@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { InstitusjonType } from './InstitusjonType';
+import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
 import { Kommune } from './Kommune';
 import { Helseforetak } from './Helseforetak';
@@ -13,7 +13,7 @@ export interface InstitutionReport
 	name: string;
 	abbreviation: string;
 	herId: string;
-	institutionType: InstitusjonType;
+	institutionType: InstitutionType;
 	region: Region;
 	municipality: Kommune;
 	healthcareCompany: Helseforetak;

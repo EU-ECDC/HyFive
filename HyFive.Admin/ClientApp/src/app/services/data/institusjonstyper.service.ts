@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IndicationType } from '../../models/api/IndicationType';
 import { environment } from 'src/environments/environment';
-import { InstitusjonType } from '../../models/api/InstitusjonType';
+import { InstitutionType } from '../../models/api/InstitutionType';
 import { OpprettInstitusjonstypeRequest } from '../../models/api/OpprettInstitusjonstypeRequest';
 
 @Injectable({
@@ -16,21 +16,21 @@ export class InstitusjonstyperService {
 
   }
 
-  hentInstitusjonstyper(): Observable<InstitusjonType[]> {
+  hentInstitusjonstyper(): Observable<InstitutionType[]> {
     const url = `${environment.apiBaseUrl}/v1/institusjonstyper`;
     return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
-  oppdaterInstitusjonstype(institusjonstype: InstitusjonType): Observable<InstitusjonType> {
+  oppdaterInstitusjonstype(institusjonstype: InstitutionType): Observable<InstitutionType> {
     const url = `${environment.apiBaseUrl}/v1/institusjonstyper/oppdater`;
-    return this.httpClient.put<InstitusjonType>(url, institusjonstype)
+    return this.httpClient.put<InstitutionType>(url, institusjonstype)
     .pipe();
   }
 
-  opprettInstitusjonstype(institusjonstype: OpprettInstitusjonstypeRequest): Observable<InstitusjonType> {
+  opprettInstitusjonstype(institusjonstype: OpprettInstitusjonstypeRequest): Observable<InstitutionType> {
     const url = `${environment.apiBaseUrl}/v1/institusjonstyper/opprett`;
-    return this.httpClient.post<InstitusjonType>(url, institusjonstype)
+    return this.httpClient.post<InstitutionType>(url, institusjonstype)
     .pipe();
   }
 
