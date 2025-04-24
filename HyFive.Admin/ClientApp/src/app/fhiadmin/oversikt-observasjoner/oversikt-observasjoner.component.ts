@@ -185,7 +185,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
     this.valgtInstitusjonFraListeId = item.id;
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
 
     event.stopPropagation();
     event.preventDefault();
@@ -196,7 +196,7 @@ export class OversiktObservasjonerComponent implements OnInit, OnDestroy {
         propertyOf = (x: AvdelingOversiktRapport) => x.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;

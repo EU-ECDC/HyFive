@@ -1,39 +1,39 @@
 <div class="container">
     <div class="row">
-        <h5>Epost</h5>
-        <button class="btn fhi-btn-primary mb-5 ms-3 col-3" (click)="apneEpostKlient()">Åpne Epost klient</button>
+        <h5>Email</h5>
+        <button class="btn fhi-btn-primary mb-5 ms-3 col-3" (click)="OpenEmailClient()">Open Email client</button>
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
-                <label for="institusjon">Institution</label>
-                <select class="form-select" id="institusjon" [(ngModel)]="institutionId" (ngModelChange)="oppdaterBrukerListe()">
+                <label for="institution">Institution</label>
+                <select class="form-select" id="institution" [(ngModel)]="institutionId" (ngModelChange)="updateUserList()">
                     <option value="0"></option>
-                    <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.name}}</option>
+                    <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
                 </select>
             </div>
             
             <div class="col-md-1">
-                <label for="koordinator">koordinator</label>
-                <input type="checkbox" class="form-check-input" id="koordinator" [(ngModel)]="koordinaterValgt" (ngModelChange)="oppdaterBrukerListe()" name="koordinator">
+                <label for="coordinator">coordinator</label>
+                <input type="checkbox" class="form-check-input" id="coordinator" [(ngModel)]="coordinatorsSelected" (ngModelChange)="updateUserList()" name="coordinator">
             </div>
             
             <div class="col-md-1">
-                    <label for="observatorer">Observatører</label>
-                    <input type="checkbox" class="form-check-input" id="observatorer" [(ngModel)]="observatorValgt" (ngModelChange)="oppdaterBrukerListe()" name="observatør">
+                    <label for="observers">Observers</label>
+                    <input type="checkbox" class="form-check-input" id="observers" [(ngModel)]="observerSelected" (ngModelChange)="updateUserList()" name="observer">
             </div>
         </div>
         
         <div class="table-responsive mt-3">
-            <table class="table" sortable-table (sorted)="sorter($event)" >
+            <table class="table" sortable-table (sorted)="sort($event)" >
                 <thead>
                     <tr>
-                        <th sortable-column="Fornavn"></th>
-                        <th sortable-column="Etternavn"></th>
-                        <th scope="col">Epost</th>
+                        <th sortable-column="Firstname"></th>
+                        <th sortable-column="Lastname"></th>
+                        <th scope="col">Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of filtrertBrukerListe">
+                    <tr *ngFor="let user of filteredUserList">
                         <td>{{user.firstName}}</td>
                         <td>{{user.lastName}}</td>
                         <td>{{user.email}}</td>

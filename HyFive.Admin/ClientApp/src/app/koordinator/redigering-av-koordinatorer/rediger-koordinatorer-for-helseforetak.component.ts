@@ -109,7 +109,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.helseforetakService.createCoordinator(this.institution.healthcareCompany.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
-          this.toastrService.success('Koordinator(er) og observatør(er) opprettet');
+          this.toastrService.success('Koordinator(er) og observer(er) opprettet');
           this.nyKoordinator = null;
           this.lastKoordinatorer();
         }
@@ -240,17 +240,17 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       this.filtrertKoordinatorer = this.koordinatorer;
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: CoordinatorForHealthcareCompanies) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "Firstname":
         propertyOf = (x: CoordinatorForHealthcareCompanies) => x.firstName;
         break;
-      case "Etternavn":
+      case "Lastname":
         propertyOf = (x: CoordinatorForHealthcareCompanies) => x.lastName;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;

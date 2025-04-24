@@ -32,7 +32,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   fraDato: Date = null;
   tilDato: Date = null;
 
-  observatorer: User[] = [];
+  observers: User[] = [];
   valgtObservator: User = null;
 
   institusjon: InstitutionReport;
@@ -64,9 +64,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
         region: result.region
       } as InstitutionReport;
 
-      this.institutionService.getObservers(this.institusjon.id).subscribe((observatorer) => {
-        this.observatorer = observatorer.sort(this.compareFornavnForBrukere);
-        this.observatorer = this.visDeaktivertObservatorerNedest(observatorer);
+      this.institutionService.getObservers(this.institusjon.id).subscribe((observers) => {
+        this.observers = observers.sort(this.compareFornavnForBrukere);
+        this.observers = this.visDeaktivertObservatorerNedest(observers);
       });
     });
   }
@@ -75,9 +75,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
   
-  visDeaktivertObservatorerNedest(observatorer: User[]): User[] {
-    var observatorerListe = observatorer.filter(o => o.isDisabled === false);
-    var observatorerSomErDeaktivert = observatorer.filter(o => o.isDisabled);
+  visDeaktivertObservatorerNedest(observers: User[]): User[] {
+    var observatorerListe = observers.filter(o => o.isDisabled === false);
+    var observatorerSomErDeaktivert = observers.filter(o => o.isDisabled);
     observatorerListe.push.apply(observatorerListe, observatorerSomErDeaktivert);
     return observatorerListe;
   }

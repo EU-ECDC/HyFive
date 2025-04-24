@@ -114,7 +114,7 @@ export class HelseforetakComponent implements OnInit, OnDestroy
     this.helseforetakSomEndres = null;
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Helseforetak) => any;
     switch ($event.columnName) {
       case "Navn":
@@ -124,7 +124,7 @@ export class HelseforetakComponent implements OnInit, OnDestroy
         propertyOf = (x: Helseforetak) => x.regionaltHelseforetak?.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;

@@ -104,7 +104,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
     }
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Institution) => any;
     switch ($event.columnName) {
       case "Navn":
@@ -114,7 +114,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
           propertyOf = (x: Institution) => x.institutionType.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;

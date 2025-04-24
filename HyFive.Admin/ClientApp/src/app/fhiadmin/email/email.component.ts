@@ -10,100 +10,100 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class EmailComponent implements OnInit {
 
-  epostListe: string[];
+  emailList: string[];
 
-  alleBrukereListe : User[];
-  koordinatorListe: User[];
-  observatorListe: User[];
-  filtrertBrukerListe: User[];
+  allUsersList : User[];
+  coordinatorList: User[];
+  observerList: User[];
+  filteredUserList: User[];
 
   institutionId: number;
-  institusjoner: InstitutionReport[];
+  institutions: InstitutionReport[];
 
-  koordinaterValgt: boolean;
-  observatorValgt: boolean;
+  coordinatorsSelected: boolean;
+  observerSelected: boolean;
 
   constructor(private institutionService: InstitutionService) {}
 
   ngOnInit(): void {
-    this.koordinatorListe = [];
-    this.observatorListe = [];
-    this.filtrertBrukerListe = [];
-    this.epostListe = [];
-    this.alleBrukereListe = [];
+    this.coordinatorList = [];
+    this.observerList = [];
+    this.filteredUserList = [];
+    this.emailList = [];
+    this.allUsersList = [];
 
-    this.institutionService.getInstitutions().subscribe((institusjoner) => {
-      this.institusjoner = institusjoner;
+    this.institutionService.getInstitutions().subscribe((institutions) => {
+      this.institutions = institutions;
       
-      this.institusjoner.forEach(institusjon => {
-        this.hentKoordinaterForInstitusjon(institusjon.id);
-        this.hentObservatorerForInstitusjon(institusjon.id);
+      this.institutions.forEach(institution => {
+        this.GetCoordinatorsForInstitution(institution.id);
+        this.getObserversForInstitution(institution.id);
       });
     });
   }
 
-  hentKoordinaterForInstitusjon(id: number) {
-    this.institutionService.getCoordinators(id).subscribe((koordinatorer) => {
-      koordinatorer.forEach(koordinator => {
-        if(koordinator.email != null && koordinator.email != "") {
-          this.koordinatorListe.push(koordinator);
-          this.alleBrukereListe.push(koordinator);
+  GetCoordinatorsForInstitution(id: number) {
+    this.institutionService.getCoordinators(id).subscribe((coordinators) => {
+      coordinators.forEach(coordinator => {
+        if(coordinator.email != null && coordinator.email != "") {
+          this.coordinatorList.push(coordinator);
+          this.allUsersList.push(coordinator);
         }
       });
     });
   }
 
-  hentObservatorerForInstitusjon(id: number) {
-    this.institutionService.getObservers(id).subscribe((observatorer) => {
-      observatorer.forEach(observator => {
-        if(observator.email != null && observator.email != "") {
-          this.observatorListe.push(observator);
-          this.alleBrukereListe.push(observator);
+  getObserversForInstitution(id: number) {
+    this.institutionService.getObservers(id).subscribe((observers) => {
+      observers.forEach(observer => {
+        if(observer.email != null && observer.email != "") {
+          this.observerList.push(observer);
+          this.allUsersList.push(observer);
         }
       });
     });
   }
 
-  oppdaterBrukerListe() {
+  updateUserList() {
 
-    this.filtrertBrukerListe = [];
+    this.filteredUserList = [];
 
-    if (this.koordinaterValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.koordinatorListe.includes(user) && user.institutionId === this.institutionId);
+    if (this.coordinatorsSelected) { 
+      this.filteredUserList = this.allUsersList.filter(user => this.coordinatorList.includes(user) && user.institutionId === this.institutionId);
     }
-    if (this.observatorValgt) { 
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => this.observatorListe.includes(user) && user.institutionId === this.institutionId);
+    if (this.observerSelected) { 
+      this.filteredUserList = this.allUsersList.filter(user => this.observerList.includes(user) && user.institutionId === this.institutionId);
     }
-    if (this.koordinaterValgt && this.observatorValgt) {
-      this.filtrertBrukerListe = this.alleBrukereListe.filter(user => user.institutionId === this.institutionId);
-      this.filtrertBrukerListe = this.filtrertBrukerListe.sort((a, b) => a.lastName.localeCompare(b.lastName));
+    if (this.coordinatorsSelected && this.observerSelected) {
+      this.filteredUserList = this.allUsersList.filter(user => user.institutionId === this.institutionId);
+      this.filteredUserList = this.filteredUserList.sort((a, b) => a.lastName.localeCompare(b.lastName));
     }
   }
 
-  oppdaterEpostListe() {
-    this.epostListe = [];
+  updateEmailList() {
+    this.emailList = [];
 
-    this.filtrertBrukerListe.forEach(user => {
-      this.epostListe.push(user.email)
+    this.filteredUserList.forEach(user => {
+      this.emailList.push(user.email)
     });
   }
 
-  apneEpostKlient() {
-    this.oppdaterEpostListe();
-    window.location.href = `mailto:?bcc=${this.epostListe.join(';')}`
+  OpenEmailClient() {
+    this.updateEmailList();
+    window.location.href = `mailto:?bcc=${this.emailList.join(';')}`
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "Fornavn":
+      case "Firstname":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "Etternavn":
+      case "Lastname":
         propertyOf = (x: User) => x.lastName;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
@@ -113,7 +113,7 @@ export class EmailComponent implements OnInit {
       return result * sortOrder;
     };
 
-    this.oppdaterBrukerListe();
-    this.filtrertBrukerListe = this.filtrertBrukerListe.sort(sortFunc);
+    this.updateUserList();
+    this.filteredUserList = this.filteredUserList.sort(sortFunc);
   }
 }

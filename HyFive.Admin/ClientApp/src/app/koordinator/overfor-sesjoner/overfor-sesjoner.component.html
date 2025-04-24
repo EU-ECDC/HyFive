@@ -3,12 +3,12 @@
         <div class="row align-items-end">
           
           <div class="form-group col col-md-3">
-            <label for="observator">Observatør</label>
-            <select class="form-select" id="observator" [(ngModel)]="valgtObservator" (ngModelChange)="nullstillSokeresultat()">
+            <label for="observer">Observatør</label>
+            <select class="form-select" id="observer" [(ngModel)]="valgtObservator" (ngModelChange)="nullstillSokeresultat()">
               <option [ngValue]="null">Alle</option>
-              <option *ngFor="let observator of observatorer" [ngValue]="observator.id">
-                {{observator.firstName}} {{observator.lastName}}
-                <ng-container *ngIf="observator.isDisabled">(deaktivert user)</ng-container>
+              <option *ngFor="let observer of observers" [ngValue]="observer.id">
+                {{observer.firstName}} {{observer.lastName}}
+                <ng-container *ngIf="observer.isDisabled">(deaktivert user)</ng-container>
               </option>
             </select>
           </div>

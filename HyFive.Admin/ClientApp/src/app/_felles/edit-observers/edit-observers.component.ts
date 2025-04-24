@@ -84,14 +84,14 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     );
   }
 
-  setObserverAsChanged(observator: User) {
+  setObserverAsChanged(observer: User) {
     this.cancelEdit();
-    if (this.observerAsChanged?.id == observator.id) return;
-    this.observerAsChanged = JSON.parse(JSON.stringify(observator));
+    if (this.observerAsChanged?.id == observer.id) return;
+    this.observerAsChanged = JSON.parse(JSON.stringify(observer));
   }
 
-  updateObserver(observator: User) {
-    this.userService.updateObserver(observator).subscribe(
+  updateObserver(observer: User) {
+    this.userService.updateObserver(observer).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success('Observer updated');
         this.loadObservers();
@@ -136,10 +136,10 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
   }
 
-  canChange(observator: User) {
-    return observator.firstName.length > 0
-      && observator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(observator);
+  canChange(observer: User) {
+    return observer.firstName.length > 0
+      && observer.lastName.length > 0
+      && this.userService.hasValidHprnumberOrPseudonym(observer);
   }
 
   cancelEdit($event: Event = null) {

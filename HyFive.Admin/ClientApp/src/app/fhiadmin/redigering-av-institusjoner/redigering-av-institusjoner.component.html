@@ -13,14 +13,14 @@
         </div>
         <div class="col-md-3">
             <h5>Søk etter institusjon på person</h5>
-            <input type="text" placeholder="Navn på koordinator, observatør" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeordPerson" (ngModelChange)="filtrerPersonerPaaInstitusjoner()">
+            <input type="text" placeholder="Navn på koordinator, observer" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeordPerson" (ngModelChange)="filtrerPersonerPaaInstitusjoner()">
         </div>
       </div>
     </div>
   </div>
     <ng-container>
       <div class="table-responsive">
-        <table class="table mt-3" sortable-table (sorted)="sorter($event)">
+        <table class="table mt-3" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
               <td>HER-id</td>

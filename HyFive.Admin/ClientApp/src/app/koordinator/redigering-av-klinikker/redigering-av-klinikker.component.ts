@@ -70,14 +70,14 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
       });
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Klinikk) => any;
     switch ($event.columnName) {
       case "Navn":
         propertyOf = (x: Klinikk) => x.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
