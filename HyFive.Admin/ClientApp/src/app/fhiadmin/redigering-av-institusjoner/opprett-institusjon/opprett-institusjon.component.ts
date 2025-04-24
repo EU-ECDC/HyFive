@@ -4,7 +4,7 @@ import { CreateInstitutionRequest } from '../../../models/api/CreateInstitutionR
 import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { Institution } from '../../../models/api/Institution';
-import { HealthcareOrganisation } from 'src/app/models/api/HealthcareOrganisation';
+import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
 import { Kommune } from 'src/app/models/api/Kommune';
@@ -19,7 +19,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   institusjonstyper: InstitutionType[] = [];
   nyInstitusjon: CreateInstitutionRequest = null;
   kommuner: Kommune[] = [];
-  listOfHealthcareOrganizations: HealthcareOrganisation[] = [];
+  listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
   visHelseforetak: boolean = false;
   visKommune: boolean = false;
 

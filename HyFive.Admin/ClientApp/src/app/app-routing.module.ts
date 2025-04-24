@@ -15,7 +15,7 @@ import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redig
 import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
 import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
 import { ForesporselComponent } from './koordinator/foresporsel/foresporsel.component';
-import { HealthInstitutionComponent } from './fhiadmin/health-institution/health-institution.component';
+import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
@@ -94,7 +94,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.healthcareCompany,
-    component: HealthInstitutionComponent
+    component: HealthEnterpriseComponent
   },
   {
     path: UrlPaths.email,

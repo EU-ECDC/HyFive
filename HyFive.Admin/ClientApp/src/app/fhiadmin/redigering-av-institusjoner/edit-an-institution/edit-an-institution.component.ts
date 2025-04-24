@@ -4,7 +4,7 @@ import { Institution } from '../../../models/api/Institution';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
-import { HealthcareOrganisation } from 'src/app/models/api/HealthcareOrganisation';
+import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
 import { KommuneService } from 'src/app/services/data/kommune.service';
@@ -24,7 +24,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
   institution: Institution = null;
   institutionTypes: InstitutionType[] = [];
   institusjontypeId = 0;
-  listOfHealthcareOrganizations: HealthcareOrganisation[] = [];
+  listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
 
   kommune: Kommune = null;
   kommuner: Kommune[];

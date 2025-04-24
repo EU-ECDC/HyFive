@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 import { Status } from 'src/app/models/api/Status';
-import { HealthcareOrganisation } from '../../models/api/HealthcareOrganisation';
+import { HealthcareEnterprise } from '../../models/api/HealthcareEnterprise';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +20,12 @@ export class HealthcareOrganizationService {
     return this.httpClient.post<boolean>(url, healthcareorganization);
   }
 
-  getAllHealthcareOrganizations() : Observable<HealthcareOrganisation[]> {
+  getAllHealthcareOrganizations() : Observable<HealthcareEnterprise[]> {
     const url = `${environment.apiBaseUrl}/v1/healthcareorganization`;
-    return this.httpClient.get<HealthcareOrganisation[]>(url);
+    return this.httpClient.get<HealthcareEnterprise[]>(url);
   }
 
-  updateHealthcareOrganization(healthcareorganization: HealthcareOrganisation) : Observable<boolean> {
+  updateHealthcareOrganization(healthcareorganization: HealthcareEnterprise) : Observable<boolean> {
     const url = `${environment.apiBaseUrl}/v1/healthcareorganization/update`;
     return this.httpClient.put<boolean>(url, healthcareorganization);
   }
