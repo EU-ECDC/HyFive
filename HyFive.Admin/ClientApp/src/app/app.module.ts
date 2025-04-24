@@ -16,7 +16,7 @@ import { RedigeringAvIndikasjonstyperComponent } from './fhiadmin/redigering-av-
 import { RedigeringAvHandsmykketypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-handsmykketype/redigering-av-handsmykketype.component';
 import { RedigeringAvInstitusjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-institusjonstyper/redigering-av-institusjonstyper.component';
 import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
-import { RedigeringAvAvdelingerComponent } from './_felles/redigering-av-avdelinger/redigering-av-avdelinger.component';
+import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
 import { CreateDepartmentComponent } from './_felles/redigering-av-avdelinger/create-department/create-department.component';
 import { RedigeringAvAktivitettypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-aktivitettype/redigering-av-aktivitettype.component';
 import { RedigeringAvBeskyttelsesutstyrtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/redigering-av-beskyttelsesutstyrtyper.component';
@@ -96,7 +96,7 @@ export const httpInterceptorProviders = [
     RedigeringAvIndikasjonstyperComponent,
     RedigeringAvAktivitettypeComponent,
     RedigeringAvInstitusjonstyperComponent,
-    RedigeringAvAvdelingerComponent,
+    EditingDepartmentsComponent,
     CreateDepartmentComponent,
     RedigeringAvBeskyttelsesutstyrtyperComponent,
     RedigeringAvFeilbruktyperComponent,

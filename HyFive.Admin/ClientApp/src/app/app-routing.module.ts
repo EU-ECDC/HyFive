@@ -6,7 +6,7 @@ import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/
 import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
 import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
 import { OversiktObservasjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-observasjoner.component';
-import { RedigeringAvAvdelingerComponent } from './_felles/redigering-av-avdelinger/redigering-av-avdelinger.component';
+import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
 import { OversiktAvdelingSesjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/oversikt-avdeling-sesjoner.component';
 import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-observatorer/redigering-av-observatorer.component";
 import { ProfilsideComponent } from "./profilside/profilside.component";
@@ -58,7 +58,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.editingOfDepartments,
-    component: RedigeringAvAvdelingerComponent
+    component: EditingDepartmentsComponent
   },
   {
     path: UrlPaths.editingByClinics,

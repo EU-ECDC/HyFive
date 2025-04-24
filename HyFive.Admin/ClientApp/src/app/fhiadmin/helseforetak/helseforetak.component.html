@@ -7,7 +7,7 @@
     <div class="col-4">
       <h5>Regionalt helseforetak</h5>
       <select class="form-select" [(ngModel)]="nyHelseforetak.regionaltHelseforetakId">
-        <option value="0">Ikke valgt</option>
+        <option value="0">Not selected</option>
         <option *ngFor="let regionaltHelseforetak of regionaltHelseforetakListe" [ngValue]="regionaltHelseforetak.id">{{regionaltHelseforetak.name}}</option>
       </select>
     </div>
@@ -46,7 +46,7 @@
                   <td class="col-4"><input type="text" class="form-control" [(ngModel)]="helseforetakSomEndres.name" name="name" placeholder="Navn"></td>
                   <td class="col-4">
                     <select class="form-select" [(ngModel)]="helseforetakSomEndres.regionaltHelseforetakId">
-                      <option value="0">Ikke valgt</option>
+                      <option value="0">Not selected</option>
                       <option *ngFor="let regionaltHelseforetak of regionaltHelseforetakListe" [ngValue]="regionaltHelseforetak.id">{{regionaltHelseforetak.name}}</option>
                     </select>
                   </td>
