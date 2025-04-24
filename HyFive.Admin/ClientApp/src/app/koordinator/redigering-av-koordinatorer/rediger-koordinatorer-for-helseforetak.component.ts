@@ -70,7 +70,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastKoordinatorer() {
-    this.healthcareOrganizationService.getCoordinators(this.institution.healthcareCompany.id).subscribe(
+    this.healthcareOrganizationService.getCoordinators(this.institution.healthcareEnterprise.id).subscribe(
       (koordinatorer) => {
         this.koordinatorer = koordinatorer;
         this.filtrertKoordinatorer = this.koordinatorer
@@ -80,7 +80,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastInstitusjoner() {
-    this.healthcareOrganizationService.getInstitutions(this.institution.healthcareCompany.id).subscribe(
+    this.healthcareOrganizationService.getInstitutions(this.institution.healthcareEnterprise.id).subscribe(
       (institutions) => {
         this.institusjonerIHelseforetak = institutions
       },
@@ -106,7 +106,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
   createCoordinator() {
     this.nyKoordinator.institutions = this.valgteInstitusjoner;
-    this.healthcareOrganizationService.createCoordinator(this.institution.healthcareCompany.id, this.nyKoordinator).subscribe(
+    this.healthcareOrganizationService.createCoordinator(this.institution.healthcareEnterprise.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator(er) og observer(er) opprettet');
@@ -152,7 +152,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     coordinator.institutions = this.valgteInstitusjoner;
     let nåværendeInstitusjonErFortsattValgt = this.valgteInstitusjoner.some(i => i.id == this.institution.id);
     let erKoordinatorSomEndresLikInnloggetBruker = this.erKoordinatorSomEndresLikInnloggetBruker(coordinator);
-    this.healthcareOrganizationService.updateCoordinator(this.institution.healthcareCompany.id, coordinator).subscribe(
+    this.healthcareOrganizationService.updateCoordinator(this.institution.healthcareEnterprise.id, coordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator oppdatert');

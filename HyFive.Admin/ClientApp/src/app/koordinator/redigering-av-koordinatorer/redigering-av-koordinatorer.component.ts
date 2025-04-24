@@ -21,7 +21,7 @@ export class RedigeringAvKoordinatorerComponent implements OnInit {
         institutionType: result.institutionType,
         name: result.name,
         region: result.region,
-        healthcareCompany: result.healthcareCompany
+        healthcareEnterprise: result.healthcareEnterprise
       } as InstitutionReport;
     });
   }

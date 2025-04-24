@@ -7,8 +7,8 @@ import { Institution } from '../../../models/api/Institution';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
-import { Kommune } from 'src/app/models/api/Kommune';
-import { KommuneService } from 'src/app/services/data/kommune.service';
+import { Municipality } from 'src/app/models/api/Municipality';
+import { MunicipalityService } from 'src/app/services/data/municipality.service';
 
 @Component({
   selector: 'app-opprett-institusjon',
@@ -18,7 +18,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   institusjonstyper: InstitutionType[] = [];
   nyInstitusjon: CreateInstitutionRequest = null;
-  kommuner: Kommune[] = [];
+  kommuner: Municipality[] = [];
   listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
   visHelseforetak: boolean = false;
   visKommune: boolean = false;
@@ -26,7 +26,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   @Output() institusjonOpprettetEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   constructor(private institutionService: InstitutionService, private toastrService: ToastrService,
-              private kommuneService: KommuneService, 
+              private municipalityService: MunicipalityService, 
               private healthcareOrganizationService: HealthcareOrganizationService) { }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
       this.nyInstitusjon = this.opprettDefaultInstitusjon();
     });
 
-    this.kommuneService.hentKommuner().subscribe(
+    this.municipalityService.getMunicipalities().subscribe(
       (kommuner) => {
         this.kommuner = kommuner;
       }

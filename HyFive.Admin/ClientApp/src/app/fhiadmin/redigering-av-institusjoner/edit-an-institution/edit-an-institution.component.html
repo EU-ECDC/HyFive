@@ -32,7 +32,7 @@
                 </select>
               </div>
               <div class="col-md-2" *ngIf="visKommune">
-                <label for="kommune">Kommune</label>
+                <label for="kommune">Municipality</label>
                 <select class="form-select" id="kommune" [(ngModel)]="kommuneId" (ngModelChange)="kommuneEndret()">
                   <option value="0"></option>
                   <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.name}}</option>

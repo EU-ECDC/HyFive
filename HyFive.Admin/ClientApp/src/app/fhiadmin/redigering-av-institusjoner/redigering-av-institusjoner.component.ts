@@ -87,7 +87,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   filtrerInstitusjoner(): void {
     if (this.sokeord.length >= 2)
       this.filtrertInstitusjoner = this.institusjoner.filter(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.healthcareCompany?.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
+        i.healthcareEnterprise?.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
         i.municipality?.name.toLowerCase().includes(this.sokeord.toLowerCase()));
     else if (this.sokeord.length === 0)
       this.filtrertInstitusjoner = this.institusjoner;

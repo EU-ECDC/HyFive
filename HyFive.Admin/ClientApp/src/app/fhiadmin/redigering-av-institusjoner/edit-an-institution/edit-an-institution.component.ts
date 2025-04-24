@@ -7,8 +7,8 @@ import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
-import { KommuneService } from 'src/app/services/data/kommune.service';
-import { Kommune } from 'src/app/models/api/Kommune';
+import { MunicipalityService } from 'src/app/services/data/municipality.service';
+import { Municipality } from 'src/app/models/api/Municipality';
 
 @Component({
   selector: 'app-edit-an-institution',
@@ -18,7 +18,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
 
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
-              private kommuneService: KommuneService,
+              private municipalityService: MunicipalityService,
               private healthcareOrganizationService: HealthcareOrganizationService) { }
 
   institution: Institution = null;
@@ -26,8 +26,8 @@ export class RedigerEnInstitusjonComponent implements OnInit {
   institusjontypeId = 0;
   listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
 
-  kommune: Kommune = null;
-  kommuner: Kommune[];
+  kommune: Municipality = null;
+  kommuner: Municipality[];
   kommuneId = 0;
   UrlPaths = UrlPaths;
   helseforetakId = 0;
@@ -48,7 +48,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
       this.institution = institution;
       this.institusjontypeId = institution.institutionType.id;
       this.kommuneId = institution.municipality?.id;
-      this.helseforetakId = institution.healthcareCompany?.id;
+      this.helseforetakId = institution.healthcareEnterprise?.id;
       
       this.institutionService.getInstitutionTypes().subscribe((types) => {
         this.institutionTypes = types;
@@ -57,7 +57,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
       });
     });
 
-    this.kommuneService.hentKommuner().subscribe(
+    this.municipalityService.getMunicipalities().subscribe(
       (kommuner) => {
         this.kommuner = kommuner;
     });
@@ -102,7 +102,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
 
   helseforetakEndret() {
     if (this.helseforetakId) {
-      this.institution.healthcareCompany = this.listOfHealthcareOrganizations.find(r => r.id === this.helseforetakId);
+      this.institution.healthcareEnterprise = this.listOfHealthcareOrganizations.find(r => r.id === this.helseforetakId);
     }
   }
 

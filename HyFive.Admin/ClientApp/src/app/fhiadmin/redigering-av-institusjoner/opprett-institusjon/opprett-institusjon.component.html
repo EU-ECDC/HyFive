@@ -18,7 +18,7 @@
         </select>
       </div>
       <div class="col-md-6" *ngIf="visKommune">
-        <label for="kommune" class="mb-1">Kommune</label>
+        <label for="kommune" class="mb-1">Municipality</label>
         <select class="form-select" id="kommune" [(ngModel)]="nyInstitusjon.kommuneId">
           <option value="0"></option>
           <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.name}}</option>
