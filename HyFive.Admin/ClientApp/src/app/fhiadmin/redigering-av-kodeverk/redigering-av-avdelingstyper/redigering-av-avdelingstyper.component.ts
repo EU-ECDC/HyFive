@@ -22,7 +22,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastAvdelingTyper();
@@ -49,7 +49,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
 
   opprettAvdelingType() {
     this.departmentService.createDepartmentType(this.newDepartmentType).subscribe(
-      (avdelingstype) => this.toastrService.success(`Avdelingtype med name ${avdelingstype.name} ble opprettet`),
+      (avdelingstype) => this.toastrService.success(`Avdelingtype med name ${avdelingstype.name} was created`),
       error => this.toastrService.error(`En feil skjedde under opprettelse av departmentType ${this.newDepartmentType.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.newDepartmentType = this.tomRequest(); this.lastAvdelingTyper(); }
     );
@@ -72,7 +72,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
       () => this.departmentTypeAsChanged = null
     );
   }
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

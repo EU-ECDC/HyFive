@@ -18,13 +18,13 @@
       </div>
     </div>
 
-    <div class="row mb-5" *ngIf="!laster && predefinertKommentarer?.length > 0">
+    <div class="row mb-5" *ngIf="!loading && predefinertKommentarer?.length > 0">
       <div class="col-8">
         <table class="table">
           <thead>
             <tr>
               <td>Kommentar</td>
-              <td class="text-end">Handling</td>
+              <td class="text-end">Action</td>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +33,7 @@
                 <td class="col-8">{{predefinertKommentar.kommentar}}</td>
                 <td class="text-end">
                   <button class="btn fhi-btn-icon" (click)="valgtPredefinertKommentar(predefinertKommentar)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
               </ng-container>
               <ng-container *ngIf="predefinertKommentarSomEndres?.id === predefinertKommentar.id">
@@ -44,10 +44,10 @@
                   <button class="btn fhi-btn-icon"
                           (click)="oppdaterPredefinertKommentar(predefinertKommentarSomEndres)"
                           [disabled]="!predefinertKommentarSomEndres.kommentar">
-                    <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>
@@ -56,12 +56,12 @@
         </table>
       </div>
     </div>
-    <div class="row" *ngIf="!laster && predefinertKommentarer?.length == 0">
+    <div class="row" *ngIf="!loading && predefinertKommentarer?.length == 0">
       <div class="col-12">
         <p>Det er ikke registrert noen predefinerte kommentarer på denne institusjonen.</p>
       </div>
     </div>
-    <div class="row" *ngIf="laster">
+    <div class="row" *ngIf="loading">
       <app-spinner class="col-12">Laster predefinert kommentarer</app-spinner>
     </div>
   </div>

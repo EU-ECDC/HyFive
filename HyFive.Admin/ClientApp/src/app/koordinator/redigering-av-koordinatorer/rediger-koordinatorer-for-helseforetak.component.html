@@ -2,7 +2,7 @@
   <ng-container *ngIf="koordinatorer else spinner ">
     <div class="row">
       <div class="col-12">
-        <button class="btn fhi-btn-primary mb-5" (click)="opprettTomKoordinator()">Opprett koordinator</button>
+        <button class="btn fhi-btn-primary mb-5" (click)="opprettTomKoordinator()">Create koordinator</button>
       </div>
     </div>
     <div class="row" *ngIf="koordinatorer">
@@ -20,7 +20,7 @@
               <th>Pseudonym</th>
               <th>Deaktivert</th>
               <th>Institusjoner</th>
-              <th class="text-end" scope="col">Handling</th>
+              <th class="text-end" scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -44,10 +44,10 @@
               </td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createCoordinator()">
-                  <i class="icon-plus"></i><span class="btn__text">Opprett</span>
+                  <i class="icon-plus"></i><span class="btn__text">Create</span>
                 </button>
-                <button class="my-2 btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                  <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
                 </button>
               </td>
             </tr>
@@ -70,7 +70,7 @@
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="setKoordinatorSomEndres(koordinator)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
 
@@ -101,10 +101,10 @@
                   <button class="btn fhi-btn-icon"
                           (click)="updateCoordinator(koordinatorSomEndres)"
                           [disabled]="kanEndres(koordinatorSomEndres) == false">
-                          <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                          <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="my-2 btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>

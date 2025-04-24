@@ -40,9 +40,9 @@
       </div>
   </div>
 
-  <app-spinner *ngIf="laster"></app-spinner>
+  <app-spinner *ngIf="loading"></app-spinner>
 
-  <div class="container mt-5" *ngIf="!laster && sokGjort && !sessions.length">
+  <div class="container mt-5" *ngIf="!loading && sokGjort && !sessions.length">
     <div class="row">
       <div class="col text-center">
         Ingen sesjoner funnet.
@@ -82,6 +82,6 @@
                                    [isTransferOverview]="true">
     </app-overview-sessions-view>
   </div>
-  <div class="row" *ngIf="laster">
+  <div class="row" *ngIf="loading">
     <app-spinner class="col-12">Laster sesjoner</app-spinner>
   </div>

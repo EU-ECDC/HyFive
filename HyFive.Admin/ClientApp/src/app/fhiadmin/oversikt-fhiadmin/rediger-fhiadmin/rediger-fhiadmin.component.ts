@@ -23,7 +23,7 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
     this.lastFhiAdmin();
   }
@@ -40,7 +40,7 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
   }
 
   opprettTomFhiAdmin() {
-    this.avbrytRedigering();
+    this.cancelEdit();
     this.nyFhiAdmin = {
       lastName: '',
       firstName: '',
@@ -57,7 +57,7 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
   }
 
   setFhiAdminSomEndres(fhiAdmin: User) {
-    this.avbrytRedigering();
+    this.cancelEdit();
     if (this.fhiAdminSomEndres?.id == fhiAdmin.id) return;
     this.fhiAdminSomEndres = JSON.parse(JSON.stringify(fhiAdmin));
   }
@@ -85,7 +85,7 @@ export class RedigerFhiAdminComponent implements OnInit, OnDestroy {
       && this.userService.isValidPseudonym(fhiAdmin?.identityPseudonym);
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

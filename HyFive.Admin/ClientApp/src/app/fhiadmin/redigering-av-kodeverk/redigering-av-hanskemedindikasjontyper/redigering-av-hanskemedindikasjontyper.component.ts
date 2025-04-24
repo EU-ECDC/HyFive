@@ -22,7 +22,7 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastHanskeVedIndikasjonType();
@@ -55,7 +55,7 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

@@ -20,7 +20,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   klinikkId = 0;
   klinikkSomRedigeres: Klinikk;
 
-  laster: boolean = false;
+  loading: boolean = false;
 
   constructor(private institutionService: InstitutionService,
     private klinikkService: KlinikkService,
@@ -32,13 +32,13 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   hentKlinikker() {
-    this.laster = true;
+    this.loading = true;
     let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjonNavn = result.name;
       this.institutionId = result.id;
       this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(klinikker => {
-        this.laster = false;
+        this.loading = false;
         this.klinikker = klinikker;
         this.route.queryParams.subscribe(
           params => {

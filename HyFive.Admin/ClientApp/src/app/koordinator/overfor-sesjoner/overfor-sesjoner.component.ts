@@ -43,7 +43,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   sessions: SessionOverviewReport[] = [];
   sessionsCoordinator: SessionOverviewReport[] = [];
   sessionsFHI: SessionOverviewReport[] = [];
-  laster: boolean = false;
+  loading: boolean = false;
   sokGjort: boolean = false;
 
   constructor(
@@ -83,7 +83,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   hentSesjoner() {
-    this.laster = true;
+    this.loading = true;
     this.observationService.getSessionsForInstitution(
       this.institusjon.id,
       this.valgtObservator,
@@ -91,7 +91,7 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
       this.fraDato,
       this.tilDato
     ).subscribe((resultater) => {
-      this.laster = false;
+      this.loading = false;
       this.sokGjort = true;
       this.sessions = resultater;
       this.oppdaterLister();
@@ -104,13 +104,13 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   overfor(sesjonId) {
-    this.laster = true;
+    this.loading = true;
     this.observationService.oppositeSessionToFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
         this.oppdaterLister();
-        this.laster = false;
+        this.loading = false;
       }
       else this.toastrService.error('Det oppstod en feil under overføringen. Vennligst prøv på nytt.', '', { disableTimeOut: true});
     });

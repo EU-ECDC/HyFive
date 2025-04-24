@@ -5,7 +5,7 @@ import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
 import { UserService } from '../../services/data/user.service';
-import { HelseforetakService } from '../../services/data/helseforetak.service';
+import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
@@ -33,7 +33,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   filtrertKoordinatorer: CoordinatorForHealthcareCompanies[];
 
   constructor(
-    private helseforetakService: HelseforetakService,
+    private healthcareOrganizationService: HealthcareOrganizationService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
@@ -44,7 +44,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.authorizationService.getUser().subscribe((user) => {
@@ -70,7 +70,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastKoordinatorer() {
-    this.helseforetakService.getCoordinators(this.institution.healthcareCompany.id).subscribe(
+    this.healthcareOrganizationService.getCoordinators(this.institution.healthcareCompany.id).subscribe(
       (koordinatorer) => {
         this.koordinatorer = koordinatorer;
         this.filtrertKoordinatorer = this.koordinatorer
@@ -80,7 +80,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   lastInstitusjoner() {
-    this.helseforetakService.getInstitutions(this.institution.healthcareCompany.id).subscribe(
+    this.healthcareOrganizationService.getInstitutions(this.institution.healthcareCompany.id).subscribe(
       (institutions) => {
         this.institusjonerIHelseforetak = institutions
       },
@@ -89,7 +89,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   opprettTomKoordinator() {
-    this.avbrytRedigering();
+    this.cancelEdit();
     this.nullstillValgteInstitusjoner();
 
     this.nyKoordinator = {
@@ -106,7 +106,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
 
   createCoordinator() {
     this.nyKoordinator.institutions = this.valgteInstitusjoner;
-    this.helseforetakService.createCoordinator(this.institution.healthcareCompany.id, this.nyKoordinator).subscribe(
+    this.healthcareOrganizationService.createCoordinator(this.institution.healthcareCompany.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator(er) og observer(er) opprettet');
@@ -152,7 +152,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     coordinator.institutions = this.valgteInstitusjoner;
     let nåværendeInstitusjonErFortsattValgt = this.valgteInstitusjoner.some(i => i.id == this.institution.id);
     let erKoordinatorSomEndresLikInnloggetBruker = this.erKoordinatorSomEndresLikInnloggetBruker(coordinator);
-    this.helseforetakService.updateCoordinator(this.institution.healthcareCompany.id, coordinator).subscribe(
+    this.healthcareOrganizationService.updateCoordinator(this.institution.healthcareCompany.id, coordinator).subscribe(
       (status) => {
         if (status.suksess) {
           this.toastrService.success('Koordinator oppdatert');
@@ -205,7 +205,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       && this.valgteInstitusjoner?.length > 0;
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if ($event) {
       $event.stopPropagation();
       $event.preventDefault();

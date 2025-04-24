@@ -12,7 +12,7 @@
               <tr>
                 <td sortable-column="Navn"></td>
                 <td scope="col">Avdelinger</td>
-                <td class="text-end" scope="col">Handling</td>
+                <td class="text-end" scope="col">Action</td>
               </tr>
             </thead>
             <tbody>
@@ -21,7 +21,7 @@
                 <td>{{hentAvdelingsnavn(klinikk)}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="navigerTilKlinikk(klinikk.id)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger klinikk</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit klinikk</span>
                   </button>
                 </td>
               </tr>
@@ -35,12 +35,12 @@
   <ng-container *ngIf="klinikkSomRedigeres">
     <app-rediger-en-klinikk [klinikk]="klinikkSomRedigeres"></app-rediger-en-klinikk>
   </ng-container>
-  <div class="row" *ngIf="!laster && klinikker?.length == 0">
+  <div class="row" *ngIf="!loading && klinikker?.length == 0">
     <div class="col-12">
       <p>Det er ikke registrert noen klinikker på denne institusjonen.</p>
     </div>
   </div>
-  <div class="row" *ngIf="laster">
+  <div class="row" *ngIf="loading">
     <app-spinner class="col-12">Laster klinikker</app-spinner>
   </div>
 </div>

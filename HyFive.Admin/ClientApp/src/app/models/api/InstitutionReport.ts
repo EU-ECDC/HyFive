@@ -5,7 +5,7 @@
 import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
 import { Kommune } from './Kommune';
-import { Helseforetak } from './Helseforetak';
+import { HealthcareOrganisation } from './HealthcareOrganisation';
 
 export interface InstitutionReport
 {
@@ -16,5 +16,5 @@ export interface InstitutionReport
 	institutionType: InstitutionType;
 	region: Region;
 	municipality: Kommune;
-	healthcareCompany: Helseforetak;
+	healthcareCompany: HealthcareOrganisation;
 }

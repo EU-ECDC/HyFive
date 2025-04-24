@@ -14,9 +14,9 @@
   </div>
 </div>
 
-<app-spinner *ngIf="laster"></app-spinner>
+<app-spinner *ngIf="loading"></app-spinner>
 
-<div class="container mt-5" *ngIf="!laster && !sesjoner.length">
+<div class="container mt-5" *ngIf="!loading && !sesjoner.length">
   <div class="row">
     <div class="col text-center">
       Ingen sesjoner av valgt type funnet på denne avdelingen

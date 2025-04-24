@@ -10,7 +10,7 @@ import { ClipboardService } from 'ngx-clipboard';
   templateUrl: './forside-for-administrasjon.component.html'
 })
 export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
-  laster = true;
+  loading = true;
   user: LoggedinUser = null;
   faCopy = faCopy;
 
@@ -24,7 +24,7 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
       this.user = user;
     },
       (error) => (this.toastrService.error("En feil skjedde under innlasting av user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
-      () => this.laster = false
+      () => this.loading = false
     );
   }
   

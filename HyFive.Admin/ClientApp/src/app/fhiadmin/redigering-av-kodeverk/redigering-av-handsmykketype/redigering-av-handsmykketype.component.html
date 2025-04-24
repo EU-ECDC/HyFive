@@ -13,7 +13,7 @@
             <tr>
               <th>Kode</th>
               <th>Navn</th>
-              <th class="text-end" scope="col">Handling</th>
+              <th class="text-end" scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +23,7 @@
                 <td>{{handJewelryType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtHandsmykketype(handJewelryType)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
@@ -34,10 +34,10 @@
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateHandJewelryType(handJewelryTypeAsChanged)">
-                    <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>

@@ -35,7 +35,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdeling: Department;
   session: SessionOverviewReport[] = [];
-  laster: boolean;
+  loading: boolean;
   valgtRolle: AuthorizedRole;
 
   constructor(
@@ -50,7 +50,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.laster = true;
+    this.loading = true;
     this.valgtRolle = this.authorizationService.getSelectedRole();
     this.valgtInstitusjonId = this.hentInstitusjonId();
 
@@ -82,7 +82,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.avdeling = result[i++] as Department;
         this.session = result[i++] as SessionOverviewReport[];
 
-        this.laster = false;
+        this.loading = false;
         
         if(this.erKoordinatorByttetInstitusjon())
         {

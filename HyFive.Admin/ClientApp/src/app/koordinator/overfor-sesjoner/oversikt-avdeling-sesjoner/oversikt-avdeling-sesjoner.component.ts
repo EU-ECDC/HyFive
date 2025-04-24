@@ -32,7 +32,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdeling: Department;
   sessions: SessionOverviewReport[] = [];
-  laster: boolean;
+  loading: boolean;
   valgtRolle: AuthorizedRole;
 
   constructor(
@@ -71,7 +71,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   }
 
   getSessionsForDepartment() {
-    this.laster = true;
+    this.loading = true;
     this.observationService.getSessionsForDepartment(
       this.avdelingsid,
       this.valgtSesjontype ? this.valgtSesjontype : null,
@@ -81,7 +81,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     ).subscribe((resultater) => {
       this.sessions = resultater;
 
-      this.laster = false;
+      this.loading = false;
     });
   }
 

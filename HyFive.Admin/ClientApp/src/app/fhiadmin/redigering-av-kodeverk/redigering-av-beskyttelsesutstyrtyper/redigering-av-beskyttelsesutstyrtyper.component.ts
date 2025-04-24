@@ -23,7 +23,7 @@ export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnD
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
       if (this.visRedigerAvBeskyttelsesutstyrtyper)
-        this.avbrytRedigering();
+        this.cancelEdit();
     });
 
     this.visRedigerAvBeskyttelsesutstyrtyper = true;
@@ -67,7 +67,7 @@ export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnD
     this.utstyrtypeSomEndres = null;
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

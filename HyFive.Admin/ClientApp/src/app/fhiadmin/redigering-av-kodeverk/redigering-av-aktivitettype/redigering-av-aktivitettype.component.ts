@@ -21,7 +21,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastAktivitettype();
@@ -54,7 +54,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

@@ -39,10 +39,10 @@
                 </select>
               </div>
               <div class="form-group col-12 col-md-3" *ngIf="visHelseforetak">
-                <label for="helseforetak">Helseforetak</label>
+                <label for="helseforetak">HealthcareOrganisation</label>
                 <select class="form-select" id="helseforetak" [(ngModel)]="helseforetakId" (ngModelChange)="helseforetakEndret()">
                   <option value="0"></option>
-                  <option *ngFor="let helseforetak of listAvHelseforetak" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
+                  <option *ngFor="let helseforetak of listOfHealthcareOrganizations" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
                 </select>
               </div>
             </div>

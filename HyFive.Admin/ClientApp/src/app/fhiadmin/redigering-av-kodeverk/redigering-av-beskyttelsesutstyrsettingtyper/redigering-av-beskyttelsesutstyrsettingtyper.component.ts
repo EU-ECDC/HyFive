@@ -21,7 +21,7 @@ export class RedigeringAvBeskyttelsesutstyrsettingtyperComponent implements OnIn
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastSettingtyper();
@@ -54,7 +54,7 @@ export class RedigeringAvBeskyttelsesutstyrsettingtyperComponent implements OnIn
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5" (click)="opprettTomFhiAdmin()">Opprett FhiAdmin</button>
+    <button class="btn fhi-btn-primary mb-5" (click)="opprettTomFhiAdmin()">Create FhiAdmin</button>
   </div>
 </div>
 <div class="row" *ngIf="brukere">
@@ -17,7 +17,7 @@
             <th scope="col">Pseudonym</th>
             <th scope="col">Deaktivert</th>
             <th scope="col">Opprettet tidspunkt</th>
-            <th class="text-end" scope="col">Handling</th>
+            <th class="text-end" scope="col">Action</th>
           </tr>
         </thead>
   
@@ -31,10 +31,10 @@
 
             <td class="text-end py-0 align-middle">
               <button class="btn fhi-btn-icon" type="button" [disabled]="kanOpprettes() == false" (click)="createFhiAdmin()">
-                <i class="icon-plus"></i><span class="btn__text">Opprett</span>
+                <i class="icon-plus"></i><span class="btn__text">Create</span>
               </button>
-              <button class="btn fhi-btn-icon" type="button" (click)="avbrytRedigering($event)">
-                <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+              <button class="btn fhi-btn-icon" type="button" (click)="cancelEdit($event)">
+                <i class="icon-x"></i><span class="btn__text">Cancel</span>
               </button>
             </td>
           </tr>
@@ -58,16 +58,16 @@
             <td class="text-end py-0 align-middle">
               <ng-container *ngIf="fhiAdmin.id == fhiAdminSomEndres?.id">
                 <button class="btn fhi-btn-icon" (click)="updateFhiAdmin(fhiAdminSomEndres)" [disabled]="kanEndres(fhiAdminSomEndres) == false">
-                  <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                  <i class="icon-pencil"></i><span class="btn__text">Save</span>
                 </button>
-                <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                  <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
                 </button>
               </ng-container>
 
               <ng-container *ngIf="fhiAdmin.id != fhiAdminSomEndres?.id">
                 <button class="btn fhi-btn-icon" type="button" (click)="setFhiAdminSomEndres(fhiAdmin)">
-                  <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                  <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                 </button>
               </ng-container>
             </td>

@@ -21,7 +21,7 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastHandhygieneEtterHanskebrukTyper();
@@ -54,7 +54,7 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

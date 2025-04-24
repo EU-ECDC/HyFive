@@ -23,7 +23,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastInstitusjonstyper();
@@ -81,7 +81,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

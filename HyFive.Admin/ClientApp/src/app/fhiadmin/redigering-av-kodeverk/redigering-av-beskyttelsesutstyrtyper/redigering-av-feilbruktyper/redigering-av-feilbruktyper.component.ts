@@ -30,7 +30,7 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastFeilbruktyper();
@@ -84,7 +84,7 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
     this.visRedigeringAvBeskyttelsesutstyrtyperEvent.emit(true);
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

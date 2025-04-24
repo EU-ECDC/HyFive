@@ -6,7 +6,7 @@ import { Department} from './Department';
 import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
 import { Kommune } from './Kommune';
-import { Helseforetak } from './Helseforetak';
+import { HealthcareOrganisation } from './HealthcareOrganisation';
 
 export interface Institution
 {
@@ -19,5 +19,5 @@ export interface Institution
 	region: Region;
 	municipality: Kommune;
 	hasObservations: boolean;
-	healthcareCompany: Helseforetak;
+	healthcareCompany: HealthcareOrganisation;
 }

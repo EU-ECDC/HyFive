@@ -58,7 +58,7 @@ import {ProtectiveEquipmentModalComponent} from "./koordinator/redigering-av-obs
 import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { ForesporselComponent } from "./koordinator/foresporsel/foresporsel.component";
-import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.component';
+import { HealthInstitutionComponent } from './fhiadmin/health-institution/health-institution.component';
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
@@ -132,7 +132,7 @@ export const httpInterceptorProviders = [
     SearchHprNumberLinkComponent,
     EditSessionDataComponent,
     ForesporselComponent,
-    HelseforetakComponent,
+    HealthInstitutionComponent,
     RedigeringAvKoordinatorerComponent,
     RedigerKoordinatorerForHelseforetakComponent,
     PseudonymDialogComponent,
