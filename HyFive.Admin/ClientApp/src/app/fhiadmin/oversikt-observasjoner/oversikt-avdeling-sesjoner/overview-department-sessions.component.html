@@ -1,14 +1,14 @@
 <div class="container mb-3">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilObservasjonerForInstitusjoner()">Tilbake til oversikt</app-navigasjonslenke>
+  <app-navigation-bar (linkClicked)="navigateToObservationsForInstitutions()">Back to overview</app-navigation-bar>
 </div>
 
-<div class="container" *ngIf="avdeling">
+<div class="container" *ngIf="department">
   <div class="row mb-3">
     <div class="col">
-      <h4>Department: {{avdeling.name}}</h4>
+      <h4>Department: {{department.name}}</h4>
       <p>
-        <span *ngIf="fromDate">Fra date: {{visFormatedDato(fromDate)}}</span> <br />
-        <span *ngIf="toDate">Til date: {{visFormatedDato(toDate)}}</span>
+        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
       </p>
     </div>
   </div>
@@ -19,7 +19,7 @@
 <div class="container mt-5" *ngIf="!loading && !session.length">
   <div class="row">
     <div class="col text-center">
-      Ingen sesjoner av valgt type funnet på denne avdelingen
+      No sessions of the selected type found in this department
     </div>
   </div>
 </div>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <app-overview-sessions-view [session]="sesjoner"
+  <app-overview-sessions-view [session]="session"
                                  (observationUpdatedEvent)="getSessionsForDepartment()"
                                  (observationDeletedEvent)="getSessionsForDepartment()">
   </app-overview-sessions-view>

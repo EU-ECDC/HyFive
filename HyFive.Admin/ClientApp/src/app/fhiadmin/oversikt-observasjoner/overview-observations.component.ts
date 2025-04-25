@@ -31,7 +31,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     { name: 'ProtectiveEquipment', value: SessionType.ProtectiveEquipment },
     { name: 'Fire indikasjoner', value: SessionType.FourIndications },
     { name: 'Gloves', value: SessionType.Gloves },
-    { name: 'Håndsmykker', value: SessionType.Handjewelry }
+    { name: 'Handjewelry', value: SessionType.Handjewelry }
   ];
 
   selectedSessiontype: SessionType = null;

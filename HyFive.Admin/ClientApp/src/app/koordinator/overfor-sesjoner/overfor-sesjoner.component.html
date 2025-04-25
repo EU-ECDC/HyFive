@@ -16,7 +16,7 @@
             <label for="sesjonType">Module</label>
             <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
               <option [ngValue]="null">All</option>
-              <option *ngFor="let alternativ of sesjontypeAlternativer" [ngValue]="alternativ.value">{{alternativ.name}}</option>
+              <option *ngFor="let alternativ of sessionTypeOptions" [ngValue]="alternativ.value">{{alternativ.name}}</option>
             </select>
           </div>
 

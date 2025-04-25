@@ -7,7 +7,7 @@ import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-ins
 import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
-import { OversiktAvdelingSesjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/oversikt-avdeling-sesjoner.component';
+import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
 import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-observatorer/redigering-av-observatorer.component";
 import { ProfilsideComponent } from "./profilside/profilside.component";
 import { OverforSesjonerComponent } from './koordinator/overfor-sesjoner/overfor-sesjoner.component';
@@ -42,7 +42,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.observationsDepartment,
-    component: OversiktAvdelingSesjonerComponent
+    component: OverviewDepartmentSessionsComponent
   },
   {
     path: UrlPaths.oppositeSessions,

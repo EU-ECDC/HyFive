@@ -14,26 +14,26 @@ import { InstitutionService } from 'src/app/services/data/institution.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-oversikt-avdeling-sesjoner',
-  templateUrl: './oversikt-avdeling-sesjoner.component.html'
+  selector: 'app-oversikt-department-sesjoner',
+  templateUrl: './overview-department-sessions.component.html'
 })
-export class OversiktAvdelingSesjonerComponent implements OnInit {
+export class OverviewDepartmentSessionsComponent implements OnInit {
 
-  avdelingsid: number;
+  departmentid: number;
   selectedSessiontype: SessionType = null;
   fromDate: Date;
   toDate: Date;
   selectedInstitutionId: number = null;
   institutionIdSearch: number;
 
-  sesjontypeAlternativer = [
+  sessionTypeOptions = [
     { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
-    { name: "Håndsmykker", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "Handjewelry", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
   ];
 
-  avdeling: Department;
+  department: Department;
   session: SessionOverviewReport[] = [];
   loading: boolean;
   selectedRole: AuthorizedRole;
@@ -63,13 +63,13 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
         this.institutionIdSearch = params[QueryParameters.InstitutionIdIsOk] || null;
-        this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
       });
 
-      const avdelingSesjonerRequest = [
-        this.departmentService.getDepartment(this.avdelingsid),
+      const departmentSessionsRequest = [
+        this.departmentService.getDepartment(this.departmentid),
         this.observationService.getSessionsForDepartment(
-          this.avdelingsid,
+          this.departmentid,
           this.selectedSessiontype ? this.selectedSessiontype : null,
           this.fromDate,
           this.toDate,
@@ -77,14 +77,14 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         )
       ]
 
-      forkJoin(avdelingSesjonerRequest).subscribe((result) => {
+      forkJoin(departmentSessionsRequest).subscribe((result) => {
         let i = 0;
-        this.avdeling = result[i++] as Department;
+        this.department = result[i++] as Department;
         this.session = result[i++] as SessionOverviewReport[];
 
         this.loading = false;
         
-        if(this.erKoordinatorByttetInstitusjon())
+        if(this.isCoordinatorChangedInstitution())
         {
           this.router.navigate([`/${UrlPaths.observations}`], {
             queryParams: {
@@ -103,14 +103,14 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     return null;
   }
 
-  erKoordinatorByttetInstitusjon() {
-    return this.avdeling.institutionId !== this.selectedInstitutionId && this.selectedRole == AuthorizedRole.Coordinator;
+  isCoordinatorChangedInstitution() {
+    return this.department.institutionId !== this.selectedInstitutionId && this.selectedRole == AuthorizedRole.Coordinator;
   }
 
   getSessionsForDepartment() {
     
     this.observationService.getSessionsForDepartment(
-      this.avdelingsid,
+      this.departmentid,
       this.selectedSessiontype ? this.selectedSessiontype : null,
       this.fromDate,
       this.toDate,
@@ -120,15 +120,15 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     });
   }
 
-  visFormatedDatoMedTidspunkt(date: Date) {
+  showFormattedDateWithTime(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy, HH:mm:ss');
   }
 
-  visFormatedDato(date: Date) {
+  showFormattedDate(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy');
   }
 
-  navigerTilObservasjonerForInstitusjoner() {
+  navigateToObservationsForInstitutions() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         sessiontype: this.selectedSessiontype,

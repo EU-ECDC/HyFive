@@ -21,11 +21,11 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   faArrowRight = faArrowRight;
   faPaperPlane = faPaperPlane;
 
-  sesjontypeAlternativer = [
+  sessionTypeOptions = [
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
     { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "Håndsmykker", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "Handjewelry", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
   ];
 
   selectedSessiontype: SessionType = null;

@@ -97,7 +97,7 @@
                                                    [observations]="item.observations"
                                                    [sessionId]="item.id"></app-edit-four-indications-observations>
     </ng-container>
-    <!-- Håndsmykker -->
+    <!-- Handjewelry -->
     <ng-container *ngIf="item.type === SessionType[SessionType.Handjewelry]">
       <app-edit-handjewelry-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                             [sessionId]="item.id"

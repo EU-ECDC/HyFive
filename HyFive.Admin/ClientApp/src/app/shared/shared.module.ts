@@ -14,7 +14,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionComponent } from './accordion/accordion.component';
-import { NavigasjonslenkeComponent } from './navigasjonslenke/navigasjonslenke.component';
+import { NavigasjonslenkeComponent } from './navigasjonslenke/navigation-bar.component';
 import {ToastrConfig} from '../_felles/konstanter/toastr-config';
 
 @NgModule({

@@ -15,17 +15,17 @@ import { AuthorizationService } from '../../../_felles/services/authorization.se
   selector: 'app-oversikt-avdeling-sesjoner',
   templateUrl: './oversikt-avdeling-sesjoner.component.html'
 })
-export class OversiktAvdelingSesjonerComponent implements OnInit {
+export class OverviewDepartmentSessionsComponent implements OnInit {
 
-  avdelingsid: number;
+  departmentid: number;
   selectedSessiontype: SessionType = null;
   fromDate: Date;
   toDate: Date;
   valgteInstitusjonAlternativer: number = null;
 
-  sesjontypeAlternativer = [
+  sessionTypeOptions = [
     { name: "FourIndications", value: SessionType.FourIndications },
-    { name: "Håndsmykker", value: SessionType.Handjewelry },
+    { name: "Handjewelry", value: SessionType.Handjewelry },
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment },
     { name: "Gloves", value: SessionType.Gloves }
   ];
@@ -54,7 +54,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
-        this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
         this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
         this.getDepartment();
@@ -64,7 +64,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   getDepartment() {
     this.departmentService.getDepartment(
-      this.avdelingsid
+      this.departmentid
     ).subscribe((resultat) => {
       this.avdeling = resultat;
     });
@@ -73,7 +73,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   getSessionsForDepartment() {
     this.loading = true;
     this.observationService.getSessionsForDepartment(
-      this.avdelingsid,
+      this.departmentid,
       this.selectedSessiontype ? this.selectedSessiontype : null,
       this.fromDate,
       this.toDate,
@@ -85,15 +85,15 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     });
   }
 
-  visFormatedDatoMedTidspunkt(date: Date) {
+  showFormattedDateWithTime(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy, HH:mm:ss');
   }
 
-  visFormatedDato(date: Date) {
+  showFormattedDate(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy');
   }
 
-  navigerTilObservasjonerForInstitusjoner() {
+  navigateToObservationsForInstitutions() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         sessiontype: this.selectedSessiontype,

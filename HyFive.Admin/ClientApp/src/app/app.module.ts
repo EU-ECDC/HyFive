@@ -24,7 +24,7 @@ import { RedigeringAvFeilbruktyperComponent } from './fhiadmin/redigering-av-kod
 import { RedigeringAvBeskyttelsesutstyrsettingtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrsettingtyper/redigering-av-beskyttelsesutstyrsettingtyper.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { DatePipe } from '@angular/common';
-import { OversiktAvdelingSesjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/oversikt-avdeling-sesjoner.component';
+import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
 import { RedigeringAvObservatorerComponent } from './koordinator/redigering-av-observatorer/redigering-av-observatorer.component';
 import { ProfilsideComponent } from './profilside/profilside.component';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -102,7 +102,7 @@ export const httpInterceptorProviders = [
     RedigeringAvFeilbruktyperComponent,
     RedigeringAvBeskyttelsesutstyrsettingtyperComponent,
     OverviewObservationsComponent,
-    OversiktAvdelingSesjonerComponent,
+    OverviewDepartmentSessionsComponent,
     RedigeringAvObservatorerComponent,
     ProfilsideComponent,
     RedigeringAvHanskemedindikasjontyperComponent,

@@ -1,5 +1,5 @@
 <div class="container mb-3">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilObservasjonerForInstitusjoner()">Tilbake til oversikt</app-navigasjonslenke>
+  <app-navigation-bar (linkClicked)="navigateToObservationsForInstitutions()">Back to overview</app-navigation-bar>
 </div>
 
 <div class="container" *ngIf="avdeling">
@@ -7,8 +7,8 @@
     <div class="col">
       <h4>Department: {{avdeling.name}}</h4>
       <p>
-        <span *ngIf="fromDate">Fra date: {{visFormatedDato(fromDate)}}</span> <br />
-        <span *ngIf="toDate">Til date: {{visFormatedDato(toDate)}}</span>
+        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
       </p>
     </div>
   </div>
@@ -19,7 +19,7 @@
 <div class="container mt-5" *ngIf="!loading && !sesjoner.length">
   <div class="row">
     <div class="col text-center">
-      Ingen sesjoner av valgt type funnet på denne avdelingen
+      No sessions of the selected type found in this department
     </div>
   </div>
 </div>
@@ -52,8 +52,8 @@
           <tr class="row">
             <td class="col-3"><p>{{item.type}}</p></td>
             <td class="col-3"><p>{{item.observatorNavn}}</p></td>
-            <td class="col-3"><p>{{visFormatedDatoMedTidspunkt(item.starttidspunkt)}}</p></td>
-            <td class="col-3"><p>{{visFormatedDato(item.timeOfCreation)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDateWithTime(item.starttidspunkt)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDate(item.timeOfCreation)}}</p></td>
           </tr>
         </tbody>
 
@@ -71,7 +71,7 @@
 
         <h6 class="text-dark mb-3"><strong>Observations</strong></h6>
         <!-- Fireindikasjoner -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[0].name">
+        <ng-container *ngIf="item.type === sessionTypeOptions[0].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -98,7 +98,7 @@
                   <td>{{obs.activity.activityType.name}}</td>
                   <td>{{obs.activity.TimekeepingWasRemoved ? obs.activity.secondsUsed + ' sekund(er)' : '-' }}</td>
                   <td>{{obs.activity.benyttetHanske === null ? '-' : obs.activity.benyttetHanske ? "Ja" : "Nei"}}</td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
@@ -106,8 +106,8 @@
           </div>
           
         </ng-container>
-        <!-- Håndsmykker -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[1].name">
+        <!-- Handjewelry -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[1].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -128,7 +128,7 @@
                       </li>
                     </ul>
                   </td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
@@ -136,7 +136,7 @@
           </div>
         </ng-container>
         <!-- ProtectiveEquipment -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[2].name">
+        <ng-container *ngIf="item.type === sessionTypeOptions[2].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -182,7 +182,7 @@
                       </ng-container>
                     </ul>
                   </td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
@@ -191,7 +191,7 @@
           
         </ng-container>
         <!-- Gloves -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[3].name">
+        <ng-container *ngIf="item.type === sessionTypeOptions[3].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -224,7 +224,7 @@
                   </td>
                   <td style="padding-left: 40px;">{{obs.hanskeObservasjon.benyttetHanske ? "Ja" : 'Nei'}}</td>
                   <td style="padding-left: 40px;">{{obs.hanskeObservasjon.handhygieneEtterHanskebrukType.name}}</td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
