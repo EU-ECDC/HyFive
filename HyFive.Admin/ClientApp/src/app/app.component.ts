@@ -64,8 +64,8 @@ export class AppComponent implements OnInit {
 
     this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
       if (user.isCoordinator) {
-        let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
-        if (valgtInstitusjonId === null) {
+        let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+        if (selectedInstitutionId === null) {
           this.institutionService.getInstitutions().subscribe((resultat) => {
             this.institutionService.updateSelectedInstitutionId(resultat[0].id);
             window.location.reload();

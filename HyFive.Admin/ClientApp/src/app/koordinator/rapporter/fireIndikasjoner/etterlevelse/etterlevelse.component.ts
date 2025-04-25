@@ -24,7 +24,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
 
   visGraf = false;
   roles: Role[];
-  avdelinger: Department[];
+  departments: Department[];
 
   prosentDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
@@ -63,7 +63,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   lastAvdelinger() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getDepartments(institutionId).subscribe(
-      (avdelinger) => this.avdelinger = avdelinger,
+      (departments) => this.departments = departments,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
@@ -115,17 +115,17 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
 
   initManeder() {
     return [
-      { verdi: 1, description: "Januar" },
-      { verdi: 2, description: "Februar" },
-      { verdi: 3, description: "Mars" },
-      { verdi: 4, description: "April" },
-      { verdi: 5, description: "Mai" },
-      { verdi: 6, description: "Juni" },
-      { verdi: 7, description: "Juli" },
-      { verdi: 8, description: "August" },
-      { verdi: 9, description: "September" },
-      { verdi: 10, description: "Oktober" },
-      { verdi: 11, description: "November" },
-      { verdi: 12, description: "Desember" }];
+      { value: 1, description: "Januar" },
+      { value: 2, description: "Februar" },
+      { value: 3, description: "Mars" },
+      { value: 4, description: "April" },
+      { value: 5, description: "Mai" },
+      { value: 6, description: "Juni" },
+      { value: 7, description: "Juli" },
+      { value: 8, description: "August" },
+      { value: 9, description: "September" },
+      { value: 10, description: "Oktober" },
+      { value: 11, description: "November" },
+      { value: 12, description: "Desember" }];
   }
 }

@@ -18,22 +18,22 @@ import { AuthorizationService } from '../../../_felles/services/authorization.se
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdelingsid: number;
-  valgtSesjontype: SessionType = null;
-  fraDato: Date;
-  tilDato: Date;
+  selectedSessiontype: SessionType = null;
+  fromDate: Date;
+  toDate: Date;
   valgteInstitusjonAlternativer: number = null;
 
   sesjontypeAlternativer = [
-    { name: "FourIndications", verdi: SessionType.FourIndications },
-    { name: "Håndsmykker", verdi: SessionType.Handjewelry },
-    { name: "ProtectiveEquipment", verdi: SessionType.ProtectiveEquipment },
-    { name: "Gloves", verdi: SessionType.Gloves }
+    { name: "FourIndications", value: SessionType.FourIndications },
+    { name: "Håndsmykker", value: SessionType.Handjewelry },
+    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment },
+    { name: "Gloves", value: SessionType.Gloves }
   ];
 
   avdeling: Department;
   sessions: SessionOverviewReport[] = [];
   loading: boolean;
-  valgtRolle: AuthorizedRole;
+  selectedRole: AuthorizedRole;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,15 +45,15 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.getSelectedRole();
+    this.selectedRole = this.authorizationService.getSelectedRole();
     this.route
       .queryParams
       .subscribe(params => {
         if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.valgtSesjontype = parseInt(params[QueryParameters.SessionType]) || null;
-        this.fraDato = params[QueryParameters.FromDate] || null;
-        this.tilDato = params[QueryParameters.ToDate] || null;
+        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.fromDate = params[QueryParameters.FromDate] || null;
+        this.toDate = params[QueryParameters.ToDate] || null;
         this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
         this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
@@ -74,12 +74,12 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
     this.loading = true;
     this.observationService.getSessionsForDepartment(
       this.avdelingsid,
-      this.valgtSesjontype ? this.valgtSesjontype : null,
-      this.fraDato,
-      this.tilDato,
-      this.valgtRolle
-    ).subscribe((resultater) => {
-      this.sessions = resultater;
+      this.selectedSessiontype ? this.selectedSessiontype : null,
+      this.fromDate,
+      this.toDate,
+      this.selectedRole
+    ).subscribe((results) => {
+      this.sessions = results;
 
       this.loading = false;
     });
@@ -96,9 +96,9 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   navigerTilObservasjonerForInstitusjoner() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
-        sesjontype: this.valgtSesjontype,
-        fra: this.fraDato,
-        til: this.tilDato,
+        sessiontype: this.selectedSessiontype,
+        fra: this.fromDate,
+        til: this.toDate,
         institusjonider: this.valgteInstitusjonAlternativer
       }
     });

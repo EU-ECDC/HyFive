@@ -60,7 +60,7 @@ export class RedigeringAvRollerComponent implements OnInit, OnDestroy {
     );
   }
 
-  valgtRolle(rolle: Role): void {
+  selectedRole(rolle: Role): void {
     if (this.rolleSomEndres?.id == rolle.id) return;
     this.rolleSomEndres = JSON.parse(JSON.stringify(rolle));
   }

@@ -17,7 +17,7 @@ export class ProfilsideComponent implements OnInit {
 
   rolleAdministrator = 'Administrator';
   rolleKoordinator = 'Koordinator'
-  valgtRolle = this.rolleAdministrator;
+  selectedRole = this.rolleAdministrator;
   kanBytteRolle = false;
 
   constructor(
@@ -35,12 +35,12 @@ export class ProfilsideComponent implements OnInit {
       }
     });
 
-    let valgtRolle = this.authorizationService.getSelectedRole();
-    if (valgtRolle) {
-      if (valgtRolle === AuthorizedRole.Administrator) {
-        this.valgtRolle = this.rolleAdministrator;
-      } else if (valgtRolle === AuthorizedRole.Coordinator) {
-        this.valgtRolle = this.rolleKoordinator;
+    let selectedRole = this.authorizationService.getSelectedRole();
+    if (selectedRole) {
+      if (selectedRole === AuthorizedRole.Administrator) {
+        this.selectedRole = this.rolleAdministrator;
+      } else if (selectedRole === AuthorizedRole.Coordinator) {
+        this.selectedRole = this.rolleKoordinator;
       }
     }
   }
@@ -48,9 +48,9 @@ export class ProfilsideComponent implements OnInit {
   byttRolle(){
     let rolle: AuthorizedRole;
 
-    if (this.valgtRolle === this.rolleAdministrator) {
+    if (this.selectedRole === this.rolleAdministrator) {
       rolle = AuthorizedRole.Administrator;
-    } else if (this.valgtRolle === this.rolleKoordinator) {
+    } else if (this.selectedRole === this.rolleKoordinator) {
       rolle = AuthorizedRole.Coordinator;
     }
 

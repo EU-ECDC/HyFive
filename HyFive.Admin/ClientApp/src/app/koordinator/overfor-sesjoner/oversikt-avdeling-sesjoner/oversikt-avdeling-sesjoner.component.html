@@ -7,8 +7,8 @@
     <div class="col">
       <h4>Department: {{avdeling.name}}</h4>
       <p>
-        <span *ngIf="fraDato">Fra date: {{visFormatedDato(fraDato)}}</span> <br />
-        <span *ngIf="tilDato">Til date: {{visFormatedDato(tilDato)}}</span>
+        <span *ngIf="fromDate">Fra date: {{visFormatedDato(fromDate)}}</span> <br />
+        <span *ngIf="toDate">Til date: {{visFormatedDato(toDate)}}</span>
       </p>
     </div>
   </div>
@@ -28,7 +28,7 @@
 
   <div class="row mb-2">
     <div class="col">
-      <h5>Sesjoner</h5>
+      <h5>Sessions</h5>
     </div>
   </div>
 
@@ -69,7 +69,7 @@
           </li>
         </ul>
 
-        <h6 class="text-dark mb-3"><strong>Observasjoner</strong></h6>
+        <h6 class="text-dark mb-3"><strong>Observations</strong></h6>
         <!-- Fireindikasjoner -->
         <ng-container *ngIf="item.type === sesjontypeAlternativer[0].name">
           <div class="table-responsive">

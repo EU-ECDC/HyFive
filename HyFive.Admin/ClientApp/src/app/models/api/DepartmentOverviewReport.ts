@@ -2,10 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface AvdelingOversiktRapport
+export interface DepartmentOverviewReport
 {
 	id: number;
 	name: string;
-	antallSesjoner: number;
-	antallObservasjoner: number;
+	numberOfSessions: number;
+	numberOfObservations: number;
 }

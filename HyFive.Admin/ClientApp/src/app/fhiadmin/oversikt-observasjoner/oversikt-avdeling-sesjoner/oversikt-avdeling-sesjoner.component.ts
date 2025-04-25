@@ -20,23 +20,23 @@ import { forkJoin } from 'rxjs';
 export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   avdelingsid: number;
-  valgtSesjontype: SessionType = null;
-  fraDato: Date;
-  tilDato: Date;
-  valgtInstitusjonId: number = null;
-  institusjonsidISok: number;
+  selectedSessiontype: SessionType = null;
+  fromDate: Date;
+  toDate: Date;
+  selectedInstitutionId: number = null;
+  institutionIdSearch: number;
 
   sesjontypeAlternativer = [
-    { name: "FourIndications", verdi: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
-    { name: "Håndsmykker", verdi: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
-    { name: "Gloves", verdi: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "ProtectiveEquipment", verdi: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
+    { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
+    { name: "Håndsmykker", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
+    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
   ];
 
   avdeling: Department;
   session: SessionOverviewReport[] = [];
   loading: boolean;
-  valgtRolle: AuthorizedRole;
+  selectedRole: AuthorizedRole;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,18 +51,18 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.valgtRolle = this.authorizationService.getSelectedRole();
-    this.valgtInstitusjonId = this.hentInstitusjonId();
+    this.selectedRole = this.authorizationService.getSelectedRole();
+    this.selectedInstitutionId = this.getInstitutionId();
 
     this.route
       .queryParams
       .subscribe(params => {
         if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.valgtSesjontype = parseInt(params[QueryParameters.SessionType]) || null;
-        this.fraDato = params[QueryParameters.FromDate] || null;
-        this.tilDato = params[QueryParameters.ToDate] || null;
-        this.institusjonsidISok = params[QueryParameters.InstitutionIdIsOk] || null;
+        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.fromDate = params[QueryParameters.FromDate] || null;
+        this.toDate = params[QueryParameters.ToDate] || null;
+        this.institutionIdSearch = params[QueryParameters.InstitutionIdIsOk] || null;
         this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
       });
 
@@ -70,10 +70,10 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         this.departmentService.getDepartment(this.avdelingsid),
         this.observationService.getSessionsForDepartment(
           this.avdelingsid,
-          this.valgtSesjontype ? this.valgtSesjontype : null,
-          this.fraDato,
-          this.tilDato,
-          this.valgtRolle
+          this.selectedSessiontype ? this.selectedSessiontype : null,
+          this.fromDate,
+          this.toDate,
+          this.selectedRole
         )
       ]
 
@@ -88,7 +88,7 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
         {
           this.router.navigate([`/${UrlPaths.observations}`], {
             queryParams: {
-              sesjontype: null,
+              sessiontype: null,
               fra: null,
               til: null,
             }
@@ -97,26 +97,26 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
       });
   }
 
-  hentInstitusjonId(): number {
-    if(this.valgtRolle === AuthorizedRole.Coordinator) 
+  getInstitutionId(): number {
+    if(this.selectedRole === AuthorizedRole.Coordinator) 
       return this.institutionService.getSelectedInstitutionId()
     return null;
   }
 
   erKoordinatorByttetInstitusjon() {
-    return this.avdeling.institutionId !== this.valgtInstitusjonId && this.valgtRolle == AuthorizedRole.Coordinator;
+    return this.avdeling.institutionId !== this.selectedInstitutionId && this.selectedRole == AuthorizedRole.Coordinator;
   }
 
   getSessionsForDepartment() {
     
     this.observationService.getSessionsForDepartment(
       this.avdelingsid,
-      this.valgtSesjontype ? this.valgtSesjontype : null,
-      this.fraDato,
-      this.tilDato,
-      this.valgtRolle
-    ).subscribe((resultater) => {
-      this.session = resultater; 
+      this.selectedSessiontype ? this.selectedSessiontype : null,
+      this.fromDate,
+      this.toDate,
+      this.selectedRole
+    ).subscribe((results) => {
+      this.session = results; 
     });
   }
 
@@ -131,10 +131,10 @@ export class OversiktAvdelingSesjonerComponent implements OnInit {
   navigerTilObservasjonerForInstitusjoner() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
-        sesjontype: this.valgtSesjontype,
-        fra: this.fraDato,
-        til: this.tilDato,
-        institusjonsidISok: this.institusjonsidISok
+        sessiontype: this.selectedSessiontype,
+        fra: this.fromDate,
+        til: this.toDate,
+        institutionIdSearch: this.institutionIdSearch
       }
     });
   }

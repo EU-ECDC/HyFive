@@ -18,20 +18,20 @@ export class PredefinertKommentarerService {
   ) { }
 
   hentPredefinertKommentarer(): Observable<PredefinertKommentar[]> {
-    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institutionId=${valgtInstitusjonId}`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institutionId=${selectedInstitutionId}`;
     return this.httpClient.get<PredefinertKommentar[]>(url);
   }
 
   oppdaterPredefinertKommentar(predefinertKommentar: PredefinertKommentar): Observable<boolean>{
-    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/oppdater`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${selectedInstitutionId}/oppdater`;
     return this.httpClient.put<boolean>(url, predefinertKommentar);
   }
 
   opprettPredefinertKommentar(nypredefinertKommentar: OpprettPredefinertKommentarRequest): Observable<boolean> {
-    let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/opprett`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${selectedInstitutionId}/opprett`;
     return this.httpClient.post<boolean>(url, nypredefinertKommentar);
   }
 }

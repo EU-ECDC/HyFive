@@ -22,15 +22,15 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   faPaperPlane = faPaperPlane;
 
   sesjontypeAlternativer = [
-    { name: "ProtectiveEquipment", verdi: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
-    { name: "FourIndications", verdi: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
-    { name: "Gloves", verdi: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "Håndsmykker", verdi: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
+    { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
+    { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
+    { name: "Håndsmykker", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
   ];
 
-  valgtSesjontype: SessionType = null;
-  fraDato: Date = null;
-  tilDato: Date = null;
+  selectedSessiontype: SessionType = null;
+  fromDate: Date = null;
+  toDate: Date = null;
 
   observers: User[] = [];
   valgtObservator: User = null;
@@ -87,13 +87,13 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.observationService.getSessionsForInstitution(
       this.institusjon.id,
       this.valgtObservator,
-      this.valgtSesjontype,
-      this.fraDato,
-      this.tilDato
-    ).subscribe((resultater) => {
+      this.selectedSessiontype,
+      this.fromDate,
+      this.toDate
+    ).subscribe((results) => {
       this.loading = false;
       this.sokGjort = true;
-      this.sessions = resultater;
+      this.sessions = results;
       this.oppdaterLister();
     })
   }
@@ -128,15 +128,15 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     });
   }
 
-  nullstill(): void {
+  reset(): void {
     this.valgtObservator = null;
-    this.valgtSesjontype = null;
-    this.fraDato = null;
-    this.tilDato = null;
-    this.nullstillSokeresultat();
+    this.selectedSessiontype = null;
+    this.fromDate = null;
+    this.toDate = null;
+    this.resetSearchresults();
   }
 
-  nullstillSokeresultat() {
+  resetSearchresults() {
     this.sokGjort = false;
     this.sessionsCoordinator = [];
     this.sessionsFHI = [];

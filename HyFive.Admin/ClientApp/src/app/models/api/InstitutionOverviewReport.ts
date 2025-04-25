@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { AvdelingOversiktRapport } from './AvdelingOversiktRapport';
+import { DepartmentOverviewReport } from './DepartmentOverviewReport';
 
 export interface InstitutionOverviewReport
 {
@@ -10,5 +10,5 @@ export interface InstitutionOverviewReport
 	name: string;
 	numberSessions: number;
 	numberObservations: number;
-	departments: AvdelingOversiktRapport[];
+	departments: DepartmentOverviewReport[];
 }

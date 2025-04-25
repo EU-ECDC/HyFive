@@ -40,7 +40,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   }
   
   opprettKlinikk() {
-    this.nyKlinikk.avdelinger = this.avdelingsvalg
+    this.nyKlinikk.departments = this.avdelingsvalg
       .filter(r => r.erValgt)
       .map((r) => ({ id: r.avdeling.id, departmentTypeId: 0, roles: null, institutionId: this.institutionId, name: null, departmentType: null }));
 
@@ -61,11 +61,11 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
       this.klinikkerListe = result;
 
       this.institutionService.getDepartments(this.institutionId).subscribe(
-        (avdelinger) => {
-          this.avdelingsvalg = avdelinger.map(a =>
+        (departments) => {
+          this.avdelingsvalg = departments.map(a =>
           ({
             avdeling: a, erValgt: false,
-            erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id))
+            erAlleredePaKlinikk: this.klinikkerListe.some(k => k.departments.some(av => av.id === a.id))
           }));
         },
         (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
@@ -78,7 +78,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
       id: 0,
       name: null,
       institutionId: this.institutionId,
-      avdelinger: []
+      departments: []
     };
     for (const avdeling of this.avdelingsvalg) {
       avdeling.erValgt = false;

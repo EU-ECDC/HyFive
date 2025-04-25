@@ -22,7 +22,7 @@ export class ByttInstitusjonComponent implements OnInit {
   visByttInstitusjonBoks = false;
   
   visteInstitusjoner: InstitutionReport[] = [];
-  institusjoner: InstitutionReport[] = [];
+  institutions: InstitutionReport[] = [];
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -34,41 +34,41 @@ export class ByttInstitusjonComponent implements OnInit {
   ngOnInit(): void {
     this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
       this.user = user;
-      let valgtRolle = this.authorizationService.getSelectedRole();
-      this.initialiser(valgtRolle);
+      let selectedRole = this.authorizationService.getSelectedRole();
+      this.initialiser(selectedRole);
     });
 
     this.roleEventService.switchRoleEvent.subscribe(
-      (valgtRolle) => {
-        this.initialiser(valgtRolle);
+      (selectedRole) => {
+        this.initialiser(selectedRole);
       });
 
     this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.subscribe(
       () => {
-        let valgtRolle = this.authorizationService.getSelectedRole();
-        this.initialiser(valgtRolle);
+        let selectedRole = this.authorizationService.getSelectedRole();
+        this.initialiser(selectedRole);
       });
   }
 
-  private initialiser(valgtRolle: AuthorizedRole) {
-    if (valgtRolle === AuthorizedRole.Administrator) {
+  private initialiser(selectedRole: AuthorizedRole) {
+    if (selectedRole === AuthorizedRole.Administrator) {
       this.visByttInstitusjonBoks = false;
-    } else if (valgtRolle === AuthorizedRole.Coordinator) {
-      this.institutionService.getInstitutionsForCoordinator().subscribe((institusjoner) => {
-        if (institusjoner.length > 0) {
+    } else if (selectedRole === AuthorizedRole.Coordinator) {
+      this.institutionService.getInstitutionsForCoordinator().subscribe((institutions) => {
+        if (institutions.length > 0) {
           this.visByttInstitusjonBoks = true;
         }
 
-        this.institusjoner = institusjoner;
-        let valgtInstitusjonId = this.institutionService.getSelectedInstitutionId()
-        this.valgtInstitusjon = this.institusjoner.find(x => x.id === valgtInstitusjonId);
+        this.institutions = institutions;
+        let selectedInstitutionId = this.institutionService.getSelectedInstitutionId()
+        this.valgtInstitusjon = this.institutions.find(x => x.id === selectedInstitutionId);
 
         if (!this.valgtInstitusjon) {
-          this.valgtInstitusjon = this.institusjoner[0];
+          this.valgtInstitusjon = this.institutions[0];
           this.institutionService.updateSelectedInstitutionId(this.valgtInstitusjon.id);
         }
 
-        this.visteInstitusjoner = this.institusjoner.filter(x => x.id !== this.valgtInstitusjon.id);
+        this.visteInstitusjoner = this.institutions.filter(x => x.id !== this.valgtInstitusjon.id);
       });
     }
   }

@@ -9,5 +9,5 @@ export interface Klinikk
 	id: number;
 	institutionId: number;
 	name: string;
-	avdelinger: Department[];
+	departments: Department[];
 }

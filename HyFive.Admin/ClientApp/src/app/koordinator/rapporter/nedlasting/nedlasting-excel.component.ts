@@ -25,56 +25,56 @@ export class NedlastingExcelComponent {
     private authorizationService: AuthorizationService) { }
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.getSelectedRole();
+    this.selectedRole = this.authorizationService.getSelectedRole();
 
-    if (this.valgtRolle === AuthorizedRole.Coordinator) {
-      this.valgtInstitusjonId = this.institutionService.getSelectedInstitutionId();
-      this.getInstitution(this.valgtInstitusjonId)
+    if (this.selectedRole === AuthorizedRole.Coordinator) {
+      this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+      this.getInstitution(this.selectedInstitutionId)
     }
-    else if (this.valgtRolle === AuthorizedRole.Administrator) {
-      this.kanVelgeInstitusjon = true;
+    else if (this.selectedRole === AuthorizedRole.Administrator) {
+      this.canSelectInstitution = true;
 
       this.institutionService.getInstitutions().subscribe(
-        (institusjoner) => {
-          this.institusjoner = institusjoner;
+        (institutions) => {
+          this.institutions = institutions;
         });
     }
   }
 
   sessionTypes = SessionTypes.GetSessionTypes();
 
-  valgtSesjontype: SessionType = null;
+  selectedSessiontype: SessionType = null;
   valgtAvdelingId: number;
-  fraDato: Date = null;
-  tilDato: Date = null;
+  fromDate: Date = null;
+  toDate: Date = null;
   
-  avdelinger: Department[];
-  institusjoner: InstitutionReport[] = [];
-  kanVelgeInstitusjon = false;
+  departments: Department[];
+  institutions: InstitutionReport[] = [];
+  canSelectInstitution = false;
   lagerRapport = false;
-  valgtInstitusjonId: number;
+  selectedInstitutionId: number;
   lagInstitusjonsrapport = false;
 
-  private valgtRolle: AuthorizedRole;
+  private selectedRole: AuthorizedRole;
 
   velgInstitusjon(): void {
-    this.avdelinger = null;
+    this.departments = null;
     this.valgtAvdelingId = null;
-    if (this.valgtInstitusjonId != null) {
-      this.getInstitution(this.valgtInstitusjonId)
+    if (this.selectedInstitutionId != null) {
+      this.getInstitution(this.selectedInstitutionId)
     }
   };
 
-  nullstill(): void {
+  reset(): void {
     this.valgtAvdelingId = null;
-    this.valgtSesjontype = null;
+    this.selectedSessiontype = null;
     this.lagInstitusjonsrapport = false;
-    this.fraDato = null;
-    this.tilDato = null;
+    this.fromDate = null;
+    this.toDate = null;
     this.toastrService.clear();
 
-    if (this.valgtRolle === AuthorizedRole.Administrator) {
-      this.valgtInstitusjonId = null;
+    if (this.selectedRole === AuthorizedRole.Administrator) {
+      this.selectedInstitutionId = null;
     }
   }
 
@@ -84,22 +84,22 @@ export class NedlastingExcelComponent {
 
   kanLageRapport() {
     return (((
-      this.valgtInstitusjonId && this.valgtAvdelingId) ||
-      (this.valgtInstitusjonId && this.lagInstitusjonsrapport)) &&
-      this.valgtSesjontype && this.fraDato && this.tilDato);
+      this.selectedInstitutionId && this.valgtAvdelingId) ||
+      (this.selectedInstitutionId && this.lagInstitusjonsrapport)) &&
+      this.selectedSessiontype && this.fromDate && this.toDate);
   }
 
   lagRapport() {
     this.toastrService.clear();
     
-    this.rapportService.rapportForSessionTypeHarData(this.valgtSesjontype, this.valgtInstitusjonId, this.valgtAvdelingId,
-      this.fraDato, this.tilDato, this.valgtRolle).subscribe(
+    this.rapportService.rapportForSessionTypeHarData(this.selectedSessiontype, this.selectedInstitutionId, this.valgtAvdelingId,
+      this.fromDate, this.toDate, this.selectedRole).subscribe(
         rapportHarData => {
           if (rapportHarData) {
             this.lagerRapport = true;
 
-            let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.valgtSesjontype);
-            let url = `${baseUrl}?fraTid=${this.fraDato}&tilTid=${this.tilDato}&avdelingId=${this.valgtAvdelingId}&institutionId=${this.valgtInstitusjonId}&rolle=${this.valgtRolle}`;
+            let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.selectedSessiontype);
+            let url = `${baseUrl}?fraTid=${this.fromDate}&tilTid=${this.toDate}&avdelingId=${this.valgtAvdelingId}&institutionId=${this.selectedInstitutionId}&rolle=${this.selectedRole}`;
         
             this.lastNedExcel(url).subscribe(() => {
               this.lagerRapport = false;
@@ -121,7 +121,7 @@ export class NedlastingExcelComponent {
   private getInstitution(institutionId: number) {
     this.institutionService.getInstitution(institutionId).subscribe(
       institution => {
-        this.avdelinger = institution.departments;
+        this.departments = institution.departments;
       })
   };
 }

@@ -49,11 +49,11 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
       this.klinikkerListe = institusjon;
 
       this.institutionService.getDepartments(this.klinikkKopi.institutionId).subscribe(
-        (avdelinger) => {
-          this.avdelingsvalg = avdelinger.map(a => (
+        (departments) => {
+          this.avdelingsvalg = departments.map(a => (
             {
-              avdeling: a, erValgt: this.klinikkKopi.avdelinger.map(k => k.id).indexOf(a.id) !== -1,
-              erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id) && k.id !== this.klinikkKopi.id)
+              avdeling: a, erValgt: this.klinikkKopi.departments.map(k => k.id).indexOf(a.id) !== -1,
+              erAlleredePaKlinikk: this.klinikkerListe.some(k => k.departments.some(av => av.id === a.id) && k.id !== this.klinikkKopi.id)
             }));
         },
         (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
@@ -75,13 +75,13 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   }
 
   lagreKlinikk() {
-    this.klinikkKopi.avdelinger = this.avdelingsvalg.filter(m => m.erValgt).map(r => r.avdeling);
+    this.klinikkKopi.departments = this.avdelingsvalg.filter(m => m.erValgt).map(r => r.avdeling);
     this.klinikkService.oppdaterKlinikk(this.klinikkKopi).subscribe(
       (k) => {
         // Må replace verdier på original-objektet for å støtte oppdatering av liste når en navigerer tilbake til klinikk-oversikt
         this.klinikk.name = k.name;
         this.klinikk.institutionId = k.institutionId;
-        this.klinikk.avdelinger = k.avdelinger;
+        this.klinikk.departments = k.departments;
         this.toastrService.success('Klinikk oppdatert');
       },
       (err) => this.toastrService.error(`Technical error ved oppdatering: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})

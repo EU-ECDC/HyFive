@@ -22,7 +22,7 @@ import { RedigeringAvAktivitettypeComponent } from './fhiadmin/redigering-av-kod
 import { RedigeringAvBeskyttelsesutstyrtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/redigering-av-beskyttelsesutstyrtyper.component';
 import { RedigeringAvFeilbruktyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/redigering-av-feilbruktyper/redigering-av-feilbruktyper.component';
 import { RedigeringAvBeskyttelsesutstyrsettingtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrsettingtyper/redigering-av-beskyttelsesutstyrsettingtyper.component';
-import { OversiktObservasjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-observasjoner.component';
+import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { DatePipe } from '@angular/common';
 import { OversiktAvdelingSesjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/oversikt-avdeling-sesjoner.component';
 import { RedigeringAvObservatorerComponent } from './koordinator/redigering-av-observatorer/redigering-av-observatorer.component';
@@ -101,7 +101,7 @@ export const httpInterceptorProviders = [
     RedigeringAvBeskyttelsesutstyrtyperComponent,
     RedigeringAvFeilbruktyperComponent,
     RedigeringAvBeskyttelsesutstyrsettingtyperComponent,
-    OversiktObservasjonerComponent,
+    OverviewObservationsComponent,
     OversiktAvdelingSesjonerComponent,
     RedigeringAvObservatorerComponent,
     ProfilsideComponent,

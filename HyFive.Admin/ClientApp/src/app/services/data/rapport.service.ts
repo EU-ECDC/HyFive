@@ -28,7 +28,7 @@ export class RapportService {
   }
 
   rapportForSessionTypeHarData(sesjonType: SessionType, institutionId: number, avdelingId: number,
-    fraDato: Date, tilDato: Date, rolleId: AuthorizedRole): Observable<boolean> {
+    fromDate: Date, toDate: Date, rolleId: AuthorizedRole): Observable<boolean> {
     const url = `${environment.apiBaseUrl}/v1/rapport/rapportforsesjontypehardata`;
 
     let params = new HttpParams();
@@ -36,8 +36,8 @@ export class RapportService {
     params = params.append("institutionId", institutionId.toString());
     if (avdelingId != null)
       params = params.append("avdelingId", avdelingId);
-    params = params.append("fraDato", fraDato.toString());
-    params = params.append("tilDato", tilDato.toString());
+    params = params.append("fromDate", fromDate.toString());
+    params = params.append("toDate", toDate.toString());
     params = params.append("rolleId", rolleId);
 
     return this.httpClient.get<boolean>(url, { params: params });

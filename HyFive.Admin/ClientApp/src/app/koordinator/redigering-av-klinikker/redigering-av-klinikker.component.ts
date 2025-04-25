@@ -52,7 +52,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   hentAvdelingsnavn(klinikk: Klinikk) {
-    return klinikk.avdelinger?.map(r => r.name).join(',');
+    return klinikk.departments?.map(r => r.name).join(',');
   }
 
   navigerTilKlinikk(id: number) {

@@ -16,7 +16,7 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 export class RedigeringAvInstitusjonerComponent implements OnInit {
 
   institutionId: number = 0;
-  institusjoner: InstitutionReport[] = [];
+  institutions: InstitutionReport[] = [];
   filtrertInstitusjoner: InstitutionReport[] = [];
   sokeord: string = '';
   sokeordPerson: string = '';
@@ -40,10 +40,10 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
 
   getInstitutions() {
     this.institutionService.getInstitutions().subscribe((resultat) => {
-      this.institusjoner = resultat;
-      this.filtrertInstitusjoner = this.institusjoner;
+      this.institutions = resultat;
+      this.filtrertInstitusjoner = this.institutions;
       
-      this.institusjoner.forEach(i => {
+      this.institutions.forEach(i => {
         this.hentBrukere(i.id);
       });
     });
@@ -75,7 +75,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   updateInstitution(institusjon: Institution) {
-    this.institusjoner[this.institusjoner.map(i => i.id).indexOf(institusjon.id)] = institusjon;
+    this.institutions[this.institutions.map(i => i.id).indexOf(institusjon.id)] = institusjon;
   }
 
   deleteInstitution(institutionId: number) {
@@ -86,21 +86,21 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
 
   filtrerInstitusjoner(): void {
     if (this.sokeord.length >= 2)
-      this.filtrertInstitusjoner = this.institusjoner.filter(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
+      this.filtrertInstitusjoner = this.institutions.filter(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
         i.healthcareEnterprise?.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
         i.municipality?.name.toLowerCase().includes(this.sokeord.toLowerCase()));
     else if (this.sokeord.length === 0)
-      this.filtrertInstitusjoner = this.institusjoner;
+      this.filtrertInstitusjoner = this.institutions;
   }
 
   filtrerPersonerPaaInstitusjoner(): void {
     if (this.sokeordPerson.length >= 2) {
-      this.filtrertInstitusjoner = this.institusjoner.filter(i => {
+      this.filtrertInstitusjoner = this.institutions.filter(i => {
         const personer = SearchHelper.filterUsers(this.sokeordPerson, this.users);
         return personer.some(p => p.institutionId === i.id);
       });
     } else if (this.sokeordPerson.length === 0) {
-      this.filtrertInstitusjoner = this.institusjoner;
+      this.filtrertInstitusjoner = this.institutions;
     }
   }
 
