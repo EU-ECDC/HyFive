@@ -5,7 +5,7 @@ import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { Institution } from '../../../models/api/Institution';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
-import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
+import { HealthcareEnterpriseService } from 'src/app/services/data/healthcareEnterprise.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
@@ -19,7 +19,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   institusjonstyper: InstitutionType[] = [];
   nyInstitusjon: CreateInstitutionRequest = null;
   kommuner: Municipality[] = [];
-  listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
+  listOfHealthcareEnterprises: HealthcareEnterprise[] = [];
   visHelseforetak: boolean = false;
   visKommune: boolean = false;
 
@@ -27,7 +27,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   constructor(private institutionService: InstitutionService, private toastrService: ToastrService,
               private municipalityService: MunicipalityService, 
-              private healthcareOrganizationService: HealthcareOrganizationService) { }
+              private healthcareEnterpriseService: HealthcareEnterpriseService) { }
 
   ngOnInit(): void {
     this.institutionService.getInstitutionTypes().subscribe((resultat) => {
@@ -41,9 +41,9 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
+    this.healthcareEnterpriseService.getAllHealthcareEnterprises().subscribe(
       (alleHelseforetak) => {
-        this.listOfHealthcareOrganizations = alleHelseforetak;
+        this.listOfHealthcareEnterprises = alleHelseforetak;
       }
     );
   }

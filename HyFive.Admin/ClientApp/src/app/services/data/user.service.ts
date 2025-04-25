@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../models/api/User';
 import { CreateFhiAdminRequest } from '../../models/api/CreateFhiAdminRequest';
-import { CoordinatorForHealthcareCompanies } from '../../models/api/CoordinatorForHealthcareCompanies';
+import { CoordinatorForHealthcareEnterprises } from '../../models/api/CoordinatorForHealthcareEnterprises';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class UserService {
     return user?.hprNummer != null || this.isValidPseudonym(user.identityPseudonym);
   }
 
-  hasCoordinatorValidHprnumberOrPseudonym(coordinator: CoordinatorForHealthcareCompanies): boolean {
+  hasCoordinatorValidHprnumberOrPseudonym(coordinator: CoordinatorForHealthcareEnterprises): boolean {
     return coordinator?.hprNummer?.trim().length > 0 || this.isValidPseudonym(coordinator.identityPseudonym);
   }
 

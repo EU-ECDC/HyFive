@@ -25,10 +25,10 @@
         </select>
       </div>
       <div class="col-md-6" *ngIf="visHelseforetak">
-        <label for="helseforetak" class="mb-1">HealthcareOrganisation</label>
+        <label for="helseforetak" class="mb-1">HealthcareEnterprise</label>
         <select class="form-select" id="helseforetak" [(ngModel)]="nyInstitusjon.helseforetakId">
           <option value="0"></option>
-          <option *ngFor="let helseforetak of listOfHealthcareOrganizations" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
+          <option *ngFor="let helseforetak of listOfHealthcareEnterprises" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
         </select>
       </div>
     </div>

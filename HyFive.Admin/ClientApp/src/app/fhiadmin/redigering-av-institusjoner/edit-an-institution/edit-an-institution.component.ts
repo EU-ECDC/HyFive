@@ -5,7 +5,7 @@ import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
-import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
+import { HealthcareEnterpriseService } from 'src/app/services/data/healthcareEnterprise.service';
 import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
 import { Municipality } from 'src/app/models/api/Municipality';
@@ -19,12 +19,12 @@ export class RedigerEnInstitusjonComponent implements OnInit {
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private municipalityService: MunicipalityService,
-              private healthcareOrganizationService: HealthcareOrganizationService) { }
+              private healthcareEnterpriseService: HealthcareEnterpriseService) { }
 
   institution: Institution = null;
   institutionTypes: InstitutionType[] = [];
   institusjontypeId = 0;
-  listOfHealthcareOrganizations: HealthcareEnterprise[] = [];
+  listOfHealthcareEnterprises: HealthcareEnterprise[] = [];
 
   kommune: Municipality = null;
   kommuner: Municipality[];
@@ -62,9 +62,9 @@ export class RedigerEnInstitusjonComponent implements OnInit {
         this.kommuner = kommuner;
     });
 
-    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
+    this.healthcareEnterpriseService.getAllHealthcareEnterprises().subscribe(
       (alleHelseforetak) => {
-        this.listOfHealthcareOrganizations = alleHelseforetak;
+        this.listOfHealthcareEnterprises = alleHelseforetak;
     });
   }
 
@@ -102,7 +102,7 @@ export class RedigerEnInstitusjonComponent implements OnInit {
 
   helseforetakEndret() {
     if (this.helseforetakId) {
-      this.institution.healthcareEnterprise = this.listOfHealthcareOrganizations.find(r => r.id === this.helseforetakId);
+      this.institution.healthcareEnterprise = this.listOfHealthcareEnterprises.find(r => r.id === this.helseforetakId);
     }
   }
 

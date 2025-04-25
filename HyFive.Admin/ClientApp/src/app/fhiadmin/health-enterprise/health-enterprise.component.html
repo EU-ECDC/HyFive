@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row" *ngIf="!loading">
     <div class="col-4">
-      <h5>HealthcareEnterprise</h5>
+      <h5>Healthcare Enterprise</h5>
       <input type="text" class="form-control" [(ngModel)]="newHealthcareEnterprise.name" name="name" placeholder="Name">
     </div>
     <div class="col-4">
@@ -12,7 +12,7 @@
       </select>
     </div>
     <div class="col-4">
-      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="newHealthcareEnterprise.name.trim().length < 1">Create</button>
+      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareEnterprise()" [disabled]="newHealthcareEnterprise.name.trim().length < 1">Create</button>
     </div>
     <div class="col-12 m-3">
       <label *ngIf="!listOfHealthcareEnterpises">None found HealthcareEnterprise</label>
@@ -35,7 +35,7 @@
                   <td>{{healthcareEnterprise.name}}</td>
                   <td>{{healthcareEnterprise.regionalHealthcareEnterprise?.name}}</td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareOrganizationAsChanged(healthcareEnterprise)">
+                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareEnterpriseAsChanged(healthcareEnterprise)">
                       <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                     </button>
                   </td>
@@ -51,7 +51,7 @@
                     </select>
                   </td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="updateHealthcareOrganization(healthcareEnterpriseAsChanged)">
+                    <button class="btn fhi-btn-icon" (click)="updateHealthcareEnterprise(healthcareEnterpriseAsChanged)">
                       <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
                     <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">

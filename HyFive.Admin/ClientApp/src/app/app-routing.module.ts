@@ -93,7 +93,7 @@ const routes: Routes = [
     component: ForesporselComponent
   },
   {
-    path: UrlPaths.healthcareCompany,
+    path: UrlPaths.healthcareEnterprise,
     component: HealthEnterpriseComponent
   },
   {

@@ -4,7 +4,7 @@
 
 import { InstitutionReport } from './InstitutionReport';
 
-export interface CoordinatorForHealthcareCompanies
+export interface CoordinatorForHealthcareEnterprises
 {
 	timeOfCreation: any;
 	firstName: string;
