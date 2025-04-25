@@ -9,7 +9,7 @@ export interface ForesporselOmBrukertilgang
 	brukerFornavn: string;
 	brukerEtternavn: string;
 	identityPseudonym: string;
-	hprNummer: string;
+	hprNumber: string;
 	status: number;
 	timeOfCreation: any;
 	godkjenttidspunkt: any;

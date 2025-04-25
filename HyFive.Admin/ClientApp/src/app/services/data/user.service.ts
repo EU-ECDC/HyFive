@@ -70,11 +70,11 @@ export class UserService {
   }
 
   hasValidHprnumberOrPseudonym(user: User): boolean{
-    return user?.hprNummer != null || this.isValidPseudonym(user.identityPseudonym);
+    return user?.hprNumber != null || this.isValidPseudonym(user.identityPseudonym);
   }
 
   hasCoordinatorValidHprnumberOrPseudonym(coordinator: CoordinatorForHealthcareEnterprises): boolean {
-    return coordinator?.hprNummer?.trim().length > 0 || this.isValidPseudonym(coordinator.identityPseudonym);
+    return coordinator?.hprNumber?.trim().length > 0 || this.isValidPseudonym(coordinator.identityPseudonym);
   }
 
   isValidPseudonym(pseudonym: string): boolean{

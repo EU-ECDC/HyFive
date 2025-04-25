@@ -30,7 +30,7 @@
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.lastName" name="lastName" placeholder="Lastname"></td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.email" name="email" placeholder="Email"></td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-number" [maxLength]="2147483647">
+                <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
                 <app-search-hprnumber-link></app-search-hprnumber-link>
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
@@ -58,7 +58,7 @@
                 <td>{{koordinator.firstName}}</td>
                 <td>{{koordinator.lastName}} </td>
                 <td>{{koordinator.email}}</td>
-                <td>{{koordinator.hprNummer}}</td>
+                <td>{{koordinator.hprNumber}}</td>
                 <td>
                   <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="koordinator.identityPseudonym"></app-pseudonym-dialog>
                 </td>
@@ -80,7 +80,7 @@
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.lastName" name="lastName" placeholder="Lastname"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.email" name="email" placeholder="Email"></td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-number" [maxLength]="2147483647">
+                  <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
                   <app-search-hprnumber-link></app-search-hprnumber-link>
                 </td>
                 <td>

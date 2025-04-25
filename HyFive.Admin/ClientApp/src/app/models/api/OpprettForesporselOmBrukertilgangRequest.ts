@@ -8,5 +8,5 @@ export interface OpprettForesporselOmBrukertilgangRequest
 	brukerFornavn: string;
 	brukerEtternavn: string;
 	identityPseudonym: string;
-	hprNummer: string;
+	hprNumber: string;
 }

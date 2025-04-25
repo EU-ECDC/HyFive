@@ -12,7 +12,7 @@ export interface CoordinatorForHealthcareEnterprises
 	email: string;
 	identityPseudonym: string;
 	isDisabled: boolean;
-	hprNummer: string;
+	hprNumber: string;
 	institutions: InstitutionReport[];
 	changedIdentityPseudonym?: string;
 	changedHPRNumber?: string;

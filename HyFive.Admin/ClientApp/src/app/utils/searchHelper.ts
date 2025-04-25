@@ -7,7 +7,7 @@ export class SearchHelper {
                                         k.firstName?.toLowerCase().includes(searchWord.toLowerCase()) || 
                                         k.lastName?.toLocaleLowerCase().includes(searchWord.toLowerCase()) ||
                                         (k.firstName + ' ' + k.lastName).toLowerCase().includes(searchWord.toLowerCase()) ||
-                                        k.hprNummer?.includes(searchWord));
+                                        k.hprNumber?.includes(searchWord));
 
             return filteredUsers;
     }

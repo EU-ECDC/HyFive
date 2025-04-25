@@ -12,5 +12,5 @@ export interface User
 	email: string;
 	identityPseudonym: string;
 	isDisabled: boolean;
-	hprNummer: string;
+	hprNumber: string;
 }

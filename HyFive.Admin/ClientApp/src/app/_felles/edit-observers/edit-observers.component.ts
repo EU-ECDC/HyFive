@@ -69,7 +69,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       lastName: '',
       firstName: '',
       email: '',
-      hprNummer: null,
+      hprNumber: null,
       identityPseudonym: null,
       timeOfCreation: new Date(),
       isDisabled: false

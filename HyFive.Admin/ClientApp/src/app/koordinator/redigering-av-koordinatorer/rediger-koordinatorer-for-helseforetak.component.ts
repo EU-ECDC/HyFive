@@ -96,7 +96,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       lastName: '',
       firstName: '',
       email: '',
-      hprNummer: null,
+      hprNumber: null,
       identityPseudonym: null,
       timeOfCreation: new Date(),
       isDisabled: false,
@@ -131,15 +131,15 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       me.valgteInstitusjoner.push(institujon);
     });
 
-    coordinator.changedHPRNumber = coordinator.hprNummer;
+    coordinator.changedHPRNumber = coordinator.hprNumber;
     coordinator.changedIdentityPseudonym = coordinator.identityPseudonym
 
     this.koordinatorSomEndres = JSON.parse(JSON.stringify(coordinator));
   }
 
   erKoordinatorSomEndres(coordinator: CoordinatorForHealthcareEnterprises) {
-    if (this.koordinatorSomEndres?.hprNummer?.length > 0 &&
-      this.koordinatorSomEndres.hprNummer === coordinator.hprNummer)
+    if (this.koordinatorSomEndres?.hprNumber?.length > 0 &&
+      this.koordinatorSomEndres.hprNumber === coordinator.hprNumber)
       return true;
     if (this.koordinatorSomEndres?.identityPseudonym?.length > 0 &&
       this.koordinatorSomEndres.identityPseudonym === coordinator.identityPseudonym)
@@ -183,7 +183,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   erKoordinatorSomEndresLikInnloggetBruker(coordinator: CoordinatorForHealthcareEnterprises) {
-    if (this.user.hprNummer && this.user.hprNummer === coordinator.hprNummer)
+    if (this.user.hprNumber && this.user.hprNumber === coordinator.hprNumber)
       return true;
     if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
       return true;
@@ -233,7 +233,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
       this.filtrertKoordinatorer = this.koordinatorer.filter(k => 
                                     k.firstName?.toLowerCase().includes(this.sokeord.toLowerCase()) || 
                                     k.lastName?.toLocaleLowerCase().includes(this.sokeord.toLowerCase()) ||
-                                    k.hprNummer?.includes(this.sokeord) ||
+                                    k.hprNumber?.includes(this.sokeord) ||
                                     k.institutions?.some(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase())));
     }
     else if (this.sokeord.length === 0)

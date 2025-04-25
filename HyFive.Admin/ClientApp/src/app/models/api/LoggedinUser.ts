@@ -13,5 +13,5 @@ export interface LoggedinUser
 	institutionIds: number[];
 	firstName: string;
 	lastName: string;
-	hprNummer: string;
+	hprNumber: string;
 }
