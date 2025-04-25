@@ -3,10 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/data/user.service';
 
 @Component({
-  selector: 'app-oversikt-fhiadmin',
-  templateUrl: './oversikt-fhiadmin.component.html'
+  selector: 'app-overview-fhiadmin',
+  templateUrl: './overview-fhiadmin.component.html'
 })
-export class OversiktFhiAdminComponent implements OnInit {
+export class OverviewFhiAdminComponent implements OnInit {
 
   constructor(
     private userService: UserService,

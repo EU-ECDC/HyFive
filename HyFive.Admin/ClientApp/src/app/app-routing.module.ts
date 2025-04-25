@@ -13,7 +13,7 @@ import { ProfilsideComponent } from "./profilside/profilside.component";
 import { OverforSesjonerComponent } from './koordinator/overfor-sesjoner/overfor-sesjoner.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
-import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
+import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { ForesporselComponent } from './koordinator/foresporsel/foresporsel.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
@@ -86,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.fhiAdminOverview,
-    component: OversiktFhiAdminComponent
+    component: OverviewFhiAdminComponent
   },
   {
     path: UrlPaths.request,

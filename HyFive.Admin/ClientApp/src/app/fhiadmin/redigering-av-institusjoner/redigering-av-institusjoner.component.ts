@@ -20,7 +20,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   filtrertInstitusjoner: InstitutionReport[] = [];
   sokeord: string = '';
   sokeordPerson: string = '';
-  brukere: User[] = [];
+  users: User[] = [];
 
   constructor(private institutionService: InstitutionService,
     private toastrService: ToastrService,
@@ -51,10 +51,10 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
 
   hentBrukere(institutionId: number) {
     this.institutionService.getObservers(institutionId).subscribe((resultat) => {
-      this.brukere.push(...resultat);
+      this.users.push(...resultat);
     });
     this.institutionService.getCoordinators(institutionId).subscribe((resultat) => {
-      this.brukere.push(...resultat);
+      this.users.push(...resultat);
     });
   }
 
@@ -96,7 +96,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   filtrerPersonerPaaInstitusjoner(): void {
     if (this.sokeordPerson.length >= 2) {
       this.filtrertInstitusjoner = this.institusjoner.filter(i => {
-        const personer = SearchHelper.filterUsers(this.sokeordPerson, this.brukere);
+        const personer = SearchHelper.filterUsers(this.sokeordPerson, this.users);
         return personer.some(p => p.institutionId === i.id);
       });
     } else if (this.sokeordPerson.length === 0) {

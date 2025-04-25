@@ -41,8 +41,8 @@ import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker
 import { RedigeringAvRegionComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-region/redigering-av-region.component';
 import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { RedigeringAvRollerComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-roles/redigering-av-roles.component';
-import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
-import { RedigerFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/rediger-fhiadmin/rediger-fhiadmin.component';
+import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
+import { EditFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/rediger-fhiadmin/edit-fhiadmin.component';
 import {AuthenticationFailedModalComponent} from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
@@ -120,8 +120,8 @@ export const httpInterceptorProviders = [
     IndicationSelectionComponent,
     ActivityChoiceDropdownComponent,
     RedigeringAvRollerComponent,
-    OversiktFhiAdminComponent,
-    RedigerFhiAdminComponent,
+    OverviewFhiAdminComponent,
+    EditFhiAdminComponent,
     AuthenticationFailedModalComponent,
     EditFourIndicationsObservationsComponent,
     EditHandjewelryObservationsComponent,

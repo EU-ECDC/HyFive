@@ -191,14 +191,14 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     return false;
   }
 
-  kanOpprettes() {
+  canCreate() {
     return this.nyKoordinator.firstName.length > 0
       && this.nyKoordinator.lastName.length > 0
       && this.userService.hasCoordinatorValidHprnumberOrPseudonym(this.nyKoordinator)
       && this.valgteInstitusjoner?.length > 0;
   }
 
-  kanEndres(coordinator: CoordinatorForHealthcareEnterprises) {
+  canChange(coordinator: CoordinatorForHealthcareEnterprises) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
       && this.userService.hasCoordinatorValidHprnumberOrPseudonym(coordinator)

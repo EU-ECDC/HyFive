@@ -8,7 +8,7 @@
     <div class="row" *ngIf="koordinatorer">
       <h5 class="col-12">Koordinatorer</h5>
       <input type="text" placeholder="Søk etter.." autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="sokeord" (ngModelChange)="filtrerKoordinatorer()">
-      <label class="col-12" *ngIf="koordinatorer.length === 0 && !nyKoordinator">Fant ingen koordinatorer på denne institusjonen</label>
+      <label class="col-12" *ngIf="koordinatorer.length === 0 && !nyKoordinator">Did not find any koordinatorer på denne institusjonen</label>
       <ng-container>
         <table class="table" *ngIf="koordinatorer.length > 0 || nyKoordinator" sortable-table (sorted)="sort($event)">
           <thead>
@@ -18,7 +18,7 @@
               <th>Epost</th>
               <th>HPR-nummer</th>
               <th>Pseudonym</th>
-              <th>Deaktivert</th>
+              <th>Disabled</th>
               <th>Institusjoner</th>
               <th class="text-end" scope="col">Action</th>
             </tr>
@@ -43,7 +43,7 @@
                 </ng-multiselect-dropdown>
               </td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" [disabled]="kanOpprettes() == false" (click)="createCoordinator()">
+                <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createCoordinator()">
                   <i class="icon-plus"></i><span class="btn__text">Create</span>
                 </button>
                 <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
@@ -100,7 +100,7 @@
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon"
                           (click)="updateCoordinator(koordinatorSomEndres)"
-                          [disabled]="kanEndres(koordinatorSomEndres) == false">
+                          [disabled]="canChange(koordinatorSomEndres) == false">
                           <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
                   <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
