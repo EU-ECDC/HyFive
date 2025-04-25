@@ -73,7 +73,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Klinikk) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: Klinikk) => x.name;
         break;
       default:

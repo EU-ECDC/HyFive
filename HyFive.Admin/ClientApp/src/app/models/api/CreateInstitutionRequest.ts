@@ -4,8 +4,8 @@
 
 export interface CreateInstitutionRequest
 {
-	institusjonsnavn: string;
-	forkortelse: string;
+	institutionname: string;
+	abbreviation: string;
 	herId: string;
 	institusjonTypeId: number;
 	koordinatorHPRnummer: string;
@@ -14,6 +14,6 @@ export interface CreateInstitutionRequest
 	koordinatorEtternavn: string;
 	koordinatorEpost: string;
 	regionId: number;
-	kommuneId: number;
-	helseforetakId: number;
+	municipalityId: number;
+	healthEnterpriseId: number;
 }

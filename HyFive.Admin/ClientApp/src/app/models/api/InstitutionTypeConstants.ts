@@ -2,8 +2,8 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export abstract class InstitusjonstypeKonstanter
+export abstract class InstitutionTypeConstants
 {
-	public static Sykehus: string = `SYKEHUS`;
-	public static Sykehjem: string = `SYKEHJEM`;
+	public static Hospital: string = `HOSPITAL`;
+	public static NursingHome: string = `NURSINGHOME`;
 }

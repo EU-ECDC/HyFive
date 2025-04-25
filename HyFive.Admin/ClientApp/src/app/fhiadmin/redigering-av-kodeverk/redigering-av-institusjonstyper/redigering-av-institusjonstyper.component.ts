@@ -36,7 +36,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
   lastInstitusjonstyper() {
     this.institusjonstyperService.hentInstitusjonstyper().subscribe(
       (resultat) => this.institusjonstyper = resultat,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av Institusjonstype: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av Institutiontype: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -49,7 +49,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
 
   opprettInstitusjonstype(): void {
     this.institusjonstyperService.opprettInstitusjonstype(this.nyInstitusjonstype).subscribe(
-      (opprettetInstitusjonstype) => this.toastrService.success(`Institusjonstype opprettet.`),
+      (opprettetInstitusjonstype) => this.toastrService.success(`Institutiontype opprettet.`),
       error => this.toastrService.error(`En feil skjedde under opprettelse av institusjonstype ${this.nyInstitusjonstype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyInstitusjonstype = this.tomRequest(); this.lastInstitusjonstyper(); }
     );
@@ -63,10 +63,10 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
   oppdaterInstitusjonstype(institusjonstype: InstitutionType): void {
     this.institusjonstyperService.oppdaterInstitusjonstype(institusjonstype).subscribe(
       (oppdatertInstitusjonstype) => {
-        this.toastrService.success("Institusjonstype oppdatert");
+        this.toastrService.success("Institutiontype oppdatert");
         this.lastInstitusjonstyper();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av Institusjonstype: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('Det oppstod en feil under oppdatering av Institutiontype: ' + error?.error, '', { disableTimeOut: true}),
       () => this.institusjonstypeSomEndres = null
     );
   }
@@ -74,7 +74,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
   slettInstitusjonstype(institusjonstypeId: number) {
     this.institusjonstyperService.slettInstitusjonstype(institusjonstypeId).subscribe(
       (erSlettet) => {
-        this.toastrService.success("Institusjonstype ble slettet");
+        this.toastrService.success("Institutiontype ble slettet");
         this.institusjonstypeSomEndres = null;
         this.lastInstitusjonstyper();
       }

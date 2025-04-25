@@ -10,7 +10,7 @@ export interface Sesjon<TObservasjon>
 	avdeling: Department;
 	starttidspunkt: Date;
 	observasjoner?: TObservasjon[];
-	institusjonsnavn?: string;
+	institutionname?: string;
 	institutionId?: number;
 	kommentar?: string;
 }

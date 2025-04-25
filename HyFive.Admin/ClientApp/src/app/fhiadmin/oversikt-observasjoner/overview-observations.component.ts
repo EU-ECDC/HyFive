@@ -192,7 +192,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
     let propertyOf: (x: DepartmentOverviewReport) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: DepartmentOverviewReport) => x.name;
         break;
       default:

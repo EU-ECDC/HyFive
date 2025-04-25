@@ -107,10 +107,10 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Institution) => any;
     switch ($event.columnName) {
-      case "Navn":
+      case "Name":
         propertyOf = (x: Institution) => x.name;
         break;
-        case "Institusjonstype":
+        case "Institutiontype":
           propertyOf = (x: Institution) => x.institutionType.name;
         break;
       default:

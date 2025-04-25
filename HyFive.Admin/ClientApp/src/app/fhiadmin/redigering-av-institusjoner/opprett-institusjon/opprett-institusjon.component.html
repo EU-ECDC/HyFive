@@ -2,33 +2,33 @@
   <div class="col-12">
     <div class="row mb-1">
       <div class="col-md-6">
-        <label for="institusjonsnavn" class="mb-1">Navn</label>
-        <input type="text" id="institusjonsnavn" class="form-control" placeholder="e.g. Oslo Universitetssykehus HF" [(ngModel)]="nyInstitusjon.institusjonsnavn">
+        <label for="institutionname" class="mb-1">Name</label>
+        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" [(ngModel)]="nyInstitusjon.institutionname">
       </div>
       <div class="col-md-2">
-        <label for="forkortelse" class="mb-1">Kortnavn</label>
-        <input type="text" id="forkortelse" class="form-control" placeholder="e.g. OUS" [(ngModel)]="nyInstitusjon.forkortelse">
+        <label for="abbreviation" class="mb-1">Shortname</label>
+        <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" [(ngModel)]="nyInstitusjon.abbreviation">
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
-        <label for="institusjonstype" class="mb-1">Institusjonstype</label>
+        <label for="institusjonstype" class="mb-1">Institutiontype</label>
         <select class="form-select" id="institusjonstype" [(ngModel)]="nyInstitusjon.institusjonTypeId" (ngModelChange)="visHelseforetakEllerRegion(nyInstitusjon.institusjonTypeId)">
           <option *ngFor="let institusjonstype of institusjonstyper" [ngValue]="institusjonstype.id">{{institusjonstype.name}}</option>
         </select>
       </div>
-      <div class="col-md-6" *ngIf="visKommune">
-        <label for="kommune" class="mb-1">Municipality</label>
-        <select class="form-select" id="kommune" [(ngModel)]="nyInstitusjon.kommuneId">
+      <div class="col-md-6" *ngIf="showMunicipality">
+        <label for="municipality" class="mb-1">Municipality</label>
+        <select class="form-select" id="municipality" [(ngModel)]="nyInstitusjon.municipalityId">
           <option value="0"></option>
-          <option *ngFor="let kommune of kommuner" [ngValue]="kommune.id">{{kommune.name}}</option>
+          <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
         </select>
       </div>
-      <div class="col-md-6" *ngIf="visHelseforetak">
-        <label for="helseforetak" class="mb-1">HealthcareEnterprise</label>
-        <select class="form-select" id="helseforetak" [(ngModel)]="nyInstitusjon.helseforetakId">
+      <div class="col-md-6" *ngIf="showHealthcareEnterprise">
+        <label for="Healthcareenterprise" class="mb-1">HealthcareEnterprise</label>
+        <select class="form-select" id="Healthcareenterprise" [(ngModel)]="nyInstitusjon.healthEnterpriseId">
           <option value="0"></option>
-          <option *ngFor="let helseforetak of listOfHealthcareEnterprises" [ngValue]="helseforetak.id">{{helseforetak.name}}</option>
+          <option *ngFor="let Healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="Healthcareenterprise.id">{{Healthcareenterprise.name}}</option>
         </select>
       </div>
     </div>

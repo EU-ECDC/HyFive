@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Institution } from '../../../models/api/Institution';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { HealthcareEnterpriseService } from 'src/app/services/data/healthcareEnterprise.service';
-import { InstitusjonstypeKonstanter } from 'src/app/models/api/InstitusjonstypeKonstanter';
+import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
 
@@ -18,10 +18,10 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
 
   institusjonstyper: InstitutionType[] = [];
   nyInstitusjon: CreateInstitutionRequest = null;
-  kommuner: Municipality[] = [];
+  municipalities: Municipality[] = [];
   listOfHealthcareEnterprises: HealthcareEnterprise[] = [];
-  visHelseforetak: boolean = false;
-  visKommune: boolean = false;
+  showHealthcareEnterprise: boolean = false;
+  showMunicipality: boolean = false;
 
   @Output() institusjonOpprettetEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
@@ -36,8 +36,8 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
     });
 
     this.municipalityService.getMunicipalities().subscribe(
-      (kommuner) => {
-        this.kommuner = kommuner;
+      (municipalities) => {
+        this.municipalities = municipalities;
       }
     );
 
@@ -53,7 +53,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   }
 
   finnDefaultInstitusjonstype() {
-    return this.institusjonstyper.find(p => p.code === InstitusjonstypeKonstanter.Sykehus);
+    return this.institusjonstyper.find(p => p.code === InstitutionTypeConstants.Hospital);
   }
 
   createInstitution() {
@@ -73,7 +73,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
     let defaultInstitusjonType = this.finnDefaultInstitusjonstype();
     this.visHelseforetakEllerRegion(defaultInstitusjonType.id);
     return {
-      institusjonsnavn: null,
+      institutionname: null,
       institusjonTypeId: defaultInstitusjonType.id,
       koordinatorEtternavn: null,
       koordinatorFornavn: null,
@@ -81,10 +81,10 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
       koordinatorEpost: null,
       koordinatorPseudonym: null,
       herId: null,
-      forkortelse: null,
+      abbreviation: null,
       regionId: 0,
-      kommuneId: 0,
-      helseforetakId: 0
+      municipalityId: 0,
+      healthEnterpriseId: 0
     };    
   }
 
@@ -93,7 +93,7 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   }
 
   kanOppretteInstitusjon(): boolean{
-    return this.nyInstitusjon?.institusjonsnavn?.length > 0
+    return this.nyInstitusjon?.institutionname?.length > 0
       && this.nyInstitusjon?.koordinatorHPRnummer?.length > 0
       && this.nyInstitusjon?.koordinatorFornavn?.length > 0
       && this.nyInstitusjon?.koordinatorEtternavn?.length > 0;
@@ -102,20 +102,20 @@ export class OpprettInstitusjonComponent implements OnInit, OnDestroy {
   visHelseforetakEllerRegion(institusjonTypeId: number)
   {
     var valgtInstitusjonstype = this.institusjonstyper.find(i => i.id === institusjonTypeId);
-    if(valgtInstitusjonstype.code === InstitusjonstypeKonstanter.Sykehus)
+    if(valgtInstitusjonstype.code === InstitutionTypeConstants.Hospital)
     {
-      this.visHelseforetak = true;
-      this.visKommune = false;
+      this.showHealthcareEnterprise = true;
+      this.showMunicipality = false;
     }
-    else if(valgtInstitusjonstype.code === InstitusjonstypeKonstanter.Sykehjem)
+    else if(valgtInstitusjonstype.code === InstitutionTypeConstants.NursingHome)
     {
-      this.visKommune = true;
-      this.visHelseforetak = false;
+      this.showMunicipality = true;
+      this.showHealthcareEnterprise = false;
     }
     else
     {
-      this.visHelseforetak = false;
-      this.visKommune = false;
+      this.showHealthcareEnterprise = false;
+      this.showMunicipality = false;
     }
   }
 }
