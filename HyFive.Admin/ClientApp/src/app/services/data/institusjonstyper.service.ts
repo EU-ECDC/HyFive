@@ -17,25 +17,25 @@ export class InstitusjonstyperService {
   }
 
   hentInstitusjonstyper(): Observable<InstitutionType[]> {
-    const url = `${environment.apiBaseUrl}/v1/institusjonstyper`;
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes`;
     return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
-  oppdaterInstitusjonstype(institusjonstype: InstitutionType): Observable<InstitutionType> {
-    const url = `${environment.apiBaseUrl}/v1/institusjonstyper/oppdater`;
-    return this.httpClient.put<InstitutionType>(url, institusjonstype)
+  oppdaterInstitusjonstype(institutiontype: InstitutionType): Observable<InstitutionType> {
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/oppdater`;
+    return this.httpClient.put<InstitutionType>(url, institutiontype)
     .pipe();
   }
 
-  opprettInstitusjonstype(institusjonstype: OpprettInstitusjonstypeRequest): Observable<InstitutionType> {
-    const url = `${environment.apiBaseUrl}/v1/institusjonstyper/opprett`;
-    return this.httpClient.post<InstitutionType>(url, institusjonstype)
+  opprettInstitusjonstype(institutiontype: OpprettInstitusjonstypeRequest): Observable<InstitutionType> {
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/opprett`;
+    return this.httpClient.post<InstitutionType>(url, institutiontype)
     .pipe();
   }
 
   slettInstitusjonstype(institusjonstypeId: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/institusjonstyper/slett?institusjonstypeId=${institusjonstypeId}`;
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/slett?institusjonstypeId=${institusjonstypeId}`;
     return this.httpClient.delete<boolean>(url)
     .pipe();
   }

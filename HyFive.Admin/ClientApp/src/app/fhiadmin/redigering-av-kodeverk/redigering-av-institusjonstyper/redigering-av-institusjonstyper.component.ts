@@ -11,7 +11,7 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy {
 
-  institusjonstyper: InstitutionType[] = [];
+  institutionTypes: InstitutionType[] = [];
   nyInstitusjonstype: OpprettInstitusjonstypeRequest = this.tomRequest();
   institusjonstypeSomEndres: InstitutionType = null;
 
@@ -35,7 +35,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
 
   lastInstitusjonstyper() {
     this.institusjonstyperService.hentInstitusjonstyper().subscribe(
-      (resultat) => this.institusjonstyper = resultat,
+      (resultat) => this.institutionTypes = resultat,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Institutiontype: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
@@ -50,18 +50,18 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
   opprettInstitusjonstype(): void {
     this.institusjonstyperService.opprettInstitusjonstype(this.nyInstitusjonstype).subscribe(
       (opprettetInstitusjonstype) => this.toastrService.success(`Institutiontype opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av institusjonstype ${this.nyInstitusjonstype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av institutiontype ${this.nyInstitusjonstype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyInstitusjonstype = this.tomRequest(); this.lastInstitusjonstyper(); }
     );
   }
 
-  valgtInstitusjonstype(institusjonstype: InstitutionType): void {
-    if (this.institusjonstypeSomEndres?.id == institusjonstype.id) return;
-    this.institusjonstypeSomEndres = JSON.parse(JSON.stringify(institusjonstype));
+  selectedInstitutiontype(institutiontype: InstitutionType): void {
+    if (this.institusjonstypeSomEndres?.id == institutiontype.id) return;
+    this.institusjonstypeSomEndres = JSON.parse(JSON.stringify(institutiontype));
   }
 
-  oppdaterInstitusjonstype(institusjonstype: InstitutionType): void {
-    this.institusjonstyperService.oppdaterInstitusjonstype(institusjonstype).subscribe(
+  oppdaterInstitusjonstype(institutiontype: InstitutionType): void {
+    this.institusjonstyperService.oppdaterInstitusjonstype(institutiontype).subscribe(
       (oppdatertInstitusjonstype) => {
         this.toastrService.success("Institutiontype oppdatert");
         this.lastInstitusjonstyper();

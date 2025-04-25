@@ -15,8 +15,8 @@
             <tr>
               <th sortable-column="Firstname"></th>
               <th sortable-column="Lastname"></th>
-              <th>Epost</th>
-              <th>HPR-nummer</th>
+              <th>Email</th>
+              <th>HPR-number</th>
               <th>Pseudonym</th>
               <th>Disabled</th>
               <th>Institutions</th>
@@ -28,9 +28,9 @@
             <tr *ngIf="nyKoordinator != null">
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.firstName" name="firstName" placeholder="Firstname"></td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.lastName" name="lastName" placeholder="Lastname"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.email" name="email" placeholder="Epost"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.email" name="email" placeholder="Email"></td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
+                <input type="text" class="form-control" [(ngModel)]="nyKoordinator.hprNummer" name="hprNummer" placeholder="HPR-number" [maxLength]="2147483647">
                 <app-search-hprnumber-link></app-search-hprnumber-link>
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="nyKoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
@@ -78,9 +78,9 @@
               <ng-container *ngIf="erKoordinatorSomEndres(koordinator)">
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.firstName" name="firstName" placeholder="Firstname"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.lastName" name="lastName" placeholder="Lastname"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.email" name="email" placeholder="Epost"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.email" name="email" placeholder="Email"></td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-nummer" [maxLength]="2147483647">
+                  <input type="text" class="form-control" [(ngModel)]="koordinatorSomEndres.endretHPRNummer" name="hprNummer" placeholder="HPR-number" [maxLength]="2147483647">
                   <app-search-hprnumber-link></app-search-hprnumber-link>
                 </td>
                 <td>

@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
 import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
 import { EditInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
-import { OpprettInstitusjonComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/opprett-institusjon.component';
+import { CreateInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/create-institution.component';
 import { EditObserversComponent } from './_felles/edit-observers/edit-observers.component';
 import { ConfirmationDialogComponent } from './fhiadmin/redigering-av-institusjoner/confirmation-dialog/confirmation-dialog.component';
 import { RedigeringAvIndikasjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-indikasjonstyper/redigering-av-indikasjonstyper.component';
@@ -87,7 +87,7 @@ export const httpInterceptorProviders = [
     ForsideForAdministrasjonComponent,
     RedigeringAvInstitusjonerComponent,
     EditInstitutionComponent,
-    OpprettInstitusjonComponent,
+    CreateInstitutionComponent,
     EditObserversComponent,
     RedigeringAvHandsmykketypeComponent,
     EditCoordinatorsComponent,

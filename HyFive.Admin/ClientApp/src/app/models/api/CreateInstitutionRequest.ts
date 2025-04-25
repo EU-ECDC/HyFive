@@ -4,15 +4,15 @@
 
 export interface CreateInstitutionRequest
 {
-	institutionname: string;
+	institutionName: string;
 	abbreviation: string;
 	herId: string;
-	institusjonTypeId: number;
-	koordinatorHPRnummer: string;
-	koordinatorPseudonym: string;
-	koordinatorFornavn: string;
-	koordinatorEtternavn: string;
-	koordinatorEpost: string;
+	institutionTypeId: number;
+	coordinatorHPRnumber: string;
+	coordinatorPseudonym: string;
+	coordinatorFirstname: string;
+	coordinatorLastname: string;
+	coordinatorEmail: string;
 	regionId: number;
 	municipalityId: number;
 	healthEnterpriseId: number;

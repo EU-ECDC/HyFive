@@ -29,17 +29,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let institusjonstype of institusjonstyper">
-              <ng-container *ngIf="institusjonstypeSomEndres?.id !== institusjonstype.id">
-                <td>{{institusjonstype.code}}</td>
-                <td>{{institusjonstype.name}}</td>
+            <tr *ngFor="let institutiontype of institutionTypes">
+              <ng-container *ngIf="institusjonstypeSomEndres?.id !== institutiontype.id">
+                <td>{{institutiontype.code}}</td>
+                <td>{{institutiontype.name}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtInstitusjonstype(institusjonstype)">
+                  <button class="btn fhi-btn-icon" (click)="selectedInstitutiontype(institutiontype)">
                     <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="institusjonstypeSomEndres?.id === institusjonstype.id">
+              <ng-container *ngIf="institusjonstypeSomEndres?.id === institutiontype.id">
                 <td>{{institusjonstypeSomEndres.code}}</td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="institusjonstypeSomEndres.name">
@@ -60,5 +60,5 @@
     </ng-container>
   </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="institusjonstyper?.length == 0">Laster institusjonstyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="institutionTypes?.length == 0">Laster institutionTypes</app-spinner>
 </div>

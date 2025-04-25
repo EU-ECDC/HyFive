@@ -35,7 +35,7 @@ export class UserService {
     return this.http.get<boolean>(url);
   }
 
-  // ---- Koordinator ----
+  // ---- Coordinator ----
 
   createCoordinator(user: User): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/coordinator/create`;

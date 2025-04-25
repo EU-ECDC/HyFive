@@ -16,7 +16,7 @@ export class ProfilsideComponent implements OnInit {
   faUser = faUser;
 
   rolleAdministrator = 'Administrator';
-  rolleKoordinator = 'Koordinator'
+  rolleKoordinator = 'Coordinator'
   selectedRole = this.rolleAdministrator;
   kanBytteRolle = false;
 

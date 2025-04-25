@@ -11,7 +11,7 @@
   </div>
   <div class="row mt-1" *ngIf="user.hprNummer">
     <div class="col-12">
-      HPR-nummer: {{user.hprNummer}}
+      HPR-number: {{user.hprNummer}}
     </div>
   </div>
   <div class="row mt-1">
@@ -33,10 +33,10 @@
       <div class="form-check form-check-inline">
         <input type="radio" class="form-check-input"
                name="velgRolle"
-               id="koordinator"
+               id="coordinator"
                [(ngModel)]="selectedRole"
-               value="Koordinator" />
-        <label class="form-check-label" for="koordinator">Koordinator</label>
+               value="Coordinator" />
+        <label class="form-check-label" for="coordinator">Coordinator</label>
       </div>
       <a class="btn fhi-btn-primary ml-2" (click)="byttRolle()">Bytt rolle</a>
     </div>

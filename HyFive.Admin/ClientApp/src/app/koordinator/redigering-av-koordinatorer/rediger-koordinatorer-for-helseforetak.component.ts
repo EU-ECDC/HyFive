@@ -109,7 +109,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.healthcareEnterpriseService.createCoordinator(this.institution.healthcareEnterprise.id, this.nyKoordinator).subscribe(
       (status) => {
         if (status.suksess) {
-          this.toastrService.success('Koordinator(er) og observer(er) opprettet');
+          this.toastrService.success('Coordinator(er) og observer(er) opprettet');
           this.nyKoordinator = null;
           this.lastKoordinatorer();
         }
@@ -155,7 +155,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     this.healthcareEnterpriseService.updateCoordinator(this.institution.healthcareEnterprise.id, coordinator).subscribe(
       (status) => {
         if (status.suksess) {
-          this.toastrService.success('Koordinator oppdatert');
+          this.toastrService.success('Coordinator oppdatert');
 
           if (erKoordinatorSomEndresLikInnloggetBruker) {
             if (coordinator.isDisabled)
