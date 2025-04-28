@@ -7,7 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
-import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
+import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
 import { EditInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
 import { CreateInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/create-institution.component';
 import { EditObserversComponent } from './_felles/edit-observers/edit-observers.component';
@@ -85,7 +85,7 @@ export const httpInterceptorProviders = [
   declarations: [
     AppComponent,
     ForsideForAdministrasjonComponent,
-    RedigeringAvInstitusjonerComponent,
+    EditingOfInstitutionsComponent,
     EditInstitutionComponent,
     CreateInstitutionComponent,
     EditObserversComponent,

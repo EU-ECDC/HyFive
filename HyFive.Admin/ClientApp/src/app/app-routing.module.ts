@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { UrlPaths } from './_felles/konstanter/url-paths';
 import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
-import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
+import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
 import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.editingByInstitutions,
-    component: RedigeringAvInstitusjonerComponent
+    component: EditingOfInstitutionsComponent
   },
   {
     path: UrlPaths.editingByCodeworks,
@@ -82,7 +82,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.institutions,
-    component: RedigeringAvInstitusjonerComponent
+    component: EditingOfInstitutionsComponent
   },
   {
     path: UrlPaths.fhiAdminOverview,
