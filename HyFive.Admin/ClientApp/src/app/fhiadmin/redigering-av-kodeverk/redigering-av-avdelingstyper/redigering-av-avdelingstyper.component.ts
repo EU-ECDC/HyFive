@@ -34,7 +34,7 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
 
   lastAvdelingTyper() {
     this.departmentService.getDepartmentTypes().subscribe(
-      (resultat) => this.departmentTypes = resultat,
+      (result) => this.departmentTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av departmentTypes: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

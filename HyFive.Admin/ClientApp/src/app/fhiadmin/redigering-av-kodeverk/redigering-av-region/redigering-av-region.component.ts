@@ -34,7 +34,7 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
   
   lastRegioner() {
     this.regionService.hentRegioner().subscribe(
-      (resultat) => this.regioner = resultat,
+      (result) => this.regioner = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av regioner: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

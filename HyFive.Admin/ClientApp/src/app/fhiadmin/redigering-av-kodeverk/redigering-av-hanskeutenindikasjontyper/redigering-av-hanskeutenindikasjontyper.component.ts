@@ -33,7 +33,7 @@ export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, O
 
   lastHanskeUtenIndikasjonType() {
     this.hanskeUtenIndikasjonTypeService.getGloveWithoutIndicationTypes().subscribe(
-      (resultat) => this.hanskeUtenIndikasjonTyper = resultat,
+      (result) => this.hanskeUtenIndikasjonTyper = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av GloveWithoutIndicationType: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

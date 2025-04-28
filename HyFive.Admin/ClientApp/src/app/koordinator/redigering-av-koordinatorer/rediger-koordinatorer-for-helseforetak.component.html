@@ -7,7 +7,7 @@
     </div>
     <div class="row" *ngIf="koordinatorer">
       <h5 class="col-12">Coordinators</h5>
-      <input type="text" placeholder="Search etter.." autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="sokeord" (ngModelChange)="filtrerKoordinatorer()">
+      <input type="text" placeholder="Search for.." autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filtrerKoordinatorer()">
       <label class="col-12" *ngIf="koordinatorer.length === 0 && !nyKoordinator">Did not find any koordinatorer på denne institusjonen</label>
       <ng-container>
         <table class="table" *ngIf="koordinatorer.length > 0 || nyKoordinator" sortable-table (sorted)="sort($event)">

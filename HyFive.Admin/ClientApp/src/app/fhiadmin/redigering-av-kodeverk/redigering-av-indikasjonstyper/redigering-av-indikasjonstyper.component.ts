@@ -33,7 +33,7 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
   
   lastIndikasjonstyper() {
     this.indikasjonstyperService.getIndicationTypes().subscribe(
-      (resultat) => this.indicationtypes = resultat,
+      (result) => this.indicationtypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Indikasjonstyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

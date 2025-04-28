@@ -10,16 +10,16 @@ import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-redigering-av-institusjoner',
+  selector: 'app-editing-of-institutions',
   templateUrl: './redigering-av-institusjoner.component.html'
 })
-export class RedigeringAvInstitusjonerComponent implements OnInit {
+export class EditingOfInstitutionsComponent implements OnInit {
 
   institutionId: number = 0;
   institutions: InstitutionReport[] = [];
-  filtrertInstitusjoner: InstitutionReport[] = [];
-  sokeord: string = '';
-  sokeordPerson: string = '';
+  filteredInstitutions: InstitutionReport[] = [];
+  keyword: string = '';
+  keywordPerson: string = '';
   users: User[] = [];
 
   constructor(private institutionService: InstitutionService,
@@ -39,26 +39,26 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   }
 
   getInstitutions() {
-    this.institutionService.getInstitutions().subscribe((resultat) => {
-      this.institutions = resultat;
-      this.filtrertInstitusjoner = this.institutions;
+    this.institutionService.getInstitutions().subscribe((result) => {
+      this.institutions = result;
+      this.filteredInstitutions = this.institutions;
       
       this.institutions.forEach(i => {
-        this.hentBrukere(i.id);
+        this.getUsers(i.id);
       });
     });
   }
 
-  hentBrukere(institutionId: number) {
-    this.institutionService.getObservers(institutionId).subscribe((resultat) => {
-      this.users.push(...resultat);
+  getUsers(institutionId: number) {
+    this.institutionService.getObservers(institutionId).subscribe((result) => {
+      this.users.push(...result);
     });
-    this.institutionService.getCoordinators(institutionId).subscribe((resultat) => {
-      this.users.push(...resultat);
+    this.institutionService.getCoordinators(institutionId).subscribe((result) => {
+      this.users.push(...result);
     });
   }
 
-  navigerTilInstitusjon(institutionId: number) {
+  navigateToInstitution(institutionId: number) {
 
     if (institutionId === 0) {
       this.router.navigate([], { relativeTo: this.route });
@@ -74,33 +74,33 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       });
   }
 
-  updateInstitution(institusjon: Institution) {
-    this.institutions[this.institutions.map(i => i.id).indexOf(institusjon.id)] = institusjon;
+  updateInstitution(institution: Institution) {
+    this.institutions[this.institutions.map(i => i.id).indexOf(institution.id)] = institution;
   }
 
   deleteInstitution(institutionId: number) {
     this.getInstitutions();
-    this.toastrService.success('Slettet institusjon med id: ' + institutionId, 'Institution slettet');
-    this.navigerTilInstitusjon(0);
+    this.toastrService.success('Deleted institution with id: ' + institutionId, 'Institution deleted');
+    this.navigateToInstitution(0);
   }
 
-  filtrerInstitusjoner(): void {
-    if (this.sokeord.length >= 2)
-      this.filtrertInstitusjoner = this.institutions.filter(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.healthcareEnterprise?.name.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.municipality?.name.toLowerCase().includes(this.sokeord.toLowerCase()));
-    else if (this.sokeord.length === 0)
-      this.filtrertInstitusjoner = this.institutions;
+  filterInstitutions(): void {
+    if (this.keyword.length >= 2)
+      this.filteredInstitutions = this.institutions.filter(i => i.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        i.healthcareEnterprise?.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        i.municipality?.name.toLowerCase().includes(this.keyword.toLowerCase()));
+    else if (this.keyword.length === 0)
+      this.filteredInstitutions = this.institutions;
   }
 
-  filtrerPersonerPaaInstitusjoner(): void {
-    if (this.sokeordPerson.length >= 2) {
-      this.filtrertInstitusjoner = this.institutions.filter(i => {
-        const personer = SearchHelper.filterUsers(this.sokeordPerson, this.users);
-        return personer.some(p => p.institutionId === i.id);
+  filterPersonsAtinstitutions(): void {
+    if (this.keywordPerson.length >= 2) {
+      this.filteredInstitutions = this.institutions.filter(i => {
+        const persons = SearchHelper.filterUsers(this.keywordPerson, this.users);
+        return persons.some(p => p.institutionId === i.id);
       });
-    } else if (this.sokeordPerson.length === 0) {
-      this.filtrertInstitusjoner = this.institutions;
+    } else if (this.keywordPerson.length === 0) {
+      this.filteredInstitutions = this.institutions;
     }
   }
 
@@ -124,7 +124,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       return result * sortOrder;
     };
 
-    this.filtrertInstitusjoner.sort(sortFunc);
+    this.filteredInstitutions.sort(sortFunc);
   }
 
 }

@@ -29,7 +29,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   dropdownSettings: IDropdownSettings;
   valgteInstitusjoner: InstitutionReport[] = [];
   user: LoggedinUser = null;
-  sokeord: string = '';
+  keyword: string = '';
   filtrertKoordinatorer: CoordinatorForHealthcareEnterprises[];
 
   constructor(
@@ -228,15 +228,15 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
   }
 
   filtrerKoordinatorer(): void {
-    if (this.sokeord.length >= 2)
+    if (this.keyword.length >= 2)
     {
       this.filtrertKoordinatorer = this.koordinatorer.filter(k => 
-                                    k.firstName?.toLowerCase().includes(this.sokeord.toLowerCase()) || 
-                                    k.lastName?.toLocaleLowerCase().includes(this.sokeord.toLowerCase()) ||
-                                    k.hprNumber?.includes(this.sokeord) ||
-                                    k.institutions?.some(i => i.name.toLowerCase().includes(this.sokeord.toLowerCase())));
+                                    k.firstName?.toLowerCase().includes(this.keyword.toLowerCase()) || 
+                                    k.lastName?.toLocaleLowerCase().includes(this.keyword.toLowerCase()) ||
+                                    k.hprNumber?.includes(this.keyword) ||
+                                    k.institutions?.some(i => i.name.toLowerCase().includes(this.keyword.toLowerCase())));
     }
-    else if (this.sokeord.length === 0)
+    else if (this.keyword.length === 0)
       this.filtrertKoordinatorer = this.koordinatorer;
   }
 

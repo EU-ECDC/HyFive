@@ -34,7 +34,7 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
 
   lastHandsmykketyper() {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe(
-      (resultat) => this.handJewelryTypes = resultat,
+      (result) => this.handJewelryTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Håndsmykketyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

@@ -33,7 +33,7 @@ export class RedigeringAvHandhygieneetterhanskebruktyperComponent implements OnI
 
   lastHandhygieneEtterHanskebrukTyper() {
     this.handhygieneEtterHanskebrukTypeService.getHandHygieneAfterGloveUseTypes().subscribe(
-      (resultat) => this.handHygieneAfterGloveUseTypes = resultat,
+      (result) => this.handHygieneAfterGloveUseTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HandhygieneEtterHanskebrukTyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

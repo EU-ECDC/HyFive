@@ -1,7 +1,7 @@
 <div class="container">
   <ng-container *ngIf="institusjonRapport else spinner ">
     <div class="row">
-      <h3>Vedlikehold av koordinatorer</h3>
+      <h3>Maintenance of coordinators</h3>
     </div>
     <div *ngIf="!institusjonRapport.helseforetak">
       <app-edit-coordinators [institutionId]="institusjonRapport.id"></app-edit-coordinators>

@@ -14,7 +14,7 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class RedigeringAvKlinikkerComponent implements OnInit {
 
-  klinikker: Klinikk[] = [];
+  clinics: Klinikk[] = [];
   institusjonNavn: string;
   institutionId: number;
   klinikkId = 0;
@@ -37,14 +37,14 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
     this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjonNavn = result.name;
       this.institutionId = result.id;
-      this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(klinikker => {
+      this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(clinics => {
         this.loading = false;
-        this.klinikker = klinikker;
+        this.clinics = clinics;
         this.route.queryParams.subscribe(
           params => {
             const klinikkIdFromQuery = params[QueryParameters.id] || 0;
             this.klinikkId = parseInt(klinikkIdFromQuery, 0);
-            this.klinikkSomRedigeres = this.klinikker.find(a => a.id === this.klinikkId);
+            this.klinikkSomRedigeres = this.clinics.find(a => a.id === this.klinikkId);
           }
         );
       });
@@ -87,6 +87,6 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
       return result * sortOrder;
     };
 
-    this.klinikker = this.klinikker.sort(sortFunc);
+    this.clinics = this.clinics.sort(sortFunc);
   }
 }

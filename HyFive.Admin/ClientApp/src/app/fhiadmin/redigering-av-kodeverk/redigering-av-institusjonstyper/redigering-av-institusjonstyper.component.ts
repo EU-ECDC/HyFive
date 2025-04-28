@@ -35,7 +35,7 @@ export class RedigeringAvInstitusjonstyperComponent implements OnInit, OnDestroy
 
   lastInstitusjonstyper() {
     this.institusjonstyperService.hentInstitusjonstyper().subscribe(
-      (resultat) => this.institutionTypes = resultat,
+      (result) => this.institutionTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Institutiontype: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

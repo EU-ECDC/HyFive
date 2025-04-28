@@ -66,8 +66,8 @@ export class AppComponent implements OnInit {
       if (user.isCoordinator) {
         let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
         if (selectedInstitutionId === null) {
-          this.institutionService.getInstitutions().subscribe((resultat) => {
-            this.institutionService.updateSelectedInstitutionId(resultat[0].id);
+          this.institutionService.getInstitutions().subscribe((result) => {
+            this.institutionService.updateSelectedInstitutionId(result[0].id);
             window.location.reload();
           });
         }

@@ -1,9 +1,9 @@
 <div class="container">
   <ng-container *ngIf="!klinikkSomRedigeres">
     <div class="row">
-      <h3>Vedlikehold av klinikker</h3>
+      <h3>Maintenance of clinics</h3>
     </div>
-    <app-opprett-klinikk (klinikkOpprettetEvent)="hentKlinikker()" [institutionId]="institutionId" *ngIf="institutionId > 0 && klinikkId == 0"></app-opprett-klinikk>
+    <app-opprett-klinikk (klinikkOpprettetEvent)="hentclinics()" [institutionId]="institutionId" *ngIf="institutionId > 0 && klinikkId == 0"></app-opprett-klinikk>
     <div class="row mb-5 mt-5">
       <ng-container>
         <div class="table-responsive">
@@ -16,7 +16,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let klinikk of klinikker">
+              <tr *ngFor="let klinikk of clinics">
                 <td>{{klinikk.name}}</td>
                 <td>{{hentAvdelingsnavn(klinikk)}}</td>
                 <td class="text-end py-2 align-middle">
@@ -35,13 +35,13 @@
   <ng-container *ngIf="klinikkSomRedigeres">
     <app-rediger-en-klinikk [klinikk]="klinikkSomRedigeres"></app-rediger-en-klinikk>
   </ng-container>
-  <div class="row" *ngIf="!loading && klinikker?.length == 0">
+  <div class="row" *ngIf="!loading && clinics?.length == 0">
     <div class="col-12">
-      <p>Det er ikke registrert noen klinikker på denne institusjonen.</p>
+      <p>Det er ikke registrert noen clinics på denne institusjonen.</p>
     </div>
   </div>
   <div class="row" *ngIf="loading">
-    <app-spinner class="col-12">Laster klinikker</app-spinner>
+    <app-spinner class="col-12">Laster clinics</app-spinner>
   </div>
 </div>
 

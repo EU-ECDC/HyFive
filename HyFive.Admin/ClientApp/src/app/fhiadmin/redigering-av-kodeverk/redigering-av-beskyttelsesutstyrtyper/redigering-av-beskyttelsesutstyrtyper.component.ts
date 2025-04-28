@@ -36,7 +36,7 @@ export class RedigeringAvBeskyttelsesutstyrtyperComponent implements OnInit, OnD
 
   lastBeskyttelsesutstyrtyper() {
     this.protectiveEquipmentTypeqsService.getProtectiveEquipmentTypes().subscribe(
-      (resultat) => this.utstyrtyper = resultat,
+      (result) => this.utstyrtyper = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Beskyttelsesutstyrtyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

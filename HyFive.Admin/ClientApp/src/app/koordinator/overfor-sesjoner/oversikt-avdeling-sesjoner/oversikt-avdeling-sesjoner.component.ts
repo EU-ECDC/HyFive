@@ -65,8 +65,8 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   getDepartment() {
     this.departmentService.getDepartment(
       this.departmentid
-    ).subscribe((resultat) => {
-      this.avdeling = resultat;
+    ).subscribe((result) => {
+      this.avdeling = result;
     });
   }
 

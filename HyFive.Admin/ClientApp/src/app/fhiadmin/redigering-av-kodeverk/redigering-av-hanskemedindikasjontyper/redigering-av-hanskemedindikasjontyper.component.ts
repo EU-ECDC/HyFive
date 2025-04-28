@@ -34,7 +34,7 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
 
   lastHanskeVedIndikasjonType() {
     this.hanskeMedIndikasjonTypeService.getGloveWithIndicationTypes().subscribe(
-      (resultat) => this.gloveWithIndicationTypes = resultat,
+      (result) => this.gloveWithIndicationTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HanskeVedIndikasjonType: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

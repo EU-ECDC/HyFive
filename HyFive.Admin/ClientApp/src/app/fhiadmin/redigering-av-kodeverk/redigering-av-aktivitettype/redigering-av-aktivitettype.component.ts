@@ -33,7 +33,7 @@ export class RedigeringAvAktivitettypeComponent implements OnInit, OnDestroy {
 
   lastAktivitettype() {
     this.activityTypeService.getActivityTypes().subscribe(
-      (resultat) => this.activityTypes = resultat,
+      (result) => this.activityTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Aktivitettyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }

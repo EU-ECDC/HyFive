@@ -1,6 +1,6 @@
 <div class="container" *ngIf="institutionId == 0">
   <div class="row">
-    <h3>Vedlikehold av institutions</h3>
+    <h3>Maintenance of institutions</h3>
   </div>
   <app-create-institution (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
 
@@ -8,12 +8,12 @@
     <div class="col-12">
       <div class="row mb-5 mt-5">
         <div class="col-md-3">
-            <h5>Search etter institusjon</h5>
-            <input type="text" placeholder="Name, institusjontype" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeord" (ngModelChange)="filtrerInstitusjoner()">
+            <h5>Search for institution</h5>
+            <input type="text" placeholder="Name, institutiontype" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keyword" (ngModelChange)="filterInstitutions()">
         </div>
         <div class="col-md-3">
-            <h5>Search etter institusjon på person</h5>
-            <input type="text" placeholder="Name på koordinator, observer" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeordPerson" (ngModelChange)="filtrerPersonerPaaInstitusjoner()">
+            <h5>Search for institution on person</h5>
+            <input type="text" placeholder="Name on coordinator, observer" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keywordPerson" (ngModelChange)="filterPersonsAtinstitutions()">
         </div>
       </div>
     </div>
@@ -25,22 +25,22 @@
             <tr>
               <td>HER-id</td>
               <td sortable-column="Name"></td>
-              <td>Forkortelse</td>
+              <td>Abbreviation</td>
               <td sortable-column="Institutiontype"></td>
-              <td>HealthcareOrganisation/Municipality</td>
+              <td>Healthcare Enterprise/Municipality</td>
               <td class="text-end" scope="col">Action</td>
             </tr>
     
           </thead>
           <tbody>
-            <tr *ngFor="let institusjon of filtrertInstitusjoner">
-              <td>{{institusjon.herId}}</td>
-              <td>{{institusjon.name}}</td>
-              <td>{{institusjon.abbreviation}}</td>
-              <td>{{institusjon.institusjontype?.name}}</td>
-              <td>{{ institusjon.helseforetak?.name || institusjon.municipality?.name }}</td>
+            <tr *ngFor="let institution of filteredInstitutions">
+              <td>{{institution.herId}}</td>
+              <td>{{institution.name}}</td>
+              <td>{{institution.abbreviation}}</td>
+              <td>{{institution.institutiontype?.name}}</td>
+              <td>{{ institution.healthcareEnterprise?.name || institution.municipality?.name }}</td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="navigerTilInstitusjon(institusjon.id)">
+                <button class="btn fhi-btn-icon" (click)="navigateToInstitution(institution.id)">
                     <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                 </button>
               </td>
@@ -57,6 +57,6 @@
 
 </div>
 <ng-container *ngIf="institutionId > 0">
-  <app-rediger-en-institusjon [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-rediger-en-institusjon>
+  <app-rediger-en-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-rediger-en-institution>
 </ng-container>
 
