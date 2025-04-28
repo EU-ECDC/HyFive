@@ -7,16 +7,16 @@
 </div>
 <div class="row ms-1">
   <div class="col">
-    <h5>Feilbruktyper for {{utstyrtype.navn}}</h5>
+    <h5>Feilbruktyper for {{utstyrtype.name}}</h5>
   </div>
 </div>
 <div class="row ms-1">
   <div class="col-3">
-    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.navn' placeholder="Name">
+    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.name' placeholder="Name">
   </div>
   <div class="col-6">
     <label></label>
-    <button class="form-control btn fhi-btn-primary" (click)="opprettFeilbruktype()" [disabled]="!nyFeilbruktype.navn">Legg til feilbruktype</button>
+    <button class="form-control btn fhi-btn-primary" (click)="createMisuseType()" [disabled]="!nyFeilbruktype.name">Legg til feilbruktype</button>
   </div>
 </div>
 
@@ -27,29 +27,29 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th class="text-end" scope="col">Handling</th>
+            <th class="text-end" scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let feilbruktype of feilbruktyper">
             <ng-container *ngIf="feilbruktypeSomEndres?.id !== feilbruktype.id">
-              <td>{{feilbruktype.navn}}</td>
+              <td>{{feilbruktype.name}}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="valgtFeilbruktype(feilbruktype)">
-                  <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                  <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                 </button>
               </td>
             </ng-container>
             <ng-container *ngIf="feilbruktypeSomEndres?.id === feilbruktype.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.navn">
+                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.name">
               </td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="oppdaterFeilbruktype(feilbruktypeSomEndres)">
-                  <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                <button class="btn fhi-btn-icon" (click)="updateMisuseType(feilbruktypeSomEndres)">
+                  <i class="icon-pencil"></i><span class="btn__text">Save</span>
                 </button>
-                <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                  <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
                 </button>
               </td>
             </ng-container>

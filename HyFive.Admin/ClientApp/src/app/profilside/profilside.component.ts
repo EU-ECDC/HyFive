@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { InnloggetBruker } from '../models/api/InnloggetBruker';
+import { LoggedinUser } from '../models/api/LoggedinUser';
 import { AuthorizedRole } from '../_felles/authorization/authorized-role';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { RolleEventService } from '../services/events/rolle-event.service';
+import { RoleEventService } from '../services/events/role-event.service';
 
 @Component({
   selector: 'app-profilside',
@@ -11,36 +11,36 @@ import { RolleEventService } from '../services/events/rolle-event.service';
 })
 export class ProfilsideComponent implements OnInit {
 
-  bruker: InnloggetBruker = null;
+  user: LoggedinUser = null;
   AuthorizedRoleValues = AuthorizedRole;
   faUser = faUser;
 
   rolleAdministrator = 'Administrator';
   rolleKoordinator = 'Coordinator'
-  valgtRolle = this.rolleAdministrator;
+  selectedRole = this.rolleAdministrator;
   kanBytteRolle = false;
 
   constructor(
     public authorizationService: AuthorizationService,
-    private rolleEventService: RolleEventService) { }
+    private roleEventService: RoleEventService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getUser().subscribe((user) => {
+      this.user = user;
     });
 
-    this.authorizationService.getRoller().subscribe((roller) => {
-      if (roller.length > 1) {
+    this.authorizationService.getRoles().subscribe((roles) => {
+      if (roles.length > 1) {
         this.kanBytteRolle = true;
       }
     });
 
-    let valgtRolle = this.authorizationService.hentValgtRolle();
-    if (valgtRolle) {
-      if (valgtRolle === AuthorizedRole.Administrator) {
-        this.valgtRolle = this.rolleAdministrator;
-      } else if (valgtRolle === AuthorizedRole.Coordinator) {
-        this.valgtRolle = this.rolleKoordinator;
+    let selectedRole = this.authorizationService.getSelectedRole();
+    if (selectedRole) {
+      if (selectedRole === AuthorizedRole.Administrator) {
+        this.selectedRole = this.rolleAdministrator;
+      } else if (selectedRole === AuthorizedRole.Coordinator) {
+        this.selectedRole = this.rolleKoordinator;
       }
     }
   }
@@ -48,13 +48,13 @@ export class ProfilsideComponent implements OnInit {
   byttRolle(){
     let rolle: AuthorizedRole;
 
-    if (this.valgtRolle === this.rolleAdministrator) {
+    if (this.selectedRole === this.rolleAdministrator) {
       rolle = AuthorizedRole.Administrator;
-    } else if (this.valgtRolle === this.rolleKoordinator) {
+    } else if (this.selectedRole === this.rolleKoordinator) {
       rolle = AuthorizedRole.Coordinator;
     }
 
-    this.rolleEventService.byttRolleEvent.emit(rolle);
-    this.authorizationService.lagreValgtRolle(rolle);
+    this.roleEventService.switchRoleEvent.emit(rolle);
+    this.authorizationService.saveSelectedRole(rolle);
   }
 }

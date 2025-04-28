@@ -12,13 +12,13 @@ export class KlinikkService {
 
   constructor(private readonly http: HttpClient) { }
 
-  hentKlinikk(id: number, institusjonId: number): Observable<Klinikk> {
-    const url = `${environment.apiBaseUrl}/v1/klinikk/${id}?institusjonId=${institusjonId}`;
+  hentKlinikk(id: number, institutionId: number): Observable<Klinikk> {
+    const url = `${environment.apiBaseUrl}/v1/klinikk/${id}?institutionId=${institutionId}`;
     return this.http.get<Klinikk>(url);
   }
 
-  hentKlinikkerForInstitusjon(institusjonId: number): Observable<Klinikk[]> {
-    const url = `${environment.apiBaseUrl}/v1/klinikk/institusjon/${institusjonId}`;
+  hentKlinikkerForInstitusjon(institutionId: number): Observable<Klinikk[]> {
+    const url = `${environment.apiBaseUrl}/v1/klinikk/institusjon/${institutionId}`;
     return this.http.get<Klinikk[]>(url);
   }
 

@@ -1,72 +1,72 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { ObservasjonService } from '../../services/data/observasjon.service';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { ObservationService } from '../../services/data/observation.service';
 import { SessionType } from '../../models/api/SessionType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { SesjonOversiktRapport } from '../../models/api/SesjonOversiktRapport';
-import { Bruker } from '../../models/api/Bruker';
+import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
+import { User } from '../../models/api/User';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { OverforingstatusTypeKonstanter } from '../../models/api/OverforingstatusTypeKonstanter';
+import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
 import { Institution } from '../../models/api/Institution';
 import { forEach } from 'lodash-es';
 
 @Component({
-  selector: 'app-overfor-sessions',
-  templateUrl: './overfor-sessions.component.html'
+  selector: 'app-overfor-sesjoner',
+  templateUrl: './overfor-sesjoner.component.html'
 })
 export class OverforSesjonerComponent implements OnInit, OnDestroy {
 
   faArrowRight = faArrowRight;
   faPaperPlane = faPaperPlane;
 
-  sesjontypeAlternativer = [
-    { navn: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr, type: SessionType[SessionType.Beskyttelsesutstyr] },
-    { navn: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner, type: SessionType[SessionType.FireIndikasjoner] },
-    { navn: "Hansker", verdi: SessionType.Hansker, type: SessionType[SessionType.Hansker] },
-    { navn: "Håndsmykker", verdi: SessionType.Handsmykker, type: SessionType[SessionType.Handsmykker] },
+  sessionTypeOptions = [
+    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
+    { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
+    { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
+    { name: "Handjewelry", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
   ];
 
-  valgtSesjontype: SessionType = null;
-  fraDato: Date = null;
-  tilDato: Date = null;
+  selectedSessiontype: SessionType = null;
+  fromDate: Date = null;
+  toDate: Date = null;
 
-  observatorer: Bruker[] = [];
-  valgtObservator: Bruker = null;
+  observers: User[] = [];
+  valgtObservator: User = null;
 
-  institusjon: InstitusjonRapport;
+  institusjon: InstitutionReport;
 
-  institusjonerAlternativer: InstitusjonRapport[] = [];
+  institusjonerAlternativer: InstitutionReport[] = [];
   valgteInstitusjonAlternativer: number = null;
 
-  sessions: SesjonOversiktRapport[] = [];
-  sesjonerKoordinator: SesjonOversiktRapport[] = [];
-  sesjonerFHI: SesjonOversiktRapport[] = [];
-  laster: boolean = false;
+  sessions: SessionOverviewReport[] = [];
+  sessionsCoordinator: SessionOverviewReport[] = [];
+  sessionsFHI: SessionOverviewReport[] = [];
+  loading: boolean = false;
   sokGjort: boolean = false;
 
   constructor(
-    private institusjonService: InstitusjonService,
-    private observasjonService: ObservasjonService,
+    private institutionService: InstitutionService,
+    private observationService: ObservationService,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
       this.institusjon = {
         id: result.id,
         herId: result.herId,
-        forkortelse: result.forkortelse,
-        institusjontype: result.institusjontype,
-        navn: result.navn,
+        abbreviation: result.abbreviation,
+        institutionType: result.institutionType,
+        name: result.name,
         region: result.region
-      } as InstitusjonRapport;
+      } as InstitutionReport;
 
-      this.institusjonService.hentObservatorer(this.institusjon.id).subscribe((observatorer) => {
-        this.observatorer = observatorer.sort(this.compareFornavnForBrukere);
-        this.observatorer = this.visDeaktivertObservatorerNedest(observatorer);
+      this.institutionService.getObservers(this.institusjon.id).subscribe((observers) => {
+        this.observers = observers.sort(this.compareFornavnForBrukere);
+        this.observers = this.visDeaktivertObservatorerNedest(observers);
       });
     });
   }
@@ -75,71 +75,71 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
   
-  visDeaktivertObservatorerNedest(observatorer: Bruker[]): Bruker[] {
-    var observatorerListe = observatorer.filter(o => o.erDeaktivert === false);
-    var observatorerSomErDeaktivert = observatorer.filter(o => o.erDeaktivert);
+  visDeaktivertObservatorerNedest(observers: User[]): User[] {
+    var observatorerListe = observers.filter(o => o.isDisabled === false);
+    var observatorerSomErDeaktivert = observers.filter(o => o.isDisabled);
     observatorerListe.push.apply(observatorerListe, observatorerSomErDeaktivert);
     return observatorerListe;
   }
 
   hentSesjoner() {
-    this.laster = true;
-    this.observasjonService.hentSesjonerForInstitusjon(
+    this.loading = true;
+    this.observationService.getSessionsForInstitution(
       this.institusjon.id,
       this.valgtObservator,
-      this.valgtSesjontype,
-      this.fraDato,
-      this.tilDato
-    ).subscribe((resultater) => {
-      this.laster = false;
+      this.selectedSessiontype,
+      this.fromDate,
+      this.toDate
+    ).subscribe((results) => {
+      this.loading = false;
       this.sokGjort = true;
-      this.sessions = resultater;
+      this.sessions = results;
       this.oppdaterLister();
     })
   }
 
   oppdaterLister() {
-    this.sesjonerKoordinator = this.sessions.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilKoordinator);
-    this.sesjonerFHI = this.sessions.filter(x => x.overforingstatus.kode === OverforingstatusTypeKonstanter.OverfortTilFhi);
+    this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToCoordinator);
+    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToFhi);
   }
 
   overfor(sesjonId) {
-    this.laster = true;
-    this.observasjonService.overforSesjonTilFHI(this.institusjon.id, sesjonId).subscribe((result) => {
+    this.loading = true;
+    this.observationService.oppositeSessionToFHI(this.institusjon.id, sesjonId).subscribe((result) => {
       if (result) {
-        this.sessions.find(x => x.id === result.id).overforingstatus = result.overforingstatus;
+        this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
         this.toastrService.success('Sesjonen(e) ble overført til FHI');
         this.oppdaterLister();
-        this.laster = false;
+        this.loading = false;
       }
       else this.toastrService.error('Det oppstod en feil under overføringen. Vennligst prøv på nytt.', '', { disableTimeOut: true});
     });
   }
 
   merkAlleSesjoner() {
-    this.sesjonerKoordinator.forEach(s => s.erValgt = true);
+    this.sessionsCoordinator.forEach(s => s.isSelected = true);
   }
 
   overforSesjoner() {
-    let valgteSesjoner = this.sesjonerKoordinator.filter(s => s.erValgt);
+    let valgteSesjoner = this.sessionsCoordinator.filter(s => s.isSelected);
   
     valgteSesjoner.forEach(sesjon => {
       this.overfor(sesjon.id);
     });
   }
 
-  nullstill(): void {
+  reset(): void {
     this.valgtObservator = null;
-    this.valgtSesjontype = null;
-    this.fraDato = null;
-    this.tilDato = null;
-    this.nullstillSokeresultat();
+    this.selectedSessiontype = null;
+    this.fromDate = null;
+    this.toDate = null;
+    this.resetSearchresults();
   }
 
-  nullstillSokeresultat() {
+  resetSearchresults() {
     this.sokGjort = false;
-    this.sesjonerKoordinator = [];
-    this.sesjonerFHI = [];
+    this.sessionsCoordinator = [];
+    this.sessionsFHI = [];
     this.sessions = [];
   }
 
@@ -148,12 +148,12 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   harVelgtMinstEnSesjon(): boolean {
-    return this.sesjonerKoordinator.some(s => s.erValgt);
+    return this.sessionsCoordinator.some(s => s.isSelected);
   }
 
-  compareFornavnForBrukere(a: Bruker, b: Bruker): number {
-    if (a.fornavn.toLowerCase() < b.fornavn.toLowerCase()) return -1;
-    if (a.fornavn.toLowerCase() > b.fornavn.toLowerCase()) return 1;
+  compareFornavnForBrukere(a: User, b: User): number {
+    if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
+    if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
     return 0;
   }
 }

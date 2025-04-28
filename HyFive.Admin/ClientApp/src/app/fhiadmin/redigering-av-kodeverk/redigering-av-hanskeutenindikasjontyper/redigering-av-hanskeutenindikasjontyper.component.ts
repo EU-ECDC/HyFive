@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HanskeUtenIndikasjonType } from '../../../models/api/HanskeUtenIndikasjonType';
+import { GloveWithoutIndicationType } from '../../../models/api/GloveWithoutIndicationType';
 import { ToastrService } from 'ngx-toastr';
-import { HanskeUtenIndikasjonTypeService } from '../../../services/data/hanskeutenindikasjontype.service';
+import { GloveWithoutIndicationTypeService } from '../../../services/data/gloveWithoutIndicationType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -10,18 +10,18 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, OnDestroy {
 
-  hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
-  hanskeUtenIndikasjonTypeSomEndres: HanskeUtenIndikasjonType = null;
+  hanskeUtenIndikasjonTyper: GloveWithoutIndicationType[] = [];
+  hanskeUtenIndikasjonTypeSomEndres: GloveWithoutIndicationType = null;
 
   constructor(
-    private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,
+    private hanskeUtenIndikasjonTypeService: GloveWithoutIndicationTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastHanskeUtenIndikasjonType();
@@ -32,29 +32,29 @@ export class RedigeringAvHanskeutenindikasjontyperComponent implements OnInit, O
   }
 
   lastHanskeUtenIndikasjonType() {
-    this.hanskeUtenIndikasjonTypeService.hentHanskeUtenIndikasjonTyper().subscribe(
-      (resultat) => this.hanskeUtenIndikasjonTyper = resultat,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av HanskeUtenIndikasjonType: ' + error?.message, '', { disableTimeOut: true}),
+    this.hanskeUtenIndikasjonTypeService.getGloveWithoutIndicationTypes().subscribe(
+      (result) => this.hanskeUtenIndikasjonTyper = result,
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av GloveWithoutIndicationType: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtHanskeUtenIndikasjonType(hanskeUtenIndikasjonType: HanskeUtenIndikasjonType): void {
+  valgtHanskeUtenIndikasjonType(hanskeUtenIndikasjonType: GloveWithoutIndicationType): void {
     if (this.hanskeUtenIndikasjonTypeSomEndres?.id == hanskeUtenIndikasjonType.id) return;
     this.hanskeUtenIndikasjonTypeSomEndres = JSON.parse(JSON.stringify(hanskeUtenIndikasjonType));
   }
 
-  oppdaterHanskeUtenIndikasjonType(): void {
-    this.hanskeUtenIndikasjonTypeService.oppdaterHanskeUtenIndikasjonType(this.hanskeUtenIndikasjonTypeSomEndres).subscribe(
+  updateGloveWithoutIndicationType(): void {
+    this.hanskeUtenIndikasjonTypeService.updateGloveWithoutIndicationType(this.hanskeUtenIndikasjonTypeSomEndres).subscribe(
       (oppdatertHanskeUtenIndikasjonType) => {
-        this.toastrService.success("HanskeUtenIndikasjonType oppdatert");
+        this.toastrService.success("GloveWithoutIndicationType oppdatert");
         this.lastHanskeUtenIndikasjonType();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av HanskeUtenIndikasjonType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('Det oppstod en feil under oppdatering av GloveWithoutIndicationType: ' + error?.error, '', { disableTimeOut: true}),
       () => this.hanskeUtenIndikasjonTypeSomEndres = null
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

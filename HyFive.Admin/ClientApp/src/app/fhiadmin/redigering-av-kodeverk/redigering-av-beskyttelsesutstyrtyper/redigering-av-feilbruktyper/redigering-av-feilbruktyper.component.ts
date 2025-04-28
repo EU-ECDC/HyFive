@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { FeilbrukType } from '../../../../models/api/FeilbrukType';
-import { BeskyttelsesutstyrType } from '../../../../models/api/BeskyttelsesutstyrType';
-import { BeskyttelsesutstyrtyperService } from '../../../../services/data/beskyttelsesutstyrtyper.service';
+import { MisuseType } from '../../../../models/api/MisuseType';
+import { ProtectiveEquipmentTypeq } from '../../../../models/api/ProtectiveEquipmentTypeq';
+import { ProtectiveEquipmentTypeqsService } from '../../../../services/data/protectiveEquipmentTypeqs.service';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { OpprettFeilbrukTypeRequest } from '../../../../models/api/OpprettFeilbrukTypeRequest';
@@ -14,23 +14,23 @@ import { KeyEventService } from '../../../../services/events/key-event.service';
 export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
 
   nyFeilbruktype: OpprettFeilbrukTypeRequest = this.tomRequest();
-  feilbruktyper: FeilbrukType[] = [];
-  feilbruktypeSomEndres: FeilbrukType = null;
+  feilbruktyper: MisuseType[] = [];
+  feilbruktypeSomEndres: MisuseType = null;
 
   faChevronLeft = faChevronLeft;
 
-  @Input() utstyrtype: BeskyttelsesutstyrType;
+  @Input() utstyrtype: ProtectiveEquipmentTypeq;
   @Output() visRedigeringAvBeskyttelsesutstyrtyperEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
-    private beskyttelsesutstyrtyperService: BeskyttelsesutstyrtyperService,
+    private protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastFeilbruktyper();
@@ -42,7 +42,7 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
   }
 
   lastFeilbruktyper() {
-    this.beskyttelsesutstyrtyperService.hentFeilbruktyper(this.utstyrtype.id).subscribe(
+    this.protectiveEquipmentTypeqsService.getMisuseTypes(this.utstyrtype.id).subscribe(
       (feilbruktyper) => this.feilbruktyper = feilbruktyper,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Feilbruktyper: ' + error?.message, '', { disableTimeOut: true}),
     );
@@ -50,25 +50,25 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
 
   tomRequest(): OpprettFeilbrukTypeRequest {
     return {
-      navn: null
+      name: null
     };
   }
 
-  opprettFeilbruktype(): void {
-    this.beskyttelsesutstyrtyperService.opprettFeilbruktype(this.utstyrtype.id, this.nyFeilbruktype).subscribe(
+  createMisuseType(): void {
+    this.protectiveEquipmentTypeqsService.createMisuseType(this.utstyrtype.id, this.nyFeilbruktype).subscribe(
       (opprettetFeilbruktype) => this.toastrService.success(`Feilbruktype opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av feilbruktype ${this.nyFeilbruktype.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av feilbruktype ${this.nyFeilbruktype.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyFeilbruktype = this.tomRequest(); this.lastFeilbruktyper(); }
     );
   }
 
-  valgtFeilbruktype(feilbruktype: FeilbrukType) {
+  valgtFeilbruktype(feilbruktype: MisuseType) {
     if (this.feilbruktypeSomEndres?.id == feilbruktype.id) return;
     this.feilbruktypeSomEndres = JSON.parse(JSON.stringify(feilbruktype));
   }
 
-  oppdaterFeilbruktype(feilbruktype: FeilbrukType): void {
-    this.beskyttelsesutstyrtyperService.oppdaterFeilbruktype(this.utstyrtype.id, feilbruktype).subscribe(
+  updateMisuseType(feilbruktype: MisuseType): void {
+    this.protectiveEquipmentTypeqsService.updateMisuseType(this.utstyrtype.id, feilbruktype).subscribe(
       (result) => {
         this.toastrService.success('Feilbruktype ble oppdatert');
         this.lastFeilbruktyper();
@@ -84,7 +84,7 @@ export class RedigeringAvFeilbruktyperComponent implements OnInit, OnDestroy {
     this.visRedigeringAvBeskyttelsesutstyrtyperEvent.emit(true);
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

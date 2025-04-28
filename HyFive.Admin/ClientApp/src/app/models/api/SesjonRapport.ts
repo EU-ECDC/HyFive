@@ -10,6 +10,6 @@ export interface SesjonRapport
 	avdelingsnavn: string;
 	starttidspunkt: any;
 	type: SessionType;
-	institusjonsnavn: string;
+	institutionname: string;
 	erValgt?: boolean;
 }

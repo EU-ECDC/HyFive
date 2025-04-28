@@ -22,7 +22,7 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastRegioner();
@@ -34,7 +34,7 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
   
   lastRegioner() {
     this.regionService.hentRegioner().subscribe(
-      (resultat) => this.regioner = resultat,
+      (result) => this.regioner = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av regioner: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
@@ -42,15 +42,15 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
   tomRequest(): Region {
     return {
       id: 0,
-      kode: null,
-      navn: null
+      code: null,
+      name: null
     };
   }
 
   opprettRegion(): void {
     this.regionService.opprettRegion(this.nyRegion).subscribe(
       (region) => this.toastrService.success(`Region opprettet.`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av region ${this.nyRegion.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av region ${this.nyRegion.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
       () => { this.nyRegion = this.tomRequest(); this.lastRegioner(); }
     );
   }
@@ -71,7 +71,7 @@ export class RedigeringAvRegionComponent implements OnInit, OnDestroy {
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

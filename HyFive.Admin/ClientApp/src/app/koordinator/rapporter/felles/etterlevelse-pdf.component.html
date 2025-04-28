@@ -1,33 +1,33 @@
-<div class="row mt-4" *ngIf="kanVelgeInstitusjon">
+<div class="row mt-4" *ngIf="canSelectInstitution">
     <div class="col-md-5">
       <label for="institusjon">Institution</label>
-      <select class="form-select" id="institusjon" [(ngModel)]="valgtInstitusjonId" (ngModelChange)="velgInstitusjon()">
+      <select class="form-select" id="institusjon" [(ngModel)]="selectedInstitutionId" (ngModelChange)="velgInstitusjon()">
         <option value=""></option>
-        <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon.id">{{institusjon.navn}}</option>
+        <option *ngFor="let institusjon of institutions" [ngValue]="institusjon.id">{{institusjon.name}}</option>
       </select>
     </div>
   </div>
   <div class="row mt-4">
     <div class="col-md-5">
-      <label for="avdeling">Department</label>
-      <select class="form-select" id="avdeling" [(ngModel)]="valgtAvdelingId" [disabled]="lagInstitusjonsrapport">
+      <label for="department">Department</label>
+      <select class="form-select" id="department" [(ngModel)]="valgtAvdelingId" [disabled]="lagInstitusjonsrapport">
         <option value=""></option>
-        <option *ngFor="let avdeling of avdelinger" [ngValue]="avdeling.id">{{avdeling.navn}}</option>
+        <option *ngFor="let department of departments" [ngValue]="department.id">{{department.name}}</option>
       </select>
     </div>
     <div class="col-md-2">
-      <label for="fraDato">Fra dato</label>
-      <input class="form-control" id="fraDato" type="date" [(ngModel)]="fraDato" />
+      <label for="fromDate">From date</label>
+      <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" />
     </div>
     <div class="col-md-2">
-      <label for="tilDato">Til dato</label>
-      <input class="form-control" id="tilDato" type="date" [(ngModel)]="tilDato" />
+      <label for="toDate">To date</label>
+      <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" />
     </div>
   </div>
   <div class="row mt-4">
     <div class="form-group col-12">
       <button class="btn btn-sm fhi-btn-primary me-2" (click)="lagRapport()" [disabled]="!kanLageRapport()">Lag rapport</button>
-      <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="nullstill()">Tøm filtere</button>
+      <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
     </div>
   </div>
 

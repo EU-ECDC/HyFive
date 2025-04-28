@@ -42,7 +42,7 @@ import { ByttInstitusjonComponent } from '../koordinator/bytt-institusjon/bytt-i
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
-      throw new Error('CoreModule er allerede lastet. Importer den kun i AppModule!');
+      throw new Error('CoreModule is already loaded. Import it in AppModule only!');
     }
   }
 }

@@ -1,40 +1,40 @@
 <div class="container mb-3">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilObservasjonerForInstitusjoner()">Tilbake til oversikt</app-navigasjonslenke>
+  <app-navigation-bar (linkClicked)="navigateToObservationsForInstitutions()">Back to overview</app-navigation-bar>
 </div>
 
 <div class="container" *ngIf="avdeling">
   <div class="row mb-3">
     <div class="col">
-      <h4>Department: {{avdeling.navn}}</h4>
+      <h4>Department: {{avdeling.name}}</h4>
       <p>
-        <span *ngIf="fraDato">Fra date: {{visFormatedDato(fraDato)}}</span> <br />
-        <span *ngIf="tilDato">Til date: {{visFormatedDato(tilDato)}}</span>
+        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
       </p>
     </div>
   </div>
 </div>
 
-<app-spinner *ngIf="laster"></app-spinner>
+<app-spinner *ngIf="loading"></app-spinner>
 
-<div class="container mt-5" *ngIf="!laster && !sessions.length">
+<div class="container mt-5" *ngIf="!loading && !sesjoner.length">
   <div class="row">
     <div class="col text-center">
-      Ingen sessions av valgt type funnet på denne avdelingen
+      No sessions of the selected type found in this department
     </div>
   </div>
 </div>
 
-<div class="container" *ngIf="sessions.length">
+<div class="container" *ngIf="sesjoner.length">
 
   <div class="row mb-2">
     <div class="col">
-      <h5>Sesjoner</h5>
+      <h5>Sessions</h5>
     </div>
   </div>
 
   <div class="row mb-5">
     <app-accordion class="col-12"
-                   [items]="sessions"
+                   [items]="sesjoner"
                    [headerTemplate]="headerSesjoner"
                    [contentTemplate]="contentSesjoner">
     </app-accordion>
@@ -43,17 +43,17 @@
         <thead>
           <tr class="row">
             <th class="col-3">Type</th>
-            <th class="col-3">Observatør navn</th>
+            <th class="col-3">Observatør name</th>
             <th class="col-3">Starttidspunkt</th>
-            <th class="col-3">RegistrationTime</th>
+            <th class="col-3">Registrerttidspunkt</th>
           </tr>
         </thead>
         <tbody>
           <tr class="row">
             <td class="col-3"><p>{{item.type}}</p></td>
             <td class="col-3"><p>{{item.observatorNavn}}</p></td>
-            <td class="col-3"><p>{{visFormatedDatoMedTidspunkt(item.starttidspunkt)}}</p></td>
-            <td class="col-3"><p>{{visFormatedDato(item.opprettettidspunkt)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDateWithTime(item.starttidspunkt)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDate(item.timeOfCreation)}}</p></td>
           </tr>
         </tbody>
 
@@ -69,16 +69,16 @@
           </li>
         </ul>
 
-        <h6 class="text-dark mb-3"><strong>Observasjoner</strong></h6>
+        <h6 class="text-dark mb-3"><strong>Observations</strong></h6>
         <!-- Fireindikasjoner -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[0].navn">
+        <ng-container *ngIf="item.type === sessionTypeOptions[0].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
                   <th>Role</th>
                   <th>Indikasjoner</th>
-                  <th>Aktivitet</th>
+                  <th>Activity</th>
                   <th>Sekunder brukt</th>
                   <th>Hanske benyttet</th>
                   <th>Registrert</th>
@@ -95,10 +95,10 @@
                       </li>
                     </ul>
                   </td>
-                  <td>{{obs.aktivitet.aktivitetType.navn}}</td>
-                  <td>{{obs.aktivitet.tidtakingBleUtfort ? obs.aktivitet.sekunderBrukt + ' sekund(er)' : '-' }}</td>
-                  <td>{{obs.aktivitet.benyttetHanske === null ? '-' : obs.aktivitet.benyttetHanske ? "Ja" : "Nei"}}</td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
+                  <td>{{obs.activity.activityType.name}}</td>
+                  <td>{{obs.activity.TimekeepingWasRemoved ? obs.activity.secondsUsed + ' sekund(er)' : '-' }}</td>
+                  <td>{{obs.activity.benyttetHanske === null ? '-' : obs.activity.benyttetHanske ? "Ja" : "Nei"}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
@@ -106,8 +106,8 @@
           </div>
           
         </ng-container>
-        <!-- Håndsmykker -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[1].navn">
+        <!-- Handjewelry -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[1].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -128,15 +128,15 @@
                       </li>
                     </ul>
                   </td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </ng-container>
-        <!-- Beskyttelsesutstyr -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[2].navn">
+        <!-- ProtectiveEquipment -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[2].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -182,7 +182,7 @@
                       </ng-container>
                     </ul>
                   </td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>
@@ -190,8 +190,8 @@
           </div>
           
         </ng-container>
-        <!-- Hansker -->
-        <ng-container *ngIf="item.type === sesjontypeAlternativer[3].navn">
+        <!-- Gloves -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[3].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
@@ -213,18 +213,18 @@
                   <td>
                     <ul style="padding-left: 20px;" *ngIf="obs.hanskeObservasjon.hanskeMedIndikasjonTyper.length > 0">
                       <li *ngFor="let hanskeMedIndikasjonType of obs.hanskeObservasjon.hanskeMedIndikasjonTyper">
-                        {{hanskeMedIndikasjonType.navn}}
+                        {{hanskeMedIndikasjonType.name}}
                       </li>
                     </ul>
                     <ul style="padding-left: 20px;" *ngIf="obs.hanskeObservasjon.hanskeUtenIndikasjonTyper.length > 0">
                       <li *ngFor="let hanskeUtenIndikasjonType of obs.hanskeObservasjon.hanskeUtenIndikasjonTyper">
-                        {{hanskeUtenIndikasjonType.navn}}
+                        {{hanskeUtenIndikasjonType.name}}
                       </li>
                     </ul>
                   </td>
                   <td style="padding-left: 40px;">{{obs.hanskeObservasjon.benyttetHanske ? "Ja" : 'Nei'}}</td>
-                  <td style="padding-left: 40px;">{{obs.hanskeObservasjon.handhygieneEtterHanskebrukType.navn}}</td>
-                  <td>{{visFormatedDatoMedTidspunkt(obs.registrerttidspunkt)}}</td>
+                  <td style="padding-left: 40px;">{{obs.hanskeObservasjon.handhygieneEtterHanskebrukType.name}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.kommentar}}</td>
                 </tr>
               </tbody>

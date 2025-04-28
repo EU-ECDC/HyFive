@@ -14,7 +14,7 @@
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Fra måned</label>
         <select class="form-select" id="maned" [(ngModel)]="fraManed">
-          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.beskrivelse}}</option>
+          <option *ngFor="let maned of maneder" [ngValue]="maned.value">{{maned.description}}</option>
         </select>
       </div>
 
@@ -26,7 +26,7 @@
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Til måned</label>
         <select class="form-select" id="maned" [(ngModel)]="tilManed">
-          <option *ngFor="let maned of maneder" [ngValue]="maned.verdi">{{maned.beskrivelse}}</option>
+          <option *ngFor="let maned of maneder" [ngValue]="maned.value">{{maned.description}}</option>
         </select>
       </div>
 
@@ -42,16 +42,16 @@
       <div class="col-md-2">
         <label for="sesjonType">Role</label>
         <select class="form-select" id="rolle" [(ngModel)]="rolle">
-          <option value="null">Alle</option>
-          <option *ngFor="let rolle of roller" [ngValue]="rolle">{{rolle.navn}}</option>
+          <option value="null">All</option>
+          <option *ngFor="let rolle of roles" [ngValue]="rolle">{{rolle.name}}</option>
         </select>
       </div>
 
       <div class="col-md-2">
         <label for="sesjonType">Department</label>
         <select class="form-select" id="avdeling" [(ngModel)]="avdeling">
-          <option value="null">Alle</option>
-          <option *ngFor="let avdeling of avdelinger" [ngValue]="avdeling">{{avdeling.navn}}</option>
+          <option value="null">All</option>
+          <option *ngFor="let avdeling of departments" [ngValue]="avdeling">{{avdeling.name}}</option>
         </select>
       </div>
 

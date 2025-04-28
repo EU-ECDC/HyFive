@@ -3,49 +3,49 @@
         <div class="row align-items-end">
           
           <div class="form-group col col-md-3">
-            <label for="observator">Observatør</label>
-            <select class="form-select" id="observator" [(ngModel)]="valgtObservator" (ngModelChange)="nullstillSokeresultat()">
-              <option [ngValue]="null">Alle</option>
-              <option *ngFor="let observator of observatorer" [ngValue]="observator.id">
-                {{observator.fornavn}} {{observator.etternavn}}
-                <ng-container *ngIf="observator.erDeaktivert">(deaktivert bruker)</ng-container>
+            <label for="observer">Observatør</label>
+            <select class="form-select" id="observer" [(ngModel)]="valgtObservator" (ngModelChange)="resetSearchresults()">
+              <option [ngValue]="null">All</option>
+              <option *ngFor="let observer of observers" [ngValue]="observer.id">
+                {{observer.firstName}} {{observer.lastName}}
+                <ng-container *ngIf="observer.isDisabled">(deaktivert user)</ng-container>
               </option>
             </select>
           </div>
           <div class="form-group col col-md-2">
-            <label for="sesjonType">Modul</label>
-            <select class="form-select" id="sesjontype" [(ngModel)]="valgtSesjontype" (ngModelChange)="nullstillSokeresultat()">
-              <option [ngValue]="null">Alle</option>
-              <option *ngFor="let alternativ of sesjontypeAlternativer" [ngValue]="alternativ.verdi">{{alternativ.navn}}</option>
+            <label for="sesjonType">Module</label>
+            <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
+              <option [ngValue]="null">All</option>
+              <option *ngFor="let alternativ of sessionTypeOptions" [ngValue]="alternativ.value">{{alternativ.name}}</option>
             </select>
           </div>
 
           <div class="form-group col-12 col-md-2">
             <label style="opacity:0;">-</label>
             <br />
-            <button class="btn btn-sm fhi-btn-primary me-2" (click)="hentSesjoner()">Søk</button>
-            <button class="btn btn-sm fhi-btn-secondary" (click)="nullstill()">Tøm filtere</button>
+            <button class="btn btn-sm fhi-btn-primary me-2" (click)="hentSesjoner()">Search</button>
+            <button class="btn btn-sm fhi-btn-secondary" (click)="reset()">Clear filters</button>
           </div>
           
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn btn-md fhi-btn-link" [disabled]="sesjonerKoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sessions</button>
+            <button class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="merkAlleSesjoner()">Velg alle sesjoner</button>
           </div>
 
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn fhi-btn-link" [disabled]="!harVelgtMinstEnSesjon()" (click)="overforSesjoner()">Overfør valgte sessions</button>
+            <button class="btn fhi-btn-link" [disabled]="!harVelgtMinstEnSesjon()" (click)="overforSesjoner()">Overfør valgte sesjoner</button>
           </div>
         </div>
       </div>
   </div>
 
-  <app-spinner *ngIf="laster"></app-spinner>
+  <app-spinner *ngIf="loading"></app-spinner>
 
-  <div class="container mt-5" *ngIf="!laster && sokGjort && !sessions.length">
+  <div class="container mt-5" *ngIf="!loading && sokGjort && !sessions.length">
     <div class="row">
       <div class="col text-center">
-        Ingen sessions funnet.
+        Ingen sesjoner funnet.
       </div>
     </div>
   </div>
@@ -54,34 +54,34 @@
 
     <div class="row my-2">
       <div class="col">
-        <h5>Sesjoner</h5>
+        <h5>Sessions</h5>
         <span *ngIf="sokGjort && !sesjonerKoordinator.length">
-          Ingen sessions klare til innsending.
+          Ingen sesjoner klare til innsending.
         </span>
       </div>
     </div>
 
-    <app-oversikt-sessions-visning [sessions]="sesjonerKoordinator"
-                                   [isOverforingOversikt]="true"
-                                   (overforEvent)="overfor($event)"
-                                   (observasjonOppdatertEvent)="hentSesjoner()"
+    <app-overview-sessions-view [session]="sesjonerKoordinator"
+                                   [isTransferOverview]="true"
+                                   (oppositeEvent)="overfor($event)"
+                                   (observationUpdatedEvent)="hentSesjoner()"
                                    (observasjonSlettetEvent)="hentSesjoner()">
-    </app-oversikt-sessions-visning>
+    </app-overview-sessions-view>
 
   </div>
 
 
-  <div class="container" *ngIf="sesjonerFHI.length">
+  <div class="container" *ngIf="sessionsFHI.length">
     <div class="row mb-2">
       <div class="col">
-        <h5>Overførte sessions</h5>
+        <h5>Overførte sesjoner</h5>
       </div>
     </div>
 
-    <app-oversikt-sessions-visning [sessions]="sesjonerFHI"
-                                   [isOverforingOversikt]="true">
-    </app-oversikt-sessions-visning>
+    <app-overview-sessions-view [session]="sesjonerFHI"
+                                   [isTransferOverview]="true">
+    </app-overview-sessions-view>
   </div>
-  <div class="row" *ngIf="laster">
-    <app-spinner class="col-12">Laster sessions</app-spinner>
+  <div class="row" *ngIf="loading">
+    <app-spinner class="col-12">Laster sesjoner</app-spinner>
   </div>

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="bruker">
+<div class="container" *ngIf="user">
   <div class="row">
     <div class="col-12">
       <h2> <fa-icon [icon]="faUser"></fa-icon> Profil</h2>
@@ -6,17 +6,17 @@
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Name: {{bruker.navn}}
+      Name: {{user.name}}
     </div>
   </div>
-  <div class="row mt-1" *ngIf="bruker.hprNummer">
+  <div class="row mt-1" *ngIf="user.hprNumber">
     <div class="col-12">
-      HPR-nummer: {{bruker.hprNummer}}
+      HPR-number: {{user.hprNumber}}
     </div>
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Ident-pseudonym: {{bruker.identPseudonym}}
+      Ident-pseudonym: {{user.identityPseudonym}}
     </div>
   </div>
 
@@ -26,17 +26,17 @@
         <input type="radio" class="form-check-input"
                name="velgRolle"
                id="fhiAdmin"
-               [(ngModel)]="valgtRolle"
+               [(ngModel)]="selectedRole"
                value="Administrator" />
         <label class="form-check-label" for="fhiAdmin">FHI Admin</label>
       </div>
       <div class="form-check form-check-inline">
         <input type="radio" class="form-check-input"
                name="velgRolle"
-               id="koordinator"
-               [(ngModel)]="valgtRolle"
+               id="coordinator"
+               [(ngModel)]="selectedRole"
                value="Coordinator" />
-        <label class="form-check-label" for="koordinator">Coordinator</label>
+        <label class="form-check-label" for="coordinator">Coordinator</label>
       </div>
       <a class="btn fhi-btn-primary ml-2" (click)="byttRolle()">Bytt rolle</a>
     </div>

@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="ml-n3 mb-3">
+    <app-navigation-bar [routerLink]="'/'+ UrlPaths.editingByInstitutions"> Back to overview</app-navigation-bar>
+    <h4 class="col-12">Institution: {{institution?.name}}</h4>
+  </div>
+</div>
+
+<app-spinner *ngIf="!institution"></app-spinner>
+
+<div class="container" *ngIf="institution">
+  <ul ngbNav #nav="ngbNav" class="nav nav-tabs mt-4 fhi-nav-tabs fhi-main-menu__nav" [(activeId)]="active">
+    <li [ngbNavItem]="1" class="fhi-main-menu__nav-item">
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Institution</a>
+      <ng-template ngbNavContent>
+        <div class="row border-bottom pb-2">
+          <div class="col-12">
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <label for="institutionname">Name</label>
+                <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" [(ngModel)]="institution.name">
+              </div>
+              <div class="col-md-2">
+                <label for="abbreviation">Shortname</label>
+                <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" [(ngModel)]="institution.abbreviation">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <label for="institutionType">Institutiontype</label>
+                <select class="form-select" id="institutionType" [(ngModel)]="institutiontypeId" (ngModelChange)="institutionTypeChanged()">
+                  <option *ngFor="let institutionType of institutionTypes" [ngValue]="institutionType.id">{{institutionType.name}}</option>
+                </select>
+              </div>
+              <div class="col-md-2" *ngIf="showMunicipality">
+                <label for="municipality">Municipality</label>
+                <select class="form-select" id="municipality" [(ngModel)]="municipalityId" (ngModelChange)="municipalityChanged()">
+                  <option value="0"></option>
+                  <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-12 col-md-3" *ngIf="showHealthcareEnterprise">
+                <label for="Healthcareenterprise">HealthcareEnterprise</label>
+                <select class="form-select" id="Healthcareenterprise" [(ngModel)]="healthEnterpriseId" (ngModelChange)="healthEnterpriseChanged()">
+                  <option value="0"></option>
+                  <option *ngFor="let Healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="Healthcareenterprise.id">{{Healthcareenterprise.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-2">
+              <button (click)="saveInstitution()" class="btn fhi-btn-primary" [disabled]="canNotSaveInstitution()">Update institution</button>
+            </div>
+            <div class="col-md-2">
+              <app-confirmation-dialog
+                [buttonClass]="'btn fhi-btn-secondary'"
+                [buttonText]="'Delete institution'"
+                (confirmEvent)="deleteInstitution()"
+                [dialogMessage]="'Deleting the institution means that all data associated with the institution will be deleted. Do you want to delete?'">
+              </app-confirmation-dialog>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2" class="fhi-main-menu__nav-item">
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Coordinators</a>
+      <ng-template ngbNavContent>
+        <div class="border-bottom">
+          <app-edit-coordinators [institutionId]="institutionId"></app-edit-coordinators>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3" class="fhi-main-menu__nav-item">
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Observers</a>
+      <ng-template ngbNavContent>
+        <div class="border-bottom">
+          <app-edit-observers [institutionId]="institutionId"></app-edit-observers>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4" class="fhi-main-menu__nav-item">
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Departments</a>
+      <ng-template ngbNavContent>
+        <app-editing-of-departments [institutionId]="institutionId"></app-editing-of-departments>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-5"></div>
+</div>
+

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BeskyttelsesutstyrsettingType } from 'src/app/models/api/BeskyttelsesutstyrsettingType';
-import { BeskyttelsesutstyrsettingtyperService } from '../../../services/data/beskyttelsesutstyrsettingtyper.service';
+import { ProtectiveEquipmentType } from 'src/app/models/api/ProtectiveEquipmentType';
+import { ProtectiveEquipmentSettingTypesService } from '../../../services/data/protectiveEquipmentSettingTypes.service';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,18 +10,18 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvBeskyttelsesutstyrsettingtyperComponent implements OnInit, OnDestroy {
 
-  beskyttelsesutstyrsettingTyper: BeskyttelsesutstyrsettingType[];
-  settingTypeSomEndres: BeskyttelsesutstyrsettingType = null;
+  beskyttelsesutstyrsettingTyper: ProtectiveEquipmentType[];
+  settingTypeSomEndres: ProtectiveEquipmentType = null;
 
   constructor(
-    private beskyttelsesutstyrsettingtyperService: BeskyttelsesutstyrsettingtyperService,
+    private protectiveEquipmentSettingTypesService: ProtectiveEquipmentSettingTypesService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastSettingtyper();
@@ -32,29 +32,29 @@ export class RedigeringAvBeskyttelsesutstyrsettingtyperComponent implements OnIn
   }
 
   lastSettingtyper() {
-    this.beskyttelsesutstyrsettingtyperService.hentBeskyttelsesutstyrsettingtyper().subscribe(
+    this.protectiveEquipmentSettingTypesService.getProtectiveEquipmentTypes().subscribe(
       (settingtyper) => this.beskyttelsesutstyrsettingTyper = settingtyper,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av BeskyttelsesutstyrsettingTyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtSettingType(settingType: BeskyttelsesutstyrsettingType): void {
+  valgtSettingType(settingType: ProtectiveEquipmentType): void {
     if (this.settingTypeSomEndres?.id == settingType.id) return;
     this.settingTypeSomEndres = JSON.parse(JSON.stringify(settingType));
   }
 
-  oppdaterSettingType(settingType: BeskyttelsesutstyrsettingType): void {
-    this.beskyttelsesutstyrsettingtyperService.oppdaterBeskyttelsesutstyrsettingType(settingType).subscribe(
+  oppdaterSettingType(settingType: ProtectiveEquipmentType): void {
+    this.protectiveEquipmentSettingTypesService.updateProtectiveEquipmentSettingType(settingType).subscribe(
       (oppdatertBeskyttelsesutstyrsettingType) => {
-        this.toastrService.success("BeskyttelsesutstyrsettingType ble oppdatert");
+        this.toastrService.success("ProtectiveEquipmentType ble oppdatert");
         this.lastSettingtyper();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av BeskyttelsesutstyrsettingType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('Det oppstod en feil under oppdatering av ProtectiveEquipmentType: ' + error?.error, '', { disableTimeOut: true}),
       () => this.settingTypeSomEndres = null
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

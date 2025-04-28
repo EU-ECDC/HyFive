@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Department } from './Department';
+import { Department} from './Department';
 
 export interface Klinikk
 {
 	id: number;
-	institusjonId: number;
-	navn: string;
-	avdelinger: Department[];
+	institutionId: number;
+	name: string;
+	departments: Department[];
 }

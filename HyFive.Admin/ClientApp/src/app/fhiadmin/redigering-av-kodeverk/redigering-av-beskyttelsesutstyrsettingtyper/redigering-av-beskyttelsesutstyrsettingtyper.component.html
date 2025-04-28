@@ -13,31 +13,31 @@
             <tr>
               <th>Code</th>
               <th>Name</th>
-              <th class="text-end" scope="col">Handling</th>
+              <th class="text-end" scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let settingType of beskyttelsesutstyrsettingTyper">
               <ng-container *ngIf="settingTypeSomEndres?.id !== settingType.id">
-                <td>{{settingType.kode}}</td>
-                <td>{{settingType.navn}}</td>
+                <td>{{settingType.code}}</td>
+                <td>{{settingType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="valgtSettingType(settingType)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
               <ng-container *ngIf="settingTypeSomEndres?.id === settingType.id">
-                <td>{{settingTypeSomEndres.kode}}</td>
+                <td>{{settingTypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="settingTypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="settingTypeSomEndres.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterSettingType(settingTypeSomEndres)">
-                    <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>

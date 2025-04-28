@@ -1,8 +1,8 @@
 import {HandsmykkeType} from '../api/HandsmykkeType';
 
-export class Handsmykkevalg {
-  public erValgt: boolean;
+export class HandJewelrySelection {
+  public isSelected: boolean;
   public type: string;
-  public navn: string;
+  public name: string;
   public disabled: boolean; 
 }

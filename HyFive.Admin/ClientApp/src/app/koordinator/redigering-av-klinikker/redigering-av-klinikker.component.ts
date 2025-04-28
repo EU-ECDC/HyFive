@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Department } from '../../models/api/Department';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { Department} from '../../models/api/Department';
+import { InstitutionService } from '../../services/data/institution.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Klinikk } from '../../models/api/Klinikk';
 import { KlinikkService } from '../../services/data/klinikk.service';
@@ -14,15 +14,15 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class RedigeringAvKlinikkerComponent implements OnInit {
 
-  klinikker: Klinikk[] = [];
+  clinics: Klinikk[] = [];
   institusjonNavn: string;
-  institusjonId: number;
+  institutionId: number;
   klinikkId = 0;
   klinikkSomRedigeres: Klinikk;
 
-  laster: boolean = false;
+  loading: boolean = false;
 
-  constructor(private institusjonService: InstitusjonService,
+  constructor(private institutionService: InstitutionService,
     private klinikkService: KlinikkService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -32,19 +32,19 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   hentKlinikker() {
-    this.laster = true;
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result: Institution) => {
-      this.institusjonNavn = result.navn;
-      this.institusjonId = result.id;
-      this.klinikkService.hentKlinikkerForInstitusjon(this.institusjonId).subscribe(klinikker => {
-        this.laster = false;
-        this.klinikker = klinikker;
+    this.loading = true;
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
+      this.institusjonNavn = result.name;
+      this.institutionId = result.id;
+      this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(clinics => {
+        this.loading = false;
+        this.clinics = clinics;
         this.route.queryParams.subscribe(
           params => {
             const klinikkIdFromQuery = params[QueryParameters.id] || 0;
             this.klinikkId = parseInt(klinikkIdFromQuery, 0);
-            this.klinikkSomRedigeres = this.klinikker.find(a => a.id === this.klinikkId);
+            this.klinikkSomRedigeres = this.clinics.find(a => a.id === this.klinikkId);
           }
         );
       });
@@ -52,7 +52,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   hentAvdelingsnavn(klinikk: Klinikk) {
-    return klinikk.avdelinger?.map(r => r.navn).join(',');
+    return klinikk.departments?.map(r => r.name).join(',');
   }
 
   navigerTilKlinikk(id: number) {
@@ -70,14 +70,14 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
       });
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Klinikk) => any;
     switch ($event.columnName) {
       case "Name":
-        propertyOf = (x: Klinikk) => x.navn;
+        propertyOf = (x: Klinikk) => x.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
@@ -87,6 +87,6 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
       return result * sortOrder;
     };
 
-    this.klinikker = this.klinikker.sort(sortFunc);
+    this.clinics = this.clinics.sort(sortFunc);
   }
 }

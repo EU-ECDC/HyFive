@@ -1,9 +1,9 @@
 export class QueryParameters {
   static id = 'id';
-  static Sesjontype = 'sesjontype';
-  static FromDate = 'fra';
-  static ToDate = 'til';
-  static Institusjonider = 'institusjonider';
-  static DepartmentId = 'avdelingsid';
-  static InstitusjonsidISok = 'institusjonsidISok';
+  static SessionType = 'sessiontype';
+  static FromDate = 'from';
+  static ToDate = 'to';
+  static InstitutionIdeas = 'institutionideas';
+  static DepartmentId = 'departmentid';
+  static InstitutionIdIsOk = 'institutionidisok';
 }

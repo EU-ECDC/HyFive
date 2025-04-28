@@ -1,0 +1,40 @@
+<div class="container mb-3">
+  <app-navigation-bar (linkClicked)="navigateToObservationsForInstitutions()">Back to overview</app-navigation-bar>
+</div>
+
+<div class="container" *ngIf="department">
+  <div class="row mb-3">
+    <div class="col">
+      <h4>Department: {{department.name}}</h4>
+      <p>
+        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<app-spinner *ngIf="loading"></app-spinner>
+
+<div class="container mt-5" *ngIf="!loading && !session.length">
+  <div class="row">
+    <div class="col text-center">
+      No sessions of the selected type found in this department
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="session.length">
+
+  <div class="row mb-2">
+    <div class="col">
+      <h5>Sessions</h5>
+    </div>
+  </div>
+
+  <app-overview-sessions-view [session]="session"
+                                 (observationUpdatedEvent)="getSessionsForDepartment()"
+                                 (observationDeletedEvent)="getSessionsForDepartment()">
+  </app-overview-sessions-view>
+
+</div>

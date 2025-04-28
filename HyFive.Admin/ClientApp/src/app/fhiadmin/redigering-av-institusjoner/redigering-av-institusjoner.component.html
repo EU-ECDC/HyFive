@@ -1,47 +1,47 @@
-<div class="container" *ngIf="institusjonId == 0">
+<div class="container" *ngIf="institutionId == 0">
   <div class="row">
-    <h3>Vedlikehold av institusjoner</h3>
+    <h3>Maintenance of institutions</h3>
   </div>
-  <app-opprett-institusjon (institusjonOpprettetEvent)="hentInstitusjoner()"></app-opprett-institusjon>
+  <app-create-institution (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
 
   <div class="row">
     <div class="col-12">
       <div class="row mb-5 mt-5">
         <div class="col-md-3">
-            <h5>Søk etter institusjon</h5>
-            <input type="text" placeholder="Name, institusjontype" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeord" (ngModelChange)="filtrerInstitusjoner()">
+            <h5>Search for institution</h5>
+            <input type="text" placeholder="Name, institutiontype" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keyword" (ngModelChange)="filterInstitutions()">
         </div>
         <div class="col-md-3">
-            <h5>Søk etter institusjon på person</h5>
-            <input type="text" placeholder="Name på koordinator, observatør" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="sokeordPerson" (ngModelChange)="filtrerPersonerPaaInstitusjoner()">
+            <h5>Search for institution on person</h5>
+            <input type="text" placeholder="Name on coordinator, observer" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keywordPerson" (ngModelChange)="filterPersonsAtinstitutions()">
         </div>
       </div>
     </div>
   </div>
     <ng-container>
       <div class="table-responsive">
-        <table class="table mt-3" sortable-table (sorted)="sorter($event)">
+        <table class="table mt-3" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
               <td>HER-id</td>
               <td sortable-column="Name"></td>
-              <td>Forkortelse</td>
-              <td sortable-column="Institusjonstype"></td>
-              <td>Helseforetak/Municipality</td>
-              <td class="text-end" scope="col">Handling</td>
+              <td>Abbreviation</td>
+              <td sortable-column="Institutiontype"></td>
+              <td>Healthcare Enterprise/Municipality</td>
+              <td class="text-end" scope="col">Action</td>
             </tr>
     
           </thead>
           <tbody>
-            <tr *ngFor="let institusjon of filtrertInstitusjoner">
-              <td>{{institusjon.herId}}</td>
-              <td>{{institusjon.navn}}</td>
-              <td>{{institusjon.forkortelse}}</td>
-              <td>{{institusjon.institusjontype?.navn}}</td>
-              <td>{{ institusjon.helseforetak?.navn || institusjon.kommune?.navn }}</td>
+            <tr *ngFor="let institution of filteredInstitutions">
+              <td>{{institution.herId}}</td>
+              <td>{{institution.name}}</td>
+              <td>{{institution.abbreviation}}</td>
+              <td>{{institution.institutiontype?.name}}</td>
+              <td>{{ institution.healthcareEnterprise?.name || institution.municipality?.name }}</td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="navigerTilInstitusjon(institusjon.id)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                <button class="btn fhi-btn-icon" (click)="navigateToInstitution(institution.id)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                 </button>
               </td>
             </tr>
@@ -52,11 +52,11 @@
 
   
   <div class="row">
-    <app-spinner class="col-12" *ngIf="institusjoner?.length == 0">Laster institusjoner</app-spinner>
+    <app-spinner class="col-12" *ngIf="institutions?.length == 0">Laster institutions</app-spinner>
   </div>
 
 </div>
-<ng-container *ngIf="institusjonId > 0">
-  <app-rediger-en-institusjon [institusjonId]="institusjonId" (institusjonSlettetEvent)="slettInstitusjon($event)" (institusjonOppdatertEvent)="oppdaterInstitusjon($event)"></app-rediger-en-institusjon>
+<ng-container *ngIf="institutionId > 0">
+  <app-rediger-en-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-rediger-en-institution>
 </ng-container>
 

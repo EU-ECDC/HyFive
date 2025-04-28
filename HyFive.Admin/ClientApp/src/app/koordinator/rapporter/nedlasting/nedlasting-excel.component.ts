@@ -3,14 +3,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
-import { Department } from 'src/app/models/api/Department';
-import { InstitusjonRapport } from 'src/app/models/api/InstitusjonRapport';
+import { Department} from 'src/app/models/api/Department';
+import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
 import { SessionType } from 'src/app/models/api/SessionType';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { RapportService } from 'src/app/services/data/rapport.service';
 import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
 import { SesjonstypeRapportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
-import { Sesjonstyper } from 'src/app/utils/sesjontyper';
+import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 @Component({
   selector: 'app-avdelingsrapport',
@@ -19,62 +19,62 @@ import { Sesjonstyper } from 'src/app/utils/sesjontyper';
 
 export class NedlastingExcelComponent {
   constructor(
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private rapportService: RapportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.hentValgtRolle();
+    this.selectedRole = this.authorizationService.getSelectedRole();
 
-    if (this.valgtRolle === AuthorizedRole.Coordinator) {
-      this.valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-      this.hentInstitusjon(this.valgtInstitusjonId)
+    if (this.selectedRole === AuthorizedRole.Coordinator) {
+      this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+      this.getInstitution(this.selectedInstitutionId)
     }
-    else if (this.valgtRolle === AuthorizedRole.Administrator) {
-      this.kanVelgeInstitusjon = true;
+    else if (this.selectedRole === AuthorizedRole.Administrator) {
+      this.canSelectInstitution = true;
 
-      this.institusjonService.hentInstitusjoner().subscribe(
-        (institusjoner) => {
-          this.institusjoner = institusjoner;
+      this.institutionService.getInstitutions().subscribe(
+        (institutions) => {
+          this.institutions = institutions;
         });
     }
   }
 
-  sesjontyper = Sesjonstyper.HentSesjonstyper();
+  sessionTypes = SessionTypes.GetSessionTypes();
 
-  valgtSesjontype: SessionType = null;
+  selectedSessiontype: SessionType = null;
   valgtAvdelingId: number;
-  fraDato: Date = null;
-  tilDato: Date = null;
+  fromDate: Date = null;
+  toDate: Date = null;
   
-  avdelinger: Department[];
-  institusjoner: InstitusjonRapport[] = [];
-  kanVelgeInstitusjon = false;
+  departments: Department[];
+  institutions: InstitutionReport[] = [];
+  canSelectInstitution = false;
   lagerRapport = false;
-  valgtInstitusjonId: number;
+  selectedInstitutionId: number;
   lagInstitusjonsrapport = false;
 
-  private valgtRolle: AuthorizedRole;
+  private selectedRole: AuthorizedRole;
 
   velgInstitusjon(): void {
-    this.avdelinger = null;
+    this.departments = null;
     this.valgtAvdelingId = null;
-    if (this.valgtInstitusjonId != null) {
-      this.hentInstitusjon(this.valgtInstitusjonId)
+    if (this.selectedInstitutionId != null) {
+      this.getInstitution(this.selectedInstitutionId)
     }
   };
 
-  nullstill(): void {
+  reset(): void {
     this.valgtAvdelingId = null;
-    this.valgtSesjontype = null;
+    this.selectedSessiontype = null;
     this.lagInstitusjonsrapport = false;
-    this.fraDato = null;
-    this.tilDato = null;
+    this.fromDate = null;
+    this.toDate = null;
     this.toastrService.clear();
 
-    if (this.valgtRolle === AuthorizedRole.Administrator) {
-      this.valgtInstitusjonId = null;
+    if (this.selectedRole === AuthorizedRole.Administrator) {
+      this.selectedInstitutionId = null;
     }
   }
 
@@ -84,22 +84,22 @@ export class NedlastingExcelComponent {
 
   kanLageRapport() {
     return (((
-      this.valgtInstitusjonId && this.valgtAvdelingId) ||
-      (this.valgtInstitusjonId && this.lagInstitusjonsrapport)) &&
-      this.valgtSesjontype && this.fraDato && this.tilDato);
+      this.selectedInstitutionId && this.valgtAvdelingId) ||
+      (this.selectedInstitutionId && this.lagInstitusjonsrapport)) &&
+      this.selectedSessiontype && this.fromDate && this.toDate);
   }
 
   lagRapport() {
     this.toastrService.clear();
     
-    this.rapportService.rapportForSesjonTypeHarData(this.valgtSesjontype, this.valgtInstitusjonId, this.valgtAvdelingId,
-      this.fraDato, this.tilDato, this.valgtRolle).subscribe(
+    this.rapportService.rapportForSessionTypeHarData(this.selectedSessiontype, this.selectedInstitutionId, this.valgtAvdelingId,
+      this.fromDate, this.toDate, this.selectedRole).subscribe(
         rapportHarData => {
           if (rapportHarData) {
             this.lagerRapport = true;
 
-            let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.valgtSesjontype);
-            let url = `${baseUrl}?fraTid=${this.fraDato}&tilTid=${this.tilDato}&avdelingId=${this.valgtAvdelingId}&institusjonId=${this.valgtInstitusjonId}&rolle=${this.valgtRolle}`;
+            let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.selectedSessiontype);
+            let url = `${baseUrl}?fraTid=${this.fromDate}&tilTid=${this.toDate}&avdelingId=${this.valgtAvdelingId}&institutionId=${this.selectedInstitutionId}&rolle=${this.selectedRole}`;
         
             this.lastNedExcel(url).subscribe(() => {
               this.lagerRapport = false;
@@ -118,10 +118,10 @@ export class NedlastingExcelComponent {
     return LastNedFilHjelper.lastNedFil(url, 'application/xlsx, */*')
   }
 
-  private hentInstitusjon(institusjonId: number) {
-    this.institusjonService.hentInstitusjon(institusjonId).subscribe(
-      institusjon => {
-        this.avdelinger = institusjon.avdelinger;
+  private getInstitution(institutionId: number) {
+    this.institutionService.getInstitution(institutionId).subscribe(
+      institution => {
+        this.departments = institution.departments;
       })
   };
 }

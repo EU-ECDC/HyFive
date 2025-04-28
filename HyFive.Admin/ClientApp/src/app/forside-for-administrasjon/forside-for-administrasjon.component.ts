@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { InnloggetBruker } from '../models/api/InnloggetBruker';
+import { LoggedinUser } from '../models/api/LoggedinUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';
@@ -10,8 +10,8 @@ import { ClipboardService } from 'ngx-clipboard';
   templateUrl: './forside-for-administrasjon.component.html'
 })
 export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
-  laster = true;
-  bruker: InnloggetBruker = null;
+  loading = true;
+  user: LoggedinUser = null;
   faCopy = faCopy;
 
   constructor(
@@ -20,11 +20,11 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
     private clipboardService: ClipboardService) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getUser().subscribe((user) => {
+      this.user = user;
     },
-      (error) => (this.toastrService.error("En feil skjedde under innlasting av bruker: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
-      () => this.laster = false
+      (error) => (this.toastrService.error("En feil skjedde under innlasting av user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
+      () => this.loading = false
     );
   }
   
@@ -33,7 +33,7 @@ export class ForsideForAdministrasjonComponent implements OnInit, OnDestroy {
   }
 
   kopierPseudonymKlikk() {
-    this.clipboardService.copy(this.bruker?.identPseudonym);
+    this.clipboardService.copy(this.user?.identityPseudonym);
     this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
   }
 }

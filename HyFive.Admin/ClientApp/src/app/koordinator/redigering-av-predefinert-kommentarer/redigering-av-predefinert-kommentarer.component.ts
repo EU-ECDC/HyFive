@@ -14,7 +14,7 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
   nyPredefinertKommentar: OpprettPredefinertKommentarRequest = this.tomRequest();
   predefinertKommentarer: PredefinertKommentar[] = [];
   predefinertKommentarSomEndres: PredefinertKommentar = null;
-  laster: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private predefinertKommentarerService: PredefinertKommentarerService,
@@ -35,10 +35,10 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
   }
 
   lastPredefinertKommentarer() {
-    this.laster = true;
+    this.loading = true;
     this.predefinertKommentarerService.hentPredefinertKommentarer().subscribe(
       (predefinertKommentarer) => {
-        this.laster = false;
+        this.loading = false;
         this.predefinertKommentarer = predefinertKommentarer
       },
       (error) => this.toastrService.error('Det oppstod en feil under innlasting av predefinerte kommentarer: ' + error?.message , '', { disableTimeOut: true}),
@@ -75,7 +75,7 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

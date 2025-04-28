@@ -12,32 +12,32 @@
               <tr>
                 <th>Code</th>
                 <th>Name</th>
-                <th class="text-end" scope="col">Handling</th>
+                <th class="text-end" scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let aktivitettype of aktivitettyper">
+              <tr *ngFor="let activityType of activityTypes">
                 
-                <ng-container *ngIf="aktivitettypeSomEndres?.id !== aktivitettype.id">
-                  <td>{{aktivitettype.kode}}</td>
-                  <td>{{aktivitettype.navn}}</td>
+                <ng-container *ngIf="activitytypeAsChanged?.id !== activityType.id">
+                  <td>{{activityType.code}}</td>
+                  <td>{{activityType.name}}</td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="valgtAktivitettype(aktivitettype)">
-                      <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                    <button class="btn fhi-btn-icon" (click)="valgtAktivitettype(activityType)">
+                      <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                     </button>
                   </td>
                 </ng-container>
-                <ng-container *ngIf="aktivitettypeSomEndres?.id === aktivitettype.id">
-                  <td>{{aktivitettypeSomEndres.kode}}</td>
+                <ng-container *ngIf="activitytypeAsChanged?.id === activityType.id">
+                  <td>{{activitytypeAsChanged.code}}</td>
                   <td>
-                    <input type="text" class="form-control" [(ngModel)]="aktivitettypeSomEndres.navn">
+                    <input type="text" class="form-control" [(ngModel)]="activitytypeAsChanged.name">
                   </td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="lagreAktivitettype(aktivitettypeSomEndres)">
-                      <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                    <button class="btn fhi-btn-icon" (click)="lagreAktivitettype(activitytypeAsChanged)">
+                      <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
-                    <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                      <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                    <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                      <i class="icon-x"></i><span class="btn__text">Cancel</span>
                     </button>
                   </td>
                 </ng-container>
@@ -49,5 +49,5 @@
     </div>  
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="aktivitettyper?.length == 0">Laster aktivitettyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="activityTypes?.length == 0">Laster activityTypes</app-spinner>
 </div>

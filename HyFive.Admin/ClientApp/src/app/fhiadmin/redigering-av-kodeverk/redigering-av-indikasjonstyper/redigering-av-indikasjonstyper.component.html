@@ -14,35 +14,35 @@
               <th>Code</th>
               <th>Name</th>
               <th>Nummer</th>
-              <th class="text-end" scope="col">Handling</th>
+              <th class="text-end" scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let indikasjonstype of indikasjonstyper">
-              <ng-container *ngIf="indikasjonstypeSomEndres?.id !== indikasjonstype.id">
-                <td>{{indikasjonstype.kode}}</td>
-                <td>{{indikasjonstype.navn}}</td>
-                <td>{{indikasjonstype.nummer}}</td>
+            <tr *ngFor="let indicationtype of indicationtypes">
+              <ng-container *ngIf="indikasjonstypeSomEndres?.id !== indicationtype.id">
+                <td>{{indicationtype.code}}</td>
+                <td>{{indicationtype.name}}</td>
+                <td>{{indicationtype.number}}</td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon" (click)="valgtIndikasjonstype(indikasjonstype)">
-                    <i class="icon-pencil"></i><span class="btn__text">Rediger</span>
+                  <button class="btn fhi-btn-icon" (click)="valgtIndikasjonstype(indicationtype)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="indikasjonstypeSomEndres?.id === indikasjonstype.id">
-                <td>{{indikasjonstypeSomEndres.kode}}</td>
+              <ng-container *ngIf="indikasjonstypeSomEndres?.id === indicationtype.id">
+                <td>{{indikasjonstypeSomEndres.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.navn">
+                  <input type="text" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.name">
                 </td>
                 <td>
                   <input type="number" class="form-control" [(ngModel)]="indikasjonstypeSomEndres.nummer" maxLength="2" size="2">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="oppdaterIndikasjonstype(indikasjonstypeSomEndres)">
-                    <i class="icon-pencil"></i><span class="btn__text">Lagre</span>
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="btn fhi-btn-icon" (click)="avbrytRedigering($event)">
-                    <i class="icon-x"></i><span class="btn__text">Avbryt</span>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                 </td>
               </ng-container>
@@ -52,5 +52,5 @@
     </ng-container>
   </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="indikasjonstyper?.length == 0">Laster indikasjonstyper</app-spinner>
+  <app-spinner class="col-12" *ngIf="indicationtypes?.length == 0">Laster indicationtypes</app-spinner>
 </div>

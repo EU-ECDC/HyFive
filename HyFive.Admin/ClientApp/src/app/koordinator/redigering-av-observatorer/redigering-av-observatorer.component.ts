@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { InstitutionService } from '../../services/data/institution.service';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
 
 @Component({
   selector: 'app-redigering-av-observatorer',
@@ -9,20 +9,20 @@ import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
 })
 export class RedigeringAvObservatorerComponent implements OnInit {
 
-  institusjonRapport: InstitusjonRapport = null;
-  constructor(private institusjonService: InstitusjonService) { }
+  institusjonRapport: InstitutionReport = null;
+  constructor(private institutionService: InstitutionService) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentInstitusjon(valgtInstitusjonsId).subscribe((result) => {
+    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result) => {
       this.institusjonRapport = {
         id: result.id,
         herId: result.herId,
-        forkortelse: result.forkortelse,
-        institusjontype: result.institusjontype,
-        navn: result.navn,
+        abbreviation: result.abbreviation,
+        institutionType: result.institutionType,
+        name: result.name,
         region: result.region
-      } as InstitusjonRapport;
+      } as InstitutionReport;
     });
   }
 

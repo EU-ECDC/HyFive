@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HanskeMedIndikasjonType } from '../../../models/api/HanskeMedIndikasjonType';
-import { HanskeMedIndikasjonTypeService } from '../../../services/data/hanskemedindikasjontype.service';
+import { GloveWithIndicationType } from '../../../models/api/GloveWithIndicationType';
+import { GloveWithIndicationTypeService
+ } from '../../../services/data/gloveWithIndicationType.service';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,18 +11,18 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, OnDestroy {
 
-  hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
-  hanskeMedIndikasjonTypeSomEndres: HanskeMedIndikasjonType = null;
+  gloveWithIndicationTypes: GloveWithIndicationType[] = [];
+  gloveWithIndicationTypeThatChanges: GloveWithIndicationType = null;
 
   constructor(
-    private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
+    private hanskeMedIndikasjonTypeService: GloveWithIndicationTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastHanskeVedIndikasjonType();
@@ -32,33 +33,33 @@ export class RedigeringAvHanskemedindikasjontyperComponent implements OnInit, On
   }
 
   lastHanskeVedIndikasjonType() {
-    this.hanskeMedIndikasjonTypeService.hentHanskeMedIndikasjonTyper().subscribe(
-      (resultat) => this.hanskeMedIndikasjonTyper = resultat,
+    this.hanskeMedIndikasjonTypeService.getGloveWithIndicationTypes().subscribe(
+      (result) => this.gloveWithIndicationTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av HanskeVedIndikasjonType: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtHanskeMedIndikasjonType(hanskeMedIndikasjonType: HanskeMedIndikasjonType): void {
-    if (this.hanskeMedIndikasjonTypeSomEndres?.id == hanskeMedIndikasjonType.id) return;
-    this.hanskeMedIndikasjonTypeSomEndres = JSON.parse(JSON.stringify(hanskeMedIndikasjonType));
+  valgtHanskeMedIndikasjonType(hanskeMedIndikasjonType: GloveWithIndicationType): void {
+    if (this.gloveWithIndicationTypeThatChanges?.id == hanskeMedIndikasjonType.id) return;
+    this.gloveWithIndicationTypeThatChanges = JSON.parse(JSON.stringify(hanskeMedIndikasjonType));
   }
 
-  oppdaterHanskeMedIndikasjonType(): void {
-    this.hanskeMedIndikasjonTypeService.oppdaterHanskeMedIndikasjonType(this.hanskeMedIndikasjonTypeSomEndres).subscribe(
+  updateGloveWithIndicationType(): void {
+    this.hanskeMedIndikasjonTypeService.updateGloveWithIndicationType(this.gloveWithIndicationTypeThatChanges).subscribe(
       (oppdatertHanskeMedIndikasjonType) => {
         this.toastrService.success("HanskeVedIndikasjonType oppdatert");
         this.lastHanskeVedIndikasjonType();
       },
       error => this.toastrService.error('Det oppstod en feil under oppdatering av HanskeVedIndikasjonType: ' + error?.error, '', { disableTimeOut: true}),
-      () => this.hanskeMedIndikasjonTypeSomEndres = null
+      () => this.gloveWithIndicationTypeThatChanges = null
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.hanskeMedIndikasjonTypeSomEndres = null;
+    this.gloveWithIndicationTypeThatChanges = null;
   }
 }

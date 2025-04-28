@@ -4,6 +4,6 @@
 
 export interface OpprettRegionRequest
 {
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 }

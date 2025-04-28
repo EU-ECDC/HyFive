@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndikasjonstyperService } from '../../../services/data/indikasjonstyper.service';
-import { IndikasjonType } from '../../../models/api/IndikasjonType';
+import { IndicationTypesService } from '../../../services/data/indicationTypes.service';
+import { IndicationType } from '../../../models/api/IndicationType';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
@@ -10,18 +10,18 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy {
 
-  indikasjonstyper: IndikasjonType[] = [];
-  indikasjonstypeSomEndres: IndikasjonType = null;
+  indicationtypes: IndicationType[] = [];
+  indikasjonstypeSomEndres: IndicationType = null;
 
   constructor(
-    private indikasjonstyperService: IndikasjonstyperService,
+    private indikasjonstyperService: IndicationTypesService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastIndikasjonstyper();
@@ -32,20 +32,20 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
   }
   
   lastIndikasjonstyper() {
-    this.indikasjonstyperService.hentIndikasjonstyper().subscribe(
-      (resultat) => this.indikasjonstyper = resultat,
+    this.indikasjonstyperService.getIndicationTypes().subscribe(
+      (result) => this.indicationtypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Indikasjonstyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtIndikasjonstype(indikasjonstype: IndikasjonType): void {
-    if (this.indikasjonstypeSomEndres?.id == indikasjonstype.id) return;
-    this.indikasjonstypeSomEndres = JSON.parse(JSON.stringify(indikasjonstype));
+  valgtIndikasjonstype(indicationtype: IndicationType): void {
+    if (this.indikasjonstypeSomEndres?.id == indicationtype.id) return;
+    this.indikasjonstypeSomEndres = JSON.parse(JSON.stringify(indicationtype));
   }
 
-  oppdaterIndikasjonstype(indikasjonstype: IndikasjonType): void {
-    indikasjonstype.nummer = indikasjonstype.nummer.toString();
-    this.indikasjonstyperService.oppdaterIndikasjonstype(indikasjonstype).subscribe(
+  oppdaterIndikasjonstype(indicationtype: IndicationType): void {
+    indicationtype.number = indicationtype.number.toString();
+    this.indikasjonstyperService.updateIndicationTypes(indicationtype).subscribe(
       (oppdatertIndikasjonstype) => {
         this.toastrService.success("Indikasjonstype oppdatert");
         this.lastIndikasjonstyper();
@@ -55,7 +55,7 @@ export class RedigeringAvIndikasjonstyperComponent implements OnInit, OnDestroy 
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AvdelingType } from '../../../models/api/AvdelingType';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { DepartmentType } from '../../../models/api/DepartmentType';
+import { DepartmentService } from '../../../services/data/department.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -10,19 +10,19 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
 
-  avdelingtyper: AvdelingType[] = [];
-  nyAvdelingType: AvdelingType = this.tomRequest();
-  avdelingtypeSomEndres: AvdelingType = null;
+  departmentTypes: DepartmentType[] = [];
+  newDepartmentType: DepartmentType = this.tomRequest();
+  departmentTypeAsChanged: DepartmentType = null;
 
   constructor(
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastAvdelingTyper();
@@ -33,35 +33,35 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
   }
 
   lastAvdelingTyper() {
-    this.avdelingService.hentAvdelingstyper().subscribe(
-      (resultat) => this.avdelingtyper = resultat,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av avdelingtyper: ' + error?.message, '', { disableTimeOut: true}),
+    this.departmentService.getDepartmentTypes().subscribe(
+      (result) => this.departmentTypes = result,
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av departmentTypes: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  tomRequest(): AvdelingType {
+  tomRequest(): DepartmentType {
     return {
       id: 0,
-      kode: null,
-      navn: null
+      code: null,
+      name: null
     };
   }
 
   opprettAvdelingType() {
-    this.avdelingService.opprettAvdelingType(this.nyAvdelingType).subscribe(
-      (avdelingstype) => this.toastrService.success(`DepartmentType med navn ${avdelingstype.navn} ble opprettet`),
-      error => this.toastrService.error(`En feil skjedde under opprettelse av avdelingtype ${this.nyAvdelingType.navn}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
-      () => { this.nyAvdelingType = this.tomRequest(); this.lastAvdelingTyper(); }
+    this.departmentService.createDepartmentType(this.newDepartmentType).subscribe(
+      (avdelingstype) => this.toastrService.success(`Avdelingtype med name ${avdelingstype.name} was created`),
+      error => this.toastrService.error(`En feil skjedde under opprettelse av departmentType ${this.newDepartmentType.name}. Feil: "${error.error}"`, '', { disableTimeOut: true}),
+      () => { this.newDepartmentType = this.tomRequest(); this.lastAvdelingTyper(); }
     );
   }
 
-  valgtAvdelingType(avdelingstype: AvdelingType): void {
-    if (this.avdelingtypeSomEndres?.id == avdelingstype.id) return;
-    this.avdelingtypeSomEndres = JSON.parse(JSON.stringify(avdelingstype));
+  valgtAvdelingType(avdelingstype: DepartmentType): void {
+    if (this.departmentTypeAsChanged?.id == avdelingstype.id) return;
+    this.departmentTypeAsChanged = JSON.parse(JSON.stringify(avdelingstype));
   }
 
-  oppdaterAvdelingType(avdelingstype: AvdelingType): void {
-    this.avdelingService.oppdaterAvdelingType(avdelingstype).subscribe(
+  oppdaterAvdelingType(avdelingstype: DepartmentType): void {
+    this.departmentService.updateDepartmentType(avdelingstype).subscribe(
       (result) => {
         this.toastrService.success('DepartmentType ble oppdatert');
         this.lastAvdelingTyper();
@@ -69,14 +69,14 @@ export class RedigeringAvAvdelingstyperComponent implements OnInit, OnDestroy {
       (error) => {
         this.toastrService.error('En feil skjedde under oppdatering av avdelingtype: ' + error?.error, '', { disableTimeOut: true});
       },
-      () => this.avdelingtypeSomEndres = null
+      () => this.departmentTypeAsChanged = null
     );
   }
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.avdelingtypeSomEndres = null;
+    this.departmentTypeAsChanged = null;
   }
 }

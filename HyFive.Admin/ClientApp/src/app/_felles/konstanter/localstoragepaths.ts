@@ -1,5 +1,5 @@
 
 export class Localstoragepaths {
-  public static ValgtInstitusjon = "valgtinstitusjon";
-  public static ValgtRolle = "valgtrolle";
+  public static SelectedInstitution = "selectedinstitution";
+  public static SelectedRole = "selectedrole";
 }

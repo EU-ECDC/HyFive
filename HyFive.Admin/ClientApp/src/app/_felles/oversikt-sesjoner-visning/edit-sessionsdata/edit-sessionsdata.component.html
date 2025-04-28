@@ -1,0 +1,16 @@
+
+<div *ngIf="session.comment">
+  <label for="comment" class="form-label"><b>comment: </b></label>
+  <span *ngIf="!editingMode">{{session.comment}}</span>
+  <textarea id="comment" class="form-control" [(ngModel)]="sessionCopy.comment" (ngModelChange)="hasChangedComment = true" *ngIf="editingMode"></textarea>
+</div>
+
+<button class="btn fhi-btn-secondary" *ngIf="!editingMode && canEdit" (click)="editingMode = true">edit comment</button>
+
+<ng-container *ngIf="editingMode">
+  <div class="mt-3">
+    <button class="btn fhi-btn-primary me-2" [disabled]="!canSave()" (click)="save()" >Save</button>
+    <button class="btn fhi-btn-secondary" (click)="resetState()">Cancel</button>
+  </div>
+
+</ng-container>

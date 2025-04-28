@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { InstitusjonService } from 'src/app/services/data/institusjon.service';
+import { InstitutionService } from 'src/app/services/data/institution.service';
 import { ForesporselOmBrukertilgang } from "../../models/api/ForesporselOmBrukertilgang";
 import { ForesporselOmBrukertilgangService } from "../../services/data/foresporselombrukertilgang.service";
 import { ForesporselStatus } from 'src/app/models/api/ForesporselStatus';
@@ -17,7 +17,7 @@ export class ForesporselComponent implements OnInit, OnDestroy {
 
   constructor(
     private foresporselOmBrukertilgangService: ForesporselOmBrukertilgangService,
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private toastrService: ToastrService
   ) {}
 
@@ -31,8 +31,8 @@ export class ForesporselComponent implements OnInit, OnDestroy {
   
   lastAlleForesporsler() {
     this.visAlleForesporsel = true;
-    var institusjonId = this.institusjonService.hentValgtInstitusjonId();
-    this.foresporselOmBrukertilgangService.hentAlleForesporsler(institusjonId).subscribe(
+    var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.foresporselOmBrukertilgangService.hentAlleForesporsler(institutionId).subscribe(
       (foresporsler) => this.foresporsler = foresporsler,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av forespørsler om brukertilgang: ' + error?.message, '', { disableTimeOut: true})
     );
@@ -40,8 +40,8 @@ export class ForesporselComponent implements OnInit, OnDestroy {
 
   lastForesporslerSomVenterPaGodkjenning() {
     this.visAlleForesporsel = false;
-    var institusjonId = this.institusjonService.hentValgtInstitusjonId();
-    this.foresporselOmBrukertilgangService.hentForesporslerSomVenterPaGodkjenning(institusjonId).subscribe(
+    var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.foresporselOmBrukertilgangService.hentForesporslerSomVenterPaGodkjenning(institutionId).subscribe(
       (foresporsler) => this.foresporsler = foresporsler,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av forespørsler om brukertilgang: ' + error?.message, '', { disableTimeOut: true})
     );

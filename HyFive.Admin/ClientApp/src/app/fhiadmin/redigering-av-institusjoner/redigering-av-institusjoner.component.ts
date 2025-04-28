@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { InstitutionService } from '../../services/data/institution.service';
 import { Institution } from '../../models/api/Institution';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryParameters } from '../../_felles/konstanter/queryparameters';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { Bruker } from 'src/app/models/api/Bruker';
-import { SokHjelper } from 'src/app/utils/sokhjelper';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { User } from 'src/app/models/api/User';
+import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-redigering-av-institusjoner',
+  selector: 'app-editing-of-institutions',
   templateUrl: './redigering-av-institusjoner.component.html'
 })
-export class RedigeringAvInstitusjonerComponent implements OnInit {
+export class EditingOfInstitutionsComponent implements OnInit {
 
-  institusjonId: number = 0;
-  institusjoner: InstitusjonRapport[] = [];
-  filtrertInstitusjoner: InstitusjonRapport[] = [];
-  sokeord: string = '';
-  sokeordPerson: string = '';
-  brukere: Bruker[] = [];
+  institutionId: number = 0;
+  institutions: InstitutionReport[] = [];
+  filteredInstitutions: InstitutionReport[] = [];
+  keyword: string = '';
+  keywordPerson: string = '';
+  users: User[] = [];
 
-  constructor(private institusjonService: InstitusjonService,
+  constructor(private institutionService: InstitutionService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -31,40 +31,40 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
-        this.institusjonId = params[QueryParameters.id] || 0;
+        this.institutionId = params[QueryParameters.id] || 0;
       }
     );
 
-    this.hentInstitusjoner();
+    this.getInstitutions();
   }
 
-  hentInstitusjoner() {
-    this.institusjonService.hentInstitusjoner().subscribe((resultat) => {
-      this.institusjoner = resultat;
-      this.filtrertInstitusjoner = this.institusjoner;
+  getInstitutions() {
+    this.institutionService.getInstitutions().subscribe((result) => {
+      this.institutions = result;
+      this.filteredInstitutions = this.institutions;
       
-      this.institusjoner.forEach(i => {
-        this.hentBrukere(i.id);
+      this.institutions.forEach(i => {
+        this.getUsers(i.id);
       });
     });
   }
 
-  hentBrukere(institusjonId: number) {
-    this.institusjonService.hentObservatorer(institusjonId).subscribe((resultat) => {
-      this.brukere.push(...resultat);
+  getUsers(institutionId: number) {
+    this.institutionService.getObservers(institutionId).subscribe((result) => {
+      this.users.push(...result);
     });
-    this.institusjonService.hentKoordinatorer(institusjonId).subscribe((resultat) => {
-      this.brukere.push(...resultat);
+    this.institutionService.getCoordinators(institutionId).subscribe((result) => {
+      this.users.push(...result);
     });
   }
 
-  navigerTilInstitusjon(institusjonId: number) {
+  navigateToInstitution(institutionId: number) {
 
-    if (institusjonId === 0) {
+    if (institutionId === 0) {
       this.router.navigate([], { relativeTo: this.route });
     }
 
-    const queryParams: Params = { id: institusjonId };
+    const queryParams: Params = { id: institutionId };
     this.router.navigate(
       [],
       {
@@ -74,47 +74,47 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       });
   }
 
-  oppdaterInstitusjon(institusjon: Institution) {
-    this.institusjoner[this.institusjoner.map(i => i.id).indexOf(institusjon.id)] = institusjon;
+  updateInstitution(institution: Institution) {
+    this.institutions[this.institutions.map(i => i.id).indexOf(institution.id)] = institution;
   }
 
-  slettInstitusjon(institusjonId: number) {
-    this.hentInstitusjoner();
-    this.toastrService.success('Slettet institusjon med id: ' + institusjonId, 'Institution slettet');
-    this.navigerTilInstitusjon(0);
+  deleteInstitution(institutionId: number) {
+    this.getInstitutions();
+    this.toastrService.success('Deleted institution with id: ' + institutionId, 'Institution deleted');
+    this.navigateToInstitution(0);
   }
 
-  filtrerInstitusjoner(): void {
-    if (this.sokeord.length >= 2)
-      this.filtrertInstitusjoner = this.institusjoner.filter(i => i.navn.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.helseforetak?.navn.toLowerCase().includes(this.sokeord.toLowerCase()) ||
-        i.kommune?.navn.toLowerCase().includes(this.sokeord.toLowerCase()));
-    else if (this.sokeord.length === 0)
-      this.filtrertInstitusjoner = this.institusjoner;
+  filterInstitutions(): void {
+    if (this.keyword.length >= 2)
+      this.filteredInstitutions = this.institutions.filter(i => i.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        i.healthcareEnterprise?.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        i.municipality?.name.toLowerCase().includes(this.keyword.toLowerCase()));
+    else if (this.keyword.length === 0)
+      this.filteredInstitutions = this.institutions;
   }
 
-  filtrerPersonerPaaInstitusjoner(): void {
-    if (this.sokeordPerson.length >= 2) {
-      this.filtrertInstitusjoner = this.institusjoner.filter(i => {
-        const personer = SokHjelper.filtrerBrukere(this.sokeordPerson, this.brukere);
-        return personer.some(p => p.institusjonId === i.id);
+  filterPersonsAtinstitutions(): void {
+    if (this.keywordPerson.length >= 2) {
+      this.filteredInstitutions = this.institutions.filter(i => {
+        const persons = SearchHelper.filterUsers(this.keywordPerson, this.users);
+        return persons.some(p => p.institutionId === i.id);
       });
-    } else if (this.sokeordPerson.length === 0) {
-      this.filtrertInstitusjoner = this.institusjoner;
+    } else if (this.keywordPerson.length === 0) {
+      this.filteredInstitutions = this.institutions;
     }
   }
 
-  sorter($event: IColumnSortedEvent) {
+  sort($event: IColumnSortedEvent) {
     let propertyOf: (x: Institution) => any;
     switch ($event.columnName) {
       case "Name":
-        propertyOf = (x: Institution) => x.navn;
+        propertyOf = (x: Institution) => x.name;
         break;
-        case "Institusjonstype":
-          propertyOf = (x: Institution) => x.institusjontype.navn;
+        case "Institutiontype":
+          propertyOf = (x: Institution) => x.institutionType.name;
         break;
       default:
-        throw new Error("Ugyldig sorteringskolonne");
+        throw new Error("Invalid sort column");
     }
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
@@ -124,7 +124,7 @@ export class RedigeringAvInstitusjonerComponent implements OnInit {
       return result * sortOrder;
     };
 
-    this.filtrertInstitusjoner.sort(sortFunc);
+    this.filteredInstitutions.sort(sortFunc);
   }
 
 }

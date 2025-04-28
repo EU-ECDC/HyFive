@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
-import { Department } from '../../../../models/api/Department';
+import { Department} from '../../../../models/api/Department';
 import { Role } from '../../../../models/api/Role';
-import { InstitusjonService } from '../../../../services/data/institusjon.service';
+import { InstitutionService } from '../../../../services/data/institution.service';
 import { RapportService } from '../../../../services/data/rapport.service';
-import { RolleService } from '../../../../services/data/rolle.service';
+import { RoleService } from '../../../../services/data/role.service';
 
 @Component({
   selector: 'app-etterlevelse',
@@ -18,13 +18,13 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   fraManed: number = 1;
   tilManed: number = 1;
   rolle: Role = null;
-  avdeling: Department = null;
+  avdeling: Department= null;
   intervall: string = 'maned';
   maneder: any [];
 
   visGraf = false;
-  roller: Role[];
-  avdelinger: Department[];
+  roles: Role[];
+  departments: Department[];
 
   prosentDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
@@ -39,8 +39,8 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   };
   constructor(
     private grafService: RapportService,
-    private institusjonService: InstitusjonService,
-    private rolleService: RolleService,
+    private institutionService: InstitutionService,
+    private roleService: RoleService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -54,23 +54,23 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   }
 
   lastRoller() {
-    this.rolleService.hentRoller().subscribe(
-      (roller) => this.roller = roller,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av roller: ' + error?.message, '', { disableTimeOut: true })
+    this.roleService.getRoles().subscribe(
+      (roles) => this.roles = roles,
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
   lastAvdelinger() {
-    var institusjonId = this.institusjonService.hentValgtInstitusjonId();
-    this.institusjonService.hentAvdelinger(institusjonId).subscribe(
-      (avdelinger) => this.avdelinger = avdelinger,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av roller: ' + error?.message, '', { disableTimeOut: true })
+    var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getDepartments(institutionId).subscribe(
+      (departments) => this.departments = departments,
+      (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
   hentEtterlevelseForFireindikasjoner() {
-    var institusjonId = this.institusjonService.hentValgtInstitusjonId();
-    this.grafService.hentEtterlevelseForFireindikasjoner(institusjonId, this.intervall, this.fraManed, this.fraAr, this.tilManed, this.tilAr, this.rolle?.id, this.avdeling?.id).subscribe(
+    var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.grafService.hentEtterlevelseForFireindikasjoner(institutionId, this.intervall, this.fraManed, this.fraAr, this.tilManed, this.tilAr, this.rolle?.id, this.avdeling?.id).subscribe(
       (grafer) => {
 
         let prosentGraf = grafer[0];
@@ -115,17 +115,17 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
 
   initManeder() {
     return [
-      { verdi: 1, beskrivelse: "Januar" },
-      { verdi: 2, beskrivelse: "Februar" },
-      { verdi: 3, beskrivelse: "Mars" },
-      { verdi: 4, beskrivelse: "April" },
-      { verdi: 5, beskrivelse: "Mai" },
-      { verdi: 6, beskrivelse: "Juni" },
-      { verdi: 7, beskrivelse: "Juli" },
-      { verdi: 8, beskrivelse: "August" },
-      { verdi: 9, beskrivelse: "September" },
-      { verdi: 10, beskrivelse: "Oktober" },
-      { verdi: 11, beskrivelse: "November" },
-      { verdi: 12, beskrivelse: "Desember" }];
+      { value: 1, description: "Januar" },
+      { value: 2, description: "Februar" },
+      { value: 3, description: "Mars" },
+      { value: 4, description: "April" },
+      { value: 5, description: "Mai" },
+      { value: 6, description: "Juni" },
+      { value: 7, description: "Juli" },
+      { value: 8, description: "August" },
+      { value: 9, description: "September" },
+      { value: 10, description: "Oktober" },
+      { value: 11, description: "November" },
+      { value: 12, description: "Desember" }];
   }
 }

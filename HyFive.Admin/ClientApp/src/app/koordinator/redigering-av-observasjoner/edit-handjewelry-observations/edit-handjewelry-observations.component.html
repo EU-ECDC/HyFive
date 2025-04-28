@@ -1,0 +1,87 @@
+<ng-container>
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Hand jewelry(ies)</th>
+          <th>Registered</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let observation of observations">
+          <tr (click)="selectObservation(observation)" *ngIf="handjewelryObservationAsChanged?.id !== observation.id">
+            <td>{{observation.role.name}}</td>
+            <td>
+              <ul style="padding-left: 20px;">
+                <li *ngFor="let ht of observation.typesOfHandJewelry">
+                  {{ht.name}}
+                </li>
+              </ul>
+            </td>
+            <td>{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{observation.comment}}</td>
+          </tr>
+          <ng-container *ngIf="handjewelryObservationAsChanged && handjewelryObservationAsChanged.id === observation.id">
+            <tr>
+              <td colspan="12">
+                <i>ID: {{observation.id}}</i>
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="department.id" (roleSelected)="selectRole($event)" [customClass]="''"></app-role-selection-dropdown></td>
+              <td>
+                <ul *ngFor="let handJewelry of handJewelrySelection">
+                  <div class="form-check">
+                    <input [checked]="handJewelry.isSelected" (change)="handJewelry.isSelected = !handJewelry.isSelected" class="form-check-input" type="checkbox" id="customCheck{{handJewelry.type}}">
+                    <label class="form-check-label" for="customCheck{{handJewelry.type}}">
+                      {{handJewelry.name}}
+                    </label>
+                  </div>
+                </ul>
+              </td>
+              <td>
+                {{handjewelryObservationAsChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}
+              </td>
+              <td>
+                <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.comment" (ngModelChange)="changeComment($event)">{{handjewelryObservationAsChanged.comment}}</textarea>
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td colspan="12" class="col-12">
+                <div class="form-row">
+                  <div class="col mt-3">
+    
+                    <app-confirmation-dialog
+                                          [buttonText]="'Save'" 
+                                          [buttonClass]="'btn fhi-btn-primary me-3'"
+                                          (confirmEvent)="updateHandJewelryObservation()"
+                                          [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
+                    </app-confirmation-dialog>
+                    <app-confirmation-dialog 
+                                          [buttonText]="'Delete'"
+                                          [buttonClass]="'btn fhi-btn-secondary me-3'"
+                                          (confirmEvent)="deleteHandJewelryObservation()" 
+                                          [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
+                    </app-confirmation-dialog>
+                    <button class="btn fhi-btn-primary bg-dark me-3"
+                            (click)="cancelEditObservation($event)">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+    
+        </ng-container>
+    
+      </tbody>
+    </table>
+    
+  </div>
+</ng-container>
+

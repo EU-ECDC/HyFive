@@ -4,7 +4,7 @@ import { PredefinertKommentar } from '../../models/api/PredefinertKommentar';
 import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
 import { OpprettPredefinertKommentarRequest } from '../../models/api/OpprettPredefinertKommentarRequest';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './institution.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +14,24 @@ export class PredefinertKommentarerService {
 
   constructor(
     private httpClient: HttpClient,
-    private institusjonService: InstitusjonService
+    private institutionService: InstitutionService
   ) { }
 
   hentPredefinertKommentarer(): Observable<PredefinertKommentar[]> {
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institusjonId=${valgtInstitusjonId}`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar?institutionId=${selectedInstitutionId}`;
     return this.httpClient.get<PredefinertKommentar[]>(url);
   }
 
   oppdaterPredefinertKommentar(predefinertKommentar: PredefinertKommentar): Observable<boolean>{
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/oppdater`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${selectedInstitutionId}/oppdater`;
     return this.httpClient.put<boolean>(url, predefinertKommentar);
   }
 
   opprettPredefinertKommentar(nypredefinertKommentar: OpprettPredefinertKommentarRequest): Observable<boolean> {
-    let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId();
-    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${valgtInstitusjonId}/opprett`;
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    const url = `${environment.apiBaseUrl}/v1/predefinertkommentar/${selectedInstitutionId}/opprett`;
     return this.httpClient.post<boolean>(url, nypredefinertKommentar);
   }
 }

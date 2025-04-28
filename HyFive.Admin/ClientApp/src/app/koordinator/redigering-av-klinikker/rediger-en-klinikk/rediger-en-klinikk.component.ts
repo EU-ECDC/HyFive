@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Klinikk } from '../../../models/api/Klinikk';
-import { InstitusjonService } from '../../../services/data/institusjon.service';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { InstitutionService } from '../../../services/data/institution.service';
+import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
-import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
+import { Avdelingsvalg } from '../../../models/code-work/avdelingsvalg.model';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,8 +24,8 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   fawarningicon = faExclamationTriangle;
 
   constructor(
-    private institusjonService: InstitusjonService,
-    private avdelingService: AvdelingService,
+    private institutionService: InstitutionService,
+    private departmentService: DepartmentService,
     private toastrService: ToastrService,
     private klinikkService: KlinikkService) { }
 
@@ -35,7 +35,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
       this.lastAvdelinger();
     }
     else {
-      this.toastrService.error('Department ikke lastet', 'Teknisk feil', { disableTimeOut: true});
+      this.toastrService.error('Departmentikke lastet', 'Technical error', { disableTimeOut: true});
     }
   }
   
@@ -45,18 +45,18 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
 
   lastAvdelinger() {
 
-    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institusjonId).subscribe((institusjon) => {
+    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institusjon) => {
       this.klinikkerListe = institusjon;
 
-      this.institusjonService.hentAvdelinger(this.klinikkKopi.institusjonId).subscribe(
-        (avdelinger) => {
-          this.avdelingsvalg = avdelinger.map(a => (
+      this.institutionService.getDepartments(this.klinikkKopi.institutionId).subscribe(
+        (departments) => {
+          this.avdelingsvalg = departments.map(a => (
             {
-              avdeling: a, erValgt: this.klinikkKopi.avdelinger.map(k => k.id).indexOf(a.id) !== -1,
-              erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id) && k.id !== this.klinikkKopi.id)
+              avdeling: a, erValgt: this.klinikkKopi.departments.map(k => k.id).indexOf(a.id) !== -1,
+              erAlleredePaKlinikk: this.klinikkerListe.some(k => k.departments.some(av => av.id === a.id) && k.id !== this.klinikkKopi.id)
             }));
         },
-        (err) => this.toastrService.error(`Kunne ikke laste inn klinikker: ${err?.message ? err.message : err}`, 'Teknisk feil', { disableTimeOut: true})
+        (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
       );
 
      });
@@ -69,22 +69,22 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   }
 
   kanLagreKlinikk(): boolean {
-    return this.klinikkKopi.institusjonId > 0
-      && this.klinikkKopi.navn?.length > 0
+    return this.klinikkKopi.institutionId > 0
+      && this.klinikkKopi.name?.length > 0
       && this.avdelingsvalg?.filter(r => r.erValgt)?.length > 0;
   }
 
   lagreKlinikk() {
-    this.klinikkKopi.avdelinger = this.avdelingsvalg.filter(m => m.erValgt).map(r => r.avdeling);
+    this.klinikkKopi.departments = this.avdelingsvalg.filter(m => m.erValgt).map(r => r.avdeling);
     this.klinikkService.oppdaterKlinikk(this.klinikkKopi).subscribe(
       (k) => {
         // Må replace verdier på original-objektet for å støtte oppdatering av liste når en navigerer tilbake til klinikk-oversikt
-        this.klinikk.navn = k.navn;
-        this.klinikk.institusjonId = k.institusjonId;
-        this.klinikk.avdelinger = k.avdelinger;
+        this.klinikk.name = k.name;
+        this.klinikk.institutionId = k.institutionId;
+        this.klinikk.departments = k.departments;
         this.toastrService.success('Klinikk oppdatert');
       },
-      (err) => this.toastrService.error(`Teknisk feil ved oppdatering: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})
+      (err) => this.toastrService.error(`Technical error ved oppdatering: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})
     );
   }
 }

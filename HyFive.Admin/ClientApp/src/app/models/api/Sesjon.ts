@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Department } from './Department';
+import { Department} from './Department';
 
 export interface Sesjon<TObservasjon>
 {
@@ -10,7 +10,7 @@ export interface Sesjon<TObservasjon>
 	avdeling: Department;
 	starttidspunkt: Date;
 	observasjoner?: TObservasjon[];
-	institusjonsnavn?: string;
-	institusjonId?: number;
+	institutionname?: string;
+	institutionId?: number;
 	kommentar?: string;
 }

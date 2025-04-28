@@ -1,7 +1,0 @@
-<div class="form-group {{customClass}}">
-  <select class="form-select form-control--rounded"
-          [(ngModel)]="valgtRolleId"
-          (ngModelChange)="valgtRolleEndret()">
-    <option *ngFor="let rolle of roller" [value]="rolle.id+''" >{{rolle.navn}}</option>
-  </select>
-</div>

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { InstitusjonService } from '../../../services/data/institusjon.service';
+import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { KlinikkService } from '../../../services/data/klinikk.service';
 import { Klinikk } from '../../../models/api/Klinikk';
-import { Avdelingsvalg } from '../../../models/kodeverk/avdelingsvalg.model';
-import { AvdelingService } from '../../../services/data/avdeling.service';
+import { Avdelingsvalg } from '../../../models/code-work/avdelingsvalg.model';
+import { DepartmentService } from '../../../services/data/department.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -20,14 +20,14 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
   fawarningicon = faExclamationTriangle;
 
-  @Input() institusjonId: number;
+  @Input() institutionId: number;
   @Output() klinikkOpprettetEvent: EventEmitter<Klinikk> = new EventEmitter<Klinikk>();
 
 
   constructor(
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private klinikkService: KlinikkService,
-    private avdelingService: AvdelingService,
+    private departmentService: DepartmentService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -40,9 +40,9 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   }
   
   opprettKlinikk() {
-    this.nyKlinikk.avdelinger = this.avdelingsvalg
+    this.nyKlinikk.departments = this.avdelingsvalg
       .filter(r => r.erValgt)
-      .map((r) => ({ id: r.avdeling.id, avdelingTypeId: 0, roller: null, institusjonId: this.institusjonId, navn: null, avdelingType: null }));
+      .map((r) => ({ id: r.avdeling.id, departmentTypeId: 0, roles: null, institutionId: this.institutionId, name: null, departmentType: null }));
 
     this.klinikkService.opprettKlinikk(this.nyKlinikk).subscribe((klinikk) => {
       this.toastrService.success('Klinikk opprettet', `Klinikk med ID: ${klinikk.id} opprettet`);
@@ -57,18 +57,18 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
   lastAvdelinger() {
 
-    this.klinikkService.hentKlinikkerForInstitusjon(this.institusjonId).subscribe((result: Klinikk[]) => {
+    this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe((result: Klinikk[]) => {
       this.klinikkerListe = result;
 
-      this.institusjonService.hentAvdelinger(this.institusjonId).subscribe(
-        (avdelinger) => {
-          this.avdelingsvalg = avdelinger.map(a =>
+      this.institutionService.getDepartments(this.institutionId).subscribe(
+        (departments) => {
+          this.avdelingsvalg = departments.map(a =>
           ({
             avdeling: a, erValgt: false,
-            erAlleredePaKlinikk: this.klinikkerListe.some(k => k.avdelinger.some(av => av.id === a.id))
+            erAlleredePaKlinikk: this.klinikkerListe.some(k => k.departments.some(av => av.id === a.id))
           }));
         },
-        (err) => this.toastrService.error(`Kunne ikke laste inn klinikker: ${err?.message ? err.message : err}`, 'Teknisk feil', { disableTimeOut: true})
+        (err) => this.toastrService.error(`Could not load klinikker: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
       );
     });
   }
@@ -76,9 +76,9 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   nullstillSkjema() {
     this.nyKlinikk = {
       id: 0,
-      navn: null,
-      institusjonId: this.institusjonId,
-      avdelinger: []
+      name: null,
+      institutionId: this.institutionId,
+      departments: []
     };
     for (const avdeling of this.avdelingsvalg) {
       avdeling.erValgt = false;
@@ -90,9 +90,9 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
   }
 
   kanOppretteKlinikk(): boolean {
-    return this.nyKlinikk.institusjonId > 0
+    return this.nyKlinikk.institutionId > 0
       && this.avdelingsvalg?.filter(r => r.erValgt)?.length > 0
-      && this.nyKlinikk.navn?.length > 0;
+      && this.nyKlinikk.name?.length > 0;
   }
 
 }

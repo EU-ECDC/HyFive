@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
-import { InnloggetBruker } from '../../models/api/InnloggetBruker';
+import { LoggedinUser } from '../../models/api/LoggedinUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { InstitusjonService } from '../../services/data/institusjon.service';
-import { InstitusjonRapport } from '../../models/api/InstitusjonRapport';
-import { RolleEventService } from '../../services/events/rolle-event.service';
+import { InstitutionService } from '../../services/data/institution.service';
+import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { RoleEventService } from '../../services/events/role-event.service';
 import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
 import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
 @Component({
@@ -13,69 +13,69 @@ import { InstitusjonForKoordinatorEventService } from '../../services/events/ins
 })
 export class ByttInstitusjonComponent implements OnInit {
 
-  bruker: InnloggetBruker = null;
-  roller: string;
+  user: LoggedinUser = null;
+  roles: string;
   faUser = faUser;
-  valgtInstitusjon: InstitusjonRapport = null;
-  valgtInstitusjonTemp: InstitusjonRapport = null;
+  valgtInstitusjon: InstitutionReport = null;
+  valgtInstitusjonTemp: InstitutionReport = null;
   visVelgInstitusjon = false;
   visByttInstitusjonBoks = false;
   
-  visteInstitusjoner: InstitusjonRapport[] = [];
-  institusjoner: InstitusjonRapport[] = [];
+  visteInstitusjoner: InstitutionReport[] = [];
+  institutions: InstitutionReport[] = [];
 
   constructor(
     private authorizationService: AuthorizationService,
-    private institusjonService: InstitusjonService,
-    private rolleEventService: RolleEventService,
+    private institutionService: InstitutionService,
+    private roleEventService: RoleEventService,
     private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService
   ) { }
 
   ngOnInit(): void {
-    this.authorizationService.getBruker().subscribe((bruker: InnloggetBruker) => {
-      this.bruker = bruker;
-      let valgtRolle = this.authorizationService.hentValgtRolle();
-      this.initialiser(valgtRolle);
+    this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
+      this.user = user;
+      let selectedRole = this.authorizationService.getSelectedRole();
+      this.initialiser(selectedRole);
     });
 
-    this.rolleEventService.byttRolleEvent.subscribe(
-      (valgtRolle) => {
-        this.initialiser(valgtRolle);
+    this.roleEventService.switchRoleEvent.subscribe(
+      (selectedRole) => {
+        this.initialiser(selectedRole);
       });
 
     this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.subscribe(
       () => {
-        let valgtRolle = this.authorizationService.hentValgtRolle();
-        this.initialiser(valgtRolle);
+        let selectedRole = this.authorizationService.getSelectedRole();
+        this.initialiser(selectedRole);
       });
   }
 
-  private initialiser(valgtRolle: AuthorizedRole) {
-    if (valgtRolle === AuthorizedRole.Administrator) {
+  private initialiser(selectedRole: AuthorizedRole) {
+    if (selectedRole === AuthorizedRole.Administrator) {
       this.visByttInstitusjonBoks = false;
-    } else if (valgtRolle === AuthorizedRole.Coordinator) {
-      this.institusjonService.hentInstitusjonerForKoordinator().subscribe((institusjoner) => {
-        if (institusjoner.length > 0) {
+    } else if (selectedRole === AuthorizedRole.Coordinator) {
+      this.institutionService.getInstitutionsForCoordinator().subscribe((institutions) => {
+        if (institutions.length > 0) {
           this.visByttInstitusjonBoks = true;
         }
 
-        this.institusjoner = institusjoner;
-        let valgtInstitusjonId = this.institusjonService.hentValgtInstitusjonId()
-        this.valgtInstitusjon = this.institusjoner.find(x => x.id === valgtInstitusjonId);
+        this.institutions = institutions;
+        let selectedInstitutionId = this.institutionService.getSelectedInstitutionId()
+        this.valgtInstitusjon = this.institutions.find(x => x.id === selectedInstitutionId);
 
         if (!this.valgtInstitusjon) {
-          this.valgtInstitusjon = this.institusjoner[0];
-          this.institusjonService.oppdaterValgtInstitusjonId(this.valgtInstitusjon.id);
+          this.valgtInstitusjon = this.institutions[0];
+          this.institutionService.updateSelectedInstitutionId(this.valgtInstitusjon.id);
         }
 
-        this.visteInstitusjoner = this.institusjoner.filter(x => x.id !== this.valgtInstitusjon.id);
+        this.visteInstitusjoner = this.institutions.filter(x => x.id !== this.valgtInstitusjon.id);
       });
     }
   }
 
-  byttInstitusjon(institusjon: InstitusjonRapport) {  
+  byttInstitusjon(institusjon: InstitutionReport) {  
     this.valgtInstitusjon = institusjon;
-    this.institusjonService.oppdaterValgtInstitusjonId(this.valgtInstitusjon.id);
+    this.institutionService.updateSelectedInstitutionId(this.valgtInstitusjon.id);
     window.location.reload();
   }
 }

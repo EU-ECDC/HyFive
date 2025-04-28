@@ -2,103 +2,103 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
 import { SessionType } from '../../../models/api/SessionType';
-import { ObservasjonService } from '../../../services/data/observasjon.service';
-import { SesjonOversiktRapport } from '../../../models/api/SesjonOversiktRapport';
+import { ObservationService } from '../../../services/data/observation.service';
+import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
-import { AvdelingService } from '../../../services/data/avdeling.service';
-import { Department } from '../../../models/api/Department';
+import { DepartmentService } from '../../../services/data/department.service';
+import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
 import { AuthorizationService } from '../../../_felles/services/authorization.service';
 
 @Component({
-  selector: 'app-oversikt-avdeling-sessions',
-  templateUrl: './oversikt-avdeling-sessions.component.html'
+  selector: 'app-oversikt-avdeling-sesjoner',
+  templateUrl: './oversikt-avdeling-sesjoner.component.html'
 })
-export class OversiktAvdelingSesjonerComponent implements OnInit {
+export class OverviewDepartmentSessionsComponent implements OnInit {
 
-  avdelingsid: number;
-  valgtSesjontype: SessionType = null;
-  fraDato: Date;
-  tilDato: Date;
+  departmentid: number;
+  selectedSessiontype: SessionType = null;
+  fromDate: Date;
+  toDate: Date;
   valgteInstitusjonAlternativer: number = null;
 
-  sesjontypeAlternativer = [
-    { navn: "FireIndikasjoner", verdi: SessionType.FireIndikasjoner },
-    { navn: "Håndsmykker", verdi: SessionType.Handsmykker },
-    { navn: "Beskyttelsesutstyr", verdi: SessionType.Beskyttelsesutstyr },
-    { navn: "Hansker", verdi: SessionType.Hansker }
+  sessionTypeOptions = [
+    { name: "FourIndications", value: SessionType.FourIndications },
+    { name: "Handjewelry", value: SessionType.Handjewelry },
+    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment },
+    { name: "Gloves", value: SessionType.Gloves }
   ];
 
   avdeling: Department;
-  sessions: SesjonOversiktRapport[] = [];
-  laster: boolean;
-  valgtRolle: AuthorizedRole;
+  sessions: SessionOverviewReport[] = [];
+  loading: boolean;
+  selectedRole: AuthorizedRole;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private avdelingService: AvdelingService,
-    private observasjonService: ObservasjonService,
+    private departmentService: DepartmentService,
+    private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService  ) { }
 
 
   ngOnInit(): void {
-    this.valgtRolle = this.authorizationService.hentValgtRolle();
+    this.selectedRole = this.authorizationService.getSelectedRole();
     this.route
       .queryParams
       .subscribe(params => {
-        if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observasjoner}`]);
+        if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.valgtSesjontype = parseInt(params[QueryParameters.Sesjontype]) || null;
-        this.fraDato = params[QueryParameters.FromDate] || null;
-        this.tilDato = params[QueryParameters.ToDate] || null;
-        this.avdelingsid = parseInt(params[QueryParameters.DepartmentId]) || null;
-        this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.Institusjonider]) || null;
+        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.fromDate = params[QueryParameters.FromDate] || null;
+        this.toDate = params[QueryParameters.ToDate] || null;
+        this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.valgteInstitusjonAlternativer = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
 
-        this.hentAvdeling();
-        this.hentSesjonerForAvdeling();
+        this.getDepartment();
+        this.getSessionsForDepartment();
       });
   }
 
-  hentAvdeling() {
-    this.avdelingService.hentAvdeling(
-      this.avdelingsid
-    ).subscribe((resultat) => {
-      this.avdeling = resultat;
+  getDepartment() {
+    this.departmentService.getDepartment(
+      this.departmentid
+    ).subscribe((result) => {
+      this.avdeling = result;
     });
   }
 
-  hentSesjonerForAvdeling() {
-    this.laster = true;
-    this.observasjonService.hentSesjonerForAvdeling(
-      this.avdelingsid,
-      this.valgtSesjontype ? this.valgtSesjontype : null,
-      this.fraDato,
-      this.tilDato,
-      this.valgtRolle
-    ).subscribe((resultater) => {
-      this.sessions = resultater;
+  getSessionsForDepartment() {
+    this.loading = true;
+    this.observationService.getSessionsForDepartment(
+      this.departmentid,
+      this.selectedSessiontype ? this.selectedSessiontype : null,
+      this.fromDate,
+      this.toDate,
+      this.selectedRole
+    ).subscribe((results) => {
+      this.sessions = results;
 
-      this.laster = false;
+      this.loading = false;
     });
   }
 
-  visFormatedDatoMedTidspunkt(date: Date) {
+  showFormattedDateWithTime(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy, HH:mm:ss');
   }
 
-  visFormatedDato(date: Date) {
+  showFormattedDate(date: Date) {
     return this.datepipe.transform(date, 'dd.MM.yyyy');
   }
 
-  navigerTilObservasjonerForInstitusjoner() {
-    this.router.navigate([`/${UrlPaths.observasjoner}`], {
+  navigateToObservationsForInstitutions() {
+    this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
-        sesjontype: this.valgtSesjontype,
-        fra: this.fraDato,
-        til: this.tilDato,
+        sessiontype: this.selectedSessiontype,
+        fra: this.fromDate,
+        til: this.toDate,
         institusjonider: this.valgteInstitusjonAlternativer
       }
     });

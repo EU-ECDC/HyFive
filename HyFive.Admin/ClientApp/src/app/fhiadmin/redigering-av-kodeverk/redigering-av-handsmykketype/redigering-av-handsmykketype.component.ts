@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { HandsmykkeType } from '../../../models/api/HandsmykkeType';
-import { HandsmykketypeService } from '../../../services/data/handsmykketype.service';
+import { HandJewelryType } from '../../../models/api/HandJewelryType';
+import { HandJewelryTypeService } from '../../../services/data/handJewelryType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 
 @Component({
@@ -10,18 +10,18 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
 
-  handsmykketyper: HandsmykkeType[] = [];
-  handsymkketypeSomEndres: HandsmykkeType = null;
+  handJewelryTypes: HandJewelryType[] = [];
+  handJewelryTypeAsChanged: HandJewelryType = null;
 
   constructor(
-    private handsmykketypeService: HandsmykketypeService,
+    private handJewelryTypeService: HandJewelryTypeService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      this.avbrytRedigering();
+      this.cancelEdit();
     });
 
     this.lastHandsmykketyper();
@@ -33,33 +33,33 @@ export class RedigeringAvHandsmykketypeComponent implements OnInit, OnDestroy {
 
 
   lastHandsmykketyper() {
-    this.handsmykketypeService.hentHandsmykketyper().subscribe(
-      (resultat) => this.handsmykketyper = resultat,
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe(
+      (result) => this.handJewelryTypes = result,
       (error) => this.toastrService.error('Det oppstod en feil under lasting av Håndsmykketyper: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  valgtHandsmykketype(handsmykketype: HandsmykkeType): void {
-    if (this.handsymkketypeSomEndres?.id == handsmykketype.id) return;
-    this.handsymkketypeSomEndres = JSON.parse(JSON.stringify(handsmykketype));
+  valgtHandsmykketype(handsmykketype: HandJewelryType): void {
+    if (this.handJewelryTypeAsChanged?.id == handsmykketype.id) return;
+    this.handJewelryTypeAsChanged = JSON.parse(JSON.stringify(handsmykketype));
   }
 
-  oppdaterHandsmykketype(handsmykketype: HandsmykkeType): void {
-    this.handsmykketypeService.oppdaterHandsmykketype(handsmykketype).subscribe(
+  updateHandJewelryType(handsmykketype: HandJewelryType): void {
+    this.handJewelryTypeService.updateHandJewelryType(handsmykketype).subscribe(
       (oppdatertHandsmykketype) => {
         this.toastrService.success("Håndsmykketype oppdatert");
         this.lastHandsmykketyper();
       },
       error => this.toastrService.error('Det oppstod en feil under oppdatering av Håndsmykketype: ' + error?.error, '', { disableTimeOut: true}),
-      () => this.handsymkketypeSomEndres = null
+      () => this.handJewelryTypeAsChanged = null
     );
   }
 
-  avbrytRedigering($event: Event = null) {
+  cancelEdit($event: Event = null) {
     if($event){
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.handsymkketypeSomEndres = null;
+    this.handJewelryTypeAsChanged = null;
   }
 }
