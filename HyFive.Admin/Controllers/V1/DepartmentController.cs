@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using HyFive.Services.Department;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Observation;
+using HyFive.Models.V1.Observation;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Roles;
@@ -15,28 +15,28 @@ using System;
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
-    [Route("api/v1/avdeling")]
-    public class AvdelingController : ControllerBase
+    [Route("api/v1/department")]
+    public class DepartmentController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IUserService _brukerservice;
+        private readonly IUserService _userService;
 
-        public AvdelingController(IMediator mediator, IUserService brukerservice)
+        public DepartmentController(IMediator mediator, IUserService userService)
         {
             _mediator = mediator;
-            _brukerservice = brukerservice;
+            _userService = userService;
         }
 
         /// <summary>
-        /// Hent avdeling
+        /// Get department
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Department>> HentAvdeling(int id)
+        public async Task<ActionResult<Department>> GetDepartment(int id)
         {
-            if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
                 return await _mediator.Send(new GetDepartment.Query() { Id = id });
             }
@@ -45,64 +45,64 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Opprett avdeling med roller
+        /// Create department with roles
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("opprett")]
         [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Department>> OpprettAvdeling([FromBody] CreateDepartmentRequest request)
+        public async Task<ActionResult<Department>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(request.InstitutionId))
+            if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(request.InstitutionId))
             {
                 var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
-                return CreatedAtRoute("HentAvdelinger", new { id = result.InstitutionId }, result);
+                return CreatedAtRoute("GetDepartment", new { id = result.InstitutionId }, result);
             }
             return Unauthorized();
         }
 
         /// <summary>
-        /// Oppdater avdeling 
+        /// Update department 
         /// </summary>
-        /// <param name="avdeling"></param>
+        /// <param name="department"></param>
         /// <returns></returns>
         [HttpPut("oppdater")]
-        public async Task<ActionResult<Department>> OppdaterAvdeling([FromBody] Department avdeling)
+        public async Task<ActionResult<Department>> UpdateDepartment([FromBody] Department department)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(avdeling.InstitutionId))
+            if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(department.InstitutionId))
             {
                 var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
-                    Id = avdeling.Id,
-                    DepartmentTypeId = avdeling.AvdelingTypeId,
-                    Name = avdeling.Name,
-                    Role = avdeling.Roles
+                    Id = department.Id,
+                    DepartmentTypeId = department.DepartmentTypeId,
+                    Name = department.Name,
+                    Role = department.Roles
                 });
                 return Ok(result);
             }
             return Unauthorized();
         }
 
-        [HttpGet("avdelingstyper")]
-        public async Task<ActionResult<List<DepartmentType>>> HentAvdelingstyper()
+        [HttpGet("departmentTypes")]
+        public async Task<ActionResult<List<DepartmentType>>> GetDepartmentTypes()
         {
             var result = await _mediator.Send(new GetDepartmentTypes.Query() { });
             return Ok(result);
         }
 
         /// <summary>
-        /// Opprett avdelingstype
+        /// Create department type
         /// </summary>
-        /// <param name="avdelingType"></param>
+        /// <param name="departmentType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPost("avdelingstyper/opprett")]
+        [HttpPost("departmentType/create")]
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status201Created)]
-        public async Task<ActionResult<DepartmentType>> OpprettAvdelingType([FromBody] DepartmentType avdelingType)
+        public async Task<ActionResult<DepartmentType>> CreateDepartmentType([FromBody] DepartmentType departmentType)
         {
             try
             {
-                var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = avdelingType });
+                var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = departmentType });
 
                 return Ok(result);
             }
@@ -113,31 +113,31 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Oppdater avdelingstype
+        /// Update department type
         /// </summary>
-        /// <param name="avdelingType"></param>
+        /// <param name="departmentType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("avdelingstyper/oppdater")]
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
-        public async Task<ActionResult<DepartmentType>> OppdaterAvdelingType([FromBody] DepartmentType avdelingType)
+        public async Task<ActionResult<DepartmentType>> UpdateDepartmentType([FromBody] DepartmentType departmentType)
         {
-            var result = await _mediator.Send(new UpdateDepartmentType.Command() { DepartmentType = avdelingType });
+            var result = await _mediator.Send(new UpdateDepartmentType.Command() { DepartmentType = departmentType });
             return Ok(result);
         }
 
         /// <summary>
-        /// Hent roller
+        /// Get Roles
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/roller")]
         [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Role>>> HentRoller(int id)
+        public async Task<ActionResult<List<Role>>> GetRoles(int id)
         {
-            if (_brukerservice.IsCoordinatorForDepartmentOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForDepartmentOrFhiAdmin(id))
             {
-                return await _mediator.Send(new HentRollerForAvdeling.Query { DepartmentId = id });
+                return await _mediator.Send(new GetRolesForDepartment.Query { DepartmentId = id });
             }
             return Unauthorized();
 
@@ -145,7 +145,7 @@ namespace HyFive.Admin.Controllers.V1
 
 
         /// <summary>
-        /// Slett avdeling
+        /// Slett department
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -161,7 +161,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Sjekker om avdeling har sessions overført til FHI
+        /// Sjekker om department har sessions overført til FHI
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

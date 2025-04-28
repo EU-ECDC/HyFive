@@ -13,7 +13,7 @@ using HyFive.Models.V1.Constants;
 
 namespace HyFive.Services.Rapport.Observations
 {
-    public class RapportForSesjonTypeHarData
+    public class ReportForSessionTypeHasData
     {
         public class Query : IRequest<bool>
         {

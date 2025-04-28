@@ -22,8 +22,6 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using HyFive.DataAccess;
-using HyFive.Services.Authentication.Requirements;
 
 namespace HyFive.Api.Common
 {
@@ -38,19 +36,19 @@ namespace HyFive.Api.Common
         protected readonly IConfigurationSection _redirectPagesConfigurationSection;
         protected readonly IConfigurationSection _dataProtectionConfigSection;
         protected readonly HandHygieneHealthIdConfiguration _handHygieneHealthIdConfiguration;
-        protected readonly RedirectPagesConfiguration _redirectPagesConfiguration;
+        protected readonly RedirectPagesKonfigurasjon _redirectPagesConfiguration;
 
         public BaseApiStartup(IConfiguration configuration)
         {
             Configuration = configuration;
 
-            var webConfig = Configuration.GetSection(nameof(HealthIdWebConfiguration)).Get<HealthIdWebConfiguration>() ?? throw new Exception(nameof(HealthIdWebConfiguration));
+            var webConfig = Configuration.GetSection(nameof(HelseIdWebKonfigurasjon)).Get<HelseIdWebKonfigurasjon>() ?? throw new Exception(nameof(HelseIdWebKonfigurasjon));
 
             _healthIdConfigurationSection = Configuration.GetSection(nameof(HandHygieneHealthIdConfiguration));
             _handHygieneHealthIdConfiguration = _healthIdConfigurationSection.Get<HandHygieneHealthIdConfiguration>();
 
-            _redirectPagesConfigurationSection = Configuration.GetSection(nameof(RedirectPagesConfiguration));
-            _redirectPagesConfiguration = _redirectPagesConfigurationSection.Get<RedirectPagesConfiguration>();
+            _redirectPagesConfigurationSection = Configuration.GetSection(nameof(RedirectPagesKonfigurasjon));
+            _redirectPagesConfiguration = _redirectPagesConfigurationSection.Get<RedirectPagesKonfigurasjon>();
 
             TestDatabaseConnection();
         }
@@ -70,7 +68,7 @@ namespace HyFive.Api.Common
 
             services.AddHttpContextAccessor();
             services.Configure<HandHygieneHealthIdConfiguration>(_healthIdConfigurationSection);
-            services.Configure<RedirectPagesConfiguration>(_redirectPagesConfigurationSection);
+            services.Configure<RedirectPagesKonfigurasjon>(_redirectPagesConfigurationSection);
             services.AddCors();
             services.AddServices(Configuration, ApiTitle, ApiType);
 
@@ -88,13 +86,13 @@ namespace HyFive.Api.Common
             services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(HandHygienePolicy.Coordinator, policy =>
+                options.AddPolicy(HandhygienePolicy.Coordinator, policy =>
                     policy.Requirements.Add(new UserTypeRequirement(UserType.Coordinator)));
-                options.AddPolicy(HandHygienePolicy.Observer, policy =>
+                options.AddPolicy(HandhygienePolicy.Observer, policy =>
                     policy.Requirements.Add(new UserTypeRequirement(UserType.Observer)));
-                options.AddPolicy(HandHygienePolicy.FhiAdmin, policy =>
+                options.AddPolicy(HandhygienePolicy.FhiAdmin, policy =>
                     policy.Requirements.Add(new UserTypeRequirement(UserType.FhiAdmin)));
-                options.AddPolicy(HandHygienePolicy.FhiAdminOrCoordinator, policy =>
+                options.AddPolicy(HandhygienePolicy.FhiAdminOrCoordinator, policy =>
                 {
                     policy.Requirements.Add(new UserTypeRequirement(UserType.FhiAdminOrCoordinator));
                 });

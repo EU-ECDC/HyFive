@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HyFive.Domain.Bruker;
-using HyFive.Modeller.V1.User;
+using HyFive.Domain.User;
+using HyFive.Models.V1.User;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.User;
@@ -10,37 +10,37 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using User = HyFive.Modeller.V1.User.User;
+using User = HyFive.Models.V1.User.User;
 
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
-    [Route("api/v1/bruker")]
-    public class BrukerController : ControllerBase
+    [Route("api/v1/user")]
+    public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IUserService _brukerservice;
+        private readonly IUserService _userService;
 
-        public BrukerController(IMediator mediator, IUserService brukerservice)
+        public UserController(IMediator mediator, IUserService userService)
         {
             _mediator = mediator;
-            _brukerservice = brukerservice;
+            _userService = userService;
         }
 
         #region Observer
 
         /// <summary>
-        /// Oppdaterer en observatør.
+        /// Updating an observer.
         /// </summary>
-        /// <param name="bruker"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPut("observator/oppdater")]
-        public async Task<IActionResult> OppdaterObservator([FromBody] User bruker)
+        [HttpPut("observer/update")]
+        public async Task<IActionResult> UpdateObserver([FromBody] User user)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
+            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
             {
-                var oppdatertObservator = await _mediator.Send(new UpdateObserver.Command() { User = bruker });
-                return Ok(oppdatertObservator);
+                var updatedObserver = await _mediator.Send(new UpdateObserver.Command() { User = user });
+                return Ok(updatedObserver);
             }
 
             return Unauthorized();
@@ -48,37 +48,37 @@ namespace HyFive.Admin.Controllers.V1
 
 
         /// <summary>
-        /// Oppretter en observatør.
+        ///Creating an observer.
         /// </summary>
-        /// <param name="bruker"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost("observator/opprett")]
+        [HttpPost("observer/creat")]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> OpprettObservator([FromBody] User bruker)
+        public async Task<ActionResult<User>> CreateObserver([FromBody] User user)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
+            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
             {
-                var response = await _mediator.Send(new CreateObserver.Command() { User = bruker });
-                return CreatedAtRoute("HentObservatorer", new { id = response.InstitutionId }, response);
+                var response = await _mediator.Send(new CreateObserver.Command() { User = user });
+                return CreatedAtRoute("GetObservers", new { id = response.InstitutionId }, response);
             }
 
             return Unauthorized();
         }
 
         /// <summary>
-        /// Sletter en observatør.
+        /// Deleting an observer.
         /// </summary>
-        /// <param name="observatorId"></param>
+        /// <param name="observerId"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpDelete("observator/slett")]
-        public async Task<ActionResult<bool>> SlettObservator([FromQuery] int observatorId)
+        [HttpDelete("observer/delete")]
+        public async Task<ActionResult<bool>> DeleteObserver([FromQuery] int observerId)
         {
-            if (_brukerservice.IsFhiAdmin())
+            if (_userService.IsFhiAdmin())
             {
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
-                    UserId = observatorId,
+                    UserId = observerId,
                     UserType = typeof(Observer)
                 });
                 return Ok(result);
@@ -87,16 +87,16 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Route("observator/harOverfortSesjonTilFHI")]
+        [Route("observer/HasTransferredSessionToFHI")]
         [HttpGet]
-        public async Task<IActionResult> HarOverfortSesjonTilFHI([FromQuery] int observatorId)
+        public async Task<IActionResult> HasTransferredSessionToFHI([FromQuery] int observatorId)
         {
-            var resultat = await _mediator.Send(new HasTransferredSessionToFHI.Command
+            var result = await _mediator.Send(new HasTransferredSessionToFHI.Command
             {
                 ObservationId = observatorId
             });
 
-            return Ok(resultat);
+            return Ok(result);
         }
 
         #endregion
@@ -104,35 +104,35 @@ namespace HyFive.Admin.Controllers.V1
         #region Coordinator
 
         /// <summary>
-        /// Oppretter en koordinator.
+        /// Create Coordinator.
         /// </summary>
-        /// <param name="bruker"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost("koordinator/opprett")]
+        [HttpPost("coordinator/create")]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> OpprettKoordinator([FromBody] User bruker)
+        public async Task<ActionResult<User>> CreateCoordinator([FromBody] User user)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
+            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
             {
-                var response = await _mediator.Send(new CreateCoordinator.Command() { USer = bruker });
-                return CreatedAtRoute("HentKoordinatorer", new { id = response.InstitutionId }, response);
+                var response = await _mediator.Send(new CreateCoordinator.Command() { USer = user });
+                return CreatedAtRoute("GetCoordinators", new { id = response.InstitutionId }, response);
             }
 
             return Unauthorized();
         }
 
         /// <summary>
-        /// Oppdaterer en koordinator.
+        /// Updating a Coordinator.
         /// </summary>
-        /// <param name="bruker"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPut("koordinator/oppdater")]
-        public async Task<ActionResult<User>> OppdaterKoordinator([FromBody] User bruker)
+        [HttpPut("coordinator/update")]
+        public async Task<ActionResult<User>> UpdateCoordinator([FromBody] User user)
         {
-            if (_brukerservice.ErKoordinatorForInstitusjonEllerFhiAdmin(bruker.InstitutionId))
+            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
             {
-                var oppdatertBruker = await _mediator.Send(new UpdateCoordinator.Command() { User = bruker });
-                return oppdatertBruker;
+                var updatedUser = await _mediator.Send(new UpdateCoordinator.Command() { User = user });
+                return updatedUser;
             }
 
             return Unauthorized();
@@ -140,19 +140,19 @@ namespace HyFive.Admin.Controllers.V1
 
 
         /// <summary>
-        /// Sletter en koordinator.
+        /// deleting a coordinator.
         /// </summary>
-        /// <param name="koordinatorId"></param>
+        /// <param name="coordinatorId"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpDelete("koordinator/slett")]
-        public async Task<ActionResult<bool>> SlettKoordinator([FromQuery] int koordinatorId)
+        [HttpDelete("coordinator/delete")]
+        public async Task<ActionResult<bool>> DeleteCoordinator([FromQuery] int coordinatorId)
         {
-            if (_brukerservice.IsFhiAdmin())
+            if (_userService.IsFhiAdmin())
             {
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
-                    UserId = koordinatorId,
+                    UserId = coordinatorId,
                     UserType = typeof(Coordinator)
                 });
                 return result;
@@ -166,13 +166,13 @@ namespace HyFive.Admin.Controllers.V1
         #region FhiAdmin
 
         /// <summary>
-        /// Henter alle FhiAdmin.
+        /// Getting all FhiAdmins.
         /// </summary>
         /// <returns></returns>
         [HttpGet("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        public async Task<ActionResult<User>> HentFhiAdmin()
+        public async Task<ActionResult<User>> GetFhiAdmin()
         {
             try
             {
@@ -186,14 +186,14 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Oppretter en FhiAdmin.
+        /// Creating an FhiAdmin.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> OpprettFhiAdmin([FromBody] CreateFhiAdminRequest request)
+        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateFhiAdminRequest request)
         {
             try
             {
@@ -208,18 +208,18 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Oppdaterer en FhiAdmin.
+        /// Updating a FhiAdmin.
         /// </summary>
-        /// <param name="bruker"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> OpprettFhiAdmin([FromBody] User bruker)
+        public async Task<ActionResult<User>> UpdateFhiAdmin([FromBody] User user)
         {
             try
             {
-                var response = await _mediator.Send(new UpdateFhiAdmin.Command() { User = bruker });
+                var response = await _mediator.Send(new UpdateFhiAdmin.Command() { User = user });
                 return Ok(response);
             }
             catch (Exception e)

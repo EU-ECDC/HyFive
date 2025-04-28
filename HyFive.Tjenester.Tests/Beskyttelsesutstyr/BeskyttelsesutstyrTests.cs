@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Constants;
-using HyFive.Modeller.V1.Observation.ProtectiveEquipment;
-using HyFive.Modeller.V1.Session;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation.ProtectiveEquipment;
+using HyFive.Models.V1.Session;
 using HyFive.Services.ProtectiveEquipment;
 using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
@@ -312,7 +312,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
+            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(
                 avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
             var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
             var settingTyper = DatabaseContext.ProtectiveEquipmentSettingType.ToList();
@@ -325,11 +325,11 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    Institusjonsnavn = institusjon.Name,
+                    InstitutionsName = institusjon.Name,
                     InstitutionId = institusjon.Id,
-                    Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.Now,
-                    Observasjoner = new List<ProtectiveEquipmentObservation>()
+                    Comment = "Sesjon kommentar",
+                    StartTime = DateTime.Now,
+                    Observations = new List<ProtectiveEquipmentObservation>()
                     {
                         new ProtectiveEquipmentObservation()
                         {
@@ -338,13 +338,13 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                             Comment = "Observasjon kommentar",
                             RegistrationTime = DateTime.Now,
                             Role = avdelingModell.Roles.First(),
-                            SettingType = new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
+                            SettingType = new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                             {
-                                Id = settingTyper.First(x => x.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.ContactTransmission).Id,
+                                Id = settingTyper.First(x => x.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.ContactTransmission).Id,
                             },
                             ProtectiveEquipmentList = new List<ProtectiveEquipment>()
                             {
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "I",
                                     WasUsed = true,
@@ -363,7 +363,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         }
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "II",
                                     WasUsed = true,
@@ -374,7 +374,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.InfectionGown).Id,
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "III",
                                     WasUsed = true,
@@ -385,7 +385,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.CareGown).Id,
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "IV",
                                     WasUsed = true,
@@ -396,7 +396,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.FaceMask).Id,
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "V",
                                     WasUsed = true,
@@ -420,7 +420,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         }
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "VI",
                                     WasUsed = false,
@@ -431,7 +431,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.EyeProtection).Id,
                                     }
                                 },
-                                new Modeller.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
+                                new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipment()
                                 {
                                     Comment = "VII",
                                     WasUsed = false,

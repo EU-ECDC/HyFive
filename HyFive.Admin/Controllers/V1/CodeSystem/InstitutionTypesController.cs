@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Institution;
 using MediatR;
@@ -12,61 +12,61 @@ using Microsoft.AspNetCore.Mvc;
 namespace HyFive.Admin.Controllers.V1
 {
     /// <summary>
-    /// IndicationTypes
+    /// InstitutionTypes
     /// </summary>
     [Authorize(HandhygienePolicy.FhiAdmin)]
-    [Route("api/v1/institusjonstyper")]
-    public class InstitusjonstyperController : ControllerBase
+    [Route("api/v1/institutionTypes")]
+    public class InstitutionTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public InstitusjonstyperController(IMediator mediator)
+        public InstitutionTypesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Hent indikasjonstyper
+        /// Get InstitutionTypes
         /// </summary>
         /// <returns></returns>
-        [HttpGet(Name = "HentInstitusjonstyper")]
-        public async Task<IEnumerable<InstitutionType>> HentInstitusjonstyper()
+        [HttpGet(Name = "GetInstitutionTypes")]
+        public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
         {
-            var institusjonstyper = await _mediator.Send(new GetInstitutionTypes.Query());
-            return institusjonstyper;
+            var institutionTypes = await _mediator.Send(new GetInstitutionTypes.Query());
+            return institutionTypes;
         }
 
         /// <summary>
-        /// Oppdater indikasjonstype
+        /// update InstitutionType
         /// </summary>
         /// <returns></returns>
-        [HttpPut("oppdater")]
-        public async Task<InstitutionType> OppdaterInstitusjonstype([FromBody] InstitutionType institusjonstype)
+        [HttpPut("update")]
+        public async Task<InstitutionType> UpdateInstitutionType([FromBody] InstitutionType institutionType)
         {
             return await _mediator.Send(new UpdateInstitutionType.Command()
             {
-                InstitutionType = institusjonstype
+                InstitutionType = institutionType
             });
         }
 
 
         /// <summary>
-        /// Opprett institusjonstype
+        /// Create InstitutionType
         /// </summary>
-        /// <param name="institusjonstype"></param>
+        /// <param name="institutionType"></param>
         /// <returns></returns>
-        [HttpPost("opprett")]
+        [HttpPost("create")]
         [ProducesResponseType(typeof(InstitutionType), StatusCodes.Status201Created)]
-        public async Task<ActionResult<InstitutionType>> OpprettInstitusjonstype([FromBody] CreateInstitutionTypeRequest institusjonstype)
+        public async Task<ActionResult<InstitutionType>> CreateInstitutionType([FromBody] CreateInstitutionTypeRequest institutionType)
         {
             try
             {
                 var response = await _mediator.Send(new CreateInstitutionType.Command()
                 {
-                    InstitutionType = institusjonstype
+                    InstitutionType = institutionType
                 });
 
-                return CreatedAtRoute("HentInstitusjonstyper", response);
+                return CreatedAtRoute("GetInstitutionTypes", response);
             }
             catch (Exception e)
             {

@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.FhiAdmin)]
-    [Route("api/v1/kommune")]
+    [Route("api/v1/municipality")]
     [ApiController]
-    public class KommuneController : ControllerBase
+    public class MunicipalityController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public KommuneController(IMediator mediator)
+        public MunicipalityController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Modeller.V1.Institution.Comment>>> HentKommuner()
+        public async Task<ActionResult<List<Models.V1.Institution.Comment>>> GetMunicipalities()
         {
             var result = await _mediator.Send(new GetMunicipalities.Query());
 

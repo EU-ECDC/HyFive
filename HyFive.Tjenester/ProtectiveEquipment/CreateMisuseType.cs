@@ -14,7 +14,7 @@ namespace HyFive.Services.ProtectiveEquipment
         public class Command : IRequest<MisuseType>
         {
             public int EquipmentTypeId { get; set; }
-            public MisuseType MisuseType { get; set; }
+            public CreateIncorrectUseTypeRequest MisuseType { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, MisuseType>

@@ -5,7 +5,7 @@ using HyFive.Services.FourIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using IndicationType = HyFive.Modeller.V1.Observation.IndicationType;
+using IndicationType = HyFive.Models.V1.Observation.IndicationType;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -13,36 +13,36 @@ namespace HyFive.Admin.Controllers.V1
     /// IndicationTypes
     /// </summary>
     [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
-    [Route("api/v1/indikasjonstyper")]
-    public class IndikasjonstyperController : ControllerBase
+    [Route("api/v1/indicationTypes")]
+    public class IndicationTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public IndikasjonstyperController(IMediator mediator)
+        public IndicationTypesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Hent indikasjonstyper
+        /// Get IndicationTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<IndicationType>> HentIndikasjonstyper()
+        public async Task<List<IndicationType>> GetIndicationTypes()
         {
-            var indikasjonstyper = await _mediator.Send(new GetIndicationTypes.Query());
-            return indikasjonstyper;
+            var indicationTypes = await _mediator.Send(new GetIndicationTypes.Query());
+            return indicationTypes;
         }
 
         /// <summary>
-        /// Oppdater indikasjonstype
+        /// Update IndicationTypes
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPut("oppdater")]
-        public async Task<IndicationType> OppdaterIndikasjonstype([FromBody] IndicationType indikasjonstype)
+        [HttpPut("update")]
+        public async Task<IndicationType> UpdateIndicationType([FromBody] IndicationType indicationType)
         {
-            return await _mediator.Send(new UpdateIndicationType.Command() { IndicationType = indikasjonstype });
+            return await _mediator.Send(new UpdateIndicationType.Command() { IndicationType = indicationType });
         }
     }
 }

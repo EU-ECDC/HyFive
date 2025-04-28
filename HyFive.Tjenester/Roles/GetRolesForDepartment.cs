@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HyFive.Services.Roles
 {
-    public class HentRollerForAvdeling
+    public class GetRolesForDepartment
     {
         public class Query : IRequest<List<Models.V1.Observation.Role>>
         {
