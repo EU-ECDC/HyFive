@@ -4,38 +4,38 @@ import { Observable } from 'rxjs';
 import { IndicationType } from '../../models/api/IndicationType';
 import { environment } from 'src/environments/environment';
 import { InstitutionType } from '../../models/api/InstitutionType';
-import { OpprettInstitusjonstypeRequest } from '../../models/api/OpprettInstitusjonstypeRequest';
+import { CreateInstitutionTypeRequest } from '../../models/api/CreateInstitutionTypeRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class InstitusjonstyperService {
+export class InstitutionTypesService {
 
   constructor(private httpClient: HttpClient) {
 
   }
 
-  hentInstitusjonstyper(): Observable<InstitutionType[]> {
+  getInstitutionTypes(): Observable<InstitutionType[]> {
     const url = `${environment.apiBaseUrl}/v1/institutiontypes`;
     return this.httpClient.get<IndicationType[]>(url)
     .pipe();
   }
 
-  oppdaterInstitusjonstype(institutiontype: InstitutionType): Observable<InstitutionType> {
-    const url = `${environment.apiBaseUrl}/v1/institutiontypes/oppdater`;
+  updateInstitutionType(institutiontype: InstitutionType): Observable<InstitutionType> {
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/update`;
     return this.httpClient.put<InstitutionType>(url, institutiontype)
     .pipe();
   }
 
-  opprettInstitusjonstype(institutiontype: OpprettInstitusjonstypeRequest): Observable<InstitutionType> {
-    const url = `${environment.apiBaseUrl}/v1/institutiontypes/opprett`;
+  createInstitutionType(institutiontype: CreateInstitutionTypeRequest): Observable<InstitutionType> {
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/create`;
     return this.httpClient.post<InstitutionType>(url, institutiontype)
     .pipe();
   }
 
-  slettInstitusjonstype(institusjonstypeId: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/institutiontypes/slett?institusjonstypeId=${institusjonstypeId}`;
+  deleteInstitutionType(institutiontypeId: number): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/institutiontypes/delete?institutiontypeId=${institutiontypeId}`;
     return this.httpClient.delete<boolean>(url)
     .pipe();
   }

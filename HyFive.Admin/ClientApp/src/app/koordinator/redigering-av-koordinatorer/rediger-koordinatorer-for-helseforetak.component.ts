@@ -6,7 +6,7 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareEnterprises } from '../../models/api/CoordinatorForHealthcareEnterprises';
 import { UserService } from '../../services/data/user.service';
 import { HealthcareEnterpriseService } from '../../services/data/healthcareEnterprise.service';
-import { InstitusjonForKoordinatorEventService } from '../../services/events/institusjon-for-koordinator-event.service';
+import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
 import { ObservationService } from 'src/app/services/data/observation.service';
@@ -37,7 +37,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
-    private institusjonForKoordinatorEventService: InstitusjonForKoordinatorEventService,
+    private institusjonForKoordinatorEventService: InstitutionForCoordinatorEventService,
     private authorizationService: AuthorizationService,
     private observationService: ObservationService
   ) { }
@@ -162,7 +162,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
               this.authorizationService.logout();
 
             if (nåværendeInstitusjonErFortsattValgt)
-              this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.emit();
+              this.institusjonForKoordinatorEventService.updateInstitutionList.emit();
           }
 
           if (erKoordinatorSomEndresLikInnloggetBruker && !nåværendeInstitusjonErFortsattValgt)
@@ -172,7 +172,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
             this.lastKoordinatorer();
           }
 
-          this.institusjonForKoordinatorEventService.oppdaterInstitusjonsListe.emit();
+          this.institusjonForKoordinatorEventService.updateInstitutionList.emit();
         }
         else {
           this.toastrService.error(status.feilmelding, '', { disableTimeOut: true });

@@ -11,7 +11,7 @@ import { KeyEventService } from '../../services/events/key-event.service';
 })
 export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDestroy {
 
-  nyPredefinertKommentar: OpprettPredefinertKommentarRequest = this.tomRequest();
+  nyPredefinertKommentar: OpprettPredefinertKommentarRequest = this.emptyRequest();
   predefinertKommentarer: PredefinertKommentar[] = [];
   predefinertKommentarSomEndres: PredefinertKommentar = null;
   loading: boolean = false;
@@ -45,7 +45,7 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
     );
   }
 
-  tomRequest(): OpprettPredefinertKommentarRequest {
+  emptyRequest(): OpprettPredefinertKommentarRequest {
     return {
       kommentar: null
     }
@@ -55,7 +55,7 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
     this.predefinertKommentarerService.opprettPredefinertKommentar(this.nyPredefinertKommentar).subscribe(
       (opprettetPredefinertKommentar) => this.toastrService.success('Predefiner kommentar opprettet'),
       error => this.toastrService.error('Det oppstod en feil under opprettelse av predefinert kommentar: ' + error?.message , '', { disableTimeOut: true}),
-      () => { this.nyPredefinertKommentar = this.tomRequest(); this.lastPredefinertKommentarer(); }
+      () => { this.nyPredefinertKommentar = this.emptyRequest(); this.lastPredefinertKommentarer(); }
     );
   }
 
@@ -70,7 +70,7 @@ export class RedigeringAvPredefinertKommentarerComponent implements OnInit, OnDe
         this.toastrService.success("Predefinert kommentar oppdatert");
         this.lastPredefinertKommentarer();
       },
-      error => this.toastrService.error('Det oppstod en feil under oppdatering av predefinert kommentar: ' + error?.error , '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating predefinert kommentar: ' + error?.error , '', { disableTimeOut: true}),
       () => this.predefinertKommentarSomEndres = null
     );
   }

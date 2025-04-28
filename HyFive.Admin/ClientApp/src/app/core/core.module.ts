@@ -17,12 +17,12 @@ import 'what-input';
 import { SharedModule } from '../shared/shared.module';
 
 import { MainMenuComponent } from '../core/main-menu/main-menu.component';
-import { ByttInstitusjonComponent } from '../koordinator/bytt-institusjon/bytt-institusjon.component';
+import { ChangeInstitutionComponent } from '../koordinator/change-institution/change-institution.component';
 
 @NgModule({
   declarations: [
     MainMenuComponent,
-    ByttInstitusjonComponent
+    ChangeInstitutionComponent
   ],
   imports: [
     SharedModule,
@@ -30,7 +30,7 @@ import { ByttInstitusjonComponent } from '../koordinator/bytt-institusjon/bytt-i
   ],
   exports: [
     MainMenuComponent,
-    ByttInstitusjonComponent
+    ChangeInstitutionComponent
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'nb' },

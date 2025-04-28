@@ -1,0 +1,240 @@
+<div class="container mb-3">
+  <app-navigation-bar (linkClicked)="navigateToObservationsForInstitutions()">Back to overview</app-navigation-bar>
+</div>
+
+<div class="container" *ngIf="department">
+  <div class="row mb-3">
+    <div class="col">
+      <h4>Department: {{department.name}}</h4>
+      <p>
+        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<app-spinner *ngIf="loading"></app-spinner>
+
+<div class="container mt-5" *ngIf="!loading && !sessions.length">
+  <div class="row">
+    <div class="col text-center">
+      No sessions of the selected type found in this department
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="sessions.length">
+
+  <div class="row mb-2">
+    <div class="col">
+      <h5>Sessions</h5>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <app-accordion class="col-12"
+                   [items]="sessions"
+                   [headerTemplate]="headersessions"
+                   [contentTemplate]="contentsessions">
+    </app-accordion>
+    <ng-template #headersessions let-item="item">
+      <table class="table table-borderless mb-n2">
+        <thead>
+          <tr class="row">
+            <th class="col-3">Type</th>
+            <th class="col-3">Observer name</th>
+            <th class="col-3">startTime</th>
+            <th class="col-3">TimeOfCreation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row">
+            <td class="col-3"><p>{{item.type}}</p></td>
+            <td class="col-3"><p>{{item.observerName}}</p></td>
+            <td class="col-3"><p>{{showFormattedDateWithTime(item.startTime)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDate(item.timeOfCreation)}}</p></td>
+          </tr>
+        </tbody>
+
+      </table>
+    </ng-template>
+    <ng-template #contentsessions let-item="item">
+
+      <div class="mt-n5">
+        <ul class="list-unstyled">
+          <li>
+            <span class="mr-4"><strong>Comment: </strong></span>
+            <span>{{item.comment}}</span>
+          </li>
+        </ul>
+
+        <h6 class="text-dark mb-3"><strong>Observations</strong></h6>
+        <!-- Fourindications -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[0].name">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Indications</th>
+                  <th>Activity</th>
+                  <th>Seconds used</th>
+                  <th>Glove used</th>
+                  <th>Registered</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let obs of item.observations">
+                  <td>{{obs.role}}</td>
+                  <td>
+                    <ul style="padding-left: 20px;">
+                      <li *ngFor="let indication of obs.indications">
+                        {{indication}}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>{{obs.activity.activityType.name}}</td>
+                  <td>{{obs.activity.TimekeepingWasRemoved ? obs.activity.secondsUsed + ' second(s)' : '-' }}</td>
+                  <td>{{obs.activity.usedGlove === null ? '-' : obs.activity.usedGlove ? "Yes" : "No"}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{obs.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </ng-container>
+        <!-- Handjewelry -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[1].name">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Hand jewelry(s)</th>
+                  <th>Registered</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let obs of item.observations">
+                  <td>{{obs.role}}</td>
+                  <td>
+                    <ul style="padding-left: 20px;">
+                      <li *ngFor="let ht of obs.typesOfHandJewelry">
+                        {{ht}}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{obs.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+        <!-- ProtectiveEquipment -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[2].name">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Setting</th>
+                  <th>Equipment used</th>
+                  <th>Unused equipment</th>
+                  <th>Registered</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let obs of item.observations">
+                  <td>{{obs.role}}</td>
+                  <td>{{obs.protectiveEquipmentSetting}}</td>
+                  <td>
+                    <ul style="padding-left: 20px;">
+                      <ng-container *ngFor="let bu of obs.protectiveEquipment">
+                        <li *ngIf="bu.wasUsed">
+                          {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
+                          <ul>
+                            <li>
+                              {{ bu.wasUsedProperly ? 'Used correctl' : 'Used incorrectly' }}
+                              <ng-container *ngIf="!bu.wasUsedProperly">
+                                <ul>
+                                  <li *ngFor="let fbt of bu.misuseTypes">{{fbt}}</li>
+                                  <li *ngIf="bu.comment">Comment: {{bu.comment}}</li>
+                                </ul>
+                              </ng-container>
+                            </li>
+                          </ul>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul style="padding-left: 20px;">
+                      <ng-container *ngFor="let bu of obs.protectiveEquipment">
+                        <li *ngIf="!bu.wasUsed">
+                          {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{obs.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </ng-container>
+        <!-- Gloves -->
+        <ng-container *ngIf="item.type === sessionTypeOptions[3].name">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>With/Without Indications</th>
+                  <th>Indications</th>
+                  <th>Glove used</th>
+                  <th>Hand hygiene after wearing gloves</th>
+                  <th>Registered</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let obs of item.observations">
+                  <td>{{obs.role}}</td>
+                  <td *ngIf="obs.gloveObservation.gloveWithIndicationTypes.length > 0">Glove by indications</td>
+                  <td *ngIf="obs.gloveObservation.gloveWithoutIndicationTypes.length > 0">Glove without indications</td>
+                  <td>
+                    <ul style="padding-left: 20px;" *ngIf="obs.gloveObservation.gloveWithIndicationTypes.length > 0">
+                      <li *ngFor="let gloveWithIndicationType of obs.gloveObservation.gloveWithIndicationTypes">
+                        {{gloveWithIndicationType.name}}
+                      </li>
+                    </ul>
+                    <ul style="padding-left: 20px;" *ngIf="obs.gloveObservation.gloveWithoutIndicationTypes.length > 0">
+                      <li *ngFor="let gloveWithoutIndicationType of obs.gloveObservation.gloveWithoutIndicationTypes">
+                        {{gloveWithoutIndicationType.name}}
+                      </li>
+                    </ul>
+                  </td>
+                  <td style="padding-left: 40px;">{{obs.gloveObservation.usedGlove ? "Yes" : 'No'}}</td>
+                  <td style="padding-left: 40px;">{{obs.gloveObservation.handhygieneAfterGloveuseType.name}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{obs.comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </ng-container>
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>

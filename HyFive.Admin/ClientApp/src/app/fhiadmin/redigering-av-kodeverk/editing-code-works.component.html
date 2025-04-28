@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <h3 class="ml-3">Editing of codework</h3>
+  </div>
+  <div class="row mb-5">
+    <div class="col-lg-3 mb-5 mb-lg-0">
+      <ul class="list-group hh-side-menu">
+        <li class="list-group-item"
+            *ngFor="let codework of codework"
+            [ngClass]="{ 'active text-black bg-primary-subtle ': codework.isActive }"
+            (click)="openComponent(codework)">
+          {{ codework.name }}
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <ng-container *ngIf="!codeworkSelected">Choose a codework</ng-container>
+      <ng-container #codeworkContainer>
+      </ng-container>
+    </div>
+  </div>
+
+  <router-outlet name="codework"></router-outlet>
+
+</div>
