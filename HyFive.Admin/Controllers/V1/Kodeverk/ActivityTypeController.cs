@@ -1,4 +1,4 @@
-﻿using HyFive.Modeller.V1.Observation;
+﻿using HyFive.Models.V1.Observation;
 using HyFive.Services.FourIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,36 +10,36 @@ using HyFive.Services.Authentication.Requirements;
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
-    [Route("api/v1/aktivitettype")]
-    public class AktivitettypeController : ControllerBase
+    [Route("api/v1/activityType")]
+    public class ActivityTypeController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public AktivitettypeController(IMediator mediator)
+        public ActivityTypeController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Hent alle tilgjengelige aktivitettyper <see cref="ActivityType"/>
+        /// Get all available activity types <see cref="ActivityType"/>
         /// </summary>
         /// <returns></returns>
 
         [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
         [HttpGet]
-        public async Task<IEnumerable<ActivityType>> HentAktivitettyper()
+        public async Task<IEnumerable<ActivityType>> GetAllActivityTypes()
             => await _mediator.Send(new GetActivityTypes.Query());
 
         /// <summary>
-        /// Oppdaterer en aktivitettype
+        /// Updating an activity type
         /// </summary>
-        /// <param name="aktivitettype"></param>
+        /// <param name="activityType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPut("oppdater")]
-        public async Task<ActivityType> OppdaterAktivitettype([FromBody] ActivityType aktivitettype)
+        [HttpPut("update")]
+        public async Task<ActivityType> UpdateActivityType([FromBody] ActivityType activityType)
         {
-            var result = await _mediator.Send(new UpdateActivityType.Command() { ActivityType = aktivitettype });
+            var result = await _mediator.Send(new UpdateActivityType.Command() { ActivityType = activityType });
             return result;
         }
     }
