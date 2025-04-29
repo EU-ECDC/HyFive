@@ -1,0 +1,71 @@
+<div>
+  <div class="row ms-1">
+    <div class="col">
+      <h5>Region</h5>
+    </div>
+  </div>
+  <div class="row ms-1">
+    <div class="col-3">
+      <input type="text" class="form-control" [(ngModel)]='newRegion.code' placeholder="Code">
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" [(ngModel)]='newRegion.name' placeholder="Name">
+    </div>
+    <div class="col-6">
+      <label></label>
+      <button class="form-control btn fhi-btn-primary"
+              [disabled]="!newRegion.code || !newRegion.name"
+              (click)="createRegion()">
+        Add to
+      </button>
+    </div>
+  </div>
+
+  <div class="col-12 m-3">
+    <ng-container>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th class="text-end" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let region of regions">
+              <ng-container *ngIf="regionAsChanged?.id !== region.id">
+                <td>{{region.code}}</td>
+                <td>{{region.name}}</td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="selectedRegion(region)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="regionAsChanged?.id === region.id">
+                <td>{{regionAsChanged.code}}</td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="regionAsChanged.name">
+                </td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="updateRegion(regionAsChanged)">
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                  </button>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                  </button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="row">
+  <app-spinner class="col-12" *ngIf="regions?.length == 0">Loading regions</app-spinner>
+</div>
+
+

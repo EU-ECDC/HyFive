@@ -1,0 +1,51 @@
+<div>
+  <ng-container *ngIf="showEditOfProtectiveEquipmentTypes">
+    <div class="row">
+      <div class="col">
+        <h5>Protective equipment types</h5>
+      </div>
+    </div>
+
+    <div class="col-12 m-3">
+      <ng-container>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th class="text-end" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let equipmentType of equipmentTypes">
+                <ng-container *ngIf="equipmentTypeAsChanged?.id !== equipmentType.id">
+                  <td>{{equipmentType.code}}</td>
+                  <td>{{equipmentType.name}}</td>
+                  <td class="text-end py-2 align-middle">
+                    <button class="btn fhi-btn-icon" (click)="navigateToMisuseTypes(equipmentType)">
+                      <i class="icon-pencil"></i><span class="btn__text">Edit types of misuse</span>
+                    </button>
+                  </td>
+                </ng-container>
+                <ng-container *ngIf="equipmentTypeAsChanged?.id === equipmentType.id">
+                  <td>{{equipmentTypeAsChanged.code}}</td>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]="equipmentTypeAsChanged.name">
+                  </td>
+                </ng-container> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="row">
+      <app-spinner class="col-12" *ngIf="equipmentTypes?.length == 0">Loading protective equipment types</app-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!showEditOfProtectiveEquipmentTypes">
+    <app-redigering-av-feilbruktyper [equipmentType]='equipmentTypeAsChanged' (visRedigeringAvBeskyttelsesutstyrtyperEvent)="NavigateToProtectiveEquipmentTypes($event)"></app-redigering-av-feilbruktyper>
+  </ng-container>
+</div>

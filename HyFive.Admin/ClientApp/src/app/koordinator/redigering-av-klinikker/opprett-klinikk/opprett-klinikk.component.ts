@@ -50,7 +50,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
       this.lastAvdelinger();
     },
-      (error) => this.toastrService.error(`En feil skjedde under opprettelse av klinikk. Feilmelding fra server: ${error?.message ? error.message : error}`, 'Feil under opprettelse av klinikk', { disableTimeOut: true}),
+      (error) => this.toastrService.error(`An error occurred while creating klinikk. Feilmelding fra server: ${error?.message ? error.message : error}`, 'Error under opprettelse av klinikk', { disableTimeOut: true}),
       () => { this.nullstillSkjema(); }
     );
   }

@@ -46,17 +46,17 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.maneder = this.initManeder();
-    this.lastRoller();
+    this.loadRoles();
     this.lastAvdelinger();
   }
 
   ngOnDestroy(): void {
   }
 
-  lastRoller() {
+  loadRoles() {
     this.roleService.getRoles().subscribe(
       (roles) => this.roles = roles,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('An error occurred while loading roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
@@ -64,7 +64,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
     var institutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getDepartments(institutionId).subscribe(
       (departments) => this.departments = departments,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av roles: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('An error occurred while loading roles: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
@@ -79,7 +79,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
         this.lagAntallDiagramOptions(antallGraf);
         this.visGraf = true;
       },
-      (error) => this.toastrService.error('Feil i generering av grafdata: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('Error i generering av grafdata: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 

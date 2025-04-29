@@ -90,7 +90,7 @@ export class EtterlevelsePdfComponent {
             },
               (error) => {
                 this.lagerRapport = false
-                this.toastrService.error(error?.message ? error.message : error, 'Feil under nedlasting av rapport', { disableTimeOut: true });
+                this.toastrService.error(error?.message ? error.message : error, 'Error under nedlasting av rapport', { disableTimeOut: true });
               });
           } else {
             this.toastrService.info('Det finnes ikkke observasjoner for valgte verdier', '', { positionClass: 'toast-center-center' });

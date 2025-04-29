@@ -11,7 +11,7 @@
             </div>
             <div class="col-6 col-md-4">
               <label></label>
-              <button class="btn fhi-btn-primary" (click)="opprettPredefinertKommentar()" [disabled]="!nyPredefinertKommentar.kommentar">Legg til kommentar</button>
+              <button class="btn fhi-btn-primary" (click)="opprettPredefinertKommentar()" [disabled]="!nyPredefinertKommentar.kommentar">Add to kommentar</button>
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="row" *ngIf="loading">
-      <app-spinner class="col-12">Laster predefinert kommentarer</app-spinner>
+      <app-spinner class="col-12">Loading predefinert kommentarer</app-spinner>
     </div>
   </div>
 </div>

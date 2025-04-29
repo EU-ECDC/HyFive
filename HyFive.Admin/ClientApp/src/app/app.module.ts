@@ -6,43 +6,43 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
-import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
+import { HomePageForAdministrationComponent } from './front-page-for-administration/front-page-for-administration.component';
+import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-institutions.component';
 import { EditInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
-import { CreateInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/opprett-institusjon/create-institution.component';
+import { CreateInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/create-institution/create-institution.component';
 import { EditObserversComponent } from './_felles/edit-observers/edit-observers.component';
 import { ConfirmationDialogComponent } from './fhiadmin/redigering-av-institusjoner/confirmation-dialog/confirmation-dialog.component';
-import { RedigeringAvIndikasjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-indikasjonstyper/redigering-av-indikasjonstyper.component';
-import { RedigeringAvHandsmykketypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-handsmykketype/redigering-av-handsmykketype.component';
-import { RedigeringAvInstitusjonstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-institusjonstyper/redigering-av-institusjonstyper.component';
-import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
+import { EditingIndicationTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-indication-types/editing-indication-types.component';
+import { EditingByHandjewelryTypeComponent } from './fhiadmin/redigering-av-kodeverk/editing-HandjewelryType/editing-of-handjewelry-type.component';
+import { EditingInstitutionTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-institution-types/editing-of-institution-types.component';
+import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
 import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
 import { CreateDepartmentComponent } from './_felles/redigering-av-avdelinger/create-department/create-department.component';
-import { RedigeringAvAktivitettypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-aktivitettype/redigering-av-aktivitettype.component';
-import { RedigeringAvBeskyttelsesutstyrtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/redigering-av-beskyttelsesutstyrtyper.component';
-import { RedigeringAvFeilbruktyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/redigering-av-feilbruktyper/redigering-av-feilbruktyper.component';
-import { RedigeringAvBeskyttelsesutstyrsettingtyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrsettingtyper/redigering-av-beskyttelsesutstyrsettingtyper.component';
+import { EditingActivityTypeComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-activitytype/editing-activitytype.component';
+import { EditingProtectiveEquipmentTypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/editing-of-protectiveequipment-types.component';
+import { EditingMisuseTypesComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/editing-of-misuse-types/editing-of-misuse-types.component';
+import { EditingOfProtectiveEquipmentSettingTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-protective-equipment-setting-types/editing-of-protective-equipment-setting-types.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { DatePipe } from '@angular/common';
 import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
 import { RedigeringAvObservatorerComponent } from './koordinator/redigering-av-observatorer/redigering-av-observatorer.component';
 import { ProfilsideComponent } from './profilside/profilside.component';
 import { ClipboardModule } from 'ngx-clipboard';
-import { RedigeringAvHanskemedindikasjontyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-hanskemedindikasjontyper/redigering-av-hanskemedindikasjontyper.component';
-import { RedigeringAvHanskeutenindikasjontyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-hanskeutenindikasjontyper/redigering-av-hanskeutenindikasjontyper.component';
-import { RedigeringAvHandhygieneetterhanskebruktyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-handhygieneetterhanskebruktyper/redigering-av-handhygieneetterhanskebruktyper.component';
-import { OverforSesjonerComponent } from './koordinator/overfor-sesjoner/overfor-sesjoner.component';
+import { EditingGlovesWithIndicationTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-gloves-with-indicationtypes/editing-gloves-with-indicationtypes.component';
+import { EditingGlovewithoutindicationtypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-gloveswithoutindicationtypes/editing-of-gloveswithoutindicationtypes.component';
+import { EditingHandHygieneAfterGloveUseTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
+import { OverforSesjonerComponent } from './koordinator/opposite-sessions/overfor-sesjoner.component';
 import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
-import { RedigeringAvAvdelingstyperComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-avdelingstyper/redigering-av-avdelingstyper.component';
+import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
 import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klinikker/redigering-av-klinikker.component';
 import { OpprettKlinikkComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/opprett-klinikk.component';
 import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
-import { RedigeringAvRegionComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-region/redigering-av-region.component';
+import { EditingRegionComponent } from './fhiadmin/redigering-av-kodeverk/editing-region.component/editing-region.component';
 import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
-import { RedigeringAvRollerComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-roles/redigering-av-roles.component';
+import { EditingOfRolesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-roles/editing-of-roles.component';
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
-import { EditFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/rediger-fhiadmin/edit-fhiadmin.component';
+import { EditFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/edit-fhiadmin/edit-fhiadmin.component';
 import {AuthenticationFailedModalComponent} from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
@@ -84,42 +84,42 @@ export const httpInterceptorProviders = [
 @NgModule({
   declarations: [
     AppComponent,
-    ForsideForAdministrasjonComponent,
+    HomePageForAdministrationComponent,
     EditingOfInstitutionsComponent,
     EditInstitutionComponent,
     CreateInstitutionComponent,
     EditObserversComponent,
-    RedigeringAvHandsmykketypeComponent,
+    EditingByHandjewelryTypeComponent,
     EditCoordinatorsComponent,
     ConfirmationDialogComponent,
-    RedigeringAvKodeverkComponent,
-    RedigeringAvIndikasjonstyperComponent,
-    RedigeringAvAktivitettypeComponent,
-    RedigeringAvInstitusjonstyperComponent,
+    EditingCodeworkComponent,
+    EditingIndicationTypesComponent,
+    EditingActivityTypeComponent,
+    EditingInstitutionTypesComponent,
     EditingDepartmentsComponent,
     CreateDepartmentComponent,
-    RedigeringAvBeskyttelsesutstyrtyperComponent,
-    RedigeringAvFeilbruktyperComponent,
-    RedigeringAvBeskyttelsesutstyrsettingtyperComponent,
+    EditingProtectiveEquipmentTypeComponent,
+    EditingMisuseTypesComponent,
+    EditingOfProtectiveEquipmentSettingTypesComponent,
     OverviewObservationsComponent,
     OverviewDepartmentSessionsComponent,
     RedigeringAvObservatorerComponent,
     ProfilsideComponent,
-    RedigeringAvHanskemedindikasjontyperComponent,
-    RedigeringAvHanskeutenindikasjontyperComponent,
-    RedigeringAvHandhygieneetterhanskebruktyperComponent,
+    EditingGlovesWithIndicationTypesComponent,
+    EditingGlovewithoutindicationtypesComponent,
+    EditingHandHygieneAfterGloveUseTypesComponent,
     OverforSesjonerComponent,
     OverviewSessionsViewComponent,
     RedigeringAvPredefinertKommentarerComponent,
-    RedigeringAvAvdelingstyperComponent,
+    EditingOfDepartmentTypesComponent,
     RedigeringAvKlinikkerComponent,
     OpprettKlinikkComponent,
     RedigerEnKlinikkComponent,
-    RedigeringAvRegionComponent,
+    EditingRegionComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
     ActivityChoiceDropdownComponent,
-    RedigeringAvRollerComponent,
+    EditingOfRolesComponent,
     OverviewFhiAdminComponent,
     EditFhiAdminComponent,
     AuthenticationFailedModalComponent,

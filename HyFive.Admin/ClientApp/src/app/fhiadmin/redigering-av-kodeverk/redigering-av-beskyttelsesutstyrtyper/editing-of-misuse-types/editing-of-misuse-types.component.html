@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="hh-navigasjonslenke mb-3 ml-n3" (click)="navigerTilBeskyttelsesutsyrtyper()">
+    <button class="btn hh-transparent-button">
+      <fa-icon [icon]="faChevronLeft"></fa-icon> Tilbake til beskyttelsesutstyrtyper
+    </button>
+  </div>
+</div>
+<div class="row ms-1">
+  <div class="col">
+    <h5>Feilbruktyper for {{equipmentType.name}}</h5>
+  </div>
+</div>
+<div class="row ms-1">
+  <div class="col-3">
+    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.name' placeholder="Name">
+  </div>
+  <div class="col-6">
+    <label></label>
+    <button class="form-control btn fhi-btn-primary" (click)="createMisuseType()" [disabled]="!nyFeilbruktype.name">Add to feilbruktype</button>
+  </div>
+</div>
+
+<div class="col-12 m-3">
+  <ng-container>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="text-end" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let feilbruktype of feilbruktyper">
+            <ng-container *ngIf="feilbruktypeSomEndres?.id !== feilbruktype.id">
+              <td>{{feilbruktype.name}}</td>
+              <td class="text-end py-2 align-middle">
+                <button class="btn fhi-btn-icon" (click)="valgtFeilbruktype(feilbruktype)">
+                  <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                </button>
+              </td>
+            </ng-container>
+            <ng-container *ngIf="feilbruktypeSomEndres?.id === feilbruktype.id">
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.name">
+              </td>
+              <td class="text-end py-2 align-middle">
+                <button class="btn fhi-btn-icon" (click)="updateMisuseType(feilbruktypeSomEndres)">
+                  <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                </button>
+                <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
