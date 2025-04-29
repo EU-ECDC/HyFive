@@ -5,16 +5,16 @@
     <div class="form-row">
       <div class="form-group col-12 mb-3">
         <label for="klinikknavn">Name</label>
-        <input type="text" id="klinikknavn" class="form-control" placeholder="e.g. Nevrologisk avdeling" [(ngModel)]="klinikkKopi.name">
+        <input type="text" id="klinikknavn" class="form-control" placeholder="e.g. Nevrologisk department" [(ngModel)]="klinikkKopi.name">
       </div>
       <div class="form-group col-12 mb-3">
         Departments som skal være tilknyttet klinikken
-        <div class="custom-control custom-checkbox my-1" *ngFor="let valg of avdelingsvalg">
-          <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'role'+avdelingsvalg.indexOf(valg)" class="form-check-input">
-          <label [htmlFor]="'role'+avdelingsvalg.indexOf(valg)" class="custom-control-label ms-2">
-            <span>{{ valg.avdeling.name }}</span>
+        <div class="custom-control custom-checkbox my-1" *ngFor="let valg of departmentsSelection">
+          <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'role'+departmentsSelection.indexOf(valg)" class="form-check-input">
+          <label [htmlFor]="'role'+departmentsSelection.indexOf(valg)" class="custom-control-label ms-2">
+            <span>{{ valg.department.name }}</span>
           </label>
-          <fa-icon *ngIf="valg.erAlleredePaKlinikk" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="Brukes av en annen klinikk!"></fa-icon>
+          <fa-icon *ngIf="valg.isAlreadyAtClinic" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="Brukes av en annen klinikk!"></fa-icon>
         </div>
       </div>
     </div>

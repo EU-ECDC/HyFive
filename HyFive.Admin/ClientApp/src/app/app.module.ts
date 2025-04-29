@@ -36,7 +36,7 @@ import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visni
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
 import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klinikker/redigering-av-klinikker.component';
-import { OpprettKlinikkComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/opprett-klinikk.component';
+import { CreateClinicComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/create-clinic.component';
 import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
 import { EditingRegionComponent } from './fhiadmin/redigering-av-kodeverk/editing-region.component/editing-region.component';
 import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
@@ -113,7 +113,7 @@ export const httpInterceptorProviders = [
     RedigeringAvPredefinertKommentarerComponent,
     EditingOfDepartmentTypesComponent,
     RedigeringAvKlinikkerComponent,
-    OpprettKlinikkComponent,
+    CreateClinicComponent,
     RedigerEnKlinikkComponent,
     EditingRegionComponent,
     RoleSelectionDropdownComponent,

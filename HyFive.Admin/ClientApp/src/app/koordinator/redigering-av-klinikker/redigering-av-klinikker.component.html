@@ -3,7 +3,7 @@
     <div class="row">
       <h3>Maintenance of clinics</h3>
     </div>
-    <app-opprett-klinikk (klinikkOpprettetEvent)="hentclinics()" [institutionId]="institutionId" *ngIf="institutionId > 0 && klinikkId == 0"></app-opprett-klinikk>
+    <app-create-clinic (clinicCreatedEvent)="hentclinics()" [institutionId]="institutionId" *ngIf="institutionId > 0 && klinikkId == 0"></app-create-clinic>
     <div class="row mb-5 mt-5">
       <ng-container>
         <div class="table-responsive">
