@@ -59,9 +59,9 @@ import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/se
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { RequestComponent } from "./koordinator/request/request.component";
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
+import { EditCoordinatorsForHealthEnterprisesComponent } from './koordinator/editing-of-coordinators/edit-coordinators-for-healthcareEnterprise.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
+import { EditingCoordinatorsComponent } from './koordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EditCoordinatorsComponent } from './_felles/edit-coordinators/editCoordinators.component';
 import { PseudonymDialogComponent } from './_felles/edit-coordinators/pseudonym-dialog.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
@@ -133,8 +133,8 @@ export const httpInterceptorProviders = [
     EditSessionDataComponent,
     RequestComponent,
     HealthEnterpriseComponent,
-    RedigeringAvKoordinatorerComponent,
-    RedigerKoordinatorerForHelseforetakComponent,
+    EditingCoordinatorsComponent,
+    EditCoordinatorsForHealthEnterprisesComponent,
     PseudonymDialogComponent,
     EmailComponent,
     ReportComponent,

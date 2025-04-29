@@ -16,7 +16,7 @@ import { EditingClinicsComponent } from "./koordinator/redigering-av-klinikker/e
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { RequestComponent } from './koordinator/request/request.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
+import { EditingCoordinatorsComponent } from './koordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { ReportComponent } from './koordinator/rapporter/report.component';
 import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
@@ -66,7 +66,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.editingByCoordinators,
-    component: RedigeringAvKoordinatorerComponent
+    component: EditingCoordinatorsComponent
   },
   {
     path: UrlPaths.editingByObservers,

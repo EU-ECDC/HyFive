@@ -9,13 +9,13 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 })
 export class RedigeringAvObservatorerComponent implements OnInit {
 
-  institusjonRapport: InstitutionReport = null;
+  institutionReport: InstitutionReport = null;
   constructor(private institutionService: InstitutionService) { }
 
   ngOnInit(): void {
     let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getInstitution(selectedInstitutionId).subscribe((result) => {
-      this.institusjonRapport = {
+      this.institutionReport = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,
