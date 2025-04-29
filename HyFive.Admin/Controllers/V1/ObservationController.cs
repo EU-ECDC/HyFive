@@ -62,7 +62,7 @@ namespace HyFive.Admin.Controllers.V1
             else if (role == AuthorizedRole.Coordinator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToCoordinator;
-                if (!_userService.IsFhiAdminOrCoordinator(institutionId.Value))
+                if (!_userService.IsCoordinatorForInstitution(institutionId.Value))
                     return Forbid();
             }
             else
@@ -140,7 +140,7 @@ namespace HyFive.Admin.Controllers.V1
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate)
         {
-            if (_userService.IsFhiAdminOrCoordinator(institutionId))
+            if (_userService.IsCoordinatorForInstitution(institutionId))
             {
                 var resultat = await _mediator.Send(new GetSessionsForInstitution.Query()
                 {
@@ -166,7 +166,7 @@ namespace HyFive.Admin.Controllers.V1
             [FromQuery] int institutionId,
             [FromQuery] Guid sessionId)
         {
-            if (_userService.IsFhiAdminOrCoordinator(institutionId))
+            if (_userService.IsCoordinatorForInstitution(institutionId))
             {
                 var resultat = await _mediator.Send(new TransferSessionToFhi.Query()
                 {

@@ -15,28 +15,29 @@ namespace HyFive.Admin.Controllers
         }
 
         /// <summary>
-        /// Seeder alle nædvendige statiske kodeverk som skal tl for å få applikasjonen til å kjøre:
-        /// OverforingstatusTyper, AktivitetTyper, Indications, HandsmykkeTyper, BeskyttelsesutstyrTyper, BeskyttelsesutstyrsettingTyper,
+        /// Seeds all necessary static code lists required for the application to run:
+        /// OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
+        /// BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
         /// IndicatedGloveTypes, GeneralPurposeGloveType, PostGloveHandHygiene.
-        /// I tillegg seedes det en FHI Admin: Felix Mørk.
-        /// For å seede kommuner må du kjøre scriptet "HyFive.DataAccess\Scripts\Kommuner.sql"
+        /// In addition, an FHI Admin is seeded: Felix Mørk.
+        /// To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
         /// </summary>
         /// <returns></returns>
-        [HttpGet("kodeverk")]
-        public async Task<IActionResult> SeedKodeverk()
+        [HttpGet("codeSystem")]
+        public async Task<IActionResult> SeedCodeSystem()
         {
             var ok = await _mediator.Send(new Services.Seed.SeedCodebook.Command());
             return Ok();
         }
 
         /// <summary>
-        /// Seeder et begrenset sett med institusjoner, InstitusjonTyper, avdelinger, AvdelingTyper, Roles og Users.
-        /// Hvis du trenger mer enn dette kan du kjøre sql-scriptet "HyFive.DataAccess\Scripts\Institutions, avdelinger mm.sql".
-        /// NB! Du må bruke ENTEN denne api-metoden ELLER scriptet
+        /// Seeds a limited set of institutions, InstitutionTypes, departments, DepartmentTypes, Roles, and Users.
+        /// If you need more than this, you can run the SQL script "HyFive.DataAccess\Scripts\Institutions, departments, etc.sql".
+        /// NOTE: You must use EITHER this API method OR the script.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("institusjoner")]
-        public async Task<IActionResult> SeedInstitusjoner()
+        [HttpGet("institutions")]
+        public async Task<IActionResult> SeedInstitutions()
         {
             var ok = await _mediator.Send(new Services.Seed.SeedInstitutions.Command());
             return Ok();

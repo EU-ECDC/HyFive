@@ -302,7 +302,7 @@ namespace HyFive.Admin.Controllers.V1
             if (_userService.IsFhiAdmin())
                 return true;
 
-            if (_userService.IsFhiAdminOrCoordinator(institutionId))
+            if (_userService.IsCoordinatorForInstitution(institutionId))
                 return true;
 
             return false;

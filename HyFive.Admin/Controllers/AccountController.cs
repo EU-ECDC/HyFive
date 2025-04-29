@@ -16,7 +16,7 @@ namespace HyFive.Admin.Controllers
     [AllowAnonymous]
     public class AccountController : Services.Authentication.Controllers.BaseAccountController
     {
-        public AccountController(IUserService brukerService, IOptions<HandHygieneHealthIdConfiguration> handhygieneKonfigurasjon, IOptions<RedirectPagesKonfigurasjon> redirectKonfigurasjon) : base(brukerService, handhygieneKonfigurasjon, redirectKonfigurasjon)
+        public AccountController(IUserService userService, IOptions<HandHygieneHealthIdConfiguration> handHygieneConfig, IOptions<RedirectPagesKonfigurasjon> redirectPagesConfig) : base(userService, handHygieneConfig, redirectPagesConfig)
         {
         }
     }

@@ -75,7 +75,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/departments", Name = "GetDepartments")]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments(int id)
         {
-            if (_userService.IsFhiAdminOrCoordinator(id))
+            if (_userService.IsCoordinatorForInstitution(id))
             {
                 var result = await _mediator.Send(new GetDepartmentsForInstitution.Query() { InstitutionId = id });
                 return Ok(result);

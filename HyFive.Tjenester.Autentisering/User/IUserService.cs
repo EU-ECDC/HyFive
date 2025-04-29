@@ -15,7 +15,7 @@ namespace HyFive.Services.Authentication.User
 
         bool IsObserver(string hprNumber, string identityPseudonym);
 
-        bool IsFhiAdminOrCoordinator(int institutionId);
+        bool IsCoordinatorForInstitution(int institutionId);
 
         bool IsCoordinatorForDepartment(int departmentId);
 

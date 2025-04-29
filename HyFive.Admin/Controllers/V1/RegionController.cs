@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institution;
+using HyFive.Models.V1.Institution;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Region;
 using MediatR;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.FhiAdmin)]
-    [Route("api/v1/regioner")]
+    [Route("api/v1/regions")]
     public class RegionController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,45 +22,45 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Hent Regiontyper
+        /// Get Region Types
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Region>>> HentRegionTyper()
+        public async Task<ActionResult<IEnumerable<Region>>> GetRegionTypes()
         {
-            var regioner = await _mediator.Send(new GetRegions.Query());
-            return Ok(regioner);
+            var regions = await _mediator.Send(new GetRegions.Query());
+            return Ok(regions);
         }
 
         /// <summary>
-        /// Hent Regiontype
+        /// Get Region type
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpGet("{id}", Name = "HentRegion")]
-        public async Task<ActionResult<Region>> HentRegion(int id)
+        [HttpGet("{id}", Name = "GetRegion")]
+        public async Task<ActionResult<Region>> GetRegion(int id)
         {
             var region = await _mediator.Send(new GetRegion.Query() { Id = id });
             return Ok(region);
         }
 
         /// <summary>
-        /// Opprett Regiontype
+        /// Create Region type
         /// </summary>
-        /// <param name="nyRegionsType"></param>
+        /// <param name="newRegionType"></param>
         /// <returns></returns>
-        [HttpPost("opprett")]
-        public async Task<ActionResult<Region>> OpprettRegionType([FromBody] CreateRegionRequest nyRegionsType)
+        [HttpPost("create")]
+        public async Task<ActionResult<Region>> CreateRegionType([FromBody] CreateRegionRequest newRegionType)
         {
             try
             {
-                var opprettetRegion = await _mediator.Send(new CreateRegion.Command
+                var createdRegion = await _mediator.Send(new CreateRegion.Command
                 {
-                    NewRegion = nyRegionsType
+                    NewRegion = newRegionType
                 });
 
-                return CreatedAtRoute("HentRegion", new { id = opprettetRegion.Id }, opprettetRegion);
+                return CreatedAtRoute("GetRegion", new { id = createdRegion.Id }, createdRegion);
             }
             catch (Exception e)
             {
@@ -69,18 +69,18 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Oppdater Regiontype
+        /// Update Region type
         /// </summary>
         /// <param name="regionType"></param>
         /// <returns></returns>
-        [HttpPut("oppdater")]
+        [HttpPut("update")]
         public async Task<ActionResult<Region>> OppdaterRegionType([FromBody] Region regionType)
         {
-            var oppdatertRegion = await _mediator.Send(new UpdateRegion.Command
+            var updatedRegion = await _mediator.Send(new UpdateRegion.Command
             {
                 RegionType = regionType
             });
-            return Ok(oppdatertRegion);
+            return Ok(updatedRegion);
         }
     }
 }

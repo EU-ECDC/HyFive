@@ -80,7 +80,7 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForInstitution(int institutionId, string identityPseudonym, string hprNumber)
             => IsRoleForInstitution<Coordinator>(hprNumber, identityPseudonym, institutionId);
 
-        public bool IsFhiAdminOrCoordinator(int institutionId)
+        public bool IsCoordinatorForInstitution(int institutionId)
             => IsRoleForInstitution<Coordinator>(GetHprNumber(), GetPseudonym(), institutionId);
 
         public bool IsCoordinatorForHealthcareProvider(int healthcareProvider)
@@ -128,7 +128,7 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsCoordinatorForInstitutionOrFhiAdmin(int institutionId)
         {
-            return IsFhiAdminOrCoordinator(institutionId) || IsFhiAdmin();
+            return IsCoordinatorForInstitution(institutionId) || IsFhiAdmin();
         }
 
         public bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProvider)
