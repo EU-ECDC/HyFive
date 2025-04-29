@@ -2,15 +2,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface ForesporselOmBrukertilgang
+export interface RequestAboutUserAccess
 {
 	id: number;
 	institutionId?: number;
-	brukerFornavn: string;
-	brukerEtternavn: string;
+	userFirstName: string;
+	userLastName: string;
 	identityPseudonym: string;
 	hprNumber: string;
 	status: number;
 	timeOfCreation: any;
-	godkjenttidspunkt: any;
+	approvalDate: any;
 }

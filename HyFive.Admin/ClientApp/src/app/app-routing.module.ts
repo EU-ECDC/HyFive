@@ -14,7 +14,7 @@ import { TransferSessionsComponent } from './koordinator/transfer-sessions/trans
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
-import { RequestComponent } from './koordinator/foresporsel/foresporsel.component';
+import { RequestComponent } from './koordinator/request/request.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
 import { EmailComponent } from './fhiadmin/email/email.component';

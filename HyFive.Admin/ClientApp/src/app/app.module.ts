@@ -57,7 +57,7 @@ import { EditProtectiveEquipmentObservationComponent } from './koordinator/redig
 import {ProtectiveEquipmentModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
 import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
-import { RequestComponent } from "./koordinator/foresporsel/foresporsel.component";
+import { RequestComponent } from "./koordinator/request/request.component";
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';

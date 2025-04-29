@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="form-row mb-3">
+    <div class="form-check form-check-inline ml-0">
+      <input type="radio" class="form-check-input"
+              id="showWaitingForApproval"
+              name="showStatus" checked
+              (click)="loadRequestsAwaitingApproval()"/>
+      <label class="form-check-label" for="showWaitingForApproval">Awaiting approval</label>
+      </div>
+    <div class="form-check form-check-inline">
+      <input type="radio" class="form-check-input"
+              id="showAll"
+              name="showStatus"
+              (click)="loadAllRequests()"/>
+      <label class="form-check-label" for="showAll">Show all</label>
+    </div>
+  </div>
+  <div class="row" *ngIf="requests">
+    <h5 class="col-12">User access requests</h5>
+    <label class="col-12 mt-3" *ngIf="requests.length === 0">Did not find any requests</label>
+    <ng-container>
+      <div class="table-responsive">
+        <table class="table" *ngIf="requests.length > 0">
+          <thead>
+            <tr>
+              <td scope="col">Firstname</td>
+              <td scope="col">Lastname</td>
+              <td scope="col">Received</td>
+              <td class="text-end" scope="col">Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of requests">
+              <td>{{request.userFirstName}}</td>
+              <td>{{request.userLastName}} </td>
+              <td>{{request.timeOfCreation | date:'dd.MM.yyyy HH:mm'}}</td>
+              <td class="text-end py-2 align-middle">
+                <div *ngIf="request.status == requestStatus.Registered">
+                  <button class="btn fhi-btn-icon mx-2" (click)="approveRequest(request.id)">
+                    <i class="icon-check"></i><span class="btn__text">Approve</span>
+                  </button>
+                  <button class="btn fhi-btn-icon mx-2" (click)="rejectRequest(request.id)">
+                    <i class="icon-x"></i><span class="btn__text">Reject</span>
+                  </button>
+                </div>
+                <div *ngIf="request.status == requestStatus.Approved" >Request is approved</div>
+                <div *ngIf="request.status == requestStatus.Rejected" >Request is rejected</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </ng-container>
+  </div>
+</div>
