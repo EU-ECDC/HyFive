@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace HyFive.Observasjon.Controllers
+namespace HyFive.Observation.Controllers
 {
     [Route("account")]
     [AllowAnonymous]
     public class AccountController : BaseAccountController
     {
-        public AccountController(IUserService brukerService, IOptions<HandHygieneHealthIdConfiguration> handhygieneKonfigurasjon, IOptions<RedirectPagesKonfigurasjon> redirectKonfigurasjon) : base(brukerService, handhygieneKonfigurasjon, redirectKonfigurasjon)
+        public AccountController(IUserService userService, IOptions<HandHygieneHealthIdConfiguration> handHygieneConfig, IOptions<RedirectPagesKonfigurasjon> redirectPagesConfig) : base(userService, handHygieneConfig, redirectPagesConfig)
         {
 
         }

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using HyFive.DataAccess;
-using HyFive.Domain.Bruker;
+﻿using HyFive.DataAccess;
 using HyFive.Domain.Observation;
-using HyFive.Domain.Observation.ProtectiveEquipment;
 using HyFive.Domain.Observation.Gloves;
-using HyFive.Domain.Session;
+using HyFive.Domain.Observation.ProtectiveEquipment;
 using HyFive.Domain.Place;
-using HyFive.Modeller.V1.Constants;
+using HyFive.Domain.Session;
+using HyFive.Domain.User;
+using HyFive.Models.V1.Constants;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HyFive.Services.Tests
 {
@@ -37,25 +37,25 @@ namespace HyFive.Services.Tests
 
         public void SeedData()
         {
-            SeedRegioner();
-            SeedInstitusjonTyper();
-            SeedOverforingstatusTyper();
-            SeedAvdelingTyper();
-            SeedInstitusjoner();
-            SeedAktivitetTyper();
-            SeedIndikasjoner();
-            SeedHandsmykkeTyper();
-            SeedBeskyttelsesutstyrTyper();
-            SeedBeskyttelsesutstyrsettingTyper();
-            SeedBrukere();
-            SeedHanskeMedIndikasjonTyper();
-            SeedHanskeUtenIndikasjonTyper();
-            SeedHandhygieneEtterHanskebrukType();
+            SeedRegions();
+            SeedInstitutionTypes();
+            SeedTransmissionStatusTypes();
+            SeedDepartmentTypes();
+            SeedInstitutions();
+            SeedActivityTypes();
+            SeedIndication();
+            SeedHandJewelryTypes();
+            SeedProtectiveEquipmentTypes();
+            SeedProtectiveEquipmentSettingTypes();
+            SeedUsers();
+            SeedGloveWithIndicationTypes();
+            SeedGloveWithoutIndicationTypes();
+            SeedPostGloveHandHygieneTypes();
         }
 
-        private void SeedRegioner()
+        private void SeedRegions()
         {
-            var regioner = new List<Domain.Place.Region>
+            var regions = new List<Domain.Place.Region>
                 {
                     new Domain.Place.Region {Code = "HELSE_SOR_OST", Name = "Helse Sør-Øst"},
                     new Domain.Place.Region {Code = "HELSE_VEST", Name = "Helse Vest"},
@@ -74,39 +74,39 @@ namespace HyFive.Services.Tests
                     new Domain.Place.Region {Code = "VIKEN", Name = "Viken"},
                 };
 
-            _context.Region.AddRange(regioner);
+            _context.Region.AddRange(regions);
             _context.SaveChanges();
         }
 
-        private void SeedHandhygieneEtterHanskebrukType()
+        private void SeedPostGloveHandHygieneTypes()
         {
-            var handhygieneEtterHanskebrukTyper = new List<PostGloveHandHygiene>
+            var handHygieneAfterGloveUseTypes = new List<PostGloveHandHygiene>
                 {
                     new PostGloveHandHygiene {Code = "IKKE_INDIKERT", Name = "Ikke Indikert"},
                     new PostGloveHandHygiene {Code = "NEI", Name = "Nei"},
                     new PostGloveHandHygiene {Code = "JA", Name = "Ja"},
                 };
 
-            _context.PostGloveHandHygiene.AddRange(handhygieneEtterHanskebrukTyper);
+            _context.PostGloveHandHygiene.AddRange(handHygieneAfterGloveUseTypes);
             _context.SaveChanges();
         }
 
-        private void SeedHanskeUtenIndikasjonTyper()
+        private void SeedGloveWithoutIndicationTypes()
         {
-            var hanskerUtenIndikasjonTyper = new List<GeneralPurposeGloveType>
+            var glovesWithoutIndicationTypes = new List<GeneralPurposeGloveType>
                 {
                     new GeneralPurposeGloveType {Code = "ANNET", Name = "Annet"},
                     new GeneralPurposeGloveType {Code = "MAT", Name = "Mat"},
                     new GeneralPurposeGloveType {Code = "STELL_UTEN_KROPPVAESKER", Name = "Stell uten kroppvæsker"},
                 };
 
-            _context.GeneralPurposeGloveType.AddRange(hanskerUtenIndikasjonTyper);
+            _context.GeneralPurposeGloveType.AddRange(glovesWithoutIndicationTypes);
             _context.SaveChanges();
         }
 
-        private void SeedOverforingstatusTyper()
+        private void SeedTransmissionStatusTypes()
         {
-            var overforingsstatuser = new[]
+            var transmissionStatuses = new[]
             {
                     new TransmissionStatusType()
                     {
@@ -119,30 +119,30 @@ namespace HyFive.Services.Tests
                         Name = "Overført til FHI"
                     }
                 };
-            _context.TransmissionStatusType.AddRange(overforingsstatuser);
+            _context.TransmissionStatusType.AddRange(transmissionStatuses);
             _context.SaveChanges();
         }
 
-        private void SeedHanskeMedIndikasjonTyper()
+        private void SeedGloveWithIndicationTypes()
         {
-            var hanskerMedIndikasjonTyper = new List<IndicatedGloveType>
+            var gloveWithIndicationTypes = new List<IndicatedGloveType>
                 {
                     new IndicatedGloveType {Code = "ANNET", Name = "Annet"},
                     new IndicatedGloveType {Code = "SMITTE", Name = "Smitte"},
                     new IndicatedGloveType {Code = "KROPPVAESKER", Name = "Kroppvæsker"},
                 };
 
-            _context.IndicatedGloveType.AddRange(hanskerMedIndikasjonTyper);
+            _context.IndicatedGloveType.AddRange(gloveWithIndicationTypes);
             _context.SaveChanges();
         }
 
-        private void SeedBrukere()
+        private void SeedUsers()
         {
             _context.Observer.Add(new Observer()
             {
                 LastName = SeedObservatorEtternavn,
                 FirstName = SeedObservatorFornavn,
-                HPRNummer = SeedObservatorHprNummer,
+                HPRNumber = SeedObservatorHprNummer,
                 Institution = _context.Institution.FirstOrDefault()
             });
 
@@ -150,7 +150,7 @@ namespace HyFive.Services.Tests
             {
                 LastName = SeedObservatorEtternavn,
                 FirstName = SeedObservatorFornavn,
-                HPRNummer = SeedObservatorHprNummer,
+                HPRNumber = SeedObservatorHprNummer,
                 Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
@@ -158,7 +158,7 @@ namespace HyFive.Services.Tests
             {
                 LastName = SeedKoordinatorEtternavn,
                 FirstName = SeedKoordinatorFornavn,
-                HPRNummer = SeedKoordinatorHprNummer,
+                HPRNumber = SeedKoordinatorHprNummer,
                 Institution = _context.Institution.FirstOrDefault()
             });
 
@@ -166,7 +166,7 @@ namespace HyFive.Services.Tests
             {
                 LastName = SeedKoordinatorEtternavn,
                 FirstName = SeedKoordinatorFornavn,
-                HPRNummer = SeedKoordinatorHprNummer,
+                HPRNumber = SeedKoordinatorHprNummer,
                 Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
@@ -180,35 +180,35 @@ namespace HyFive.Services.Tests
             _context.SaveChanges();
         }
 
-        private void SeedIndikasjoner()
+        private void SeedIndication()
         {
-            var indikasjoner = new IndicationTypes[]
+            var indications = new IndicationType[]
             {
-                    new IndicationTypes {Code = "FOER_PASIENT", Name = "Før pasient", Number = "1"},
-                    new IndicationTypes {Code = "ASEPTISKE_PROSEDYRER", Name = "Aseptisk", Number = "2"},
-                    new IndicationTypes {Code = "KROPPSVESKE", Name = "Kroppsvæske", Number = "3"},
-                    new IndicationTypes {Code = "ETTER_PASIENT", Name = "Etter pasient", Number = "4"}
+                    new IndicationType {Code = "FOER_PASIENT", Name = "Før pasient", Number = "1"},
+                    new IndicationType {Code = "ASEPTISKE_PROSEDYRER", Name = "Aseptisk", Number = "2"},
+                    new IndicationType {Code = "KROPPSVESKE", Name = "Kroppsvæske", Number = "3"},
+                    new IndicationType {Code = "ETTER_PASIENT", Name = "Etter pasient", Number = "4"}
             };
-            _context.IndicationTypes.AddRange(indikasjoner);
+            _context.IndicationType.AddRange(indications);
             _context.SaveChanges();
         }
 
-        private void SeedAktivitetTyper()
+        private void SeedActivityTypes()
         {
-            var aktivitettyper = new ActivityType[]
+            var activityTypes = new ActivityType[]
             {
                     new ActivityType {Code = "DESINFEKSJON", Name = "Desinfeksjon"},
                     new ActivityType {Code = "HANDVASK", Name = "Håndvask"},
                     new ActivityType {Code = "IKKE_UTFORT", Name = "Ikke utført"},
                     new ActivityType {Code = "IKKE_REGISTRERT", Name = "Ikke registrert"}
             };
-            _context.ActivityType.AddRange(aktivitettyper);
+            _context.ActivityType.AddRange(activityTypes);
             _context.SaveChanges();
         }
 
-        private void SeedHandsmykkeTyper()
+        private void SeedHandJewelryTypes()
         {
-            var handsmykketyper = new HandJewelryType[]
+            var handJewelryTypes = new HandJewelryType[]
             {
                     new HandJewelryType {Code = "ALT_OK", Name = "Alt er ok", Order = 99, IsActive = true},
                     new HandJewelryType {Code = "RING", Name = "Ring", Order = 4 , IsActive = true},
@@ -219,25 +219,25 @@ namespace HyFive.Services.Tests
                     new HandJewelryType {Code = "LANGERMET", Name = "Langermet", Order = 5, IsActive = true}
             };
 
-            _context.HandJewelryType.AddRange(handsmykketyper);
+            _context.HandJewelryType.AddRange(handJewelryTypes);
             _context.SaveChanges();
         }
 
-        private void SeedInstitusjonTyper()
+        private void SeedInstitutionTypes()
         {
-            var institusjontyper = new InstitutionType[]
+            var institutionTypes = new InstitutionType[]
             {
                     new InstitutionType {Code = "SYKEHUS", Name = "Sykehus"},
                     new InstitutionType {Code = "SYKEHJEM", Name = "Sykehjem"}
             };
-            _context.InstitutionType.AddRange(institusjontyper);
+            _context.InstitutionType.AddRange(institutionTypes);
             _context.SaveChanges();
         }
 
 
-        private void SeedAvdelingTyper()
+        private void SeedDepartmentTypes()
         {
-            var avdelingstyper = new DepartmentType[]
+            var departmentTypes = new DepartmentType[]
             {
                     new DepartmentType {Code ="KIRURGI", Name = "Kirurgi"},
                     new DepartmentType {Code ="INDREMEDISIN", Name = "Indremedisin"},
@@ -260,13 +260,13 @@ namespace HyFive.Services.Tests
                     new DepartmentType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
                     new DepartmentType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
             };
-            _context.SectionType.AddRange(avdelingstyper);
+            _context.SectionType.AddRange(departmentTypes);
             _context.SaveChanges();
         }
 
-        private void SeedInstitusjoner()
+        private void SeedInstitutions()
         {
-            var roller = new List<Domain.Observation.Role>()
+            var roles = new List<Domain.Observation.Role>()
                 {
                     new Domain.Observation.Role("Sykepleier"),
                     new Domain.Observation.Role("Lege"),
@@ -276,12 +276,12 @@ namespace HyFive.Services.Tests
                     new Domain.Observation.Role("Bioingeniør"),
                     new Domain.Observation.Role("Annet")
                 };
-            _context.Role.AddRange(roller);
+            _context.Role.AddRange(roles);
 
-            var institusjontyper = _context.InstitutionType;
-            var avdelingtyper = _context.SectionType;
+            var institutionTypes = _context.InstitutionType;
+            var departmentTypes = _context.SectionType;
 
-            var institusjoner = new[]
+            var institutions = new[]
             {
                     new Domain.Place.Institution()
                     {
@@ -289,37 +289,37 @@ namespace HyFive.Services.Tests
                         HERId = "87711",
                         Name = "Oslo universitetssykehus HF",
                         Abbreviation = "OUS",
-                        InstitutionType = institusjontyper.First(),
+                        InstitutionType = institutionTypes.First(),
                         Departments = new List<Domain.Place.Department>()
                         {
                             new Domain.Place.Department
                             {
                                 Name = "Nevrokirurgisk",
-                                Roles = new List<Domain.Observation.Role>(roller),
-                                DepartmentType = avdelingtyper.First()
+                                Roles = new List<Domain.Observation.Role>(roles),
+                                DepartmentType = departmentTypes.First()
                             },
                             new Domain.Place.Department
                             {
                                 Name = "Allergi og lungeseksjonen",
                                 Roles = new List<Domain.Observation.Role>()
                                 {
-                                    roller[0],
-                                    roller[1],
-                                    roller[2],
-                                    roller[3],
+                                    roles[0],
+                                    roles[1],
+                                    roles[2],
+                                    roles[3],
                                 },
-                                DepartmentType = avdelingtyper.Skip(1).First()
+                                DepartmentType = departmentTypes.Skip(1).First()
                             },
                             new Domain.Place.Department
                             {
                                 Name = "Department for mikrobiologi",
                                 Roles = new List<Domain.Observation.Role>()
                                 {
-                                    roller[5],
-                                    roller[6],
-                                    roller[1],
+                                    roles[5],
+                                    roles[6],
+                                    roles[1],
                                 },
-                                DepartmentType = avdelingtyper.Skip(2).First()
+                                DepartmentType = departmentTypes.Skip(2).First()
                             }
                         },
                         PredefinedComments = new List<PredefinedComments>()
@@ -335,32 +335,32 @@ namespace HyFive.Services.Tests
                         Region = _context.Region.First(),
                         Name = "Lillehammer sykehus",
                         Abbreviation = "LS",
-                        InstitutionType = institusjontyper.First(),
+                        InstitutionType = institutionTypes.First(),
                         Departments = new List<Domain.Place.Department>()
                         {
                             new Domain.Place.Department
                             {
                                 Name = "Akutt",
-                                Roles = new List<Domain.Observation.Role>(roller),
-                                DepartmentType = avdelingtyper.First()
+                                Roles = new List<Domain.Observation.Role>(roles),
+                                DepartmentType = departmentTypes.First()
                             },
                             new Domain.Place.Department
                             {
                                 Name = "Medisin",
-                                Roles = new List<Domain.Observation.Role>(roller),
-                                DepartmentType = avdelingtyper.First()
+                                Roles = new List<Domain.Observation.Role>(roles),
+                                DepartmentType = departmentTypes.First()
                             },
                             new Domain.Place.Department
                             {
                                 Name = "Kirurgisk",
                                 Roles = new List<Domain.Observation.Role>()
                                 {
-                                    roller[0],
-                                    roller[1],
-                                    roller[2],
-                                    roller[3],
+                                    roles[0],
+                                    roles[1],
+                                    roles[2],
+                                    roles[3],
                                 },
-                                DepartmentType = avdelingtyper.Skip(1).First()
+                                DepartmentType = departmentTypes.Skip(1).First()
                             }
                         },
                         PredefinedComments = new List<PredefinedComments>()
@@ -371,33 +371,33 @@ namespace HyFive.Services.Tests
                         }
                     }
                 };
-            _context.Institution.AddRange(institusjoner);
+            _context.Institution.AddRange(institutions);
             _context.SaveChanges();
         }
 
 
-        private void SeedBeskyttelsesutstyrTyper()
+        private void SeedProtectiveEquipmentTypes()
         {
             if (_context.ProtectiveEquipmentType.Any() == false)
             {
-                var beskyttelsesutstyrtyper = LagBeskyttelsesutstyrTyper();
-                _context.ProtectiveEquipmentType.AddRange(beskyttelsesutstyrtyper);
+                var protectiveEquipmentTypes = CreateProtectiveEquipmentTypes();
+                _context.ProtectiveEquipmentType.AddRange(protectiveEquipmentTypes);
                 _context.SaveChanges();
             }
         }
 
-        private void SeedBeskyttelsesutstyrsettingTyper()
+        private void SeedProtectiveEquipmentSettingTypes()
         {
             if (_context.ProtectiveEquipmentSettingType.Any() == false)
             {
-                var beskyttelsesutstyrtyper = _context.ProtectiveEquipmentType.ToList();
-                var settingtyper = LagSeedForBeskyttelsesutstyrsettingTyper(beskyttelsesutstyrtyper);
-                _context.ProtectiveEquipmentSettingType.AddRange(settingtyper);
+                var protectiveEquipmentTypes = _context.ProtectiveEquipmentType.ToList();
+                var settingtypes = CreateSeedForProtectiveEquipmentSettingTypes(protectiveEquipmentTypes);
+                _context.ProtectiveEquipmentSettingType.AddRange(settingtypes);
                 _context.SaveChanges();
             }
         }
 
-        private List<ProtectiveEquipmentType> LagBeskyttelsesutstyrTyper()
+        private List<ProtectiveEquipmentType> CreateProtectiveEquipmentTypes()
         {
             return new List<ProtectiveEquipmentType>
                 {
@@ -493,76 +493,76 @@ namespace HyFive.Services.Tests
                 };
         }
 
-        public List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType> LagSeedForBeskyttelsesutstyrsettingTyper(List<ProtectiveEquipmentType> typer)
+        public List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType> CreateSeedForProtectiveEquipmentSettingTypes(List<ProtectiveEquipmentType> typer)
         {
-            var settingtyper = new List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>
+            var settingTypes = new List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>
                 {
                     new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Code = Modeller.V1.Constants.ProtectiveEquipmentSettingType.AirborneTransmission,
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.AirborneTransmission,
                         Name = "Luftsmitte",
                     },
                     new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Code = Modeller.V1.Constants.ProtectiveEquipmentSettingType.DropletTransmission,
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.DropletTransmission,
                         Name = "Dråpesmitte",
                     },
                     new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Code = Modeller.V1.Constants.ProtectiveEquipmentSettingType.ContactTransmission,
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.ContactTransmission,
                         Name = "Kontaktsmitte",
                     },
                     new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Code = Modeller.V1.Constants.ProtectiveEquipmentSettingType.BasicInfectionControlRoutines,
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines,
                         Name = "Basale smittevernrutiner",
                     }
                 };
 
-            foreach (var settingtype in settingtyper)
+            foreach (var settingType in settingTypes)
             {
-                if (settingtype.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.AirborneTransmission)
+                if (settingType.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.AirborneTransmission)
                 {
-                    settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                    settingType.PPEConfigurationTypes = GetProtectiveEquipmentSettingTypeEquipmentTypes(settingType, typer,
                             ProtectiveEquipmentTypeConstants.RespiratoryProtection,
                             ProtectiveEquipmentTypeConstants.EyeProtection,
                             ProtectiveEquipmentTypeConstants.Gloves,
                             ProtectiveEquipmentTypeConstants.InfectionGown);
                 }
-                else if (settingtype.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.DropletTransmission)
+                else if (settingType.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.DropletTransmission)
                 {
-                    settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                    settingType.PPEConfigurationTypes = GetProtectiveEquipmentSettingTypeEquipmentTypes(settingType, typer,
                             ProtectiveEquipmentTypeConstants.Gloves,
                             ProtectiveEquipmentTypeConstants.InfectionGown,
                             ProtectiveEquipmentTypeConstants.FaceMask,
                             ProtectiveEquipmentTypeConstants.EyeProtection);
                 }
-                else if (settingtype.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.ContactTransmission)
+                else if (settingType.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.ContactTransmission)
                 {
-                    settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                    settingType.PPEConfigurationTypes = GetProtectiveEquipmentSettingTypeEquipmentTypes(settingType, typer,
                             ProtectiveEquipmentTypeConstants.Gloves,
                             ProtectiveEquipmentTypeConstants.InfectionGown);
                 }
-                else if (settingtype.Code == Modeller.V1.Constants.ProtectiveEquipmentSettingType.BasicInfectionControlRoutines)
+                else if (settingType.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines)
                 {
-                    settingtype.PPEConfigurationTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
+                    settingType.PPEConfigurationTypes = GetProtectiveEquipmentSettingTypeEquipmentTypes(settingType, typer);
                 }
             }
 
-            return settingtyper;
+            return settingTypes;
         }
 
-        private List<PPEConfigurationType> HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType settingType,
-                List<ProtectiveEquipmentType> utstyrstyper, params string[] defaultKoder)
+        private List<PPEConfigurationType> GetProtectiveEquipmentSettingTypeEquipmentTypes(Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType settingType,
+                List<ProtectiveEquipmentType> equipmentTypes, params string[] defaultCodes)
         {
-            var settingutstyrkoblinger = utstyrstyper.Select(u =>
+            var settingEquipmentConnections = equipmentTypes.Select(u =>
                 new PPEConfigurationType()
                 {
                     ProtectiveEquipmentType = u,
-                    IsDefault = defaultKoder.Contains(u.Code),
+                    IsDefault = defaultCodes.Contains(u.Code),
                     ProtectiveEquipmentSettingType = settingType
                 }).ToList();
-            return settingutstyrkoblinger;
+            return settingEquipmentConnections;
         }
     }
 }

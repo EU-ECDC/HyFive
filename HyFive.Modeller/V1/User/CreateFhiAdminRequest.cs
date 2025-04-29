@@ -8,6 +8,6 @@ namespace HyFive.Models.V1.User
     {
         public string IdentityPseudonym { get; set; }
         public string FirstName { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
     }
 }

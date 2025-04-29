@@ -1,6 +1,6 @@
-﻿using HyFive.Modeller.V1.Constants;
-using HyFive.Modeller.V1.Observation;
-using HyFive.Modeller.V1.Session;
+﻿using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
 using HyFive.Services.HandJewelry;
 using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Services.Tests.Handsmykke
 {
-    public class HandsmykkeTests : TjenesteTests
+    public class HandsmykkeTests : ServiceTests
     {
         private Guid sesjonId = Guid.NewGuid();
         private Guid observasjonId = Guid.NewGuid();
@@ -57,11 +57,11 @@ namespace HyFive.Services.Tests.Handsmykke
 
         private async Task<HandJewelrySession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentHentHandsmykkeSesjonHandler = new GetHandJewelrySession.Handler(DatabaseContext, Mapper, BrukerService);
+            var hentHentHandsmykkeSesjonHandler = new GetHandJewelrySession.Handler(DatabaseContext, Mapper, UserService);
             var handsmykkeSesjon = await hentHentHandsmykkeSesjonHandler.Handle(new GetHandJewelrySession.Query()
             {
-                HPRNummer = hprnummer,
-                SesjonId = sesjonGuidFraRequestGuid
+                HPRNumber = hprnummer,
+                SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 
             return handsmykkeSesjon;
@@ -71,27 +71,27 @@ namespace HyFive.Services.Tests.Handsmykke
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Role).First());
+            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
             var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
             var handsmykkeTyper = DatabaseContext.HandJewelryType.ToList();
 
-            var lagreHandsmykkeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+            var lagreHandsmykkeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
             var handsmykkeSesjonGuid = await lagreHandsmykkeSesjonHandler.Handle(new SaveSession.Command()
             {
                 Session = new HandJewelrySession()
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    Institusjonsnavn = institusjon.Name,
+                    InstitutionsName = institusjon.Name,
                     InstitutionId = institusjon.Id,
-                    Observasjoner = new List<HandJewelryObservation>()
+                    Observations = new List<HandJewelryObservation>()
                     {
                         new HandJewelryObservation()
                         {
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
                             RegistrationTime = DateTime.Now,
-                            Role = avdelingModell.Role.First(),
+                            Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             HandJewelry = new List<HandJewelryType>()
                             {
@@ -102,8 +102,8 @@ namespace HyFive.Services.Tests.Handsmykke
                             }
                         }
                     },
-                    Kommentar = "Sesjon kommentar",
-                    Starttidspunkt = DateTime.Now
+                    Comment = "Sesjon kommentar",
+                    StartTime = DateTime.Now
                 },
                 HprNumber = hprnummer
             }, CancellationToken.None);
@@ -120,8 +120,8 @@ namespace HyFive.Services.Tests.Handsmykke
         {
             // Arrange
             var eksisterendeTyper = DatabaseContext.HandJewelryType.Where(x => x.IsActive).Select(x => x.Id).ToList();
-            var hentHandsmykkeTyper = new GetHandJewelryType.Handler(DatabaseContext, Mapper);
-            var query = new GetHandJewelryType.Query();
+            var hentHandsmykkeTyper = new GetHandJewelryTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetHandJewelryTypes.Query();
 
             // Act
             var res = await hentHandsmykkeTyper.Handle(query, new System.Threading.CancellationToken());
@@ -181,7 +181,7 @@ namespace HyFive.Services.Tests.Handsmykke
             var oppdaterHandsmykkeTypeHandler = new UpdateHandJewelryType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateHandJewelryType.Command()
             {
-                HandJewelryType = new Modeller.V1.Observation.HandJewelryType()
+                HandJewelryType = new Models.V1.Observation.HandJewelryType()
                 {
                     Id = opprettetHandsmykkeType.Id,
                     Code = "DV",
@@ -209,7 +209,7 @@ namespace HyFive.Services.Tests.Handsmykke
             var oppdaterHandsmykkeTypeHandler = new UpdateHandJewelryType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateHandJewelryType.Command()
             {
-                HandJewelryType = new Modeller.V1.Observation.HandJewelryType()
+                HandJewelryType = new Models.V1.Observation.HandJewelryType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -231,13 +231,13 @@ namespace HyFive.Services.Tests.Handsmykke
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Observation.HandJewelryType> OpprettHandsmykkeType(string kode = null)
+        private async Task<Models.V1.Observation.HandJewelryType> OpprettHandsmykkeType(string kode = null)
         {
             var handsmykkeType = new Domain.Observation.HandJewelryType() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.HandJewelryType.Add(handsmykkeType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observation.HandJewelryType>(handsmykkeType);
+            return Mapper.Map<Models.V1.Observation.HandJewelryType>(handsmykkeType);
         }
 
         #endregion

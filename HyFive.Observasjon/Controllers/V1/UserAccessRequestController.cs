@@ -8,23 +8,23 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HyFive.Observasjon.Controllers.V1
+namespace HyFive.Observation.Controllers.V1
 {
-    [Route("api/v1/foresporselombrukertilgang")]
-    public class ForesporselOmBrukertilgangController : ControllerBase
+    [Route("api/v1/userAccessRequest")]
+    public class UserAccessRequestController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IUserService _brukerService;
+        private readonly IUserService _userService;
 
-        public ForesporselOmBrukertilgangController(IMediator mediator, IUserService brukerService)
+        public UserAccessRequestController(IMediator mediator, IUserService userService)
         {
             _mediator = mediator;
-            _brukerService = brukerService;
+            _userService = userService;
         }
 
-        [HttpGet("institusjoner")]
+        [HttpGet("institutions")]
         [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> HentInstitusjoner()
+        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> GetInstitutions()
         {
             try
             {
@@ -39,13 +39,13 @@ namespace HyFive.Observasjon.Controllers.V1
 
         [HttpPost("send")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
-        public async Task<ActionResult<bool>> SendForesporselOmBrukertilgang([FromBody] Models.V1.UserAccessRequest.CreateUserAccessRequest foresporselOmBrukertilgang)
+        public async Task<ActionResult<bool>> SendUserAccessRequest([FromBody] Models.V1.UserAccessRequest.CreateUserAccessRequest userAccessRequest)
         {
             try
             {
                 var result = await _mediator.Send(new Services.UserAccessRequest.CreateUserAccessRequest.Command
                 {
-                    UserAccessRequest = foresporselOmBrukertilgang
+                    UserAccessRequest = userAccessRequest
                 });
 
                 return Ok(true);
@@ -58,18 +58,18 @@ namespace HyFive.Observasjon.Controllers.V1
 
         [HttpGet]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserAccessRequest>> HentForesporselSomSendtAllerede()
+        public async Task<ActionResult<UserAccessRequest>> GetAlreadySentUserAccessRequest()
         {
             try
             {
-                var bruker = await _brukerService.GetUser();
-                var foresporsel = await _mediator.Send(new GetAlreadySentRequest.Query
+                var user = await _userService.GetUser();
+                var request = await _mediator.Send(new GetAlreadySentRequest.Query
                 {
-                    HprNumber = bruker.HPRNumber,
-                    IdentityPseudonym = bruker.IdentityPseudonym
+                    HprNumber = user.HPRNumber,
+                    IdentityPseudonym = user.IdentityPseudonym
                 });
 
-                return Ok(foresporsel);
+                return Ok(request);
             }
             catch (Exception e)
             {
@@ -77,15 +77,15 @@ namespace HyFive.Observasjon.Controllers.V1
             }
         }
 
-        [HttpGet("institusjon")]
+        [HttpGet("institution")]
         [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> HentInstitusjon(int institusjonId)
+        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> GetInstitution(int institutionId)
         {
             try
             {
                 var result = await _mediator.Send(new GetInstitution.Query()
                 {
-                    InstitutionId = institusjonId
+                    InstitutionId = institutionId
                 });
                 return Ok(result);
             }

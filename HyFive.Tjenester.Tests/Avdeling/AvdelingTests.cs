@@ -8,7 +8,7 @@ using System;
 
 namespace HyFive.Services.Tests.Department
 {
-    public class AvdelingTests : TjenesteTests
+    public class AvdelingTests : ServiceTests
     {
         [Test]
         public async Task HentAvdelingTest()

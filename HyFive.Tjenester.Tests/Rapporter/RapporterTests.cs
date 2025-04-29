@@ -1,6 +1,6 @@
-using HyFive.Modeller.V1.Constants;
-using HyFive.Modeller.V1.Observation;
-using HyFive.Modeller.V1.Session;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
 using HyFive.Services.Department;
 using HyFive.Services.FourIndication;
 using NUnit.Framework;
@@ -9,13 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Services.Rapporter.FourIndicators;
+using HyFive.Services.Reports.FourIndicators;
 using Moq;
 using Microsoft.Extensions.Logging;
 
 namespace HyFive.Services.Tests.Rapporter
 {
-    public class RapporterTests : TjenesteTests
+    public class RapporterTests : ServiceTests
     {
         //[Test]
         //public async Task LagAvdelingsrapportTest()
@@ -37,7 +37,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    var indikasjonstyper =
         //        await hentIndikasjonstyperHandler.Handle(new GetIndicationTypes.Query(), CancellationToken.None);
 
-        //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+        //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
 
         //    var etterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
@@ -48,7 +48,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
-        //        IndicationTypes = new List<IndicationTypes>()
+        //        IndicationType = new List<IndicationType>()
         //        {
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
@@ -66,7 +66,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
-        //        IndicationTypes = new List<IndicationTypes>()
+        //        IndicationType = new List<IndicationType>()
         //        {
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)

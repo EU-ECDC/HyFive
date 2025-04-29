@@ -30,7 +30,7 @@ namespace HyFive.Services.FourIndication
 
             public async Task<List<IndicationType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var indications = await _context.IndicationTypes
+                var indications = await _context.IndicationType
                     .AsNoTracking()
                     .ProjectTo<IndicationType>(_mapper.ConfigurationProvider)
                     .OrderBy(i => i.Number)

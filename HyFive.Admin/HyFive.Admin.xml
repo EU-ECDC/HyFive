@@ -117,18 +117,18 @@
         </member>
         <member name="T:HyFive.Admin.Controllers.V1.IndicationTypesController">
             <summary>
-            IndicationTypes
+            IndicationType
             </summary>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.IndicationTypesController.GetIndicationTypes">
             <summary>
-            Get IndicationTypes
+            Get IndicationType
             </summary>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.IndicationTypesController.UpdateIndicationType(HyFive.Models.V1.Observation.IndicationType)">
             <summary>
-            Update IndicationTypes
+            Update IndicationType
             </summary>
             <returns></returns>
         </member>

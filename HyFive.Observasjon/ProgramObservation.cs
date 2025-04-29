@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace HyFive.Observasjon
+namespace HyFive.Observation
 {
-    public class ProgramObservasjon
+    public class ProgramObservation
     {
         protected static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -30,7 +30,7 @@ namespace HyFive.Observasjon
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<StartupObservasjon>();
+                    webBuilder.UseStartup<StartupObservation>();
                 })
                 .UseSerilog();
     }

@@ -45,7 +45,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<FourIndicationsObservation, Models.V1.Observation.FourIndicatorsObservation>(MemberList
                 .None);
-            CreateMap<IndicationTypes, Models.V1.Observation.IndicationType>(MemberList.None);
+            CreateMap<IndicationType, Models.V1.Observation.IndicationType>(MemberList.None);
             CreateMap<Activity, Models.V1.Observation.Activity>(MemberList.None);
             CreateMap<ActivityType, Models.V1.Observation.ActivityType>(MemberList.None);
 

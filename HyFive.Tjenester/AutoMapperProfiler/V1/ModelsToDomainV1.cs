@@ -27,7 +27,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
                 .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
-            CreateMap<Models.V1.Observation.IndicationType, IndicationTypes>(MemberList.None);
+            CreateMap<Models.V1.Observation.IndicationType, IndicationType>(MemberList.None);
             CreateMap<Models.V1.Observation.Activity, Activity>(MemberList.None);
             CreateMap<Models.V1.Observation.ActivityType, ActivityType>(MemberList.None);
 

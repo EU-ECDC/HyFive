@@ -47,7 +47,7 @@ namespace HyFive.Services.FourIndication
                     throw new Exception(
                         $"Could not find an observer with HPR number {request.HprNumber} at institution with ID {request.Session.Department.InstitutionId}");
 
-                var indicationTypes = _context.IndicationTypes.ToList();
+                var indicationTypes = _context.IndicationType.ToList();
                 var activityTypes = _context.ActivityType.ToList();
 
                 var session = _mapper.Map<Domain.Session.FourIndicationsSession>(request.Session);

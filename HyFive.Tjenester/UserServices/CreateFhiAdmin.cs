@@ -52,7 +52,7 @@ namespace HyFive.Services.UserServices
                 {
                     IdentityPseudonym = command.Request.IdentityPseudonym,
                     FirstName = command.Request.FirstName,
-                    LastName = command.Request.Surname,
+                    LastName = command.Request.LastName,
                     IsDisabled = false,
                     CreatedTime = DateTime.Now,
                 };

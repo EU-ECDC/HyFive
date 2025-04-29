@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Constants;
-using HyFive.Modeller.V1.Observation;
-using HyFive.Modeller.V1.Session;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
 using HyFive.Services.FourIndication;
 using HyFive.Services.FourIndication.Helpers;
 using HyFive.Services.Session;
@@ -15,7 +15,7 @@ using NUnit.Framework;
 
 namespace HyFive.Services.Tests.FireIndikasjoner
 {
-    public class FireIndikasjonerTests : TjenesteTests
+    public class FireIndikasjonerTests : ServiceTests
     {
         private Guid _sesjonId = Guid.NewGuid();
         private Guid _observasjonId = Guid.NewGuid();
@@ -28,7 +28,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange and act
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonGuid = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonGuid = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
         //    //Assert
@@ -50,9 +50,9 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("minst en indikasjontype"),
         //        async () =>
         //        {
-        //            await OpprettFireIndikasjonerSesjon(
+        //            await CreateFourIndicatorsSession(
         //                _sesjonId, _observasjonId, avdeling, _hprnummer,
-        //                indikasjontyper: new List<IndicationTypes>());
+        //                indikasjontyper: new List<IndicationType>());
         //        }
         //    );
         //}
@@ -68,7 +68,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Activity må registreres"),
         //        async () =>
         //        {
-        //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
+        //            await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer,
         //                aktivitet: null, brukDefaultAktivitet: false);
         //        }
         //    );
@@ -85,7 +85,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ActivityType mangler"),
         //        async () =>
         //        {
-        //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
+        //            await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer,
         //                aktivitet: new Activity(), brukDefaultAktivitet: false);
         //        }
         //    );
@@ -102,10 +102,10 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("ingen tid ble registrert"),
         //        async () =>
         //        {
-        //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
+        //            await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer,
         //                aktivitet: new Activity()
         //                {
-        //                    ActivityType = Mapper.Map<Modeller.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
+        //                    ActivityType = Mapper.Map<Models.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
         //                    TimeRecordingWasDone = true
         //                }, brukDefaultAktivitet: false);
         //        }
@@ -123,7 +123,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        Is.TypeOf<FourIndicatorsObservationValidationException>().And.Message.Contains("Roles må registreres"),
         //        async () =>
         //        {
-        //            await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer,
+        //            await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer,
         //                rolle: null, brukDefaultRolle: false);
         //        }
         //    );
@@ -134,14 +134,14 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange and act
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonGuid = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonGuid = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationTypes.Count, Is.EqualTo(1));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationType.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Activity.ActivityType.Code, Is.EqualTo(AktivitetTypeKonstanter.Handwash));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //    });
@@ -149,7 +149,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         private async Task<FourIndicationsSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
         {
-            var hentFireIndikasjonSesjonHandler = new GetFourIndicationsSession.Handler(DatabaseContext, Mapper, BrukerService);
+            var hentFireIndikasjonSesjonHandler = new GetFourIndicationsSession.Handler(DatabaseContext, Mapper, UserService);
             var fireIndikasjonSesjon = await hentFireIndikasjonSesjonHandler.Handle(new GetFourIndicationsSession.Query()
             {
                 HPRNumber = _hprnummer,
@@ -168,7 +168,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var observasjon = opprettetSesjon.Observations.First();
@@ -192,7 +192,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
@@ -214,11 +214,11 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
-        //    oppdatertObservasjon.IndicationTypes.Clear();
+        //    oppdatertObservasjon.IndicationType.Clear();
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
@@ -236,7 +236,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
@@ -258,7 +258,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
@@ -280,13 +280,13 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
         //    oppdatertObservasjon.Activity = new Activity()
         //    {
-        //        ActivityType = Mapper.Map<Modeller.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
+        //        ActivityType = Mapper.Map<Models.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
         //        TimeRecordingWasDone = true
         //    };
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
@@ -306,7 +306,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //{
         //    //Arrange
         //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
-        //    var opprettetSesjonId = await OpprettFireIndikasjonerSesjon(_sesjonId, _observasjonId, avdeling, _hprnummer);
+        //    var opprettetSesjonId = await CreateFourIndicatorsSession(_sesjonId, _observasjonId, avdeling, _hprnummer);
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
@@ -361,7 +361,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             var oppdaterAktivitetTypeHandler = new UpdateActivityType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateActivityType.Command()
             {
-                ActivityType = new Modeller.V1.Observation.ActivityType()
+                ActivityType = new Models.V1.Observation.ActivityType()
                 {
                     Id = opprettetAktivitetType.Id,
                     Code = "DV",
@@ -388,7 +388,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             var oppdaterAktivitetTypeHandler = new UpdateActivityType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateActivityType.Command()
             {
-                ActivityType = new Modeller.V1.Observation.ActivityType()
+                ActivityType = new Models.V1.Observation.ActivityType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -414,7 +414,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         public async Task HentIndikasjonTyperTest()
         {
             // Arrange
-            var eksisterendeTyper = DatabaseContext.IndicationTypes.Select(x => x.Id).ToList();
+            var eksisterendeTyper = DatabaseContext.IndicationType.Select(x => x.Id).ToList();
             var hentIndikasjonTyper = new GetIndicationTypes.Handler(DatabaseContext, Mapper);
             var query = new GetIndicationTypes.Query();
 
@@ -438,7 +438,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             var oppdaterIndikasjonTypeHandler = new UpdateIndicationType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateIndicationType.Command()
             {
-                IndicationType = new Modeller.V1.Observation.IndicationType()
+                IndicationType = new Models.V1.Observation.IndicationType()
                 {
                     Id = opprettetIndikasjonType.Id,
                     Code = "DV",
@@ -465,7 +465,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             var oppdaterIndikasjonTypeHandler = new UpdateIndicationType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateIndicationType.Command()
             {
-                IndicationType = new Modeller.V1.Observation.IndicationType()
+                IndicationType = new Models.V1.Observation.IndicationType()
                 {
                     Id = 99999999,
                     Code = "DV",
@@ -487,22 +487,22 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Observation.ActivityType> OpprettAktivitetType(string kode = null)
+        private async Task<Models.V1.Observation.ActivityType> OpprettAktivitetType(string kode = null)
         {
             var aktivitetType = new Domain.Observation.ActivityType() { Code = kode ?? "TEST", Name = "test" };
             DatabaseContext.ActivityType.Add(aktivitetType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observation.ActivityType>(aktivitetType);
+            return Mapper.Map<Models.V1.Observation.ActivityType>(aktivitetType);
         }
 
-        private async Task<Modeller.V1.Observation.IndicationType> OpprettIndikasjonType(string kode = null)
+        private async Task<Models.V1.Observation.IndicationType> OpprettIndikasjonType(string kode = null)
         {
-            var indikasjonType = new Domain.Observation.IndicationTypes() { Code = kode ?? "TEST", Name = "test" };
-            DatabaseContext.IndicationTypes.Add(indikasjonType);
+            var indikasjonType = new Domain.Observation.IndicationType() { Code = kode ?? "TEST", Name = "test" };
+            DatabaseContext.IndicationType.Add(indikasjonType);
             await DatabaseContext.SaveChangesAsync();
 
-            return Mapper.Map<Modeller.V1.Observation.IndicationType>(indikasjonType);
+            return Mapper.Map<Models.V1.Observation.IndicationType>(indikasjonType);
         }
 
         #endregion

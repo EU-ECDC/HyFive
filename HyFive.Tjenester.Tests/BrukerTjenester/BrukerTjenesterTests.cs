@@ -1,4 +1,4 @@
-using HyFive.Modeller.V1.User;
+using HyFive.Models.V1.User;
 using HyFive.Services.UserServices;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Http;
@@ -8,11 +8,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bruker = HyFive.Modeller.V1.User.User;
+using Bruker = HyFive.Models.V1.User.User;
 
 namespace HyFive.Services.Tests.BrukerTjenester
 {
-    public class BrukerTjenesterTests : TjenesteTests
+    public class BrukerTjenesterTests : ServiceTests
     {
         private readonly string _pseudonym = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("hellohellohellohellohellohellohel"));
         private ICurrentUser _currentUserSubstitute;
@@ -58,7 +58,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Assert.That(opprettetFhiAdmin.Id, Is.GreaterThan(0));
                 Assert.That(opprettetFhiAdmin.IdentityPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentityPseudonym));
                 Assert.That(opprettetFhiAdmin.FirstName, Is.EqualTo(opprettetFhiAdminFraDatabase.FirstName));
-                Assert.That(opprettetFhiAdmin.Surname, Is.EqualTo(opprettetFhiAdminFraDatabase.LastName));
+                Assert.That(opprettetFhiAdmin.LastName, Is.EqualTo(opprettetFhiAdminFraDatabase.LastName));
             });
         }
 
@@ -124,11 +124,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = opprettetFhiAdmin.Id,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")),
                     IsDisabled = false
                 }
@@ -144,7 +144,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Assert.That(oppdatertFhiAdmin.Id, Is.EqualTo(opprettetFhiAdmin.Id));
                 Assert.That(oppdatertFhiAdmin.IdentityPseudonym, Is.Not.EqualTo(opprettetFhiAdmin.IdentityPseudonym));
                 Assert.That(oppdatertFhiAdmin.FirstName, Is.Not.EqualTo(opprettetFhiAdmin.FirstName));
-                Assert.That(oppdatertFhiAdmin.LastName, Is.Not.EqualTo(opprettetFhiAdmin.Surname));
+                Assert.That(oppdatertFhiAdmin.LastName, Is.Not.EqualTo(opprettetFhiAdmin.LastName));
 
                 Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.User.IdentityPseudonym));
                 Assert.That(oppdatertFhiAdminFraDatabase.FirstName, Is.EqualTo(command.User.FirstName));
@@ -160,11 +160,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = _pseudonym,
                     IsDisabled = false
                 }
@@ -187,11 +187,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = null,
                     IsDisabled = false
                 }
@@ -214,11 +214,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = "1234567890123456789012345678901234567890123@",
                     IsDisabled = false
                 }
@@ -241,11 +241,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = "test",
                     IsDisabled = false
                 }
@@ -271,11 +271,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id = bruker2.Id,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = bruker1.IdentityPseudonym,
                     IsDisabled = false
                 }
@@ -301,11 +301,11 @@ namespace HyFive.Services.Tests.BrukerTjenester
             var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
             var command = new UpdateFhiAdmin.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     Id =  bruker1.Id,
                     FirstName = "Da",
-                    Surname = "Vinci",
+                    LastName = "Vinci",
                     IdentityPseudonym = bruker1.IdentityPseudonym,
                     IsDisabled = false
                 }
@@ -323,7 +323,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.User.User> OpprettFhiAdmin(string pseudonym = null)
+        private async Task<Models.V1.User.User> OpprettFhiAdmin(string pseudonym = null)
         {
             var opprettFhiAdminHandler = new CreateFhiAdmin.Handler(DatabaseContext, Mapper);
             var command = new CreateFhiAdmin.Command()
@@ -331,7 +331,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Request = new CreateFhiAdminRequest()
                 {
                     FirstName = "Test",
-                    Surname = "Testesen",
+                    LastName = "Testesen",
                     IdentityPseudonym = pseudonym ?? _pseudonym,
                 }
             };

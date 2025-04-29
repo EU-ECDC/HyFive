@@ -131,17 +131,17 @@ namespace HyFive.Services.Seed
 
             private void SeedIndications()
             {
-                if (_context.IndicationTypes.Any())
+                if (_context.IndicationType.Any())
                     return;
 
                 var indications = new[]
                 {
-                    new IndicationTypes {Code = "BEFORE_PATIENT", Name = "Before Patient", Number = "1"},
-                    new IndicationTypes {Code = "ASEPTIC_PROCEDURES", Name = "Aseptic", Number = "2"},
-                    new IndicationTypes {Code = "BODILY_FLUID", Name = "Bodily Fluid", Number = "3"},
-                    new IndicationTypes {Code = "AFTER_PATIENT", Name = "After patient", Number = "4"}
+                    new IndicationType {Code = "BEFORE_PATIENT", Name = "Before Patient", Number = "1"},
+                    new IndicationType {Code = "ASEPTIC_PROCEDURES", Name = "Aseptic", Number = "2"},
+                    new IndicationType {Code = "BODILY_FLUID", Name = "Bodily Fluid", Number = "3"},
+                    new IndicationType {Code = "AFTER_PATIENT", Name = "After patient", Number = "4"}
                 };
-                _context.IndicationTypes.AddRange(indications);
+                _context.IndicationType.AddRange(indications);
                 _context.SaveChanges();
             }
 

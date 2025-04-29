@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Constants;
+using HyFive.Models.V1.Constants;
 using HyFive.Services.Session;
 using NUnit.Framework;
 
 namespace HyFive.Services.Tests.Sesjon
 {
-    public class SlettSesjonTests : TjenesteTests
+    public class SlettSesjonTests : ServiceTests
     {
         //[Test]
         //public async Task SlettFireIndikasjonerSesjon_SkalFeileHvisOverføringsstatusErFeil()
         //{
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
-        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), DatabaseContext.Department.First(), Seed.SeedObservatorHprNummer);
+        //    var sesjon = await CreateFourIndicatorsSession(sesjonId, Guid.NewGuid(), DatabaseContext.Department.First(), Seed.SeedObservatorHprNummer);
         //    var avdeling = DatabaseContext.Department.First();
         //    // Act
         //    var handler = new DeleteSession.Handler(DatabaseContext);
@@ -41,7 +41,7 @@ namespace HyFive.Services.Tests.Sesjon
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
         //    var avdeling = DatabaseContext.Department.First();
-        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), avdeling, Seed.SeedObservatorHprNummer);
+        //    var sesjon = await CreateFourIndicatorsSession(sesjonId, Guid.NewGuid(), avdeling, Seed.SeedObservatorHprNummer);
 
         //    Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
             

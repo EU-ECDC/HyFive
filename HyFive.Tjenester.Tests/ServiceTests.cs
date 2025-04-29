@@ -9,10 +9,10 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Institution;
-using HyFive.Modeller.V1.Constants;
-using HyFive.Modeller.V1.Observation;
-using HyFive.Modeller.V1.Session;
+using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
 using HyFive.Services.User;
 using HyFive.Services.FourIndication;
 using HyFive.Services.Institution;
@@ -23,19 +23,19 @@ using HyFive.Services.Authentication.User;
 namespace HyFive.Services.Tests
 {
 
-    public abstract class TjenesteTests
+    public abstract class ServiceTests
     {
         protected HandHygieneContext DatabaseContext;
         protected IMapper Mapper;
         protected SqliteConnection _connection;
-        protected IUserService BrukerService;
+        protected IUserService UserService;
 
         [SetUp]
         public async Task Setup()
         {
             DatabaseContext = GetSQLiteInMemoryContext();
 
-            BrukerService = new Mock<IUserService>().Object;
+            UserService = new Mock<IUserService>().Object;
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -68,13 +68,13 @@ namespace HyFive.Services.Tests
             return databaseContext;
         }
 
-        protected async Task<(Modeller.V1.Institution.Institution, Modeller.V1.User.User)> OpprettInstitusjon()
+        protected async Task<(Models.V1.Institution.Institution, Models.V1.User.User)> CreateInstitution()
         {
-            var opprettInstitusjonHandler = new CreateInstitution.Handler(DatabaseContext, Mapper);
+            var CreateInstitutionHandler = new CreateInstitution.Handler(DatabaseContext, Mapper);
 
-            DatabaseContext.Role.AddRange(new Domain.Observation.Role("Lege"), new Domain.Observation.Role("Sykepleier"));
+            DatabaseContext.Role.AddRange(new Domain.Observation.Role("Doctor"), new Domain.Observation.Role("Nurse"));
             DatabaseContext.SaveChanges();
-            var institusjon = await opprettInstitusjonHandler.Handle(new CreateInstitution.Command()
+            var institution = await CreateInstitutionHandler.Handle(new CreateInstitution.Command()
             {
                 Request = new CreateInstitutionRequest()
                 {
@@ -89,90 +89,90 @@ namespace HyFive.Services.Tests
                 }
             }, CancellationToken.None);
 
-            var opprettObservatorHandler = new CreateObserver.Handler(DatabaseContext, Mapper);
+            var CreateObserverHandler = new CreateObserver.Handler(DatabaseContext, Mapper);
 
-            var observator = await opprettObservatorHandler.Handle(new CreateObserver.Command()
+            var observer = await CreateObserverHandler.Handle(new CreateObserver.Command()
             {
-                User = new Modeller.V1.User.User()
+                User = new Models.V1.User.User()
                 {
                     HPRNumber = Seed.SeedObservatorHprNummer,
-                    InstitutionId = institusjon.Id,
+                    InstitutionId = institution.Id,
                     IsDisabled = false,
-                    Surname = "Stangeland",
+                    LastName = "Stangeland",
                     FirstName = "Stian Pål",
                 }
             }, CancellationToken.None);
 
-            return (institusjon, observator);
+            return (institution, observer);
         }
 
-        protected async Task<Guid> OpprettFireIndikasjonerSesjon(
-            Guid sesjonId,
-            Guid observasjonId,
-            Domain.Place.Department avdeling,
-            string hprnummer,
-            bool brukDefaultAktivitet = true,
-            Activity aktivitet = null,
-            bool brukDefaultRolle = true,
-            Role rolle = null,
-            List<IndicationType> indikasjontyper = null)
+        protected async Task<Guid> CreateFourIndicatorsSession(
+            Guid sessionId,
+            Guid observationId,
+            Domain.Place.Department department,
+            string hprNumber,
+            bool useDefaultActivity = true,
+            Activity activity = null,
+            bool useDefaultRole = true,
+            Role role = null,
+            List<IndicationType> indicationTypes = null)
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var avdelingModell = Mapper.Map<Modeller.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
-            var aktivitetTyper = DatabaseContext.ActivityType.ToList();
-            var indikasjonTyper = DatabaseContext.IndicationTypes.ToList();
+            var departmentModel = Mapper.Map<Models.V1.Institution.Department>(
+                department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
+            var institution = DatabaseContext.Institution.First(x => x.Id == departmentModel.InstitutionId);
+            var activityTypes = DatabaseContext.ActivityType.ToList();
+            var indicationTypesList = DatabaseContext.IndicationType.ToList();
 
-            var lagreFireIndikasjonSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
-            var observasjon = new FourIndicatorsObservation()
+            var SaveFourIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
+            var observation = new FourIndicatorsObservation()
             {
-                Activity = brukDefaultAktivitet
+                Activity = useDefaultActivity
                     ? new Activity()
                     {
                         ActivityType = new ActivityType()
                         {
-                            Id = aktivitetTyper.FirstOrDefault(x => x.Code == ActivityTypeConstants.Handwash).Id
+                            Id = activityTypes.FirstOrDefault(x => x.Code == ActivityTypeConstants.Handwash).Id
                         },
                         GloveUsed = null,
                         TimeSpent = 3,
                         TimeRecordingWasDone = true
                     }
-                    : aktivitet,
-                Id = observasjonId.ToString(),
-                IndicationTypes = indikasjontyper ?? new List<IndicationType>()
+                    : activity,
+                Id = observationId.ToString(),
+                IndicationTypes = indicationTypes ?? new List<IndicationType>()
                 {
                     new IndicationType()
                     {
-                        Id = indikasjonTyper.FirstOrDefault(x => x.Code == IndicationTypeConstants.AfterPatient).Id
+                        Id = indicationTypesList.FirstOrDefault(x => x.Code == IndicationTypeConstants.AfterPatient).Id
                     }
                 },
-                Comment = "Kommentar til observasjonen",
+                Comment = "Comment til observasjonen",
                 RegistrationTime = DateTime.Now,
-                Role = brukDefaultRolle ? avdelingModell.Roles.First() : rolle,
-                SessionId = sesjonId.ToString()
+                Role = useDefaultRole ? departmentModel.Roles.First() : role,
+                SessionId = sessionId.ToString()
             };
 
-            var fireIndikasjonerSesjonGuid = await lagreFireIndikasjonSesjonHandler.Handle(new SaveSession.Command()
+            var fourIndicatorsSessionGuid = await SaveFourIndicatorsSessionHandler.Handle(new SaveSession.Command()
             {
                 Session = new FourIndicationsSession
                 {
-                    Id = sesjonId.ToString(),
-                    Department = avdelingModell,
-                    Institusjonsnavn = institusjon.Name,
-                    InstitutionId = institusjon.Id,
-                    Observasjoner = new List<FourIndicatorsObservation>()
+                    Id = sessionId.ToString(),
+                    Department = departmentModel,
+                    InstitutionsName = institution.Name,
+                    InstitutionId = institution.Id,
+                    Observations = new List<FourIndicatorsObservation>()
                     {
-                        observasjon
+                        observation
                     },
-                    Kommentar = "Kommentar til sesjonen",
-                    Starttidspunkt = DateTime.Now
+                    Comment = "Comment til sesjonen",
+                    StartTime = DateTime.Now
                 },
-                HprNumber = hprnummer
+                HprNumber = hprNumber
             }, CancellationToken.None);
 
-            return fireIndikasjonerSesjonGuid;
+            return fourIndicatorsSessionGuid;
         }
     }
 }

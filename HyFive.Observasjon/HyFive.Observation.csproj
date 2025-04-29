@@ -58,7 +58,7 @@
     <ProjectReference Include="..\HyFive.Tjenester\HyFive.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="HyFive.Observasjon.xml">
+    <None Update="HyFive.Observation.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

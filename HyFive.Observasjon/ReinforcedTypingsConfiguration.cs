@@ -1,6 +1,6 @@
 ﻿using Reinforced.Typings.Fluent;
 
-namespace HyFive.Observasjon
+namespace HyFive.Observation
 {
     public static class ReinforcedTypingsConfiguration
     {
