@@ -79,16 +79,16 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
     if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRequired
       || this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
       this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-      this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = false;
+      this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = false;
     }
     else {
       this.fourIndicationsObservationWhichChanged.activity.usedGlove = null;
       if (this.fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
         this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-        this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = false;
+        this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = false;
       }
       else {
-        this.fourIndicationsObservationWhichChanged.activity.TimekeepingWasRemoved = true;
+        this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = true;
       }
     }
 

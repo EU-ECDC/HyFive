@@ -2,11 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export enum SesjonType {
-	FireIndikasjoner = 1,
-	InnUt = 2,
-	Handsmykker = 3,
-	Hansker = 4,
-	Beskyttelsesutstyr = 5,
-	IkkeValgt = 6
+export interface CreateDepartmentRequest
+{
+	name: string;
+	institutionId: number;
+	departmentTypeId: number;
+	roleIds: number[];
 }

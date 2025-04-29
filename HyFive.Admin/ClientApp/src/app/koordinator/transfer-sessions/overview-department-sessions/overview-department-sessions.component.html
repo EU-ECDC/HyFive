@@ -96,7 +96,7 @@
                     </ul>
                   </td>
                   <td>{{obs.activity.activityType.name}}</td>
-                  <td>{{obs.activity.TimekeepingWasRemoved ? obs.activity.secondsUsed + ' second(s)' : '-' }}</td>
+                  <td>{{obs.activity.timekeepingWasRemoved ? obs.activity.secondsUsed + ' second(s)' : '-' }}</td>
                   <td>{{obs.activity.usedGlove === null ? '-' : obs.activity.usedGlove ? "Yes" : "No"}}</td>
                   <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
                   <td>{{obs.comment}}</td>

@@ -8,6 +8,6 @@ export interface Activity
 {
 	activityType: ActivityType;
 	secondsUsed?: number;
-	TimekeepingWasRemoved: boolean;
+	timekeepingWasRemoved: boolean;
 	usedGlove?: boolean;
 }

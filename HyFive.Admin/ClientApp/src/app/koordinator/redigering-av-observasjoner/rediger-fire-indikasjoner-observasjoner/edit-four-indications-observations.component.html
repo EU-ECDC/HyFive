@@ -25,7 +25,7 @@
                 </ul>
               </td>
               <td class="col-2">{{observation.activity.activityType.name}}</td>
-              <td class="col-1">{{observation.activity.TimekeepingWasRemoved && observation.activity.secondsUsed > 0 ? observation.activity.secondsUsed + ' second(is)' : '-' }}</td>
+              <td class="col-1">{{observation.activity.timekeepingWasRemoved && observation.activity.secondsUsed > 0 ? observation.activity.secondsUsed + ' second(is)' : '-' }}</td>
               <td class="col-1">{{observation.activity.usedGlove === null ? '-' : observation.activity.usedGlove ? "Yes" : "No"}}</td>
               <td class="col-2">{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
               <td class="col-2">{{observation.comment}}</td>
