@@ -20,7 +20,7 @@ import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
 import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
-import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
+import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
 import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
 import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
 
@@ -114,7 +114,7 @@ const routes: Routes = [
         path: UrlPaths.handjewelryCompliancePdf, component: EtterlevelseHandsmykkerPdfComponent
       },
       {
-        path: UrlPaths.downloadExcel, component: NedlastingExcelComponent
+        path: UrlPaths.downloadExcel, component: DownloadExcelComponent
       },
       {
         path: '',

@@ -1,5 +1,5 @@
 <div class="container">
-  <h4>Nedlasting av data for institution eller avdeling på Excel-format</h4>
+  <h4>Downloading data for an institution or department on Excel-format</h4>
   <div class="row mt-4" *ngIf="canSelectInstitution">
     <div class="col-md-5">
       <label for="institution">Institution</label>
@@ -11,16 +11,16 @@
   </div>
   <div class="row mt-4">
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" [(ngModel)]="createInstitutionalReport" class="form-check-input" (ngModelChange)="velgLagInstitusjonsrapport()">
-      <label class="custom-control-label ms-2">Last ned for institution</label>
+      <input type="checkbox" [(ngModel)]="createInstitutionalReport" class="form-check-input" (ngModelChange)="selectCreateInstitutionalReport()">
+      <label class="custom-control-label ms-2">Download for institution</label>
     </div>
   </div>
   <div class="row mt-4 mb-4">
     <div class="col-md-5">
-      <label for="avdeling">Department</label>
-      <select class="form-select" id="avdeling" [(ngModel)]="selectedDepartmentId" [disabled]="createInstitutionalReport">
+      <label for="department">Department</label>
+      <select class="form-select" id="department" [(ngModel)]="selectedDepartmentId" [disabled]="createInstitutionalReport">
         <option value=""></option>
-        <option *ngFor="let avdeling of departments" [ngValue]="avdeling.id">{{avdeling.name}}</option>
+        <option *ngFor="let department of departments" [ngValue]="department.id">{{department.name}}</option>
       </select>
     </div>
     <div class="col-md-2">
@@ -41,7 +41,7 @@
   </div>
   <div class="row mt-2">
     <div class="form-group col-12">
-      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Last ned fil</button>
+      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Download file</button>
       <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
     </div>
   </div>

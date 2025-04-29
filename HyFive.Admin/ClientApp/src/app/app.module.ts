@@ -72,7 +72,7 @@ import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/co
 import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
 import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
 import { SortService } from './shared/sorting/sort.service';
-import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
+import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
 import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
 import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
 import { CompliancePdfComponent } from './koordinator/rapporter/common/compliance-pdf.component';
@@ -141,7 +141,7 @@ export const httpInterceptorProviders = [
     ComplianceComponent,
     SortableColumnComponent,
     SortableTableDirective,
-    NedlastingExcelComponent,
+    DownloadExcelComponent,
     EtterlevelseFireIndikasjonerPdfComponent,
     EtterlevelseHandsmykkerPdfComponent,
     CompliancePdfComponent

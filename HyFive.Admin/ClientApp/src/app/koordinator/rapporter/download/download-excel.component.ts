@@ -9,15 +9,15 @@ import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitutionService } from 'src/app/services/data/institution.service';
 import { ReportService } from 'src/app/services/data/report.service';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
-import { SesjonstypeRapportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
+import { SessionTypeReportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
 import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 @Component({
-  selector: 'app-avdelingsrapport',
-  templateUrl: './nedlasting-excel.component.html'
+  selector: 'app-download-excel',
+  templateUrl: './download-excel.component.html'
 })
 
-export class NedlastingExcelComponent {
+export class DownloadExcelComponent {
   constructor(
     private institutionService: InstitutionService,
     private reportService: ReportService,
@@ -78,7 +78,7 @@ export class NedlastingExcelComponent {
     }
   }
 
-  velgLagInstitusjonsrapport() {
+  selectCreateInstitutionalReport() {
     this.selectedDepartmentId = null;
   }
 
@@ -98,15 +98,15 @@ export class NedlastingExcelComponent {
           if (reportHasData) {
             this.storedReport = true;
 
-            let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.selectedSessiontype);
+            let baseUrl = SessionTypeReportUrlMapper.getReportUrlMap().get(this.selectedSessiontype);
             let url = `${baseUrl}?fromTime=${this.fromDate}&toTime=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&role=${this.selectedRole}`;
         
-            this.lastNedExcel(url).subscribe(() => {
+            this.downloadExcel(url).subscribe(() => {
               this.storedReport = false;
             },
               (error) => {
                 this.storedReport = false;
-                this.toastrService.error(error?.message ? error.message : error, 'Det oppstod en feil under nedlasting', { disableTimeOut: true });
+                this.toastrService.error(error?.message ? error.message : error, 'An error occurred during download', { disableTimeOut: true });
               });
           } else {
             this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
@@ -114,7 +114,7 @@ export class NedlastingExcelComponent {
         })
   }
 
-  private lastNedExcel(url: string): Observable<any> {
+  private downloadExcel(url: string): Observable<any> {
     return DownloadFileHelper.downloadFile(url, 'application/xlsx, */*')
   }
 
