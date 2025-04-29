@@ -99,7 +99,7 @@ export class NedlastingExcelComponent {
             this.storedReport = true;
 
             let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.selectedSessiontype);
-            let url = `${baseUrl}?fromTime=${this.fromDate}&toTime=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&rolle=${this.selectedRole}`;
+            let url = `${baseUrl}?fromTime=${this.fromDate}&toTime=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&role=${this.selectedRole}`;
         
             this.lastNedExcel(url).subscribe(() => {
               this.storedReport = false;

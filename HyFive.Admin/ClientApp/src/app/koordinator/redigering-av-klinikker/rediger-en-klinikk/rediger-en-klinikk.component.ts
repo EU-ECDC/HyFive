@@ -32,7 +32,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.klinikk) {
       this.klinikkKopi = JSON.parse(JSON.stringify(this.klinikk));
-      this.lastAvdelinger();
+      this.loadDepartments();
     }
     else {
       this.toastrService.error('Departmentikke lastet', 'Technical error', { disableTimeOut: true});
@@ -43,7 +43,7 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  lastAvdelinger() {
+  loadDepartments() {
 
     this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institution) => {
       this.klinikkerListe = institution;

@@ -9,8 +9,8 @@
       <div class="form-group col-12 mb-3">
         Departments som skal være tilknyttet klinikken
         <div class="custom-control custom-checkbox my-1" *ngFor="let valg of avdelingsvalg">
-          <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'rolle'+avdelingsvalg.indexOf(valg)" class="form-check-input">
-          <label [htmlFor]="'rolle'+avdelingsvalg.indexOf(valg)" class="custom-control-label ms-2">
+          <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'role'+avdelingsvalg.indexOf(valg)" class="form-check-input">
+          <label [htmlFor]="'role'+avdelingsvalg.indexOf(valg)" class="custom-control-label ms-2">
             <span>{{ valg.avdeling.name }}</span>
           </label>
           <fa-icon *ngIf="valg.erAlleredePaKlinikk" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="Brukes av en annen klinikk!"></fa-icon>

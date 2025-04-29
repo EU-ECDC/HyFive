@@ -32,7 +32,7 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.nullstillSkjema();
-    this.lastAvdelinger();
+    this.loadDepartments();
   }
 
   ngOnDestroy(): void {
@@ -48,14 +48,14 @@ export class OpprettKlinikkComponent implements OnInit, OnDestroy {
       this.toastrService.success('Klinikk opprettet', `Klinikk med ID: ${klinikk.id} opprettet`);
       this.klinikkOpprettetEvent.emit(klinikk);
 
-      this.lastAvdelinger();
+      this.loadDepartments();
     },
       (error) => this.toastrService.error(`An error occurred while creating klinikk. Feilmelding fra server: ${error?.message ? error.message : error}`, 'Error under opprettelse av klinikk', { disableTimeOut: true}),
       () => { this.nullstillSkjema(); }
     );
   }
 
-  lastAvdelinger() {
+  loadDepartments() {
 
     this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe((result: Klinikk[]) => {
       this.klinikkerListe = result;

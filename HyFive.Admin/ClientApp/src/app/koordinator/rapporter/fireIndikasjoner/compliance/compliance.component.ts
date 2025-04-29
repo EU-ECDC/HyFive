@@ -8,46 +8,46 @@ import { ReportService } from '../../../../services/data/report.service';
 import { RoleService } from '../../../../services/data/role.service';
 
 @Component({
-  selector: 'app-etterlevelse',
-  templateUrl: './etterlevelse.component.html'
+  selector: 'app-compliance',
+  templateUrl: './compliance.component.html'
 })
-export class EtterlevelseComponent implements OnInit, OnDestroy {
+export class ComplianceComponent implements OnInit, OnDestroy {
 
   fromYear: number = 2024;
   toYear: number = 2024;
   fromMonth: number = 1;
   toMonth: number = 1;
-  rolle: Role = null;
-  avdeling: Department= null;
-  intervall: string = 'maned';
-  maneder: any [];
+  role: Role = null;
+  department: Department= null;
+  intervall: string = 'month';
+  months: any [];
 
-  visGraf = false;
+  showGraph = false;
   roles: Role[];
   departments: Department[];
 
-  prosentDiagramOptions: FhiDiagramOptions = {
+  percentageDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
     series: [],
     diagramTypeId: 'line'
   };
 
-  antallDiagramOptions: FhiDiagramOptions = {
+  numberDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
     series: [],
     diagramTypeId: 'line'
   };
   constructor(
-    private grafService: ReportService,
+    private graphService: ReportService,
     private institutionService: InstitutionService,
     private roleService: RoleService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
 
-    this.maneder = this.initManeder();
+    this.months = this.initMonths();
     this.loadRoles();
-    this.lastAvdelinger();
+    this.loadDepartments();
   }
 
   ngOnDestroy(): void {
@@ -60,7 +60,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
     );
   }
 
-  lastAvdelinger() {
+  loadDepartments() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getDepartments(institutionId).subscribe(
       (departments) => this.departments = departments,
@@ -70,62 +70,62 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
 
   getComplianceForFourIndications() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.grafService.getComplianceForFourIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.rolle?.id, this.avdeling?.id).subscribe(
+    this.graphService.getComplianceForFourIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
       (grafer) => {
 
-        let prosentGraf = grafer[0];
-        this.lagProsentDiagramOptions(prosentGraf);
+        let percentageGraph = grafer[0];
+        this.savePercentageChartOptions(percentageGraph);
         let antallGraf = grafer[1];
-        this.lagAntallDiagramOptions(antallGraf);
-        this.visGraf = true;
+        this.saveNumberDiagramOptions(antallGraf);
+        this.showGraph = true;
       },
-      (error) => this.toastrService.error('Error i generering av grafdata: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('Error in generating graph data: ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
-  lagProsentDiagramOptions(graf: any) {
-    this.prosentDiagramOptions = {
-      title: graf.tittel,
+  savePercentageChartOptions(graph: any) {
+    this.percentageDiagramOptions = {
+      title: graph.title,
       diagramTypeId: 'line',
-      series: graf.grafDataListe,
+      series: graph.graphDataList,
       openSource: false,
       units: [{
-        id: 'prosent',
+        id: 'percent',
         decimals: 1,
-        label: 'Etterlevelse (%)',
+        label: 'Compliance (%)',
         symbol: '%',
         position: 'end'
       }]
     };
   }
 
-  lagAntallDiagramOptions(graf: any) {
-    this.antallDiagramOptions = {
-      title: graf.tittel,
+  saveNumberDiagramOptions(graph: any) {
+    this.numberDiagramOptions = {
+      title: graph.title,
       diagramTypeId: 'line',
-      series: graf.grafDataListe,
+      series: graph.graphDataList,
       openSource: false,
       units: [{
-        id: 'antall',
-        label: 'Antall',
+        id: 'number',
+        label: 'Number',
         position: 'end'
       }]
     };
   }
 
-  initManeder() {
+  initMonths() {
     return [
-      { value: 1, description: "Januar" },
-      { value: 2, description: "Februar" },
-      { value: 3, description: "Mars" },
+      { value: 1, description: "January" },
+      { value: 2, description: "February" },
+      { value: 3, description: "March" },
       { value: 4, description: "April" },
-      { value: 5, description: "Mai" },
-      { value: 6, description: "Juni" },
-      { value: 7, description: "Juli" },
+      { value: 5, description: "May" },
+      { value: 6, description: "June" },
+      { value: 7, description: "July" },
       { value: 8, description: "August" },
       { value: 9, description: "September" },
-      { value: 10, description: "Oktober" },
+      { value: 10, description: "October" },
       { value: 11, description: "November" },
-      { value: 12, description: "Desember" }];
+      { value: 12, description: "December" }];
   }
 }

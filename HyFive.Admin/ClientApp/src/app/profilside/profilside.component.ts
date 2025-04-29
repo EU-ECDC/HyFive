@@ -46,15 +46,15 @@ export class ProfilsideComponent implements OnInit {
   }
 
   byttRolle(){
-    let rolle: AuthorizedRole;
+    let role: AuthorizedRole;
 
     if (this.selectedRole === this.rolleAdministrator) {
-      rolle = AuthorizedRole.Administrator;
+      role = AuthorizedRole.Administrator;
     } else if (this.selectedRole === this.rolleKoordinator) {
-      rolle = AuthorizedRole.Coordinator;
+      role = AuthorizedRole.Coordinator;
     }
 
-    this.roleEventService.switchRoleEvent.emit(rolle);
-    this.authorizationService.saveSelectedRole(rolle);
+    this.roleEventService.switchRoleEvent.emit(role);
+    this.authorizationService.saveSelectedRole(role);
   }
 }

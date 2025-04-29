@@ -19,7 +19,7 @@ import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-e
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
-import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
+import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
 import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
 import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
@@ -105,7 +105,7 @@ const routes: Routes = [
     component: RapporterComponent,
     children: [
       {
-        path: UrlPaths.fourindicationsCompliance, component: EtterlevelseComponent
+        path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
       },
       {
         path: UrlPaths.fourindicationsCompliancePdf, component: EtterlevelseFireIndikasjonerPdfComponent

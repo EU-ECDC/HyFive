@@ -68,7 +68,7 @@ import { EmailComponent } from './fhiadmin/email/email.component';
 import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
 import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
-import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
+import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
 import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
 import { SortService } from './shared/sorting/sort.service';
@@ -138,7 +138,7 @@ export const httpInterceptorProviders = [
     PseudonymDialogComponent,
     EmailComponent,
     RapporterComponent,
-    EtterlevelseComponent,
+    ComplianceComponent,
     SortableColumnComponent,
     SortableTableDirective,
     NedlastingExcelComponent,
