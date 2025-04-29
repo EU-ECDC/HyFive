@@ -1,8 +1,8 @@
 import { map, Observable } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 
-export class LastNedFilHjelper {
-    public static lastNedFil(url: string, acceptHeader: string): Observable<any> {
+export class DownloadFileHelper {
+    public static downloadFile(url: string, acceptHeader: string): Observable<any> {
         return ajax({
           url,
           method: 'GET',

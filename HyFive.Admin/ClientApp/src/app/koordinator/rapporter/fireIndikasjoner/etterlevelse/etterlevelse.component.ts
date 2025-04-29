@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Department} from '../../../../models/api/Department';
 import { Role } from '../../../../models/api/Role';
 import { InstitutionService } from '../../../../services/data/institution.service';
-import { RapportService } from '../../../../services/data/rapport.service';
+import { ReportService } from '../../../../services/data/report.service';
 import { RoleService } from '../../../../services/data/role.service';
 
 @Component({
@@ -13,10 +13,10 @@ import { RoleService } from '../../../../services/data/role.service';
 })
 export class EtterlevelseComponent implements OnInit, OnDestroy {
 
-  fraAr: number = 2024;
-  tilAr: number = 2024;
-  fraManed: number = 1;
-  tilManed: number = 1;
+  fromYear: number = 2024;
+  toYear: number = 2024;
+  fromMonth: number = 1;
+  toMonth: number = 1;
   rolle: Role = null;
   avdeling: Department= null;
   intervall: string = 'maned';
@@ -38,7 +38,7 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
     diagramTypeId: 'line'
   };
   constructor(
-    private grafService: RapportService,
+    private grafService: ReportService,
     private institutionService: InstitutionService,
     private roleService: RoleService,
     private toastrService: ToastrService) { }
@@ -68,9 +68,9 @@ export class EtterlevelseComponent implements OnInit, OnDestroy {
     );
   }
 
-  hentEtterlevelseForFireindikasjoner() {
+  getComplianceForFourIndications() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.grafService.hentEtterlevelseForFireindikasjoner(institutionId, this.intervall, this.fraManed, this.fraAr, this.tilManed, this.tilAr, this.rolle?.id, this.avdeling?.id).subscribe(
+    this.grafService.getComplianceForFourIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.rolle?.id, this.avdeling?.id).subscribe(
       (grafer) => {
 
         let prosentGraf = grafer[0];

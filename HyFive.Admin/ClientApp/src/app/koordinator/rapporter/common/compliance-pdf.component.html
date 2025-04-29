@@ -1,7 +1,7 @@
 <div class="row mt-4" *ngIf="canSelectInstitution">
     <div class="col-md-5">
       <label for="institution">Institution</label>
-      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="velgInstitusjon()">
+      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="selectInstitution()">
         <option value=""></option>
         <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
       </select>
@@ -10,7 +10,7 @@
   <div class="row mt-4">
     <div class="col-md-5">
       <label for="department">Department</label>
-      <select class="form-select" id="department" [(ngModel)]="valgtAvdelingId" [disabled]="lagInstitusjonsrapport">
+      <select class="form-select" id="department" [(ngModel)]="selectedDepartmentId" [disabled]="createInstitutionalReport">
         <option value=""></option>
         <option *ngFor="let department of departments" [ngValue]="department.id">{{department.name}}</option>
       </select>
@@ -26,11 +26,11 @@
   </div>
   <div class="row mt-4">
     <div class="form-group col-12">
-      <button class="btn btn-sm fhi-btn-primary me-2" (click)="lagRapport()" [disabled]="!kanLageRapport()">Lag rapport</button>
+      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Save report</button>
       <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
     </div>
   </div>
 
-  <div class="row" *ngIf="lagerRapport">
+  <div class="row" *ngIf="storedReport">
     <app-spinner class="col-2"></app-spinner>
   </div>

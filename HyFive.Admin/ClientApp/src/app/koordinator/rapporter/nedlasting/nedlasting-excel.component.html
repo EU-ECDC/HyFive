@@ -3,7 +3,7 @@
   <div class="row mt-4" *ngIf="canSelectInstitution">
     <div class="col-md-5">
       <label for="institution">Institution</label>
-      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="velgInstitusjon()">
+      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="selectInstitution()">
         <option value=""></option>
         <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
       </select>
@@ -11,20 +11,20 @@
   </div>
   <div class="row mt-4">
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" [(ngModel)]="lagInstitusjonsrapport" class="form-check-input" (ngModelChange)="velgLagInstitusjonsrapport()">
+      <input type="checkbox" [(ngModel)]="createInstitutionalReport" class="form-check-input" (ngModelChange)="velgLagInstitusjonsrapport()">
       <label class="custom-control-label ms-2">Last ned for institution</label>
     </div>
   </div>
   <div class="row mt-4 mb-4">
     <div class="col-md-5">
       <label for="avdeling">Department</label>
-      <select class="form-select" id="avdeling" [(ngModel)]="valgtAvdelingId" [disabled]="lagInstitusjonsrapport">
+      <select class="form-select" id="avdeling" [(ngModel)]="selectedDepartmentId" [disabled]="createInstitutionalReport">
         <option value=""></option>
         <option *ngFor="let avdeling of departments" [ngValue]="avdeling.id">{{avdeling.name}}</option>
       </select>
     </div>
     <div class="col-md-2">
-      <label for="sesjonType">Module</label>
+      <label for="sessionType">Module</label>
       <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype">
         <option value=""></option>
         <option *ngFor="let sessionType of sessionTypes" [ngValue]="sessionType.value">{{sessionType.name}}</option>
@@ -41,12 +41,12 @@
   </div>
   <div class="row mt-2">
     <div class="form-group col-12">
-      <button class="btn btn-sm fhi-btn-primary me-2" (click)="lagRapport()" [disabled]="!kanLageRapport()">Last ned fil</button>
+      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Last ned fil</button>
       <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
     </div>
   </div>
 
-  <div class="row" *ngIf="lagerRapport">
+  <div class="row" *ngIf="storedReport">
     <app-spinner class="col-2"></app-spinner>
   </div>
 

@@ -9,5 +9,5 @@ export class EtterlevelseFireIndikasjonerPdfComponent {
   constructor(
     ) { }
 
-  sesjonType = SessionType.FourIndications;
+  sessionType = SessionType.FourIndications;
 }

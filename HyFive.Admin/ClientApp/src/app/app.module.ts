@@ -75,7 +75,7 @@ import { SortService } from './shared/sorting/sort.service';
 import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
 import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
 import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
-import { EtterlevelsePdfComponent } from './koordinator/rapporter/felles/etterlevelse-pdf.component';
+import { CompliancePdfComponent } from './koordinator/rapporter/common/compliance-pdf.component';
 
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationFailedErrorInterceptor, multi: true },
@@ -144,7 +144,7 @@ export const httpInterceptorProviders = [
     NedlastingExcelComponent,
     EtterlevelseFireIndikasjonerPdfComponent,
     EtterlevelseHandsmykkerPdfComponent,
-    EtterlevelsePdfComponent
+    CompliancePdfComponent
   ],
   imports: [
     BrowserModule,

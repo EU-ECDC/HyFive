@@ -3,7 +3,7 @@
     <div class="row align-items-end mb-4">
 
       <div class="col-md-2">
-        <label for="sesjonType">Intervall</label>
+        <label for="sessionType">Intervall</label>
         <select class="form-select" id="rolle" [(ngModel)]="intervall">
           <option value="maned">Måned</option>
           <option value="tertial">Tertial</option>
@@ -13,26 +13,26 @@
 
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Fra måned</label>
-        <select class="form-select" id="maned" [(ngModel)]="fraManed">
+        <select class="form-select" id="maned" [(ngModel)]="fromMonth">
           <option *ngFor="let maned of maneder" [ngValue]="maned.value">{{maned.description}}</option>
         </select>
       </div>
 
       <div class="col-md-2">
         <label for="fra">Fra år</label>
-        <input class="form-control" id="fraAr" type="number" [(ngModel)]="fraAr" />
+        <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
       </div>
 
       <div class="col-md-2" *ngIf="intervall=='uke'">
         <label for="fra">Til måned</label>
-        <select class="form-select" id="maned" [(ngModel)]="tilManed">
+        <select class="form-select" id="maned" [(ngModel)]="toMonth">
           <option *ngFor="let maned of maneder" [ngValue]="maned.value">{{maned.description}}</option>
         </select>
       </div>
 
       <div class="col-md-2">
         <label for="til">Til år</label>
-        <input class="form-control" id="tilAr" type="number" [(ngModel)]="tilAr" />
+        <input class="form-control" id="toYear" type="number" [(ngModel)]="toYear" />
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
     <div class="row align-items-end mb-4">
 
       <div class="col-md-2">
-        <label for="sesjonType">Role</label>
+        <label for="sessionType">Role</label>
         <select class="form-select" id="rolle" [(ngModel)]="rolle">
           <option value="null">All</option>
           <option *ngFor="let rolle of roles" [ngValue]="rolle">{{rolle.name}}</option>
@@ -48,7 +48,7 @@
       </div>
 
       <div class="col-md-2">
-        <label for="sesjonType">Department</label>
+        <label for="sessionType">Department</label>
         <select class="form-select" id="avdeling" [(ngModel)]="avdeling">
           <option value="null">All</option>
           <option *ngFor="let avdeling of departments" [ngValue]="avdeling">{{avdeling.name}}</option>
@@ -58,7 +58,7 @@
       <div class="form-group col-12 col-md-3">
         <label style="opacity:0;">-</label>
         <br />
-        <button class="btn btn-sm fhi-btn-primary me-2" (click)="hentEtterlevelseForFireindikasjoner()">Vis graf</button>
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getComplianceForFourIndications()">Vis graf</button>
       </div>
     </div>
   </div>

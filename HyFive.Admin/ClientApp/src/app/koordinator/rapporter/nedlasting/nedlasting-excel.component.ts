@@ -7,8 +7,8 @@ import { Department} from 'src/app/models/api/Department';
 import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitutionService } from 'src/app/services/data/institution.service';
-import { RapportService } from 'src/app/services/data/rapport.service';
-import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
+import { ReportService } from 'src/app/services/data/report.service';
+import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
 import { SesjonstypeRapportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
 import { SessionTypes } from 'src/app/utils/sessionTypes';
 
@@ -20,7 +20,7 @@ import { SessionTypes } from 'src/app/utils/sessionTypes';
 export class NedlastingExcelComponent {
   constructor(
     private institutionService: InstitutionService,
-    private rapportService: RapportService,
+    private reportService: ReportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
 
@@ -44,31 +44,31 @@ export class NedlastingExcelComponent {
   sessionTypes = SessionTypes.GetSessionTypes();
 
   selectedSessiontype: SessionType = null;
-  valgtAvdelingId: number;
+  selectedDepartmentId: number;
   fromDate: Date = null;
   toDate: Date = null;
   
   departments: Department[];
   institutions: InstitutionReport[] = [];
   canSelectInstitution = false;
-  lagerRapport = false;
+  storedReport = false;
   selectedInstitutionId: number;
-  lagInstitusjonsrapport = false;
+  createInstitutionalReport = false;
 
   private selectedRole: AuthorizedRole;
 
-  velgInstitusjon(): void {
+  selectInstitution(): void {
     this.departments = null;
-    this.valgtAvdelingId = null;
+    this.selectedDepartmentId = null;
     if (this.selectedInstitutionId != null) {
       this.getInstitution(this.selectedInstitutionId)
     }
   };
 
   reset(): void {
-    this.valgtAvdelingId = null;
+    this.selectedDepartmentId = null;
     this.selectedSessiontype = null;
-    this.lagInstitusjonsrapport = false;
+    this.createInstitutionalReport = false;
     this.fromDate = null;
     this.toDate = null;
     this.toastrService.clear();
@@ -79,43 +79,43 @@ export class NedlastingExcelComponent {
   }
 
   velgLagInstitusjonsrapport() {
-    this.valgtAvdelingId = null;
+    this.selectedDepartmentId = null;
   }
 
-  kanLageRapport() {
+  canCreateReport() {
     return (((
-      this.selectedInstitutionId && this.valgtAvdelingId) ||
-      (this.selectedInstitutionId && this.lagInstitusjonsrapport)) &&
+      this.selectedInstitutionId && this.selectedDepartmentId) ||
+      (this.selectedInstitutionId && this.createInstitutionalReport)) &&
       this.selectedSessiontype && this.fromDate && this.toDate);
   }
 
-  lagRapport() {
+  saveReport() {
     this.toastrService.clear();
     
-    this.rapportService.rapportForSessionTypeHarData(this.selectedSessiontype, this.selectedInstitutionId, this.valgtAvdelingId,
+    this.reportService.reportForSessionTypeHasData(this.selectedSessiontype, this.selectedInstitutionId, this.selectedDepartmentId,
       this.fromDate, this.toDate, this.selectedRole).subscribe(
-        rapportHarData => {
-          if (rapportHarData) {
-            this.lagerRapport = true;
+        reportHasData => {
+          if (reportHasData) {
+            this.storedReport = true;
 
             let baseUrl = SesjonstypeRapportUrlMapper.getRapportUrlMap().get(this.selectedSessiontype);
-            let url = `${baseUrl}?fraTid=${this.fromDate}&tilTid=${this.toDate}&avdelingId=${this.valgtAvdelingId}&institutionId=${this.selectedInstitutionId}&rolle=${this.selectedRole}`;
+            let url = `${baseUrl}?fromTime=${this.fromDate}&toTime=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&rolle=${this.selectedRole}`;
         
             this.lastNedExcel(url).subscribe(() => {
-              this.lagerRapport = false;
+              this.storedReport = false;
             },
               (error) => {
-                this.lagerRapport = false;
+                this.storedReport = false;
                 this.toastrService.error(error?.message ? error.message : error, 'Det oppstod en feil under nedlasting', { disableTimeOut: true });
               });
           } else {
-            this.toastrService.info('Det finnes ikkke observasjoner for valgte verdier', '', { positionClass: 'toast-center-center' });
+            this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
           }
         })
   }
 
   private lastNedExcel(url: string): Observable<any> {
-    return LastNedFilHjelper.lastNedFil(url, 'application/xlsx, */*')
+    return DownloadFileHelper.downloadFile(url, 'application/xlsx, */*')
   }
 
   private getInstitution(institutionId: number) {

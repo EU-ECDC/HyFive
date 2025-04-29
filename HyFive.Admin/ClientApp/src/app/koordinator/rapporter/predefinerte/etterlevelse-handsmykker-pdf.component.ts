@@ -9,5 +9,5 @@ export class EtterlevelseHandsmykkerPdfComponent {
   constructor(
     ) { }
 
-  sesjonType = SessionType.Handjewelry;
+  sessionType = SessionType.Handjewelry;
 }

@@ -7,17 +7,17 @@ import { Department} from 'src/app/models/api/Department';
 import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitutionService } from 'src/app/services/data/institution.service';
-import { RapportService } from 'src/app/services/data/rapport.service';
-import { LastNedFilHjelper } from 'src/app/utils/last-ned-fil-hjelper';
+import { ReportService } from 'src/app/services/data/report.service';
+import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
 
 @Component({
-  selector: 'app-etterlevelse-pdf',
-  templateUrl: './etterlevelse-pdf.component.html'
+  selector: 'app-compliance-pdf',
+  templateUrl: './compliance-pdf.component.html'
 })
-export class EtterlevelsePdfComponent {
+export class CompliancePdfComponent {
   constructor(
     private institutionService: InstitutionService,
-    private rapportService: RapportService,
+    private reportService: ReportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
     
@@ -38,31 +38,31 @@ export class EtterlevelsePdfComponent {
         }
       }
       
-  @Input() sesjonType: SessionType;
+  @Input() sessionType: SessionType;
   
   selectedInstitutionId: number;
-  valgtAvdelingId: number;
+  selectedDepartmentId: number;
   fromDate: Date = null;
   toDate: Date = null;
 
   departments: Department[];
   institutions: InstitutionReport[] = [];
   canSelectInstitution = false;
-  lagerRapport = false;
-  lagInstitusjonsrapport = false;
+  storedReport = false;
+  createInstitutionalReport = false;
 
   private selectedRole: AuthorizedRole;
 
-  velgInstitusjon(): void {
+  selectInstitution(): void {
     this.departments = null;
-    this.valgtAvdelingId = null;
+    this.selectedDepartmentId = null;
     if (this.selectedInstitutionId != null) {
       this.getInstitution(this.selectedInstitutionId)
     }
   };
 
   reset(): void {
-    this.valgtAvdelingId = null;
+    this.selectedDepartmentId = null;
     this.departments = null;
     this.fromDate = null;
     this.toDate = null;
@@ -73,46 +73,46 @@ export class EtterlevelsePdfComponent {
     }
   }
 
-  kanLageRapport() {
-    return (this.valgtAvdelingId && this.fromDate && this.toDate);
+  canCreateReport() {
+    return (this.selectedDepartmentId && this.fromDate && this.toDate);
   }
 
-  lagRapport() {
+  saveReport() {
     this.toastrService.clear();
 
-    this.rapportService.rapportForSessionTypeHarData(this.sesjonType, this.selectedInstitutionId, this.valgtAvdelingId,
+    this.reportService.reportForSessionTypeHasData(this.sessionType, this.selectedInstitutionId, this.selectedDepartmentId,
       this.fromDate, this.toDate, this.selectedRole).subscribe(
-        rapportHarData => {
-          if (rapportHarData) {
-            this.lagerRapport = true;
-            this.lastNedPdf().subscribe(() => {
-              this.lagerRapport = false
+        reportHasData => {
+          if (reportHasData) {
+            this.storedReport = true;
+            this.downloadPdf().subscribe(() => {
+              this.storedReport = false
             },
               (error) => {
-                this.lagerRapport = false
-                this.toastrService.error(error?.message ? error.message : error, 'Error under nedlasting av rapport', { disableTimeOut: true });
+                this.storedReport = false
+                this.toastrService.error(error?.message ? error.message : error, 'Error while downloading report', { disableTimeOut: true });
               });
           } else {
-            this.toastrService.info('Det finnes ikkke observasjoner for valgte verdier', '', { positionClass: 'toast-center-center' });
+            this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
           }
         })
   }
 
-  private lastNedPdf(): Observable<any> {
-    let url = '/api/v1/rapport/';
+  private downloadPdf(): Observable<any> {
+    let url = '/api/v1/report/';
 
-    if (this.sesjonType == SessionType.FourIndications) {
-      url += 'fireindikasjoner';
-    } else if (this.sesjonType == SessionType.Handjewelry) {
-      url += 'handsmykke';
+    if (this.sessionType == SessionType.FourIndications) {
+      url += 'fourindications';
+    } else if (this.sessionType == SessionType.Handjewelry) {
+      url += 'handjewelry';
     }
 
-    url += '/avdeling/pdf/';
-    url += `?fraTid=${this.fromDate}&tilTid=${this.toDate}`;
-    url += `&rolle=${this.selectedRole}`;
-    url += `&institutionId=${this.selectedInstitutionId}&avdelingId=${this.valgtAvdelingId}`;
+    url += '/department/pdf/';
+    url += `?fromTime=${this.fromDate}&toTime=${this.toDate}`;
+    url += `&role=${this.selectedRole}`;
+    url += `&institutionId=${this.selectedInstitutionId}&departmentId=${this.selectedDepartmentId}`;
 ''
-    return LastNedFilHjelper.lastNedFil(url, 'application/pdf, */*')
+    return DownloadFileHelper.downloadFile(url, 'application/pdf, */*')
   }
 
   private getInstitution(institutionId: number) {
