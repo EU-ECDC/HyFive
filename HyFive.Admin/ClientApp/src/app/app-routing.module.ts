@@ -18,11 +18,11 @@ import { RequestComponent } from './koordinator/request/request.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
-import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
+import { ReportComponent } from './koordinator/rapporter/report.component';
 import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
-import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
-import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
+import { ComplianceFourIndicationsPdfComponent } from './koordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './koordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 
 const defaultPath = `/${UrlPaths.frontPage}`;
 
@@ -102,16 +102,16 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.reports,
-    component: RapporterComponent,
+    component: ReportComponent,
     children: [
       {
         path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fourindicationsCompliancePdf, component: EtterlevelseFireIndikasjonerPdfComponent
+        path: UrlPaths.fourindicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
       },
       {
-        path: UrlPaths.handjewelryCompliancePdf, component: EtterlevelseHandsmykkerPdfComponent
+        path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
       },
       {
         path: UrlPaths.downloadExcel, component: DownloadExcelComponent

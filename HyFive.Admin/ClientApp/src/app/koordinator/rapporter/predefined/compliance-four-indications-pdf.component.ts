@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { SessionType } from 'src/app/models/api/SessionType';
 @Component({
-  selector: 'app-etterlevelse-fire-indikasjoner-pdf',
-  templateUrl: './etterlevelse-fire-indikasjoner-pdf.component.html'
+  selector: 'app-compliance-four-indications-pdf',
+  templateUrl: './compliance-four-indications-pdf.component.html'
 })
 
-export class EtterlevelseFireIndikasjonerPdfComponent {
+export class ComplianceFourIndicationsPdfComponent {
   constructor(
     ) { }
 

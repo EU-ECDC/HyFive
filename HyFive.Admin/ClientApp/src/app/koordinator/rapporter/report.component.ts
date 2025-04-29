@@ -3,11 +3,11 @@ import { FhiTreeViewNavigationItem } from '@folkehelseinstituttet/angular-compon
 import { UrlPaths } from '../../_felles/konstanter/url-paths';
 
 @Component({
-  selector: 'app-rapporter',
-  templateUrl: './rapporter.component.html'
+  selector: 'app-report',
+  templateUrl: './report.component.html'
 })
 
-export class RapporterComponent implements OnInit {
+export class ReportComponent implements OnInit {
 
   treeNavItems: FhiTreeViewNavigationItem[] = [];
 
@@ -29,21 +29,21 @@ export class RapporterComponent implements OnInit {
       //   ]
       // },
       {
-        name: 'Predefinerte (PDF)',
+        name: 'Predifined (PDF)',
         isExpanded: true,
         children: [
           {
-            name: 'Etterlevelse fire indikasjoner',
+            name: 'Compliance four indications',
             routerLink: UrlPaths.fourindicationsCompliancePdf
           },
           {
-            name: 'Etterlevelse håndsmykker',
+            name: 'Compliance handjewelry',
             routerLink: UrlPaths.handjewelryCompliancePdf
           }
         ]
       },
       {
-        name: 'Nedlastinger (Excel)',
+        name: 'Downloads (Excel)',
         routerLink: UrlPaths.downloadExcel
       }
     ];

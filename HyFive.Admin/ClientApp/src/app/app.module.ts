@@ -67,14 +67,14 @@ import { PseudonymDialogComponent } from './_felles/edit-coordinators/pseudonym-
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
-import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
+import { ReportComponent } from './koordinator/rapporter/report.component';
 import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
 import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
 import { SortService } from './shared/sorting/sort.service';
 import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
-import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
-import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
+import { ComplianceFourIndicationsPdfComponent } from './koordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './koordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './koordinator/rapporter/common/compliance-pdf.component';
 
 export const httpInterceptorProviders = [
@@ -137,13 +137,13 @@ export const httpInterceptorProviders = [
     RedigerKoordinatorerForHelseforetakComponent,
     PseudonymDialogComponent,
     EmailComponent,
-    RapporterComponent,
+    ReportComponent,
     ComplianceComponent,
     SortableColumnComponent,
     SortableTableDirective,
     DownloadExcelComponent,
-    EtterlevelseFireIndikasjonerPdfComponent,
-    EtterlevelseHandsmykkerPdfComponent,
+    ComplianceFourIndicationsPdfComponent,
+    ComplianceHandJewelryPdfComponent,
     CompliancePdfComponent
   ],
   imports: [
