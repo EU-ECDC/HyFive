@@ -9,16 +9,16 @@ import { Institution } from '../../models/api/Institution';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-redigering-av-klinikker',
-  templateUrl: './redigering-av-klinikker.component.html'
+  selector: 'app-editing-of-clinic',
+  templateUrl: './editing-of-clinic.component.html'
 })
-export class RedigeringAvKlinikkerComponent implements OnInit {
+export class EditingClinicsComponent implements OnInit {
 
   clinics: Clinic[] = [];
-  institusjonNavn: string;
+  institutionName: string;
   institutionId: number;
-  klinikkId = 0;
-  klinikkSomRedigeres: Clinic;
+  clinicId = 0;
+  clinicAsEdited: Clinic;
 
   loading: boolean = false;
 
@@ -28,34 +28,34 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.hentKlinikker();
+    this.getClinics();
   }
 
-  hentKlinikker() {
+  getClinics() {
     this.loading = true;
     let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
-      this.institusjonNavn = result.name;
+      this.institutionName = result.name;
       this.institutionId = result.id;
       this.clinicService.getClinicsForInstitution(this.institutionId).subscribe(clinics => {
         this.loading = false;
         this.clinics = clinics;
         this.route.queryParams.subscribe(
           params => {
-            const klinikkIdFromQuery = params[QueryParameters.id] || 0;
-            this.klinikkId = parseInt(klinikkIdFromQuery, 0);
-            this.klinikkSomRedigeres = this.clinics.find(a => a.id === this.klinikkId);
+            const ClinicIdFromQuery = params[QueryParameters.id] || 0;
+            this.clinicId = parseInt(ClinicIdFromQuery, 0);
+            this.clinicAsEdited = this.clinics.find(a => a.id === this.clinicId);
           }
         );
       });
     });
   }
 
-  hentAvdelingsnavn(klinikk: Clinic) {
-    return klinikk.departments?.map(r => r.name).join(',');
+  getDepartmentName(clinic: Clinic) {
+    return clinic.departments?.map(r => r.name).join(',');
   }
 
-  navigerTilKlinikk(id: number) {
+  navigateToClinic(id: number) {
     if (id === 0) {
       this.router.navigate([], { relativeTo: this.route });
     }

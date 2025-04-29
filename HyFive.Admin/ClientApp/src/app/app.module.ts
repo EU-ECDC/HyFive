@@ -35,9 +35,9 @@ import { TransferSessionsComponent } from './koordinator/transfer-sessions/trans
 import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
-import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klinikker/redigering-av-klinikker.component';
-import { CreateClinicComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/create-clinic.component';
-import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
+import { EditingClinicsComponent } from './koordinator/redigering-av-klinikker/editing-of-clinic.component';
+import { CreateClinicComponent } from './koordinator/redigering-av-klinikker/create-clinic/create-clinic.component';
+import { EditAClinicComponent } from './koordinator/redigering-av-klinikker/edit-a-clinic/edit-a-clinic.component';
 import { EditingRegionComponent } from './fhiadmin/redigering-av-kodeverk/editing-region.component/editing-region.component';
 import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { EditingOfRolesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-roles/editing-of-roles.component';
@@ -112,9 +112,9 @@ export const httpInterceptorProviders = [
     OverviewSessionsViewComponent,
     RedigeringAvPredefinertKommentarerComponent,
     EditingOfDepartmentTypesComponent,
-    RedigeringAvKlinikkerComponent,
+    EditingClinicsComponent,
     CreateClinicComponent,
-    RedigerEnKlinikkComponent,
+    EditAClinicComponent,
     EditingRegionComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
