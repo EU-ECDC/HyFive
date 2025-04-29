@@ -10,11 +10,11 @@ import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/
 import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
 import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-observatorer/redigering-av-observatorer.component";
 import { ProfilsideComponent } from "./profilside/profilside.component";
-import { OverforSesjonerComponent } from './koordinator/opposite-sessions/overfor-sesjoner.component';
+import { TransferSessionsComponent } from './koordinator/transfer-sessions/transfer-sessions.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
-import { ForesporselComponent } from './koordinator/foresporsel/foresporsel.component';
+import { RequestComponent } from './koordinator/foresporsel/foresporsel.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
@@ -45,8 +45,8 @@ const routes: Routes = [
     component: OverviewDepartmentSessionsComponent
   },
   {
-    path: UrlPaths.oppositeSessions,
-    component: OverforSesjonerComponent
+    path: UrlPaths.transferSessions,
+    component: TransferSessionsComponent
   },
   {
     path: UrlPaths.editingByInstitutions,
@@ -90,7 +90,7 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.request,
-    component: ForesporselComponent
+    component: RequestComponent
   },
   {
     path: UrlPaths.healthcareEnterprise,

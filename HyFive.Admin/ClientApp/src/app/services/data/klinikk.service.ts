@@ -18,7 +18,7 @@ export class KlinikkService {
   }
 
   hentKlinikkerForInstitusjon(institutionId: number): Observable<Klinikk[]> {
-    const url = `${environment.apiBaseUrl}/v1/klinikk/institusjon/${institutionId}`;
+    const url = `${environment.apiBaseUrl}/v1/klinikk/institution/${institutionId}`;
     return this.http.get<Klinikk[]>(url);
   }
 

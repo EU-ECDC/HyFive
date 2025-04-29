@@ -45,8 +45,8 @@ export class RedigerEnKlinikkComponent implements OnInit, OnDestroy {
 
   lastAvdelinger() {
 
-    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institusjon) => {
-      this.klinikkerListe = institusjon;
+    this.klinikkService.hentKlinikkerForInstitusjon(this.klinikkKopi.institutionId).subscribe((institution) => {
+      this.klinikkerListe = institution;
 
       this.institutionService.getDepartments(this.klinikkKopi.institutionId).subscribe(
         (departments) => {

@@ -9,7 +9,7 @@ import { ForesporselStatus } from 'src/app/models/api/ForesporselStatus';
   selector: 'app-foresporsel',
   templateUrl: './foresporsel.component.html'
 })
-export class ForesporselComponent implements OnInit, OnDestroy {
+export class RequestComponent implements OnInit, OnDestroy {
 
   foresporsler: ForesporselOmBrukertilgang[];
   visAlleForesporsel: boolean = false;

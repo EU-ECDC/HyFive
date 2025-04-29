@@ -13,8 +13,8 @@ export class RedigeringAvObservatorerComponent implements OnInit {
   constructor(private institutionService: InstitutionService) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result) => {
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result) => {
       this.institusjonRapport = {
         id: result.id,
         herId: result.herId,

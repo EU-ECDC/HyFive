@@ -33,8 +33,8 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
 
   hentKlinikker() {
     this.loading = true;
-    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
       this.institusjonNavn = result.name;
       this.institutionId = result.id;
       this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(clinics => {

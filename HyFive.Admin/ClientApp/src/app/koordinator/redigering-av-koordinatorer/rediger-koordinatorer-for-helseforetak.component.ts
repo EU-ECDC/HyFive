@@ -117,7 +117,7 @@ export class RedigerKoordinatorerForHelseforetakComponent implements OnInit, OnD
           this.toastrService.error(status.feilmelding, '', { disableTimeOut: true });
         }
       },
-      (error) => this.toastrService.error('Det oppstod en feil under opprettelse av coordinator(er) og/eller Observatør(er): ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error('Det oppstod en feil under opprettelse av coordinator(er) og/eller Observer(er): ' + error?.message, '', { disableTimeOut: true })
     );
   }
 
