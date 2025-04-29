@@ -52,7 +52,7 @@
     </div>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="!isTransferToFhi(item.transferStatus.code)">
       <div class="mb-2 me-2">
-        <button class="btn btn-sm fhi-btn-primary col-md-8" (click)="opposite(item.id, $event)">
+        <button class="btn btn-sm fhi-btn-primary col-md-8" (click)="transfer(item.id, $event)">
           <fa-icon [icon]="faPaperPlane"></fa-icon>
           Overfør til FHI
         </button>

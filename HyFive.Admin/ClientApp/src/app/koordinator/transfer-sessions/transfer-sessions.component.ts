@@ -13,10 +13,10 @@ import { Institution } from '../../models/api/Institution';
 import { forEach } from 'lodash-es';
 
 @Component({
-  selector: 'app-overfor-sesjoner',
-  templateUrl: './overfor-sesjoner.component.html'
+  selector: 'app-transfer-sessions',
+  templateUrl: './transfer-sessions.component.html'
 })
-export class OverforSesjonerComponent implements OnInit, OnDestroy {
+export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   faArrowRight = faArrowRight;
   faPaperPlane = faPaperPlane;
@@ -33,18 +33,18 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   toDate: Date = null;
 
   observers: User[] = [];
-  valgtObservator: User = null;
+  selectedObserver: User = null;
 
-  institusjon: InstitutionReport;
+  institution: InstitutionReport;
 
-  institusjonerAlternativer: InstitutionReport[] = [];
+  institutionsOptions: InstitutionReport[] = [];
   selectedInstitutionOptions: number = null;
 
   sessions: SessionOverviewReport[] = [];
   sessionsCoordinator: SessionOverviewReport[] = [];
   sessionsFHI: SessionOverviewReport[] = [];
   loading: boolean = false;
-  sokGjort: boolean = false;
+  SearchDone: boolean = false;
 
   constructor(
     private institutionService: InstitutionService,
@@ -53,9 +53,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    let valgtInstitusjonsId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(valgtInstitusjonsId).subscribe((result: Institution) => {
-      this.institusjon = {
+    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
+      this.institution = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,
@@ -64,9 +64,9 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
         region: result.region
       } as InstitutionReport;
 
-      this.institutionService.getObservers(this.institusjon.id).subscribe((observers) => {
-        this.observers = observers.sort(this.compareFornavnForBrukere);
-        this.observers = this.visDeaktivertObservatorerNedest(observers);
+      this.institutionService.getObservers(this.institution.id).subscribe((observers) => {
+        this.observers = observers.sort(this.compareFirstNameForUsers);
+        this.observers = this.showDisabledObserversBottom(observers);
       });
     });
   }
@@ -75,61 +75,61 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
   
-  visDeaktivertObservatorerNedest(observers: User[]): User[] {
-    var observatorerListe = observers.filter(o => o.isDisabled === false);
-    var observatorerSomErDeaktivert = observers.filter(o => o.isDisabled);
-    observatorerListe.push.apply(observatorerListe, observatorerSomErDeaktivert);
-    return observatorerListe;
+  showDisabledObserversBottom(observers: User[]): User[] {
+    var observersList = observers.filter(o => o.isDisabled === false);
+    var observersWhoAreDisabled = observers.filter(o => o.isDisabled);
+    observersList.push.apply(observersList, observersWhoAreDisabled);
+    return observersList;
   }
 
-  hentSesjoner() {
+  getSessions() {
     this.loading = true;
     this.observationService.getSessionsForInstitution(
-      this.institusjon.id,
-      this.valgtObservator,
+      this.institution.id,
+      this.selectedObserver,
       this.selectedSessiontype,
       this.fromDate,
       this.toDate
     ).subscribe((results) => {
       this.loading = false;
-      this.sokGjort = true;
+      this.SearchDone = true;
       this.sessions = results;
-      this.oppdaterLister();
+      this.updateLists();
     })
   }
 
-  oppdaterLister() {
+  updateLists() {
     this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToCoordinator);
     this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToFhi);
   }
 
-  overfor(sesjonId) {
+  transfer(sessionId) {
     this.loading = true;
-    this.observationService.oppositeSessionToFHI(this.institusjon.id, sesjonId).subscribe((result) => {
+    this.observationService.transferSessionToFHI(this.institution.id, sessionId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
-        this.toastrService.success('Sesjonen(e) ble overført til FHI');
-        this.oppdaterLister();
+        this.toastrService.success('The session(s) was transferred to FHI');
+        this.updateLists();
         this.loading = false;
       }
-      else this.toastrService.error('Det oppstod en feil under overføringen. Vennligst prøv på nytt.', '', { disableTimeOut: true});
+      else this.toastrService.error('An error occurred during the transfer. Please try again.', '', { disableTimeOut: true});
     });
   }
 
-  merkAlleSesjoner() {
+  markAllSessions() {
     this.sessionsCoordinator.forEach(s => s.isSelected = true);
   }
 
-  overforSesjoner() {
-    let valgteSesjoner = this.sessionsCoordinator.filter(s => s.isSelected);
+  transferSessions() {
+    let selectedSessions = this.sessionsCoordinator.filter(s => s.isSelected);
   
-    valgteSesjoner.forEach(sesjon => {
-      this.overfor(sesjon.id);
+    selectedSessions.forEach(session => {
+      this.transfer(session.id);
     });
   }
 
   reset(): void {
-    this.valgtObservator = null;
+    this.selectedObserver = null;
     this.selectedSessiontype = null;
     this.fromDate = null;
     this.toDate = null;
@@ -137,21 +137,21 @@ export class OverforSesjonerComponent implements OnInit, OnDestroy {
   }
 
   resetSearchresults() {
-    this.sokGjort = false;
+    this.SearchDone = false;
     this.sessionsCoordinator = [];
     this.sessionsFHI = [];
     this.sessions = [];
   }
 
-  observasjonSlettet(): void {
-    this.hentSesjoner();
+  observationDeleted(): void {
+    this.getSessions();
   }
 
-  harVelgtMinstEnSesjon(): boolean {
+  hasSelectedAtLeastOneSession(): boolean {
     return this.sessionsCoordinator.some(s => s.isSelected);
   }
 
-  compareFornavnForBrukere(a: User, b: User): number {
+  compareFirstNameForUsers(a: User, b: User): number {
     if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
     if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
     return 0;

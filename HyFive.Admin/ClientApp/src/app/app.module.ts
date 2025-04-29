@@ -31,7 +31,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { EditingGlovesWithIndicationTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-gloves-with-indicationtypes/editing-gloves-with-indicationtypes.component';
 import { EditingGlovewithoutindicationtypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-gloveswithoutindicationtypes/editing-of-gloveswithoutindicationtypes.component';
 import { EditingHandHygieneAfterGloveUseTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
-import { OverforSesjonerComponent } from './koordinator/opposite-sessions/overfor-sesjoner.component';
+import { TransferSessionsComponent } from './koordinator/transfer-sessions/transfer-sessions.component';
 import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
@@ -57,7 +57,7 @@ import { EditProtectiveEquipmentObservationComponent } from './koordinator/redig
 import {ProtectiveEquipmentModalComponent} from "./koordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
 import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
-import { ForesporselComponent } from "./koordinator/foresporsel/foresporsel.component";
+import { RequestComponent } from "./koordinator/foresporsel/foresporsel.component";
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
@@ -108,7 +108,7 @@ export const httpInterceptorProviders = [
     EditingGlovesWithIndicationTypesComponent,
     EditingGlovewithoutindicationtypesComponent,
     EditingHandHygieneAfterGloveUseTypesComponent,
-    OverforSesjonerComponent,
+    TransferSessionsComponent,
     OverviewSessionsViewComponent,
     RedigeringAvPredefinertKommentarerComponent,
     EditingOfDepartmentTypesComponent,
@@ -131,7 +131,7 @@ export const httpInterceptorProviders = [
     ProtectiveEquipmentModalComponent,
     SearchHprNumberLinkComponent,
     EditSessionDataComponent,
-    ForesporselComponent,
+    RequestComponent,
     HealthEnterpriseComponent,
     RedigeringAvKoordinatorerComponent,
     RedigerKoordinatorerForHelseforetakComponent,

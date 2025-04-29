@@ -1,18 +1,18 @@
 <div class="container">
-  <h4>Nedlasting av data for institusjon eller avdeling på Excel-format</h4>
+  <h4>Nedlasting av data for institution eller avdeling på Excel-format</h4>
   <div class="row mt-4" *ngIf="canSelectInstitution">
     <div class="col-md-5">
-      <label for="institusjon">Institution</label>
-      <select class="form-select" id="institusjon" [(ngModel)]="selectedInstitutionId" (ngModelChange)="velgInstitusjon()">
+      <label for="institution">Institution</label>
+      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="velgInstitusjon()">
         <option value=""></option>
-        <option *ngFor="let institusjon of institutions" [ngValue]="institusjon.id">{{institusjon.name}}</option>
+        <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
       </select>
     </div>
   </div>
   <div class="row mt-4">
     <div class="custom-control custom-checkbox">
       <input type="checkbox" [(ngModel)]="lagInstitusjonsrapport" class="form-check-input" (ngModelChange)="velgLagInstitusjonsrapport()">
-      <label class="custom-control-label ms-2">Last ned for institusjon</label>
+      <label class="custom-control-label ms-2">Last ned for institution</label>
     </div>
   </div>
   <div class="row mt-4 mb-4">

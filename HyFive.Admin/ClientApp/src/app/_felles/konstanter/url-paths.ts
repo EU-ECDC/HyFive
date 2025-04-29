@@ -2,7 +2,7 @@ export class UrlPaths {
   static frontPage = 'frontpage';
   static observations = 'fhiadmin/observations';
   static observationsDepartment = 'fhiadmin/observations/department';
-  static oppositeSessions = 'coordinator/opposite';
+  static transferSessions = 'coordinator/transfer';
   static editingByInstitutions = 'fhiadmin/institutions';
   static editingByCodeworks = 'fhiadmin/codeworks';
   static editingofhandjewelrytypes = 'fhiadmin/typesofhandjewelry';

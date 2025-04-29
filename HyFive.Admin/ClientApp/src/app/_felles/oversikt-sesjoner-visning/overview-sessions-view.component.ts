@@ -19,11 +19,11 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   @Input() session: SessionOverviewReport[] = [];
   @Input() isTransferOverview = false;
 
-  @Output() oppositeEvent = new EventEmitter();
+  @Output() transferEvent = new EventEmitter();
   @Output() observationUpdatedEvent = new EventEmitter();
   @Output() observationDeletedEvent = new EventEmitter();
 
-  isOppositeToFhi = false;
+  istransferToFhi = false;
   transferstatusTypeConstants = TransferstatusTypeConstants;
   SessionType = SessionType;
 
@@ -44,9 +44,9 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
     return code === TransferstatusTypeConstants.TransferToFhi;
   }
 
-  opposite(sessionId, event) {
+  transfer(sessionId, event) {
     event.stopPropagation();
-    this.oppositeEvent.emit(sessionId);
+    this.transferEvent.emit(sessionId);
   }
 
   selectOverToFhi(sessionId, event) {

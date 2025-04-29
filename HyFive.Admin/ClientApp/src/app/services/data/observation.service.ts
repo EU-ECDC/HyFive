@@ -82,8 +82,8 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  oppositeSessionToFHI(institutionId: number, sessionId: any) {
-    const url = `${environment.apiBaseUrl}/v1/observation/opposite`;
+  transferSessionToFHI(institutionId: number, sessionId: any) {
+    const url = `${environment.apiBaseUrl}/v1/observation/transfer`;
     let params = new HttpParams();
 
     params = params.append("institutionid", institutionId?.toString());

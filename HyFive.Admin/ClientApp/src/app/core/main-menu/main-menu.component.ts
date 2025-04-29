@@ -108,7 +108,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Transfer sessions to FHI',
-        routerLink: `/${UrlPaths.oppositeSessions}`,
+        routerLink: `/${UrlPaths.transferSessions}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {

@@ -7,7 +7,7 @@
       <app-edit-coordinators [institutionId]="institusjonRapport.id"></app-edit-coordinators>
     </div>
     <div *ngIf="institusjonRapport.helseforetak">
-      <app-edit-coordinators-for-helseforetak [institusjon]="institusjonRapport"></app-edit-coordinators-for-helseforetak>
+      <app-edit-coordinators-for-helseforetak [institution]="institusjonRapport"></app-edit-coordinators-for-helseforetak>
     </div>
   </ng-container>
   <ng-template #spinner>
