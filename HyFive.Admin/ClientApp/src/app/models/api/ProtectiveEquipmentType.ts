@@ -11,5 +11,5 @@ export interface ProtectiveEquipmentType
 	name: string;
 	isDefault: boolean;
 	isRequired: boolean;
-	misuseTypes: MisuseType[];
+	incorrectTypes: MisuseType[];
 }

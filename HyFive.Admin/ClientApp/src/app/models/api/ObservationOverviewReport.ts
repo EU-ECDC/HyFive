@@ -15,7 +15,7 @@ export interface ObservationOverviewReport
 	id: any;
 	role: Role;
 	comment: string;
-	createdTime: any;
+	registeredTime: any;
 	indicationTypes: IndicationType[];
 	activity: Activity;
 	handJewelryTypes: HandJewelryType[];
