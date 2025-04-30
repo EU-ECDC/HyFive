@@ -9,7 +9,7 @@ import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitutionService } from 'src/app/services/data/institution.service';
 import { ReportService } from 'src/app/services/data/report.service';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
-import { SessionTypeReportUrlMapper } from 'src/app/utils/sesjonstype-rapport-url-mapper';
+import { SessionTypeReportUrlMapper } from 'src/app/utils/sessionstype-report-url-mapper';
 import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 @Component({

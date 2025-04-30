@@ -58,7 +58,7 @@ export class EditProtectiveEquipmentObservationsComponent implements OnInit {
   updateRegistrationTime(dateString: string) {
     if (dateString) {
       this.registeredDate = new Date(dateString);
-      this.protectiveEquipmentObservationAsChanged.registeredTime = this.registeredDate;
+      this.protectiveEquipmentObservationAsChanged.registrationTime = this.registeredDate;
     }
   }
 

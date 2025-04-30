@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
-import { InstitutionTypesService } from '../../../services/data/institusjonstyper.service';
+import { InstitutionTypesService } from '../../../services/data/institutionsTypes.service';
 import { CreateInstitutionTypeRequest } from 'src/app/models/api/CreateInstitutionTypeRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
 

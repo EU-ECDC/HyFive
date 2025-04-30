@@ -5,5 +5,5 @@
 export interface CreateHealthEnterpriseRequest
 {
 	name: string;
-	regionalHealthcareEnterpriseId: number;
+	RegionalHealthcareOrganizationId: number;
 }

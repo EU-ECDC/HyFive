@@ -4,10 +4,10 @@ import { QueryParameters } from '../../_felles/konstanter/queryparameters';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 
 @Component({
-  selector: 'app-redigering-av-observatorer',
-  templateUrl: './redigering-av-observatorer.component.html'
+  selector: 'app-editing-observers',
+  templateUrl: './editing-observers.component.html'
 })
-export class RedigeringAvObservatorerComponent implements OnInit {
+export class EditingObserversComponent implements OnInit {
 
   institutionReport: InstitutionReport = null;
   constructor(private institutionService: InstitutionService) { }

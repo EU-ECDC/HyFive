@@ -1,7 +1,7 @@
 <div class="container" *ngIf="user">
   <div class="row">
     <div class="col-12">
-      <h2> <fa-icon [icon]="faUser"></fa-icon> Profil</h2>
+      <h2> <fa-icon [icon]="faUser"></fa-icon> Profile</h2>
     </div>
   </div>
   <div class="row mt-1">
@@ -16,15 +16,15 @@
   </div>
   <div class="row mt-1">
     <div class="col-12">
-      Ident-pseudonym: {{user.identityPseudonym}}
+      Identity-pseudonym: {{user.identityPseudonym}}
     </div>
   </div>
 
-  <div *ngIf="kanBytteRolle" class="row mt-6">
+  <div *ngIf="CanChangeRole" class="row mt-6">
     <div class="col-12">
       <div class="form-check form-check-inline ">
         <input type="radio" class="form-check-input"
-               name="velgRolle"
+               name="selectRole"
                id="fhiAdmin"
                [(ngModel)]="selectedRole"
                value="Administrator" />
@@ -32,13 +32,13 @@
       </div>
       <div class="form-check form-check-inline">
         <input type="radio" class="form-check-input"
-               name="velgRolle"
+               name="selectRole"
                id="coordinator"
                [(ngModel)]="selectedRole"
                value="Coordinator" />
         <label class="form-check-label" for="coordinator">Coordinator</label>
       </div>
-      <a class="btn fhi-btn-primary ml-2" (click)="byttRolle()">Change role</a>
+      <a class="btn fhi-btn-primary ml-2" (click)="changeRole()">Change role</a>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
 
   <div class="row mt-4">
     <div class="col-12">
-      <a class="btn fhi-btn-primary">Logg ut</a>
+      <a class="btn fhi-btn-primary">Log out</a>
     </div>
   </div>
 

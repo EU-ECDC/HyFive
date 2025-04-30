@@ -25,7 +25,7 @@ import { EditingOfProtectiveEquipmentSettingTypesComponent } from './fhiadmin/re
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { DatePipe } from '@angular/common';
 import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
-import { RedigeringAvObservatorerComponent } from './koordinator/redigering-av-observatorer/redigering-av-observatorer.component';
+import { EditingOfObserversComponent } from './koordinator/editing-observers/editing-of-observers.component';
 import { ProfilsideComponent } from './profilside/profilside.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { EditingGlovesWithIndicationTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-gloves-with-indicationtypes/editing-gloves-with-indicationtypes.component';
@@ -33,7 +33,7 @@ import { EditingGlovewithoutindicationtypesComponent } from './fhiadmin/redigeri
 import { EditingHandHygieneAfterGloveUseTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
 import { TransferSessionsComponent } from './koordinator/transfer-sessions/transfer-sessions.component';
 import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
-import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
+import { EditingPredefinedCommentsComponent } from './koordinator/edit-predefined-comments/edit-predefined-comments.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
 import { EditingClinicsComponent } from './koordinator/redigering-av-klinikker/editing-of-clinic.component';
 import { CreateClinicComponent } from './koordinator/redigering-av-klinikker/create-clinic/create-clinic.component';
@@ -59,7 +59,7 @@ import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/se
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { RequestComponent } from "./koordinator/request/request.component";
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { EditCoordinatorsForHealthEnterprisesComponent } from './koordinator/editing-of-coordinators/edit-coordinators-for-healthcareOrganization.component';
+import { EditCoordinatorsForHealthOrganizationComponent } from './koordinator/editing-of-coordinators/edit-coordinators-for-healthcareOrganization.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EditingCoordinatorsComponent } from './koordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EditCoordinatorsComponent } from './_felles/edit-coordinators/editCoordinators.component';
@@ -103,14 +103,14 @@ export const httpInterceptorProviders = [
     EditingOfProtectiveEquipmentSettingTypesComponent,
     OverviewObservationsComponent,
     OverviewDepartmentSessionsComponent,
-    RedigeringAvObservatorerComponent,
+    EditingOfObserversComponent,
     ProfilsideComponent,
     EditingGlovesWithIndicationTypesComponent,
     EditingGlovewithoutindicationtypesComponent,
     EditingHandHygieneAfterGloveUseTypesComponent,
     TransferSessionsComponent,
     OverviewSessionsViewComponent,
-    RedigeringAvPredefinertKommentarerComponent,
+    EditingPredefinedCommentsComponent,
     EditingOfDepartmentTypesComponent,
     EditingClinicsComponent,
     CreateClinicComponent,
@@ -134,7 +134,7 @@ export const httpInterceptorProviders = [
     RequestComponent,
     HealthEnterpriseComponent,
     EditingCoordinatorsComponent,
-    EditCoordinatorsForHealthEnterprisesComponent,
+    EditCoordinatorsForHealthOrganizationComponent,
     PseudonymDialogComponent,
     EmailComponent,
     ReportComponent,

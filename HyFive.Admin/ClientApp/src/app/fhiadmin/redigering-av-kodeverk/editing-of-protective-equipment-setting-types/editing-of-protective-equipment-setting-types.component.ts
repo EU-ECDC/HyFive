@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ProtectiveEquipmentType } from 'src/app/models/api/ProtectiveEquipmentType';
+import { ProtectiveEquipmentSettingType } from 'src/app/models/api/ProtectiveEquipmentSettingType';
 import { ProtectiveEquipmentSettingTypesService } from '../../../services/data/protectiveEquipmentSettingTypes.service';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
@@ -10,8 +10,8 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class EditingOfProtectiveEquipmentSettingTypesComponent implements OnInit, OnDestroy {
 
-  protectiveequipmentSettingTypes: ProtectiveEquipmentType[];
-  settingTypeAsChanged: ProtectiveEquipmentType = null;
+  protectiveequipmentSettingTypes: ProtectiveEquipmentSettingType[];
+  settingTypeAsChanged: ProtectiveEquipmentSettingType = null;
 
   constructor(
     private protectiveEquipmentSettingTypesService: ProtectiveEquipmentSettingTypesService,
@@ -32,18 +32,18 @@ export class EditingOfProtectiveEquipmentSettingTypesComponent implements OnInit
   }
 
   loadSettingtypes() {
-    this.protectiveEquipmentSettingTypesService.getProtectiveEquipmentTypes().subscribe(
+    this.protectiveEquipmentSettingTypesService.getProtectiveEquipmentSettingTypes().subscribe(
       (settingtyper) => this.protectiveequipmentSettingTypes = settingtyper,
       (error) => this.toastrService.error('An error occurred while loading Protective Equipment setting Types: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  selectedSettingType(settingType: ProtectiveEquipmentType): void {
+  selectedSettingType(settingType: ProtectiveEquipmentSettingType): void {
     if (this.settingTypeAsChanged?.id == settingType.id) return;
     this.settingTypeAsChanged = JSON.parse(JSON.stringify(settingType));
   }
 
-  updateSettingType(settingType: ProtectiveEquipmentType): void {
+  updateSettingType(settingType: ProtectiveEquipmentSettingType): void {
     this.protectiveEquipmentSettingTypesService.updateProtectiveEquipmentSettingType(settingType).subscribe(
       (updatedProtectiveEquipmentSettingType) => {
         this.toastrService.success("ProtectiveEquipmentType was updated");

@@ -8,10 +8,10 @@ import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/edit
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
 import { EditingDepartmentsComponent } from './_felles/redigering-av-avdelinger/editing-of-departments.component';
 import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/overview-department-sessions.component';
-import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-observatorer/redigering-av-observatorer.component";
+import { EditingOfObserversComponent } from "./koordinator/editing-observers/editing-of-observers.component";
 import { ProfilsideComponent } from "./profilside/profilside.component";
 import { TransferSessionsComponent } from './koordinator/transfer-sessions/transfer-sessions.component';
-import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
+import { EditingPredefinedCommentsComponent } from './koordinator/edit-predefined-comments/edit-predefined-comments.component';
 import { EditingClinicsComponent } from "./koordinator/redigering-av-klinikker/editing-of-clinic.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { RequestComponent } from './koordinator/request/request.component';
@@ -70,11 +70,11 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.editingByObservers,
-    component: RedigeringAvObservatorerComponent
+    component: EditingOfObserversComponent
   },
   {
     path: UrlPaths.editingPredefinedComments,
-    component: RedigeringAvPredefinertKommentarerComponent
+    component: EditingPredefinedCommentsComponent
   },
   {
     path: UrlPaths.profile,

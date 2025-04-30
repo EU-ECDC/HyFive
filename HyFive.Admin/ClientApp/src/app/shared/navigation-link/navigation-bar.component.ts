@@ -5,7 +5,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
 })
-export class NavigasjonslenkeComponent implements OnInit {
+export class NavigationLinkComponent implements OnInit {
 
   faChevronLeft = faChevronLeft;
   @Output('linkClicked') linkClicked = new EventEmitter<any>();

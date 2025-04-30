@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { RegionalHealthcareEnterpriseService } from 'src/app/services/data/regional-healthcare-enterprise.service';
+import { RegionalHealthcareOrganizationService } from 'src/app/services/data/regional-healthcare-enterprise.service';
 import { KeyEventService } from 'src/app/services/events/key-event.service';
 import { CreateHealthEnterpriseRequest } from '../../models/api/CreateHealthEnterpriseRequest';
-import { HealthcareEnterpriseService } from '../../services/data/healthcareOrganization.service';
-import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
-import { RegionalHealthcareEnterprise } from 'src/app/models/api/RegionalHealthcareEnterprise';
+import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
+import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
+import { RegionalHealthcareOrganization } from 'src/app/models/api/RegionalHealthcareOrganization';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -15,17 +15,17 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class HealthEnterpriseComponent implements OnInit, OnDestroy
 {
-  listOfHealthcareEnterpises: HealthcareEnterprise[] = null;
+  listOfHealthcareEnterpises: HealthcareOrganization[] = null;
   newHealthcareEnterprise = this.createEmptyHealthcareEnterprise();
   healthcareEnterpriseAsChanged = null;
-  regionalHealthcareEnterpriseList: RegionalHealthcareEnterprise[] = null;
+  RegionalHealthcareOrganizationList: RegionalHealthcareOrganization[] = null;
   loading: boolean;
 
   constructor(
-    private healthcareEnterpriseService: HealthcareEnterpriseService,
+    private HealthcareOrganizationService: HealthcareOrganizationService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
-    private regionalHealthcareEnterpriseService: RegionalHealthcareEnterpriseService
+    private regionalHealthcareOrganizationService: RegionalHealthcareOrganizationService
   ) { }
   
   ngOnInit(): void {
@@ -35,14 +35,14 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     });
 
     const healthcareEnterpriseRequest = [
-      this.healthcareEnterpriseService.getAllHealthcareEnterprises(),
-      this.regionalHealthcareEnterpriseService.getAllRegionalHealthcareEnterprises()
+      this.HealthcareOrganizationService.getAllHealthcareEnterprises(),
+      this.regionalHealthcareOrganizationService.getAllRegionalHealthcareOrganizations()
     ];
 
     forkJoin(healthcareEnterpriseRequest).subscribe((result) => {
       let i = 0;
-      this.listOfHealthcareEnterpises = result[i++] as HealthcareEnterprise[];
-      this.regionalHealthcareEnterpriseList = result[i++] as RegionalHealthcareEnterprise[];
+      this.listOfHealthcareEnterpises = result[i++] as HealthcareOrganization[];
+      this.RegionalHealthcareOrganizationList = result[i++] as RegionalHealthcareOrganization[];
       this.loading = false;
     });
   }
@@ -54,12 +54,12 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
   createEmptyHealthcareEnterprise() {
     return {
       name: '',
-      regionalHealthcareEnterpriseId: 0
+      RegionalHealthcareOrganizationId: 0
     } as CreateHealthEnterpriseRequest;
   }
 
   createHealthcareEnterprise() {
-    this.healthcareEnterpriseService.createHealthcareEnterprise(this.newHealthcareEnterprise).subscribe(
+    this.HealthcareOrganizationService.createHealthcareEnterprise(this.newHealthcareEnterprise).subscribe(
       (isCreated) => {
         if(isCreated){
           this.toastrService.success(this.newHealthcareEnterprise.name + " was created");
@@ -67,30 +67,30 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
           this.loadAllHealthcareEnterprises();
         }
         else{
-          this.toastrService.error("HealthcareEnterprise already exists", '', { disableTimeOut: true})
+          this.toastrService.error("HealthcareOrganization already exists", '', { disableTimeOut: true})
         }
       },
       () => {
-        this.toastrService.error("Error creating HealthcareEnterprise", '', { disableTimeOut: true});
+        this.toastrService.error("Error creating HealthcareOrganization", '', { disableTimeOut: true});
       }
     );
   }
 
   loadAllHealthcareEnterprises() {
-    this.healthcareEnterpriseService.getAllHealthcareEnterprises().subscribe(
+    this.HealthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
       (allHealthcateEnterprises) => {
         this.listOfHealthcareEnterpises = allHealthcateEnterprises;
       }
     );
   }
 
-  selectedHealthcareEnterpriseAsChanged(healthcareOrganization: HealthcareEnterprise) {
+  selectedHealthcareEnterpriseAsChanged(healthcareOrganization: HealthcareOrganization) {
     if (this.healthcareEnterpriseAsChanged?.id == healthcareOrganization.id) return;
     this.healthcareEnterpriseAsChanged = JSON.parse(JSON.stringify(healthcareOrganization));
   }
 
-  updateHealthcareEnterprise(healthcareOrganization: HealthcareEnterprise) {
-    this.healthcareEnterpriseService.updateHealthcareEnterprise(healthcareOrganization).subscribe(
+  updateHealthcareEnterprise(healthcareOrganization: HealthcareOrganization) {
+    this.HealthcareOrganizationService.updateHealthcareEnterprise(healthcareOrganization).subscribe(
       (isUpdated) => {
         if(isUpdated) {
         this.toastrService.success(healthcareOrganization.name + " is updated");
@@ -104,7 +104,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     );
   }
 
-  canChange(healthcareOrganization: HealthcareEnterprise) {
+  canChange(healthcareOrganization: HealthcareOrganization) {
     return healthcareOrganization.name.length > 0;
   }
 
@@ -115,13 +115,13 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: HealthcareEnterprise) => any;
+    let propertyOf: (x: HealthcareOrganization) => any;
     switch ($event.columnName) {
       case "Name":
-        propertyOf = (x: HealthcareEnterprise) => x.name.toLowerCase();
+        propertyOf = (x: HealthcareOrganization) => x.name.toLowerCase();
         break;
       case "Regional healthcareOrganization":
-        propertyOf = (x: HealthcareEnterprise) => x.regionalHealthcareEnterprise?.name;
+        propertyOf = (x: HealthcareOrganization) => x.regionalHealthcareOrganization?.name;
         break;
       default:
         throw new Error("Invalid sort column");
@@ -129,7 +129,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: HealthcareEnterprise, b: HealthcareEnterprise) => {
+    const sortFunc = (a: HealthcareOrganization, b: HealthcareOrganization) => {
 
       let propertyOfA = propertyOf(a);
       let propertyOfB = propertyOf(b);

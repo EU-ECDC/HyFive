@@ -15,10 +15,10 @@ export class ProfilsideComponent implements OnInit {
   AuthorizedRoleValues = AuthorizedRole;
   faUser = faUser;
 
-  rolleAdministrator = 'Administrator';
-  rolleKoordinator = 'Coordinator'
-  selectedRole = this.rolleAdministrator;
-  kanBytteRolle = false;
+  roleAdministrator = 'Administrator';
+  roleCoordinator = 'Coordinator'
+  selectedRole = this.roleAdministrator;
+  CanChangeRole = false;
 
   constructor(
     public authorizationService: AuthorizationService,
@@ -31,26 +31,26 @@ export class ProfilsideComponent implements OnInit {
 
     this.authorizationService.getRoles().subscribe((roles) => {
       if (roles.length > 1) {
-        this.kanBytteRolle = true;
+        this.CanChangeRole = true;
       }
     });
 
     let selectedRole = this.authorizationService.getSelectedRole();
     if (selectedRole) {
       if (selectedRole === AuthorizedRole.Administrator) {
-        this.selectedRole = this.rolleAdministrator;
+        this.selectedRole = this.roleAdministrator;
       } else if (selectedRole === AuthorizedRole.Coordinator) {
-        this.selectedRole = this.rolleKoordinator;
+        this.selectedRole = this.roleCoordinator;
       }
     }
   }
 
-  byttRolle(){
+  changeRole(){
     let role: AuthorizedRole;
 
-    if (this.selectedRole === this.rolleAdministrator) {
+    if (this.selectedRole === this.roleAdministrator) {
       role = AuthorizedRole.Administrator;
-    } else if (this.selectedRole === this.rolleKoordinator) {
+    } else if (this.selectedRole === this.roleCoordinator) {
       role = AuthorizedRole.Coordinator;
     }
 

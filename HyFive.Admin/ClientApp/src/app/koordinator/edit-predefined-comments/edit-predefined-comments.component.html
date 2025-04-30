@@ -3,47 +3,47 @@
 
     <div class="row">
       <div class="col-12 col-lg-8 mb-5">
-        <h5>Predefinert kommentarer</h5>
+        <h5>Predefined comments</h5>
         <div class="container">
           <div class="row">
             <div class="col-6 col-md-8">
-              <input type="text" class="form-control" [(ngModel)]='nyPredefinertKommentar.kommentar' placeholder="Kommentar">
+              <input type="text" class="form-control" [(ngModel)]='newPredefinedComment.comment' placeholder="Comment">
             </div>
             <div class="col-6 col-md-4">
               <label></label>
-              <button class="btn fhi-btn-primary" (click)="opprettPredefinertKommentar()" [disabled]="!nyPredefinertKommentar.kommentar">Add to kommentar</button>
+              <button class="btn fhi-btn-primary" (click)="createPredefinedComment()" [disabled]="!newPredefinedComment.comment">Add to comment</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row mb-5" *ngIf="!loading && predefinertKommentarer?.length > 0">
+    <div class="row mb-5" *ngIf="!loading && predefinedComments?.length > 0">
       <div class="col-8">
         <table class="table">
           <thead>
             <tr>
-              <td>Kommentar</td>
+              <td>Comment</td>
               <td class="text-end">Action</td>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let predefinertKommentar of predefinertKommentarer">
-              <ng-container *ngIf="predefinertKommentarSomEndres?.id !== predefinertKommentar.id">
-                <td class="col-8">{{predefinertKommentar.kommentar}}</td>
+            <tr *ngFor="let predefinedComment of predefinedComments">
+              <ng-container *ngIf="predefinedCommentAsChanged?.id !== predefinedComment.id">
+                <td class="col-8">{{predefinedComment.comment}}</td>
                 <td class="text-end">
-                  <button class="btn fhi-btn-icon" (click)="valgtPredefinertKommentar(predefinertKommentar)">
+                  <button class="btn fhi-btn-icon" (click)="selectedPredefinedComment(predefinedComment)">
                     <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                   </button>
               </ng-container>
-              <ng-container *ngIf="predefinertKommentarSomEndres?.id === predefinertKommentar.id">
+              <ng-container *ngIf="predefinedCommentAsChanged?.id === predefinedComment.id">
                 <td class="col-8">
-                  <input type="text" class="form-control" [(ngModel)]="predefinertKommentarSomEndres.kommentar">
+                  <input type="text" class="form-control" [(ngModel)]="predefinedCommentAsChanged.comment">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon"
-                          (click)="oppdaterPredefinertKommentar(predefinertKommentarSomEndres)"
-                          [disabled]="!predefinertKommentarSomEndres.kommentar">
+                          (click)="updatePredefinedComment(predefinedCommentAsChanged)"
+                          [disabled]="!predefinedCommentAsChanged.comment">
                     <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
@@ -56,13 +56,13 @@
         </table>
       </div>
     </div>
-    <div class="row" *ngIf="!loading && predefinertKommentarer?.length == 0">
+    <div class="row" *ngIf="!loading && predefinedComments?.length == 0">
       <div class="col-12">
-        <p>Det er ikke registrert noen predefinerte kommentarer at this institution.</p>
+        <p>No predefined comments have been registered at this institution.</p>
       </div>
     </div>
     <div class="row" *ngIf="loading">
-      <app-spinner class="col-12">Loading predefinert kommentarer</app-spinner>
+      <app-spinner class="col-12">Loading predefined comments</app-spinner>
     </div>
   </div>
 </div>

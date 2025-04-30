@@ -8,12 +8,12 @@ import { environment } from "src/environments/environment";
     providedIn: 'root'
 })
 
-export class RegionalHealthcareEnterpriseService {
+export class RegionalHealthcareOrganizationService {
 
     constructor(private httpClient: HttpClient) { }
 
-    getAllRegionalHealthcareEnterprises() : Observable<RegionalHealthcareOrganization[]> {
-        const url = `${environment.apiBaseUrl}/v1/regionalhealthcareenterprise`;
+    getAllRegionalHealthcareOrganizations() : Observable<RegionalHealthcareOrganization[]> {
+        const url = `${environment.apiBaseUrl}/v1/regionalhealthcareorganization`;
         var regionalHealthcareOrganisationList = this.httpClient.get<RegionalHealthcareOrganization[]>(url);
         return regionalHealthcareOrganisationList;
     }

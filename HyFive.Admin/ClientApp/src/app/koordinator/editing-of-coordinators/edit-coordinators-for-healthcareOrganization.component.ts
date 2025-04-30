@@ -3,9 +3,9 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
-import { CoordinatorForHealthcareEnterprises } from '../../models/api/CoordinatorForHealthcareOrganization';
+import { CoordinatorForHealthcareOrganization } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { UserService } from '../../services/data/user.service';
-import { HealthcareEnterpriseService } from '../../services/data/healthcareOrganization.service';
+import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
 import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
@@ -17,23 +17,23 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
   selector: 'app-edit-coordinators-for-healthcareOrganization',
   templateUrl: './edit-coordinators-for-healthcareOrganization.component.html'
 })
-export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, OnDestroy {
+export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, OnDestroy {
 
   @Input() institution: InstitutionReport;
-  coordinators: CoordinatorForHealthcareEnterprises[];
+  coordinators: CoordinatorForHealthcareOrganization[];
   institutionsHealthcareEnterprise: InstitutionReport[];
 
-  coordinatorAsChanged: CoordinatorForHealthcareEnterprises = null;
-  newCoordinator: CoordinatorForHealthcareEnterprises = null;
+  coordinatorAsChanged: CoordinatorForHealthcareOrganization = null;
+  newCoordinator: CoordinatorForHealthcareOrganization = null;
 
   dropdownSettings: IDropdownSettings;
   selectedInstitutions: InstitutionReport[] = [];
   user: LoggedInUser = null;
   keyword: string = '';
-  filteredCoordinators: CoordinatorForHealthcareEnterprises[];
+  filteredCoordinators: CoordinatorForHealthcareOrganization[];
 
   constructor(
-    private healthcareEnterpriseService: HealthcareEnterpriseService,
+    private HealthcareOrganizationService: HealthcareOrganizationService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
@@ -70,7 +70,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
   }
 
   loadCoordinators() {
-    this.healthcareEnterpriseService.getCoordinators(this.institution.healthcareOrganization.id).subscribe(
+    this.HealthcareOrganizationService.getCoordinators(this.institution.healthcareOrganization.id).subscribe(
       (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators
@@ -80,7 +80,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
   }
 
   loadInstitutions() {
-    this.healthcareEnterpriseService.getInstitutions(this.institution.healthcareOrganization.id).subscribe(
+    this.HealthcareOrganizationService.getInstitutions(this.institution.healthcareOrganization.id).subscribe(
       (institutions) => {
         this.institutionsHealthcareEnterprise = institutions
       },
@@ -106,7 +106,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
 
   createCoordinator() {
     this.newCoordinator.institutions = this.selectedInstitutions;
-    this.healthcareEnterpriseService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
+    this.HealthcareOrganizationService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator(s) and observer(s) created');
@@ -121,7 +121,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     );
   }
 
-  setCoordinatorAsChanged(coordinator: CoordinatorForHealthcareEnterprises) {
+  setCoordinatorAsChanged(coordinator: CoordinatorForHealthcareOrganization) {
     if (this.isCoordinatorAsChanged(coordinator)) return;
 
     this.newCoordinator = null;
@@ -137,7 +137,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     this.coordinatorAsChanged = JSON.parse(JSON.stringify(coordinator));
   }
 
-  isCoordinatorAsChanged(coordinator: CoordinatorForHealthcareEnterprises) {
+  isCoordinatorAsChanged(coordinator: CoordinatorForHealthcareOrganization) {
     if (this.coordinatorAsChanged?.hprNumber?.length > 0 &&
       this.coordinatorAsChanged.hprNumber === coordinator.hprNumber)
       return true;
@@ -148,11 +148,11 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     return false;
   }
 
-  updateCoordinator(coordinator: CoordinatorForHealthcareEnterprises) {
+  updateCoordinator(coordinator: CoordinatorForHealthcareOrganization) {
     coordinator.institutions = this.selectedInstitutions;
     let CurrentInstitutionIsStillSelected = this.selectedInstitutions.some(i => i.id == this.institution.id);
     let isCoordinatorAsChangedLikeLoggedInUser = this.isCoordinatorAsChangedLikeLoggedInUser(coordinator);
-    this.healthcareEnterpriseService.updateCoordinator(this.institution.healthcareOrganization.id, coordinator).subscribe(
+    this.HealthcareOrganizationService.updateCoordinator(this.institution.healthcareOrganization.id, coordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator updated');
@@ -182,7 +182,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     );
   }
 
-  isCoordinatorAsChangedLikeLoggedInUser(coordinator: CoordinatorForHealthcareEnterprises) {
+  isCoordinatorAsChangedLikeLoggedInUser(coordinator: CoordinatorForHealthcareOrganization) {
     if (this.user.hprNumber && this.user.hprNumber === coordinator.hprNumber)
       return true;
     if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
@@ -198,7 +198,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
       && this.selectedInstitutions?.length > 0;
   }
 
-  canChange(coordinator: CoordinatorForHealthcareEnterprises) {
+  canChange(coordinator: CoordinatorForHealthcareOrganization) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
       && this.userService.hasCoordinatorValidHprnumberOrPseudonym(coordinator)
@@ -214,7 +214,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     this.newCoordinator = null;
   }
 
-  showInstitutionsForCoordinator(coordinator: CoordinatorForHealthcareEnterprises): string {
+  showInstitutionsForCoordinator(coordinator: CoordinatorForHealthcareOrganization): string {
     const institutions = coordinator.institutions.map(institution => institution.name);
     return institutions.toString();
   }
@@ -223,7 +223,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     this.selectedInstitutions.splice(0, this.selectedInstitutions.length);
   }
 
-  identityPseudonymChanged(coordinator: CoordinatorForHealthcareEnterprises, identityPseudonym: string) {
+  identityPseudonymChanged(coordinator: CoordinatorForHealthcareOrganization, identityPseudonym: string) {
     coordinator.changedIdentityPseudonym = identityPseudonym;
   }
 
@@ -241,13 +241,13 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: CoordinatorForHealthcareEnterprises) => any;
+    let propertyOf: (x: CoordinatorForHealthcareOrganization) => any;
     switch ($event.columnName) {
       case "Firstname":
-        propertyOf = (x: CoordinatorForHealthcareEnterprises) => x.firstName;
+        propertyOf = (x: CoordinatorForHealthcareOrganization) => x.firstName;
         break;
       case "Lastname":
-        propertyOf = (x: CoordinatorForHealthcareEnterprises) => x.lastName;
+        propertyOf = (x: CoordinatorForHealthcareOrganization) => x.lastName;
         break;
       default:
         throw new Error("Invalid sort column");
@@ -255,7 +255,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: CoordinatorForHealthcareEnterprises, b: CoordinatorForHealthcareEnterprises) => {
+    const sortFunc = (a: CoordinatorForHealthcareOrganization, b: CoordinatorForHealthcareOrganization) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };

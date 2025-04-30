@@ -14,7 +14,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionComponent } from './accordion/accordion.component';
-import { NavigasjonslenkeComponent } from './navigasjonslenke/navigation-bar.component';
+import { NavigationLinkComponent } from './navigation-link/navigation-bar.component';
 import {ToastrConfig} from '../_felles/konstanter/toastr-config';
 
 @NgModule({
@@ -22,7 +22,7 @@ import {ToastrConfig} from '../_felles/konstanter/toastr-config';
     SafePipe,
     SpinnerComponent,
     AccordionComponent,
-    NavigasjonslenkeComponent,
+    NavigationLinkComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +39,7 @@ import {ToastrConfig} from '../_felles/konstanter/toastr-config';
         SafePipe,
         SpinnerComponent,
         AccordionComponent,
-        NavigasjonslenkeComponent,
+        NavigationLinkComponent,
         CommonModule,
         RouterModule,
         FormsModule,

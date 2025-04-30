@@ -39,7 +39,7 @@
                 </select>
               </div>
               <div class="form-group col-12 col-md-3" *ngIf="showHealthcareEnterprise">
-                <label for="Healthcareenterprise">HealthcareEnterprise</label>
+                <label for="Healthcareenterprise">HealthcareOrganization</label>
                 <select class="form-select" id="Healthcareenterprise" [(ngModel)]="healthEnterpriseId" (ngModelChange)="healthEnterpriseChanged()">
                   <option value="0"></option>
                   <option *ngFor="let Healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="Healthcareenterprise.id">{{Healthcareenterprise.name}}</option>

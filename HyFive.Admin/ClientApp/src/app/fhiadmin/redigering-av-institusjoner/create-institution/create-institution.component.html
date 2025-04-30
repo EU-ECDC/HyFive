@@ -25,7 +25,7 @@
         </select>
       </div>
       <div class="col-md-6" *ngIf="showHealthcareEnterprise">
-        <label for="healthcareenterprise" class="mb-1">HealthcareEnterprise</label>
+        <label for="healthcareenterprise" class="mb-1">HealthcareOrganization</label>
         <select class="form-select" id="healthcareenterprise" [(ngModel)]="newInstitution.healthEnterpriseId">
           <option value="0"></option>
           <option *ngFor="let healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="healthcareenterprise.id">{{healthcareenterprise.name}}</option>
