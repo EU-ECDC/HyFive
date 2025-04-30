@@ -11,14 +11,14 @@ export class RoleService {
 
   constructor(private readonly http: HttpClient) { }
 
-  createRole(rolle: Role): Observable<Role> {
+  createRole(role: Role): Observable<Role> {
     const url = `${environment.apiBaseUrl}/v1/role`;
-    return this.http.post<Role>(url, rolle);
+    return this.http.post<Role>(url, role);
   }
 
-  updateRole(rolle: Role): Observable<Role> {
+  updateRole(role: Role): Observable<Role> {
     const url = `${environment.apiBaseUrl}/v1/role`;
-    return this.http.put<Role>(url, rolle);
+    return this.http.put<Role>(url, role);
   }
 
   getRoles(): Observable<Role[]> {

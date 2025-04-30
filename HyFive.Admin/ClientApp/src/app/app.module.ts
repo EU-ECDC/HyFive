@@ -35,9 +35,9 @@ import { TransferSessionsComponent } from './koordinator/transfer-sessions/trans
 import { OverviewSessionsViewComponent } from './_felles/oversikt-sesjoner-visning/overview-sessions-view.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
-import { RedigeringAvKlinikkerComponent } from './koordinator/redigering-av-klinikker/redigering-av-klinikker.component';
-import { OpprettKlinikkComponent } from './koordinator/redigering-av-klinikker/opprett-klinikk/opprett-klinikk.component';
-import { RedigerEnKlinikkComponent } from './koordinator/redigering-av-klinikker/rediger-en-klinikk/rediger-en-klinikk.component';
+import { EditingClinicsComponent } from './koordinator/redigering-av-klinikker/editing-of-clinic.component';
+import { CreateClinicComponent } from './koordinator/redigering-av-klinikker/create-clinic/create-clinic.component';
+import { EditAClinicComponent } from './koordinator/redigering-av-klinikker/edit-a-clinic/edit-a-clinic.component';
 import { EditingRegionComponent } from './fhiadmin/redigering-av-kodeverk/editing-region.component/editing-region.component';
 import { RoleSelectionDropdownComponent } from './_felles/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { EditingOfRolesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-roles/editing-of-roles.component';
@@ -59,22 +59,22 @@ import { SearchHprNumberLinkComponent } from './_felles/search-hprnumber-link/se
 import { EditSessionDataComponent } from './_felles/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { RequestComponent } from "./koordinator/request/request.component";
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { RedigerKoordinatorerForHelseforetakComponent } from './koordinator/redigering-av-koordinatorer/rediger-koordinatorer-for-helseforetak.component';
+import { EditCoordinatorsForHealthEnterprisesComponent } from './koordinator/editing-of-coordinators/edit-coordinators-for-healthcareEnterprise.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
+import { EditingCoordinatorsComponent } from './koordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EditCoordinatorsComponent } from './_felles/edit-coordinators/editCoordinators.component';
 import { PseudonymDialogComponent } from './_felles/edit-coordinators/pseudonym-dialog.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
-import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
-import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
+import { ReportComponent } from './koordinator/rapporter/report.component';
+import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
 import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
 import { SortService } from './shared/sorting/sort.service';
-import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
-import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
-import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
+import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
+import { ComplianceFourIndicationsPdfComponent } from './koordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './koordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './koordinator/rapporter/common/compliance-pdf.component';
 
 export const httpInterceptorProviders = [
@@ -112,9 +112,9 @@ export const httpInterceptorProviders = [
     OverviewSessionsViewComponent,
     RedigeringAvPredefinertKommentarerComponent,
     EditingOfDepartmentTypesComponent,
-    RedigeringAvKlinikkerComponent,
-    OpprettKlinikkComponent,
-    RedigerEnKlinikkComponent,
+    EditingClinicsComponent,
+    CreateClinicComponent,
+    EditAClinicComponent,
     EditingRegionComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
@@ -133,17 +133,17 @@ export const httpInterceptorProviders = [
     EditSessionDataComponent,
     RequestComponent,
     HealthEnterpriseComponent,
-    RedigeringAvKoordinatorerComponent,
-    RedigerKoordinatorerForHelseforetakComponent,
+    EditingCoordinatorsComponent,
+    EditCoordinatorsForHealthEnterprisesComponent,
     PseudonymDialogComponent,
     EmailComponent,
-    RapporterComponent,
-    EtterlevelseComponent,
+    ReportComponent,
+    ComplianceComponent,
     SortableColumnComponent,
     SortableTableDirective,
-    NedlastingExcelComponent,
-    EtterlevelseFireIndikasjonerPdfComponent,
-    EtterlevelseHandsmykkerPdfComponent,
+    DownloadExcelComponent,
+    ComplianceFourIndicationsPdfComponent,
+    ComplianceHandJewelryPdfComponent,
     CompliancePdfComponent
   ],
   imports: [

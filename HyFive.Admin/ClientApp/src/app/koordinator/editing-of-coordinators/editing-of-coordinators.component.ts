@@ -3,18 +3,18 @@ import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 
 @Component({
-  selector: 'app-redigering-av-koordinatorer',
-  templateUrl: './redigering-av-koordinatorer.component.html'
+  selector: 'app-editing-of-coordinators',
+  templateUrl: './editing-of-coordinators.component.html'
 })
-export class RedigeringAvKoordinatorerComponent implements OnInit {
+export class EditingCoordinatorsComponent implements OnInit {
 
-  institusjonRapport: InstitutionReport = null;
+  institutionReport: InstitutionReport = null;
   constructor(private institutionService: InstitutionService) { }
 
   ngOnInit(): void {
     let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getInstitution(selectedInstitutionId).subscribe((result) => {
-      this.institusjonRapport = {
+      this.institutionReport = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,

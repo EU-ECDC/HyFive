@@ -1,14 +1,14 @@
 import { SessionType } from '../models/api/SessionType';
 
-export class SesjonstypeRapportUrlMapper {
+export class SessionTypeReportUrlMapper {
 
-  public static getRapportUrlMap() : Map<SessionType, string> {
-    let rapportUrlMap = new Map<SessionType, string>();
-    rapportUrlMap.set(SessionType.Handjewelry,        '/api/v1/report/avdeling/handsmykker/excel');
-    rapportUrlMap.set(SessionType.FourIndications,   '/api/v1/report/avdeling/fourindications/excel');
-    rapportUrlMap.set(SessionType.Gloves,            '/api/v1/report/avdeling/hansker/excel');
-    rapportUrlMap.set(SessionType.ProtectiveEquipment, '/api/v1/report/avdeling/beskyttelsesutstyr/excel');
-    return rapportUrlMap;
+  public static getReportUrlMap() : Map<SessionType, string> {
+    let reportUrlMap = new Map<SessionType, string>();
+    reportUrlMap.set(SessionType.Handjewelry,        '/api/v1/report/avdeling/handsmykker/excel');
+    reportUrlMap.set(SessionType.FourIndications,   '/api/v1/report/avdeling/fourindications/excel');
+    reportUrlMap.set(SessionType.Gloves,            '/api/v1/report/avdeling/hansker/excel');
+    reportUrlMap.set(SessionType.ProtectiveEquipment, '/api/v1/report/avdeling/beskyttelsesutstyr/excel');
+    return reportUrlMap;
 
   }
 }

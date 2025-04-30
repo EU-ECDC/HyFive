@@ -12,17 +12,17 @@ import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-o
 import { ProfilsideComponent } from "./profilside/profilside.component";
 import { TransferSessionsComponent } from './koordinator/transfer-sessions/transfer-sessions.component';
 import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
-import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
+import { EditingClinicsComponent } from "./koordinator/redigering-av-klinikker/editing-of-clinic.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { RequestComponent } from './koordinator/request/request.component';
 import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
+import { EditingCoordinatorsComponent } from './koordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
-import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
-import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
-import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
-import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
-import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
+import { ReportComponent } from './koordinator/rapporter/report.component';
+import { ComplianceComponent } from './koordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
+import { DownloadExcelComponent } from './koordinator/rapporter/download/download-excel.component';
+import { ComplianceFourIndicationsPdfComponent } from './koordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './koordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 
 const defaultPath = `/${UrlPaths.frontPage}`;
 
@@ -62,11 +62,11 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.editingByClinics,
-    component: RedigeringAvKlinikkerComponent
+    component: EditingClinicsComponent
   },
   {
     path: UrlPaths.editingByCoordinators,
-    component: RedigeringAvKoordinatorerComponent
+    component: EditingCoordinatorsComponent
   },
   {
     path: UrlPaths.editingByObservers,
@@ -102,19 +102,19 @@ const routes: Routes = [
   },
   {
     path: UrlPaths.reports,
-    component: RapporterComponent,
+    component: ReportComponent,
     children: [
       {
-        path: UrlPaths.fourindicationsCompliance, component: EtterlevelseComponent
+        path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fourindicationsCompliancePdf, component: EtterlevelseFireIndikasjonerPdfComponent
+        path: UrlPaths.fourindicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
       },
       {
-        path: UrlPaths.handjewelryCompliancePdf, component: EtterlevelseHandsmykkerPdfComponent
+        path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
       },
       {
-        path: UrlPaths.downloadExcel, component: NedlastingExcelComponent
+        path: UrlPaths.downloadExcel, component: DownloadExcelComponent
       },
       {
         path: '',

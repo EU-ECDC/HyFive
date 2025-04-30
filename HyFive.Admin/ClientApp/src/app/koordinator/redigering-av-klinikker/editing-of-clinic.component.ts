@@ -2,60 +2,60 @@ import { Component, OnInit } from '@angular/core';
 import { Department} from '../../models/api/Department';
 import { InstitutionService } from '../../services/data/institution.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Klinikk } from '../../models/api/Klinikk';
-import { KlinikkService } from '../../services/data/klinikk.service';
+import { Clinic } from '../../models/api/Clinic';
+import { ClinicService } from '../../services/data/clinic.service';
 import { QueryParameters } from "../../_felles/konstanter/queryparameters";
 import { Institution } from '../../models/api/Institution';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-redigering-av-klinikker',
-  templateUrl: './redigering-av-klinikker.component.html'
+  selector: 'app-editing-of-clinic',
+  templateUrl: './editing-of-clinic.component.html'
 })
-export class RedigeringAvKlinikkerComponent implements OnInit {
+export class EditingClinicsComponent implements OnInit {
 
-  clinics: Klinikk[] = [];
-  institusjonNavn: string;
+  clinics: Clinic[] = [];
+  institutionName: string;
   institutionId: number;
-  klinikkId = 0;
-  klinikkSomRedigeres: Klinikk;
+  clinicId = 0;
+  clinicAsEdited: Clinic;
 
   loading: boolean = false;
 
   constructor(private institutionService: InstitutionService,
-    private klinikkService: KlinikkService,
+    private clinicService: ClinicService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.hentKlinikker();
+    this.getClinics();
   }
 
-  hentKlinikker() {
+  getClinics() {
     this.loading = true;
     let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
     this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
-      this.institusjonNavn = result.name;
+      this.institutionName = result.name;
       this.institutionId = result.id;
-      this.klinikkService.hentKlinikkerForInstitusjon(this.institutionId).subscribe(clinics => {
+      this.clinicService.getClinicsForInstitution(this.institutionId).subscribe(clinics => {
         this.loading = false;
         this.clinics = clinics;
         this.route.queryParams.subscribe(
           params => {
-            const klinikkIdFromQuery = params[QueryParameters.id] || 0;
-            this.klinikkId = parseInt(klinikkIdFromQuery, 0);
-            this.klinikkSomRedigeres = this.clinics.find(a => a.id === this.klinikkId);
+            const ClinicIdFromQuery = params[QueryParameters.id] || 0;
+            this.clinicId = parseInt(ClinicIdFromQuery, 0);
+            this.clinicAsEdited = this.clinics.find(a => a.id === this.clinicId);
           }
         );
       });
     });
   }
 
-  hentAvdelingsnavn(klinikk: Klinikk) {
-    return klinikk.departments?.map(r => r.name).join(',');
+  getDepartmentName(clinic: Clinic) {
+    return clinic.departments?.map(r => r.name).join(',');
   }
 
-  navigerTilKlinikk(id: number) {
+  navigateToClinic(id: number) {
     if (id === 0) {
       this.router.navigate([], { relativeTo: this.route });
     }
@@ -71,10 +71,10 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: Klinikk) => any;
+    let propertyOf: (x: Clinic) => any;
     switch ($event.columnName) {
       case "Name":
-        propertyOf = (x: Klinikk) => x.name;
+        propertyOf = (x: Clinic) => x.name;
         break;
       default:
         throw new Error("Invalid sort column");
@@ -82,7 +82,7 @@ export class RedigeringAvKlinikkerComponent implements OnInit {
 
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
 
-    const sortFunc = (a: Klinikk, b: Klinikk) => {
+    const sortFunc = (a: Clinic, b: Clinic) => {
       const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
       return result * sortOrder;
     };
