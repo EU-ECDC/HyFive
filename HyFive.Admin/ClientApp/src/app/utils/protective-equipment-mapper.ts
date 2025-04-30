@@ -25,10 +25,10 @@ export class ProtectiveEquipmentMapper {
       acc.push({
         id: valg.id,
         wasUsed: false,
-        isIndicated: valg.isIndicated,
+        isRequired: valg.isRequired,
         equipmentType: item,
         wasUsedCorrectly: false,
-        misuseTypes: [],
+        incorrectTypes: [],
         comment: ""
       } as ProtectiveEquipment);
       return acc;

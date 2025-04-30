@@ -38,11 +38,11 @@
                   <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
                 </select>
               </div>
-              <div class="form-group col-12 col-md-3" *ngIf="showHealthcareEnterprise">
-                <label for="Healthcareenterprise">HealthcareOrganization</label>
-                <select class="form-select" id="Healthcareenterprise" [(ngModel)]="healthEnterpriseId" (ngModelChange)="healthEnterpriseChanged()">
+              <div class="form-group col-12 col-md-3" *ngIf="showHealthcareOrganization">
+                <label for="Healthcareorganization">HealthcareOrganization</label>
+                <select class="form-select" id="Healthcareorganization" [(ngModel)]="healthcareOrganizationId" (ngModelChange)="healthEnterpriseChanged()">
                   <option value="0"></option>
-                  <option *ngFor="let Healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="Healthcareenterprise.id">{{Healthcareenterprise.name}}</option>
+                  <option *ngFor="let Healthcareorganization of listOfHealthcareOrganizations" [ngValue]="Healthcareorganization.id">{{Healthcareorganization.name}}</option>
                 </select>
               </div>
             </div>

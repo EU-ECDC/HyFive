@@ -77,7 +77,7 @@ export class EditGloveObservationsComponent implements OnInit{
       sessionId:  this.sessionId,
       comment: observation.comment,
       role: observation.role,
-      registrationTime: observation.createdTime,
+      registrationTime: observation.registeredTime,
       postGloveHandHygieneType: observation.gloveObservation.postGloveHandHygieneType,
     }
     this.gloveWithIndicationTypes.map((h) =>{

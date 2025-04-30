@@ -21,7 +21,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
 
   @Input() institution: InstitutionReport;
   coordinators: CoordinatorForHealthcareOrganization[];
-  institutionsHealthcareEnterprise: InstitutionReport[];
+  institutionsHealthcareOrganization: InstitutionReport[];
 
   coordinatorAsChanged: CoordinatorForHealthcareOrganization = null;
   newCoordinator: CoordinatorForHealthcareOrganization = null;
@@ -82,7 +82,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   loadInstitutions() {
     this.HealthcareOrganizationService.getInstitutions(this.institution.healthcareOrganization.id).subscribe(
       (institutions) => {
-        this.institutionsHealthcareEnterprise = institutions
+        this.institutionsHealthcareOrganization = institutions
       },
       (error) => this.toastrService.error('An error occurred while loading institutions: ' + error?.message, '', { disableTimeOut: true }),
     );

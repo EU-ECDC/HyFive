@@ -42,7 +42,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.healthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
+    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
       (allHealthcareOrganization) => {
         this.listOfHealthcareOrganizations = allHealthcareOrganization;
       }

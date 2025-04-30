@@ -2,20 +2,20 @@
   <div class="row" *ngIf="!loading">
     <div class="col-4">
       <h5>Healthcare Enterprise</h5>
-      <input type="text" class="form-control" [(ngModel)]="newHealthcareEnterprise.name" name="name" placeholder="Name">
+      <input type="text" class="form-control" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
     </div>
     <div class="col-4">
       <h5>Regional HealthcareOrganization</h5>
-      <select class="form-select" [(ngModel)]="newHealthcareEnterprise.RegionalHealthcareOrganizationId">
+      <select class="form-select" [(ngModel)]="newHealthcareOrganization.RegionalHealthcareOrganizationId">
         <option value="0">Not selected</option>
         <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
       </select>
     </div>
     <div class="col-4">
-      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareEnterprise()" [disabled]="newHealthcareEnterprise.name.trim().length < 1">Create</button>
+      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="newHealthcareOrganization.name.trim().length < 1">Create</button>
     </div>
     <div class="col-12 m-3">
-      <label *ngIf="!listOfHealthcareEnterpises">None found HealthcareOrganization</label>
+      <label *ngIf="!listOfHealthcareOrganizations">None found HealthcareOrganization</label>
       
       <ng-container>
         <div class="table-responsive">
@@ -29,29 +29,29 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let healthcareOrganization of listOfHealthcareEnterpises">
+              <tr *ngFor="let healthcareOrganization of listOfHealthcareOrganizations">
                
-                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id != healthcareOrganization.id">
+                <ng-container *ngIf="healthcareOrganizationAsChanged?.id != healthcareOrganization.id">
                   <td>{{healthcareOrganization.name}}</td>
                   <td>{{healthcareOrganization.RegionalHealthcareOrganization?.name}}</td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareEnterpriseAsChanged(healthcareOrganization)">
+                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareOrganizationAsChanged(healthcareOrganization)">
                       <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                     </button>
                   </td>
                    
                 </ng-container>
 
-                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id == healthcareOrganization.id">
-                  <td class="col-4"><input type="text" class="form-control" [(ngModel)]="healthcareEnterpriseAsChanged.name" name="name" placeholder="Name"></td>
+                <ng-container *ngIf="healthcareOrganizationAsChanged?.id == healthcareOrganization.id">
+                  <td class="col-4"><input type="text" class="form-control" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
-                    <select class="form-select" [(ngModel)]="healthcareEnterpriseAsChanged.RegionalHealthcareOrganizationId">
+                    <select class="form-select" [(ngModel)]="healthcareOrganizationAsChanged.RegionalHealthcareOrganizationId">
                       <option value="0">Not selected</option>
                       <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
                     </select>
                   </td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="updateHealthcareEnterprise(healthcareEnterpriseAsChanged)">
+                    <button class="btn fhi-btn-icon" (click)="updateHealthcareOrganization(healthcareOrganizationAsChanged)">
                       <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
                     <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">

@@ -66,6 +66,6 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   }
 
   hasRegisteredMisuseOrComment() : boolean {
-    return this.selectedEquipment.equipmentType.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
+    return this.selectedEquipment.equipmentType.incorrectTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
   }
 }

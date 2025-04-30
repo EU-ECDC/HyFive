@@ -75,11 +75,11 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   }
 
   protectiveEquipmentIndicated(): ProtectiveEquipment[] {
-    return this.protectiveEquipment.filter(b => b.isIndicated);
+    return this.protectiveEquipment.filter(b => b.isRequired);
   }
 
   protectiveEquipmentNotIndicated(): ProtectiveEquipment[] {
-    return this.protectiveEquipment.filter(b => b.isIndicated === false);
+    return this.protectiveEquipment.filter(b => b.isRequired === false);
   }
 
   changed(event, select: ProtectiveEquipment) {
@@ -87,11 +87,11 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     event.preventDefault();
 
     select.wasUsed = true;
-    select.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
+    select.equipmentType.incorrectTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
-    select.misuseTypes.forEach(f => {
-      const index = select.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
-      select.equipmentType.misuseTypes[index].isSelected = true;
+    select.incorrectTypes.forEach(f => {
+      const index = select.equipmentType.incorrectTypes.findIndex(fb => fb.id == f.id);
+      select.equipmentType.incorrectTypes[index].isSelected = true;
     });
 
     if (select.wasUsed) {
@@ -112,7 +112,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     modalRef.componentInstance.displayMode = false;
 
     if (selectedEquipment.wasUsed) {
-      if (selectedEquipment.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '') {
+      if (selectedEquipment.wasUsedCorrectly || selectedEquipment.incorrectTypes.length > 0 || selectedEquipment.comment !== '') {
         modalRef.componentInstance.showEquipmentDeleteButton = true;
       }
       else {
@@ -121,15 +121,15 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     }
 
     modalRef.result.then((result: ProtectiveEquipment) => {
-      selectedEquipment.isIndicated = result.isIndicated;
+      selectedEquipment.isRequired = result.isRequired;
       if (result.wasUsed === false) {
         this.resetEquipment(selectedEquipment);
       }
       else {
         selectedEquipment.wasUsedCorrectly = result.wasUsedCorrectly;
         selectedEquipment.comment = result.comment;
-        selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
-        selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
+        selectedEquipment.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.isSelected);
+        selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.incorrectTypes.length > 0 || selectedEquipment.comment !== '';
       }
       this.update();
     }, (error) => {

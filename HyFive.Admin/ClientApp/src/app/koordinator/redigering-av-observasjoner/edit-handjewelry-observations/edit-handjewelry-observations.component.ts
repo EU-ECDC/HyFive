@@ -65,7 +65,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
       handJewelry: observation.handJewelryTypes,
       comment: observation.comment,
       role: observation.role,
-      registrationTime: observation.createdTime
+      registrationTime: observation.registeredTime
     }
   }
 

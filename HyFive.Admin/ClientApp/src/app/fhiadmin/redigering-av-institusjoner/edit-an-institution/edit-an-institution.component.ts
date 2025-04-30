@@ -30,9 +30,9 @@ export class EditInstitutionComponent implements OnInit {
   municipalities: Municipality[];
   municipalityId = 0;
   UrlPaths = UrlPaths;
-  healthEnterpriseId = 0;
+  healthcareOrganizationId = 0;
   showMunicipality = false;
-  showHealthcareEnterprise = false;
+  showHealthcareOrganization = false;
 
 
   @Input() institutionId: number;
@@ -48,12 +48,12 @@ export class EditInstitutionComponent implements OnInit {
       this.institution = institution;
       this.institutiontypeId = institution.institutionType.id;
       this.municipalityId = institution.municipality?.id;
-      this.healthEnterpriseId = institution.healthcareOrganization?.id;
+      this.healthcareOrganizationId = institution.healthcareOrganization?.id;
       
       this.institutionService.getInstitutionTypes().subscribe((types) => {
         this.institutionTypes = types;
         this.showMunicipality = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.NursingHome;
-        this.showHealthcareEnterprise = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.Hospital;
+        this.showHealthcareOrganization = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.Hospital;
       });
     });
 
@@ -62,9 +62,9 @@ export class EditInstitutionComponent implements OnInit {
         this.municipalities = municipalities;
     });
 
-    this.healthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
-      (allHealthcareEnterprise) => {
-        this.listOfHealthcareOrganizations = allHealthcareEnterprise;
+    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
+      (allHealthcareorganization) => {
+        this.listOfHealthcareOrganizations = allHealthcareorganization;
     });
   }
 
@@ -82,7 +82,7 @@ export class EditInstitutionComponent implements OnInit {
   institutionTypeChanged() {
     this.institution.institutionType = this.institutionTypes.find(i => i.id === this.institutiontypeId);
     this.showMunicipality = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.NursingHome;
-     this.showHealthcareEnterprise = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.Hospital;
+     this.showHealthcareOrganization = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.Hospital;
   }
 
   municipalityChanged() {
@@ -101,8 +101,8 @@ export class EditInstitutionComponent implements OnInit {
   }
 
   healthEnterpriseChanged() {
-    if (this.healthEnterpriseId) {
-      this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthEnterpriseId);
+    if (this.healthcareOrganizationId) {
+      this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthcareOrganizationId);
     }
   }
 

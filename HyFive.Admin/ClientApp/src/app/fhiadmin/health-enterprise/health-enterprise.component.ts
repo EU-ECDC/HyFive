@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { RegionalHealthcareOrganizationService } from 'src/app/services/data/regional-healthcare-enterprise.service';
 import { KeyEventService } from 'src/app/services/events/key-event.service';
-import { CreateHealthEnterpriseRequest } from '../../models/api/CreateHealthEnterpriseRequest';
+import { CreateHealthcareOrganizationRequest } from '../../models/api/CreateHealthcareOrganizationRequest';
 import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
 import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
 import { RegionalHealthcareOrganization } from 'src/app/models/api/RegionalHealthcareOrganization';
@@ -15,9 +15,9 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 })
 export class HealthEnterpriseComponent implements OnInit, OnDestroy
 {
-  listOfHealthcareEnterpises: HealthcareOrganization[] = null;
-  newHealthcareEnterprise = this.createEmptyHealthcareEnterprise();
-  healthcareEnterpriseAsChanged = null;
+  listOfHealthcareOrganizations: HealthcareOrganization[] = null;
+  newHealthcareOrganization = this.createEmptyHealthcareOrganization();
+  healthcareOrganizationAsChanged = null;
   RegionalHealthcareOrganizationList: RegionalHealthcareOrganization[] = null;
   loading: boolean;
 
@@ -34,14 +34,14 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
       this.cancelEdit(event);
     });
 
-    const healthcareEnterpriseRequest = [
-      this.HealthcareOrganizationService.getAllHealthcareEnterprises(),
+    const healthcareOrganizationRequest = [
+      this.HealthcareOrganizationService.getAllHealthcareOrganizations(),
       this.regionalHealthcareOrganizationService.getAllRegionalHealthcareOrganizations()
     ];
 
-    forkJoin(healthcareEnterpriseRequest).subscribe((result) => {
+    forkJoin(healthcareOrganizationRequest).subscribe((result) => {
       let i = 0;
-      this.listOfHealthcareEnterpises = result[i++] as HealthcareOrganization[];
+      this.listOfHealthcareOrganizations = result[i++] as HealthcareOrganization[];
       this.RegionalHealthcareOrganizationList = result[i++] as RegionalHealthcareOrganization[];
       this.loading = false;
     });
@@ -51,20 +51,20 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     this.toastrService.clear();  
   }
 
-  createEmptyHealthcareEnterprise() {
+  createEmptyHealthcareOrganization() {
     return {
       name: '',
-      RegionalHealthcareOrganizationId: 0
-    } as CreateHealthEnterpriseRequest;
+      regionaltHealthcareOrganizationId: 0
+    } as CreateHealthcareOrganizationRequest;
   }
 
-  createHealthcareEnterprise() {
-    this.HealthcareOrganizationService.createHealthcareEnterprise(this.newHealthcareEnterprise).subscribe(
+  createHealthcareOrganization() {
+    this.HealthcareOrganizationService.createHealthcareOrganization(this.newHealthcareOrganization).subscribe(
       (isCreated) => {
         if(isCreated){
-          this.toastrService.success(this.newHealthcareEnterprise.name + " was created");
-          this.newHealthcareEnterprise = this.createEmptyHealthcareEnterprise();
-          this.loadAllHealthcareEnterprises();
+          this.toastrService.success(this.newHealthcareOrganization.name + " was created");
+          this.newHealthcareOrganization = this.createEmptyHealthcareOrganization();
+          this.loadAllHealthcareOrganizations();
         }
         else{
           this.toastrService.error("HealthcareOrganization already exists", '', { disableTimeOut: true})
@@ -76,26 +76,26 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     );
   }
 
-  loadAllHealthcareEnterprises() {
-    this.HealthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
+  loadAllHealthcareOrganizations() {
+    this.HealthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
       (allHealthcateEnterprises) => {
-        this.listOfHealthcareEnterpises = allHealthcateEnterprises;
+        this.listOfHealthcareOrganizations = allHealthcateEnterprises;
       }
     );
   }
 
-  selectedHealthcareEnterpriseAsChanged(healthcareOrganization: HealthcareOrganization) {
-    if (this.healthcareEnterpriseAsChanged?.id == healthcareOrganization.id) return;
-    this.healthcareEnterpriseAsChanged = JSON.parse(JSON.stringify(healthcareOrganization));
+  selectedHealthcareOrganizationAsChanged(healthcareOrganization: HealthcareOrganization) {
+    if (this.healthcareOrganizationAsChanged?.id == healthcareOrganization.id) return;
+    this.healthcareOrganizationAsChanged = JSON.parse(JSON.stringify(healthcareOrganization));
   }
 
-  updateHealthcareEnterprise(healthcareOrganization: HealthcareOrganization) {
-    this.HealthcareOrganizationService.updateHealthcareEnterprise(healthcareOrganization).subscribe(
+  updateHealthcareOrganization(healthcareOrganization: HealthcareOrganization) {
+    this.HealthcareOrganizationService.updateHealthcareOrganization(healthcareOrganization).subscribe(
       (isUpdated) => {
         if(isUpdated) {
         this.toastrService.success(healthcareOrganization.name + " is updated");
-        this.healthcareEnterpriseAsChanged = null;
-        this.loadAllHealthcareEnterprises();
+        this.healthcareOrganizationAsChanged = null;
+        this.loadAllHealthcareOrganizations();
         }
         else{
           this.toastrService.error(healthcareOrganization.name + " exists from before", '', { disableTimeOut: true})
@@ -111,7 +111,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
   cancelEdit($event: Event) {
     $event.stopPropagation();
     $event.preventDefault();
-    this.healthcareEnterpriseAsChanged = null;
+    this.healthcareOrganizationAsChanged = null;
   }
 
   sort($event: IColumnSortedEvent) {
@@ -145,7 +145,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
       return result * sortOrder;
     };
 
-    this.listOfHealthcareEnterpises = this.listOfHealthcareEnterpises.sort(sortFunc);
+    this.listOfHealthcareOrganizations = this.listOfHealthcareOrganizations.sort(sortFunc);
   }
 }
 

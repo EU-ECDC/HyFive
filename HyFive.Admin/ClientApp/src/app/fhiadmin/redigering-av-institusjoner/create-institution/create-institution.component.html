@@ -24,11 +24,11 @@
           <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
         </select>
       </div>
-      <div class="col-md-6" *ngIf="showHealthcareEnterprise">
-        <label for="healthcareenterprise" class="mb-1">HealthcareOrganization</label>
-        <select class="form-select" id="healthcareenterprise" [(ngModel)]="newInstitution.healthEnterpriseId">
+      <div class="col-md-6" *ngIf="showHealthcareOrganization">
+        <label for="healthcareorganization" class="mb-1">HealthcareOrganization</label>
+        <select class="form-select" id="healthcareorganization" [(ngModel)]="newInstitution.healthcareOrganizationId">
           <option value="0"></option>
-          <option *ngFor="let healthcareenterprise of listOfHealthcareEnterprises" [ngValue]="healthcareenterprise.id">{{healthcareenterprise.name}}</option>
+          <option *ngFor="let healthcareorganization of listOfHealthcareOrganizations" [ngValue]="healthcareorganization.id">{{healthcareorganization.name}}</option>
         </select>
       </div>
     </div>
