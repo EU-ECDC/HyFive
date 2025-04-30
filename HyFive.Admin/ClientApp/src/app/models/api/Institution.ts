@@ -5,7 +5,7 @@
 import { Department } from './Department';
 import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
-import { Comment } from './Comment';
+import { Municipality } from './Municipality';
 import { HealthcareOrganization } from './HealthcareOrganization';
 
 export interface Institution
@@ -17,7 +17,7 @@ export interface Institution
 	departments: Department[];
 	institutionType: InstitutionType;
 	region: Region;
-	comment: Comment;
+	municipality: Municipality;
 	hasObservations: boolean;
 	healthcareOrganization: HealthcareOrganization;
 }
