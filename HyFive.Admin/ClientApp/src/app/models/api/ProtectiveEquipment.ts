@@ -9,9 +9,9 @@ export interface ProtectiveEquipment
 {
 	id: number;
 	wasUsed: boolean;
-	isIndicated: boolean;
+	isRequired: boolean;
 	equipmentType: ProtectiveEquipmentType;
-	misuseTypes: MisuseType[];
+	incorrectTypes: MisuseType[];
 	wasUsedCorrectly: boolean;
 	comment: string;
 }
