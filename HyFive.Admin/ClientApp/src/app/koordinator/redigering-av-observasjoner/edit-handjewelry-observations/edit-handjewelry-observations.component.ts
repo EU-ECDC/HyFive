@@ -54,7 +54,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
       return {
         type: t.code,
         disabled: false,
-        isSelected: observation.typesOfHandJewelry.map(ht => ht.code).indexOf(t.code) !== -1,
+        isSelected: observation.handJewelryTypes.map(ht => ht.code).indexOf(t.code) !== -1,
         name: t.name
       };
     })
@@ -62,10 +62,10 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     this.handjewelryObservationAsChanged = {
       id: observation.id,
       sessionId:  this.sessionId,
-      handJewelry: observation.typesOfHandJewelry,
+      handJewelry: observation.handJewelryTypes,
       comment: observation.comment,
       role: observation.role,
-      registrationTime: observation.registrationTime
+      registeredTime: observation.registeredTime
     }
   }
 

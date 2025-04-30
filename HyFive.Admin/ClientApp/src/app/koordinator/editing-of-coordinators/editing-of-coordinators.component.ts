@@ -21,7 +21,7 @@ export class EditingCoordinatorsComponent implements OnInit {
         institutionType: result.institutionType,
         name: result.name,
         region: result.region,
-        healthcareEnterprise: result.healthcareEnterprise
+        healthcareOrganization: result.healthcareOrganization
       } as InstitutionReport;
     });
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoggedinUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { map, tap } from 'rxjs/operators';
@@ -13,8 +13,8 @@ export class AuthorizationService {
   constructor(private http: HttpClient) {
   }
 
-  getUser(): Observable<LoggedinUser> {
-    return this.http.get<LoggedinUser>('/account').pipe(tap(user => {
+  getUser(): Observable<LoggedInUser> {
+    return this.http.get<LoggedInUser>('/account').pipe(tap(user => {
       let selectedRole = this.getSelectedRole();
       if (!selectedRole) {
         if (user.isFhiAdmin) {

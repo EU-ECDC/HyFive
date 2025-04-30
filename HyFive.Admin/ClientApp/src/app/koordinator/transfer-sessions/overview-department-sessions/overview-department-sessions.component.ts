@@ -25,7 +25,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
 
   sessionTypeOptions = [
     { name: "FourIndications", value: SessionType.FourIndications },
-    { name: "Handjewelry", value: SessionType.Handjewelry },
+    { name: "HandJewelry", value: SessionType.HandJewelry },
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment },
     { name: "Gloves", value: SessionType.Gloves }
   ];

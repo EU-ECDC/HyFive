@@ -53,7 +53,7 @@
             <td class="col-3"><p>{{item.type}}</p></td>
             <td class="col-3"><p>{{item.observerName}}</p></td>
             <td class="col-3"><p>{{showFormattedDateWithTime(item.startTime)}}</p></td>
-            <td class="col-3"><p>{{showFormattedDate(item.timeOfCreation)}}</p></td>
+            <td class="col-3"><p>{{showFormattedDate(item.createdTime)}}</p></td>
           </tr>
         </tbody>
 
@@ -97,8 +97,8 @@
                   </td>
                   <td>{{obs.activity.activityType.name}}</td>
                   <td>{{obs.activity.timekeepingWasRemoved ? obs.activity.secondsUsed + ' second(s)' : '-' }}</td>
-                  <td>{{obs.activity.usedGlove === null ? '-' : obs.activity.usedGlove ? "Yes" : "No"}}</td>
-                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{obs.activity.gloveUsed === null ? '-' : obs.activity.gloveUsed ? "Yes" : "No"}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>
                 </tr>
               </tbody>
@@ -106,7 +106,7 @@
           </div>
           
         </ng-container>
-        <!-- Handjewelry -->
+        <!-- HandJewelry -->
         <ng-container *ngIf="item.type === sessionTypeOptions[1].name">
           <div class="table-responsive">
             <table class="table mb-0">
@@ -123,12 +123,12 @@
                   <td>{{obs.role}}</td>
                   <td>
                     <ul style="padding-left: 20px;">
-                      <li *ngFor="let ht of obs.typesOfHandJewelry">
+                      <li *ngFor="let ht of obs.handJewelryTypes">
                         {{ht}}
                       </li>
                     </ul>
                   </td>
-                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>
                 </tr>
               </tbody>
@@ -160,8 +160,8 @@
                           {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
                           <ul>
                             <li>
-                              {{ bu.wasUsedProperly ? 'Used correctl' : 'Used incorrectly' }}
-                              <ng-container *ngIf="!bu.wasUsedProperly">
+                              {{ bu.wasUsedCorrectly ? 'Used correctl' : 'Used incorrectly' }}
+                              <ng-container *ngIf="!bu.wasUsedCorrectly">
                                 <ul>
                                   <li *ngFor="let fbt of bu.misuseTypes">{{fbt}}</li>
                                   <li *ngIf="bu.comment">Comment: {{bu.comment}}</li>
@@ -182,7 +182,7 @@
                       </ng-container>
                     </ul>
                   </td>
-                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>
                 </tr>
               </tbody>
@@ -222,9 +222,9 @@
                       </li>
                     </ul>
                   </td>
-                  <td style="padding-left: 40px;">{{obs.gloveObservation.usedGlove ? "Yes" : 'No'}}</td>
-                  <td style="padding-left: 40px;">{{obs.gloveObservation.handhygieneAfterGloveuseType.name}}</td>
-                  <td>{{showFormattedDateWithTime(obs.registrationTime)}}</td>
+                  <td style="padding-left: 40px;">{{obs.gloveObservation.gloveUsed ? "Yes" : 'No'}}</td>
+                  <td style="padding-left: 40px;">{{obs.gloveObservation.postGloveHandHygieneType.name}}</td>
+                  <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>
                 </tr>
               </tbody>

@@ -4,13 +4,13 @@ import { forkJoin } from 'rxjs';
 import { RegionalHealthcareEnterpriseService } from 'src/app/services/data/regional-healthcare-enterprise.service';
 import { KeyEventService } from 'src/app/services/events/key-event.service';
 import { CreateHealthEnterpriseRequest } from '../../models/api/CreateHealthEnterpriseRequest';
-import { HealthcareEnterpriseService } from '../../services/data/healthcareEnterprise.service';
+import { HealthcareEnterpriseService } from '../../services/data/healthcareOrganization.service';
 import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
 import { RegionalHealthcareEnterprise } from 'src/app/models/api/RegionalHealthcareEnterprise';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-healthcareEnterprise',
+  selector: 'app-healthcareOrganization',
   templateUrl: './health-enterprise.component.html'
 })
 export class HealthEnterpriseComponent implements OnInit, OnDestroy
@@ -84,28 +84,28 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     );
   }
 
-  selectedHealthcareEnterpriseAsChanged(healthcareEnterprise: HealthcareEnterprise) {
-    if (this.healthcareEnterpriseAsChanged?.id == healthcareEnterprise.id) return;
-    this.healthcareEnterpriseAsChanged = JSON.parse(JSON.stringify(healthcareEnterprise));
+  selectedHealthcareEnterpriseAsChanged(healthcareOrganization: HealthcareEnterprise) {
+    if (this.healthcareEnterpriseAsChanged?.id == healthcareOrganization.id) return;
+    this.healthcareEnterpriseAsChanged = JSON.parse(JSON.stringify(healthcareOrganization));
   }
 
-  updateHealthcareEnterprise(healthcareEnterprise: HealthcareEnterprise) {
-    this.healthcareEnterpriseService.updateHealthcareEnterprise(healthcareEnterprise).subscribe(
+  updateHealthcareEnterprise(healthcareOrganization: HealthcareEnterprise) {
+    this.healthcareEnterpriseService.updateHealthcareEnterprise(healthcareOrganization).subscribe(
       (isUpdated) => {
         if(isUpdated) {
-        this.toastrService.success(healthcareEnterprise.name + " is updated");
+        this.toastrService.success(healthcareOrganization.name + " is updated");
         this.healthcareEnterpriseAsChanged = null;
         this.loadAllHealthcareEnterprises();
         }
         else{
-          this.toastrService.error(healthcareEnterprise.name + " exists from before", '', { disableTimeOut: true})
+          this.toastrService.error(healthcareOrganization.name + " exists from before", '', { disableTimeOut: true})
         }
       }
     );
   }
 
-  canChange(healthcareEnterprise: HealthcareEnterprise) {
-    return healthcareEnterprise.name.length > 0;
+  canChange(healthcareOrganization: HealthcareEnterprise) {
+    return healthcareOrganization.name.length > 0;
   }
 
   cancelEdit($event: Event) {
@@ -120,7 +120,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
       case "Name":
         propertyOf = (x: HealthcareEnterprise) => x.name.toLowerCase();
         break;
-      case "Regional healthcareEnterprise":
+      case "Regional healthcareOrganization":
         propertyOf = (x: HealthcareEnterprise) => x.regionalHealthcareEnterprise?.name;
         break;
       default:

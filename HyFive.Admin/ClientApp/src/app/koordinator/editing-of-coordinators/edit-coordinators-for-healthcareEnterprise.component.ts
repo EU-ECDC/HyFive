@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { LoggedinUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
-import { CoordinatorForHealthcareEnterprises } from '../../models/api/CoordinatorForHealthcareEnterprises';
+import { CoordinatorForHealthcareEnterprises } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { UserService } from '../../services/data/user.service';
-import { HealthcareEnterpriseService } from '../../services/data/healthcareEnterprise.service';
+import { HealthcareEnterpriseService } from '../../services/data/healthcareOrganization.service';
 import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
@@ -14,8 +14,8 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 
 @Component({
-  selector: 'app-edit-coordinators-for-healthcareEnterprise',
-  templateUrl: './edit-coordinators-for-healthcareEnterprise.component.html'
+  selector: 'app-edit-coordinators-for-healthcareOrganization',
+  templateUrl: './edit-coordinators-for-healthcareOrganization.component.html'
 })
 export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, OnDestroy {
 
@@ -28,7 +28,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
 
   dropdownSettings: IDropdownSettings;
   selectedInstitutions: InstitutionReport[] = [];
-  user: LoggedinUser = null;
+  user: LoggedInUser = null;
   keyword: string = '';
   filteredCoordinators: CoordinatorForHealthcareEnterprises[];
 
@@ -70,7 +70,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
   }
 
   loadCoordinators() {
-    this.healthcareEnterpriseService.getCoordinators(this.institution.healthcareEnterprise.id).subscribe(
+    this.healthcareEnterpriseService.getCoordinators(this.institution.healthcareOrganization.id).subscribe(
       (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators
@@ -80,7 +80,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
   }
 
   loadInstitutions() {
-    this.healthcareEnterpriseService.getInstitutions(this.institution.healthcareEnterprise.id).subscribe(
+    this.healthcareEnterpriseService.getInstitutions(this.institution.healthcareOrganization.id).subscribe(
       (institutions) => {
         this.institutionsHealthcareEnterprise = institutions
       },
@@ -98,7 +98,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
       email: '',
       hprNumber: null,
       identityPseudonym: null,
-      timeOfCreation: new Date(),
+      createdTime: new Date(),
       isDisabled: false,
       institutions: [this.institution]
     };
@@ -106,7 +106,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
 
   createCoordinator() {
     this.newCoordinator.institutions = this.selectedInstitutions;
-    this.healthcareEnterpriseService.createCoordinator(this.institution.healthcareEnterprise.id, this.newCoordinator).subscribe(
+    this.healthcareEnterpriseService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator(s) and observer(s) created');
@@ -152,7 +152,7 @@ export class EditCoordinatorsForHealthEnterprisesComponent implements OnInit, On
     coordinator.institutions = this.selectedInstitutions;
     let CurrentInstitutionIsStillSelected = this.selectedInstitutions.some(i => i.id == this.institution.id);
     let isCoordinatorAsChangedLikeLoggedInUser = this.isCoordinatorAsChangedLikeLoggedInUser(coordinator);
-    this.healthcareEnterpriseService.updateCoordinator(this.institution.healthcareEnterprise.id, coordinator).subscribe(
+    this.healthcareEnterpriseService.updateCoordinator(this.institution.healthcareOrganization.id, coordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator updated');

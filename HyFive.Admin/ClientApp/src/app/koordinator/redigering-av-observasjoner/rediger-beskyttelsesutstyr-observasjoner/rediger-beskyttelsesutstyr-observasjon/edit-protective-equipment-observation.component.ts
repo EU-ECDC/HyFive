@@ -13,7 +13,7 @@ import { ObservationService } from 'src/app/services/data/observation.service';
 import { Role } from "../../../../models/api/Role";
 import { Colors } from 'src/app/utils/Colors';
 import {ProtectiveEquipmentSettingTypesService} from "../../../../services/data/protectiveEquipmentSettingTypes.service";
-import {ProtectiveEquipmentType} from "../../../../models/api/ProtectiveEquipmentType";
+import {ProtectiveEquipmentSettingType} from "../../../../models/api/ProtectiveEquipmentSettingType";
 
 
 @Component({
@@ -25,8 +25,8 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   Colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
-  settings: ProtectiveEquipmentType[];
-  selectedSetting: ProtectiveEquipmentType;
+  settings: ProtectiveEquipmentSettingType[];
+  selectedSetting: ProtectiveEquipmentSettingType;
   comment: string;
   selectedEquipment = null;
   observation: ProtectiveEquipmentObservation;
@@ -58,9 +58,9 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
         this.observation = o;
         this.protectiveEquipment = this.observation.protectiveEquipmentList;
         this.observation.sessionId = this.sessionId;
-        this.settingService.getProtectiveEquipmentTypes().subscribe((settings) => {
+        this.settingService.getProtectiveEquipmentSettingTypes().subscribe((settings) => {
           this.settings = settings;
-          this.selectedSetting = this.observation.settingtype;
+          this.selectedSetting = this.observation.settingType;
         })
       },
       (error) => this.toastrService.error("An error occurred while loading observation with id " + this.observationId, '', {disableTimeOut: true}),
@@ -87,11 +87,11 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     event.preventDefault();
 
     select.wasUsed = true;
-    select.equipmentTypeq.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
+    select.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
     select.misuseTypes.forEach(f => {
-      const index = select.equipmentTypeq.misuseTypes.findIndex(fb => fb.id == f.id);
-      select.equipmentTypeq.misuseTypes[index].isSelected = true;
+      const index = select.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
+      select.equipmentType.misuseTypes[index].isSelected = true;
     });
 
     if (select.wasUsed) {
@@ -112,11 +112,11 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     modalRef.componentInstance.displayMode = false;
 
     if (selectedEquipment.wasUsed) {
-      if (selectedEquipment.wasUsedProperly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '') {
+      if (selectedEquipment.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '') {
         modalRef.componentInstance.showEquipmentDeleteButton = true;
       }
       else {
-        modalRef.componentInstance.selectedEquipment.wasUsedProperly = null;
+        modalRef.componentInstance.selectedEquipment.wasUsedCorrectly = null;
       }
     }
 
@@ -126,10 +126,10 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
         this.resetEquipment(selectedEquipment);
       }
       else {
-        selectedEquipment.wasUsedProperly = result.wasUsedProperly;
+        selectedEquipment.wasUsedCorrectly = result.wasUsedCorrectly;
         selectedEquipment.comment = result.comment;
-        selectedEquipment.misuseTypes = result.equipmentTypeq.misuseTypes.filter(x => x.isSelected);
-        selectedEquipment.wasUsed = result.wasUsedProperly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
+        selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
+        selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
       }
       this.update();
     }, (error) => {
@@ -141,14 +141,14 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   setAllEquipmentToProperUsed(event) {
     this.protectiveEquipmentIndicated().forEach(x => {
       x.wasUsed = true;
-      x.wasUsedProperly = true;
+      x.wasUsedCorrectly = true;
     });
     this.update();
   }
 
   resetEquipment(select: ProtectiveEquipment) {
-    let selectIndex = this.protectiveEquipment.findIndex(x => x.equipmentTypeq.id === select.equipmentTypeq.id);
-    this.protectiveEquipment[selectIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypeqs, select).find(x => x.equipmentTypeq.id === select.equipmentTypeq.id);
+    let selectIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === select.equipmentType.id);
+    this.protectiveEquipment[selectIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingType.equipmentTypes, select).find(x => x.equipmentType.id === select.equipmentType.id);
   }
 
   selectRole($event: Role) {
@@ -157,14 +157,14 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   }
 
   selectSetting() {
-    this.observation.settingtype = this.selectedSetting;
+    this.observation.settingType = this.selectedSetting;
     this.update();
   }
 
   update(){
     this.observationUpdatedEvent.emit(this.observation);
   }
-  sortedSettings() : ProtectiveEquipmentType[] {
+  sortedSettings() : ProtectiveEquipmentSettingType[] {
     let combinedSettings = this.settings.filter(s => s.code != this.selectedSetting.code)
     combinedSettings.push(this.selectedSetting);
     combinedSettings.sort((a, b) => {

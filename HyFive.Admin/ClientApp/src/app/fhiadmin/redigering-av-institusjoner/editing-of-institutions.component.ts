@@ -87,7 +87,7 @@ export class EditingOfInstitutionsComponent implements OnInit {
   filterInstitutions(): void {
     if (this.keyword.length >= 2)
       this.filteredInstitutions = this.institutions.filter(i => i.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        i.healthcareEnterprise?.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        i.healthcareOrganization?.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
         i.municipality?.name.toLowerCase().includes(this.keyword.toLowerCase()));
     else if (this.keyword.length === 0)
       this.filteredInstitutions = this.institutions;

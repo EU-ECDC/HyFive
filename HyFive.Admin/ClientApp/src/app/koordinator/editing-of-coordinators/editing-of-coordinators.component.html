@@ -3,11 +3,11 @@
     <div class="row">
       <h3>Maintenance of coordinators</h3>
     </div>
-    <div *ngIf="!institutionReport.healthcareEnterprise">
+    <div *ngIf="!institutionReport.healthcareOrganization">
       <app-edit-coordinators [institutionId]="institutionReport.id"></app-edit-coordinators>
     </div>
-    <div *ngIf="institutionReport.healthcareEnterprise">
-      <app-edit-coordinators-for-healthcareEnterprise [institution]="institutionReport"></app-edit-coordinators-for-healthcareEnterprise>
+    <div *ngIf="institutionReport.healthcareOrganization">
+      <app-edit-coordinators-for-healthcareOrganization [institution]="institutionReport"></app-edit-coordinators-for-healthcareOrganization>
     </div>
   </ng-container>
   <ng-template #spinner>

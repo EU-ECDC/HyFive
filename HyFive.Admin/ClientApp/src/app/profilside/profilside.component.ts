@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { LoggedinUser } from '../models/api/LoggedinUser';
+import { LoggedInUser } from '../models/api/LoggedInUser';
 import { AuthorizedRole } from '../_felles/authorization/authorized-role';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { RoleEventService } from '../services/events/role-event.service';
@@ -11,7 +11,7 @@ import { RoleEventService } from '../services/events/role-event.service';
 })
 export class ProfilsideComponent implements OnInit {
 
-  user: LoggedinUser = null;
+  user: LoggedInUser = null;
   AuthorizedRoleValues = AuthorizedRole;
   faUser = faUser;
 

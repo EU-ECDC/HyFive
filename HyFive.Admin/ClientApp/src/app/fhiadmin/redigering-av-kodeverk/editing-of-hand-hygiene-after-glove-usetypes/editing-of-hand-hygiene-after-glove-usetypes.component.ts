@@ -38,9 +38,9 @@ export class EditingHandHygieneAfterGloveUseTypesComponent implements OnInit, On
     );
   }
 
-  selectedHandHygieneAfterGloveUseType(handhygieneAfterGloveuseType: HandHygieneAfterGloveUseType): void {
-    if (this.handHygieneAfterGloveUseTypeWhichChanges?.id == handhygieneAfterGloveuseType.id) return;
-    this.handHygieneAfterGloveUseTypeWhichChanges = JSON.parse(JSON.stringify(handhygieneAfterGloveuseType));
+  selectedHandHygieneAfterGloveUseType(postGloveHandHygieneType: HandHygieneAfterGloveUseType): void {
+    if (this.handHygieneAfterGloveUseTypeWhichChanges?.id == postGloveHandHygieneType.id) return;
+    this.handHygieneAfterGloveUseTypeWhichChanges = JSON.parse(JSON.stringify(postGloveHandHygieneType));
   }
 
   updateHandHygieneAfterGloveUseType(): void {

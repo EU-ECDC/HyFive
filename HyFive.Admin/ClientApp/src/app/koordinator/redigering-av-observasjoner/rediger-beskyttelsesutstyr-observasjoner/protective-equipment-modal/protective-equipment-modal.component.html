@@ -24,14 +24,14 @@
         </label>
       </div>
       <div class="custom-control custom-radio pb-2">
-        <input type="radio" id="correctuse" name="correctuse" class="custom-control-input" [value]="true" [(ngModel)]="selectedEquipment.wasUsedProperly" (click)="resetErrorAndMarkerUsed(true)" [disabled]="displayMode">
+        <input type="radio" id="correctuse" name="correctuse" class="custom-control-input" [value]="true" [(ngModel)]="selectedEquipment.wasUsedCorrectly" (click)="resetErrorAndMarkerUsed(true)" [disabled]="displayMode">
         <label class="custom-control-label" for="correctuse">Correct use</label>
       </div>
       <div class="custom-control custom-radio pb-2">
-        <input type="radio" id="misuse" name="misuse" class="custom-control-input" [value]="false" [(ngModel)]="selectedEquipment.wasUsedProperly" (click)="resetErrorAndMarkerUsed(false)" [disabled]="displayMode">
+        <input type="radio" id="misuse" name="misuse" class="custom-control-input" [value]="false" [(ngModel)]="selectedEquipment.wasUsedCorrectly" (click)="resetErrorAndMarkerUsed(false)" [disabled]="displayMode">
         <label class="custom-control-label" for="misuse">Incorrect use</label>
       </div>
-      <div class="mt-2" *ngIf="selectedEquipment.wasUsedProperly === false">
+      <div class="mt-2" *ngIf="selectedEquipment.wasUsedCorrectly === false">
         <ng-container *ngIf="!displayMode">
           <label class="text-info"><small><strong><em>Select at least one of the options below, or fill in a comment</em></strong></small></label>
           <ng-container *ngFor="let fb of selectedEquipment.equipmentTypeq.misuseTypes">

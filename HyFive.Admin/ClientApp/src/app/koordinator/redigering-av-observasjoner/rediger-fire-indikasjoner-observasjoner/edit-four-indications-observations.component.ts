@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TransferstatusTypeConstants } from '../../../models/api/TransferstatusTypeConstants';
+import { TransferStatusTypeConstants } from '../../../models/api/TransferStatusTypeConstants';
 import { SessionType } from '../../../models/api/SessionType';
 import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { Role } from '../../../models/api/Role';
@@ -31,7 +31,7 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   secondsUsed: number;
 
   canBeStored = true;
-  transferstatusTypeConstants = TransferstatusTypeConstants;
+  transferstatusTypeConstants = TransferStatusTypeConstants;
   SessionType = SessionType;
 
   constructor(
@@ -68,7 +68,7 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   }
 
   changeSecondsUsed(secondsUsed: number) {
-    this.fourIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
+    this.fourIndicationsObservationWhichChanged.activity.timeSpent = secondsUsed;
   }
 
   changeComment(comment: string) {
@@ -76,19 +76,19 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   }
 
   updateFourIndicationsObservation() {
-    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRequired
+    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotExecuted
       || this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
-      this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-      this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = false;
+      this.fourIndicationsObservationWhichChanged.activity.timeSpent = 0;
+      this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = false;
     }
     else {
-      this.fourIndicationsObservationWhichChanged.activity.usedGlove = null;
-      if (this.fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
-        this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-        this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = false;
+      this.fourIndicationsObservationWhichChanged.activity.gloveUsed = null;
+      if (this.fourIndicationsObservationWhichChanged.activity.timeSpent <= 0){
+        this.fourIndicationsObservationWhichChanged.activity.timeSpent = 0;
+        this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = false;
       }
       else {
-        this.fourIndicationsObservationWhichChanged.activity.timekeepingWasRemoved = true;
+        this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = true;
       }
     }
 

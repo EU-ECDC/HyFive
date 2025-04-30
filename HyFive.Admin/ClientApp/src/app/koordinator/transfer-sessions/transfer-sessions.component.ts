@@ -8,7 +8,7 @@ import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { User } from '../../models/api/User';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
+import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
 import { Institution } from '../../models/api/Institution';
 import { forEach } from 'lodash-es';
 
@@ -25,7 +25,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
     { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "Handjewelry", value: SessionType.Handjewelry, type: SessionType[SessionType.Handjewelry] },
+    { name: "HandJewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
   ];
 
   selectedSessiontype: SessionType = null;
@@ -99,8 +99,8 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   }
 
   updateLists() {
-    this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToCoordinator);
-    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferstatusTypeConstants.TransferToFhi);
+    this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToCoordinator);
+    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToFhi);
   }
 
   transfer(sessionId) {

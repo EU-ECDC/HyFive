@@ -26,8 +26,8 @@
               </td>
               <td class="col-2">{{observation.activity.activityType.name}}</td>
               <td class="col-1">{{observation.activity.timekeepingWasRemoved && observation.activity.secondsUsed > 0 ? observation.activity.secondsUsed + ' second(is)' : '-' }}</td>
-              <td class="col-1">{{observation.activity.usedGlove === null ? '-' : observation.activity.usedGlove ? "Yes" : "No"}}</td>
-              <td class="col-2">{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+              <td class="col-1">{{observation.activity.gloveUsed === null ? '-' : observation.activity.gloveUsed ? "Yes" : "No"}}</td>
+              <td class="col-2">{{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
               <td class="col-2">{{observation.comment}}</td>
             </tr>
           </ng-container>
@@ -61,20 +61,20 @@
                   </div>
                   <div class="col-1">
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="appropriateUse" name="appropriateUse" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
+                      <input type="radio" id="appropriateUse" name="appropriateUse" class="custom-control-input" [value]="true" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.gloveUsed">
                       <label class="custom-control-label" for="appropriateUse">Yes</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="wrongUse" name="wrongUse" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
+                      <input type="radio" id="wrongUse" name="wrongUse" class="custom-control-input" [value]="false" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.gloveUsed">
                       <label class="custom-control-label" for="wrongUse">No</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.usedGlove">
+                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fourIndicationsObservationWhichChanged.activity.gloveUsed">
                       <label class="custom-control-label" for="notRegistered">Not registered</label>
                     </div>
                   </div>
                   <div class="col-2">
-                    {{fourIndicationsObservationWhichChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}
+                    {{fourIndicationsObservationWhichChanged.registeredTime | date:'dd.MM.yyyy HH:mm' }}
                   </div>
                   <div class="col-2">
                     <textarea style="width: 12rem;" [(ngModel)]="fourIndicationsObservationWhichChanged.comment" (ngModelChange)="changeComment($event)">{{fourIndicationsObservationWhichChanged.comment}}</textarea>

@@ -53,7 +53,7 @@
               <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminAsChanged.isDisabled" name="isDisabled"></td>
             </ng-container>
 
-            <td>{{ fhiAdmin.timeOfCreation | date:'medium' }}</td>
+            <td>{{ fhiAdmin.createdTime | date:'medium' }}</td>
           
             <td class="text-end py-0 align-middle">
               <ng-container *ngIf="fhiAdmin.id == fhiAdminAsChanged?.id">

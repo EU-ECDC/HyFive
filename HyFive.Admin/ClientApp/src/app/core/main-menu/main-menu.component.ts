@@ -158,7 +158,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Health enterprise',
-        routerLink: `/${UrlPaths.healthcareEnterprise}`,
+        routerLink: `/${UrlPaths.healthcareOrganization}`,
         roles: [AuthorizedRole.Administrator]
       },
       {

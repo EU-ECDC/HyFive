@@ -103,7 +103,7 @@ export class CompliancePdfComponent {
 
     if (this.sessionType == SessionType.FourIndications) {
       url += 'fourindications';
-    } else if (this.sessionType == SessionType.Handjewelry) {
+    } else if (this.sessionType == SessionType.HandJewelry) {
       url += 'handjewelry';
     }
 

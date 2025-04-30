@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProtectiveEquipmentType } from "src/app/models/api/ProtectiveEquipmentType";
+import { ProtectiveEquipmentSettingType } from "src/app/models/api/ProtectiveEquipmentSettingType";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -11,13 +11,13 @@ import { environment } from "src/environments/environment";
 export class ProtectiveEquipmentSettingTypesService {
   constructor(private httpClient: HttpClient) { }
 
-  getProtectiveEquipmentTypes(): Observable<ProtectiveEquipmentType[]> {
+  getProtectiveEquipmentSettingTypes(): Observable<ProtectiveEquipmentSettingType[]> {
     const url = `${environment.apiBaseUrl}/v1/protectiveequipmentsettingtypes`;
-    return this.httpClient.get<ProtectiveEquipmentType[]>(url);
+    return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
   }
 
-  updateProtectiveEquipmentSettingType(settingType: ProtectiveEquipmentType): Observable<ProtectiveEquipmentType> {
+  updateProtectiveEquipmentSettingType(settingType: ProtectiveEquipmentSettingType): Observable<ProtectiveEquipmentSettingType> {
     const url = `${environment.apiBaseUrl}/v1/protectiveequipmentsettingtypes/update`;
-    return this.httpClient.put<ProtectiveEquipmentType>(url, settingType);
+    return this.httpClient.put<ProtectiveEquipmentSettingType>(url, settingType);
   }
 }

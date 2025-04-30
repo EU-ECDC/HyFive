@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { TransferstatusTypeConstants } from '../../models/api/TransferstatusTypeConstants';
+import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
 import { ObservationService } from '../../services/data/observation.service';
@@ -24,7 +24,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   @Output() observationDeletedEvent = new EventEmitter();
 
   istransferToFhi = false;
-  transferstatusTypeConstants = TransferstatusTypeConstants;
+  transferstatusTypeConstants = TransferStatusTypeConstants;
   SessionType = SessionType;
 
   constructor(
@@ -41,7 +41,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   }
 
   isTransferToFhi(code) {
-    return code === TransferstatusTypeConstants.TransferToFhi;
+    return code === TransferStatusTypeConstants.TransferredToFhi;
   }
 
   transfer(sessionId, event) {
@@ -74,7 +74,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   getDeleteMessage(sessionOverviewReport: SessionOverviewReport) {
     return `You are about to delete session registered by ${sessionOverviewReport.observerName},
-    created ${this.datePipe.transform(sessionOverviewReport.timeOfCreation, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
+    created ${this.datePipe.transform(sessionOverviewReport.createdTime, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
     Are you sure you want to delete this session?`;
   }
 }

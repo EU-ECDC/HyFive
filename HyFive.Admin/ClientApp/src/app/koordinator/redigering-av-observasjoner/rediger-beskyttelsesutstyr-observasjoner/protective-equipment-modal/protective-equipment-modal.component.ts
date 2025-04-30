@@ -46,7 +46,7 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
 
   resetErrorAndMarkerUsed(selection: boolean) {
     this.selectedEquipment.wasUsed = true;
-    this.selectedEquipment.wasUsedProperly = selection;
+    this.selectedEquipment.wasUsedCorrectly = selection;
   }
 
   enableBackToCardOnError(misuse: MisuseType) {
@@ -62,10 +62,10 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   }
 
   canSave() : boolean {
-    return this.selectedEquipment.wasUsedProperly || this.hasRegisteredMisuseOrComment()
+    return this.selectedEquipment.wasUsedCorrectly || this.hasRegisteredMisuseOrComment()
   }
 
   hasRegisteredMisuseOrComment() : boolean {
-    return this.selectedEquipment.equipmentTypeq.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
+    return this.selectedEquipment.equipmentType.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
   }
 }

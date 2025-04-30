@@ -70,7 +70,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       email: '',
       hprNumber: null,
       identityPseudonym: null,
-      timeOfCreation: new Date(),
+      createdTime: new Date(),
       isDisabled: false,
     };
   }

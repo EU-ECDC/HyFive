@@ -4,9 +4,9 @@
 
 import { InstitutionReport } from './InstitutionReport';
 
-export interface CoordinatorForHealthcareEnterprises
+export interface CoordinatorForHealthcareOrganization
 {
-	timeOfCreation: any;
+	createdTime: any;
 	firstName: string;
 	lastName: string;
 	email: string;

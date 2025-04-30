@@ -2,7 +2,7 @@
   <div class="col-12 pb-2">
     <h4>[ Edit mode active ]</h4>
     <i>Observation: {{observationId}}</i><br/>
-    <i>Registered: {{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</i>
+    <i>Registered: {{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</i>
     <app-spinner *ngIf="observationLoading"></app-spinner>
   </div>
 </div>
@@ -30,7 +30,7 @@
                              class="hh-round-checkbox-list__circle"
                              [ngClass]="{ 'hh-round-checkbox-list__circle--chosen': choice.wasUsed, 'hh-round-checkbox-list__circle--active': true }"></fa-icon>
                     <fa-icon [icon]="iconTypeMap.get(choice.equipmentTypeq.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!choice.wasUsed"></fa-icon>
-                    <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': choice.wasUsedProperly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="choice.wasUsed"></fa-icon>
+                    <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': choice.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="choice.wasUsed"></fa-icon>
                   </fa-stack>
                   <br />
                   <span style="font-size: 17px;"><strong>{{ choice.equipmentTypeq.name }}</strong></span>
@@ -57,7 +57,7 @@
             <div class="btn-group btn-group-toggle">
               <label class="w-50" ngbButtonLabel>
                 <input type="checkbox" ngbButton [(ngModel)]="choice.wasUsed" (change)="changed($event, choice)">
-                <fa-icon class="mr-2" *ngIf="choice.wasUsed" [styles]="{ 'color': choice.wasUsedProperly ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
+                <fa-icon class="mr-2" *ngIf="choice.wasUsed" [styles]="{ 'color': choice.wasUsedCorrectly ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
                 <span style="font-size: 17px;"><strong>{{ choice.equipmentTypeq.name }}</strong></span>
               </label>
             </div>

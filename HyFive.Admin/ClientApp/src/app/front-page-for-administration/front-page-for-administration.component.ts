@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { LoggedinUser } from '../models/api/LoggedinUser';
+import { LoggedInUser } from '../models/api/LoggedInUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';
@@ -11,7 +11,7 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
   loading = true;
-  user: LoggedinUser = null;
+  user: LoggedInUser = null;
   faCopy = faCopy;
 
   constructor(

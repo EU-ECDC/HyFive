@@ -31,15 +31,15 @@
               </li>
             </ul>
           </td>
-          <td>{{observation.gloveObservation.usedGlove ? "Yes" : 'No'}}</td>
+          <td>{{observation.gloveObservation.gloveUsed ? "Yes" : 'No'}}</td>
           <td>
                   <span>
-                    {{ observation.gloveObservation.handhygieneAfterGloveuseType?.name
-                    ? observation.gloveObservation.handhygieneAfterGloveuseType?.name
+                    {{ observation.gloveObservation.postGloveHandHygieneType?.name
+                    ? observation.gloveObservation.postGloveHandHygieneType?.name
                     : ' '}}
                   </span>
           </td>
-          <td>{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
           <td>{{observation.comment}}</td>
         </tr>
         <ng-container *ngIf="gloveObservationAsChanged && gloveObservationAsChanged.id === observation.id">
@@ -89,8 +89,8 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="gloveused"
                        [disabled]="gloveWithIndicationsSelected == false"
-                       [checked]="gloveObservationAsChanged.usedGlove"
-                       (change)="gloveObservationAsChanged.usedGlove = !gloveObservationAsChanged.usedGlove"
+                       [checked]="gloveObservationAsChanged.gloveUsed"
+                       (change)="gloveObservationAsChanged.gloveUsed = !gloveObservationAsChanged.gloveUsed"
                        >
                 <label class="form-check-label" for="gloveused">
                   Glove used?
@@ -99,16 +99,16 @@
             </td>
             <td>
               
-              <div class="w-100" *ngIf="gloveObservationAsChanged.usedGlove">
+              <div class="w-100" *ngIf="gloveObservationAsChanged.gloveUsed">
                 <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
                   <input type="radio" class="btn-check fhi-btn-group__check" id="type-{{type.name}}" [value]="type.code" [(ngModel)]="selectedHygieneAfterGloveuseCode"> 
                   <label class="btn fhi-btn-group__btn" for="type-{{type.name}}">{{type.name}}</label>
                 </div>
               </div>
 
-              <div *ngIf="gloveObservationAsChanged.usedGlove == false"> </div>
+              <div *ngIf="gloveObservationAsChanged.gloveUsed == false"> </div>
             </td>
-            <td>{{gloveObservationAsChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{gloveObservationAsChanged.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
             <td>
               <textarea style="width: 12rem;" [(ngModel)]="gloveObservationAsChanged.comment" (ngModelChange)="changeComment($event)">{{gloveObservationAsChanged.comment}}</textarea>
             </td>

@@ -24,8 +24,8 @@
                   {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
                   <ul>
                     <li>
-                      {{ bu.wasUsedProperly ? 'Used correctly' : 'Used incorrectly' }}
-                      <ng-container *ngIf="!bu.wasUsedProperly">
+                      {{ bu.wasUsedCorrectly ? 'Used correctly' : 'Used incorrectly' }}
+                      <ng-container *ngIf="!bu.wasUsedCorrectly">
                         <ul>
                           <li *ngFor="let fbt of bu.misuseTypes">{{fbt}}</li>
                           <li *ngIf="bu.comment">Comment: {{bu.comment}}</li>
@@ -46,7 +46,7 @@
               </ng-container>
             </ul>
           </td>
-          <td>{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
           <td>{{observation.comment}}</td>
         </tr>
         <ng-container *ngIf="protectiveEquipmentObservationAsChanged?.id === observation.id">

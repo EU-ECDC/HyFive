@@ -33,7 +33,7 @@
             <tr *ngFor="let request of requests">
               <td>{{request.userFirstName}}</td>
               <td>{{request.userLastName}} </td>
-              <td>{{request.timeOfCreation | date:'dd.MM.yyyy HH:mm'}}</td>
+              <td>{{request.createdTime | date:'dd.MM.yyyy HH:mm'}}</td>
               <td class="text-end py-2 align-middle">
                 <div *ngIf="request.status == requestStatus.Registered">
                   <button class="btn fhi-btn-icon mx-2" (click)="approveRequest(request.id)">

@@ -9,5 +9,5 @@ export class ComplianceHandJewelryPdfComponent {
   constructor(
     ) { }
 
-  sessionType = SessionType.Handjewelry;
+  sessionType = SessionType.HandJewelry;
 }

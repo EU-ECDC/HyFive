@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../_felles/services/authorization.service';
-import { LoggedinUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
@@ -13,7 +13,7 @@ import { InstitutionForCoordinatorEventService } from '../../services/events/ins
 })
 export class ChangeInstitutionComponent implements OnInit {
 
-  user: LoggedinUser = null;
+  user: LoggedInUser = null;
   roles: string;
   faUser = faUser;
   selectedInstitution: InstitutionReport = null;
@@ -32,7 +32,7 @@ export class ChangeInstitutionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authorizationService.getUser().subscribe((user: LoggedinUser) => {
+    this.authorizationService.getUser().subscribe((user: LoggedInUser) => {
       this.user = user;
       let selectedRole = this.authorizationService.getSelectedRole();
       this.initialize(selectedRole);

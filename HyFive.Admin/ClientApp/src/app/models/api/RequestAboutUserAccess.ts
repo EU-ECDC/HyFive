@@ -11,6 +11,6 @@ export interface RequestAboutUserAccess
 	identityPseudonym: string;
 	hprNumber: string;
 	status: number;
-	timeOfCreation: any;
+	createdTime: any;
 	approvalDate: any;
 }

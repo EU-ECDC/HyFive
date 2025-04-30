@@ -23,7 +23,7 @@
     </div>
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>Registered</strong></div>
-      <span>{{item.timeOfCreation | date:'dd.MM.yyyy HH:mm' }}</span>
+      <span>{{item.createdTime | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>Overføringsstatus</strong></div>
@@ -48,7 +48,7 @@
     </div>
     <div class="col-12 col-md-2 mb-3">
       <div class="mb-2"><strong>Registered</strong></div>
-      <span>{{item.timeOfCreation | date:'dd.MM.yyyy HH:mm' }}</span>
+      <span>{{item.createdTime | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="!isTransferToFhi(item.transferStatus.code)">
       <div class="mb-2 me-2">
@@ -58,7 +58,7 @@
         </button>
       </div>
       <div>
-        <app-confirmation-dialog *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferToCoordinator"
+        <app-confirmation-dialog *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator"
                                 [buttonText]="'Slett sesjon'"
                                 (confirmEvent)="deleteSession(item)"
                                 [dialogMessage]="getDeleteMessage(item)"
@@ -69,7 +69,7 @@
 
     <div class="col-12 col-md-3 mb-3" *ngIf="isTransferToFhi(item.transferStatus.code)"></div>
     <div class="col-12 col-md-1 mb-3">
-      <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferToCoordinator" class="mt-2">
+      <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator" class="mt-2">
         <input type="checkbox" id="check" class="form-check-input" (click)="selectOverToFhi(item.id, $event)" [(ngModel)]="item.isSelected">
         <label class="ms-2" for="check">Velg</label>
       </div>
@@ -97,8 +97,8 @@
                                                    [observations]="item.observations"
                                                    [sessionId]="item.id"></app-edit-four-indications-observations>
     </ng-container>
-    <!-- Handjewelry -->
-    <ng-container *ngIf="item.type === SessionType[SessionType.Handjewelry]">
+    <!-- HandJewelry -->
+    <ng-container *ngIf="item.type === SessionType[SessionType.HandJewelry]">
       <app-edit-handjewelry-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                             [sessionId]="item.id"
                                             [observations]="item.observations"

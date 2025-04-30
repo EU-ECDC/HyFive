@@ -38,7 +38,7 @@
               <td>{{institution.name}}</td>
               <td>{{institution.abbreviation}}</td>
               <td>{{institution.institutiontype?.name}}</td>
-              <td>{{ institution.healthcareEnterprise?.name || institution.municipality?.name }}</td>
+              <td>{{ institution.healthcareOrganization?.name || institution.municipality?.name }}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="navigateToInstitution(institution.id)">
                     <i class="icon-pencil"></i><span class="btn__text">Edit</span>

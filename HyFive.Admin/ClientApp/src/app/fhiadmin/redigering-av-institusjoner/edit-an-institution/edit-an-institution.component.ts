@@ -4,8 +4,8 @@ import { Institution } from '../../../models/api/Institution';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_felles/konstanter/url-paths';
-import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
-import { HealthcareEnterpriseService } from 'src/app/services/data/healthcareEnterprise.service';
+import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
+import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
 import { Municipality } from 'src/app/models/api/Municipality';
@@ -19,12 +19,12 @@ export class EditInstitutionComponent implements OnInit {
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private municipalityService: MunicipalityService,
-              private healthcareEnterpriseService: HealthcareEnterpriseService) { }
+              private healthcareOrganizationService: HealthcareOrganizationService) { }
 
   institution: Institution = null;
   institutionTypes: InstitutionType[] = [];
   institutiontypeId = 0;
-  listOfHealthcareEnterprises: HealthcareEnterprise[] = [];
+  listOfHealthcareOrganizations: HealthcareOrganization[] = [];
 
   municipality: Municipality = null;
   municipalities: Municipality[];
@@ -48,7 +48,7 @@ export class EditInstitutionComponent implements OnInit {
       this.institution = institution;
       this.institutiontypeId = institution.institutionType.id;
       this.municipalityId = institution.municipality?.id;
-      this.healthEnterpriseId = institution.healthcareEnterprise?.id;
+      this.healthEnterpriseId = institution.healthcareOrganization?.id;
       
       this.institutionService.getInstitutionTypes().subscribe((types) => {
         this.institutionTypes = types;
@@ -62,9 +62,9 @@ export class EditInstitutionComponent implements OnInit {
         this.municipalities = municipalities;
     });
 
-    this.healthcareEnterpriseService.getAllHealthcareEnterprises().subscribe(
+    this.healthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
       (allHealthcareEnterprise) => {
-        this.listOfHealthcareEnterprises = allHealthcareEnterprise;
+        this.listOfHealthcareOrganizations = allHealthcareEnterprise;
     });
   }
 
@@ -102,7 +102,7 @@ export class EditInstitutionComponent implements OnInit {
 
   healthEnterpriseChanged() {
     if (this.healthEnterpriseId) {
-      this.institution.healthcareEnterprise = this.listOfHealthcareEnterprises.find(r => r.id === this.healthEnterpriseId);
+      this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthEnterpriseId);
     }
   }
 

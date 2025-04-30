@@ -4,8 +4,8 @@ import { CreateInstitutionRequest } from '../../../models/api/CreateInstitutionR
 import { InstitutionService } from '../../../services/data/institution.service';
 import { ToastrService } from 'ngx-toastr';
 import { Institution } from '../../../models/api/Institution';
-import { HealthcareEnterprise } from 'src/app/models/api/HealthcareEnterprise';
-import { HealthcareEnterpriseService } from 'src/app/services/data/healthcareEnterprise.service';
+import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
+import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
@@ -19,8 +19,8 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   institutionTypes: InstitutionType[] = [];
   newInstitution: CreateInstitutionRequest = null;
   municipalities: Municipality[] = [];
-  listOfHealthcareEnterprises: HealthcareEnterprise[] = [];
-  showHealthcareEnterprise: boolean = false;
+  listOfHealthcareOrganizations: HealthcareOrganization[] = [];
+  showHealthcareOrganization: boolean = false;
   showMunicipality: boolean = false;
 
   @Output() institutionCreatedEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
@@ -28,7 +28,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private municipalityService: MunicipalityService, 
-              private healthcareEnterpriseService: HealthcareEnterpriseService) { }
+              private healthcareOrganizationService: HealthcareOrganizationService) { }
 
   ngOnInit(): void {
     this.institutionService.getInstitutionTypes().subscribe((result) => {
@@ -42,9 +42,9 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.healthcareEnterpriseService.getAllHealthcareEnterprises().subscribe(
-      (allHealthcareEnterprise) => {
-        this.listOfHealthcareEnterprises = allHealthcareEnterprise;
+    this.healthcareOrganizationService.getAllHealthcareEnterprises().subscribe(
+      (allHealthcareOrganization) => {
+        this.listOfHealthcareOrganizations = allHealthcareOrganization;
       }
     );
   }
@@ -76,16 +76,16 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
     return {
       institutionName: null,
       institutionTypeId: defaultInstitutionType.id,
-      coordinatorLastname: null,
-      coordinatorFirstname: null,
-      coordinatorHPRnumber: null,
+      coordinatorLastName: null,
+      coordinatorFirstName: null,
+      coordinatorHPRNumber: null,
       coordinatorEmail: null,
       coordinatorPseudonym: null,
       herId: null,
       abbreviation: null,
       regionId: 0,
       municipalityId: 0,
-      healthEnterpriseId: 0
+      healthcareOrganizationId: 0
     };    
   }
 
@@ -95,26 +95,26 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
 
   canCreateInstitution(): boolean{
     return this.newInstitution?.institutionName?.length > 0
-      && this.newInstitution?.coordinatorHPRnumber?.length > 0
-      && this.newInstitution?.coordinatorFirstname?.length > 0
-      && this.newInstitution?.coordinatorLastname?.length > 0;
+      && this.newInstitution?.coordinatorHPRNumber?.length > 0
+      && this.newInstitution?.coordinatorFirstName?.length > 0
+      && this.newInstitution?.coordinatorLastName?.length > 0;
   }
 
   showHealthcareOrRegion(institutionTypeId: number) {
     var selectedInstitutiontype = this.institutionTypes.find(i => i.id === institutionTypeId);
     if(selectedInstitutiontype.code === InstitutionTypeConstants.Hospital)
     {
-      this.showHealthcareEnterprise = true;
+      this.showHealthcareOrganization = true;
       this.showMunicipality = false;
     }
     else if(selectedInstitutiontype.code === InstitutionTypeConstants.NursingHome)
     {
       this.showMunicipality = true;
-      this.showHealthcareEnterprise = false;
+      this.showHealthcareOrganization = false;
     }
     else
     {
-      this.showHealthcareEnterprise = false;
+      this.showHealthcareOrganization = false;
       this.showMunicipality = false;
     }
   }

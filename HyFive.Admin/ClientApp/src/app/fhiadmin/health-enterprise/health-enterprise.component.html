@@ -23,26 +23,26 @@
             <thead>
               <tr>
                 <th sortable-column="Name"></th>
-                <th sortable-column="Regional healthcareEnterprise"></th>
+                <th sortable-column="Regional healthcareOrganization"></th>
                 <th class="text-end" scope="col">Action</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr *ngFor="let healthcareEnterprise of listOfHealthcareEnterpises">
+              <tr *ngFor="let healthcareOrganization of listOfHealthcareEnterpises">
                
-                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id != healthcareEnterprise.id">
-                  <td>{{healthcareEnterprise.name}}</td>
-                  <td>{{healthcareEnterprise.regionalHealthcareEnterprise?.name}}</td>
+                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id != healthcareOrganization.id">
+                  <td>{{healthcareOrganization.name}}</td>
+                  <td>{{healthcareOrganization.regionalHealthcareEnterprise?.name}}</td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareEnterpriseAsChanged(healthcareEnterprise)">
+                    <button class="btn fhi-btn-icon" (click)="selectedHealthcareEnterpriseAsChanged(healthcareOrganization)">
                       <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                     </button>
                   </td>
                    
                 </ng-container>
 
-                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id == healthcareEnterprise.id">
+                <ng-container *ngIf="healthcareEnterpriseAsChanged?.id == healthcareOrganization.id">
                   <td class="col-4"><input type="text" class="form-control" [(ngModel)]="healthcareEnterpriseAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
                     <select class="form-select" [(ngModel)]="healthcareEnterpriseAsChanged.regionalHealthcareEnterpriseId">

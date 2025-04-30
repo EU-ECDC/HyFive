@@ -15,12 +15,12 @@
             <td>{{observation.role.name}}</td>
             <td>
               <ul style="padding-left: 20px;">
-                <li *ngFor="let ht of observation.typesOfHandJewelry">
+                <li *ngFor="let ht of observation.handJewelryTypes">
                   {{ht.name}}
                 </li>
               </ul>
             </td>
-            <td>{{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
             <td>{{observation.comment}}</td>
           </tr>
           <ng-container *ngIf="handjewelryObservationAsChanged && handjewelryObservationAsChanged.id === observation.id">
@@ -43,7 +43,7 @@
                 </ul>
               </td>
               <td>
-                {{handjewelryObservationAsChanged.registrationTime | date:'dd.MM.yyyy HH:mm' }}
+                {{handjewelryObservationAsChanged.registeredTime | date:'dd.MM.yyyy HH:mm' }}
               </td>
               <td>
                 <textarea style="width: 12rem;" [(ngModel)]="handjewelryObservationAsChanged.comment" (ngModelChange)="changeComment($event)">{{handjewelryObservationAsChanged.comment}}</textarea>
