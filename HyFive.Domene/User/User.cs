@@ -7,7 +7,7 @@ namespace HyFive.Domain.User
     {
         public User()
         {
-            IsDisabled = false;
+            IsDeactivated = false;
             CreatedTime = DateTime.Now;
         }
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace HyFive.Domain.User
         public string LastName { get; set; }
         public string Email { get; set; }
         public string IdentityPseudonym { get; set; }
-        public bool IsDisabled { get; set; }
+        public bool IsDeactivated { get; set; }
         public string Discriminator { get; set; }
         public string HPRNumber { get; set; }
     }

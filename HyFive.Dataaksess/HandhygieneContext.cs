@@ -25,7 +25,7 @@ namespace HyFive.DataAccess
         public DbSet<Observer> Observer { get; set; }
         public DbSet<FhiAdmin> FhiAdmin { get; set; }
         public DbSet<UserAccessRequest> UserAccessRequest { get; set; }
-        public DbSet<TransmissionStatusType> TransmissionStatusType { get; set; }
+        public DbSet<TransferStatusType> TransferStatusType { get; set; }
         public DbSet<Institution> Institution { get; set; }
         public DbSet<InstitutionType> InstitutionType { get; set; }
         public DbSet<DepartmentType> SectionType { get; set; }
@@ -78,10 +78,10 @@ namespace HyFive.DataAccess
             mb.Entity<IndicationTypes>().HasIndex(it => it.Name);
             mb.Entity<IndicationTypes>().Property(it => it.Number).HasMaxLength(2);
 
-            mb.Entity<TransmissionStatusType>().Property(ost => ost.Name).HasMaxLength(50);
-            mb.Entity<TransmissionStatusType>().HasIndex(ost => ost.Name);
-            mb.Entity<TransmissionStatusType>().Property(ost => ost.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<TransmissionStatusType>().HasIndex(ost => ost.Code).IsUnique();
+            mb.Entity<TransferStatusType>().Property(ost => ost.Name).HasMaxLength(50);
+            mb.Entity<TransferStatusType>().HasIndex(ost => ost.Name);
+            mb.Entity<TransferStatusType>().Property(ost => ost.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<TransferStatusType>().HasIndex(ost => ost.Code).IsUnique();
 
             mb.Entity<Role>().Property(r => r.Name).HasMaxLength(50);
             mb.Entity<Role>().Property(r => r.Description).HasMaxLength(250);

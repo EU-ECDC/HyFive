@@ -46,7 +46,7 @@ namespace HyFive.Services.Institution
                     .Include(i => i.PredefinedComments)
                     .Include(i => i.InstitutionType)
                     .Where(i => i.Users
-                        .Where(b => b.IsDisabled == false
+                        .Where(b => b.IsDeactivated == false
                                     && ((HasHprNumber(request.CoordinatorHprNumber) && b.HPRNumber == request.CoordinatorHprNumber) ||
                                         (HasIdentityPseudonym(request.CoordinatorPseudonym) && b.IdentityPseudonym == request.CoordinatorPseudonym)))
                         .Any(b => b.Discriminator == nameof(Coordinator))

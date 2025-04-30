@@ -181,7 +181,7 @@ namespace HyFive.Services.Authentication.User
 
         public Expression<Func<TUser, bool>> HasHprOrPseudonymAndIsActive<TUser>(string hrpNumber, string identPseudonym) where TUser : Domain.User.User
         {
-            return b => ((!string.IsNullOrEmpty(hrpNumber) && b.HPRNumber == hrpNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) &&  b.IdentityPseudonym == identPseudonym)) && b.IsDisabled == false;
+            return b => ((!string.IsNullOrEmpty(hrpNumber) && b.HPRNumber == hrpNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) &&  b.IdentityPseudonym == identPseudonym)) && b.IsDeactivated == false;
         }
 
         private bool IsRole<TRole>(string hrpNumber, string pseudonym) where TRole : Domain.User.User

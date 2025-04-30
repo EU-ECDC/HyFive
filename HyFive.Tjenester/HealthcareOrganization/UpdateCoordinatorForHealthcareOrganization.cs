@@ -98,8 +98,8 @@ namespace HyFive.Services.HealthcareOrganization
                     var coordinator = GetCoordinator(institutionId, coordinatorForHealthcareOrganization.HPRNumber, coordinatorForHealthcareOrganization.IdentityPseudonym);
                     if (coordinator != null)
                     {
-                        if (coordinator.IsDisabled)
-                            coordinator.IsDisabled = false;
+                        if (coordinator.IsDeactivated)
+                            coordinator.IsDeactivated = false;
                     }
                     else
                     {
@@ -118,7 +118,7 @@ namespace HyFive.Services.HealthcareOrganization
                     coordinator.Email = coordinatorForHealthcareOrganization.Email;
                     coordinator.HPRNumber = coordinatorForHealthcareOrganization.ModifiedHPRNumber;
                     coordinator.IdentityPseudonym = coordinatorForHealthcareOrganization.ModifiedPseudonym;
-                    coordinator.IsDisabled = coordinatorForHealthcareOrganization.IsDisabled;
+                    coordinator.IsDeactivated = coordinatorForHealthcareOrganization.IsDisabled;
                 }
             }
 
@@ -149,7 +149,7 @@ namespace HyFive.Services.HealthcareOrganization
             {
                 var coordinatorsNotInList = coordinators.Where(k => !institutionIds.Contains(k.Id));
 
-                coordinatorsNotInList.All(k => k.IsDisabled = true);
+                coordinatorsNotInList.All(k => k.IsDeactivated = true);
             }
 
             private Coordinator GetCoordinator(int institutionId, string hprNumber, string identityPseudonym)

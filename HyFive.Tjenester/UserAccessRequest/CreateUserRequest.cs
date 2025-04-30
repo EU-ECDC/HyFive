@@ -72,7 +72,7 @@ namespace HyFive.Services.UserAccessRequest
                     HPRNumber = request.HPRNumber,
                     IdentityPseudonym = request.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,
-                    IsDisabled = false,
+                    IsDeactivated = false,
                 };
                 _context.User.Add(observer);
             }

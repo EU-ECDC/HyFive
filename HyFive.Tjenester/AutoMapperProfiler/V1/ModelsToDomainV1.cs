@@ -64,7 +64,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .None);
             CreateMap<Models.V1.Observation.Gloves.PostGloveHandHygieneType, PostGloveHandHygiene>(
                 MemberList.None);
-            CreateMap<Models.V1.Overview.TransferStatusType, TransmissionStatusType>(MemberList.None);
+            CreateMap<Models.V1.Overview.TransferStatusType, TransferStatusType>(MemberList.None);
         }
     }
 }

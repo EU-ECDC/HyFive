@@ -60,7 +60,7 @@ namespace HyFive.Services.UserServices
                 user.FirstName = command.User.FirstName;
                 user.LastName = command.User.LastName;
                 user.IdentityPseudonym = command.User.IdentityPseudonym;
-                user.IsDisabled = command.User.IsDisabled;
+                user.IsDeactivated = command.User.IsDisabled;
 
                 _context.User.Update(user);
                 await _context.SaveChangesAsync();

@@ -49,7 +49,7 @@ namespace HyFive.Services.User
                     HPRNumber = command.User.HPRNumber,
                     IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.Now,
-                    IsDisabled = false
+                    IsDeactivated = false
                 };
                 _context.User.Add(observer);
                 await _context.SaveChangesAsync();

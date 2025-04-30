@@ -44,8 +44,8 @@ namespace HyFive.Services.HealthcareOrganization
                         var coordinator = GetCoordinator(institutionId, command.Coordinator.HPRNumber, command.Coordinator.IdentityPseudonym);
                         if (coordinator != null)
                         {
-                            if (coordinator.IsDisabled)
-                                coordinator.IsDisabled = false;
+                            if (coordinator.IsDeactivated)
+                                coordinator.IsDeactivated = false;
                         }
                         else
                         {

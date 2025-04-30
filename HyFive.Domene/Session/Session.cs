@@ -14,6 +14,6 @@ namespace HyFive.Domain.Session
         public Observer Observer { get; set; }
         public string Comment { get; set; }
         public string Discriminator { get; set; }
-        public TransmissionStatusType TransmissionStatus { get; set; }
+        public TransferStatusType TransmissionStatus { get; set; }
     }
 }

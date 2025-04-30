@@ -79,23 +79,23 @@ namespace HyFive.Services.Seed
 
             private void SeedTransferStatusTypes()
             {
-                if (_context.TransmissionStatusType.Any())
+                if (_context.TransferStatusType.Any())
                     return;
 
                 var transferStatuses = new[]
                 {
-                    new TransmissionStatusType
+                    new TransferStatusType
                     {
                         Code = TransferStatusTypeConstants.TransferredToCoordinator,
                         Name = "Transferred To Coordinator"
                     },
-                    new TransmissionStatusType
+                    new TransferStatusType
                     {
                         Code = TransferStatusTypeConstants.TransferredToFhi,
                         Name = "Transferred To FHI"
                     }
                 };
-                _context.TransmissionStatusType.AddRange(transferStatuses);
+                _context.TransferStatusType.AddRange(transferStatuses);
                 _context.SaveChanges();
             }
 

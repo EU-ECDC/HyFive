@@ -83,7 +83,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     ProtectiveEquipmentObservationValidator.ValidateObservasjon(observation);
                 }
 
-                var transferStatuses = _context.TransmissionStatusType.ToList();
+                var transferStatuses = _context.TransferStatusType.ToList();
                 session.TransmissionStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 

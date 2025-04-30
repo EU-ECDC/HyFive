@@ -1690,11 +1690,37 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )"
         }
       },
+      "hyfive.dataaksess": {
+        "type": "Project",
+        "dependencies": {
+          "HyFive.Domene": "[1.0.0, )",
+          "Microsoft.EntityFrameworkCore": "[8.0.12, )",
+          "Microsoft.Extensions.Configuration": "[9.0.3, )",
+          "Microsoft.Extensions.Configuration.FileExtensions": "[9.0.3, )",
+          "Microsoft.Extensions.Configuration.Json": "[9.0.3, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )"
+        }
+      },
       "hyfive.domain": {
         "type": "Project",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "[8.0.12, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )"
+        }
+      },
+      "hyfive.domene": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[8.0.12, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )"
+        }
+      },
+      "hyfive.modeller": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[8.0.12, )",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[8.0.11, )",
+          "Reinforced.Typings": "[1.6.3, )"
         }
       },
       "hyfive.models": {
@@ -1732,6 +1758,25 @@
           "HyFive.Services": "[1.0.0, )",
           "MediatR": "[12.4.1, )",
           "iTextSharp.LGPLv2.Core": "[3.4.22, )"
+        }
+      },
+      "hyfive.tjenester": {
+        "type": "Project",
+        "dependencies": {
+          "AutoMapper": "[13.0.1, )",
+          "HyFive.Dataaksess": "[1.0.0, )",
+          "HyFive.Modeller": "[1.0.0, )",
+          "HyFive.Tjenester.Autentisering": "[1.0.0, )",
+          "MediatR": "[12.4.1, )"
+        }
+      },
+      "hyfive.tjenester.autentisering": {
+        "type": "Project",
+        "dependencies": {
+          "Fhi.HelseId.Web": "[7.0.1, )",
+          "HyFive.Dataaksess": "[1.0.0, )",
+          "HyFive.Modeller": "[1.0.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[8.0.2, )"
         }
       }
     }

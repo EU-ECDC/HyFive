@@ -50,7 +50,7 @@ namespace HyFive.Services.User
                     HPRNumber = command.USer.HPRNumber,
                     IdentityPseudonym = command.USer.IdentityPseudonym,
                     CreatedTime = DateTime.Now,
-                    IsDisabled = false
+                    IsDeactivated = false
                 };
 
 
@@ -64,7 +64,7 @@ namespace HyFive.Services.User
                     HPRNumber = command.USer.HPRNumber,
                     IdentityPseudonym = command.USer.IdentityPseudonym,
                     CreatedTime = DateTime.Now,
-                    IsDisabled = false
+                    IsDeactivated = false
                 };
 
                 _context.User.Add(coordinator);

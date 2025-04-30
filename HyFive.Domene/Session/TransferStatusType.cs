@@ -2,7 +2,7 @@
 
 namespace HyFive.Domain.Session
 {
-    public class TransmissionStatusType
+    public class TransferStatusType
     {
         public int Id { get; set; }
         public string Code { get; set; }

@@ -39,7 +39,7 @@ namespace HyFive.Services.Session
                     .Include(s => s.TransmissionStatus)
                     .FirstOrDefaultAsync(x => x.Id == request.SessionId);
 
-                var transferredToFHI = await _context.TransmissionStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
+                var transferredToFHI = await _context.TransferStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 session.TransmissionStatus = transferredToFHI;
 

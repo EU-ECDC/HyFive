@@ -142,7 +142,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.GloveObservation,
                     opt => opt.MapFrom(src => src));
 
-            CreateMap<Domain.Session.TransmissionStatusType, TransferStatusType>(MemberList.None);
+            CreateMap<Domain.Session.TransferStatusType, TransferStatusType>(MemberList.None);
 
             CreateMap<Domain.Place.PredefinedComments, Models.V1.Institution.PredefinedComment>(MemberList.None);
 

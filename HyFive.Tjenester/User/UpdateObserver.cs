@@ -42,7 +42,7 @@ namespace HyFive.Services.User
                 user.Email = command.User.Email;
                 user.HPRNumber = command.User.HPRNumber;
                 user.IdentityPseudonym = command.User.IdentityPseudonym;
-                user.IsDisabled = command.User.IsDisabled;
+                user.IsDeactivated = command.User.IsDisabled;
                 _context.User.Update(user);
                 
                 await _context.SaveChangesAsync();

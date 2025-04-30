@@ -149,7 +149,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
                 Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.User.IdentityPseudonym));
                 Assert.That(oppdatertFhiAdminFraDatabase.FirstName, Is.EqualTo(command.User.FirstName));
                 Assert.That(oppdatertFhiAdminFraDatabase.LastName, Is.EqualTo(command.User.LastName));
-                Assert.That(oppdatertFhiAdminFraDatabase.IsDisabled, Is.EqualTo(command.User.IsDisabled));
+                Assert.That(oppdatertFhiAdminFraDatabase.IsDeactivated, Is.EqualTo(command.User.IsDisabled));
             });
         }
 

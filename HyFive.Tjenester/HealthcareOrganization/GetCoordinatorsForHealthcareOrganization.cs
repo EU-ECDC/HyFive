@@ -100,7 +100,7 @@ namespace HyFive.Services.HealthcareOrganization
                     .Include(b => b.Institution)
                         .ThenInclude(i => i.InstitutionType)
                     .Where(b => b.Institution.HealthcareOrganization.Id == healthcareOrganizationId &&
-                                b.IsDisabled == false)
+                                b.IsDeactivated == false)
                     .OrderBy(b => b.LastName)
                     .ToList();
             }
