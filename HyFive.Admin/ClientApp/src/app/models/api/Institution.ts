@@ -20,4 +20,5 @@ export interface Institution
 	municipality: Municipality;
 	hasObservations: boolean;
 	healthcareOrganization: HealthcareOrganization;
+	
 }
