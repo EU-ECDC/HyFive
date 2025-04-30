@@ -17,7 +17,7 @@ namespace HyFive.Models.V1.Overview
         public List<IndicationType> IndicationTypes { get; set; }
         public Activity Activity { get; set; }
         public List<HandJewelryType> HandJewelryTypes { get; set; }
-        public string PPEConfigurationTypes { get; set; }
+        public string ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes { get; set; }
         public List<ProtectiveEquipmentOverviewReport> ProtectiveEquipment { get; set; }
         public GloveObservation GloveObservation { get; set; }
         public ProtectiveEquipmentObservation ProtectiveEquipmentObservation { get; set; }

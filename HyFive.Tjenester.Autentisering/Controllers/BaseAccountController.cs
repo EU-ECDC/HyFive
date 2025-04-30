@@ -17,10 +17,10 @@ namespace HyFive.Services.Authentication.Controllers
     {
         private readonly IUserService _userService;
         private RedirectPagesKonfigurasjon _redirectConfiguration{ get; }
-        private HandHygieneHealthIdConfiguration healthIdConfiguration { get; }
+        private HandhygieneHelseIdKonfigurasjon healthIdConfiguration { get; }
 
         protected BaseAccountController(IUserService userService, 
-            IOptions<HandHygieneHealthIdConfiguration> HandHygieneConfiguration, 
+            IOptions<HandhygieneHelseIdKonfigurasjon> HandHygieneConfiguration, 
             IOptions<RedirectPagesKonfigurasjon> redirectConfiguration)
         {
             _userService = userService;

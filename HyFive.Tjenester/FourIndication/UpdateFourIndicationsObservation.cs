@@ -56,7 +56,7 @@ namespace HyFive.Services.FourIndication
 
                 try
                 {
-                    var indicationTypesFromRequest = _context.IndicationType.Where(i => request.Observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    var indicationTypesFromRequest = _context.IndicationTypes.Where(i => request.Observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
                     observation.IndicationTypes = indicationTypesFromRequest;
 
                     var activityTypeFromRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observation.Activity.ActivityType.Code);

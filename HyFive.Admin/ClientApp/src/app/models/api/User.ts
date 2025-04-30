@@ -6,7 +6,7 @@ export interface User
 {
 	id: number;
 	institutionId: number;
-	timeOfCreation: any;
+	createdTime: any;
 	firstName: string;
 	lastName: string;
 	email: string;

@@ -5,7 +5,7 @@
 export enum SessionType {
 	FourIndications = 1,
 	InOut = 2,
-	Handjewelry = 3,
+	HandJewelry = 3,
 	Gloves = 4,
 	ProtectiveEquipment = 5,
 	NotSelected = 6

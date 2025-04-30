@@ -7,7 +7,7 @@ import { ActivityType } from './ActivityType';
 export interface Activity
 {
 	activityType: ActivityType;
-	secondsUsed?: number;
-	timekeepingWasRemoved: boolean;
-	usedGlove?: boolean;
+	timeSpent?: number;
+	timeRecordingWasDone: boolean;
+	gloveUsed?: boolean;
 }

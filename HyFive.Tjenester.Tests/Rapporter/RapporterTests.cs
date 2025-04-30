@@ -48,7 +48,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
-        //        IndicationType = new List<IndicationType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
@@ -66,7 +66,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            TimeSpent = 4,
         //            TimeRecordingWasDone = false
         //        },
-        //        IndicationType = new List<IndicationType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)

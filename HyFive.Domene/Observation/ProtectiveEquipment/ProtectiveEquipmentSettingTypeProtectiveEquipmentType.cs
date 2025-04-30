@@ -2,7 +2,7 @@
 
 namespace HyFive.Domain.Observation.ProtectiveEquipment
 {
-    public class PPEConfigurationType
+    public class ProtectiveEquipmentSettingTypeProtectiveEquipmentType
     {
         public int ProtectiveEquipmentTypeId { get; set; }
         public ProtectiveEquipmentType ProtectiveEquipmentType { get; set; }

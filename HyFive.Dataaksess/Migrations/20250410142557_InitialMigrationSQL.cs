@@ -312,7 +312,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HealthEnterprise",
+                name: "HealthOrganization",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -322,9 +322,9 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HealthEnterprise", x => x.Id);
+                    table.PrimaryKey("PK_HealthOrganization", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HealthEnterprise_RegionalHealthAuthority_RegionalHealthAuth~",
+                        name: "FK_HealthOrganization_RegionalHealthAuthority_RegionalHealthAuth~",
                         column: x => x.RegionalHealthAuthorityId,
                         principalTable: "RegionalHealthAuthority",
                         principalColumn: "Id");
@@ -342,16 +342,16 @@ namespace HyFive.DataAccess.Migrations
                     Abbreviation = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     InstitutionTypeId = table.Column<int>(type: "integer", nullable: true),
                     RegionId = table.Column<int>(type: "integer", nullable: true),
-                    HealthEnterpriseId = table.Column<int>(type: "integer", nullable: true),
+                    HealthOrganizationId = table.Column<int>(type: "integer", nullable: true),
                     MunicipalityId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Institution", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Institution_HealthEnterprise_HealthEnterpriseId",
-                        column: x => x.HealthEnterpriseId,
-                        principalTable: "HealthEnterprise",
+                        name: "FK_Institution_HealthOrganization_HealthOrganizationId",
+                        column: x => x.HealthOrganizationId,
+                        principalTable: "HealthOrganization",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Institution_InstitutionType_InstitutionTypeId",
@@ -974,8 +974,8 @@ namespace HyFive.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HealthEnterprise_RegionalHealthAuthorityId",
-                table: "HealthEnterprise",
+                name: "IX_HealthOrganization_RegionalHealthAuthorityId",
+                table: "HealthOrganization",
                 column: "RegionalHealthAuthorityId");
 
             migrationBuilder.CreateIndex(
@@ -984,9 +984,9 @@ namespace HyFive.DataAccess.Migrations
                 column: "Abbreviation");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Institution_HealthEnterpriseId",
+                name: "IX_Institution_HealthOrganizationId",
                 table: "Institution",
-                column: "HealthEnterpriseId");
+                column: "HealthOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Institution_HERId",
@@ -1276,7 +1276,7 @@ namespace HyFive.DataAccess.Migrations
                 name: "Institution");
 
             migrationBuilder.DropTable(
-                name: "HealthEnterprise");
+                name: "HealthOrganization");
 
             migrationBuilder.DropTable(
                 name: "InstitutionType");

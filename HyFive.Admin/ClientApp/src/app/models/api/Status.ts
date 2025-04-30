@@ -4,6 +4,6 @@
 
 export interface Status
 {
-	suksess: boolean;
-	feilmelding: string;
+	success: boolean;
+	errorMessage: string;
 }

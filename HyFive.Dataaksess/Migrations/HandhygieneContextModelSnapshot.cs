@@ -22,112 +22,112 @@ namespace HyFive.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AvdelingKlinikk", b =>
+            modelBuilder.Entity("DepartmentClinic", b =>
                 {
-                    b.Property<int>("AvdelingerId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("KlinikkerId")
+                    b.Property<int>("ClinicId")
                         .HasColumnType("integer");
 
-                    b.HasKey("AvdelingerId", "KlinikkerId");
+                    b.HasKey("DepartmentId", "ClinicId");
 
-                    b.HasIndex("KlinikkerId");
+                    b.HasIndex("ClinicId");
 
-                    b.ToTable("AvdelingKlinikk");
+                    b.ToTable("DepartmentClinic");
                 });
 
-            modelBuilder.Entity("AvdelingRolle", b =>
+            modelBuilder.Entity("DepartmentRole", b =>
                 {
-                    b.Property<int>("AvdelingerId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RollerId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.HasKey("AvdelingerId", "RollerId");
+                    b.HasKey("DepartmentId", "RoleId");
 
-                    b.HasIndex("RollerId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("AvdelingRolle");
+                    b.ToTable("DepartmentRole");
                 });
 
-            modelBuilder.Entity("BeskyttelsesutstyrFeilbrukType", b =>
+            modelBuilder.Entity("ProtectiveEquipmentMisuseType", b =>
                 {
-                    b.Property<int>("BeskyttelsesutstyrId")
+                    b.Property<int>("ProtectiveEquipmentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("FeilbruktyperId")
+                    b.Property<int>("MisuseTypesId")
                         .HasColumnType("integer");
 
-                    b.HasKey("BeskyttelsesutstyrId", "FeilbruktyperId");
+                    b.HasKey("ProtectiveEquipmentId", "MisuseTypesId");
 
-                    b.HasIndex("FeilbruktyperId");
+                    b.HasIndex("MisuseTypesId");
 
-                    b.ToTable("BeskyttelsesutstyrFeilbrukType");
+                    b.ToTable("ProtectiveEquipmentMisuseType");
                 });
 
-            modelBuilder.Entity("FireIndikasjonerObservasjonIndikasjonType", b =>
+            modelBuilder.Entity("FourIndicationsObservationIndicationType", b =>
                 {
-                    b.Property<int>("IndikasjonstyperId")
+                    b.Property<int>("IndicationTypesId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ObservasjonerId")
+                    b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("IndikasjonstyperId", "ObservasjonerId");
+                    b.HasKey("IndicationTypesId", "ObservationsId");
 
-                    b.HasIndex("ObservasjonerId");
+                    b.HasIndex("ObservationsId");
 
-                    b.ToTable("FireIndikasjonerObservasjonIndikasjonType");
+                    b.ToTable("FourIndicationsObservationIndicationType");
                 });
 
-            modelBuilder.Entity("HandsmykkeObservasjonHandsmykkeType", b =>
+            modelBuilder.Entity("HandJewelryObservationHandJewelryType", b =>
                 {
-                    b.Property<int>("HandsmykkerId")
+                    b.Property<int>("HandJewelryId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ObservasjonerId")
+                    b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("HandsmykkerId", "ObservasjonerId");
+                    b.HasKey("HandJewelryId", "ObservationsId");
 
-                    b.HasIndex("ObservasjonerId");
+                    b.HasIndex("ObservationsId");
 
-                    b.ToTable("HandsmykkeObservasjonHandsmykkeType");
+                    b.ToTable("HandJewelryObservationHandJewelryType");
                 });
 
-            modelBuilder.Entity("HanskeMedIndikasjonTypeHanskeObservasjon", b =>
+            modelBuilder.Entity("GloveWithIndicationTypeGloveObservation", b =>
                 {
-                    b.Property<int>("HanskeMedIndikasjonTyperId")
+                    b.Property<int>("GloveWithIndicationTypesId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ObservasjonerId")
+                    b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("HanskeMedIndikasjonTyperId", "ObservasjonerId");
+                    b.HasKey("GloveWithIndicationTypesId", "ObservationsId");
 
-                    b.HasIndex("ObservasjonerId");
+                    b.HasIndex("ObservationsId");
 
-                    b.ToTable("HanskeMedIndikasjonTypeHanskeObservasjon");
+                    b.ToTable("GloveWithIndicationTypeGloveObservation");
                 });
 
-            modelBuilder.Entity("HanskeObservasjonHanskeUtenIndikasjonType", b =>
+            modelBuilder.Entity("GloveObservationWithoutIndicationType", b =>
                 {
-                    b.Property<int>("HanskeUtenIndikasjonTyperId")
+                    b.Property<int>("GloveWithoutIndicationTypesId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ObservasjonerId")
+                    b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("HanskeUtenIndikasjonTyperId", "ObservasjonerId");
+                    b.HasKey("GloveWithoutIndicationTypesId", "ObservationsId");
 
-                    b.HasIndex("ObservasjonerId");
+                    b.HasIndex("ObservationsId");
 
-                    b.ToTable("HanskeObservasjonHanskeUtenIndikasjonType");
+                    b.ToTable("GloveObservationWithoutIndicationType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Bruker", b =>
+            modelBuilder.Entity("HyFive.Domain.User.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,14 +140,14 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("character varying(13)");
 
-                    b.Property<string>("Epost")
+                    b.Property<string>("Email")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<bool>("ErDeaktivert")
+                    b.Property<bool>("IsDeactivated")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Etternavn")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
@@ -157,7 +157,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("HPRNummer")
+                    b.Property<string>("HPRNumber")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -168,25 +168,25 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("InstitutionId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HPRNummer");
+                    b.HasIndex("HPRNumber");
 
                     b.HasIndex("IdentityPseudonym");
 
                     b.HasIndex("InstitutionId");
 
-                    b.ToTable("Bruker");
+                    b.ToTable("User");
 
-                    b.HasDiscriminator().HasValue("Bruker");
+                    b.HasDiscriminator().HasValue("User");
 
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.ForesporselOmBrukertilgang", b =>
+            modelBuilder.Entity("HyFive.Domain.User.UserAccessRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,26 +194,26 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BehandletAvBrukerId")
+                    b.Property<int?>("ProcessedByUserId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("BehandletAvBrukernavn")
+                    b.Property<string>("ProcessedByUsername")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("BehandletTidspunkt")
+                    b.Property<DateTime?>("ProcessedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("BrukerEtternavn")
+                    b.Property<string>("UserLastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("BrukerFornavn")
+                    b.Property<string>("UserFirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("HPRNummer")
+                    b.Property<string>("HPRNumber")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -225,7 +225,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("InstitutionId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
@@ -235,10 +235,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("ForesporselOmBrukertilgang");
+                    b.ToTable("UserAccessRequest");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Aktivitet", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Activity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,26 +246,26 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AktivitetTypeId")
+                    b.Property<int?>("ActivityTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<bool?>("BenyttetHanske")
+                    b.Property<bool?>("UsedGloves")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("SekunderBrukt")
+                    b.Property<int>("SecondsUsed")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("TidtakingBleUtfort")
+                    b.Property<bool>("TimingWasPerformed")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AktivitetTypeId");
+                    b.HasIndex("ActivityTypeId");
 
-                    b.ToTable("Aktivitet");
+                    b.ToTable("Activity");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.AktivitetType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ActivityType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,10 +289,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AktivitetType");
+                    b.ToTable("ActivityType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.Beskyttelsesutstyr", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,74 +300,74 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid?>("BeskyttelsesutstyrObservasjonId")
+                    b.Property<Guid?>("ProtectiveEquipmentObservationId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("BleBenyttet")
+                    b.Property<bool>("WasUsed")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("BleBenyttetRiktig")
+                    b.Property<bool>("WasUsedCorrectly")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("ErIndikert")
+                    b.Property<bool>("IsIndicated")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<int?>("UtstyrstypeId")
+                    b.Property<int?>("EquipmentTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeskyttelsesutstyrObservasjonId");
+                    b.HasIndex("ProtectiveEquipmentObservationId");
 
-                    b.HasIndex("UtstyrstypeId");
+                    b.HasIndex("EquipmentTypeId");
 
-                    b.ToTable("Beskyttelsesutstyr");
+                    b.ToTable("ProtectiveEquipment");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BeskyttelsesutstyrSesjonId")
+                    b.Property<Guid?>("ProtectiveEquipmentSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("RolleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SettingtypeId")
+                    b.Property<int?>("SettingTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeskyttelsesutstyrSesjonId");
+                    b.HasIndex("ProtectiveEquipmentSessionId");
 
-                    b.HasIndex("Opprettettidspunkt");
+                    b.HasIndex("CreatedTime");
 
                     b.HasIndex("RegistrationTime");
 
-                    b.HasIndex("RolleId");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("SettingtypeId");
+                    b.HasIndex("SettingTypeId");
 
-                    b.ToTable("BeskyttelsesutstyrObservasjon");
+                    b.ToTable("ProtectiveEquipmentObservation");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -391,10 +391,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("BeskyttelsesutstyrType");
+                    b.ToTable("ProtectiveEquipmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -418,28 +418,28 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("BeskyttelsesutstyrsettingType");
+                    b.ToTable("ProtectiveEquipmentSettingType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingTypeProtectiveEquipmentType", b =>
                 {
-                    b.Property<int>("BeskyttelsesutstyrTypeId")
+                    b.Property<int>("ProtectiveEquipmentTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("BeskyttelsesutstyrsettingTypeId")
+                    b.Property<int>("ProtectiveEquipmentSettingTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("ErDefaultIndikert")
+                    b.Property<bool>("IsDefaultIndicated")
                         .HasColumnType("boolean");
 
-                    b.HasKey("BeskyttelsesutstyrTypeId", "BeskyttelsesutstyrsettingTypeId");
+                    b.HasKey("ProtectiveEquipmentTypeId", "ProtectiveEquipmentSettingTypeId");
 
-                    b.HasIndex("BeskyttelsesutstyrsettingTypeId");
+                    b.HasIndex("ProtectiveEquipmentSettingTypeId");
 
-                    b.ToTable("BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType");
+                    b.ToTable("ProtectiveEquipmentSettingTypeProtectiveEquipmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.FeilbrukType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.MisuseType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,7 +447,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BeskyttelsesutstyrTypeId")
+                    b.Property<int?>("ProtectiveEquipmentTypeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -456,88 +456,88 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeskyttelsesutstyrTypeId");
+                    b.HasIndex("ProtectiveEquipmentTypeId");
 
                     b.HasIndex("Name");
 
-                    b.ToTable("FeilbrukType");
+                    b.ToTable("MisuseType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.FireIndikasjonerObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.FourIndicationsObservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("AktivitetId")
+                    b.Property<int?>("ActivityId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("FireIndikasjonerSesjonId")
+                    b.Property<Guid?>("FourIndicationsSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("RolleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AktivitetId");
+                    b.HasIndex("ActivityId");
 
-                    b.HasIndex("FireIndikasjonerSesjonId");
+                    b.HasIndex("FourIndicationsSessionId");
 
-                    b.HasIndex("Opprettettidspunkt");
+                    b.HasIndex("CreatedTime");
 
                     b.HasIndex("RegistrationTime");
 
-                    b.HasIndex("RolleId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("FireIndikasjonerObservasjon");
+                    b.ToTable("FourIndicationsObservation");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.HandsmykkeObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.HandJewelryObservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("HandsmykkeSesjonId")
+                    b.Property<Guid?>("HandJewelrySessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("RolleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HandsmykkeSesjonId");
+                    b.HasIndex("HandJewelrySessionId");
 
-                    b.HasIndex("Opprettettidspunkt");
+                    b.HasIndex("CreatedTime");
 
                     b.HasIndex("RegistrationTime");
 
-                    b.HasIndex("RolleId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("HandsmykkeObservasjon");
+                    b.ToTable("HandJewelryObservation");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.HandsmykkeType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.HandJewelryType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -545,7 +545,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("ErAktiv")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Code")
@@ -557,7 +557,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("Rekkefolge")
+                    b.Property<int>("Sequence")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -565,10 +565,10 @@ namespace HyFive.DataAccess.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("HandsmykkeType");
+                    b.ToTable("HandJewelryType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HandhygieneEtterHanskebrukType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Gloves.HandHygieneAfterGloveUseType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -592,10 +592,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("HandhygieneEtterHanskebrukType");
+                    b.ToTable("HandHygieneAfterGloveUseType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HanskeMedIndikasjonType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Gloves.GloveWithIndicationType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -619,52 +619,52 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("HanskeMedIndikasjonType");
+                    b.ToTable("GloveWithIndicationType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HanskeObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Gloves.GloveObservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("BenyttetHanske")
+                    b.Property<bool>("UsedGloves")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("HandhygieneEtterHanskebrukTypeId")
+                    b.Property<int?>("HandHygieneAfterGloveUseTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("HanskeSesjonId")
+                    b.Property<Guid?>("GloveSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("RolleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HandhygieneEtterHanskebrukTypeId");
+                    b.HasIndex("HandHygieneAfterGloveUseTypeId");
 
-                    b.HasIndex("HanskeSesjonId");
+                    b.HasIndex("GloveSessionId");
 
-                    b.HasIndex("Opprettettidspunkt");
+                    b.HasIndex("CreatedTime");
 
                     b.HasIndex("RegistrationTime");
 
-                    b.HasIndex("RolleId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("HanskeObservasjon");
+                    b.ToTable("GloveObservation");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HanskeUtenIndikasjonType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Gloves.GloveWithoutIndicationType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -688,10 +688,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("HanskeUtenIndikasjonType");
+                    b.ToTable("GloveWithoutIndicationType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.IndikasjonType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.IndicationType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -708,7 +708,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Nummer")
+                    b.Property<string>("Number")
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)");
 
@@ -719,10 +719,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("IndikasjonType");
+                    b.ToTable("IndicationType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Role", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -730,7 +730,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Beskrivelse")
+                    b.Property<string>("Description")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -745,7 +745,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.OverforingstatusType", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.TransferStatusType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -769,10 +769,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("OverforingstatusType");
+                    b.ToTable("TransferStatusType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.Sesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -786,20 +786,20 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(34)
                         .HasColumnType("character varying(34)");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
                     b.Property<int?>("ObservatorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("OverforingstatusId")
+                    b.Property<int?>("TransferStatusTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Starttidspunkt")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -810,20 +810,20 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("ObservatorId");
 
-                    b.HasIndex("Opprettettidspunkt");
+                    b.HasIndex("CreatedTime");
 
-                    b.HasIndex("OverforingstatusId");
+                    b.HasIndex("TransferStatusTypeId");
 
-                    b.HasIndex("Starttidspunkt");
+                    b.HasIndex("StartTime");
 
-                    b.ToTable("Sesjon");
+                    b.ToTable("Session");
 
-                    b.HasDiscriminator().HasValue("Sesjon");
+                    b.HasDiscriminator().HasValue("Session");
 
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -831,7 +831,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AvdelingtypeId")
+                    b.Property<int?>("DepartmentTypeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("InstitutionId")
@@ -843,7 +843,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvdelingtypeId");
+                    b.HasIndex("DepartmentTypeId");
 
                     b.HasIndex("InstitutionId");
 
@@ -852,7 +852,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.AvdelingType", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.DepartmentType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -876,10 +876,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AvdelingType");
+                    b.ToTable("DepartmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Helseforetak", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.HealthOrganization", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -892,17 +892,17 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<int?>("RegionaltHelseforetakId")
+                    b.Property<int?>("RegionalHealthOrganizationId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RegionaltHelseforetakId");
+                    b.HasIndex("RegionalHealthOrganizationId");
 
-                    b.ToTable("Helseforetak");
+                    b.ToTable("HealthOrganization");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Institution", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -910,7 +910,7 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Forkortelse")
+                    b.Property<string>("Abbreviation")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -918,20 +918,20 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("HelseforetakId")
+                    b.Property<int?>("HealthOrganizationId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("InstitusjontypeId")
+                    b.Property<int?>("InstitutionTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("KommuneId")
+                    b.Property<int?>("MunicipalityId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<DateTime>("Opprettettidspunkt")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RegionId")
@@ -939,15 +939,15 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Forkortelse");
+                    b.HasIndex("Abbreviation");
 
                     b.HasIndex("HERId");
 
-                    b.HasIndex("HelseforetakId");
+                    b.HasIndex("HealthOrganizationId");
 
-                    b.HasIndex("InstitusjontypeId");
+                    b.HasIndex("InstitutionTypeId");
 
-                    b.HasIndex("KommuneId");
+                    b.HasIndex("MunicipalityId");
 
                     b.HasIndex("Name");
 
@@ -956,7 +956,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Institution");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.InstitusjonType", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.InstitutionType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -980,10 +980,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("InstitusjonType");
+                    b.ToTable("InstitutionType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Klinikk", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Clinic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1004,10 +1004,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Klinikk");
+                    b.ToTable("Clinic");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Municipality", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Municipality", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1019,7 +1019,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Nummer")
+                    b.Property<string>("Number")
                         .HasMaxLength(4)
                         .HasColumnType("character varying(4)");
 
@@ -1028,7 +1028,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Municipality");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.PredefinertKommentar", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1039,7 +1039,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int>("InstitutionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Kommentar")
+                    b.Property<string>("Comment")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
@@ -1050,10 +1050,10 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("InstitutionId");
 
-                    b.ToTable("PredefinertKommentar");
+                    b.ToTable("PredefinedComment");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Region", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1080,7 +1080,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Region");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.RegionaltHelseforetak", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.RegionalHealthOrganization", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1094,332 +1094,332 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RegionaltHelseforetak");
+                    b.ToTable("RegionalHealthOrganization");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.FhiAdmin", b =>
+            modelBuilder.Entity("HyFive.Domain.User.FhiAdmin", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Bruker.Bruker");
+                    b.HasBaseType("HyFive.Domain.User.User");
 
                     b.HasDiscriminator().HasValue("FhiAdmin");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Coordinator", b =>
+            modelBuilder.Entity("HyFive.Domain.User.Coordinator", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Bruker.Bruker");
+                    b.HasBaseType("HyFive.Domain.User.User");
 
                     b.HasDiscriminator().HasValue("Coordinator");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Observer", b =>
+            modelBuilder.Entity("HyFive.Domain.User.Observer", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Bruker.Bruker");
+                    b.HasBaseType("HyFive.Domain.User.User");
 
                     b.HasDiscriminator().HasValue("Observer");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.BeskyttelsesutstyrSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.ProtectiveEquipmentSession", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Sesjon.Sesjon");
+                    b.HasBaseType("HyFive.Domain.Session.Session");
 
-                    b.HasDiscriminator().HasValue("BeskyttelsesutstyrSesjon");
+                    b.HasDiscriminator().HasValue("ProtectiveEquipmentSession");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.FireIndikasjonerSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.FourIndicationsSession", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Sesjon.Sesjon");
+                    b.HasBaseType("HyFive.Domain.Session.Session");
 
-                    b.HasDiscriminator().HasValue("FireIndikasjonerSesjon");
+                    b.HasDiscriminator().HasValue("FourIndicationsSession");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.HandsmykkeSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.HandJewelrySession", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Sesjon.Sesjon");
+                    b.HasBaseType("HyFive.Domain.Session.Session");
 
-                    b.HasDiscriminator().HasValue("HandsmykkeSesjon");
+                    b.HasDiscriminator().HasValue("HandJewelrySession");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.GloveSession", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.GloveSession", b =>
                 {
-                    b.HasBaseType("HyFive.Domene.Sesjon.Sesjon");
+                    b.HasBaseType("HyFive.Domain.Session.Session");
 
                     b.HasDiscriminator().HasValue("GloveSession");
                 });
 
-            modelBuilder.Entity("AvdelingKlinikk", b =>
+            modelBuilder.Entity("DepartmentClinic", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Department", null)
+                    b.HasOne("HyFive.Domain.Place.Department", null)
                         .WithMany()
-                        .HasForeignKey("AvdelingerId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Sted.Klinikk", null)
+                    b.HasOne("HyFive.Domain.Place.Clinic", null)
                         .WithMany()
-                        .HasForeignKey("KlinikkerId")
+                        .HasForeignKey("ClinicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AvdelingRolle", b =>
+            modelBuilder.Entity("DepartmentRole", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Department", null)
+                    b.HasOne("HyFive.Domain.Place.Department", null)
                         .WithMany()
-                        .HasForeignKey("AvdelingerId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Role", null)
+                    b.HasOne("HyFive.Domain.Observation.Role", null)
                         .WithMany()
-                        .HasForeignKey("RollerId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BeskyttelsesutstyrFeilbrukType", b =>
+            modelBuilder.Entity("ProtectiveEquipmentMisuseType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.Beskyttelsesutstyr", null)
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipment", null)
                         .WithMany()
-                        .HasForeignKey("BeskyttelsesutstyrId")
+                        .HasForeignKey("ProtectiveEquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.FeilbrukType", null)
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.MisuseType", null)
                         .WithMany()
-                        .HasForeignKey("FeilbruktyperId")
+                        .HasForeignKey("MisuseTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FireIndikasjonerObservasjonIndikasjonType", b =>
+            modelBuilder.Entity("FourIndicationsObservationIndicationType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.IndikasjonType", null)
+                    b.HasOne("HyFive.Domain.Observation.IndicationType", null)
                         .WithMany()
-                        .HasForeignKey("IndikasjonstyperId")
+                        .HasForeignKey("IndicationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.FireIndikasjonerObservasjon", null)
+                    b.HasOne("HyFive.Domain.Observation.FourIndicationsObservation", null)
                         .WithMany()
-                        .HasForeignKey("ObservasjonerId")
+                        .HasForeignKey("ObservationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HandsmykkeObservasjonHandsmykkeType", b =>
+            modelBuilder.Entity("HandJewelryObservationHandJewelryType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.HandsmykkeType", null)
+                    b.HasOne("HyFive.Domain.Observation.HandJewelryType", null)
                         .WithMany()
-                        .HasForeignKey("HandsmykkerId")
+                        .HasForeignKey("HandJewelryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.HandsmykkeObservasjon", null)
+                    b.HasOne("HyFive.Domain.Observation.HandJewelryObservation", null)
                         .WithMany()
-                        .HasForeignKey("ObservasjonerId")
+                        .HasForeignKey("ObservationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HanskeMedIndikasjonTypeHanskeObservasjon", b =>
+            modelBuilder.Entity("GloveWithIndicationTypeGloveObservation", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Hansker.HanskeMedIndikasjonType", null)
+                    b.HasOne("HyFive.Domain.Observation.Gloves.GloveWithIndicationType", null)
                         .WithMany()
-                        .HasForeignKey("HanskeMedIndikasjonTyperId")
+                        .HasForeignKey("GloveWithIndicationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Hansker.HanskeObservasjon", null)
+                    b.HasOne("HyFive.Domain.Observation.Gloves.GloveObservation", null)
                         .WithMany()
-                        .HasForeignKey("ObservasjonerId")
+                        .HasForeignKey("ObservationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HanskeObservasjonHanskeUtenIndikasjonType", b =>
+            modelBuilder.Entity("GloveObservationWithoutIndicationType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Hansker.HanskeUtenIndikasjonType", null)
+                    b.HasOne("HyFive.Domain.Observation.Gloves.GloveWithoutIndicationType", null)
                         .WithMany()
-                        .HasForeignKey("HanskeUtenIndikasjonTyperId")
+                        .HasForeignKey("GloveWithoutIndicationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Hansker.HanskeObservasjon", null)
+                    b.HasOne("HyFive.Domain.Observation.Gloves.GloveObservation", null)
                         .WithMany()
-                        .HasForeignKey("ObservasjonerId")
+                        .HasForeignKey("ObservationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Bruker.Bruker", b =>
+            modelBuilder.Entity("HyFive.Domain.User.User", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
-                        .WithMany("Brukere")
+                    b.HasOne("HyFive.Domain.Place.Institution", "Institution")
+                        .WithMany("Users")
                         .HasForeignKey("InstitutionId");
 
                     b.Navigation("Institution");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Aktivitet", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Activity", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.AktivitetType", "AktivitetType")
+                    b.HasOne("HyFive.Domain.Observation.ActivityType", "ActivityType")
                         .WithMany()
-                        .HasForeignKey("AktivitetTypeId");
+                        .HasForeignKey("ActivityTypeId");
 
-                    b.Navigation("AktivitetType");
+                    b.Navigation("ActivityType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.Beskyttelsesutstyr", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipment", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrObservasjon", "BeskyttelsesutstyrObservasjon")
-                        .WithMany("Beskyttelsesutstyrliste")
-                        .HasForeignKey("BeskyttelsesutstyrObservasjonId");
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation", "ProtectiveEquipmentObservation")
+                        .WithMany("ProtectiveEquipmentList")
+                        .HasForeignKey("ProtectiveEquipmentObservationId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType", "Utstyrstype")
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", "Utstyrstype")
                         .WithMany()
-                        .HasForeignKey("UtstyrstypeId");
+                        .HasForeignKey("EquipmentTypeId");
 
-                    b.Navigation("BeskyttelsesutstyrObservasjon");
+                    b.Navigation("ProtectiveEquipmentObservation");
 
                     b.Navigation("Utstyrstype");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sesjon.BeskyttelsesutstyrSesjon", "BeskyttelsesutstyrSesjon")
-                        .WithMany("Observasjoner")
-                        .HasForeignKey("BeskyttelsesutstyrSesjonId");
+                    b.HasOne("HyFive.Domain.Session.ProtectiveEquipmentSession", "ProtectiveEquipmentSession")
+                        .WithMany("Observations")
+                        .HasForeignKey("ProtectiveEquipmentSessionId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
+                    b.HasOne("HyFive.Domain.Observation.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolleId");
+                        .HasForeignKey("RoleId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingType", "Settingtype")
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType", "Settingtype")
                         .WithMany()
-                        .HasForeignKey("SettingtypeId");
+                        .HasForeignKey("SettingTypeId");
 
-                    b.Navigation("BeskyttelsesutstyrSesjon");
+                    b.Navigation("ProtectiveEquipmentSession");
 
                     b.Navigation("Role");
 
                     b.Navigation("Settingtype");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingTypeProtectiveEquipmentType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType", "BeskyttelsesutstyrType")
-                        .WithMany("BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper")
-                        .HasForeignKey("BeskyttelsesutstyrTypeId")
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", "ProtectiveEquipmentType")
+                        .WithMany("ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes")
+                        .HasForeignKey("ProtectiveEquipmentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingType", "BeskyttelsesutstyrsettingType")
-                        .WithMany("BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper")
-                        .HasForeignKey("BeskyttelsesutstyrsettingTypeId")
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType", "ProtectiveEquipmentSettingType")
+                        .WithMany("ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes")
+                        .HasForeignKey("ProtectiveEquipmentSettingTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType_Beskyt~1");
+                        .HasConstraintName("FK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Beskyt~1");
 
-                    b.Navigation("BeskyttelsesutstyrType");
+                    b.Navigation("ProtectiveEquipmentType");
 
-                    b.Navigation("BeskyttelsesutstyrsettingType");
+                    b.Navigation("ProtectiveEquipmentSettingType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.FeilbrukType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.MisuseType", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType", "BeskyttelsesutstyrType")
-                        .WithMany("Feilbruktyper")
-                        .HasForeignKey("BeskyttelsesutstyrTypeId");
+                    b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", "ProtectiveEquipmentType")
+                        .WithMany("MisuseTypes")
+                        .HasForeignKey("ProtectiveEquipmentTypeId");
 
-                    b.Navigation("BeskyttelsesutstyrType");
+                    b.Navigation("ProtectiveEquipmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.FireIndikasjonerObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.FourIndicationsObservation", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Aktivitet", "Aktivitet")
+                    b.HasOne("HyFive.Domain.Observation.Activity", "Activity")
                         .WithMany()
-                        .HasForeignKey("AktivitetId");
+                        .HasForeignKey("ActivityId");
 
-                    b.HasOne("HyFive.Domene.Sesjon.FireIndikasjonerSesjon", "FireIndikasjonerSesjon")
-                        .WithMany("Observasjoner")
-                        .HasForeignKey("FireIndikasjonerSesjonId");
+                    b.HasOne("HyFive.Domain.Session.FourIndicationsSession", "FourIndicationsSession")
+                        .WithMany("Observations")
+                        .HasForeignKey("FourIndicationsSessionId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
+                    b.HasOne("HyFive.Domain.Observation.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolleId");
+                        .HasForeignKey("RoleId");
 
-                    b.Navigation("Aktivitet");
+                    b.Navigation("Activity");
 
-                    b.Navigation("FireIndikasjonerSesjon");
+                    b.Navigation("FourIndicationsSession");
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.HandsmykkeObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.HandJewelryObservation", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sesjon.HandsmykkeSesjon", "HandsmykkeSesjon")
-                        .WithMany("Observasjoner")
-                        .HasForeignKey("HandsmykkeSesjonId");
+                    b.HasOne("HyFive.Domain.Session.HandJewelrySession", "HandJewelrySession")
+                        .WithMany("Observations")
+                        .HasForeignKey("HandJewelrySessionId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
+                    b.HasOne("HyFive.Domain.Observation.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolleId");
+                        .HasForeignKey("RoleId");
 
-                    b.Navigation("HandsmykkeSesjon");
+                    b.Navigation("HandJewelrySession");
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Hansker.HanskeObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Gloves.GloveObservation", b =>
                 {
-                    b.HasOne("HyFive.Domene.Observasjon.Hansker.HandhygieneEtterHanskebrukType", "HandhygieneEtterHanskebrukType")
+                    b.HasOne("HyFive.Domain.Observation.Gloves.HandHygieneAfterGloveUseType", "HandHygieneAfterGloveUseType")
                         .WithMany()
-                        .HasForeignKey("HandhygieneEtterHanskebrukTypeId");
+                        .HasForeignKey("HandHygieneAfterGloveUseTypeId");
 
-                    b.HasOne("HyFive.Domene.Sesjon.GloveSession", "GloveSession")
-                        .WithMany("Observasjoner")
-                        .HasForeignKey("HanskeSesjonId");
+                    b.HasOne("HyFive.Domain.Session.GloveSession", "GloveSession")
+                        .WithMany("Observations")
+                        .HasForeignKey("GloveSessionId");
 
-                    b.HasOne("HyFive.Domene.Observasjon.Role", "Role")
+                    b.HasOne("HyFive.Domain.Observation.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolleId");
+                        .HasForeignKey("RoleId");
 
-                    b.Navigation("HandhygieneEtterHanskebrukType");
+                    b.Navigation("HandHygieneAfterGloveUseType");
 
                     b.Navigation("GloveSession");
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.Sesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Department", "Department")
-                        .WithMany("Sesjoner")
+                    b.HasOne("HyFive.Domain.Place.Department", "Department")
+                        .WithMany("Sessions")
                         .HasForeignKey("DepartmentId");
 
-                    b.HasOne("HyFive.Domene.Bruker.Observer", "Observer")
+                    b.HasOne("HyFive.Domain.User.Observer", "Observer")
                         .WithMany()
                         .HasForeignKey("ObservatorId");
 
-                    b.HasOne("HyFive.Domene.Sesjon.OverforingstatusType", "TransmissionStatus")
-                        .WithMany("Sesjoner")
-                        .HasForeignKey("OverforingstatusId");
+                    b.HasOne("HyFive.Domain.Session.TransferStatusType", "TransferStatus")
+                        .WithMany("Sessions")
+                        .HasForeignKey("TransferStatusTypeId");
 
                     b.Navigation("Department");
 
                     b.Navigation("Observer");
 
-                    b.Navigation("TransmissionStatus");
+                    b.Navigation("TransferStatus");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.AvdelingType", "DepartmentType")
+                    b.HasOne("HyFive.Domain.Place.DepartmentType", "DepartmentType")
                         .WithMany()
-                        .HasForeignKey("AvdelingtypeId");
+                        .HasForeignKey("DepartmentTypeId");
 
-                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
-                        .WithMany("Avdelinger")
+                    b.HasOne("HyFive.Domain.Place.Institution", "Institution")
+                        .WithMany("Departments")
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1429,116 +1429,116 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("Institution");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Helseforetak", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.HealthOrganization", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.RegionaltHelseforetak", "RegionaltHelseforetak")
+                    b.HasOne("HyFive.Domain.Place.RegionalHealthOrganization", "RegionalHealthOrganization")
                         .WithMany()
-                        .HasForeignKey("RegionaltHelseforetakId");
+                        .HasForeignKey("RegionalHealthOrganizationId");
 
-                    b.Navigation("RegionaltHelseforetak");
+                    b.Navigation("RegionalHealthOrganization");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Institution", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Helseforetak", "Helseforetak")
+                    b.HasOne("HyFive.Domain.Place.HealthOrganization", "HealthOrganization")
                         .WithMany()
-                        .HasForeignKey("HelseforetakId");
+                        .HasForeignKey("HealthOrganizationId");
 
-                    b.HasOne("HyFive.Domene.Sted.InstitusjonType", "Institusjontype")
+                    b.HasOne("HyFive.Domain.Place.InstitutionType", "InstitutionType")
                         .WithMany()
-                        .HasForeignKey("InstitusjontypeId");
+                        .HasForeignKey("InstitutionTypeId");
 
-                    b.HasOne("HyFive.Domene.Sted.Municipality", "Municipality")
+                    b.HasOne("HyFive.Domain.Place.Municipality", "Municipality")
                         .WithMany()
-                        .HasForeignKey("KommuneId");
+                        .HasForeignKey("MunicipalityId");
 
-                    b.HasOne("HyFive.Domene.Sted.Region", "Region")
+                    b.HasOne("HyFive.Domain.Place.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId");
 
-                    b.Navigation("Helseforetak");
+                    b.Navigation("HealthOrganization");
 
-                    b.Navigation("Institusjontype");
+                    b.Navigation("InstitutionType");
 
                     b.Navigation("Municipality");
 
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Klinikk", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Clinic", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institution", "Institution")
-                        .WithMany("Klinikker")
+                    b.HasOne("HyFive.Domain.Place.Institution", "Institution")
+                        .WithMany("Clinics")
                         .HasForeignKey("InstitutionId");
 
                     b.Navigation("Institution");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.PredefinertKommentar", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>
                 {
-                    b.HasOne("HyFive.Domene.Sted.Institution", null)
-                        .WithMany("PredefinerteKommmentarer")
+                    b.HasOne("HyFive.Domain.Place.Institution", null)
+                        .WithMany("PredefinedComments")
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrObservasjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation", b =>
                 {
-                    b.Navigation("Beskyttelsesutstyrliste");
+                    b.Navigation("ProtectiveEquipmentList");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", b =>
                 {
-                    b.Navigation("BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper");
+                    b.Navigation("ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes");
 
-                    b.Navigation("Feilbruktyper");
+                    b.Navigation("MisuseTypes");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Observasjon.Beskyttelsesutstyr.BeskyttelsesutstyrsettingType", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType", b =>
                 {
-                    b.Navigation("BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper");
+                    b.Navigation("ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.OverforingstatusType", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.TransferStatusType", b =>
                 {
-                    b.Navigation("Sesjoner");
+                    b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Department", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
                 {
-                    b.Navigation("Sesjoner");
+                    b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sted.Institution", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Institution", b =>
                 {
-                    b.Navigation("Avdelinger");
+                    b.Navigation("Departments");
 
-                    b.Navigation("Brukere");
+                    b.Navigation("Users");
 
-                    b.Navigation("Klinikker");
+                    b.Navigation("Clinics");
 
-                    b.Navigation("PredefinerteKommmentarer");
+                    b.Navigation("PredefinedComments");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.BeskyttelsesutstyrSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.ProtectiveEquipmentSession", b =>
                 {
-                    b.Navigation("Observasjoner");
+                    b.Navigation("Observations");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.FireIndikasjonerSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.FourIndicationsSession", b =>
                 {
-                    b.Navigation("Observasjoner");
+                    b.Navigation("Observations");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.HandsmykkeSesjon", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.HandJewelrySession", b =>
                 {
-                    b.Navigation("Observasjoner");
+                    b.Navigation("Observations");
                 });
 
-            modelBuilder.Entity("HyFive.Domene.Sesjon.GloveSession", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.GloveSession", b =>
                 {
-                    b.Navigation("Observasjoner");
+                    b.Navigation("Observations");
                 });
 #pragma warning restore 612, 618
         }

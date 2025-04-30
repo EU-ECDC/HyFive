@@ -52,7 +52,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //        {
         //            await CreateFourIndicatorsSession(
         //                _sesjonId, _observasjonId, avdeling, _hprnummer,
-        //                indikasjontyper: new List<IndicationType>());
+        //                indikasjontyper: new List<IndicationTypes>());
         //        }
         //    );
         //}
@@ -141,7 +141,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationType.Count, Is.EqualTo(1));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicationTypes.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Activity.ActivityType.Code, Is.EqualTo(AktivitetTypeKonstanter.Handwash));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
         //    });
@@ -218,7 +218,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var oppdatertObservasjon = opprettetSesjon.Observations.First();
-        //    oppdatertObservasjon.IndicationType.Clear();
+        //    oppdatertObservasjon.IndicationTypes.Clear();
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 
         //    // Act and Assert
@@ -414,7 +414,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         public async Task HentIndikasjonTyperTest()
         {
             // Arrange
-            var eksisterendeTyper = DatabaseContext.IndicationType.Select(x => x.Id).ToList();
+            var eksisterendeTyper = DatabaseContext.IndicationTypes.Select(x => x.Id).ToList();
             var hentIndikasjonTyper = new GetIndicationTypes.Handler(DatabaseContext, Mapper);
             var query = new GetIndicationTypes.Query();
 
@@ -498,8 +498,8 @@ namespace HyFive.Services.Tests.FireIndikasjoner
 
         private async Task<Models.V1.Observation.IndicationType> OpprettIndikasjonType(string kode = null)
         {
-            var indikasjonType = new Domain.Observation.IndicationType() { Code = kode ?? "TEST", Name = "test" };
-            DatabaseContext.IndicationType.Add(indikasjonType);
+            var indikasjonType = new Domain.Observation.IndicationTypes() { Code = kode ?? "TEST", Name = "test" };
+            DatabaseContext.IndicationTypes.Add(indikasjonType);
             await DatabaseContext.SaveChangesAsync();
 
             return Mapper.Map<Models.V1.Observation.IndicationType>(indikasjonType);

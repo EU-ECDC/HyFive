@@ -3,14 +3,14 @@
 //     the code is regenerated.
 
 import { Observation } from './Observation';
-import { GloveWithIndicationType } from './GloveWithIndicationType';
-import { GloveWithoutIndicationType } from './GloveWithoutIndicationType';
-import { HandHygieneAfterGloveUseType } from './HandHygieneAfterGloveUseType';
+import { IndicatedGloveType } from './IndicatedGloveType';
+import { GeneralPurposeGloveType } from './GeneralPurposeGloveType';
+import { PostGloveHandHygieneType } from './PostGloveHandHygieneType';
 
 export interface GloveObservation extends Observation
 {
-	gloveWithIndicationTypes?: GloveWithIndicationType[];
-	gloveWithoutIndicationTypes?: GloveWithoutIndicationType[];
-	usedGlove: boolean;
-	handhygieneAfterGloveuseType?: HandHygieneAfterGloveUseType;
+	indicatedGloveTypes?: IndicatedGloveType[];
+	generalPurposeGloveTypes?: GeneralPurposeGloveType[];
+	gloveUsed: boolean;
+	postGloveHandHygieneType?: PostGloveHandHygieneType;
 }

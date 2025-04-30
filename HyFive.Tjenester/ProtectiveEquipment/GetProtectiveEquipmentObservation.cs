@@ -48,7 +48,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     .ThenInclude(b => b.Department)
                     .ThenInclude(b => b.Roles)
                     .Include(b => b.SettingType)
-                    .ThenInclude(b => b.PPEConfigurationTypes)
+                    .ThenInclude(b => b.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes)
                     .ThenInclude(b => b.ProtectiveEquipmentType)
                     .FirstAsync(b => b.Id == guidObservationId);
 

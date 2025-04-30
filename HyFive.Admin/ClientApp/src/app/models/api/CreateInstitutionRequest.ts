@@ -8,12 +8,12 @@ export interface CreateInstitutionRequest
 	abbreviation: string;
 	herId: string;
 	institutionTypeId: number;
-	coordinatorHPRnumber: string;
+	coordinatorHPRNumber: string;
 	coordinatorPseudonym: string;
-	coordinatorFirstname: string;
-	coordinatorLastname: string;
+	coordinatorFirstName: string;
+	coordinatorLastName: string;
 	coordinatorEmail: string;
 	regionId: number;
 	municipalityId: number;
-	healthEnterpriseId: number;
+	institutionId: number;
 }

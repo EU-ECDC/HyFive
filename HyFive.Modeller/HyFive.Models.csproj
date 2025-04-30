@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
-    <DocumentationFile>C:\GIT\HyFive\HyFive.Modeller\HyFive.Modeller.xml</DocumentationFile>
+    <DocumentationFile>C:\GIT\HyFive\HyFive.Models\HyFive.Models.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
@@ -14,7 +14,7 @@
     <PackageReference Include="Reinforced.Typings" Version="1.6.3" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="HyFive.Modeller.xml">
+    <None Update="HyFive.Models.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

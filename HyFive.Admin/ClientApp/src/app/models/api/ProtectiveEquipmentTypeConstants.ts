@@ -5,11 +5,11 @@
 export class ProtectiveEquipmentTypeConstants
 {
 	public static Gloves: string = `GLOVES`;
-	public static InfectiousCoat: string = `INFECTIOUSCOAT`;
-	public static FaceMask: string = `FACEMASK`;
-	public static EyeProtection: string = `EYEPROTECTION`;
-	public static RespiratoryProtection: string = `RESPIRATORYPROTECTION`;
+	public static InfectionGown: string = `INFECTION_GOWN`;
+	public static FaceMask: string = `FACE_MASK`;
+	public static EyeProtection: string = `EYE_PROTECTION`;
+	public static RespiratoryProtection: string = `RESPIRATORY_PROTECTION`;
 	public static Hood: string = `HOOD`;
-	public static PlasticApron: string = `PLASTICAPRON`;
-	public static ChangingCoat: string = `CHANGINGCOAT`;
+	public static PlasticApron: string = `PLASTIC_APRON`;
+	public static CareGown: string = `CARE_GOWN`;
 }

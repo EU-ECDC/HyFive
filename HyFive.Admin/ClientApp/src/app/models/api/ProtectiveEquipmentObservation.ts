@@ -2,13 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-
 import { Observation } from './Observation';
 import { ProtectiveEquipment } from './ProtectiveEquipment';
-import { ProtectiveEquipmentType } from './ProtectiveEquipmentType';
+import { ProtectiveEquipmentSettingType } from './ProtectiveEquipmentSettingType';
 
 export interface ProtectiveEquipmentObservation extends Observation
 {
 	protectiveEquipmentList: ProtectiveEquipment[];
-	settingtype: ProtectiveEquipmentType;
+	settingType: ProtectiveEquipmentSettingType;
 }

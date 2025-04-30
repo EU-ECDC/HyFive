@@ -29,19 +29,19 @@ namespace HyFive.Services.FourIndication
 
             public async Task<IndicationType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var indicationType = await _context.IndicationType
+                var indicationTypes = await _context.IndicationTypes
                     .FirstOrDefaultAsync(i => i.Id == request.IndicationType.Id, cancellationToken);
 
-                if (indicationType == null) throw new Exception($"Could not find indication type with ID: {request.IndicationType.Id}");
+                if (indicationTypes == null) throw new Exception($"Could not find indication type with ID: {request.IndicationType.Id}");
 
-                indicationType.Name = request.IndicationType.Name;
-                indicationType.Number = request.IndicationType.Number;
+                indicationTypes.Name = request.IndicationType.Name;
+                indicationTypes.Number = request.IndicationType.Number;
 
-                _context.IndicationType.Update(indicationType);
+                _context.IndicationTypes.Update(indicationTypes);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 var mappedIndicationType =
-                    _mapper.Map<Domain.Observation.IndicationType, IndicationType>((Domain.Observation.IndicationType)indicationType);
+                    _mapper.Map<Domain.Observation.IndicationTypes, IndicationType>((Domain.Observation.IndicationTypes)indicationTypes);
 
                 return mappedIndicationType;
             }

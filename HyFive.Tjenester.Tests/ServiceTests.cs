@@ -123,7 +123,7 @@ namespace HyFive.Services.Tests
                 department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
             var institution = DatabaseContext.Institution.First(x => x.Id == departmentModel.InstitutionId);
             var activityTypes = DatabaseContext.ActivityType.ToList();
-            var indicationTypesList = DatabaseContext.IndicationType.ToList();
+            var indicationTypesList = DatabaseContext.IndicationTypes.ToList();
 
             var SaveFourIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
             var observation = new FourIndicatorsObservation()

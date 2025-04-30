@@ -29,7 +29,7 @@ namespace HyFive.Services.ProtectiveEquipment
             public async Task<IEnumerable<ProtectiveEquipmentSettingType>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var protectiveEquipmentSettingTypes = await _context.ProtectiveEquipmentSettingType
-                    .Include(b => b.PPEConfigurationTypes)
+                    .Include(b => b.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes)
                     .ThenInclude(b => b.ProtectiveEquipmentType)
                     .ThenInclude(bt => bt.MisuseTypes)
                     .AsNoTracking()

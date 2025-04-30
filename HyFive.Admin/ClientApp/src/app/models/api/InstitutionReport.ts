@@ -4,8 +4,8 @@
 
 import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
-import { Municipality } from './Municipality';
-import { HealthcareEnterprise } from './HealthcareEnterprise';
+import { Comment } from './Comment';
+import { HealthcareOrganization } from './HealthcareOrganization';
 
 export interface InstitutionReport
 {
@@ -15,6 +15,6 @@ export interface InstitutionReport
 	herId: string;
 	institutionType: InstitutionType;
 	region: Region;
-	municipality: Municipality;
-	healthcareEnterprise: HealthcareEnterprise;
+	comment: Comment;
+	healthcareEnterprise: HealthcareOrganization;
 }

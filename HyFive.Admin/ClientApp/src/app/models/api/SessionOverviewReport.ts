@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Department} from './Department';
+import { Department } from './Department';
 import { ObservationOverviewReport } from './ObservationOverviewReport';
 
 export interface SessionOverviewReport
@@ -12,7 +12,7 @@ export interface SessionOverviewReport
 	observerName: string;
 	department: Department;
 	startTime: any;
-	timeOfCreation: any;
+	createdTime: any;
 	comment: string;
 	transferStatus: any;
 	observations: ObservationOverviewReport[];

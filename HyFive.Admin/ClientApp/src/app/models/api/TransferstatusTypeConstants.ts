@@ -2,8 +2,8 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export class TransferstatusTypeConstants
+export class TransferStatusTypeConstants
 {
-	public static TransferToFhi: string = `TRANSFER_TO_FHI`;
-	public static TransferToCoordinator: string = `TRANSFER_TO_COORDINATOR`;
+	public static TransferredToFhi: string = `TRANSFERRED_TO_FHI`;
+	public static TransferredToCoordinator: string = `TRANSFERRED_TO_COORDINATOR`;
 }

@@ -2,12 +2,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { ProtectiveEquipmentTypeq } from './ProtectiveEquipmentTypeq';
+import { MisuseType } from './MisuseType';
 
 export interface ProtectiveEquipmentType
 {
 	id: number;
 	code: string;
 	name: string;
-	equipmentTypeqs: ProtectiveEquipmentTypeq[];
+	isDefault: boolean;
+	isRequired: boolean;
+	incorrectTypes: MisuseType[];
 }

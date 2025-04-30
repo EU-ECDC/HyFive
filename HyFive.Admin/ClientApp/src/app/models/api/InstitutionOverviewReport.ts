@@ -8,7 +8,7 @@ export interface InstitutionOverviewReport
 {
 	id: number;
 	name: string;
-	numberSessions: number;
-	numberObservations: number;
+	numberOfSessions: number;
+	numberOfObservations: number;
 	departments: DepartmentOverviewReport[];
 }

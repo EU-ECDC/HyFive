@@ -30,7 +30,7 @@ namespace HyFive.DataAccess
         public DbSet<InstitutionType> InstitutionType { get; set; }
         public DbSet<DepartmentType> SectionType { get; set; }
         public DbSet<PredefinedComments> PredefinedComments { get; set; }
-        public DbSet<IndicationType> Indication { get; set; }
+        public DbSet<IndicationTypes> Indication { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<HandJewelryType> HandJewelryType { get; set; }
@@ -46,7 +46,7 @@ namespace HyFive.DataAccess
         public DbSet<HandJewelryObservation> HandJewelryObservation { get; set; }
         public DbSet<ProtectiveEquipmentObservation> ProtectiveEquipmentObservation { get; set; }
         public DbSet<Activity> Activity { get; set; }
-        public DbSet<IndicationType> IndicationType { get; set; }
+        public DbSet<IndicationTypes> IndicationTypes { get; set; }
         public DbSet<MisuseType> MisuseType { get; set; }
         public DbSet<HealthcareOrganization> HealthcareOrganization { get; set; }
         public DbSet<RegionaltHealthcareProvider> RegionaltHealthcareOrganization { get; set; }
@@ -72,11 +72,11 @@ namespace HyFive.DataAccess
             mb.Entity<GloveObservation>().HasIndex(ho => ho.CreatedTime);
             mb.Entity<GloveObservation>().HasIndex(ho => ho.RegistrationTime);
 
-            mb.Entity<IndicationType>().Property(it => it.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<IndicationType>().HasIndex(it => it.Code).IsUnique();
-            mb.Entity<IndicationType>().Property(it => it.Name).HasMaxLength(50);
-            mb.Entity<IndicationType>().HasIndex(it => it.Name);
-            mb.Entity<IndicationType>().Property(it => it.Number).HasMaxLength(2);
+            mb.Entity<IndicationTypes>().Property(it => it.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<IndicationTypes>().HasIndex(it => it.Code).IsUnique();
+            mb.Entity<IndicationTypes>().Property(it => it.Name).HasMaxLength(50);
+            mb.Entity<IndicationTypes>().HasIndex(it => it.Name);
+            mb.Entity<IndicationTypes>().Property(it => it.Number).HasMaxLength(2);
 
             mb.Entity<TransmissionStatusType>().Property(ost => ost.Name).HasMaxLength(50);
             mb.Entity<TransmissionStatusType>().HasIndex(ost => ost.Name);
@@ -173,15 +173,15 @@ namespace HyFive.DataAccess
             mb.Entity<UserAccessRequest>().Property(b => b.HPRNumber).HasMaxLength(50);
             mb.Entity<UserAccessRequest>().HasIndex(b => b.Status);
 
-            mb.Entity<PPEConfigurationType>()
+            mb.Entity<ProtectiveEquipmentSettingTypeProtectiveEquipmentType>()
                 .HasKey(bu => new { bu.ProtectiveEquipmentTypeId, bu.ProtectiveEquipmentSettingTypeId });
-            mb.Entity<PPEConfigurationType>()
+            mb.Entity<ProtectiveEquipmentSettingTypeProtectiveEquipmentType>()
                 .HasOne(bu => bu.ProtectiveEquipmentType)
-                .WithMany(b => b.PPEConfigurationTypes)
+                .WithMany(b => b.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes)
                 .HasForeignKey(bu => bu.ProtectiveEquipmentTypeId);
-            mb.Entity<PPEConfigurationType>()
+            mb.Entity<ProtectiveEquipmentSettingTypeProtectiveEquipmentType>()
                 .HasOne(bc => bc.ProtectiveEquipmentSettingType)
-                .WithMany(c => c.PPEConfigurationTypes)
+                .WithMany(c => c.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes)
                 .HasForeignKey(bc => bc.ProtectiveEquipmentSettingTypeId);
 
             mb.Entity<HealthcareOrganization>().Property(h => h.Name).HasMaxLength(250).IsRequired();

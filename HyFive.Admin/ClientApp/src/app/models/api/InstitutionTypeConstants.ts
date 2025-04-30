@@ -5,5 +5,5 @@
 export abstract class InstitutionTypeConstants
 {
 	public static Hospital: string = `HOSPITAL`;
-	public static NursingHome: string = `NURSINGHOME`;
+	public static NursingHome: string = `NURSING_HOME`;
 }

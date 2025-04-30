@@ -10,7 +10,7 @@ using IndicationType = HyFive.Models.V1.Observation.IndicationType;
 namespace HyFive.Admin.Controllers.V1
 {
     /// <summary>
-    /// IndicationType
+    /// IndicationTypes
     /// </summary>
     [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
     [Route("api/v1/indicationTypes")]
@@ -24,7 +24,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get IndicationType
+        /// Get IndicationTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -35,7 +35,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Update IndicationType
+        /// Update IndicationTypes
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]

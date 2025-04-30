@@ -45,7 +45,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<FourIndicationsObservation, Models.V1.Observation.FourIndicatorsObservation>(MemberList
                 .None);
-            CreateMap<IndicationType, Models.V1.Observation.IndicationType>(MemberList.None);
+            CreateMap<IndicationTypes, Models.V1.Observation.IndicationType>(MemberList.None);
             CreateMap<Activity, Models.V1.Observation.Activity>(MemberList.None);
             CreateMap<ActivityType, Models.V1.Observation.ActivityType>(MemberList.None);
 
@@ -66,10 +66,10 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 MemberList.None);
             CreateMap<ProtectiveEquipmentSettingType,
                 Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>(MemberList.None)
-                .ForMember(dst => dst.EquipmentTypes, opt => opt.MapFrom(o => o.PPEConfigurationTypes));
+                .ForMember(dst => dst.EquipmentTypes, opt => opt.MapFrom(o => o.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes));
             CreateMap<MisuseType, Models.V1.Observation.ProtectiveEquipment.MisuseType>(MemberList.None);
 
-            CreateMap<PPEConfigurationType,
+            CreateMap<ProtectiveEquipmentSettingTypeProtectiveEquipmentType,
                     Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentType>(MemberList.None)
                 .ForMember(dst => dst.IsDefault, opt => opt.MapFrom(o => o.IsDefault))
                 .ForMember(dst => dst.IsRequired, opt => opt.MapFrom(o => o.IsDefault))
@@ -124,7 +124,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.ObserverName, opt => opt.MapFrom(src => GetObserverName(src.Observer)));
 
             CreateMap<ProtectiveEquipmentObservation, ObservationOverviewReport>(MemberList.None)
-                .ForMember(dest => dest.PPEConfigurationTypes, opt => opt.MapFrom(src => src.SettingType.Name))
+                .ForMember(dest => dest.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes, opt => opt.MapFrom(src => src.SettingType.Name))
                 .ForMember(dest => dest.ProtectiveEquipment, opt => opt.MapFrom(src => src.ProtectiveEquipmentList))
                 .ForMember(dest => dest.ProtectiveEquipmentObservation, opt => opt.MapFrom(src => src));
             

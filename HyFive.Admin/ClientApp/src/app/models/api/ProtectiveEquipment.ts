@@ -2,16 +2,16 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { ProtectiveEquipmentTypeq } from './ProtectiveEquipmentTypeq';
+import { ProtectiveEquipmentType } from './ProtectiveEquipmentType';
 import { MisuseType } from './MisuseType';
 
 export interface ProtectiveEquipment
 {
 	id: number;
 	wasUsed: boolean;
-	isIndicated: boolean;
-	equipmentTypeq: ProtectiveEquipmentTypeq;
-	misuseTypes: MisuseType[];
-	wasUsedProperly: boolean;
+	isRequired: boolean;
+	equipmentType: ProtectiveEquipmentType;
+	incorrectTypes: MisuseType[];
+	wasUsedCorrectly: boolean;
 	comment: string;
 }

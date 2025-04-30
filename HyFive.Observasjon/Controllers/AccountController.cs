@@ -12,7 +12,7 @@ namespace HyFive.Observation.Controllers
     [AllowAnonymous]
     public class AccountController : BaseAccountController
     {
-        public AccountController(IUserService userService, IOptions<HandHygieneHealthIdConfiguration> handHygieneConfig, IOptions<RedirectPagesKonfigurasjon> redirectPagesConfig) : base(userService, handHygieneConfig, redirectPagesConfig)
+        public AccountController(IUserService userService, IOptions<HandhygieneHelseIdKonfigurasjon> handHygieneConfig, IOptions<RedirectPagesKonfigurasjon> redirectPagesConfig) : base(userService, handHygieneConfig, redirectPagesConfig)
         {
 
         }

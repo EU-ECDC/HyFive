@@ -35,7 +35,7 @@ namespace HyFive.Api.Common
         protected readonly IConfigurationSection _healthIdConfigurationSection;
         protected readonly IConfigurationSection _redirectPagesConfigurationSection;
         protected readonly IConfigurationSection _dataProtectionConfigSection;
-        protected readonly HandHygieneHealthIdConfiguration _handHygieneHealthIdConfiguration;
+        protected readonly HandhygieneHelseIdKonfigurasjon _handHygieneHealthIdConfiguration;
         protected readonly RedirectPagesKonfigurasjon _redirectPagesConfiguration;
 
         public BaseApiStartup(IConfiguration configuration)
@@ -44,8 +44,8 @@ namespace HyFive.Api.Common
 
             var webConfig = Configuration.GetSection(nameof(HelseIdWebKonfigurasjon)).Get<HelseIdWebKonfigurasjon>() ?? throw new Exception(nameof(HelseIdWebKonfigurasjon));
 
-            _healthIdConfigurationSection = Configuration.GetSection(nameof(HandHygieneHealthIdConfiguration));
-            _handHygieneHealthIdConfiguration = _healthIdConfigurationSection.Get<HandHygieneHealthIdConfiguration>();
+            _healthIdConfigurationSection = Configuration.GetSection(nameof(HandhygieneHelseIdKonfigurasjon));
+            _handHygieneHealthIdConfiguration = _healthIdConfigurationSection.Get<HandhygieneHelseIdKonfigurasjon>();
 
             _redirectPagesConfigurationSection = Configuration.GetSection(nameof(RedirectPagesKonfigurasjon));
             _redirectPagesConfiguration = _redirectPagesConfigurationSection.Get<RedirectPagesKonfigurasjon>();
@@ -67,7 +67,7 @@ namespace HyFive.Api.Common
             }
 
             services.AddHttpContextAccessor();
-            services.Configure<HandHygieneHealthIdConfiguration>(_healthIdConfigurationSection);
+            services.Configure<HandhygieneHelseIdKonfigurasjon>(_healthIdConfigurationSection);
             services.Configure<RedirectPagesKonfigurasjon>(_redirectPagesConfigurationSection);
             services.AddCors();
             services.AddServices(Configuration, ApiTitle, ApiType);

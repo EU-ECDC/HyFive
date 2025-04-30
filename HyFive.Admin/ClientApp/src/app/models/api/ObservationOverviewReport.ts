@@ -15,11 +15,11 @@ export interface ObservationOverviewReport
 	id: any;
 	role: Role;
 	comment: string;
-	registrationTime: any;
+	registeredTime: any;
 	indicationTypes: IndicationType[];
 	activity: Activity;
-	typesOfHandJewelry: HandJewelryType[];
-	protectiveEquipmentSetting: string;
+	handJewelryTypes: HandJewelryType[];
+	protectiveEquipmentSettingTypeProtectiveEquipmentTypes: string;
 	protectiveEquipment: ProtectiveEquipmentOverviewReport[];
 	gloveObservation: GloveObservation;
 	protectiveEquipmentObservation: ProtectiveEquipmentObservation;

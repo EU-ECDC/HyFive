@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HyFive.Domain.Observation
 {
-    [Table("IndicationType")]
-    public class IndicationType
+    [Table("IndikasjonType")]
+    public class IndicationTypes
     {
         public int Id { get; set; }
         public string Code { get; set; }

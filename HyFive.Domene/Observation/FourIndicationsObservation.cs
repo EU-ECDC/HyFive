@@ -10,6 +10,6 @@ namespace HyFive.Domain.Observation
         public FourIndicationsSession FourIndicationsSession { get; set; }
         public Activity Activity { get; set; }
         [Column("Indication")]
-        public ICollection<IndicationType> IndicationTypes { get; set; }
+        public ICollection<IndicationTypes> IndicationTypes { get; set; }
     }
 }

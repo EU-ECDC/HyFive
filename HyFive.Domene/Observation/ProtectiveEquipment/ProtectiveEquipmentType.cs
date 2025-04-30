@@ -9,6 +9,6 @@ namespace HyFive.Domain.Observation.ProtectiveEquipment
         public string Name { get; set; }
       
         public List<MisuseType> MisuseTypes { get; set; }
-        public ICollection<PPEConfigurationType> PPEConfigurationTypes { get; set; }
+        public ICollection<ProtectiveEquipmentSettingTypeProtectiveEquipmentType> ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes { get; set; }
     }
 }
