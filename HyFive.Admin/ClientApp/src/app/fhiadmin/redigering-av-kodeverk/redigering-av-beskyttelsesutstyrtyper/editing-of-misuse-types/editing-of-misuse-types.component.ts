@@ -4,7 +4,7 @@ import { ProtectiveEquipmentTypeq } from '../../../../models/api/ProtectiveEquip
 import { ProtectiveEquipmentTypeqsService } from '../../../../services/data/protectiveEquipmentTypeqs.service';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
-import { OpprettFeilbrukTypeRequest } from '../../../../models/api/OpprettFeilbrukTypeRequest';
+import { CreateMisueTypeRequest } from '../../../../models/api/CreateMisueTypeRequest';
 import { KeyEventService } from '../../../../services/events/key-event.service';
 
 @Component({
@@ -13,14 +13,14 @@ import { KeyEventService } from '../../../../services/events/key-event.service';
 })
 export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
 
-  nyFeilbruktype: OpprettFeilbrukTypeRequest = this.emptyRequest();
-  feilbruktyper: MisuseType[] = [];
-  feilbruktypeSomEndres: MisuseType = null;
+  newMisuseType: CreateMisueTypeRequest = this.emptyRequest();
+  misuseType: MisuseType[] = [];
+  misusetypeAsChanged: MisuseType = null;
 
   faChevronLeft = faChevronLeft;
 
   @Input() equipmentType: ProtectiveEquipmentTypeq;
-  @Output() visRedigeringAvBeskyttelsesutstyrtyperEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() showEditingOfProtectiveEquipmentTypesEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
@@ -33,7 +33,7 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
       this.cancelEdit();
     });
 
-    this.lastFeilbruktyper();
+    this.loadMisuseTypes();
   }
 
   
@@ -41,47 +41,47 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  lastFeilbruktyper() {
+  loadMisuseTypes() {
     this.protectiveEquipmentTypeqsService.getMisuseTypes(this.equipmentType.id).subscribe(
-      (feilbruktyper) => this.feilbruktyper = feilbruktyper,
-      (error) => this.toastrService.error('Det oppstod en feil under lasting av Feilbruktyper: ' + error?.message, '', { disableTimeOut: true}),
+      (misuseType) => this.misuseType = misuseType,
+      (error) => this.toastrService.error('An error occurred while loading Misuse Types: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  emptyRequest(): OpprettFeilbrukTypeRequest {
+  emptyRequest(): CreateMisueTypeRequest {
     return {
       name: null
     };
   }
 
   createMisuseType(): void {
-    this.protectiveEquipmentTypeqsService.createMisuseType(this.equipmentType.id, this.nyFeilbruktype).subscribe(
-      (opprettetFeilbruktype) => this.toastrService.success(`Feilbruktype opprettet.`),
-      error => this.toastrService.error(`An error occurred while creating feilbruktype ${this.nyFeilbruktype.name}. Error: "${error.error}"`, '', { disableTimeOut: true}),
-      () => { this.nyFeilbruktype = this.emptyRequest(); this.lastFeilbruktyper(); }
+    this.protectiveEquipmentTypeqsService.createMisuseType(this.equipmentType.id, this.newMisuseType).subscribe(
+      (createdMisuseType) => this.toastrService.success(`Misuse Type create.`),
+      error => this.toastrService.error(`An error occurred while creating Misuse Type ${this.newMisuseType.name}. Error: "${error.error}"`, '', { disableTimeOut: true}),
+      () => { this.newMisuseType = this.emptyRequest(); this.loadMisuseTypes(); }
     );
   }
 
-  valgtFeilbruktype(feilbruktype: MisuseType) {
-    if (this.feilbruktypeSomEndres?.id == feilbruktype.id) return;
-    this.feilbruktypeSomEndres = JSON.parse(JSON.stringify(feilbruktype));
+  selectedMisuseType(misusetype: MisuseType) {
+    if (this.misusetypeAsChanged?.id == misusetype.id) return;
+    this.misusetypeAsChanged = JSON.parse(JSON.stringify(misusetype));
   }
 
-  updateMisuseType(feilbruktype: MisuseType): void {
-    this.protectiveEquipmentTypeqsService.updateMisuseType(this.equipmentType.id, feilbruktype).subscribe(
+  updateMisuseType(misusetype: MisuseType): void {
+    this.protectiveEquipmentTypeqsService.updateMisuseType(this.equipmentType.id, misusetype).subscribe(
       (result) => {
-        this.toastrService.success('Feilbruktype was updated');
-        this.lastFeilbruktyper();
+        this.toastrService.success('misuse type was updated');
+        this.loadMisuseTypes();
       },
       (error) => {
-        this.toastrService.error('En feil skjedde under oppdatering av feilbruktype: ' + error?.error, '', { disableTimeOut: true});
+        this.toastrService.error('An error occurred while updating misusetype: ' + error?.error, '', { disableTimeOut: true});
       },
-      () => this.feilbruktypeSomEndres = null
+      () => this.misusetypeAsChanged = null
     );
   }
 
-  navigerTilBeskyttelsesutsyrtyper(): void {
-    this.visRedigeringAvBeskyttelsesutstyrtyperEvent.emit(true);
+  NavigateToProtectiveEquipmentTypes(): void {
+    this.showEditingOfProtectiveEquipmentTypesEvent.emit(true);
   }
 
   cancelEdit($event: Event = null) {
@@ -89,6 +89,6 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
       $event.stopPropagation();
       $event.preventDefault();
     }
-    this.feilbruktypeSomEndres = null;
+    this.misusetypeAsChanged = null;
   }
 }

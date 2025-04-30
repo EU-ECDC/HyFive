@@ -5,7 +5,7 @@ import { ProtectiveEquipmentTypeq } from "src/app/models/api/ProtectiveEquipment
 import { environment } from "src/environments/environment";
 import { tap } from 'rxjs/operators';
 import { MisuseType } from '../../models/api/MisuseType';
-import { OpprettFeilbrukTypeRequest } from '../../models/api/OpprettFeilbrukTypeRequest';
+import { CreateMisueTypeRequest } from '../../models/api/CreateMisueTypeRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class ProtectiveEquipmentTypeqsService {
     return this.httpClient.delete<boolean>(url);
   }
 
-  createMisuseType(equipmentTypeId: number, misuse: OpprettFeilbrukTypeRequest): Observable<MisuseType> {
+  createMisuseType(equipmentTypeId: number, misuse: CreateMisueTypeRequest): Observable<MisuseType> {
     const url = `${environment.apiBaseUrl}/v1/protectiveequipmenttypes/misusetype/create?equipmenttypeid=${equipmentTypeId}`;
     return this.httpClient.post<MisuseType>(url, misuse);
   }

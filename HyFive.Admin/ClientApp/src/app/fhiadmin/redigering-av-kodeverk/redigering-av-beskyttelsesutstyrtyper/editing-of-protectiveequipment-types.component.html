@@ -46,6 +46,6 @@
     </div>
   </ng-container>
   <ng-container *ngIf="!showEditOfProtectiveEquipmentTypes">
-    <app-redigering-av-feilbruktyper [equipmentType]='equipmentTypeAsChanged' (visRedigeringAvBeskyttelsesutstyrtyperEvent)="NavigateToProtectiveEquipmentTypes($event)"></app-redigering-av-feilbruktyper>
+    <app-editing-of-misuse-types [equipmentType]='equipmentTypeAsChanged' (showEditingOfProtectiveEquipmentTypesEvent)="NavigateToProtectiveEquipmentTypes($event)"></app-editing-of-misuse-types>
   </ng-container>
 </div>

@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="hh-navigasjonslenke mb-3 ml-n3" (click)="navigerTilBeskyttelsesutsyrtyper()">
+  <div class="hh-navigasjonslenke mb-3 ml-n3" (click)="NavigateToProtectiveEquipmentTypes()">
     <button class="btn hh-transparent-button">
-      <fa-icon [icon]="faChevronLeft"></fa-icon> Tilbake til beskyttelsesutstyrtyper
+      <fa-icon [icon]="faChevronLeft"></fa-icon> Back to protective equipment types
     </button>
   </div>
 </div>
 <div class="row ms-1">
   <div class="col">
-    <h5>Feilbruktyper for {{equipmentType.name}}</h5>
+    <h5>Types of misuse for {{equipmentType.name}}</h5>
   </div>
 </div>
 <div class="row ms-1">
   <div class="col-3">
-    <input type="text" class="form-control" [(ngModel)]='nyFeilbruktype.name' placeholder="Name">
+    <input type="text" class="form-control" [(ngModel)]='newMisuseType.name' placeholder="Name">
   </div>
   <div class="col-6">
     <label></label>
-    <button class="form-control btn fhi-btn-primary" (click)="createMisuseType()" [disabled]="!nyFeilbruktype.name">Add to feilbruktype</button>
+    <button class="form-control btn fhi-btn-primary" (click)="createMisuseType()" [disabled]="!newMisuseType.name">Add to misusetype</button>
   </div>
 </div>
 
@@ -31,21 +31,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let feilbruktype of feilbruktyper">
-            <ng-container *ngIf="feilbruktypeSomEndres?.id !== feilbruktype.id">
-              <td>{{feilbruktype.name}}</td>
+          <tr *ngFor="let misusetype of misuseType">
+            <ng-container *ngIf="misusetypeAsChanged?.id !== misusetype.id">
+              <td>{{misusetype.name}}</td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="valgtFeilbruktype(feilbruktype)">
+                <button class="btn fhi-btn-icon" (click)="selectedMisuseType(misusetype)">
                   <i class="icon-pencil"></i><span class="btn__text">Edit</span>
                 </button>
               </td>
             </ng-container>
-            <ng-container *ngIf="feilbruktypeSomEndres?.id === feilbruktype.id">
+            <ng-container *ngIf="misusetypeAsChanged?.id === misusetype.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="feilbruktypeSomEndres.name">
+                <input type="text" class="form-control" [(ngModel)]="misusetypeAsChanged.name">
               </td>
               <td class="text-end py-2 align-middle">
-                <button class="btn fhi-btn-icon" (click)="updateMisuseType(feilbruktypeSomEndres)">
+                <button class="btn fhi-btn-icon" (click)="updateMisuseType(misusetypeAsChanged)">
                   <i class="icon-pencil"></i><span class="btn__text">Save</span>
                 </button>
                 <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
