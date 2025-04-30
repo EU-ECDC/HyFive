@@ -15,5 +15,5 @@ export interface CreateInstitutionRequest
 	coordinatorEmail: string;
 	regionId: number;
 	municipalityId: number;
-	institutionId: number;
+	healthcareOrganizationId: number;
 }
