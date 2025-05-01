@@ -2,7 +2,7 @@
 
 namespace HyFive.Domain.Observation.Gloves
 {
-    public class GeneralPurposeGloveType
+    public class GloveWithIndicationType
     {
         public int Id { get; set; }
         public string Code { get; set; }

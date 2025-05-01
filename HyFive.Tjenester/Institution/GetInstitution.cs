@@ -38,7 +38,7 @@ namespace HyFive.Services.Institution
                     .AsNoTracking()
                     .Include(i => i.Departments)
                     .ThenInclude(a => a.Roles)
-                    .Include(i => i.PredefinedComments)
+                    .Include(i => i.PredefinedComment)
                     .Include(i => i.InstitutionType)
                     .ProjectTo<Models.V1.Institution.Institution>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(i => i.Id == request.InstitutionId, cancellationToken);

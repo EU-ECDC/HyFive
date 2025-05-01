@@ -67,7 +67,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpPost("create")]
         [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Clinic>> OpprettKlinikk([FromBody] Clinic clinic)
+        public async Task<ActionResult<Clinic>> CreateClinic([FromBody] Clinic clinic)
         {
             if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(clinic.InstitutionId))
             {

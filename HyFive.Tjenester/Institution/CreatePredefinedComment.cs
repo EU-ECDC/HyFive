@@ -4,7 +4,7 @@ using HyFive.DataAccess;
 using HyFive.Models.V1.Institution;
 using HyFive.Models.V1.Session;
 using MediatR;
-using PredefinedComment = HyFive.Domain.Place.PredefinedComments;
+using PredefinedComment = HyFive.Domain.Place.PredefinedComment;
 
 namespace HyFive.Services.Institution
 {

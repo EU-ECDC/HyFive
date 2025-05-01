@@ -96,9 +96,9 @@ namespace HyFive.Services.Seed
                 var roles = _context.Role.ToList();
 
                 var InstitutionTypes = _context.InstitutionType.ToList();
-                var departmentTypes = _context.SectionType.ToList();
+                var departmentTypes = _context.DepartmentType.ToList();
 
-                var institusjoner = new[]
+                var institutions = new[]
                 {
                     new Domain.Place.Institution
                     {
@@ -139,11 +139,11 @@ namespace HyFive.Services.Seed
                                 DepartmentType = departmentTypes.Skip(2).First()
                             }
                         },
-                        PredefinedComments = new List<PredefinedComments>
+                        PredefinedComment = new List<PredefinedComment>
                         {
-                            new PredefinedComments { Comment = "Gloves instead of hand hygiene", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Gloves not changed", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Poor technique hand disinfection", SessionType = SessionType.ProtectiveEquipment }
+                            new PredefinedComment { Comment = "Gloves instead of hand hygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Gloves not changed", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Poor technique hand disinfection", SessionType = SessionType.ProtectiveEquipment }
                         }
                     },
                     new Domain.Place.Institution
@@ -180,16 +180,16 @@ namespace HyFive.Services.Seed
                                 DepartmentType = departmentTypes.Skip(1).First()
                             }
                         },
-                        PredefinedComments = new List<PredefinedComments>
+                        PredefinedComment = new List<PredefinedComment>
                         {
-                            new PredefinedComments { Comment = "Gloves instead of hand hygiene", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Gloves not changed", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Poor technique in hand disinfection", SessionType = SessionType.ProtectiveEquipment }
+                            new PredefinedComment { Comment = "Gloves instead of hand hygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Gloves not changed", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Poor technique in hand disinfection", SessionType = SessionType.ProtectiveEquipment }
                         }
                     }
                 };
 
-                _context.Institution.AddRange(institusjoner);
+                _context.Institution.AddRange(institutions);
                 _context.SaveChanges();
             }
 
@@ -210,7 +210,7 @@ namespace HyFive.Services.Seed
 
             private void SeedDepartmentTypes()
             {
-                if (_context.SectionType.Any())
+                if (_context.DepartmentType.Any())
                     return;
 
                 var departmentTypes = new[]
@@ -237,7 +237,7 @@ namespace HyFive.Services.Seed
                     new DepartmentType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
                 };
 
-                _context.SectionType.AddRange(departmentTypes);
+                _context.DepartmentType.AddRange(departmentTypes);
                 _context.SaveChanges();
             }
 
@@ -246,7 +246,7 @@ namespace HyFive.Services.Seed
                 if (_context.Role.Any())
                     return;
 
-                var roller = new List<Role>
+                var roles = new List<Role>
                 {
                     new Role("Nurse"),
                     new Role("Doctor"),
@@ -257,7 +257,7 @@ namespace HyFive.Services.Seed
                     new Role("Other")
                 };
 
-                _context.Role.AddRange(roller);
+                _context.Role.AddRange(roles);
                 _context.SaveChanges();
             }
         }

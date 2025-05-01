@@ -65,7 +65,7 @@ namespace HyFive.Services.FourIndication
                 foreach (var observation in session.Observations)
                 {
                     FourIndicatorsObservationValidator.ValidateObservation(observation);
-                    observation.CreatedTime = DateTime.Now;
+                    observation.CreatedTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicationTypes = indicationTypes
                         .Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();

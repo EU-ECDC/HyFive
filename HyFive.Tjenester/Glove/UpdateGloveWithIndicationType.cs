@@ -29,7 +29,7 @@ namespace HyFive.Services.Glove
 
             public async Task<IndicatedGloveType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var gloveWithIndicationType = await _context.IndicatedGloveType
+                var gloveWithIndicationType = await _context.GloveWithIndicationType
                     .FirstOrDefaultAsync(x => x.Id == request.GloveWithIndicationType.Id);
 
                 if (gloveWithIndicationType == null) throw new Exception($"Could not find GloveWithIndicationType with ID: {request.GloveWithIndicationType.Id}");

@@ -10,7 +10,7 @@ using HyFive.Models.V1.Observation;
 
 namespace HyFive.Services.Roles
 {
-    public class OpprettRolle
+    public class CreateRole
     {
         public class Command : IRequest<Models.V1.Observation.Role>
         {

@@ -49,7 +49,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("opprett")]
+        [HttpPost("create")]
         [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
         public async Task<ActionResult<Department>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {

@@ -30,7 +30,7 @@ namespace HyFive.Services.Department
 
             public async Task<DepartmentType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var exists = await _context.SectionType.AnyAsync(r => r.Code == request.DepartmentType.Code);
+                var exists = await _context.DepartmentType.AnyAsync(r => r.Code == request.DepartmentType.Code);
                 if (exists)
                     throw new InvalidOperationException(
                         $"Code {request.DepartmentType.Code} is already in use. Please try with another code.");
@@ -41,7 +41,7 @@ namespace HyFive.Services.Department
                     Name = request.DepartmentType.Name
                 };
 
-                _context.SectionType.Add(avdelingtype);
+                _context.DepartmentType.Add(avdelingtype);
                 _context.SaveChanges();
 
                 return _mapper.Map<DepartmentType>(avdelingtype);

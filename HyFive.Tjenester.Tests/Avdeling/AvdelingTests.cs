@@ -109,7 +109,7 @@ namespace HyFive.Services.Tests.Department
         {
             // Arrange and Act
             var opprettetAvdelingType = await OpprettAvdelingType();
-            var opprettetAvdelingTypeFraDatabase = DatabaseContext.SectionType
+            var opprettetAvdelingTypeFraDatabase = DatabaseContext.DepartmentType
                 .FirstOrDefault(a => a.Id == opprettetAvdelingType.Id);
 
             // Assert
@@ -132,7 +132,7 @@ namespace HyFive.Services.Tests.Department
             {
                 Id = opprettetAvdeling.Id,
                 Name = "Da Vinci",
-                DepartmentTypeId = DatabaseContext.SectionType.FirstOrDefault(at => at.Id != opprettetAvdeling.DepartmentTypeId).Id,
+                DepartmentTypeId = DatabaseContext.DepartmentType.FirstOrDefault(at => at.Id != opprettetAvdeling.DepartmentTypeId).Id,
                 Role = new List<Models.V1.Observation.Role>()
                 {
                     Mapper.Map<Domain.Observation.Role, Models.V1.Observation.Role>(DatabaseContext.Role.First(x => !rolleIder.Contains(x.Id)))
@@ -246,7 +246,7 @@ namespace HyFive.Services.Tests.Department
                 {
                     Name = "Test",
                     InstitutionId = institusjonsId == 0 ? DatabaseContext.Institution.First().Id : institusjonsId,
-                    DepartmentTypeId = avdelingTypeId == 0 ? DatabaseContext.SectionType.First().Id : avdelingTypeId,
+                    DepartmentTypeId = avdelingTypeId == 0 ? DatabaseContext.DepartmentType.First().Id : avdelingTypeId,
                     RoleIds = rolleIder ?? new List<int>() { DatabaseContext.Role.First().Id }
                 }
             };

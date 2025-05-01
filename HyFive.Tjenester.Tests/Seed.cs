@@ -80,27 +80,27 @@ namespace HyFive.Services.Tests
 
         private void SeedHandhygieneEtterHanskebrukType()
         {
-            var handhygieneEtterHanskebrukTyper = new List<PostGloveHandHygiene>
+            var handhygieneEtterHanskebrukTyper = new List<HandHygieneAfterGloveUseType>
                 {
-                    new PostGloveHandHygiene {Code = "IKKE_INDIKERT", Name = "Ikke Indikert"},
-                    new PostGloveHandHygiene {Code = "NEI", Name = "Nei"},
-                    new PostGloveHandHygiene {Code = "JA", Name = "Ja"},
+                    new HandHygieneAfterGloveUseType {Code = "IKKE_INDIKERT", Name = "Ikke Indikert"},
+                    new HandHygieneAfterGloveUseType {Code = "NEI", Name = "Nei"},
+                    new HandHygieneAfterGloveUseType {Code = "JA", Name = "Ja"},
                 };
 
-            _context.PostGloveHandHygiene.AddRange(handhygieneEtterHanskebrukTyper);
+            _context.HandHygieneAfterGloveUseType.AddRange(handhygieneEtterHanskebrukTyper);
             _context.SaveChanges();
         }
 
         private void SeedHanskeUtenIndikasjonTyper()
         {
-            var hanskerUtenIndikasjonTyper = new List<GeneralPurposeGloveType>
+            var hanskerUtenIndikasjonTyper = new List<GloveWithoutIndicationType>
                 {
-                    new GeneralPurposeGloveType {Code = "ANNET", Name = "Annet"},
-                    new GeneralPurposeGloveType {Code = "MAT", Name = "Mat"},
-                    new GeneralPurposeGloveType {Code = "STELL_UTEN_KROPPVAESKER", Name = "Stell uten kroppvæsker"},
+                    new GloveWithoutIndicationType {Code = "ANNET", Name = "Annet"},
+                    new GloveWithoutIndicationType {Code = "MAT", Name = "Mat"},
+                    new GloveWithoutIndicationType {Code = "STELL_UTEN_KROPPVAESKER", Name = "Stell uten kroppvæsker"},
                 };
 
-            _context.GeneralPurposeGloveType.AddRange(hanskerUtenIndikasjonTyper);
+            _context.GloveWithoutIndicationType.AddRange(hanskerUtenIndikasjonTyper);
             _context.SaveChanges();
         }
 
@@ -108,31 +108,31 @@ namespace HyFive.Services.Tests
         {
             var overforingsstatuser = new[]
             {
-                    new TransmissionStatusType()
+                    new TransferStatusType()
                     {
                         Code = TransferStatusTypeConstants.TransferredToCoordinator,
                         Name = "Overført til Coordinator"
                     },
-                    new TransmissionStatusType()
+                    new TransferStatusType()
                     {
                         Code = TransferStatusTypeConstants.TransferredToFhi,
                         Name = "Overført til FHI"
                     }
                 };
-            _context.TransmissionStatusType.AddRange(overforingsstatuser);
+            _context.TransferStatusType.AddRange(overforingsstatuser);
             _context.SaveChanges();
         }
 
         private void SeedHanskeMedIndikasjonTyper()
         {
-            var hanskerMedIndikasjonTyper = new List<IndicatedGloveType>
+            var hanskerMedIndikasjonTyper = new List<GloveWithIndicationType>
                 {
-                    new IndicatedGloveType {Code = "ANNET", Name = "Annet"},
-                    new IndicatedGloveType {Code = "SMITTE", Name = "Smitte"},
-                    new IndicatedGloveType {Code = "KROPPVAESKER", Name = "Kroppvæsker"},
+                    new GloveWithIndicationType {Code = "ANNET", Name = "Annet"},
+                    new GloveWithIndicationType {Code = "SMITTE", Name = "Smitte"},
+                    new GloveWithIndicationType {Code = "KROPPVAESKER", Name = "Kroppvæsker"},
                 };
 
-            _context.IndicatedGloveType.AddRange(hanskerMedIndikasjonTyper);
+            _context.GloveWithIndicationType.AddRange(hanskerMedIndikasjonTyper);
             _context.SaveChanges();
         }
 
@@ -260,7 +260,7 @@ namespace HyFive.Services.Tests
                     new DepartmentType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
                     new DepartmentType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
             };
-            _context.SectionType.AddRange(avdelingstyper);
+            _context.DepartmentType.AddRange(avdelingstyper);
             _context.SaveChanges();
         }
 
@@ -279,7 +279,7 @@ namespace HyFive.Services.Tests
             _context.Role.AddRange(roller);
 
             var institusjontyper = _context.InstitutionType;
-            var avdelingtyper = _context.SectionType;
+            var avdelingtyper = _context.DepartmentType;
 
             var institusjoner = new[]
             {
@@ -322,11 +322,11 @@ namespace HyFive.Services.Tests
                                 DepartmentType = avdelingtyper.Skip(2).First()
                             }
                         },
-                        PredefinedComments = new List<PredefinedComments>()
+                        PredefinedComment = new List<PredefinedComment>()
                         {
-                            new PredefinedComments { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
+                            new PredefinedComment { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     },
                     new Domain.Place.Institution()
@@ -363,11 +363,11 @@ namespace HyFive.Services.Tests
                                 DepartmentType = avdelingtyper.Skip(1).First()
                             }
                         },
-                        PredefinedComments = new List<PredefinedComments>()
+                        PredefinedComment = new List<PredefinedComment>()
                         {
-                            new PredefinedComments { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
-                            new PredefinedComments { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
+                            new PredefinedComment { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     }
                 };

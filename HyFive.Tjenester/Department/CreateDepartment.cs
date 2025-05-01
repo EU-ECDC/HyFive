@@ -45,7 +45,7 @@ namespace HyFive.Services.Department
                 if (command.Request.RoleIds.Any() == false)
                     throw new Exception($"Role list is empty. Department must be created with at least one role.");
 
-                var departmentType = _context.SectionType.FirstOrDefault(a => a.Id == command.Request.DepartmentTypeId);
+                var departmentType = _context.DepartmentType.FirstOrDefault(a => a.Id == command.Request.DepartmentTypeId);
                 if (departmentType == null)
                 {
                     throw new Exception("Could not find department type with ID " + command.Request.DepartmentTypeId);

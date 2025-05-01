@@ -149,7 +149,7 @@ namespace HyFive.Services.Tests
                     }
                 },
                 Comment = "Comment til observasjonen",
-                RegistrationTime = DateTime.Now,
+                RegistrationTime = DateTime.UtcNow,
                 Role = useDefaultRole ? departmentModel.Roles.First() : role,
                 SessionId = sessionId.ToString()
             };
@@ -167,7 +167,7 @@ namespace HyFive.Services.Tests
                         observation
                     },
                     Comment = "Comment til sesjonen",
-                    StartTime = DateTime.Now
+                    StartTime = DateTime.UtcNow
                 },
                 HprNumber = hprNumber
             }, CancellationToken.None);

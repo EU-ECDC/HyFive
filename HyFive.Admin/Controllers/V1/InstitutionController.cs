@@ -138,7 +138,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPost("opprett")]
+        [HttpPost("create")]
         [ProducesResponseType(typeof(Institution), StatusCodes.Status201Created)]
         public async Task<ActionResult<Institution>> CreateInstitution([FromBody] CreateInstitutionRequest request)
         {

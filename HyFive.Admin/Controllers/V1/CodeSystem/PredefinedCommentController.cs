@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get PredefinedComments
+        /// Get PredefinedComment
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "GetPredefinedComments")]

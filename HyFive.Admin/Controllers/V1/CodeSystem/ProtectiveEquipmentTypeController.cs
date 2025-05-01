@@ -80,17 +80,17 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="equipmentTypeId"></param>
         /// <param name="misuseType"></param>
         /// <returns></returns>
-        [HttpPost("feilbruktyper/opprett")]
+        [HttpPost("misuseTypes/create")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         public async Task<ActionResult<bool>> CreateMisuseType([FromQuery] int equipmentTypeId, [FromBody] CreateIncorrectUseTypeRequest misuseType)
         {
-            var erOpprettet =  await _mediator.Send(new CreateMisuseType.Command
+            var isCreated =  await _mediator.Send(new CreateMisuseType.Command
             {
                 EquipmentTypeId = equipmentTypeId,
                 MisuseType = misuseType
             });
 
-            return CreatedAtRoute("HentFeilbrukTyper", new { utstyrTypeId = equipmentTypeId }, erOpprettet);
+            return CreatedAtRoute("GetMisuseTypes", new { equipmentTypeId = equipmentTypeId }, isCreated);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HyFive.Domain.Observation.Gloves
 {
-    public class PostGloveHandHygiene
+    public class HandHygieneAfterGloveUseType
     {
         public int Id { get; set; }
         public string Code { get; set; }

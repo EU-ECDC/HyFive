@@ -90,7 +90,7 @@ namespace HyFive.Services.Tests.Handsmykke
                         {
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
-                            RegistrationTime = DateTime.Now,
+                            RegistrationTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             HandJewelry = new List<HandJewelryType>()
@@ -103,7 +103,7 @@ namespace HyFive.Services.Tests.Handsmykke
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.Now
+                    StartTime = DateTime.UtcNow
                 },
                 HprNumber = hprnummer
             }, CancellationToken.None);

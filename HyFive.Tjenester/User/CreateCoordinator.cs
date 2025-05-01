@@ -49,7 +49,7 @@ namespace HyFive.Services.User
                     Institution = institution,
                     HPRNumber = command.USer.HPRNumber,
                     IdentityPseudonym = command.USer.IdentityPseudonym,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                     IsDeactivated = false
                 };
 
@@ -63,7 +63,7 @@ namespace HyFive.Services.User
                     Institution = institution,
                     HPRNumber = command.USer.HPRNumber,
                     IdentityPseudonym = command.USer.IdentityPseudonym,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                     IsDeactivated = false
                 };
 

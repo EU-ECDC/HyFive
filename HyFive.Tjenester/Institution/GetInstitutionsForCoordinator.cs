@@ -43,7 +43,7 @@ namespace HyFive.Services.Institution
                     .Include(i => i.Departments)
                     .ThenInclude(a => a.Roles)
                     .Include(i => i.Users)
-                    .Include(i => i.PredefinedComments)
+                    .Include(i => i.PredefinedComment)
                     .Include(i => i.InstitutionType)
                     .Where(i => i.Users
                         .Where(b => b.IsDeactivated == false

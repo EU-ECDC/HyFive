@@ -48,7 +48,7 @@ namespace HyFive.Services.ProtectiveEquipment
                         $"Could not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
-                session.CreatedDate = DateTime.Now;
+                session.CreatedDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observer;
 
@@ -65,7 +65,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var settingTypes = await _context.ProtectiveEquipmentSettingType.ToListAsync(cancellationToken);
                 foreach (var observation in session.Observations)
                 {
-                    observation.CreatedTime = DateTime.Now;
+                    observation.CreatedTime = DateTime.UtcNow;
                     observation.SettingType = settingTypes.First(s => s.Id == observation.SettingType.Id);
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     foreach (var equipment in observation.ProtectiveEquipmentList)

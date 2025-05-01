@@ -1,7 +1,7 @@
 ﻿
 namespace HyFive.Domain.Place
 {
-    public class PredefinedComments
+    public class PredefinedComment
     {
         public int Id { get; set; }
         public string Comment { get; set; }

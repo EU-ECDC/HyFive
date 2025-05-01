@@ -9,7 +9,7 @@
             Seeds all necessary static code lists required for the application to run:
             OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
             BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
-            IndicatedGloveTypes, GeneralPurposeGloveType, PostGloveHandHygiene.
+            IndicatedGloveTypes, GloveWithoutIndicationType, HandHygieneAfterGloveUseType.
             In addition, an FHI Admin is seeded: Felix Mørk.
             To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
             </summary>
@@ -38,7 +38,7 @@
             <param name="institutionId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.OpprettKlinikk(HyFive.Models.V1.Institution.Clinic)">
+        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.CreateClinic(HyFive.Models.V1.Institution.Clinic)">
             <summary>
             Create clinic
             </summary>
@@ -84,7 +84,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.GloveWithoutIndicationTypeController.UpdateGloveWithoutIndicationType(HyFive.Models.V1.Observation.Gloves.GeneralPurposeGloveType)">
             <summary>
-            Update GeneralPurposeGloveType
+            Update GloveWithoutIndicationType
             </summary>
             <param name="gloveWithoutIndicationType"></param>
             <returns></returns>
@@ -97,7 +97,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.HandHygieneAfterGloveUseTypeController.UpdateHandHygieneAfterGloveUseType(HyFive.Models.V1.Observation.Gloves.PostGloveHandHygieneType)">
             <summary>
-            Update  PostGloveHandHygiene
+            Update  HandHygieneAfterGloveUseType
             </summary>
             <param name="handHygieneAfterGloveUseType"></param>
             <returns></returns>
@@ -158,7 +158,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.GetPredefinedComments(System.Int32)">
             <summary>
-            Get PredefinedComments
+            Get PredefinedComment
             </summary>
             <returns></returns>
         </member>

@@ -27,7 +27,7 @@ namespace HyFive.Services.Institution
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var comment = await _context.PredefinedComments.FirstOrDefaultAsync(pk => pk.Id == request.PredefinedComment.Id 
+                var comment = await _context.PredefinedComment.FirstOrDefaultAsync(pk => pk.Id == request.PredefinedComment.Id 
                                                                        && pk.InstitutionId == request.InstitutionId 
                                                                        && pk.SessionType == SessionType.ProtectiveEquipment, cancellationToken);
                 if (comment == null)

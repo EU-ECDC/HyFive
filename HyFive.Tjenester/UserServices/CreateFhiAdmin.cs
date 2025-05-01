@@ -54,7 +54,7 @@ namespace HyFive.Services.UserServices
                     FirstName = command.Request.FirstName,
                     LastName = command.Request.LastName,
                     IsDeactivated = false,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                 };
 
                 _context.User.Add(fhiAdmin);

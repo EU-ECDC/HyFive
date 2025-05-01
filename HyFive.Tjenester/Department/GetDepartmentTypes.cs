@@ -30,7 +30,7 @@ namespace HyFive.Services.Department
 
             public async Task<IEnumerable<Models.V1.Institution.DepartmentType>> Handle(GetDepartmentTypes.Query request, CancellationToken cancellationToken)
             {
-                return await _context.SectionType
+                return await _context.DepartmentType
                     .AsNoTracking()
                     .OrderBy(a => a.Name)
                     .ProjectTo<Models.V1.Institution.DepartmentType>(_mapper.ConfigurationProvider)

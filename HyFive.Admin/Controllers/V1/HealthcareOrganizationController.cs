@@ -40,7 +40,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPost("create")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> OpprettEtHelseforetak([FromBody] CreateHealthcareOrganizationRequest healthcareOrganizationRequest)
+        public async Task<ActionResult<bool>> CreateHealthcareOrganization([FromBody] CreateHealthcareOrganizationRequest healthcareOrganizationRequest)
         {
             var isCreated = await _mediator.Send(new CreateHealthcareOrganization.Command
             {
@@ -115,12 +115,12 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                var opprettetStatus = await _mediator.Send(new CreateCoordinatorForHealthcareOrganization.Command
+                var createdStatus = await _mediator.Send(new CreateCoordinatorForHealthcareOrganization.Command
                 {
                     Coordinator = coordinator,
                     HealthcareOrganizationId = id
                 });
-                return Ok(opprettetStatus);
+                return Ok(createdStatus);
             }
 
             return Unauthorized();

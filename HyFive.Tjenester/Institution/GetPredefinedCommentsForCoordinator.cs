@@ -31,7 +31,7 @@ namespace HyFive.Services.Institution
             }
             public async Task<List<PredefinedComment>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var comments = await _context.PredefinedComments
+                var comments = await _context.PredefinedComment
                     .AsNoTracking()
                     .Where(pk => pk.InstitutionId == request.InstitutionId && pk.SessionType == SessionType.ProtectiveEquipment)
                     .ProjectTo<PredefinedComment>(_mapper.ConfigurationProvider)

@@ -275,7 +275,7 @@ namespace HyFive.Services.Reports.HandJewelry
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.Now.ToString(Helpers.FileNamePrefix)}-HandJewelry-DepartmentReport-{report.Department}.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-HandJewelry-DepartmentReport-{report.Department}.pdf"
             };
 
             return pdfResult;

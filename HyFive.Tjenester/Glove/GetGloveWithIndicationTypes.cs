@@ -28,7 +28,7 @@ namespace HyFive.Services.Glove
 
             public async Task<IEnumerable<IndicatedGloveType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var gloveWithIndicationTypes = await _context.IndicatedGloveType
+                var gloveWithIndicationTypes = await _context.GloveWithIndicationType
                     .AsNoTracking()
                     .ProjectTo<IndicatedGloveType>(_mapper.ConfigurationProvider)
                     .OrderBy(h => h.Name)

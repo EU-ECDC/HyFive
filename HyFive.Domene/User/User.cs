@@ -8,7 +8,7 @@ namespace HyFive.Domain.User
         public User()
         {
             IsDeactivated = false;
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow;
         }
         public int Id { get; set; }
         public Institution Institution { get; set; }

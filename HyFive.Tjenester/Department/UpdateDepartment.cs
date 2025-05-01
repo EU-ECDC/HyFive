@@ -43,7 +43,7 @@ namespace HyFive.Services.Department
 
                 if (command.DepartmentTypeId > 0)
                 {
-                    var avdelingtype = _context.SectionType.FirstOrDefault(a => a.Id == command.DepartmentTypeId);
+                    var avdelingtype = _context.DepartmentType.FirstOrDefault(a => a.Id == command.DepartmentTypeId);
                     if (avdelingtype == null)
                         throw new Exception("Could not find department type with ID " + command.DepartmentTypeId);
                     department.DepartmentType = avdelingtype;

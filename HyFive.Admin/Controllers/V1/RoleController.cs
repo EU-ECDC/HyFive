@@ -45,7 +45,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Role), StatusCodes.Status201Created)]
         public async Task<ActionResult<Role>> CreateRole([FromBody] CreateRoleRequest request)
         {
-            var result = await _mediator.Send(new OpprettRolle.Command() { Request = request });
+            var result = await _mediator.Send(new CreateRole.Command() { Request = request });
             return result;
         }
 

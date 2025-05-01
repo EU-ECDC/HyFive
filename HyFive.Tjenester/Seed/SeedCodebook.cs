@@ -47,33 +47,33 @@ namespace HyFive.Services.Seed
 
             private void SeedHandHygieneAfterGloveUseType()
             {
-                if (_context.PostGloveHandHygiene.Any())
+                if (_context.HandHygieneAfterGloveUseType.Any())
                     return;
 
-                var handHygieneAfterGloveUseTypes = new List<PostGloveHandHygiene>
+                var handHygieneAfterGloveUseTypes = new List<HandHygieneAfterGloveUseType>
                 {
-                    new PostGloveHandHygiene {Code = "NOT_INDICATED", Name = "Not Indicated"},
-                    new PostGloveHandHygiene {Code = "NO", Name = "No"},
-                    new PostGloveHandHygiene {Code = "YES", Name = "Yes"},
+                    new HandHygieneAfterGloveUseType {Code = "NOT_INDICATED", Name = "Not Indicated"},
+                    new HandHygieneAfterGloveUseType {Code = "NO", Name = "No"},
+                    new HandHygieneAfterGloveUseType {Code = "YES", Name = "Yes"},
                 };
 
-                _context.PostGloveHandHygiene.AddRange(handHygieneAfterGloveUseTypes);
+                _context.HandHygieneAfterGloveUseType.AddRange(handHygieneAfterGloveUseTypes);
                 _context.SaveChanges();
             }
 
             private void SeedGlovesWithoutIndicationTypes()
             {
-                if (_context.GeneralPurposeGloveType.Any())
+                if (_context.GloveWithoutIndicationType.Any())
                     return;
 
-                var glovesWithoutIndicationTypes = new List<GeneralPurposeGloveType>
+                var glovesWithoutIndicationTypes = new List<GloveWithoutIndicationType>
                 {
-                    new GeneralPurposeGloveType {Code = "OTHER", Name = "Other"},
-                    new GeneralPurposeGloveType {Code = "FOOD", Name = "Food"},
-                    new GeneralPurposeGloveType {Code = "CARE_WITHOUT_BODY_FLUIDS", Name = "Care without body fluids"},
+                    new GloveWithoutIndicationType {Code = "OTHER", Name = "Other"},
+                    new GloveWithoutIndicationType {Code = "FOOD", Name = "Food"},
+                    new GloveWithoutIndicationType {Code = "CARE_WITHOUT_BODY_FLUIDS", Name = "Care without body fluids"},
                 };
 
-                _context.GeneralPurposeGloveType.AddRange(glovesWithoutIndicationTypes);
+                _context.GloveWithoutIndicationType.AddRange(glovesWithoutIndicationTypes);
                 _context.SaveChanges();
             }
 
@@ -101,17 +101,17 @@ namespace HyFive.Services.Seed
 
             private void SeedGlovesWithIndicationTypes()
             {
-                if (_context.IndicatedGloveType.Any())
+                if (_context.GloveWithIndicationType.Any())
                     return;
 
-                var glovesWithIndicationTypes = new List<IndicatedGloveType>
+                var glovesWithIndicationTypes = new List<GloveWithIndicationType>
                 {
-                    new IndicatedGloveType {Code = "OTHER", Name = "Other"},
-                    new IndicatedGloveType {Code = "INFECTION", Name = "iNFECTION"},
-                    new IndicatedGloveType {Code = "BODY_FLUIDS", Name = "Body Fluids"},
+                    new GloveWithIndicationType {Code = "OTHER", Name = "Other"},
+                    new GloveWithIndicationType {Code = "INFECTION", Name = "iNFECTION"},
+                    new GloveWithIndicationType {Code = "BODY_FLUIDS", Name = "Body Fluids"},
                 };
 
-                _context.IndicatedGloveType.AddRange(glovesWithIndicationTypes);
+                _context.GloveWithIndicationType.AddRange(glovesWithIndicationTypes);
                 _context.SaveChanges();
             }
 

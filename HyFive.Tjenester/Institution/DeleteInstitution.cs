@@ -76,8 +76,8 @@ namespace HyFive.Services.Institution
 
             private void DeletePredefinedComments(int institusjonsId)
             {
-                var preDefinerteKommentarer = _context.PredefinedComments.Where(p => p.InstitutionId == institusjonsId);
-                _context.PredefinedComments.RemoveRange(preDefinerteKommentarer);
+                var preDefinerteKommentarer = _context.PredefinedComment.Where(p => p.InstitutionId == institusjonsId);
+                _context.PredefinedComment.RemoveRange(preDefinerteKommentarer);
             }
 
             private void DeleteDepartmentWithRelatedData(Domain.Place.Institution institution)

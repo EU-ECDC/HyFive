@@ -10,7 +10,7 @@ namespace HyFive.Domain.Place
         {
             CreatedTime = DateTime.UtcNow;
             Users = new List<User.User>();
-            PredefinedComments = new List<PredefinedComments>();
+            PredefinedComment = new List<PredefinedComment>();
         }
         public int Id { get; set; }
         public string HERId { get; set; }
@@ -21,7 +21,7 @@ namespace HyFive.Domain.Place
         public string Abbreviation { get; set; }
         [Column("User")]
         public ICollection<User.User> Users { get; set; }
-        public ICollection<PredefinedComments> PredefinedComments { get; set; }
+        public ICollection<PredefinedComment> PredefinedComment { get; set; }
         public InstitutionType InstitutionType { get; set; }
         public Region Region { get; set; }
         public HealthcareOrganization HealthcareOrganization { get; set; }

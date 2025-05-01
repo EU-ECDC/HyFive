@@ -29,7 +29,7 @@ namespace HyFive.Services.Glove
 
             public async Task<GeneralPurposeGloveType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var gloveWithoutIndicationType = await _context.GeneralPurposeGloveType
+                var gloveWithoutIndicationType = await _context.GloveWithoutIndicationType
                     .FirstOrDefaultAsync(x => x.Id == request.GloveWithoutIndicationType.Id);
 
                 if (gloveWithoutIndicationType == null) throw new Exception($"Could not find gloveWithoutIndicationType with ID: {request.GloveWithoutIndicationType.Id}");

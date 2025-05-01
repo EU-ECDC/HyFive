@@ -83,11 +83,11 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<GloveObservation, Models.V1.Observation.Gloves.GloveObservation>(MemberList.None);
-            CreateMap<IndicatedGloveType, Models.V1.Observation.Gloves.IndicatedGloveType>(MemberList
+            CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.IndicatedGloveType>(MemberList
                 .None);
-            CreateMap<GeneralPurposeGloveType, Models.V1.Observation.Gloves.GeneralPurposeGloveType>(MemberList
+            CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GeneralPurposeGloveType>(MemberList
                 .None);
-            CreateMap<PostGloveHandHygiene, Models.V1.Observation.Gloves.PostGloveHandHygieneType>(
+            CreateMap<HandHygieneAfterGloveUseType, Models.V1.Observation.Gloves.PostGloveHandHygieneType>(
                 MemberList.None);
 
             CreateMap<Domain.Place.Institution, Models.V1.Institution.InstitutionReport>(MemberList.None);
@@ -144,7 +144,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<Domain.Session.TransferStatusType, TransferStatusType>(MemberList.None);
 
-            CreateMap<Domain.Place.PredefinedComments, Models.V1.Institution.PredefinedComment>(MemberList.None);
+            CreateMap<Domain.Place.PredefinedComment, Models.V1.Institution.PredefinedComment>(MemberList.None);
 
             // Clinic
             CreateMap<Domain.Place.Clinic, Models.V1.Institution.Clinic>(MemberList.None)

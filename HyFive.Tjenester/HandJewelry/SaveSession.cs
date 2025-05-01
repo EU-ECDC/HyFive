@@ -61,7 +61,7 @@ namespace HyFive.Services.HandJewelry
                 session.Observer = observer;
                 foreach (var observation in session.Observations)
                 {
-                    observation.CreatedTime = DateTime.Now;
+                    observation.CreatedTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.HandJewelry = handJewelryTypes.Where(ht => observation.HandJewelry.Select(oh => oh.Id).Contains(ht.Id)).ToList();
                     observation.Comment = string.IsNullOrEmpty(observation.Comment) ? null : observation.Comment;

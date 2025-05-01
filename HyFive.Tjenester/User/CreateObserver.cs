@@ -48,7 +48,7 @@ namespace HyFive.Services.User
                     Institution = institution,
                     HPRNumber = command.User.HPRNumber,
                     IdentityPseudonym = command.User.IdentityPseudonym,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
                     IsDeactivated = false
                 };
                 _context.User.Add(observer);

@@ -28,7 +28,7 @@ namespace HyFive.Services.Glove
 
             public async Task<IEnumerable<PostGloveHandHygieneType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var handHygieneAfterGloveUseTypes = await _context.PostGloveHandHygiene
+                var handHygieneAfterGloveUseTypes = await _context.HandHygieneAfterGloveUseType
                     .AsNoTracking()
                     .ProjectTo<PostGloveHandHygieneType>(_mapper.ConfigurationProvider)
                     .OrderBy(h => h.Name)

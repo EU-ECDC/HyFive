@@ -46,12 +46,12 @@ namespace HyFive.Services.Glove
                     throw new Exception(
                         $"Could not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
 
-                var gloveWithIndicationTypes = _context.IndicatedGloveType.ToList();
-                var gloveWithoutIndicationTypes = _context.GeneralPurposeGloveType.ToList();
-                var handHygieneAfterGloveUseTypes = _context.PostGloveHandHygiene.ToList();
+                var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
+                var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
+                var handHygieneAfterGloveUseTypes = _context.HandHygieneAfterGloveUseType.ToList();
 
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
-                session.CreatedDate = DateTime.Now;
+                session.CreatedDate = DateTime.UtcNow;
                 session.Department = await HentAvdeling(request, cancellationToken);
                 session.Observer = observator;
 
@@ -64,7 +64,7 @@ namespace HyFive.Services.Glove
 
                 foreach (var observation in session.Observations)
                 {
-                    observation.CreatedTime = DateTime.Now;
+                    observation.CreatedTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes
                                                             .Where(hmi => observation.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))

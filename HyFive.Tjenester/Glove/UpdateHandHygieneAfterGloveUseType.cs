@@ -29,7 +29,7 @@ namespace HyFive.Services.Glove
 
             public async Task<PostGloveHandHygieneType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var handHygieneAfterGloveUseType = await _context.PostGloveHandHygiene
+                var handHygieneAfterGloveUseType = await _context.HandHygieneAfterGloveUseType
                     .FirstOrDefaultAsync(x => x.Id == request.HandHygieneAfterGloveUseType.Id);
 
                 if (handHygieneAfterGloveUseType == null) throw new Exception($"Could not find handHygieneAfterGloveUseType with ID: {request.HandHygieneAfterGloveUseType.Id}");

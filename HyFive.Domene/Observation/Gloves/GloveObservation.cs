@@ -5,10 +5,10 @@ namespace HyFive.Domain.Observation.Gloves
 {
     public class GloveObservation : Observation
     {
-        public ICollection<IndicatedGloveType> IndicatedGloveTypes { get; set; }
-        public ICollection<GeneralPurposeGloveType> GeneralPurposeGloveTypes { get; set; }
+        public ICollection<GloveWithIndicationType> IndicatedGloveTypes { get; set; }
+        public ICollection<GloveWithoutIndicationType> GeneralPurposeGloveTypes { get; set; }
         public bool GloveUsed { get; set; }
-        public PostGloveHandHygiene PostGloveHandHygieneType { get; set; }
+        public HandHygieneAfterGloveUseType PostGloveHandHygieneType { get; set; }
         public GloveSession GloveSession { get; set; }
     }
 }

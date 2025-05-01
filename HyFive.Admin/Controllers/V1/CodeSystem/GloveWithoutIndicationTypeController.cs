@@ -32,7 +32,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Update GeneralPurposeGloveType
+        /// Update GloveWithoutIndicationType
         /// </summary>
         /// <param name="gloveWithoutIndicationType"></param>
         /// <returns></returns>

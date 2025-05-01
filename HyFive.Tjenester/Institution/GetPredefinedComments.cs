@@ -30,7 +30,7 @@ namespace HyFive.Services.Institution
             {
                 if (request.SessionType == SessionType.ProtectiveEquipment)
                 {
-                    var predefinedComments = await _context.PredefinedComments
+                    var predefinedComments = await _context.PredefinedComment
                         .Where(pk =>
                             pk.InstitutionId == request.InstitutionId &&
                             pk.SessionType == Domain.Place.SessionType.ProtectiveEquipment)

@@ -53,7 +53,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        RegistrationTime = DateTime.Now,
+        //        RegistrationTime = DateTime.UtcNow,
         //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
             
@@ -71,7 +71,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        RegistrationTime = DateTime.Now,
+        //        RegistrationTime = DateTime.UtcNow,
         //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
 
@@ -82,7 +82,7 @@ namespace HyFive.Services.Tests.Rapporter
         //        Session = new FourIndicationsSession()
         //        {
         //            Department = enAvdeling,
-        //            StartDate = DateTime.Now,
+        //            StartDate = DateTime.UtcNow,
         //            Observations = new List<FourIndicationsObservation>()
         //            {
         //                etterlevdObservasjonKombinasjonA,
@@ -100,8 +100,8 @@ namespace HyFive.Services.Tests.Rapporter
         //    var lagRapportQuery = new GetFourIndicatorsReportForDepartment.Query()
         //    {
         //        DepartmentId = enAvdeling.Id, 
-        //        FromDate = DateTime.Now.AddDays(-1),
-        //        ToTime = DateTime.Now.AddDays(1),
+        //        FromDate = DateTime.UtcNow.AddDays(-1),
+        //        ToTime = DateTime.UtcNow.AddDays(1),
         //        Roles = AuthorizedRole.Coordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());

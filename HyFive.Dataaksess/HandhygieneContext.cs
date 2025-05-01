@@ -28,17 +28,17 @@ namespace HyFive.DataAccess
         public DbSet<TransferStatusType> TransferStatusType { get; set; }
         public DbSet<Institution> Institution { get; set; }
         public DbSet<InstitutionType> InstitutionType { get; set; }
-        public DbSet<DepartmentType> SectionType { get; set; }
-        public DbSet<PredefinedComments> PredefinedComments { get; set; }
+        public DbSet<DepartmentType> DepartmentType { get; set; }
+        public DbSet<PredefinedComment> PredefinedComment { get; set; }
         public DbSet<IndicationTypes> Indication { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<HandJewelryType> HandJewelryType { get; set; }
         public DbSet<ProtectiveEquipmentSettingType> ProtectiveEquipmentSettingType { get; set; }
         public DbSet<ProtectiveEquipmentType> ProtectiveEquipmentType { get; set; }
-        public DbSet<IndicatedGloveType> IndicatedGloveType { get; set; }
-        public DbSet<GeneralPurposeGloveType> GeneralPurposeGloveType { get; set; }
-        public DbSet<PostGloveHandHygiene> PostGloveHandHygiene { get; set; }
+        public DbSet<GloveWithIndicationType> GloveWithIndicationType { get; set; }
+        public DbSet<GloveWithoutIndicationType> GloveWithoutIndicationType { get; set; }
+        public DbSet<HandHygieneAfterGloveUseType> HandHygieneAfterGloveUseType { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<Region> Region { get; set; }
         public DbSet<FourIndicationsObservation> FourIndicationsObservation { get; set; }
@@ -120,20 +120,20 @@ namespace HyFive.DataAccess
             mb.Entity<ProtectiveEquipmentSettingType>().HasIndex(bust => bust.Name);
             
 
-            mb.Entity<IndicatedGloveType>().Property(h => h.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<IndicatedGloveType>().HasIndex(h => h.Code).IsUnique();
-            mb.Entity<IndicatedGloveType>().Property(h => h.Name).HasMaxLength(100);
-            mb.Entity<IndicatedGloveType>().HasIndex(h => h.Name);
+            mb.Entity<GloveWithIndicationType>().Property(h => h.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<GloveWithIndicationType>().HasIndex(h => h.Code).IsUnique();
+            mb.Entity<GloveWithIndicationType>().Property(h => h.Name).HasMaxLength(100);
+            mb.Entity<GloveWithIndicationType>().HasIndex(h => h.Name);
 
-            mb.Entity<GeneralPurposeGloveType>().Property(h => h.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<GeneralPurposeGloveType>().HasIndex(h => h.Code).IsUnique();
-            mb.Entity<GeneralPurposeGloveType>().Property(h => h.Name).HasMaxLength(100);
-            mb.Entity<GeneralPurposeGloveType>().HasIndex(h => h.Name);
+            mb.Entity<GloveWithoutIndicationType>().Property(h => h.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<GloveWithoutIndicationType>().HasIndex(h => h.Code).IsUnique();
+            mb.Entity<GloveWithoutIndicationType>().Property(h => h.Name).HasMaxLength(100);
+            mb.Entity<GloveWithoutIndicationType>().HasIndex(h => h.Name);
 
-            mb.Entity<PostGloveHandHygiene>().Property(h => h.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<PostGloveHandHygiene>().HasIndex(h => h.Code).IsUnique();
-            mb.Entity<PostGloveHandHygiene>().Property(h => h.Name).HasMaxLength(100);
-            mb.Entity<PostGloveHandHygiene>().HasIndex(h => h.Name);
+            mb.Entity<HandHygieneAfterGloveUseType>().Property(h => h.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<HandHygieneAfterGloveUseType>().HasIndex(h => h.Code).IsUnique();
+            mb.Entity<HandHygieneAfterGloveUseType>().Property(h => h.Name).HasMaxLength(100);
+            mb.Entity<HandHygieneAfterGloveUseType>().HasIndex(h => h.Name);
             
 
             mb.Entity<Region>().Property(rt => rt.Code).HasMaxLength(50).IsRequired();
@@ -151,7 +151,7 @@ namespace HyFive.DataAccess
             mb.Entity<Institution>().HasIndex(i => i.Abbreviation);
             mb.Entity<Institution>().HasIndex(i => i.HERId);
 
-            mb.Entity<PredefinedComments>().Property(pk => pk.Comment).HasMaxLength(1000);
+            mb.Entity<PredefinedComment>().Property(pk => pk.Comment).HasMaxLength(1000);
 
             mb.Entity<Department>().Property(a => a.Name).HasMaxLength(250);
             mb.Entity<Department>().HasIndex(a => a.Name);
