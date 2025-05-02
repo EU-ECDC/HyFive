@@ -33,7 +33,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(List<HealthcareOrganization>), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<HealthcareOrganization>>> GetAllHealthcareOrganizations()
         {
-            var allHealthcareOrganizations = await _mediator.Send(new GetAllHealthcareProviders.Query());
+            var allHealthcareOrganizations = await _mediator.Send(new GetAllHealthcareOrganizations.Query());
             return Ok(allHealthcareOrganizations);
         }
 

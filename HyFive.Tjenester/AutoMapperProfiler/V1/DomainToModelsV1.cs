@@ -175,8 +175,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.SecondsUsed, opt => opt.MapFrom(o => o.Activity.TimeSpent))
                 .ForMember(dest => dest.TimingWasPerformed, opt => opt.MapFrom(o => o.Activity.TimeRecordingWasDone))
                 .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GloveUsed))
-                .ForMember(dest => dest.HealthcareTrust, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.Name))
-                .ForMember(dest => dest.RegionalHealthcareTrust, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.RegionaltHealthcareOrganization.Name))
+                .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.Name))
+                .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.Municipality.Number))
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.Municipality.Name));
 
@@ -202,8 +202,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.HandHygieneAfterGloveUseCode, opt => opt.MapFrom(o => o.PostGloveHandHygieneType.Code))
                 .ForMember(dest => dest.GlovesWithoutIndicationCode, opt => opt.MapFrom(o => string.Join(',',o.GeneralPurposeGloveTypes.Select(h => h.Code))))
                 .ForMember(dest => dest.GlovesWithIndicationCode, opt => opt.MapFrom(o => string.Join(',', o.IndicatedGloveTypes.Select(h => h.Code))))
-                .ForMember(dest => dest.HealthcareTrust, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.Name))
-                .ForMember(dest => dest.RegionalHealthcareTrust, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.RegionaltHealthcareOrganization.Name))
+                .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.Name))
+                .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.Municipality.Number))
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.Municipality.Name));
 
@@ -227,8 +227,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                .ForMember(dest => dest.SessionComment, opt => opt.MapFrom(o => o.HandJewelrySession.Comment))
                .ForMember(dest => dest.HandJewelryTypeCodes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelry.Select(h => h.Code))))
                .ForMember(dest => dest.HandJewelryTypes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelry.Select(h => h.Name))))
-               .ForMember(dest => dest.HealthTrust, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.Name))
-               .ForMember(dest => dest.RegionalHealthTrust, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.RegionaltHealthcareOrganization.Name))
+               .ForMember(dest => dest.HealthOrganization, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.Name))
+               .ForMember(dest => dest.RegionalHealthOrganization, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.Municipality.Number))
                .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.Municipality.Name));
 
@@ -257,15 +257,15 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.ProtectiveEquipmentSettingCode, opt => opt.MapFrom(o => o.ProtectiveEquipmentObservation.SettingType.Code))
                 .ForMember(dest => dest.ProtectiveEquipmentSetting, opt => opt.MapFrom(o => o.ProtectiveEquipmentObservation.SettingType.Name))
                 .ForMember(dest => dest.Misuse, opt => opt.MapFrom(o => string.Join(',',o.MisuseTypes.Select(f => f.Name))))
-                .ForMember(dest => dest.HealthTrust, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.HealthcareOrganization.Name))
-                .ForMember(dest => dest.RegionalHealthTrust, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.HealthcareOrganization.RegionaltHealthcareOrganization.Name))
+                .ForMember(dest => dest.HealthOrganization, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.HealthcareOrganization.Name))
+                .ForMember(dest => dest.RegionalHealthOrganization, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.Municipality.Number))
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.Municipality.Name));
 
             CreateMap<Domain.Place.HealthcareOrganization, Models.V1.Institution.HealthcareOrganization>()
-                .ForMember(dest => dest.RegionaltHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionaltHealthcareOrganization != null ? src.RegionaltHealthcareOrganization.Id : 0));
+                .ForMember(dest => dest.RegionaltHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionalHealthcareOrganization != null ? src.RegionalHealthcareOrganization.Id : 0));
 
-            CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalInstitution>(MemberList.None);
+            CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalHealthcareOrganization>(MemberList.None);
 
             CreateMap<Domain.Place.Municipality, Models.V1.Institution.Comment>(MemberList.None);
         }

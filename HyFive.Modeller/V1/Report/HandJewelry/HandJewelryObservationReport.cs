@@ -21,8 +21,8 @@ namespace HyFive.Models.V1.Report.HandJewelry
         public string SessionComment { get; set; }
         public string HandJewelryTypes { get; set; }
         public string HandJewelryTypeCodes { get; set; }
-        public string HealthTrust { get; set; }
-        public string RegionalHealthTrust { get; set; }
+        public string HealthOrganization { get; set; }
+        public string RegionalHealthOrganization { get; set; }
         public string MunicipalityNumber { get; set; }
         public string Municipality { get; set; }
     }

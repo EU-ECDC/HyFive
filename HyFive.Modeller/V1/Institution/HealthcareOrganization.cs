@@ -8,6 +8,6 @@ namespace HyFive.Models.V1.Institution
         public int Id { get; set; }
         public string Name { get; set; }
         public int RegionaltHealthcareOrganizationId { get; set; }
-        public RegionalInstitution RegionalHealthcareOrganization { get; set; }
+        public RegionalHealthcareOrganization RegionalHealthcareOrganization { get; set; }
     }
 }

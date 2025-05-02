@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Services.HealthcareOrganization
 {
-    public class GetAllHealthcareProviders
+    public class GetAllHealthcareOrganizations
     {
         public class Query : IRequest<List<Models.V1.Institution.HealthcareOrganization>>
         {  }
@@ -30,13 +30,13 @@ namespace HyFive.Services.HealthcareOrganization
             {
                 if (_context.HealthcareOrganization.Any())
                 {
-                    var allHealthcareProvides = await _context.HealthcareOrganization
+                    var allHealthcareOrganizations = await _context.HealthcareOrganization
                                                          .AsNoTracking()
                                                          .OrderBy(h => h.Name)
                                                          .ProjectTo<Models.V1.Institution.HealthcareOrganization>(_mapper.ConfigurationProvider)
                                                          .ToListAsync();
 
-                    return allHealthcareProvides;
+                    return allHealthcareOrganizations;
                 }
 
                 return null;

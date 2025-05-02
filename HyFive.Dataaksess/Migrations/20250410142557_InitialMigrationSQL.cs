@@ -220,7 +220,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RegionalHealthcareOrganizationId",
+                name: "RegionalHealthcareOrganization",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)

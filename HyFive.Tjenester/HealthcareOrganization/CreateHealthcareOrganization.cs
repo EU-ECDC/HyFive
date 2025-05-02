@@ -25,7 +25,7 @@ namespace HyFive.Services.HealthcareOrganization
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var healthcareOrganization = _context.HealthcareOrganization.Include(h => h.RegionaltHealthcareOrganization)
+                var healthcareOrganization = _context.HealthcareOrganization.Include(h => h.RegionalHealthcareOrganization)
                                                         .FirstOrDefault(h => h.Name.ToLower() == request.HealthcareOrganization.Name.ToLower());
 
                 if (healthcareOrganization != null)
@@ -34,7 +34,7 @@ namespace HyFive.Services.HealthcareOrganization
                 healthcareOrganization = new Domain.Place.HealthcareOrganization
                 {
                     Name = request.HealthcareOrganization.Name,
-                    RegionaltHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(request.HealthcareOrganization.RegionaltHealthcareOrganizationId)
+                    RegionalHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(request.HealthcareOrganization.RegionaltHealthcareOrganizationId)
                 };
 
                 _context.HealthcareOrganization.Add(healthcareOrganization);

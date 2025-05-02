@@ -21,7 +21,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Models.V1.Institution.RegionalInstitution>>> GetAllRegionalHealthcareOrganizations()
+        public async Task<ActionResult<List<Models.V1.Institution.RegionalHealthcareOrganization>>> GetAllRegionalHealthcareOrganizations()
         {
             var result = await  _mediator.Send(new GetAllRegionalHealthOrganization.Query());
 

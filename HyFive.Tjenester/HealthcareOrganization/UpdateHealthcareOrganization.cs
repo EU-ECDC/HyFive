@@ -24,11 +24,11 @@ namespace HyFive.Services.HealthcareOrganization
             }
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var healthcareOrganization = _context.HealthcareOrganization.Include(h => h.RegionaltHealthcareOrganization)
+                var healthcareOrganization = _context.HealthcareOrganization.Include(h => h.RegionalHealthcareOrganization)
                                                         .FirstOrDefault(h => h.Id == command.HealthcareOrganization.Id);
 
                 healthcareOrganization.Name = command.HealthcareOrganization.Name;
-                healthcareOrganization.RegionaltHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(command.HealthcareOrganization.RegionaltHealthcareOrganizationId);
+                healthcareOrganization.RegionalHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(command.HealthcareOrganization.RegionaltHealthcareOrganizationId);
 
                 _context.HealthcareOrganization.Update(healthcareOrganization);
                 await _context.SaveChangesAsync();
