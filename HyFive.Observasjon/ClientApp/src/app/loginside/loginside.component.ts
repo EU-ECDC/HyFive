@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AutoriseringService } from '../services/data/autorisering.service';
-import { InnloggetBruker } from '../models/api/InnloggetBruker';
+import { LoggedInUser } from '../models/api/LoggedInUser';
 import { Urls } from '../konstanter/urls';
 import {FireIndikasjonerSesjonService} from '../services/data/fire-indikasjoner-sesjon.service';
 import {HanskeSesjonService} from '../services/data/hansker-sesjon.service';
@@ -22,7 +22,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
 
   erLoggetInn = false;
   erOnline = false;
-  bruker: InnloggetBruker;
+  bruker: LoggedInUser;
   Urls = Urls;
   mottattBrukerStatusFraServer = false;
   institusjoner: Institution[];

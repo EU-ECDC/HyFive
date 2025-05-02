@@ -8,7 +8,7 @@ import { fromEvent, Subscription } from "rxjs";
 import { BrowserViewportService } from "./services/events/browser-viewport.service";
 import { AutoriseringService } from "./services/data/autorisering.service";
 import { AuthorizedRole } from "./models/autorisering/authorized-role";
-import { InnloggetBruker } from "./models/api/InnloggetBruker";
+import { LoggedInUser } from "./models/api/LoggedInUser";
 import { AuthenticationEventService } from "./services/events/authentication-event.service";
 import { Localstoragepaths } from "./konstanter/localstoragepaths";
 
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   private subscription = new Subscription();
   isMobile: boolean;
   erLoggetInn = false;
-  bruker: InnloggetBruker;
+  bruker: LoggedInUser;
 
   siderMedInverterteFarger = [
     Urls.IkkeSendteSesjonerUrl,
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
         this.autoriseringService.getBruker().subscribe((bruker) => {
           this.bruker = bruker;
           if (
-            this.bruker.erObservator == false &&
+            this.bruker.isObserver == false &&
             window.location.pathname !== Urls.LoginsideUrl
           ) {
             this.router.navigate([Urls.LoginsideUrl]);
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
     }
 
     // Ellers vis hovedmeny kun hvis bruker er en observatør og vi ikke står på forsiden.
-    return this.bruker?.erObservator;
+    return this.bruker?.isObserver;
   }
   
   skalViseAppBrand() {

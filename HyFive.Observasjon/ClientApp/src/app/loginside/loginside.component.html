@@ -12,15 +12,15 @@
 
     <div class="col-12" *ngIf="bruker?.name && erOnline">
       <p class="mb-2">Hei, {{bruker.name}}. </p>
-      <p *ngIf="bruker?.erObservator">Velkommen til Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</p>
+      <p *ngIf="bruker?.isObserver">Velkommen til Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</p>
     </div>
   </div>
 
   <ng-container *ngIf="mottattBrukerStatusFraServer">
 
-    <div *ngIf="erOnline && (erLoggetInn == false || bruker?.erObservator == false) && visForesporselRegistrering" class="row">
+    <div *ngIf="erOnline && (erLoggetInn == false || bruker?.isObserver == false) && visForesporselRegistrering" class="row">
       <div class="col-lg-6">
-        <div *ngIf="bruker?.erObservator == false">
+        <div *ngIf="bruker?.isObserver == false">
           Du er ikke registrert som bruker av NOST. Velg en institusjon i lista og trykk på "Registrer deg".
           <div class="row my-4">
             <div class="col-12">
@@ -64,7 +64,7 @@
         </a>
       </div>
     </div>
-    <ng-container *ngIf="erOnline && erLoggetInn && bruker?.erObservator">
+    <ng-container *ngIf="erOnline && erLoggetInn && bruker?.isObserver">
       <div class="row">
         <div class="col-lg-8">
           <a [routerLink]="'/registrering'" class="btn fhi-btn-primary w-100">

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {InnloggetBruker} from '../../models/api/InnloggetBruker';
+import {LoggedInUser} from '../../models/api/LoggedInUser';
 import {tap} from 'rxjs/operators';
 import {Localstoragepaths} from '../../konstanter/localstoragepaths';
 
@@ -18,8 +18,8 @@ export class AutoriseringService {
     return this.http.get<boolean>(url);
   }
 
-  getBruker(): Observable<InnloggetBruker> {
-    return this.http.get<InnloggetBruker>('/account').pipe(tap(bruker => {
+  getBruker(): Observable<LoggedInUser> {
+    return this.http.get<LoggedInUser>('/account').pipe(tap(bruker => {
       // TODO: midlertidig
       // let innloggetbruker = this.getLokalBrukerId();
       // if(innloggetbruker != bruker.id){

@@ -12,7 +12,7 @@ import { Department } from "../models/api/Department";
 import { SessionType } from "../models/api/SessionType";
 import { HanskeSesjonService } from "../services/data/hansker-sesjon.service";
 import { AutoriseringService } from "../services/data/autorisering.service";
-import { InnloggetBruker } from "../models/api/InnloggetBruker";
+import { LoggedInUser } from "../models/api/LoggedInUser";
 
 @Component({
   selector: "app-startsideforobservasjon",
@@ -28,7 +28,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   farger = Farger;
   visStartside: boolean;
   visBeskyttelsesutstyr: boolean;
-  bruker: InnloggetBruker;
+  bruker: LoggedInUser;
   institusjonAlternativer: Institution[];
   valgtInstitusjonAlternativId: number;
   institusjon: Institution;

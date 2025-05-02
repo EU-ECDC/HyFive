@@ -2,15 +2,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface InnloggetBruker
+export interface LoggedInUser
 {
 	id: string;
 	identityPseudonym: string;
 	name: string;
-	erKoordinator: boolean;
-	erFhiAdmin: boolean;
-	erObservator: boolean;
-	institusjonsIder: number[];
+	isCoordinator: boolean;
+	isFhiAdmin: boolean;
+	isObserver: boolean;
+	institutionIds: number[];
 	firstName: string;
 	lastName: string;
 	hprNumber: string;
