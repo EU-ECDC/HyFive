@@ -32,8 +32,8 @@ export class InstitusjonService {
     return valgtInstitusjonIdString ? parseInt(valgtInstitusjonIdString) : null;
   }
 
-  oppdaterValgtInstitusjonId(institusjonId: number): number | null {
-    localStorage.setItem(Localstoragepaths.ValgtInstitusjon, JSON.stringify(institusjonId));
+  oppdaterValgtInstitusjonId(institutionId: number): number | null {
+    localStorage.setItem(Localstoragepaths.ValgtInstitusjon, JSON.stringify(institutionId));
     return this.hentValgtInstitusjonId();
   }
 }

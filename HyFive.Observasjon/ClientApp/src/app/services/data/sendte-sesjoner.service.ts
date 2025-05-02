@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SesjonRapport } from '../../models/api/SesjonRapport';
 import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
 import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
-import {BeskyttelsesutstyrSesjon} from '../../models/api/BeskyttelsesutstyrSesjon';
+import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
 import { GloveSession } from '../../models/api/GloveSession';
 import {map} from 'rxjs/operators';
 
@@ -21,48 +21,48 @@ export class SendteSesjonerService {
     return this.httpClient.get<SesjonRapport[]>(url);
   }
 
-  hentFireIndikasjonerSesjon(sesjonId : string): Observable<FireIndikasjonerSesjon> {
+  hentFireIndikasjonerSesjon(sessionId : string): Observable<FireIndikasjonerSesjon> {
     let params = new HttpParams();
-    params = params.append("sesjonId", sesjonId);
+    params = params.append("sessionId", sessionId);
     return this.httpClient.get<FireIndikasjonerSesjon>(`${environment.apiBaseUrl}/v1/sesjon/fireindikasjoner`, {params});
   }
 
-  hentHandsmykkerSesjon(sesjonId: string): Observable<HandsmykkeSesjon> {
+  hentHandsmykkerSesjon(sessionId: string): Observable<HandsmykkeSesjon> {
     let params = new HttpParams();
-    params = params.append("sesjonId", sesjonId);
+    params = params.append("sessionId", sessionId);
     return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handsmykker`, {params});
   }
 
-  hentHanskeSesjon(sesjonId: string): Observable<GloveSession> {
+  hentHanskeSesjon(sessionId: string): Observable<GloveSession> {
     let params = new HttpParams();
-    params = params.append("sesjonId", sesjonId);
+    params = params.append("sessionId", sessionId);
     return this.httpClient.get<GloveSession>(`${environment.apiBaseUrl}/v1/sesjon/hanske`, { params });
   }
 
-  hentBeskyttelsesutstyrSesjon(sesjonId: string): Observable<BeskyttelsesutstyrSesjon> {
+  hentBeskyttelsesutstyrSesjon(sessionId: string): Observable<ProtectiveEquipmentSession> {
     let params = new HttpParams();
-    params = params.append("sesjonId", sesjonId);
-    return this.httpClient.get<BeskyttelsesutstyrSesjon>(`${environment.apiBaseUrl}/v1/sesjon/beskyttelsesutstyr`, {params});
+    params = params.append("sessionId", sessionId);
+    return this.httpClient.get<ProtectiveEquipmentSession>(`${environment.apiBaseUrl}/v1/sesjon/beskyttelsesutstyr`, {params});
   }
 
 
-  public lastNedHanskeSesjonSomExcel(institusjonId: number, sesjonId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/hanske/mineobservasjoner/excel?institusjonId=${institusjonId}&sesjonId=${sesjonId}`;
+  public lastNedHanskeSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/hanske/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "Hanske");
   }
 
-  public lastNedFireIndikasjonerSesjonSomExcel(institusjonId: number, sesjonId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/fireindikasjoner/mineobservasjoner/excel?institusjonId=${institusjonId}&sesjonId=${sesjonId}`;
+  public lastNedFireIndikasjonerSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/fireindikasjoner/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "FireIndikasjoner");
   }
 
-  public lastNedHandsmykkeSesjonSomExcel(institusjonId: number, sesjonId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/handsmykke/mineobservasjoner/excel?institusjonId=${institusjonId}&sesjonId=${sesjonId}`;
+  public lastNedHandsmykkeSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/handsmykke/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "Handsmykke");
   }
 
-  public lastNedBeskyttelsesutstyrSesjonSomExcel(institusjonId: number, sesjonId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/mineobservasjoner/excel?institusjonId=${institusjonId}&sesjonId=${sesjonId}`;
+  public lastNedBeskyttelsesutstyrSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "ProtectiveEquipment");
   }
 

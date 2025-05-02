@@ -7,7 +7,7 @@ import { Department } from './Department';
 export interface Klinikk
 {
 	id: number;
-	institusjonId: number;
+	institutionId: number;
 	name: string;
 	departments: Department[];
 }

@@ -11,7 +11,7 @@ import { BeskyttelsesutstyrSesjonsvisning } from "../../models/registrering/besk
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { BeskyttelsesutstyrKort } from '../../models/registrering/beskyttelsesutstyr-kort.model';
 import { BeskyttelsesutstyrMapper } from '../../utils/beskyttelsesutstyrmapper';
-import { BeskyttelsesutstyrSesjon } from '../../models/api/BeskyttelsesutstyrSesjon';
+import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from "../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
@@ -33,7 +33,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
-  sesjonsdata: BeskyttelsesutstyrSesjon = null;
+  sessionsdata: ProtectiveEquipmentSession = null;
   roles: Role[];
   beskyttelsesutstyrValg: ProtectiveEquipment[] = [];
   beskyttelsesutstyrsesjontype: number = SessionType.ProtectiveEquipment;
@@ -69,7 +69,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       this.oppdaterBeskyttelsesutstyrValg();
     })
     this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes);
-    this.institusjonid = this.sesjonsvisning.department.institusjonId;
+    this.institusjonid = this.sesjonsvisning.department.institutionId;
   }
 
 
@@ -164,8 +164,8 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     let observasjon: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
       role: this.kort.role,
-      registrerttidspunkt: new Date(Date.now()),
-      sesjonId: this.sesjonsvisning.sesjonId,
+      registrationTime: new Date(Date.now()),
+      sessionId: this.sesjonsvisning.sessionId,
       comment: this.comment,
       settingtype: this.sesjonsvisning.setting,
       protectiveEquipmentList: this.beskyttelsesutstyrValg
@@ -192,7 +192,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     let valg = this.beskyttelsesutstyrValg.find(b => b.equipmentType.id == droppedValg.equipmentType.id);
     valg.isRequired = valgIndikert;
     valg.equipmentType.isRequired = valgIndikert;
-    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sesjonsvisning.sesjonId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
+    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sesjonsvisning.sessionId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
     this.cardLockedInPlace = false;
   }
 

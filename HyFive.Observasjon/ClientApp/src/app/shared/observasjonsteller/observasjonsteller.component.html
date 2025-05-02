@@ -1,7 +1,7 @@
 <div class="hh-observasjonsteller">
   <a class="hh-observasjonsteller__link"
      [routerLink]="numberOfObservations() > 0 ? ['/' + url] : []"
-     [queryParams]="{ sesjonId: sesjonsdata?.id }">
+     [queryParams]="{ sessionId: sessionsdata?.id }">
     <fa-layers [fixedWidth]="true" size="2x">
       <fa-icon class="hh-observasjonsteller__obs-card" [icon]="faObservasjonskort"></fa-icon>
       <fa-icon class="hh-observasjonsteller__circle" [inverse]="false" [icon]="faCircle" transform="shrink-2 down-0 right-9" content="2"></fa-icon>

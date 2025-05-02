@@ -44,8 +44,8 @@ export class HanskeComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
   }
@@ -56,8 +56,8 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
-  navigerTilRegistreringssideForHanske(sesjonId: string) {
-    this.router.navigate([Urls.RegistrereHanskeUrl], { queryParams: { sesjonId: sesjonId } });
+  navigerTilRegistreringssideForHanske(sessionId: string) {
+    this.router.navigate([Urls.RegistrereHanskeUrl], { queryParams: { sessionId: sessionId } });
   }
 
   observasjonSlettetEventHandler($event: HanskeObservasjon) {
@@ -88,6 +88,6 @@ export class HanskeComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/' + Urls.SendteHanskeSesjonUrl], { queryParams: { sesjonId: this.sesjon.id } })
+    this.router.navigate(['/' + Urls.SendteHanskeSesjonUrl], { queryParams: { sessionId: this.sesjon.id } })
   }
 }

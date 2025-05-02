@@ -1,9 +1,9 @@
 <div class="container">
-  <app-observasjonsteller [url]="Urls.FireIndikasjonerSesjonUrl" [sesjonsdata]="sesjonsdata"></app-observasjonsteller>
+  <app-observasjonsteller [url]="Urls.FireIndikasjonerSesjonUrl" [sessionsdata]="sessionsdata"></app-observasjonsteller>
   <h1 class="h3 mt-n4 mt-xl-0">Fire Indikasjoner</h1>
 </div>
 
-<div class="container" *ngIf="sesjonsvisning.sesjonId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
+<div class="container" *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
   <ng-container *ngFor="let kort of sesjonsvisning.kort">
     <app-fire-indikasjoner-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                             (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"

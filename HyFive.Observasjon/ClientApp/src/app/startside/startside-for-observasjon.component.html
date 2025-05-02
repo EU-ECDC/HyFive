@@ -108,13 +108,13 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SessionType.Hansker"
+                [id]="SessionType.Gloves"
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.Hansker"
-                [value]="SessionType.Hansker"
+                [checked]="valgtSesjonType == SessionType.Gloves"
+                [value]="SessionType.Gloves"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Hansker">
-                <span class="fhi-form-check-tile__label-text">Hansker</span>
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Gloves">
+                <span class="fhi-form-check-tile__label-text">Gloves</span>
               </label>
             </div>
           </div>
@@ -143,12 +143,12 @@
       *ngIf="
         valgtSesjonType === SessionType.InnUt ||
         valgtSesjonType === SessionType.FireIndikasjoner ||
-        valgtSesjonType === SessionType.Hansker
+        valgtSesjonType === SessionType.Gloves
       "
     >
       <div class="d-flex mt-n2 mb-5">
         <div class="d-flex mx-auto">
-          <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SessionType.Hansker">
+          <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SessionType.Gloves">
             <h2 class="h5 text-center">Tidtaking</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !tidtaking ? 'bold' : '' }">Av</span>

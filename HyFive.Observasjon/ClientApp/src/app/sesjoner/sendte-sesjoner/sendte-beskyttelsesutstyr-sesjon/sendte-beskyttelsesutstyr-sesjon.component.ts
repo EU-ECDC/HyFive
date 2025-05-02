@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
-import { BeskyttelsesutstyrSesjon } from '../../../models/api/BeskyttelsesutstyrSesjon';
+import { ProtectiveEquipmentSession } from '../../../models/api/ProtectiveEquipmentSession';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';
 import {faFileExcel, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ import {Dialogtekster} from '../../../konstanter/dialogtekster';
 })
 export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: BeskyttelsesutstyrSesjon = null;
+  sesjon: ProtectiveEquipmentSession = null;
 
   Urls = Urls;
   faArrowLeft = faLongArrowAltLeft;
@@ -37,9 +37,9 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        if (sesjonId === 0) this.router.navigate([Urls.SendteSesjonerUrl]);
-        this.sendteSesjonerService.hentBeskyttelsesutstyrSesjon(sesjonId).subscribe(
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        if (sessionId === 0) this.router.navigate([Urls.SendteSesjonerUrl]);
+        this.sendteSesjonerService.hentBeskyttelsesutstyrSesjon(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
             if (!this.sesjon) this.router.navigate([Urls.SendteSesjonerUrl]);
@@ -69,7 +69,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sendteSesjonerService.lastNedBeskyttelsesutstyrSesjonSomExcel(this.sesjon.institusjonId, this.sesjon.id).subscribe(
+    this.sendteSesjonerService.lastNedBeskyttelsesutstyrSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
         () => {},
         error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
         () => this.lasterNedSomExcel = false)

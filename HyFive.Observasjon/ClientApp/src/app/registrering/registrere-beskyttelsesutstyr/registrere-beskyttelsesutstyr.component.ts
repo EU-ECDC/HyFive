@@ -9,7 +9,7 @@ import { faClipboard, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { Kort } from '../../models/registrering/kort.model';
 import { Uuid } from '../../utils/uuid';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
-import { BeskyttelsesutstyrSesjon } from '../../models/api/BeskyttelsesutstyrSesjon';
+import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
@@ -24,7 +24,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
 
   Urls = Urls;
   sesjonsvisning: BeskyttelsesutstyrSesjonsvisning;
-  sesjonsdata: BeskyttelsesutstyrSesjon = null;
+  sessionsdata: ProtectiveEquipmentSession = null;
   mainMenuIsOpen: boolean;
   visTomForKortTekst: boolean = false;
 
@@ -54,8 +54,8 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) this.router.navigate(['']);
         else this.lastSesjonsdata();
       });
@@ -74,7 +74,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
   }
 
   lastSesjonsdata() {
-    this.sesjonsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sesjonId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
   }
 
   toggleRolleliste() {

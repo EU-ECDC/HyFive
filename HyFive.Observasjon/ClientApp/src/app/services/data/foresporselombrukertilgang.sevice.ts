@@ -30,7 +30,7 @@ export class ForesporselOmBrukertilgangService {
   hentInstitusjon(id: number): Observable<Institution> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/institusjon`;
     let params = new HttpParams();
-    params = params.append("institusjonId", id.toString());
+    params = params.append("institutionId", id.toString());
     return this.httpClient.get<Institution>(url, {params});
   }
 }

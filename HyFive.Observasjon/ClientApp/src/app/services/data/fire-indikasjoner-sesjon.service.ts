@@ -3,7 +3,7 @@ import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon'
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { Role } from '../../models/api/Role';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { Kort } from '../../models/registrering/kort.model';
 import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
@@ -16,7 +16,7 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikasjonerSesjonsvisning, FireIndikasjonerSesjon, FireIndikasjonerObservasjon> {
+export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikasjonerSesjonsvisning, FireIndikasjonerSesjon, FourIndicationsObservation> {
 
   sesjonLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjonsvisninger;
@@ -27,9 +27,9 @@ export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikas
     super(institusjonService);
   }
 
-  public sendTilServer(sesjonId: string): Observable<string> {
+  public sendTilServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sesjonId);
+    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
     var sesjonSomSkalSendes = sessions[sesjonIndeks];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fireindikasjoner`, sesjonSomSkalSendes)
   }
@@ -43,7 +43,7 @@ export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikas
     let id = Uuid.generateUUID();
 
     let fireIndikasjonerSesjonsvisning: FireIndikasjonerSesjonsvisning = {
-      sesjonId: id,
+      sessionId: id,
       department: department,
       hanskebrukSkalRegistreres: hanskebrukSkalRegistreres,
       tidtakingSkalRegistreres: tidtakingSkalRegistreres,

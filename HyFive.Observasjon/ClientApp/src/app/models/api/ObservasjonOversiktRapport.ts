@@ -3,7 +3,7 @@
 //     the code is regenerated.
 
 import { Role } from './Role';
-import { IndikasjonType } from './IndikasjonType';
+import { IndicationType } from './IndicationType';
 import { Activity } from './Activity';
 import { HandsmykkeType } from './HandsmykkeType';
 import { ProtectiveEquipmentOverviewReport } from './ProtectiveEquipmentOverviewReport';
@@ -15,8 +15,8 @@ export interface ObservasjonOversiktRapport
 	id: any;
 	role: Role;
 	comment: string;
-	registrerttidspunkt: any;
-	indikasjonstyper: IndikasjonType[];
+	registrationTime: any;
+	indicationTypes: IndicationType[];
 	activity: Activity;
 	handsmykketyper: HandsmykkeType[];
 	beskyttelsesutstyrsetting: string;

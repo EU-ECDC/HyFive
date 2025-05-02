@@ -27,9 +27,9 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
     super(institusjonService);
   }
 
-  public sendTilServer(sesjonId: string): Observable<string> {
+  public sendTilServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sesjonId);
+    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
     var sesjonSomSkalSendes = sessions[sesjonIndeks];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handsmykke`, sesjonSomSkalSendes)
   }
@@ -41,7 +41,7 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
     let id = Uuid.generateUUID();
 
     let handsmykkerSesjonsvisning: HandsmykkeSesjonsvisning = {
-      sesjonId: id,
+      sessionId: id,
       department: department,
       kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
     }
@@ -52,10 +52,10 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
     return id;
   }
 
-  public hentSesjonFraServer(sesjonId: string): Observable<HandsmykkeSesjon> {
+  public hentSesjonFraServer(sessionId: string): Observable<HandsmykkeSesjon> {
     if (navigator.onLine) {
       let params = new HttpParams();
-      params = params.append("sesjonId", sesjonId);
+      params = params.append("sessionId", sessionId);
       return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handsmykke`, { params });
     }
     else {

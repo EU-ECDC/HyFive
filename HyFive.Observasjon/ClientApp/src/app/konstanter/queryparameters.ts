@@ -1,3 +1,3 @@
 export class Queryparameters {
-  public static SesjonId = "sesjonId";
+  public static SesjonId = "sessionId";
 }

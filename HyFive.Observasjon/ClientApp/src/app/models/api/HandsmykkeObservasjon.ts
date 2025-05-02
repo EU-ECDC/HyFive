@@ -2,10 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Observasjon } from './Observasjon';
+import { Observation } from './Observation';
 import { HandsmykkeType } from './HandsmykkeType';
 
-export interface HandsmykkeObservasjon extends Observasjon
+export interface HandsmykkeObservasjon extends Observation
 {
 	handsmykker?: HandsmykkeType[];
 }

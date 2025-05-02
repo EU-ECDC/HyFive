@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
@@ -11,7 +11,7 @@ import { Farger } from '../../utils/farger';
 import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
 import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../models/api/Role';
-import { IndikasjonType } from '../../models/api/IndikasjonType';
+import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { AktivitetService } from '../../services/data/aktivitet.service';
 import { ActivityType } from '../../models/api/ActivityType';
@@ -34,7 +34,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   comment: string;
   activity: Activity;
   activityTypes: ActivityType[];
-  valgteIndikasjoner: IndikasjonType[] = new Array();
+  valgteIndikasjoner: IndicationType[] = new Array();
   aktivitetUnderRegistrering: AktivitetUnderRegistrering = null;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
@@ -114,14 +114,14 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   registrerObservasjon() {
-    let observasjon: FireIndikasjonerObservasjon = {
+    let observasjon: FourIndicationsObservation = {
       id: Uuid.generateUUID(),
-      sesjonId: this.sesjonsvisning.sesjonId,
+      sessionId: this.sesjonsvisning.sessionId,
       comment: this.comment,
       role: this.kort.role,
       activity: this.activity,
-      indikasjonstyper: this.valgteIndikasjoner,
-      registrerttidspunkt: new Date(Date.now())
+      indicationTypes: this.valgteIndikasjoner,
+      registrationTime: new Date(Date.now())
     }
 
     this.observasjonRegistrert.emit(observasjon);
@@ -139,7 +139,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.activity.timeSpent = 0;
     this.activity.timeRecordingWasDone = false;
   }
-  indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
+  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
     this.valgteIndikasjoner = valgteIndikasjoner;
   }
 

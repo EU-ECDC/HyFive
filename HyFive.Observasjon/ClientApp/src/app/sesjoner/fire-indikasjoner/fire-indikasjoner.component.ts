@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Urls } from '../../konstanter/urls';
 import { Queryparameters } from '../../konstanter/queryparameters';
@@ -44,9 +44,9 @@ export class FireIndikasjonerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sesjonId);
-        this.sesjonvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjon = this.sesjonService.hentSesjon(sessionId);
+        this.sesjonvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
     this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
@@ -60,17 +60,17 @@ export class FireIndikasjonerComponent implements OnInit {
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
-  navigerTilRegistreringssideForFireIndikasjoner(sesjonId: string){
-    this.router.navigate([Urls.RegistrereFireIndikasjonerUrl], {queryParams: { sesjonId: sesjonId}})
+  navigerTilRegistreringssideForFireIndikasjoner(sessionId: string){
+    this.router.navigate([Urls.RegistrereFireIndikasjonerUrl], {queryParams: { sessionId: sessionId}})
   }
 
-  observasjonSlettetEventHandler($event: FireIndikasjonerObservasjon) {
+  observasjonSlettetEventHandler($event: FourIndicationsObservation) {
     // Mulig TODO: pop observasjonen rett fra lista istedet for å laste på nytt fra LocalStorage
     this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
   }
 
-  hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indikasjonstyper.map(i => i.name).join(', ');
+  hentIngress(observasjon: FourIndicationsObservation) {
+    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indicationTypes.map(i => i.name).join(', ');
   }
 
   sendTilKoordinator() {
@@ -89,6 +89,6 @@ export class FireIndikasjonerComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SendteFireIndikasjonerSesjonUrl], { queryParams: {sesjonId: this.sesjon.id}})
+    this.router.navigate(['/'+Urls.SendteFireIndikasjonerSesjonUrl], { queryParams: {sessionId: this.sesjon.id}})
   }
 }

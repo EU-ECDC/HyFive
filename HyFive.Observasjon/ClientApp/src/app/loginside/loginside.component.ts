@@ -58,7 +58,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
             (forsporsel) => {
               if(forsporsel != null)
               {
-                this.foresporselOmBrukertilgangService.hentInstitusjon(forsporsel.institusjonId).subscribe(
+                this.foresporselOmBrukertilgangService.hentInstitusjon(forsporsel.institutionId).subscribe(
                   (institusjon) => {
                     if(institusjon != null)
                     {
@@ -118,11 +118,11 @@ export class LoginsideComponent implements OnInit, OnDestroy {
     if(this.valgtInstitusjon)
     {
       var nyForsporselOmBrukertilgang = {
-        institusjonId: this.valgtInstitusjon?.id,
-        brukerFornavn: this.bruker.fornavn,
-        brukerEtternavn: this.bruker.etternavn,
-        hprNummer: this.bruker.hprNummer,
-        identPseudonym: this.bruker.identPseudonym
+        institutionId: this.valgtInstitusjon?.id,
+        brukerFornavn: this.bruker.firstName,
+        brukerEtternavn: this.bruker.lastName,
+        hprNumber: this.bruker.hprNumber,
+        identityPseudonym: this.bruker.identityPseudonym
       }
       this.foresporselOmBrukertilgangService.sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang).subscribe(
         (erBrukerOpprettet) => {
@@ -142,7 +142,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   }
 
   kopierPseudonymKlikk() {
-    this.clipboardService.copy(this.bruker?.identPseudonym);
+    this.clipboardService.copy(this.bruker?.identityPseudonym);
     this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
   }
 

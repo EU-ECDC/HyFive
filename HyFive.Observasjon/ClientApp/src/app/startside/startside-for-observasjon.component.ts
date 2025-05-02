@@ -118,7 +118,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       case SessionType.Handsmykker:
         this.startHandsmykkeSesjon();
         break;
-      case SessionType.Hansker:
+      case SessionType.Gloves:
         this.startHanskeSesjon();
         break;
       case SessionType.ProtectiveEquipment:
@@ -127,7 +127,7 @@ export class StartsideForObservasjonComponent implements OnInit {
         break;
       default:
         alert(
-          `Observasjon av ${
+          `Observation av ${
             Object.values(SessionType)[this.valgtSesjonType]
           } er ikke støttet enda`
         );
@@ -136,7 +136,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   startFireIndikasjonerSesjon() {
-    let sesjonId = this.fireIndikasjonerSesjonService.lagSesjonsvisning(
+    let sessionId = this.fireIndikasjonerSesjonService.lagSesjonsvisning(
       this.hanskebruk,
       this.tidtaking,
       this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
@@ -144,29 +144,29 @@ export class StartsideForObservasjonComponent implements OnInit {
     );
 
     this.router.navigate([Urls.RegistrereFireIndikasjonerUrl], {
-      queryParams: { sesjonId: sesjonId },
+      queryParams: { sessionId: sessionId },
     });
   }
 
   startHandsmykkeSesjon() {
-    let sesjonId = this.handsmykkeSesjonService.lagSesjonsvisning(
+    let sessionId = this.handsmykkeSesjonService.lagSesjonsvisning(
       this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
       this.hentValgtAvdeling()
     );
     this.router.navigate([Urls.RegistrereHandsmykkerUrl], {
-      queryParams: { sesjonId: sesjonId },
+      queryParams: { sessionId: sessionId },
     });
   }
 
   startHanskeSesjon() {
-    let sesjonId = this.hanskeSesjonService.lagSesjonsvisning(
+    let sessionId = this.hanskeSesjonService.lagSesjonsvisning(
       this.hanskebruk,
       this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
       this.hentValgtAvdeling()
     );
 
     this.router.navigate([Urls.RegistrereHanskeUrl], {
-      queryParams: { sesjonId: sesjonId },
+      queryParams: { sessionId: sessionId },
     });
   }
 

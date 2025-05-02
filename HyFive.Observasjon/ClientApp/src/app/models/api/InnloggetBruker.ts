@@ -5,13 +5,13 @@
 export interface InnloggetBruker
 {
 	id: string;
-	identPseudonym: string;
+	identityPseudonym: string;
 	name: string;
 	erKoordinator: boolean;
 	erFhiAdmin: boolean;
 	erObservator: boolean;
 	institusjonsIder: number[];
-	fornavn: string;
-	etternavn: string;
-	hprNummer: string;
+	firstName: string;
+	lastName: string;
+	hprNumber: string;
 }

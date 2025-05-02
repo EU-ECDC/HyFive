@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
-import { IndikasjonType } from '../../models/api/IndikasjonType';
+import { IndicationType } from '../../models/api/IndicationType';
 import { IndikasjonService } from '../../services/data/indikasjon.service';
 import { faCircle, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IndikasjonTypeValg } from '../../models/registrering/indikasjontypevalg.model';
@@ -23,17 +23,17 @@ export class IndikasjonsValgComponent implements OnInit {
 
   @Input("erAktiv") erAktiv: boolean;
   @Input("parentId") parentId: string;
-  @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndikasjonType[];
-  @Input("valgteIndikasjoner") valgteIndikasjoner: IndikasjonType[] = [];
+  @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndicationType[];
+  @Input("valgteIndikasjoner") valgteIndikasjoner: IndicationType[] = [];
   @Input("isReadonly") isReadonly: boolean;
-  @Output() indikasjonsValgChangedEvent = new EventEmitter<IndikasjonType[]>();
+  @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
 
   constructor(private observasjonEventService: ObservasjonEventService,
     private indikasjonService: IndikasjonService) { }
 
   ngOnInit(): void {
-    this.indikasjonService.getIndikasjonstyper().subscribe((indikasjonstyper) => {
-      this.tilgjengeligeIndikasjoner = indikasjonstyper;
+    this.indikasjonService.getIndikasjonstyper().subscribe((indicationTypes) => {
+      this.tilgjengeligeIndikasjoner = indicationTypes;
       this.indikasjonTypeValg = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
     });
 
@@ -45,7 +45,7 @@ export class IndikasjonsValgComponent implements OnInit {
     })
   }
 
-  changed(indikasjon: IndikasjonType): void {
+  changed(indikasjon: IndicationType): void {
     let valg = this.indikasjonTypeValg.filter(x => x.erValgt);
     this.indikasjonsValgChangedEvent.emit(this.tilgjengeligeIndikasjoner.filter(x => valg.some(y => y.code === x.code)));
   }

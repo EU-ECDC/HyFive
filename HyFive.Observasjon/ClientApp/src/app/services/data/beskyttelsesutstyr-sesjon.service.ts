@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import { BaseSesjonService } from './base-sesjon.service';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
-import { BeskyttelsesutstyrSesjon } from "src/app/models/api/BeskyttelsesutstyrSesjon";
+import { ProtectiveEquipmentSession } from "src/app/models/api/ProtectiveEquipmentSession";
 import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Role } from "src/app/models/api/Role";
 import { Department } from "src/app/models/api/Department";
@@ -20,7 +20,7 @@ import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
 @Injectable({
   providedIn: 'root'
 })
-export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, BeskyttelsesutstyrSesjon, ProtectiveEquipmentObservation>{
+export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
   sesjonsvisningLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjonsvisninger;
   sesjonLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjoner;
 
@@ -32,9 +32,9 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     super(institusjonService);
   }
 
-  public sendTilServer(sesjonId: string): Observable<string> {
+  public sendTilServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sesjonId);
+    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
     var sesjonSomSkalSendes = sessions[sesjonIndeks];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/beskyttelsesutstyr`, sesjonSomSkalSendes)
   }
@@ -48,7 +48,7 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     let id = Uuid.generateUUID();
 
     let sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = {
-      sesjonId: id,
+      sessionId: id,
       department: department,
       kort: this.genererKort(rollerSomObserveres, setting),
       setting: setting
@@ -61,9 +61,9 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     return id;
   }
 
-  oppdaterSesjonUtstyrstyper(sesjonId: string, equipmentTypes: ProtectiveEquipmentType[]){
+  oppdaterSesjonUtstyrstyper(sessionId: string, equipmentTypes: ProtectiveEquipmentType[]){
     var sesjonsvisninger = this.hentSesjonsvisninger();
-    var sesjonsvisningSomSkalOppdateres = sesjonsvisninger.find(s => s.sesjonId == sesjonId);
+    var sesjonsvisningSomSkalOppdateres = sesjonsvisninger.find(s => s.sessionId == sessionId);
     sesjonsvisningSomSkalOppdateres.setting.equipmentTypes = equipmentTypes;
     this.lagreSesjonsvisninger(sesjonsvisninger);
     this.beskyttelsesutstyrOppdatert.emit(equipmentTypes);

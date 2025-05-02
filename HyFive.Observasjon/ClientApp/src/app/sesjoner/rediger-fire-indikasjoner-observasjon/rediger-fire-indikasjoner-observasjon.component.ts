@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { Department } from '../../models/api/Department';
 import { Activity } from '../../models/api/Activity';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Farger } from '../../utils/farger';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
-import { IndikasjonType } from '../../models/api/IndikasjonType';
+import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { ActivityType } from '../../models/api/ActivityType';
 import { AktivitetService } from '../../services/data/aktivitet.service';
@@ -25,7 +25,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   erRedigeringsmodus: boolean = false;
   ActivityTypeConstants = ActivityTypeConstants;
   activity: Activity;
-  fireIndikasjoner: IndikasjonType[];
+  fireIndikasjoner: IndicationType[];
   activityTypes: ActivityType[];
   Farger = Farger;
   dialogtekster = Dialogtekster;
@@ -52,11 +52,11 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   }
 
   @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observasjon") observasjon: FireIndikasjonerObservasjon;
+  @Input("observasjon") observasjon: FourIndicationsObservation;
   @Input("department") department: Department;
   @Input("hanskebrukSkalRegistreres") hanskebrukSkalRegistreres: boolean;
   @Input("tidtakingSkalRegistreres") tidtakingSkalRegistreres: boolean;
-  @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FireIndikasjonerObservasjon> = new EventEmitter<FireIndikasjonerObservasjon>();
+  @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
 
   ngOnInit(): void {
     if (this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
@@ -134,8 +134,8 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     }
   }
 
-  indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
-    this.observasjon.indikasjonstyper = valgteIndikasjoner;
+  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
+    this.observasjon.indicationTypes = valgteIndikasjoner;
   }
 
   lagreObservasjon() {
@@ -167,7 +167,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     this.selectedActivityTypeNotExecutedSelectionId = valgtId;
   }
 
-  private registrereAktivitetTypeIkkeUtfort(observasjon: FireIndikasjonerObservasjon): FireIndikasjonerObservasjon {
+  private registrereAktivitetTypeIkkeUtfort(observasjon: FourIndicationsObservation): FourIndicationsObservation {
     if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.NotExecuted.toString())) {
       observasjon.activity.gloveUsed = null;
     }

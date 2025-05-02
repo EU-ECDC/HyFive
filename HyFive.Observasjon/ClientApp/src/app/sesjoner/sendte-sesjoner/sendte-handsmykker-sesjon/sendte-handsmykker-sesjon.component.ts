@@ -33,9 +33,9 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const sesjonId = params[Queryparameters.SesjonId] || 0;
-      if (sesjonId === 0) this.router.navigate(['']);
-      this.sesjonService.hentHandsmykkerSesjon(sesjonId).subscribe(
+      const sessionId = params[Queryparameters.SesjonId] || 0;
+      if (sessionId === 0) this.router.navigate(['']);
+      this.sesjonService.hentHandsmykkerSesjon(sessionId).subscribe(
         (sesjon) => {
           this.sesjon = sesjon;
           if (!sesjon) this.router.navigate(['']);
@@ -61,7 +61,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.lastNedHandsmykkeSesjonSomExcel(this.sesjon.institusjonId, this.sesjon.id).subscribe(
+    this.sesjonService.lastNedHandsmykkeSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

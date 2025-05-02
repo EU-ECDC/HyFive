@@ -4,7 +4,7 @@ import { faTrashAlt, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icon
 import { Dialogtekster } from '../../../konstanter/dialogtekster';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
-import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
@@ -42,9 +42,9 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        if(sesjonId === 0) this.router.navigate(['']);
-        this.sesjonService.hentFireIndikasjonerSesjon(sesjonId).subscribe(
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        if(sessionId === 0) this.router.navigate(['']);
+        this.sesjonService.hentFireIndikasjonerSesjon(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
             if (!this.sesjon) this.router.navigate(['']);
@@ -89,8 +89,8 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observasjoner?.length)*100
   }
 
-  hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indikasjonstyper.map(i => i.name).join(', ');
+  hentIngress(observasjon: FourIndicationsObservation) {
+    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indicationTypes.map(i => i.name).join(', ');
   }
 
   mottattInternetStatus(harInternett: boolean){
@@ -102,7 +102,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.lastNedFireIndikasjonerSesjonSomExcel(this.sesjon.institusjonId, this.sesjon.id).subscribe(
+    this.sesjonService.lastNedFireIndikasjonerSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

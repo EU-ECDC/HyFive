@@ -32,7 +32,7 @@
                                      (rolleValgt)="observasjon.role = $event">
             </app-rolle-valg-dropdown>
           </ng-container>
-          <app-indikasjonsvalg [valgteIndikasjoner]="observasjon.indikasjonstyper"
+          <app-indikasjonsvalg [valgteIndikasjoner]="observasjon.indicationTypes"
                                (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
                                [isReadonly]="!erRedigeringsmodus"
                                [erAktiv]="erRedigeringsmodus"
@@ -89,7 +89,7 @@
       </div>
       <ng-container *ngIf="isReadonly == false">
         <div *ngIf="hanskebrukSkalRegistreres && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
-          <label class="ml-2" [htmlFor]="'hanskebruk-'+id"><small>Observasjon av hansker:</small></label>
+          <label class="ml-2" [htmlFor]="'hanskebruk-'+id"><small>Observation av hansker:</small></label>
           <select [disabled]="!erRedigeringsmodus"
                   [id]="'hanskebruk-'+id"
                   class="form-control form-control--rounded form-control--smaller form-control--arrow bg-secondary"
@@ -105,7 +105,7 @@
           <div class="col">
             <label>
               <small>
-                Observasjon av hansker:
+                Observation av hansker:
                 <strong>{{hanskebrukTekst}}</strong>
               </small>
             </label>

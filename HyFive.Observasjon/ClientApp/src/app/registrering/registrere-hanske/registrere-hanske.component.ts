@@ -23,7 +23,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: HanskeSesjonsvisning;
-  sesjonsdata: GloveSession = null;
+  sessionsdata: GloveSession = null;
   roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
@@ -47,8 +47,8 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) {
           this.router.navigate(['']);
         }
@@ -72,7 +72,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
   }
 
   lastSesjonsdata() {
-    this.sesjonsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sesjonId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
   }
 
   toggleRolleliste() {

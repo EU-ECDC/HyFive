@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IndikasjonTypeKonstanter } from '../models/api/IndikasjonTypeKonstanter';
-import { IndikasjonType } from '../models/api/IndikasjonType';
+import { IndicationType } from '../models/api/IndicationType';
 import { IndikasjonTypeValg } from '../models/registrering/indikasjontypevalg.model';
 import { faFour, faOne, faThree, faTwo } from './customIkoner';
 
@@ -15,8 +15,8 @@ export class IndikasjonTypeMapper {
     return ikonmap;
   }
 
-  public static getIndikasjonstypeValg(indikasjonstyper: IndikasjonType[], valgteIndikasjonTyper: IndikasjonType[]): IndikasjonTypeValg[] {
-    return indikasjonstyper.reduce((acc, item) => {
+  public static getIndikasjonstypeValg(indicationTypes: IndicationType[], valgteIndikasjonTyper: IndicationType[]): IndikasjonTypeValg[] {
+    return indicationTypes.reduce((acc, item) => {
       acc.push({
         erValgt: valgteIndikasjonTyper.some(x => x.code === item.code),
         name: item.name,

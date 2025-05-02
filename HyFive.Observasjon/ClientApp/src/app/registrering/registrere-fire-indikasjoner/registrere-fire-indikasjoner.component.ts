@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
 import { Queryparameters } from '../../konstanter/queryparameters';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
@@ -21,7 +21,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: FireIndikasjonerSesjonsvisning;
-  sesjonsdata: FireIndikasjonerSesjon = null;
+  sessionsdata: FireIndikasjonerSesjon = null;
   roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
@@ -44,8 +44,8 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) this.router.navigate(['']);
         else this.lastSesjonsdata();
       });
@@ -58,14 +58,14 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: FireIndikasjonerObservasjon) {
+  async registrerObservasjon(observasjon: FourIndicationsObservation) {
     await this.sesjonService.registrerObservasjon(observasjon);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
   }
 
   lastSesjonsdata() {
-    this.sesjonsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sesjonId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
   }
 
   toggleRolleliste() {

@@ -3,7 +3,7 @@ import {ProtectiveEquipmentSettingType} from '../api/ProtectiveEquipmentSettingT
 import {BeskyttelsesutstyrKort} from './beskyttelsesutstyr-kort.model';
 
 export class BeskyttelsesutstyrSesjonsvisning {
-  sesjonId: string;
+  sessionId: string;
   department: Department;
   setting: ProtectiveEquipmentSettingType;
   kort: BeskyttelsesutstyrKort[];

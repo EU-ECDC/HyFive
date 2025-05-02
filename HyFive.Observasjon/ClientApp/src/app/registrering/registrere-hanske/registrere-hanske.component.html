@@ -1,10 +1,10 @@
 <div class="container">
-  <app-observasjonsteller [sesjonsdata]="sesjonsdata" [url]="Urls.HanskeSesjonUrl"></app-observasjonsteller>
-  <h1 class="h3 mt-n4 mt-xl-0">Hansker</h1>
+  <app-observasjonsteller [sessionsdata]="sessionsdata" [url]="Urls.HanskeSesjonUrl"></app-observasjonsteller>
+  <h1 class="h3 mt-n4 mt-xl-0">Gloves</h1>
 </div>
 
 
-<div class="container" *ngIf="sesjonsvisning.sesjonId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
+<div class="container" *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
   <ng-container *ngFor="let kort of sesjonsvisning.kort">
     <app-hanske-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                  (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"

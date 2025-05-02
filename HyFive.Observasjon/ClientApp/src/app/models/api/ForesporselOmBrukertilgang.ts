@@ -5,12 +5,12 @@
 export interface ForesporselOmBrukertilgang
 {
 	id: number;
-	institusjonId?: number;
+	institutionId?: number;
 	brukerFornavn: string;
 	brukerEtternavn: string;
-	identPseudonym: string;
-	hprNummer: string;
+	identityPseudonym: string;
+	hprNumber: string;
 	status: number;
-	opprettettidspunkt: any;
+	createdTime: any;
 	godkjenttidspunkt: any;
 }

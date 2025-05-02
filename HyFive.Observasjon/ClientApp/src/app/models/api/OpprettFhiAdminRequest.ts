@@ -4,7 +4,7 @@
 
 export interface OpprettFhiAdminRequest
 {
-	identPseudonym: string;
-	fornavn: string;
-	etternavn: string;
+	identityPseudonym: string;
+	firstName: string;
+	lastName: string;
 }

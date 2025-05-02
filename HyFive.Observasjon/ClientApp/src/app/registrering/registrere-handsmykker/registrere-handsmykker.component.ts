@@ -23,7 +23,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: HandsmykkeSesjonsvisning;
-  sesjonsdata: HandsmykkeSesjon = null;
+  sessionsdata: HandsmykkeSesjon = null;
   roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
@@ -48,8 +48,8 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) {
           this.router.navigate(['']);
         }
@@ -73,7 +73,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   }
 
   lastSesjonsdata() {
-    this.sesjonsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sesjonId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
   }
 
   toggleRolleliste() {

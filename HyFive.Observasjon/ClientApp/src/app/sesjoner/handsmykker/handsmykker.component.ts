@@ -5,7 +5,7 @@ import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
 import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../konstanter/urls';
-import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandsmykkeType } from 'src/app/models/api/HandsmykkeType';
@@ -49,8 +49,8 @@ export class HandsmykkerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sesjonId);
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
     this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
@@ -63,11 +63,11 @@ export class HandsmykkerComponent implements OnInit {
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
-  navigerTilRegistreringssideForHandsmykker(sesjonId: string) {
-    this.router.navigate([Urls.RegistrereHandsmykkerUrl], { queryParams: { sesjonId: sesjonId } });
+  navigerTilRegistreringssideForHandsmykker(sessionId: string) {
+    this.router.navigate([Urls.RegistrereHandsmykkerUrl], { queryParams: { sessionId: sessionId } });
   }
 
-  observasjonSlettetEventHandler($event: FireIndikasjonerObservasjon) {
+  observasjonSlettetEventHandler($event: FourIndicationsObservation) {
     this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
   }
 
@@ -94,6 +94,6 @@ export class HandsmykkerComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/' + Urls.SendteHandsmykkeSesjonUrl], { queryParams: { sesjonId: this.sesjon.id } })
+    this.router.navigate(['/' + Urls.SendteHandsmykkeSesjonUrl], { queryParams: { sessionId: this.sesjon.id } })
   }
 }

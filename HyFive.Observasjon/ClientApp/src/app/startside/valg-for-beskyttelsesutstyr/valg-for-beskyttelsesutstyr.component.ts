@@ -10,7 +10,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Rollevalg } from '../../models/registrering/rollevalg.model';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
 import { ProtectiveEquipmentType } from '../../models/api/ProtectiveEquipmentType';
-import { BeskyttelsesutstyrTypeKonstanter } from '../../models/api/BeskyttelsesutstyrTypeKonstanter';
+import { ProtectiveEquipmentTypeConstants } from '../../models/api/ProtectiveEquipmentTypeConstants';
 
 @Component({
   selector: 'app-valg-for-beskyttelsesutstyr',
@@ -52,8 +52,8 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
 
   startObservasjon() {
     var valgteRoller = this.roles.filter(rollevalg => rollevalg.erValgt).map(rollevalg => rollevalg.role);
-    var sesjonId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
-    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], { queryParams: { sesjonId: sesjonId } });
+    var sessionId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
+    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], { queryParams: { sessionId: sessionId } });
   }
 
   endreSettingOgUtstyr() {
@@ -65,29 +65,29 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: ProtectiveEquipmentType[]): ProtectiveEquipmentType[] {
     let beskyttelsesutstyrTyperVedRekkefolge: ProtectiveEquipmentType[] = [];
 
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.Gloves)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.Gloves)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Plastforkle)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Plastforkle)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.PlasticApron)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.PlasticApron)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.CareGown)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.CareGown)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.InfectionGown)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.InfectionGown)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Munnbind)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Munnbind)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.FaceMask)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.FaceMask)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.RespiratoryProtection)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.RespiratoryProtection)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.EyeProtection)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.EyeProtection)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hette)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hette)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === ProtectiveEquipmentTypeConstants.Hood)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === ProtectiveEquipmentTypeConstants.Hood)[0]);
     }
 
     return beskyttelsesutstyrTyperVedRekkefolge;

@@ -2,13 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Role } from './Role';
-
-export interface Observasjon
+export interface IndicationType
 {
-	id: string;
-	role: Role;
-	registrerttidspunkt?: Date;
-	sesjonId: string;
-	comment?: string;
+	id: number;
+	code: string;
+	name: string;
+	nummer: string;
 }

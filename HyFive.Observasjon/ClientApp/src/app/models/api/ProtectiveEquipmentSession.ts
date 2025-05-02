@@ -5,6 +5,6 @@
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 import { Sesjon } from './Sesjon';
 
-export interface BeskyttelsesutstyrSesjon extends Sesjon<ProtectiveEquipmentObservation>
+export interface ProtectiveEquipmentSession extends Sesjon<ProtectiveEquipmentObservation>
 {
 }

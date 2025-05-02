@@ -12,7 +12,7 @@ export interface SesjonOversiktRapport
 	observatorNavn: string;
 	department: Department;
 	starttidspunkt: any;
-	opprettettidspunkt: any;
+	createdTime: any;
 	comment: string;
 	overforingstatus: any;
 	observasjoner: ObservasjonOversiktRapport[];

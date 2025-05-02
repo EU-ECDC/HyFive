@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../konstanter/queryparameters';
-import { BeskyttelsesutstyrSesjon } from '../../models/api/BeskyttelsesutstyrSesjon';
+import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { Urls } from '../../konstanter/urls';
 import { faCircle, faAngleUp, faClipboard, faClock } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class BeskyttelsesutstyrComponent implements OnInit {
 
-  sesjon: BeskyttelsesutstyrSesjon;
+  sesjon: ProtectiveEquipmentSession;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   erOnline: boolean = true;
@@ -44,24 +44,24 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
-        const sesjonId = params[Queryparameters.SesjonId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sesjonId);
-        this.institusjonid = this.sesjon.department.institusjonId;
+        const sessionId = params[Queryparameters.SesjonId] || 0;
+        this.sesjon = this.sesjonService.hentSesjon(sessionId);
+        this.institusjonid = this.sesjon.department.institutionId;
         if(!this.sesjon) this.router.navigate(['']);
       }
     );
   }
 
-  navigerTilRegistreringssideForBeskyttelsesutstyr(sesjonId: string){
-    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], {queryParams: {sesjonId: sesjonId}});
+  navigerTilRegistreringssideForBeskyttelsesutstyr(sessionId: string){
+    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], {queryParams: {sessionId: sessionId}});
   }
 
   navigerTilSendteSesjoner() {
     this.router.navigate([Urls.SendteSesjonerUrl]);
   }
 
-  sesjonSlettetEventHandler(sesjonId: string) {
-    this.sesjonService.slettSesjon(sesjonId);
+  sesjonSlettetEventHandler(sessionId: string) {
+    this.sesjonService.slettSesjon(sessionId);
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
@@ -93,6 +93,6 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SendteBeskyttelsesutstyrSesjonUrl], { queryParams: {sesjonId: this.sesjon.id}})
+    this.router.navigate(['/'+Urls.SendteBeskyttelsesutstyrSesjonUrl], { queryParams: {sessionId: this.sesjon.id}})
   }
 }

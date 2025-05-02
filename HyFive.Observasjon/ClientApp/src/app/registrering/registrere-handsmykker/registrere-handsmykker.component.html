@@ -1,9 +1,9 @@
 <div class="container">
-  <app-observasjonsteller [sesjonsdata]="sesjonsdata" [url]="Urls.HandsmykkeSesjonUrl"></app-observasjonsteller>
+  <app-observasjonsteller [sessionsdata]="sessionsdata" [url]="Urls.HandsmykkeSesjonUrl"></app-observasjonsteller>
   <h1 class="h3 mt-n4 mt-xl-0">Smykker, klokker og negler</h1>
 </div>
 
-<div class="container" *ngIf="sesjonsvisning.sesjonId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
+<div class="container" *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
   <ng-container *ngFor="let kort of sesjonsvisning.kort">
     <app-handsmykker-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                       (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"

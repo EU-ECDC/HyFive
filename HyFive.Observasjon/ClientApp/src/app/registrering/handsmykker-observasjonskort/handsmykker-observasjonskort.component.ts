@@ -41,7 +41,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   farger = Farger;
   ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
 
-  sesjonsdata: HandsmykkeSesjon = null;
+  sessionsdata: HandsmykkeSesjon = null;
   roles: Role[];
   handsmykkeTyper: HandsmykkeType[] = [];
 
@@ -117,8 +117,8 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   registrerObservasjon() {
     let observasjon = {
       id: Uuid.generateUUID(),
-      sesjonId: this.sesjonsvisning.sesjonId,
-      registrerttidspunkt: new Date(Date.now()),
+      sessionId: this.sesjonsvisning.sessionId,
+      registrationTime: new Date(Date.now()),
       role: this.kort.role,
       handsmykker: this.handsmykkevalg.reduce((acc, item) => {
         if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));

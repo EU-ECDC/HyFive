@@ -1,13 +1,13 @@
 <ng-container *ngIf="endreSettingModus == false">
   <div class="container">
-    <app-observasjonsteller [sesjonsdata]="sesjonsdata" [url]="Urls.BeskyttelsesutstyrSesjonUrl"></app-observasjonsteller>
+    <app-observasjonsteller [sessionsdata]="sessionsdata" [url]="Urls.BeskyttelsesutstyrSesjonUrl"></app-observasjonsteller>
     <div class="mb-4">
       <app-navigasjonslenke (lenkeKlikket)="endreSettingModus = true">Til verneutstyr</app-navigasjonslenke>
     </div>
     <h1 class="h3 mt-n4 mt-xl-0">{{sesjonsvisning.setting.name}}</h1>
     <div class="row">
       <div class="col">
-        <div *ngIf="sesjonsvisning.sesjonId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
+        <div *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
           <ng-container *ngFor="let kort of sesjonsvisning.kort">
             <app-beskyttelsesutstyr-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                                      (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"

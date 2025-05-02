@@ -2,10 +2,10 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { InstitusjonRapport } from './InstitusjonRapport';
-
-export interface KoordinatorForHelseforetak
+export interface User
 {
+	id: number;
+	institutionId: number;
 	createdTime: any;
 	firstName: string;
 	lastName: string;
@@ -13,7 +13,4 @@ export interface KoordinatorForHelseforetak
 	identityPseudonym: string;
 	isDisabled: boolean;
 	hprNumber: string;
-	institusjoner: InstitusjonRapport[];
-	endretIdentPseudonym?: string;
-	endretHPRNummer?: string;
 }

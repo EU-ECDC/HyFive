@@ -27,9 +27,9 @@ export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning,
     super(institusjonService);
   }
 
-  public sendTilServer(sesjonId: string): Observable<string> {
+  public sendTilServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sesjonId);
+    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
     var sesjonSomSkalSendes = sessions[sesjonIndeks];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/hanske`, sesjonSomSkalSendes)
   }
@@ -42,7 +42,7 @@ export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning,
     let id = Uuid.generateUUID();
 
     let hanskeSesjonsvisning: HanskeSesjonsvisning = {
-      sesjonId: id,
+      sessionId: id,
       department: department,
       hanskebrukSkalRegistreres: hanskebrukSkalRegistreres,
       kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),

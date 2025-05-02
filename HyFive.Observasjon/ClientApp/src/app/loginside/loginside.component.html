@@ -52,7 +52,7 @@
       </div>
     </ng-container>
     <div *ngIf="visFeilMelding" class="row">
-      <p class="col-lg-6 alert-danger p-2">Vi kunne ikke opprette deg som bruker. Send epost til <a href="mailto:nost@fhi.no">nost&#64;fhi.no</a>  </p>
+      <p class="col-lg-6 alert-danger p-2">Vi kunne ikke opprette deg som bruker. Send email til <a href="mailto:nost@fhi.no">nost&#64;fhi.no</a>  </p>
     </div>
 
     <div class="row" *ngIf="erOnline && erLoggetInn == false">
@@ -88,7 +88,7 @@
   <ng-container *ngIf="erVisPseudonym">
     <app-pseudonym [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="lukkInfoModal($event)">
       <p class="text-break">
-        <small><strong>Pseudonym:</strong> {{bruker?.identPseudonym}}</small>
+        <small><strong>Pseudonym:</strong> {{bruker?.identityPseudonym}}</small>
       </p>
       <p>
         <button class="btn fhi-btn-icon" (click)="kopierPseudonymKlikk()">

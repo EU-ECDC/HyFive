@@ -42,7 +42,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   faHandPaper = faHandPaper;
   farger = Farger;
 
-  sesjonsdata: GloveSession = null;
+  sessionsdata: GloveSession = null;
   roles: Role[];
   hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
   hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
@@ -151,8 +151,8 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   registrerObservasjon() {
     let observasjon = {
       id: Uuid.generateUUID(),
-      sesjonId: this.sesjonsvisning.sesjonId,
-      registrerttidspunkt: new Date(Date.now()),
+      sessionId: this.sesjonsvisning.sessionId,
+      registrationTime: new Date(Date.now()),
       role: this.kort.role,
       comment: this.comment,
       hanskeMedIndikasjonTyper: this.hanskeMedIndikasjonTyper.filter(x => x.erValgt),

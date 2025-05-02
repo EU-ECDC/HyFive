@@ -17,12 +17,12 @@ export class ObservasjonstellerComponent {
   faCircle = faCircle;
   faObservasjonskort = faObservasjonskort;
 
-  @Input() sesjonsdata: Sesjon<any>;
+  @Input() sessionsdata: Sesjon<any>;
   @Input() url;
   constructor(private mainMenuEventService: MainMenuEventService) { }
 
   numberOfObservations() : number {
-    var antall =  this.sesjonsdata?.observasjoner?.length;
+    var antall =  this.sessionsdata?.observasjoner?.length;
     if(antall != null)
     {
       return antall;

@@ -6,7 +6,7 @@ export enum SessionType {
 	FireIndikasjoner = 1,
 	InnUt = 2,
 	Handsmykker = 3,
-	Hansker = 4,
+	Gloves = 4,
 	ProtectiveEquipment = 5,
 	IkkeValgt = 6
 }
