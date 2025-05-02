@@ -46,7 +46,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     private toastrService: ToastrService
   ) {
     this.institusjonService.getValgtInstitusjon()
-      .subscribe(i => this.roles = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roles);
+      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sesjonsvisning.department?.id)?.roles);
     //this.mainMenuService.mainMenuIsOpenEvent.subscribe(m => this.mainMenuIsOpen = m);
   }
 

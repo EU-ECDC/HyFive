@@ -37,13 +37,13 @@ export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning,
   public lagSesjonsvisning(
     hanskebrukSkalRegistreres: boolean,
     rollerSomObserveres: Role[],
-    avdeling: Department
+    department: Department
   ): string {
     let id = Uuid.generateUUID();
 
     let hanskeSesjonsvisning: HanskeSesjonsvisning = {
       sesjonId: id,
-      avdeling: avdeling,
+      department: department,
       hanskebrukSkalRegistreres: hanskebrukSkalRegistreres,
       kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
     }

@@ -46,7 +46,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
       params => {
         const sesjonId = params[Queryparameters.SesjonId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sesjonId);
-        this.institusjonid = this.sesjon.avdeling.institusjonId;
+        this.institusjonid = this.sesjon.department.institusjonId;
         if(!this.sesjon) this.router.navigate(['']);
       }
     );

@@ -47,11 +47,11 @@
       <h2 class="h5">Department</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
-          class="hh-avdeling-dropdown"
-          [items]="institusjon?.avdelinger"
+        class="hh-avdeling-dropdown"
+        [items]="institusjon?.departments"
           bindLabel="navn"
           bindValue="id"
-          placeholder="Velg avdeling"
+          placeholder="Velg department"
           clearAllText="Slett"
           notFoundText="Ingen resultater"
           [(ngModel)]="valgtAvdelingId"
@@ -218,7 +218,7 @@
 <ng-container *ngIf="visBeskyttelsesutstyr">
   <app-valg-for-beskyttelsesutstyr
     [roles]="rollevalg"
-    [avdeling]="hentValgtAvdeling()"
+    [department]="hentValgtAvdeling()"
   ></app-valg-for-beskyttelsesutstyr>
 </ng-container>
 
@@ -229,7 +229,7 @@
   </p>
   <ol>
     <li>Velg institusjon</li>
-    <li>Velg avdeling</li>
+    <li>Velg department</li>
     <li>Velg type observasjon</li>
     <li>Velge hvilke profesjoner du ønsker å observere</li>
   </ol>

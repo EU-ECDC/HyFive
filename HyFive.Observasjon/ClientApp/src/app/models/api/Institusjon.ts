@@ -14,7 +14,7 @@ export interface Institution
 	navn: string;
 	forkortelse: string;
 	herId: string;
-	avdelinger: Department[];
+	departments: Department[];
 	institusjontype: InstitusjonType;
 	region: Region;
 	kommune: Municipality;

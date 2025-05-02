@@ -38,13 +38,13 @@ export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikas
     hanskebrukSkalRegistreres: boolean,
     tidtakingSkalRegistreres: boolean,
     rollerSomObserveres: Role[],
-    avdeling: Department
+    department: Department
   ): string {
     let id = Uuid.generateUUID();
 
     let fireIndikasjonerSesjonsvisning: FireIndikasjonerSesjonsvisning = {
       sesjonId: id,
-      avdeling: avdeling,
+      department: department,
       hanskebrukSkalRegistreres: hanskebrukSkalRegistreres,
       tidtakingSkalRegistreres: tidtakingSkalRegistreres,
       kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),

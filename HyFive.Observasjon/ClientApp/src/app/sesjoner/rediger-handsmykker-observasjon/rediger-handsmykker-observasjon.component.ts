@@ -40,7 +40,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observasjon: HandsmykkeObservasjon;
-  @Input() avdeling: Department;
+  @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
 
 

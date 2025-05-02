@@ -10,5 +10,5 @@ export interface InstitusjonOversiktRapport
 	navn: string;
 	antallSesjoner: number;
 	antallObservasjoner: number;
-	avdelinger: AvdelingOversiktRapport[];
+	departments: AvdelingOversiktRapport[];
 }

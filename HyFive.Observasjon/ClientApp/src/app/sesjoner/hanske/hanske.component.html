@@ -16,7 +16,7 @@
     </ng-template>
     <ng-template #content let-item="item">
       <app-rediger-hanske-observasjon [observasjon]="item"
-                                      [avdeling]="sesjon.avdeling"
+                                      [department]="sesjon.department"
                                       (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">
       </app-rediger-hanske-observasjon>
     </ng-template>

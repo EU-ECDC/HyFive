@@ -19,7 +19,7 @@
     <ng-template #content let-item="item">
       <app-rediger-fire-indikasjoner-observasjon class="mb-2"
                                                  [observasjon]="item"
-                                                 [avdeling]="sesjon.avdeling"
+                                                 [department]="sesjon.department"
                                                  [hanskebrukSkalRegistreres]="sesjonvisning.hanskebrukSkalRegistreres"
                                                  [tidtakingSkalRegistreres]="sesjonvisning.tidtakingSkalRegistreres"
                                                  (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">

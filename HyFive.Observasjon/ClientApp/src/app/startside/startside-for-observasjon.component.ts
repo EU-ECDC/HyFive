@@ -99,7 +99,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startObservasjon() {
     if (!this.valgtAvdelingId) {
-      alert("Velg en avdeling");
+      alert("Velg en department");
       return;
     }
 
@@ -185,13 +185,13 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   hentValgtAvdeling(): Department {
-    return this.institusjon.avdelinger.find(
+    return this.institusjon.departments.find(
       (x) => x.id === parseInt(this.valgtAvdelingId)
     );
   }
 
   valgtAvdelingEndret() {
-    this.rollevalg = this.institusjon.avdelinger
+    this.rollevalg = this.institusjon.departments
       .find((x) => x.id === parseInt(this.valgtAvdelingId))
       ?.roles.map((role) => {
         return { role: role, erValgt: false } as Rollevalg;

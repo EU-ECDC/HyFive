@@ -69,7 +69,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       this.oppdaterBeskyttelsesutstyrValg();
     })
     this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.utstyrstyper);
-    this.institusjonid = this.sesjonsvisning.avdeling.institusjonId;
+    this.institusjonid = this.sesjonsvisning.department.institusjonId;
   }
 
 

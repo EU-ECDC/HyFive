@@ -121,12 +121,12 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
   protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
     let sesjonsvisning = this.hentSesjonsvisningForSesjon(observasjon.sesjonId);
     let sessions = this.hentSesjoner();
-    let institusjon = await this.institusjonService.getInstitusjon(sesjonsvisning.avdeling.institusjonId).toPromise();
+    let institusjon = await this.institusjonService.getInstitusjon(sesjonsvisning.department.institusjonId).toPromise();
     let nySesjon = {
       id: observasjon.sesjonId,
       observasjoner: [observasjon],
       starttidspunkt: new Date(),
-      avdeling: sesjonsvisning.avdeling,
+      department: sesjonsvisning.department,
       institusjonsnavn: institusjon.navn
     } as TSesjon;
     sessions.push(nySesjon);

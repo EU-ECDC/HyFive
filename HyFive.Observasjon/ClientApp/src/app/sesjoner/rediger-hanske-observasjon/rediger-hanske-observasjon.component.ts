@@ -50,7 +50,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observasjon: HanskeObservasjon;
-  @Input() avdeling: Department;
+  @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
   visInfoModal = false;
   observasjonMangelTekst: any;

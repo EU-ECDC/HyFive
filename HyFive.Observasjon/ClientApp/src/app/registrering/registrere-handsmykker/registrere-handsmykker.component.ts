@@ -41,7 +41,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     private institusjonService: InstitusjonService,
     private toastrService: ToastrService) {
     this.institusjonService.getValgtInstitusjon()
-      .subscribe(i => this.roles = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roles);
+      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sesjonsvisning.department?.id)?.roles);
   }
 
   ngOnInit(): void {

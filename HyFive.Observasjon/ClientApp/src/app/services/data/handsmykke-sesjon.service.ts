@@ -36,13 +36,13 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
 
   public lagSesjonsvisning(
     rollerSomObserveres: Role[],
-    avdeling: Department
+    department: Department
   ): string {
     let id = Uuid.generateUUID();
 
     let handsmykkerSesjonsvisning: HandsmykkeSesjonsvisning = {
       sesjonId: id,
-      avdeling: avdeling,
+      department: department,
       kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
     }
     var sesjonsvisninger = this.hentSesjonsvisninger();

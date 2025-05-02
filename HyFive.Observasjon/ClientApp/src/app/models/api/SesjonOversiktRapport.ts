@@ -10,7 +10,7 @@ export interface SesjonOversiktRapport
 	id: any;
 	type: string;
 	observatorNavn: string;
-	avdeling: Department;
+	department: Department;
 	starttidspunkt: any;
 	opprettettidspunkt: any;
 	kommentar: string;

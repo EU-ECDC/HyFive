@@ -42,7 +42,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observasjon") observasjon: BeskyttelsesutstyrObservasjon;
-  @Input("avdeling") avdeling: Department;
+  @Input("department") department: Department;
   @Input("institusjonid") institusjonid: number;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent = new EventEmitter();
 

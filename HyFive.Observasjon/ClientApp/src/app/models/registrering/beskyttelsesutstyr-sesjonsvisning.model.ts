@@ -4,7 +4,7 @@ import {BeskyttelsesutstyrKort} from './beskyttelsesutstyr-kort.model';
 
 export class BeskyttelsesutstyrSesjonsvisning {
   sesjonId: string;
-  avdeling: Department;
+  department: Department;
   setting: BeskyttelsesutstyrsettingType;
   kort: BeskyttelsesutstyrKort[];
 }

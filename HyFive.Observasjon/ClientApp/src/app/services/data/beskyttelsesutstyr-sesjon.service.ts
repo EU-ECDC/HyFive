@@ -43,13 +43,13 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
 
   lagSesjonsvisning(
     rollerSomObserveres: Role[],
-    avdeling: Department,
+    department: Department,
     setting: BeskyttelsesutstyrsettingType): string {
     let id = Uuid.generateUUID();
 
     let sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = {
       sesjonId: id,
-      avdeling: avdeling,
+      department: department,
       kort: this.genererKort(rollerSomObserveres, setting),
       setting: setting
     };

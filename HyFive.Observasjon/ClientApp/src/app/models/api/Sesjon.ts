@@ -7,7 +7,7 @@ import { Department } from './Department';
 export interface Sesjon<TObservasjon>
 {
 	id: string;
-	avdeling: Department;
+	department: Department;
 	starttidspunkt: Date;
 	observasjoner?: TObservasjon[];
 	institusjonsnavn?: string;
