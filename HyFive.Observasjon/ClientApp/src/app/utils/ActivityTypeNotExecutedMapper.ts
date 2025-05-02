@@ -4,9 +4,9 @@ export class ActivityTypeNotExecutedMapper {
 
   public static getNameMap(): ActivityTypeNotExecuted[]{
     var navnMap : ActivityTypeNotExecuted[] = [
-                { id: 1, name: "Ikke observert"},
-                { id: 2, name: "Observert, ble benyttet"},
-                { id: 3, name: "Observert, ikke ble benyttet"}
+                { id: 1, name: "Not observed"},
+                { id: 2, name: "Observed, was used"},
+                { id: 3, name: "Observed, was not used"}
     ];
     return navnMap;
   }

@@ -19,7 +19,7 @@ export class HanskeComponent implements OnInit {
   sesjon: GloveSession;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
-  kommentar: string;
+  comment: string;
   erOnline: boolean = true;
 
   faCalendar = faCalendar;

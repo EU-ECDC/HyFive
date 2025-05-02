@@ -12,7 +12,7 @@
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registrerttidspunkt | date:'HH:mm' }}</strong></p>
         <p class="mb-1">{{ item.settingtype.name }}</p>
-        <p class="mb-0"><small>{{ visUtstyr(item.beskyttelsesutstyrliste) }}</small></p>
+        <p class="mb-0"><small>{{ visUtstyr(item.protectiveEquipmentList) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
@@ -27,8 +27,8 @@
   <div class="row mb-6">
     <div class="col-12">
       <div class="form-group">
-        <input type="text" id="FormInput" class="form-control" placeholder="Legg til kommentar"
-               [(ngModel)]="sesjon.kommentar"
+        <input type="text" id="FormInput" class="form-control" placeholder="Legg til comment"
+               [(ngModel)]="sesjon.comment"
                (ngModelChange)="sesjonService.oppdaterSesjon(sesjon)">
       </div>
     </div>

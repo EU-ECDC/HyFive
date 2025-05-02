@@ -26,9 +26,9 @@
       </div>
     </ng-template>
   </div>
-  <div class="row" *ngIf="sesjon?.kommentar" style="font-size: 17px;">
+  <div class="row" *ngIf="sesjon?.comment" style="font-size: 17px;">
     <div class="col-12">
-      <label>Kommentar: <small><strong data-hj-suppress>{{sesjon.kommentar}}</strong></small></label>
+      <label>Kommentar: <small><strong data-hj-suppress>{{sesjon.comment}}</strong></small></label>
     </div>
   </div>
   <div class="text-end" *ngIf="sesjon?.observasjoner?.length > 0">

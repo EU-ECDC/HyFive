@@ -6,6 +6,6 @@ export interface OppdaterSesjonRequest
 {
 	sesjonId: any;
 	institusjonId: number;
-	kommentar: string;
+	comment: string;
 	starttidspunkt: any;
 }

@@ -121,7 +121,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       case SessionType.Hansker:
         this.startHanskeSesjon();
         break;
-      case SessionType.Beskyttelsesutstyr:
+      case SessionType.ProtectiveEquipment:
         this.visStartside = false;
         this.visBeskyttelsesutstyr = true;
         break;

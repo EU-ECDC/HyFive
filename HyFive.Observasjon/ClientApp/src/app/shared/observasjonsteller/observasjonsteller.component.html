@@ -1,15 +1,15 @@
 <div class="hh-observasjonsteller">
   <a class="hh-observasjonsteller__link"
-     [routerLink]="antallObservasjoner() > 0 ? ['/' + url] : []"
+     [routerLink]="numberOfObservations() > 0 ? ['/' + url] : []"
      [queryParams]="{ sesjonId: sesjonsdata?.id }">
     <fa-layers [fixedWidth]="true" size="2x">
       <fa-icon class="hh-observasjonsteller__obs-card" [icon]="faObservasjonskort"></fa-icon>
       <fa-icon class="hh-observasjonsteller__circle" [inverse]="false" [icon]="faCircle" transform="shrink-2 down-0 right-9" content="2"></fa-icon>
-      <fa-layers-text class="hh-observasjonsteller__text" content="{{antallObservasjoner()}}" transform="shrink-8 down-0.8 right-9"></fa-layers-text>
+      <fa-layers-text class="hh-observasjonsteller__text" content="{{numberOfObservations()}}" transform="shrink-8 down-0.8 right-9"></fa-layers-text>
     </fa-layers>
   </a>
 </div>
-<app-hjelpetekst *ngIf="antallObservasjoner() > 0" [tittel]="'Tips og triks - Redigere og sende inn observasjoner'">
+<app-hjelpetekst *ngIf="numberOfObservations() > 0" [tittel]="'Tips og triks - Redigere og sende inn observasjoner'">
   <p>
     Oppe til venstre finnes det et ikon - en notatblokk med et tall. Tallet representerer antall observasjoner du har utført.
     Ved å klikke på notatblokka vil du kunne se på og redigere observasjonene dine før innsending, samt sende inn dine observasjoner.

@@ -10,5 +10,5 @@ export interface Observasjon
 	role: Role;
 	registrerttidspunkt?: Date;
 	sesjonId: string;
-	kommentar?: string;
+	comment?: string;
 }

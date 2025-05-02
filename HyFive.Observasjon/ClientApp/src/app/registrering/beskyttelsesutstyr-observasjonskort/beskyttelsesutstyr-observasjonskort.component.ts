@@ -8,11 +8,11 @@ import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { BeskyttelsesutstyrSesjonsvisning } from "../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model";
-import { BeskyttelsesutstyrObservasjon } from '../../models/api/BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { BeskyttelsesutstyrKort } from '../../models/registrering/beskyttelsesutstyr-kort.model';
 import { BeskyttelsesutstyrMapper } from '../../utils/beskyttelsesutstyrmapper';
 import { BeskyttelsesutstyrSesjon } from '../../models/api/BeskyttelsesutstyrSesjon';
-import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from "../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
 import { Dialogtekster } from '../../konstanter/dialogtekster';
@@ -29,14 +29,14 @@ import {BeskyttelsesutstyrSesjonService} from "../../services/data/beskyttelsesu
 })
 export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
-  kommentar: string;
+  comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
   sesjonsdata: BeskyttelsesutstyrSesjon = null;
   roles: Role[];
-  beskyttelsesutstyrValg: Beskyttelsesutstyr[] = [];
-  beskyttelsesutstyrsesjontype: number = SessionType.Beskyttelsesutstyr;
+  beskyttelsesutstyrValg: ProtectiveEquipment[] = [];
+  beskyttelsesutstyrsesjontype: number = SessionType.ProtectiveEquipment;
   institusjonid: number;
 
   faEraser = faEraser;
@@ -64,11 +64,11 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
   ngOnInit(): void {
     this.beskyttelsesutstyrSesjonService.beskyttelsesutstyrOppdatert.subscribe((bu) => {
-      this.sesjonsvisning.setting.utstyrstyper = bu;
+      this.sesjonsvisning.setting.equipmentTypes = bu;
 
       this.oppdaterBeskyttelsesutstyrValg();
     })
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.utstyrstyper);
+    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes);
     this.institusjonid = this.sesjonsvisning.department.institusjonId;
   }
 
@@ -80,26 +80,26 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
   }
 
-  beskyttelsesutstyrIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyrValg.filter(b => b.erIndikert);
+  beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyrValg.filter(b => b.isRequired);
   }
 
-  beskyttelsesutstyrIkkeIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyrValg.filter(b => b.erIndikert === false);
+  beskyttelsesutstyrIkkeIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyrValg.filter(b => b.isRequired === false);
   }
 
-  registrerKommentar(kommentar: string) {
-    this.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.comment = comment;
   }
 
   nullstillKort() {
-    this.kommentar = "";
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.utstyrstyper);
+    this.comment = "";
+    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes);
   }
 
-  nullstillUtstyr(valg: Beskyttelsesutstyr) {
-    let valgIndex = this.beskyttelsesutstyrValg.findIndex(x => x.utstyrstype.id === valg.utstyrstype.id);
-    this.beskyttelsesutstyrValg[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.utstyrstyper).find(x => x.utstyrstype.id === valg.utstyrstype.id);
+  nullstillUtstyr(valg: ProtectiveEquipment) {
+    let valgIndex = this.beskyttelsesutstyrValg.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
+    this.beskyttelsesutstyrValg[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
 
@@ -113,43 +113,43 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     return antallKvalifisertUtstyr < 1;
   }
 
-  changed(event, valg: Beskyttelsesutstyr) {
+  changed(event, valg: ProtectiveEquipment) {
     this.cardLockedInPlace = false;
     event.srcElement.blur();
     event.preventDefault();
 
-    if (valg.bleBenyttet)
+    if (valg.wasUsed)
       this.visModal(valg);
     else
       this.nullstillUtstyr(valg);
   }
 
-  visModal(valgtUtstyr: Beskyttelsesutstyr) {
+  visModal(valgtUtstyr: ProtectiveEquipment) {
     this.cardLockedInPlace = false;
     const modalRef = this.modalService.open(BeskyttelsesutstyrModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
       windowClass: BeskyttelsesutstyrModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as Beskyttelsesutstyr;
-    modalRef.componentInstance.valgtUtstyr.bleBenyttetRiktig = null;
+    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as ProtectiveEquipment;
+    modalRef.componentInstance.valgtUtstyr.wasUsedCorrectly = null;
 
-    modalRef.result.then((result: Beskyttelsesutstyr) => {
-      valgtUtstyr.bleBenyttetRiktig = result.bleBenyttetRiktig;
-      valgtUtstyr.kommentar = result.kommentar;
-      valgtUtstyr.erIndikert = result.erIndikert;
-      valgtUtstyr.utstyrstype.erIndikert = result.erIndikert;
-      valgtUtstyr.feilbruktyper = result.utstyrstype.feilbruktyper.filter(x => x.erValgt);
-      valgtUtstyr.bleBenyttet = result.bleBenyttetRiktig || valgtUtstyr.feilbruktyper.length > 0 || valgtUtstyr.kommentar !== '';
+    modalRef.result.then((result: ProtectiveEquipment) => {
+      valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
+      valgtUtstyr.comment = result.comment;
+      valgtUtstyr.isRequired = result.isRequired;
+      valgtUtstyr.equipmentType.isRequired = result.isRequired;
+      valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.erValgt);
+      valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '';
     }, (reason) => {
-      valgtUtstyr.bleBenyttet = false;
+      valgtUtstyr.wasUsed = false;
     });
   }
 
   setAlleUtstyrTilRiktigBrukt(event) {
     this.beskyttelsesutstyrIndikert().forEach(x => {
-      x.bleBenyttet = true;
-      x.bleBenyttetRiktig = true;
+      x.wasUsed = true;
+      x.wasUsedCorrectly = true;
     });
   }
 
@@ -161,14 +161,14 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   }
 
   registrerObservasjon() {
-    let observasjon: BeskyttelsesutstyrObservasjon = {
+    let observasjon: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
       role: this.kort.role,
       registrerttidspunkt: new Date(Date.now()),
       sesjonId: this.sesjonsvisning.sesjonId,
-      kommentar: this.kommentar,
+      comment: this.comment,
       settingtype: this.sesjonsvisning.setting,
-      beskyttelsesutstyrliste: this.beskyttelsesutstyrValg
+      protectiveEquipmentList: this.beskyttelsesutstyrValg
     };
 
     this.observasjonRegistrert.emit(observasjon);
@@ -189,20 +189,20 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
   handleValgDragDrop($event: CdkDragDrop<any>, valgIndikert: boolean){
     var droppedValg = $event.item.data;
-    let valg = this.beskyttelsesutstyrValg.find(b => b.utstyrstype.id == droppedValg.utstyrstype.id);
-    valg.erIndikert = valgIndikert;
-    valg.utstyrstype.erIndikert = valgIndikert;
-    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sesjonsvisning.sesjonId, this.beskyttelsesutstyrValg.map(b => b.utstyrstype))
+    let valg = this.beskyttelsesutstyrValg.find(b => b.equipmentType.id == droppedValg.equipmentType.id);
+    valg.isRequired = valgIndikert;
+    valg.equipmentType.isRequired = valgIndikert;
+    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sesjonsvisning.sesjonId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
     this.cardLockedInPlace = false;
   }
 
   private oppdaterBeskyttelsesutstyrValg() {
-    this.sesjonsvisning.setting.utstyrstyper
+    this.sesjonsvisning.setting.equipmentTypes
     for(let i = 0; i < this.beskyttelsesutstyrValg.length; i++){
       var valg = this.beskyttelsesutstyrValg[i];
-      var utstyrstype = this.sesjonsvisning.setting.utstyrstyper.find(u => u.code == valg.utstyrstype.code);
-      valg.erIndikert = utstyrstype.erIndikert;
-      valg.utstyrstype = utstyrstype;
+      var equipmentType = this.sesjonsvisning.setting.equipmentTypes.find(u => u.code == valg.equipmentType.code);
+      valg.isRequired = equipmentType.isRequired;
+      valg.equipmentType = equipmentType;
     }
   }
 }

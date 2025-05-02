@@ -182,7 +182,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     return observasjon;
   }
 
-  registrerKommentar(kommentar: string) {
-    this.observasjon.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.observasjon.comment = comment;
   }
 }

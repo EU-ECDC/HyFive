@@ -8,13 +8,13 @@ import { Activity } from './Activity';
 import { HandsmykkeType } from './HandsmykkeType';
 import { BeskyttelsesutstyrOversiktRapport } from './BeskyttelsesutstyrOversiktRapport';
 import { HanskeObservasjon } from './HanskeObservasjon';
-import { BeskyttelsesutstyrObservasjon } from './BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 
 export interface ObservasjonOversiktRapport
 {
 	id: any;
 	role: Role;
-	kommentar: string;
+	comment: string;
 	registrerttidspunkt: any;
 	indikasjonstyper: IndikasjonType[];
 	activity: Activity;
@@ -22,5 +22,5 @@ export interface ObservasjonOversiktRapport
 	beskyttelsesutstyrsetting: string;
 	beskyttelsesutstyr: BeskyttelsesutstyrOversiktRapport[];
 	hanskeObservasjon: HanskeObservasjon;
-	beskyttelsesutstyrObservasjon: BeskyttelsesutstyrObservasjon;
+	beskyttelsesutstyrObservasjon: ProtectiveEquipmentObservation;
 }

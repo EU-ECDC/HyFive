@@ -73,7 +73,7 @@ export class SendteSesjonerComponent {
         return Urls.SendteFireIndikasjonerSesjonUrl;
       case SessionType.Handsmykker:
         return Urls.SendteHandsmykkeSesjonUrl;
-      case SessionType.Beskyttelsesutstyr:
+      case SessionType.ProtectiveEquipment:
         return Urls.SendteBeskyttelsesutstyrSesjonUrl;
       case SessionType.Hansker:
         return Urls.SendteHanskeSesjonUrl;

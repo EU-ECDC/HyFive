@@ -10,7 +10,7 @@ import { Kort } from '../../models/registrering/kort.model';
 import { Uuid } from '../../utils/uuid';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
 import { BeskyttelsesutstyrSesjon } from '../../models/api/BeskyttelsesutstyrSesjon';
-import { BeskyttelsesutstyrObservasjon } from '../../models/api/BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { ToastrService } from 'ngx-toastr';
@@ -67,7 +67,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: BeskyttelsesutstyrObservasjon) {
+  async registrerObservasjon(observasjon: ProtectiveEquipmentObservation) {
     await this.sesjonService.registrerObservasjon(observasjon);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
@@ -83,7 +83,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
 
   leggTilNyttKort(role: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
-    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true, utstyr: this.sesjonsvisning.setting.utstyrstyper });
+    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true, utstyr: this.sesjonsvisning.setting.equipmentTypes });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);
     this.toggleRolleliste();
   }

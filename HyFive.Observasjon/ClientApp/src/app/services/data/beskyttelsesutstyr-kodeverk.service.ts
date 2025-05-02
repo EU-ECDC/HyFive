@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BeskyttelsesutstyrsettingType } from "src/app/models/api/BeskyttelsesutstyrsettingType";
+import { ProtectiveEquipmentSettingType } from "src/app/models/api/ProtectiveEquipmentSettingType";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
@@ -12,8 +12,8 @@ export class BeskyttelsesutstyrKodeverkService {
 
   constructor(private httpClient: HttpClient){}
 
-  hentBeskyttelsesutstyrSettinger() : Observable<BeskyttelsesutstyrsettingType[]> {
+  hentBeskyttelsesutstyrSettinger() : Observable<ProtectiveEquipmentSettingType[]> {
     const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/`;
-    return this.httpClient.get<BeskyttelsesutstyrsettingType[]>(url);
+    return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
   }
 }

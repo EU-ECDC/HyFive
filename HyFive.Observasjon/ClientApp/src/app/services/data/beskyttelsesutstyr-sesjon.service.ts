@@ -2,11 +2,11 @@ import {EventEmitter, Injectable} from "@angular/core";
 import { BaseSesjonService } from './base-sesjon.service';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
 import { BeskyttelsesutstyrSesjon } from "src/app/models/api/BeskyttelsesutstyrSesjon";
-import { BeskyttelsesutstyrObservasjon } from "src/app/models/api/BeskyttelsesutstyrObservasjon";
+import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Role } from "src/app/models/api/Role";
 import { Department } from "src/app/models/api/Department";
 import { Uuid } from "src/app/utils/uuid";
-import { BeskyttelsesutstyrsettingType } from '../../models/api/BeskyttelsesutstyrsettingType';
+import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { Kort } from '../../models/registrering/kort.model';
 import { BeskyttelsesutstyrKort } from "src/app/models/registrering/beskyttelsesutstyr-kort.model";
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
@@ -14,13 +14,13 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { InstitusjonService } from "./institusjon.service";
-import {BeskyttelsesutstyrType} from "../../models/api/BeskyttelsesutstyrType";
-import {Beskyttelsesutstyr} from "../../models/api/Beskyttelsesutstyr";
+import {ProtectiveEquipmentType} from "../../models/api/ProtectiveEquipmentType";
+import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, BeskyttelsesutstyrSesjon, BeskyttelsesutstyrObservasjon>{
+export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, BeskyttelsesutstyrSesjon, ProtectiveEquipmentObservation>{
   sesjonsvisningLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjonsvisninger;
   sesjonLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjoner;
 
@@ -39,12 +39,12 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/beskyttelsesutstyr`, sesjonSomSkalSendes)
   }
 
-  beskyttelsesutstyrOppdatert: EventEmitter<BeskyttelsesutstyrType[]> = new EventEmitter<BeskyttelsesutstyrType[]>()
+  beskyttelsesutstyrOppdatert: EventEmitter<ProtectiveEquipmentType[]> = new EventEmitter<ProtectiveEquipmentType[]>()
 
   lagSesjonsvisning(
     rollerSomObserveres: Role[],
     department: Department,
-    setting: BeskyttelsesutstyrsettingType): string {
+    setting: ProtectiveEquipmentSettingType): string {
     let id = Uuid.generateUUID();
 
     let sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = {
@@ -61,17 +61,17 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     return id;
   }
 
-  oppdaterSesjonUtstyrstyper(sesjonId: string, utstyrstyper: BeskyttelsesutstyrType[]){
+  oppdaterSesjonUtstyrstyper(sesjonId: string, equipmentTypes: ProtectiveEquipmentType[]){
     var sesjonsvisninger = this.hentSesjonsvisninger();
     var sesjonsvisningSomSkalOppdateres = sesjonsvisninger.find(s => s.sesjonId == sesjonId);
-    sesjonsvisningSomSkalOppdateres.setting.utstyrstyper = utstyrstyper;
+    sesjonsvisningSomSkalOppdateres.setting.equipmentTypes = equipmentTypes;
     this.lagreSesjonsvisninger(sesjonsvisninger);
-    this.beskyttelsesutstyrOppdatert.emit(utstyrstyper);
+    this.beskyttelsesutstyrOppdatert.emit(equipmentTypes);
   }
 
-  antallKvalifisertUtstyr(beskyttelsesutstyrListe: Beskyttelsesutstyr[]) : number{
+  antallKvalifisertUtstyr(beskyttelsesutstyrListe: ProtectiveEquipment[]) : number{
     return beskyttelsesutstyrListe.reduce((kvalifiserteUtstyr, curr) => {
-        if (curr.erIndikert || curr.bleBenyttet){
+        if (curr.isRequired || curr.wasUsed){
           return kvalifiserteUtstyr + 1;
         }
         else {
@@ -81,9 +81,9 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
       0);
   }
 
-  private genererKort(roles: Role[], setting: BeskyttelsesutstyrsettingType): BeskyttelsesutstyrKort[] {
+  private genererKort(roles: Role[], setting: ProtectiveEquipmentSettingType): BeskyttelsesutstyrKort[] {
     return roles.map((r, i) => {
-      return { id: Uuid.generateUUID(), role: r, utstyr: setting.utstyrstyper, erAktivt: i == 0 } as BeskyttelsesutstyrKort
+      return { id: Uuid.generateUUID(), role: r, utstyr: setting.equipmentTypes, erAktivt: i == 0 } as BeskyttelsesutstyrKort
     });
   }
 }

@@ -13,7 +13,7 @@ import { PredefinertKommentarerService } from '../../services/data/predefinert-k
 export class RegistrerKommentarComponent implements OnInit, OnChanges {
 
   predefinerteKommentarer: string[];
-  kommentar: string = "";
+  comment: string = "";
   labelTekst: string = "Kommentar";
 
   faCommentLines = faCommentDots;
@@ -36,12 +36,12 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.kommentarinput?.currentValue !== changes.kommentarinput?.previousValue) {
-      this.kommentar = this.kommentarinput;
+      this.comment = this.kommentarinput;
     }
   }
 
   visKommentarModal(modalName) {
-    this.kommentar = this.kommentarinput;
+    this.comment = this.kommentarinput;
     this.modalService.open(modalName, { windowClass: 'hh-modal' });
   }
 
@@ -51,11 +51,11 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
     });
   }
 
-  predfinertKommentarValgt(kommentar: string) {
-    this.kommentar = kommentar;
+  predfinertKommentarValgt(comment: string) {
+    this.comment = comment;
   }
 
   registrerKommentar() {
-    this.kommentarRegistertEvent.emit(this.kommentar);
+    this.kommentarRegistertEvent.emit(this.comment);
   }
 }

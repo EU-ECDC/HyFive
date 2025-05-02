@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BeskyttelsesutstyrKodeverkService } from '../../services/data/beskyttelsesutstyr-kodeverk.service';
-import { BeskyttelsesutstyrsettingType } from '../../models/api/BeskyttelsesutstyrsettingType';
+import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { Department } from '../../models/api/Department';
 import { Urls } from '../../konstanter/urls';
@@ -9,7 +9,7 @@ import { BeskyttelsesutstyrsettingMapper } from '../../utils/beskyttelsesutstyrs
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Rollevalg } from '../../models/registrering/rollevalg.model';
 import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
-import { BeskyttelsesutstyrType } from '../../models/api/BeskyttelsesutstyrType';
+import { ProtectiveEquipmentType } from '../../models/api/ProtectiveEquipmentType';
 import { BeskyttelsesutstyrTypeKonstanter } from '../../models/api/BeskyttelsesutstyrTypeKonstanter';
 
 @Component({
@@ -18,8 +18,8 @@ import { BeskyttelsesutstyrTypeKonstanter } from '../../models/api/Beskyttelsesu
 })
 export class ValgForBeskyttelsesutstyrComponent implements OnInit {
 
-  settinger: BeskyttelsesutstyrsettingType[];
-  valgtSetting: BeskyttelsesutstyrsettingType;
+  settinger: ProtectiveEquipmentSettingType[];
+  valgtSetting: ProtectiveEquipmentSettingType;
   harPredefinertUtstyr = false;
   faCircle = faCircle;
   beskyttelsesutstyrsettingMapper = BeskyttelsesutstyrsettingMapper;
@@ -43,11 +43,11 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
     );
   }
 
-  endreValgtSetting(setting: BeskyttelsesutstyrsettingType) {
-    setting.utstyrstyper = this.visUtstyrVedRekkefolge(setting.utstyrstyper);
-    setting.utstyrstyper = setting.utstyrstyper.map(u => { u.erIndikert = u.erDefaultIndikert; return u });
+  endreValgtSetting(setting: ProtectiveEquipmentSettingType) {
+    setting.equipmentTypes = this.visUtstyrVedRekkefolge(setting.equipmentTypes);
+    setting.equipmentTypes = setting.equipmentTypes.map(u => { u.isRequired = u.isDefault; return u });
     this.valgtSetting = setting;
-    this.harPredefinertUtstyr = this.valgtSetting?.utstyrstyper?.filter(u => u.erIndikert)?.length > 0
+    this.harPredefinertUtstyr = this.valgtSetting?.equipmentTypes?.filter(u => u.isRequired)?.length > 0
   }
 
   startObservasjon() {
@@ -58,12 +58,12 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
 
   endreSettingOgUtstyr() {
     this.sesjonsvisning.setting = this.valgtSetting;
-    this.sesjonsvisning.kort = this.sesjonsvisning.kort.map(k => { k.utstyr = this.valgtSetting.utstyrstyper; return k });
+    this.sesjonsvisning.kort = this.sesjonsvisning.kort.map(k => { k.utstyr = this.valgtSetting.equipmentTypes; return k });
     this.settingOgUtstyrBleEndret.emit(this.sesjonsvisning);
   }
 
-  visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: BeskyttelsesutstyrType[]): BeskyttelsesutstyrType[] {
-    let beskyttelsesutstyrTyperVedRekkefolge: BeskyttelsesutstyrType[] = [];
+  visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: ProtectiveEquipmentType[]): ProtectiveEquipmentType[] {
+    let beskyttelsesutstyrTyperVedRekkefolge: ProtectiveEquipmentType[] = [];
 
     if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)) {
       beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)[0]);

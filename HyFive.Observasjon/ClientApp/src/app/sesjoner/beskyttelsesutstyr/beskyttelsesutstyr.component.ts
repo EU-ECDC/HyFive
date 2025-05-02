@@ -7,8 +7,8 @@ import { Urls } from '../../konstanter/urls';
 import { faCircle, faAngleUp, faClipboard, faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import {Dialogtekster} from '../../konstanter/dialogtekster';
-import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
-import { BeskyttelsesutstyrObservasjon } from '../../models/api/BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
+import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -65,14 +65,14 @@ export class BeskyttelsesutstyrComponent implements OnInit {
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
-  visUtstyr(beskyttelsesutstyr: Beskyttelsesutstyr[]): string{
+  visUtstyr(beskyttelsesutstyr: ProtectiveEquipment[]): string{
     if(beskyttelsesutstyr?.length > 0){
-      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.name).join(', ');
+      return beskyttelsesutstyr.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
     return "";
   }
 
-  observasjonSlettetEventHandler($event: BeskyttelsesutstyrObservasjon) {
+  observasjonSlettetEventHandler($event: ProtectiveEquipmentObservation) {
     this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
   }
 

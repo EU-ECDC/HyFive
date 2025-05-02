@@ -31,7 +31,7 @@
                (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
             <label [htmlFor]="'indikert'+kort.id.substr(4)+beskyttelsesutstyrValg.indexOf(valg)">
               <input type="checkbox"
-                     [(ngModel)]="valg.bleBenyttet"
+                     [(ngModel)]="valg.wasUsed"
                      (change)="changed($event, valg)"
                      [id]="'indikert'+kort.id.substr(4)+beskyttelsesutstyrValg.indexOf(valg)"
                      class="hh-round-checkbox-list__input">
@@ -39,13 +39,13 @@
                 <fa-icon [icon]="faCircle"
                          stackItemSize="2x"
                          class="hh-round-checkbox-list__circle"
-                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.bleBenyttet, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.wasUsed, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
                 </fa-icon>
-                <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
-                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.bleBenyttet"></fa-icon>
+                <fa-icon [icon]="ikonTypeMap.get(valg.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.wasUsed"></fa-icon>
+                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.wasUsed"></fa-icon>
               </fa-stack>
               <br />
-              <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
+              <span style="font-size: 17px;"><strong>{{ valg.equipmentType.name }}</strong></span>
             </label>
           </div>
         </div>
@@ -62,16 +62,16 @@
          [cdkDropListConnectedTo]="[listIndikert]" >
       <h2 class="h5 mb-3">Ikke indikert</h2>
       <div class="custom-control custom-checkbox hh-stadium-checkbox"
-           [ngClass]="{'hh-stadium-checkbox--checked':valg.bleBenyttet}"
+           [ngClass]="{'hh-stadium-checkbox--checked':valg.wasUsed}"
            *ngFor="let valg of beskyttelsesutstyrIkkeIndikert(); let i = index;"
            cdkDrag [cdkDragData]="valg"
            (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
 
         <div class="btn-group btn-group-toggle">
           <label ngbButtonLabel>
-            <input type="checkbox" class="visually-hidden" ngbButton [(ngModel)]="valg.bleBenyttet" (change)="changed($event, valg)">
-            <fa-icon class="me-2" *ngIf="valg.bleBenyttet" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
-            <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
+            <input type="checkbox" class="visually-hidden" ngbButton [(ngModel)]="valg.wasUsed" (change)="changed($event, valg)">
+            <fa-icon class="me-2" *ngIf="valg.wasUsed" [styles]="{ 'color': valg.wasUsedCorrectly ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
+            <span style="font-size: 17px;"><strong>{{ valg.equipmentType.name }}</strong></span>
           </label>
         </div>
 
@@ -81,7 +81,7 @@
     <div class="row">
       <div class="col-12">
         <div class=" d-flex flex-row mt-2 justify-content-around">
-          <app-registrer-kommentar [kommentarinput]="kommentar"
+          <app-registrer-kommentar [kommentarinput]="comment"
                                    [institusjonid]="institusjonid"
                                    [sesjontype]="beskyttelsesutstyrsesjontype"
                                    (kommentarRegistertEvent)="registrerKommentar($event)">

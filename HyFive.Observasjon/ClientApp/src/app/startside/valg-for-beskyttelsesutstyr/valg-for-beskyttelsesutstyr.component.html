@@ -34,8 +34,8 @@
     <div class="row ml-5">
       <div class="col">
         <p><strong>Indikert verneutstyr</strong></p>
-        <div class="custom-control custom-checkbox mb-3" *ngFor='let utstyr of valgtSetting.utstyrstyper'>
-          <input type='checkbox' [id]="'utstyr' + utstyr.id" [(ngModel)]="utstyr.erIndikert" class="form-check-input me-3">
+        <div class="custom-control custom-checkbox mb-3" *ngFor='let utstyr of valgtSetting.equipmentTypes'>
+          <input type='checkbox' [id]="'utstyr' + utstyr.id" [(ngModel)]="utstyr.isRequired" class="form-check-input me-3">
           <label class="custom-control-label" [htmlFor]="'utstyr' + utstyr.id">
             {{utstyr.name}}
           </label>

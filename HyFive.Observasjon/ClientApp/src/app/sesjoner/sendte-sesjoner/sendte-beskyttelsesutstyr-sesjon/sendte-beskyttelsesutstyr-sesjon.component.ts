@@ -5,8 +5,8 @@ import { Queryparameters } from '../../../konstanter/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';
 import {faFileExcel, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from 'src/app/konstanter/urls';
-import { BeskyttelsesutstyrObservasjon } from '../../../models/api/BeskyttelsesutstyrObservasjon';
-import { Beskyttelsesutstyr } from '../../../models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipmentObservation } from '../../../models/api/ProtectiveEquipmentObservation';
+import { ProtectiveEquipment } from '../../../models/api/ProtectiveEquipment';
 import {ToastrService} from 'ngx-toastr';
 import {Dialogtekster} from '../../../konstanter/dialogtekster';
 
@@ -52,7 +52,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.toastrService.clear();
   }
 
-  hentIngress(observasjon: BeskyttelsesutstyrObservasjon) {
+  hentIngress(observasjon: ProtectiveEquipmentObservation) {
     return observasjon.settingtype.name;
   }
 
@@ -60,9 +60,9 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.router.navigate([Urls.SendteSesjonerUrl])
   }
 
-  visUtstyr(beskyttelsesutstyr: Beskyttelsesutstyr[]): string {
+  visUtstyr(beskyttelsesutstyr: ProtectiveEquipment[]): string {
     if (beskyttelsesutstyr?.length > 0) {
-      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.name).join(', ');
+      return beskyttelsesutstyr.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
     return "";
   }

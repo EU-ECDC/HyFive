@@ -5,9 +5,9 @@
 export interface BeskyttelsesutstyrOversiktRapport
 {
 	utstyrsnavn: string;
-	feilbruktyper: string[];
-	bleBenyttet: boolean;
-	bleBenyttetRiktig: boolean;
-	erIndikert: boolean;
-	kommentar: string;
+	incorrectTypes: string[];
+	wasUsed: boolean;
+	wasUsedCorrectly: boolean;
+	isRequired: boolean;
+	comment: string;
 }

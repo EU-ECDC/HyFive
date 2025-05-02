@@ -31,7 +31,7 @@ import { Aktiviteter } from '../../konstanter/aktiviteter';
 export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
   ActivityTypeConstants = ActivityTypeConstants;
-  kommentar: string;
+  comment: string;
   activity: Activity;
   activityTypes: ActivityType[];
   valgteIndikasjoner: IndikasjonType[] = new Array();
@@ -94,7 +94,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   nullstillKort() {
-    this.kommentar = "";
+    this.comment = "";
     this.valgteIndikasjoner = [];
     this.activity = null;
     this.aktivitetUnderRegistrering = null;
@@ -117,7 +117,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     let observasjon: FireIndikasjonerObservasjon = {
       id: Uuid.generateUUID(),
       sesjonId: this.sesjonsvisning.sesjonId,
-      kommentar: this.kommentar,
+      comment: this.comment,
       role: this.kort.role,
       activity: this.activity,
       indikasjonstyper: this.valgteIndikasjoner,
@@ -143,8 +143,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.valgteIndikasjoner = valgteIndikasjoner;
   }
 
-  registrerKommentar(kommentar: string) {
-    this.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.comment = comment;
   }
 
   skalAktivitetDeaktiveres(aktivitetTypeKode: string) {

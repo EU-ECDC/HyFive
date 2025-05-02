@@ -1,7 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { BeskyttelsesutstyrType } from '../models/api/BeskyttelsesutstyrType';
+import { ProtectiveEquipmentType } from '../models/api/ProtectiveEquipmentType';
 
-import { Beskyttelsesutstyr } from '../models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipment } from '../models/api/ProtectiveEquipment';
 import { BeskyttelsesutstyrTypeKonstanter } from '../models/api/BeskyttelsesutstyrTypeKonstanter';
 import { faHeadSideMask } from '@fortawesome/free-solid-svg-icons';
 import { faHandPaper } from '@fortawesome/free-regular-svg-icons';
@@ -22,17 +22,17 @@ export class BeskyttelsesutstyrMapper {
     return ikonmap;
   }
 
-  public static getBeskyttelsesutstyrvalg(beskyttelsesutstyr: BeskyttelsesutstyrType[]): Beskyttelsesutstyr[] {
+  public static getBeskyttelsesutstyrvalg(beskyttelsesutstyr: ProtectiveEquipmentType[]): ProtectiveEquipment[] {
     return beskyttelsesutstyr.reduce((acc, item) => {
       acc.push({
-        bleBenyttet: false,
-        erIndikert: item.erIndikert,
-        utstyrstype: item,
-        bleBenyttetRiktig: false,
-        feilbruktyper: [],
-        kommentar: ""
-      } as Beskyttelsesutstyr);
+        wasUsed: false,
+        isRequired: item.isRequired,
+        equipmentType: item,
+        wasUsedCorrectly: false,
+        incorrectTypes: [],
+        comment: ""
+      } as ProtectiveEquipment);
       return acc;
-    }, []) as Beskyttelsesutstyr[];
+    }, []) as ProtectiveEquipment[];
   }
 }

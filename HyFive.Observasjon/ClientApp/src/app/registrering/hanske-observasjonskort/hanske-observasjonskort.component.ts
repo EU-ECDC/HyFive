@@ -28,7 +28,7 @@ import { Dialogtekster } from '../../konstanter/dialogtekster';
 })
 export class HanskeObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
-  kommentar: string;
+  comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
@@ -109,13 +109,13 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     });
   }
 
-  registrerKommentar(kommentar: string) {
-    this.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.comment = comment;
   }
 
   nullstillKort() {
     this.nullstillFane();
-    this.kommentar = "";
+    this.comment = "";
   }
 
   kanIkkeLagre(): boolean {
@@ -154,7 +154,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       sesjonId: this.sesjonsvisning.sesjonId,
       registrerttidspunkt: new Date(Date.now()),
       role: this.kort.role,
-      kommentar: this.kommentar,
+      comment: this.comment,
       hanskeMedIndikasjonTyper: this.hanskeMedIndikasjonTyper.filter(x => x.erValgt),
       hanskeUtenIndikasjonTyper: this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt),
       gloveUsed: this.hanskeBenyttet,

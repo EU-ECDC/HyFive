@@ -4,7 +4,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { BeskyttelsesutstyrMapper } from "../../utils/beskyttelsesutstyrmapper";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 
 export const BeskyttelsesutstyrModalComponentConfig = {
   windowClass: 'hh-modal'
@@ -22,7 +22,7 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
 
   closeResult = '';
 
-  @Input() valgtUtstyr: Beskyttelsesutstyr;
+  @Input() valgtUtstyr: ProtectiveEquipment;
   @Input() visningsmodus = false;
   @Input() visKnappForSlettingAvUtstyr: boolean = false;
 
@@ -37,20 +37,20 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
   }
 
   dismiss() {
-    this.valgtUtstyr.bleBenyttet == false;
+    this.valgtUtstyr.wasUsed == false;
     this.activeModal.dismiss('lukk');
   }
 
   nullstillFeilbrukOgMarkerBenyttet(val: boolean) {
-    this.valgtUtstyr.bleBenyttet = true;
-    this.valgtUtstyr.bleBenyttetRiktig = val;
+    this.valgtUtstyr.wasUsed = true;
+    this.valgtUtstyr.wasUsedCorrectly = val;
   }
 
   kanLagre() : boolean {
-    return this.valgtUtstyr.bleBenyttetRiktig || this.harRegistrertFeilbrukEllerKommentar()
+    return this.valgtUtstyr.wasUsedCorrectly || this.harRegistrertFeilbrukEllerKommentar()
   }
 
   harRegistrertFeilbrukEllerKommentar() : boolean {
-    return this.valgtUtstyr.utstyrstype.feilbruktyper?.filter(fb => fb.erValgt).length > 0 || this.valgtUtstyr.kommentar?.length > 0;
+    return this.valgtUtstyr.equipmentType.incorrectTypes?.filter(fb => fb.erValgt).length > 0 || this.valgtUtstyr.comment?.length > 0;
   }
 }

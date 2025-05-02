@@ -22,7 +22,7 @@ export class HandsmykkerComponent implements OnInit {
   sesjon: HandsmykkeSesjon;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
-  kommentar: string;
+  comment: string;
   erOnline: boolean = true;
 
   faCalendar = faCalendar;

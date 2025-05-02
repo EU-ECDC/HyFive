@@ -2,13 +2,13 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { AvdelingOversiktRapport } from './AvdelingOversiktRapport';
+import { DepartmentOverviewReport } from './DepartmentOverviewReport';
 
 export interface InstitusjonOversiktRapport
 {
 	id: number;
 	name: string;
-	antallSesjoner: number;
-	antallObservasjoner: number;
-	departments: AvdelingOversiktRapport[];
+	numberOfSessions: number;
+	numberOfObservations: number;
+	departments: DepartmentOverviewReport[];
 }

@@ -27,7 +27,7 @@ import { Dialogtekster } from '../../konstanter/dialogtekster';
 })
 export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
-  kommentar: string;
+  comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
@@ -75,12 +75,12 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
   }
 
-  registrerKommentar(kommentar: string) {
-    this.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.comment = comment;
   }
 
   nullstillKort() {
-    this.kommentar = "";
+    this.comment = "";
     this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, []);
   }
 
@@ -124,7 +124,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
         if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));
         return acc;
       }, [] as HandsmykkeType[]) as HandsmykkeType[],
-      kommentar: this.kommentar
+      comment: this.comment
     } as HandsmykkeObservasjon;
 
     this.observasjonRegistrert.emit(observasjon);

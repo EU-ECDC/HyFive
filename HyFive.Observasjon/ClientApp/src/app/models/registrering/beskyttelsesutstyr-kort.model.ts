@@ -1,6 +1,6 @@
 import {Kort} from './kort.model';
-import {BeskyttelsesutstyrType} from '../api/BeskyttelsesutstyrType';
+import {ProtectiveEquipmentType} from '../api/ProtectiveEquipmentType';
 
 export interface BeskyttelsesutstyrKort extends Kort {
-  utstyr: BeskyttelsesutstyrType[];
+  utstyr: ProtectiveEquipmentType[];
 }

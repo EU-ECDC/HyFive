@@ -65,7 +65,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
       .concat(
         this.beskyttelsesutstyrSesjonService
           .hentSesjoner()
-          .map((b) => this.lagSesjonsvisning(b, SessionType.Beskyttelsesutstyr))
+          .map((b) => this.lagSesjonsvisning(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
         if (a.starttidspunkt > b.starttidspunkt) {
@@ -116,7 +116,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         return Urls.HandsmykkeSesjonUrl;
       case SessionType.Hansker:
         return Urls.HanskeSesjonUrl;
-      case SessionType.Beskyttelsesutstyr:
+      case SessionType.ProtectiveEquipment:
         return Urls.BeskyttelsesutstyrSesjonUrl;
       default:
         return "";
@@ -181,7 +181,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
               );
             break;
    
-          case SessionType.Beskyttelsesutstyr:
+          case SessionType.ProtectiveEquipment:
             observable = this.beskyttelsesutstyrSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {

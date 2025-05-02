@@ -10,7 +10,7 @@
       <div>
         <p class="mb-1"><strong>{{item.role.name}} - {{ item.registrerttidspunkt | date:'HH:mm' }}</strong></p>
         <p class="mb-1">{{ hentIngress(item)}}</p>
-        <p class="mb-0 lh-1"><small>{{ visUtstyr(item.beskyttelsesutstyrliste) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ visUtstyr(item.protectiveEquipmentList) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
@@ -20,8 +20,8 @@
       </app-rediger-beskyttelsesutstyr-observasjon>
     </ng-template>
   </div>
-  <p *ngIf="sesjon?.kommentar">
-      Kommentar: <small><strong data-hj-suppress>{{sesjon?.kommentar}}</strong></small>
+  <p *ngIf="sesjon?.comment">
+      Kommentar: <small><strong data-hj-suppress>{{sesjon?.comment}}</strong></small>
   </p>
   <div class="text-end" *ngIf="sesjon?.observasjoner?.length > 0">
     <button class="btn fhi-btn-icon" (click)="lastNedSomExcel()">

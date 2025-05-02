@@ -3,7 +3,7 @@
         [disabled]="deaktivert">
   <span class="d-flex align-items-center" data-hj-suppress>
     <fa-icon [icon]="faCommentLines" class="me-1"></fa-icon>
-    {{labelTekst}} <ng-container *ngIf="kommentar?.length > 0">: {{kommentar}}</ng-container>
+    {{labelTekst}} <ng-container *ngIf="comment?.length > 0">: {{comment}}</ng-container>
   </span>
 </button>
 
@@ -21,7 +21,7 @@
               <strong data-hj-suppress>{{predefinertKommentar}}</strong>
             </li>
           </ul>
-          <textarea [(ngModel)]="kommentar" class="form-control" placeholder="Skriv notat" rows="2"></textarea>
+          <textarea [(ngModel)]="comment" class="form-control" placeholder="Skriv notat" rows="2"></textarea>
         </div>
       </div>
     </div>

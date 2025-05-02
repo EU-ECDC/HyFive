@@ -21,7 +21,7 @@ export class ObservasjonstellerComponent {
   @Input() url;
   constructor(private mainMenuEventService: MainMenuEventService) { }
 
-  antallObservasjoner() : number {
+  numberOfObservations() : number {
     var antall =  this.sesjonsdata?.observasjoner?.length;
     if(antall != null)
     {

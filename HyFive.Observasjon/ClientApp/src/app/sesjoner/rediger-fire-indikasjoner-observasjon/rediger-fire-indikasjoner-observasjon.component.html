@@ -117,12 +117,12 @@
           <div class="d-flex flex-row justify-content-around">
             <ng-container *ngIf="erRedigeringsmodus">
               <app-registrer-kommentar [deaktivert]="isReadonly"
-                                       [kommentarinput]="observasjon.kommentar"
+                                       [kommentarinput]="observasjon.comment"
                                        (kommentarRegistertEvent)="registrerKommentar($event)">
               </app-registrer-kommentar>
             </ng-container>
-            <ng-container *ngIf="!erRedigeringsmodus && observasjon.kommentar">
-              <label><small>Kommentar: <strong data-hj-suppress>{{observasjon.kommentar}}</strong></small></label>
+            <ng-container *ngIf="!erRedigeringsmodus && observasjon.comment">
+              <label><small>Kommentar: <strong data-hj-suppress>{{observasjon.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>

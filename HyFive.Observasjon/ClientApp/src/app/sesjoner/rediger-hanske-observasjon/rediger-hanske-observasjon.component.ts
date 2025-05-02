@@ -125,8 +125,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.observasjonSlettetEvent.emit();
   }
 
-  registrerKommentar(kommentar: string) {
-    this.observasjon.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.observasjon.comment = comment;
   }
 
   rolleValgt(role: Role) {

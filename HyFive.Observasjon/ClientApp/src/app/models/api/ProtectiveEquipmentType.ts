@@ -2,12 +2,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { BeskyttelsesutstyrType } from './BeskyttelsesutstyrType';
+import { MisuseType } from './MisuseType';
 
-export interface BeskyttelsesutstyrsettingType
+export interface ProtectiveEquipmentType
 {
 	id: number;
 	code: string;
 	name: string;
-	utstyrstyper: BeskyttelsesutstyrType[];
+	isDefault: boolean;
+	isRequired: boolean;
+	incorrectTypes: MisuseType[];
 }

@@ -7,6 +7,6 @@ export enum SessionType {
 	InnUt = 2,
 	Handsmykker = 3,
 	Hansker = 4,
-	Beskyttelsesutstyr = 5,
+	ProtectiveEquipment = 5,
 	IkkeValgt = 6
 }

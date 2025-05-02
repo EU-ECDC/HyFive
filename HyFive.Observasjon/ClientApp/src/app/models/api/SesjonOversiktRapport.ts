@@ -13,7 +13,7 @@ export interface SesjonOversiktRapport
 	department: Department;
 	starttidspunkt: any;
 	opprettettidspunkt: any;
-	kommentar: string;
+	comment: string;
 	overforingstatus: any;
 	observasjoner: ObservasjonOversiktRapport[];
 	erValgt: boolean;

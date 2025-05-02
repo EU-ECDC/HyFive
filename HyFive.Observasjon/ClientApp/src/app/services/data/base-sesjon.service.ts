@@ -114,7 +114,7 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     this.lagreSesjoner(sessions);
   }
 
-  public antallSesjoner() : number{
+  public numberOfSessions() : number{
     return this.hentSesjoner().length;
   }
 

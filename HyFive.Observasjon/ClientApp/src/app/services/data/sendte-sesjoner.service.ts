@@ -63,7 +63,7 @@ export class SendteSesjonerService {
 
   public lastNedBeskyttelsesutstyrSesjonSomExcel(institusjonId: number, sesjonId: string) : Observable<any> {
     const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/mineobservasjoner/excel?institusjonId=${institusjonId}&sesjonId=${sesjonId}`;
-    return this.lastNedSesjonSomExcelNy(url, "Beskyttelsesutstyr");
+    return this.lastNedSesjonSomExcelNy(url, "ProtectiveEquipment");
   }
 
   lastNedSesjonSomExcelNy(url: string, observasjonsType: string) : Observable<any> {

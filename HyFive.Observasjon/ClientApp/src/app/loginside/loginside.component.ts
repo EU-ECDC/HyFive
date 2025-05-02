@@ -103,10 +103,10 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   }
 
   harLokaleSesjonerLiggende(): boolean {
-    var harHanskesesjoner = this.hanskeService.antallSesjoner() > 0;
-    var harbeskyttelsesutstyrsesjoner = this.beskyttelsesutstyrService.antallSesjoner() > 0;
-    var harFireindikasjonersesjoner = this.fireIndikasjonerService.antallSesjoner() > 0;
-    var harHandsmykkesesjoner = this.handsmykkeService.antallSesjoner() > 0;
+    var harHanskesesjoner = this.hanskeService.numberOfSessions() > 0;
+    var harbeskyttelsesutstyrsesjoner = this.beskyttelsesutstyrService.numberOfSessions() > 0;
+    var harFireindikasjonersesjoner = this.fireIndikasjonerService.numberOfSessions() > 0;
+    var harHandsmykkesesjoner = this.handsmykkeService.numberOfSessions() > 0;
     return harHanskesesjoner || harbeskyttelsesutstyrsesjoner || harFireindikasjonersesjoner || harHandsmykkesesjoner;
   }
 

@@ -4,9 +4,9 @@ import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
 import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
 import { Farger } from '../../utils/farger';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { BeskyttelsesutstyrObservasjon } from '../../models/api/BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { Department } from '../../models/api/Department';
-import { Beskyttelsesutstyr } from '../../models/api/Beskyttelsesutstyr';
+import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
@@ -23,10 +23,10 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   dialogtekster = Dialogtekster;
   Farger = Farger;
   ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
-  beskyttelsesutstyr: Beskyttelsesutstyr[] = [];
-  kommentar: string;
+  beskyttelsesutstyr: ProtectiveEquipment[] = [];
+  comment: string;
   valgtUtstyr = null;
-  beskyttelsesutstyrsesjontype: SessionType = SessionType.Beskyttelsesutstyr;
+  beskyttelsesutstyrsesjontype: SessionType = SessionType.ProtectiveEquipment;
 
   kanIkkeLagreMelding = Dialogtekster.KanIkkeLagreBeskyttelsesutstyrObservasjon;
 
@@ -41,22 +41,22 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     private toastrService: ToastrService) { }
 
   @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observasjon") observasjon: BeskyttelsesutstyrObservasjon;
+  @Input("observasjon") observasjon: ProtectiveEquipmentObservation;
   @Input("department") department: Department;
   @Input("institusjonid") institusjonid: number;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent = new EventEmitter();
 
 
   ngOnInit(): void {
-    this.beskyttelsesutstyr = this.observasjon.beskyttelsesutstyrliste;
+    this.beskyttelsesutstyr = this.observasjon.protectiveEquipmentList;
   }
   
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  registrerKommentar(kommentar: string) {
-    this.observasjon.kommentar = kommentar;
+  registrerKommentar(comment: string) {
+    this.observasjon.comment = comment;
   }
 
   lagreObservasjon() {
@@ -75,69 +75,69 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     this.observasjonSlettetEvent.emit();
   }
 
-  beskyttelsesutstyrIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyr.filter(b => b.erIndikert);
+  beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyr.filter(b => b.isRequired);
   }
 
-  beskyttelsesutstyrIkkeIndikert(): Beskyttelsesutstyr[] {
-    return this.beskyttelsesutstyr.filter(b => b.erIndikert === false);
+  beskyttelsesutstyrIkkeIndikert(): ProtectiveEquipment[] {
+    return this.beskyttelsesutstyr.filter(b => b.isRequired === false);
   }
 
-  changed(event, valg: Beskyttelsesutstyr) {
+  changed(event, valg: ProtectiveEquipment) {
     event.srcElement.blur();
     event.preventDefault();
 
-    valg.bleBenyttet = true;
-    valg.utstyrstype.feilbruktyper.filter(fb => fb.erValgt == true).map(fb => fb.erValgt = false);
+    valg.wasUsed = true;
+    valg.equipmentType.incorrectTypes.filter(fb => fb.erValgt == true).map(fb => fb.erValgt = false);
 
-    valg.feilbruktyper.forEach(f => {
-      const index = valg.utstyrstype.feilbruktyper.findIndex(fb => fb.id == f.id);
-      valg.utstyrstype.feilbruktyper[index].erValgt = true;
+    valg.incorrectTypes.forEach(f => {
+      const index = valg.equipmentType.incorrectTypes.findIndex(fb => fb.id == f.id);
+      valg.equipmentType.incorrectTypes[index].erValgt = true;
     });
 
-    if (valg.bleBenyttet) {
+    if (valg.wasUsed) {
       this.visModal(valg);
     }
   }
 
-  visModal(valgtUtstyr: Beskyttelsesutstyr) {
+  visModal(valgtUtstyr: ProtectiveEquipment) {
 
     const modalRef = this.modalService.open(BeskyttelsesutstyrModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
       windowClass: BeskyttelsesutstyrModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as Beskyttelsesutstyr;
+    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as ProtectiveEquipment;
 
     modalRef.componentInstance.visningsmodus = !this.erRedigeringsmodus;
 
-    if (this.erRedigeringsmodus && valgtUtstyr.bleBenyttet) {
-      if (valgtUtstyr.bleBenyttetRiktig || valgtUtstyr.feilbruktyper.length > 0 || valgtUtstyr.kommentar !== '') {
+    if (this.erRedigeringsmodus && valgtUtstyr.wasUsed) {
+      if (valgtUtstyr.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '') {
         modalRef.componentInstance.visKnappForSlettingAvUtstyr = true;
       }
       else {
-        modalRef.componentInstance.valgtUtstyr.bleBenyttetRiktig = null;
+        modalRef.componentInstance.valgtUtstyr.wasUsedCorrectly = null;
       }
     }
 
-    modalRef.result.then((result: Beskyttelsesutstyr) => {
+    modalRef.result.then((result: ProtectiveEquipment) => {
       if (!this.erRedigeringsmodus) {
         return;
       }
-      valgtUtstyr.erIndikert = result.erIndikert;
-      valgtUtstyr.utstyrstype.erIndikert = result.erIndikert;
-      if (result.bleBenyttet === false) {
+      valgtUtstyr.isRequired = result.isRequired;
+      valgtUtstyr.equipmentType.isRequired = result.isRequired;
+      if (result.wasUsed === false) {
         this.nullstillUtstyr(valgtUtstyr);
       }
       else {
-        valgtUtstyr.bleBenyttetRiktig = result.bleBenyttetRiktig;
-        valgtUtstyr.kommentar = result.kommentar;
-        valgtUtstyr.feilbruktyper = result.utstyrstype.feilbruktyper.filter(x => x.erValgt);
-        valgtUtstyr.bleBenyttet = result.bleBenyttetRiktig || valgtUtstyr.feilbruktyper.length > 0 || valgtUtstyr.kommentar !== '';
+        valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
+        valgtUtstyr.comment = result.comment;
+        valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.erValgt);
+        valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '';
       }
     }, (reason) => {
       if (this.erRedigeringsmodus) {
-        valgtUtstyr.bleBenyttet = false;
+        valgtUtstyr.wasUsed = false;
         this.nullstillUtstyr(valgtUtstyr);
       }
     });
@@ -145,18 +145,18 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   setAlleUtstyrTilRiktigBrukt(event) {
     this.beskyttelsesutstyrIndikert().forEach(x => {
-      x.bleBenyttet = true;
-      x.bleBenyttetRiktig = true;
+      x.wasUsed = true;
+      x.wasUsedCorrectly = true;
     });
   }
 
-  nullstillUtstyr(valg: Beskyttelsesutstyr) {
-    let valgIndex = this.beskyttelsesutstyr.findIndex(x => x.utstyrstype.id === valg.utstyrstype.id);
-    this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.utstyrstyper).find(x => x.utstyrstype.id === valg.utstyrstype.id);
+  nullstillUtstyr(valg: ProtectiveEquipment) {
+    let valgIndex = this.beskyttelsesutstyr.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
+    this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
-  visVisningsmodusModal(event, valg: Beskyttelsesutstyr) {
-    if (!this.erRedigeringsmodus && valg.bleBenyttet) {
+  visVisningsmodusModal(event, valg: ProtectiveEquipment) {
+    if (!this.erRedigeringsmodus && valg.wasUsed) {
       event.stopPropagation();
       event.preventDefault();
       this.visModal(valg);
@@ -165,6 +165,6 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   kanLagre() {
-    return this.sesjonService.antallKvalifisertUtstyr(this.observasjon.beskyttelsesutstyrliste) > 0;
+    return this.sesjonService.antallKvalifisertUtstyr(this.observasjon.protectiveEquipmentList) > 0;
   }
 }

@@ -2,14 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { FeilbrukType } from './FeilbrukType';
+import { ProtectiveEquipmentType } from './ProtectiveEquipmentType';
 
-export interface BeskyttelsesutstyrType
+export interface ProtectiveEquipmentSettingType
 {
 	id: number;
 	code: string;
 	name: string;
-	erDefaultIndikert: boolean;
-	erIndikert: boolean;
-	feilbruktyper: FeilbrukType[];
+	equipmentTypes: ProtectiveEquipmentType[];
 }

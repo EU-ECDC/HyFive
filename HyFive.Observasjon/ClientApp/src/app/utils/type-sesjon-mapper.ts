@@ -8,7 +8,7 @@ export class SesjonTypeMapper {
     navnMap.set(SessionType.FireIndikasjoner, 'Fire indikasjoner');
     navnMap.set(SessionType.Hansker, 'Hansker');
     navnMap.set(SessionType.InnUt, 'Inn/Ut');
-    navnMap.set(SessionType.Beskyttelsesutstyr, 'Verneutstyr');
+    navnMap.set(SessionType.ProtectiveEquipment, 'Verneutstyr');
     return navnMap;
   }
 }

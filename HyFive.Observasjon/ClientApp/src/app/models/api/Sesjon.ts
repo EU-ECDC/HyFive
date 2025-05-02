@@ -12,5 +12,5 @@ export interface Sesjon<TObservasjon>
 	observasjoner?: TObservasjon[];
 	institusjonsnavn?: string;
 	institusjonId?: number;
-	kommentar?: string;
+	comment?: string;
 }
