@@ -49,7 +49,7 @@ namespace HyFive.DataAccess
         public DbSet<IndicationTypes> IndicationTypes { get; set; }
         public DbSet<MisuseType> MisuseType { get; set; }
         public DbSet<HealthcareOrganization> HealthcareOrganization { get; set; }
-        public DbSet<RegionaltHealthcareProvider> RegionaltHealthcareOrganization { get; set; }
+        public DbSet<RegionaltHealthcareOrganization> RegionalHealthcareOrganization { get; set; }
         public DbSet<Municipality> Municipality { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
@@ -186,7 +186,7 @@ namespace HyFive.DataAccess
 
             mb.Entity<HealthcareOrganization>().Property(h => h.Name).HasMaxLength(250).IsRequired();
 
-            mb.Entity<RegionaltHealthcareProvider>().Property(rh => rh.Name).HasMaxLength(50);
+            mb.Entity<RegionaltHealthcareOrganization>().Property(rh => rh.Name).HasMaxLength(50);
 
             mb.Entity<Municipality>().Property(k => k.Number).HasMaxLength(4);
             mb.Entity<Municipality>().Property(k => k.Name).HasMaxLength(100);

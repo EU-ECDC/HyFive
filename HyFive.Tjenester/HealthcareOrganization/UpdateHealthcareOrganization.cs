@@ -28,7 +28,7 @@ namespace HyFive.Services.HealthcareOrganization
                                                         .FirstOrDefault(h => h.Id == command.HealthcareOrganization.Id);
 
                 healthcareOrganization.Name = command.HealthcareOrganization.Name;
-                healthcareOrganization.RegionaltHealthcareOrganization = _context.RegionaltHealthcareOrganization.Find(command.HealthcareOrganization.RegionaltHealthcareOrganizationId);
+                healthcareOrganization.RegionaltHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(command.HealthcareOrganization.RegionaltHealthcareOrganizationId);
 
                 _context.HealthcareOrganization.Update(healthcareOrganization);
                 await _context.SaveChangesAsync();

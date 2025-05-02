@@ -265,7 +265,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.Place.HealthcareOrganization, Models.V1.Institution.HealthcareOrganization>()
                 .ForMember(dest => dest.RegionaltHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionaltHealthcareOrganization != null ? src.RegionaltHealthcareOrganization.Id : 0));
 
-            CreateMap<Domain.Place.RegionaltHealthcareProvider, Models.V1.Institution.RegionalInstitution>(MemberList.None);
+            CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalInstitution>(MemberList.None);
 
             CreateMap<Domain.Place.Municipality, Models.V1.Institution.Comment>(MemberList.None);
         }

@@ -220,7 +220,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RegionalHealthAuthority",
+                name: "RegionalHealthcareOrganizationId",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -229,7 +229,7 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RegionalHealthAuthority", x => x.Id);
+                    table.PrimaryKey("PK_RegionalHealthcareOrganizationId", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -318,15 +318,15 @@ namespace HyFive.DataAccess.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    RegionalHealthAuthorityId = table.Column<int>(type: "integer", nullable: true)
+                    RegionalHealthcareOrganizationId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HealthcareOrganization", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HealthcareOrganization_RegionalHealthAuthority_RegionalHealthAuth~",
-                        column: x => x.RegionalHealthAuthorityId,
-                        principalTable: "RegionalHealthAuthority",
+                        name: "FK_HealthcareOrganization_RegionalHealthcareOrganization_RegionalHealthcare~",
+                        column: x => x.RegionalHealthcareOrganizationId,
+                        principalTable: "RegionalHealthcareOrganization",
                         principalColumn: "Id");
                 });
 
@@ -974,9 +974,9 @@ namespace HyFive.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HealthcareOrganization_RegionalHealthAuthorityId",
+                name: "IX_HealthcareOrganization_RegionalHealthcareOrganizationId",
                 table: "HealthcareOrganization",
-                column: "RegionalHealthAuthorityId");
+                column: "RegionalHealthcareOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Institution_Abbreviation",
@@ -1288,7 +1288,7 @@ namespace HyFive.DataAccess.Migrations
                 name: "Region");
 
             migrationBuilder.DropTable(
-                name: "RegionalHealthAuthority");
+                name: "RegionalHealthcareOrganization");
 
             migrationBuilder.DropTable(
                 name: "Role");

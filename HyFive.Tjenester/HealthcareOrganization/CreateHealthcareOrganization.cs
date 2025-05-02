@@ -34,7 +34,7 @@ namespace HyFive.Services.HealthcareOrganization
                 healthcareOrganization = new Domain.Place.HealthcareOrganization
                 {
                     Name = request.HealthcareOrganization.Name,
-                    RegionaltHealthcareOrganization = _context.RegionaltHealthcareOrganization.Find(request.HealthcareOrganization.RegionaltHealthcareOrganizationId)
+                    RegionaltHealthcareOrganization = _context.RegionalHealthcareOrganization.Find(request.HealthcareOrganization.RegionaltHealthcareOrganizationId)
                 };
 
                 _context.HealthcareOrganization.Add(healthcareOrganization);
