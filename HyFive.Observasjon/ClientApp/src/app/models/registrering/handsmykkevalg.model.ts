@@ -1,4 +1,4 @@
-import {HandsmykkeType} from '../api/HandsmykkeType';
+import {HandJewelryType} from '../api/HandJewelryType';
 
 export class HandJewelrySelection {
   public isSelected: boolean;

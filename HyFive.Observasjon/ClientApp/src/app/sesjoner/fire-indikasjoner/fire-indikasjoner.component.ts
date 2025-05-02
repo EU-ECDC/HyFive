@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
-import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
+import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Urls } from '../../konstanter/urls';
@@ -18,7 +18,7 @@ import { FireIndikasjonerSesjonsvisning } from 'src/app/models/registrering/fire
 })
 export class FireIndikasjonerComponent implements OnInit {
 
-  sesjon: FireIndikasjonerSesjon;
+  sesjon: FourIndicationsSession;
   sesjonvisning: FireIndikasjonerSesjonsvisning;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;

@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { FireIndikasjonerSesjon } from '../../../models/api/FireIndikasjonerSesjon';
+import { FourIndicationsSession } from '../../../models/api/FourIndicationsSession';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -10,5 +10,5 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 export class SendteSesjonsoversiktComponent {
 
   faCalendar = faCalendar;
-  @Input("sesjon") sesjon: FireIndikasjonerSesjon;
+  @Input("sesjon") sesjon: FourIndicationsSession;
 }

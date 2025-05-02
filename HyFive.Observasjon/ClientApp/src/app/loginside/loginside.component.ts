@@ -119,8 +119,8 @@ export class LoginsideComponent implements OnInit, OnDestroy {
     {
       var nyForsporselOmBrukertilgang = {
         institutionId: this.valgtInstitusjon?.id,
-        brukerFornavn: this.bruker.firstName,
-        brukerEtternavn: this.bruker.lastName,
+        userFirstName: this.bruker.firstName,
+        userLastName: this.bruker.lastName,
         hprNumber: this.bruker.hprNumber,
         identityPseudonym: this.bruker.identityPseudonym
       }

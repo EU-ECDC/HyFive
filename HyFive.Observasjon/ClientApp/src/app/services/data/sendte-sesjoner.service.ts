@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { SesjonRapport } from '../../models/api/SesjonRapport';
-import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
+import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
 import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
 import { GloveSession } from '../../models/api/GloveSession';
@@ -21,16 +21,16 @@ export class SendteSesjonerService {
     return this.httpClient.get<SesjonRapport[]>(url);
   }
 
-  hentFireIndikasjonerSesjon(sessionId : string): Observable<FireIndikasjonerSesjon> {
+  hentFireIndikasjonerSesjon(sessionId : string): Observable<FourIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<FireIndikasjonerSesjon>(`${environment.apiBaseUrl}/v1/sesjon/fireindikasjoner`, {params});
+    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/sesjon/fireindikasjoner`, {params});
   }
 
   hentHandsmykkerSesjon(sessionId: string): Observable<HandsmykkeSesjon> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handsmykker`, {params});
+    return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handJewelry`, {params});
   }
 
   hentHanskeSesjon(sessionId: string): Observable<GloveSession> {

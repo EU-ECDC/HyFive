@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Department } from '../../models/api/Department';
-import { HandsmykkeObservasjon } from '../../models/api/HandsmykkeObservasjon';
-import { HandsmykkeType } from '../../models/api/HandsmykkeType';
+import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
+import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
@@ -22,7 +22,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
   erRedigeringsmodus: boolean = false;
   handsmykkevalg = [] as Handsmykkevalg[];
-  handsmykkeTyper: HandsmykkeType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
   ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
   Farger = Farger;
   Dialogtekster = Dialogtekster;
@@ -39,15 +39,15 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   ) { }
 
   @Input() isReadonly: boolean = false;
-  @Input() observasjon: HandsmykkeObservasjon;
+  @Input() observasjon: HandJewelryObservation;
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
 
 
   ngOnInit(): void {
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
-      this.handsmykkeTyper = handsmykkeTyper;
-      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, this.observasjon.handsmykker.map(x => x?.code));
+    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+      this.handJewelryTypes = handJewelryTypes;
+      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, this.observasjon.handJewelry.map(x => x?.code));
       this.handsmykkevalg.forEach(x => this.changed(x));
     });
   }
@@ -66,10 +66,10 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   }
 
   lagreObservasjon() {
-    this.observasjon.handsmykker = this.handsmykkevalg.reduce((acc, item) => {
-      if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));
+    this.observasjon.handJewelry = this.handsmykkevalg.reduce((acc, item) => {
+      if (item.erValgt) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
-    }, [] as HandsmykkeType[]) as HandsmykkeType[];
+    }, [] as HandJewelryType[]) as HandJewelryType[];
     this.sesjonService.endreObservasjon(this.observasjon);
     this.erRedigeringsmodus = false;
   }

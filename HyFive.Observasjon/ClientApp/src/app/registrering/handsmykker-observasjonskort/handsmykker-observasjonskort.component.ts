@@ -4,9 +4,9 @@ import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@forta
 import { HandsmykkeSesjonsvisning } from "src/app/models/registrering/handsmykke-sesjonsvisning.model";
 import { HandsmykkeSesjon } from "src/app/models/api/HandsmykkeSesjon";
 import { Role } from "src/app/models/api/Role";
-import { HandsmykkeObservasjon } from 'src/app/models/api/HandsmykkeObservasjon';
+import { HandJewelryObservation } from 'src/app/models/api/HandJewelryObservation';
 import { Kort } from "src/app/models/registrering/kort.model";
-import { HandsmykkeType } from '../../models/api/HandsmykkeType';
+import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
@@ -43,7 +43,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
 
   sessionsdata: HandsmykkeSesjon = null;
   roles: Role[];
-  handsmykkeTyper: HandsmykkeType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
 
   handsmykkevalg = [] as Handsmykkevalg[];
 
@@ -63,9 +63,9 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   ngOnInit(): void {
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
-      this.handsmykkeTyper = handsmykkeTyper;
-      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, []);
+    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+      this.handJewelryTypes = handJewelryTypes;
+      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, []);
     });
   }
 
@@ -81,7 +81,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
 
   nullstillKort() {
     this.comment = "";
-    this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, []);
+    this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, []);
   }
 
   antallValgteHandsmykker() {
@@ -120,12 +120,12 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       sessionId: this.sesjonsvisning.sessionId,
       registrationTime: new Date(Date.now()),
       role: this.kort.role,
-      handsmykker: this.handsmykkevalg.reduce((acc, item) => {
-        if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));
+      handJewelry: this.handsmykkevalg.reduce((acc, item) => {
+        if (item.erValgt) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
-      }, [] as HandsmykkeType[]) as HandsmykkeType[],
+      }, [] as HandJewelryType[]) as HandJewelryType[],
       comment: this.comment
-    } as HandsmykkeObservasjon;
+    } as HandJewelryObservation;
 
     this.observasjonRegistrert.emit(observasjon);
 

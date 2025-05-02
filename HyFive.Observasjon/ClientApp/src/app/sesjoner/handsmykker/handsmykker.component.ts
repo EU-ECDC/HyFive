@@ -8,7 +8,7 @@ import { Urls } from '../../konstanter/urls';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import { HandsmykkeType } from 'src/app/models/api/HandsmykkeType';
+import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
 import { HandsmykkeTypeService } from '../../services/data/handsmykketype.service';
 import { ToastrService } from 'ngx-toastr';
@@ -34,7 +34,7 @@ export class HandsmykkerComponent implements OnInit {
 
   Dialogtekster = Dialogtekster;
   Urls = Urls;
-  handsmykkeTyper: HandsmykkeType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
     private sesjonService: HandsmykkeSesjonService,
@@ -53,8 +53,8 @@ export class HandsmykkerComponent implements OnInit {
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
-      this.handsmykkeTyper = handsmykkeTyper;
+    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+      this.handJewelryTypes = handJewelryTypes;
     });
   }
   
@@ -75,8 +75,8 @@ export class HandsmykkerComponent implements OnInit {
     this.router.navigate([Urls.SendteSesjonerUrl]);
   }
 
-  visHandsmykker(handsmykker: HandsmykkeType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, handsmykker.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
+  visHandsmykker(handJewelry: HandJewelryType[]): string {
+    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
   }
 
   sendTilKoordinator() {

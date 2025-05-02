@@ -3,7 +3,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faTshirt } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { Handsmykkevalg } from '../models/registrering/handsmykkevalg.model';
-import { HandsmykkeType } from '../models/api/HandsmykkeType';
+import { HandJewelryType } from '../models/api/HandJewelryType';
 import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIkoner';
 
 export class HandsmykkeMapper {
@@ -20,7 +20,7 @@ export class HandsmykkeMapper {
     return ikonmap;
   }
 
-  public static getHandsmykkevalg(handsmykkeAlternativer: HandsmykkeType[], handsmykkeValg: string[]): Handsmykkevalg[] {
+  public static getHandsmykkevalg(handsmykkeAlternativer: HandJewelryType[], handsmykkeValg: string[]): Handsmykkevalg[] {
     return handsmykkeAlternativer.reduce((acc, item) => {
       acc.push({
         erValgt: handsmykkeValg.indexOf(item.code) != -1,

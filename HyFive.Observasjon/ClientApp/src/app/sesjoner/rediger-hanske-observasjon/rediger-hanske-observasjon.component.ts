@@ -11,7 +11,7 @@ import { HanskeMedIndikasjonTypeService } from '../../services/data/hanske-med-i
 import { HanskeUtenIndikasjonTypeService } from '../../services/data/hanske-uten-indikasjon-type.service';
 import { HandhygieneEtterHanskebrukTypeService } from '../../services/data/handhygiene-etter-hanskebruk-type.service';
 import { HanskeUtenIndikasjonType } from '../../models/api/HanskeUtenIndikasjonType';
-import { HandhygieneEtterHanskebrukType } from '../../models/api/HandhygieneEtterHanskebrukType';
+import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
 import { HanskeMedIndikasjonType } from '../../models/api/HanskeMedIndikasjonType';
 import { Uuid } from 'src/app/utils/uuid';
 
@@ -26,7 +26,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   Dialogtekster = Dialogtekster;
   hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
   hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
-  handhygieneEtterHanskebrukTyper: HandhygieneEtterHanskebrukType[] = [];
+  handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
 
   activeTab = "med";
   hanskeBrukt = null;
@@ -80,12 +80,12 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
         });
       }
     });
-    this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper().subscribe((handhygieneEtterHanskebrukTyper) => {
-      this.handhygieneEtterHanskebrukTyper = handhygieneEtterHanskebrukTyper;
+    this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper().subscribe((handHygieneAfterGloveUseTypes) => {
+      this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
 
     this.hanskeBrukt = this.observasjon.gloveUsed;
-    this.valgtHygieneEtterHanskebruk = this.observasjon.handhygieneEtterHanskebrukType?.code;
+    this.valgtHygieneEtterHanskebruk = this.observasjon.handHygieneAfterGloveUseType?.code;
   }
 
   hanskeMedIndikasjonerChanged(code, event) {
@@ -108,10 +108,10 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.observasjon.gloveUsed = this.hanskeBrukt;
 
     if(this.observasjon.gloveUsed){
-      this.observasjon.handhygieneEtterHanskebrukType = this.handhygieneEtterHanskebrukTyper.find(x => x.code === this.valgtHygieneEtterHanskebruk);
+      this.observasjon.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHygieneEtterHanskebruk);
     }
     else {
-      this.observasjon.handhygieneEtterHanskebrukType = null;
+      this.observasjon.handHygieneAfterGloveUseType = null;
       this.valgtHygieneEtterHanskebruk = null;
     }
 

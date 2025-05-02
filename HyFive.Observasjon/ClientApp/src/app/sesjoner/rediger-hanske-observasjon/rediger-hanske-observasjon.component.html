@@ -112,7 +112,7 @@
           <div class="w-100" *ngIf="hanskeBrukt">
             <h2 class="h5">Håndhygiene etter hanskebruk?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
-              <div class="d-flex justify-content-center" *ngFor="let type of handhygieneEtterHanskebrukTyper">
+              <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
                 <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />
                 <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}">{{type.name}}</label>
               </div>

@@ -9,7 +9,7 @@ import { Queryparameters } from '../../konstanter/queryparameters';
 import { Urls } from '../../konstanter/urls';
 import { faEnvelope, faPlus, faArrowDown, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
-import { HandsmykkeObservasjon } from '../../models/api/HandsmykkeObservasjon';
+import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
 import { Kort } from '../../models/registrering/kort.model';
 import { Uuid } from '../../utils/uuid';
 import { ToastrService } from 'ngx-toastr';
@@ -66,7 +66,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: HandsmykkeObservasjon) {
+  async registrerObservasjon(observasjon: HandJewelryObservation) {
     await this.sesjonService.registrerObservasjon(observasjon);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();

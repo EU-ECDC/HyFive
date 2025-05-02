@@ -3,7 +3,7 @@ import { SendteSesjonerService } from '../../../services/data/sendte-sessions.se
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
-import { HandsmykkeType } from 'src/app/models/api/HandsmykkeType';
+import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { GloveSession } from '../../../models/api/GloveSession';
 import { HanskeObservasjon } from '../../../models/api/HanskeObservasjon';
 import {ToastrService} from 'ngx-toastr';
@@ -17,7 +17,7 @@ import {Dialogtekster} from '../../../konstanter/dialogtekster';
 export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
   sesjon: GloveSession;
-  handsmykkeTyper: HandsmykkeType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
   erOnline: boolean = true;
   faFileExcel = faFileExcel
   Dialogtekster = Dialogtekster;

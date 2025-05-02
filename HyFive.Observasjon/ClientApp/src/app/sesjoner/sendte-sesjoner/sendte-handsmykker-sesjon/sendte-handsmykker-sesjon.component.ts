@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
-import { HandsmykkeType } from 'src/app/models/api/HandsmykkeType';
+import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandsmykkeSesjon } from '../../../models/api/HandsmykkeSesjon';
 import { HandsmykkeTypeService } from '../../../services/data/handsmykketype.service';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
@@ -18,7 +18,7 @@ import {Dialogtekster} from '../../../konstanter/dialogtekster';
 export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   sesjon: HandsmykkeSesjon;
-  handsmykkeTyper: HandsmykkeType[] = [];
+  handJewelryTypes: HandJewelryType[] = [];
   erOnline: boolean = true;
 
   faFileExcel = faFileExcel;
@@ -42,8 +42,8 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
         }
       );
     });
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
-      this.handsmykkeTyper = handsmykkeTyper;
+    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+      this.handJewelryTypes = handJewelryTypes;
     });
   }
   
@@ -51,8 +51,8 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  visHandsmykker(handsmykker: HandsmykkeType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, handsmykker.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
+  visHandsmykker(handJewelry: HandJewelryType[]): string {
+    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
   }
 
   navigerTilSendteSesjoner() {

@@ -5,6 +5,6 @@
 import { FourIndicationsObservation } from './FourIndicationsObservation';
 import { Sesjon } from './Sesjon';
 
-export interface FireIndikasjonerSesjon extends Sesjon<FourIndicationsObservation>
+export interface FourIndicationsSession extends Sesjon<FourIndicationsObservation>
 {
 }

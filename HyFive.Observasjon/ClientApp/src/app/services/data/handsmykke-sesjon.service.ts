@@ -6,7 +6,7 @@ import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
 import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
-import { HandsmykkeObservasjon } from '../../models/api/HandsmykkeObservasjon';
+import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjonsvisning, HandsmykkeSesjon, HandsmykkeObservasjon> {
+export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjonsvisning, HandsmykkeSesjon, HandJewelryObservation> {
 
   sesjonLocalStoragePath = Localstoragepaths.HandsmykkeSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.HandsmykkeSesjonsvisninger;

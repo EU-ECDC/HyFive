@@ -5,12 +5,12 @@
 import { Observation } from './Observation';
 import { HanskeMedIndikasjonType } from './HanskeMedIndikasjonType';
 import { HanskeUtenIndikasjonType } from './HanskeUtenIndikasjonType';
-import { HandhygieneEtterHanskebrukType } from './HandhygieneEtterHanskebrukType';
+import { HandHygieneAfterGloveUseType } from './HandHygieneAfterGloveUseType';
 
 export interface HanskeObservasjon extends Observation
 {
 	hanskeMedIndikasjonTyper?: HanskeMedIndikasjonType[];
 	hanskeUtenIndikasjonTyper?: HanskeUtenIndikasjonType[];
 	gloveUsed: boolean;
-	handhygieneEtterHanskebrukType?: HandhygieneEtterHanskebrukType;
+	handHygieneAfterGloveUseType?: HandHygieneAfterGloveUseType;
 }

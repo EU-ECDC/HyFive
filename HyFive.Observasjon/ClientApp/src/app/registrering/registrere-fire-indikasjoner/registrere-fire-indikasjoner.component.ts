@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
-import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
+import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { Queryparameters } from '../../konstanter/queryparameters';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { InstitusjonService } from '../../services/data/institusjon.service';
@@ -21,7 +21,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: FireIndikasjonerSesjonsvisning;
-  sessionsdata: FireIndikasjonerSesjon = null;
+  sessionsdata: FourIndicationsSession = null;
   roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;

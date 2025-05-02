@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FireIndikasjonerSesjon} from '../../../models/api/FireIndikasjonerSesjon';
+import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
 import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
 
 @Component({
@@ -8,7 +8,7 @@ import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
 })
 export class SesjonstatistikkComponent implements OnInit {
 
-  @Input() sesjon: FireIndikasjonerSesjon;
+  @Input() sesjon: FourIndicationsSession;
 
   constructor() { }
 

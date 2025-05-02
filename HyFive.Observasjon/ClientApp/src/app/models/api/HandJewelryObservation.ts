@@ -3,9 +3,9 @@
 //     the code is regenerated.
 
 import { Observation } from './Observation';
-import { HandsmykkeType } from './HandsmykkeType';
+import { HandJewelryType } from './HandJewelryType';
 
-export interface HandsmykkeObservasjon extends Observation
+export interface HandJewelryObservation extends Observation
 {
-	handsmykker?: HandsmykkeType[];
+	handJewelry?: HandJewelryType[];
 }

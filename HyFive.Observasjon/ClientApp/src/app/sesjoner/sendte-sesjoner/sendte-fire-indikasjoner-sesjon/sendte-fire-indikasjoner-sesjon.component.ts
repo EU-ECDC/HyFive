@@ -9,7 +9,7 @@ import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
-import {FireIndikasjonerSesjon} from '../../../models/api/FireIndikasjonerSesjon';
+import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -18,7 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: FireIndikasjonerSesjon;
+  sesjon: FourIndicationsSession;
   sesjonErSendtTilServer = false;
   activityTypes: ActivityType[];
   erOnline: boolean = true;
@@ -65,25 +65,25 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.router.navigate([Urls.SendteSesjonerUrl])
   }
 
-  beregnAnledningerEtterlevd(sesjon: FireIndikasjonerSesjon) : number{
+  beregnAnledningerEtterlevd(sesjon: FourIndicationsSession) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
     return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerEtterlevdProsent(sesjon: FireIndikasjonerSesjon): number {
+  beregnAnledningerEtterlevdProsent(sesjon: FourIndicationsSession): number {
     if (sesjon?.observasjoner?.length == 0)
       return 0;
     return (this.beregnAnledningerEtterlevd(sesjon) / sesjon?.observasjoner?.length) * 100;
   }
 
-  beregnAnledningerUtelatt(sesjon: FireIndikasjonerSesjon) : number{
+  beregnAnledningerUtelatt(sesjon: FourIndicationsSession) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
     return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerUtelattProsent(sesjon: FireIndikasjonerSesjon) : number{
+  beregnAnledningerUtelattProsent(sesjon: FourIndicationsSession) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
     return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observasjoner?.length)*100

@@ -1,5 +1,5 @@
 import { Uuid } from '../../utils/uuid';
-import { FireIndikasjonerSesjon } from '../../models/api/FireIndikasjonerSesjon';
+import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { Localstoragepaths } from '../../konstanter/localstoragepaths';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { Role } from '../../models/api/Role';
@@ -16,7 +16,7 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikasjonerSesjonsvisning, FireIndikasjonerSesjon, FourIndicationsObservation> {
+export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikasjonerSesjonsvisning, FourIndicationsSession, FourIndicationsObservation> {
 
   sesjonLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjonsvisninger;

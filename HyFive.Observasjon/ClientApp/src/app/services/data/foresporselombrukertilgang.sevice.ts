@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ForesporselOmBrukertilgang } from '../../models/api/ForesporselOmBrukertilgang';
+import { UserAccessRequest } from '../../models/api/UserAccessRequest';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -22,9 +22,9 @@ export class ForesporselOmBrukertilgangService {
     return this.httpClient.post<boolean>(url, nyForsporselOmBrukertilgang);
   }
 
-  hentForesporselSomSendtAllerede(): Observable<ForesporselOmBrukertilgang> {
+  hentForesporselSomSendtAllerede(): Observable<UserAccessRequest> {
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang`;
-    return this.httpClient.get<ForesporselOmBrukertilgang>(url);
+    return this.httpClient.get<UserAccessRequest>(url);
   }
 
   hentInstitusjon(id: number): Observable<Institution> {
