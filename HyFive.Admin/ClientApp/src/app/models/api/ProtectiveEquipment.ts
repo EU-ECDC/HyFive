@@ -11,7 +11,7 @@ export interface ProtectiveEquipment
 	wasUsed: boolean;
 	isRequired: boolean;
 	equipmentType: ProtectiveEquipmentType;
-	incorrectTypes: MisuseType[];
+	misuseTypes: MisuseType[];
 	wasUsedCorrectly: boolean;
 	comment: string;
 }

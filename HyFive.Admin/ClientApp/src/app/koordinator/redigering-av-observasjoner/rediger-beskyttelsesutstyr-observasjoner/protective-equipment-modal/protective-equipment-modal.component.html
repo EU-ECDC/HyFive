@@ -34,7 +34,7 @@
       <div class="mt-2" *ngIf="selectedEquipment.wasUsedCorrectly === false">
         <ng-container *ngIf="!displayMode">
           <label class="text-info"><small><strong><em>Select at least one of the options below, or fill in a comment</em></strong></small></label>
-          <ng-container *ngFor="let fb of selectedEquipment.equipmentTypeq.incorrectTypes">
+          <ng-container *ngFor="let fb of selectedEquipment.equipmentTypeq.misuseTypes">
             <div class="custom-control custom-checkbox pb-2">
               <input type="checkbox" class="custom-control-input" [id]="fb.name" [(ngModel)]="fb.erValgt" (click)="enableBackToCardOnError(fb)" [disabled]="displayMode">
               <label class="custom-control-label" [for]="fb.name">
@@ -44,7 +44,7 @@
           </ng-container>
         </ng-container>
         <ng-container *ngIf="displayMode">
-          <ng-container *ngFor="let fb of selectedEquipment.incorrectTypes">
+          <ng-container *ngFor="let fb of selectedEquipment.misuseTypes">
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" [id]="fb.name" [disabled]="true" [checked]="true">
               <label class="custom-control-label" [for]="fb.name">

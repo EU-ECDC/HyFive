@@ -139,8 +139,8 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       valgtUtstyr.comment = result.comment;
       valgtUtstyr.isRequired = result.isRequired;
       valgtUtstyr.equipmentType.isRequired = result.isRequired;
-      valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.isSelected);
-      valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '';
+      valgtUtstyr.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
+      valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '';
     }, (reason) => {
       valgtUtstyr.wasUsed = false;
     });

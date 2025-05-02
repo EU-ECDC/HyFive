@@ -51,6 +51,6 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
   }
 
   harRegistrertFeilbrukEllerKommentar() : boolean {
-    return this.valgtUtstyr.equipmentType.incorrectTypes?.filter(fb => fb.isSelected).length > 0 || this.valgtUtstyr.comment?.length > 0;
+    return this.valgtUtstyr.equipmentType.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.valgtUtstyr.comment?.length > 0;
   }
 }

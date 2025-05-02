@@ -163,7 +163,7 @@
                               {{ bu.wasUsedCorrectly ? 'Used correctl' : 'Used incorrectly' }}
                               <ng-container *ngIf="!bu.wasUsedCorrectly">
                                 <ul>
-                                  <li *ngFor="let fbt of bu.incorrectTypes">{{fbt}}</li>
+                                  <li *ngFor="let fbt of bu.misuseTypes">{{fbt}}</li>
                                   <li *ngIf="bu.comment">Comment: {{bu.comment}}</li>
                                 </ul>
                               </ng-container>

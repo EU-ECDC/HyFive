@@ -88,11 +88,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     event.preventDefault();
 
     valg.wasUsed = true;
-    valg.equipmentType.incorrectTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
+    valg.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
-    valg.incorrectTypes.forEach(f => {
-      const index = valg.equipmentType.incorrectTypes.findIndex(fb => fb.id == f.id);
-      valg.equipmentType.incorrectTypes[index].isSelected = true;
+    valg.misuseTypes.forEach(f => {
+      const index = valg.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
+      valg.equipmentType.misuseTypes[index].isSelected = true;
     });
 
     if (valg.wasUsed) {
@@ -112,7 +112,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     modalRef.componentInstance.visningsmodus = !this.erRedigeringsmodus;
 
     if (this.erRedigeringsmodus && valgtUtstyr.wasUsed) {
-      if (valgtUtstyr.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '') {
+      if (valgtUtstyr.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '') {
         modalRef.componentInstance.visKnappForSlettingAvUtstyr = true;
       }
       else {
@@ -132,8 +132,8 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       else {
         valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
         valgtUtstyr.comment = result.comment;
-        valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.isSelected);
-        valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '';
+        valgtUtstyr.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
+        valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '';
       }
     }, (reason) => {
       if (this.erRedigeringsmodus) {

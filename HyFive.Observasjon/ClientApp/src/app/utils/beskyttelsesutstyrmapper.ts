@@ -29,7 +29,7 @@ export class BeskyttelsesutstyrMapper {
         isRequired: item.isRequired,
         equipmentType: item,
         wasUsedCorrectly: false,
-        incorrectTypes: [],
+        misuseTypes: [],
         comment: ""
       } as ProtectiveEquipment);
       return acc;

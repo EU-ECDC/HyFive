@@ -21,7 +21,7 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   faCircle = faCircle;
   colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
-  incorrectTypes: MisuseType[] = [];
+  misuseTypes: MisuseType[] = [];
 
   closeResult = '';
 
@@ -52,11 +52,11 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   enableBackToCardOnError(misuse: MisuseType) {
     if (misuse) {
       if (misuse.isSelected === false) {
-        this.incorrectTypes.push(misuse);
+        this.misuseTypes.push(misuse);
       }
       else {
-        const index = this.incorrectTypes.indexOf(misuse);
-        this.incorrectTypes.splice(index, 1);
+        const index = this.misuseTypes.indexOf(misuse);
+        this.misuseTypes.splice(index, 1);
       }
     }
   }
@@ -66,6 +66,6 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   }
 
   hasRegisteredMisuseOrComment() : boolean {
-    return this.selectedEquipment.equipmentType.incorrectTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
+    return this.selectedEquipment.equipmentType.misuseTypes?.filter(fb => fb.isSelected).length > 0 || this.selectedEquipment.comment?.length > 0;
   }
 }
