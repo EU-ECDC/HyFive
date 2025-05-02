@@ -13,7 +13,7 @@ import { Farger } from "../../utils/farger";
 import { Handsmykkevalg } from "../../models/registrering/handsmykkevalg.model";
 import { HandsmykkeMapper } from "../../utils/handsmykke-mapper";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { HandsmykkeTypeKonstanter } from "../../models/api/HandsmykkeTypeKonstanter";
+import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConstants";
 import { HandsmykkeTypeService } from "../../services/data/handsmykketype.service";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
@@ -39,7 +39,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   faCheck = faCheck;
   faTimes = faTimes;
   farger = Farger;
-  ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
+  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandsmykkeMapper.getIkontypeMap();
 
   sessionsdata: HandJewelrySession = null;
   roles: Role[];
@@ -99,10 +99,10 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   changed(valg: Handsmykkevalg) {
-    if (valg.isSelected && valg.type == HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandsmykkeTypeKonstanter.AltOk) x.disabled = true; return x; }) // disable all
-    else if (valg.isSelected && valg.type != HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandsmykkeTypeKonstanter.AltOk) x.disabled = true; return x; }) // disable altok
+    if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable all
+    else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
   }

@@ -1,17 +1,17 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { IndikasjonTypeKonstanter } from '../models/api/IndikasjonTypeKonstanter';
+import { IndicationTypeConstants } from '../models/api/IndicationTypeConstants';
 import { IndicationType } from '../models/api/IndicationType';
 import { IndikasjonTypeValg } from '../models/registrering/indikasjontypevalg.model';
 import { faFour, faOne, faThree, faTwo } from './customIkoner';
 
 export class IndikasjonTypeMapper {
 
-  public static getIkontypeMap(): Map<IndikasjonTypeKonstanter, IconProp> {
-    var ikonmap = new Map<IndikasjonTypeKonstanter, IconProp>();
-    ikonmap.set(IndikasjonTypeKonstanter.FoerPasient, faOne);
-    ikonmap.set(IndikasjonTypeKonstanter.AseptiskeProsedyrer, faTwo);
-    ikonmap.set(IndikasjonTypeKonstanter.Kroppsveske, faThree);
-    ikonmap.set(IndikasjonTypeKonstanter.EtterPasient, faFour);
+  public static getIkontypeMap(): Map<IndicationTypeConstants, IconProp> {
+    var ikonmap = new Map<IndicationTypeConstants, IconProp>();
+    ikonmap.set(IndicationTypeConstants.BeforePatient, faOne);
+    ikonmap.set(IndicationTypeConstants.AsepticProcedures, faTwo);
+    ikonmap.set(IndicationTypeConstants.BodyFluid, faThree);
+    ikonmap.set(IndicationTypeConstants.AfterPatient, faFour);
     return ikonmap;
   }
 

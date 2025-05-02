@@ -11,7 +11,7 @@ import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
 import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
-import { HandsmykkeTypeKonstanter } from '../../models/api/HandsmykkeTypeKonstanter';
+import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
 import { HandsmykkeTypeService } from '../../services/data/handsmykketype.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   erRedigeringsmodus: boolean = false;
   handsmykkevalg = [] as Handsmykkevalg[];
   handJewelryTypes: HandJewelryType[] = [];
-  ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
+  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandsmykkeMapper.getIkontypeMap();
   Farger = Farger;
   Dialogtekster = Dialogtekster;
 
@@ -57,10 +57,10 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   }
 
   changed(valg: Handsmykkevalg) {
-    if (valg.isSelected && valg.type == HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
-    else if (valg.isSelected && valg.type != HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
+    if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+    else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
   }

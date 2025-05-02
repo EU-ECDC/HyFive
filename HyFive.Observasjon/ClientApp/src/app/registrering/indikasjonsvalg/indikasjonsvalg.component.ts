@@ -6,7 +6,7 @@ import { faCircle, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IndikasjonTypeValg } from '../../models/registrering/indikasjontypevalg.model';
 import { IndikasjonTypeMapper } from '../../utils/indikasjontype-mapper';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { IndikasjonTypeKonstanter } from '../../models/api/IndikasjonTypeKonstanter';
+import { IndicationTypeConstants } from '../../models/api/IndicationTypeConstants';
 
 @Component({
   selector: 'app-indikasjonsvalg',
@@ -17,7 +17,7 @@ export class IndikasjonsValgComponent implements OnInit {
   faCircle = faCircle;
   faCheck = faCheck;
   faPlus = faPlus;
-  ikonTypeMap: Map<IndikasjonTypeKonstanter, IconProp> = IndikasjonTypeMapper.getIkontypeMap();
+  ikonTypeMap: Map<IndicationTypeConstants, IconProp> = IndikasjonTypeMapper.getIkontypeMap();
 
   indikasjonTypeValg: IndikasjonTypeValg[] = [];
 

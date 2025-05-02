@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export enum IndikasjonTypeId {
-	FoerPasient = 1,
-	AseptiskeProsedyrer = 2,
-	Kroppsvaeske = 3,
-	EtterPasient = 4
+export enum IndicationTypeId {
+	PrePatient = 1,
+	AsepticProcedures = 2,
+	BodilyFluid = 3,
+	PostPatient = 4
 }
