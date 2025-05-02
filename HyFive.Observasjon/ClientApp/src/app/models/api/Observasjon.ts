@@ -7,7 +7,7 @@ import { Role } from './Role';
 export interface Observasjon
 {
 	id: string;
-	rolle: Role;
+	role: Role;
 	registrerttidspunkt?: Date;
 	sesjonId: string;
 	kommentar?: string;

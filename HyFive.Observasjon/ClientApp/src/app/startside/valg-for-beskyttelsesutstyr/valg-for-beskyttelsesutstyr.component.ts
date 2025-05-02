@@ -26,7 +26,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
 
 
   @Input("sesjonsvisning") sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = null;
-  @Input("roller") roller: Rollevalg[];
+  @Input("roles") roles: Rollevalg[];
   @Input("avdeling") avdeling: Department;
   @Output("settingOgUtstyrBleEndret") settingOgUtstyrBleEndret: EventEmitter<BeskyttelsesutstyrSesjonsvisning> = new EventEmitter<BeskyttelsesutstyrSesjonsvisning>();
 
@@ -51,7 +51,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   }
 
   startObservasjon() {
-    var valgteRoller = this.roller.filter(rollevalg => rollevalg.erValgt).map(rollevalg => rollevalg.rolle);
+    var valgteRoller = this.roles.filter(rollevalg => rollevalg.erValgt).map(rollevalg => rollevalg.role);
     var sesjonId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.avdeling, this.valgtSetting);
     this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], { queryParams: { sesjonId: sesjonId } });
   }

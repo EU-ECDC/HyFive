@@ -10,13 +10,13 @@
                                             (kortErValgtEvent)="kortErValgt($event)"
                                             [kort]="kort"
                                             [sesjonsvisning]="sesjonsvisning"
-                                            [rollevalg]="sesjonsvisning.avdeling.roller">
+                                            [rollevalg]="sesjonsvisning.avdeling.roles">
     </app-fire-indikasjoner-observasjonskort>
   </ng-container>
 </div>
 
 <app-nytt-kort-info [visTomForKortTekst]="visTomForKortTekst"></app-nytt-kort-info>
-<app-nytt-kort-modal [roller]="roller" (onClose)="onCloseNyttKortModal($event)" (onDismiss)="onDismissNyttKortModal($event)">
+<app-nytt-kort-modal [roles]="roles" (onClose)="onCloseNyttKortModal($event)" (onDismiss)="onDismissNyttKortModal($event)">
 </app-nytt-kort-modal>
 
 <app-hjelpetekst
@@ -32,7 +32,7 @@
   </p>
   <ol>
     <li>Minst 1 indikasjon</li>
-    <li><i>Kun</i> 1 aktivitet</li>
+    <li><i>Kun</i> 1 activity</li>
   </ol>
   <p>
     Når du er ferdig kan du dra kortet mot høyre for å lagre observasjonen.

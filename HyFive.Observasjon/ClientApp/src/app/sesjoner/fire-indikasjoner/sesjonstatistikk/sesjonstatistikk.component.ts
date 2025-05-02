@@ -18,7 +18,7 @@ export class SesjonstatistikkComponent implements OnInit {
   beregnAnledningerEtterlevd() : number{
     if(this.sesjon.observasjoner.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.aktivitet.aktivitetType?.kode != AktivitetTypeKonstanter.IkkeUtfort).length
+    return this.sesjon.observasjoner.filter(f => f.activity.aktivitetType?.kode != AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerEtterlevdProsent(): number {
@@ -30,7 +30,7 @@ export class SesjonstatistikkComponent implements OnInit {
   beregnAnledningerUtelatt() : number{
     if(this.sesjon.observasjoner.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.aktivitet.aktivitetType?.kode == AktivitetTypeKonstanter.IkkeUtfort).length
+    return this.sesjon.observasjoner.filter(f => f.activity.aktivitetType?.kode == AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerUtelattProsent() : number{

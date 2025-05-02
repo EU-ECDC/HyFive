@@ -22,14 +22,14 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon?.rolle?.navn)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon?.role?.navn)}">
       <div class="d-flex flex-row pt-3">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="erRedigeringsmodus">
-            <app-rolle-valg-dropdown [rolleId]="observasjon.rolle.id"
+            <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
                                      [isReadonly]="isReadonly"
-                                     [rollevalg]="avdeling.roller"
-                                     (rolleValgt)="observasjon.rolle = $event">
+                                     [rollevalg]="avdeling.roles"
+                                     (rolleValgt)="observasjon.role = $event">
             </app-rolle-valg-dropdown>
           </ng-container>
           <app-indikasjonsvalg [valgteIndikasjoner]="observasjon.indikasjonstyper"
@@ -80,9 +80,9 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.aktivitet.sekunderBrukt > 0 && !visAktivitetTypeIkkeUtfort">
+      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.sekunderBrukt > 0 && !visAktivitetTypeIkkeUtfort">
         <div class="col-12 text-center mb-2">
-          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.aktivitet.sekunderBrukt = 0">
+          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.activity.sekunderBrukt = 0">
             <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
           </button>
         </div>

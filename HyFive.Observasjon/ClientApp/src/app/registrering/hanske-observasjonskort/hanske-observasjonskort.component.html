@@ -10,12 +10,12 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.rolle.navn)}">
+       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.navn)}">
 
     <div class="row">
 
       <div class="col-12">
-        <app-rolle-valg-dropdown *ngIf="rollevalg" [rolleId]="kort.rolle.id" [rollevalg]="rollevalg" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
+        <app-rolle-valg-dropdown *ngIf="rollevalg" [rolleId]="kort.role.id" [rollevalg]="rollevalg" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
 
         <div class="mt-3 text-break">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="nullstillFane()" class="nav-tabs nav-justified hh-hanske-tabs">

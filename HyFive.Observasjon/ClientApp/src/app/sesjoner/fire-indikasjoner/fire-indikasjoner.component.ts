@@ -70,7 +70,7 @@ export class FireIndikasjonerComponent implements OnInit {
   }
 
   hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.aktivitetTyper?.find(x => x.kode === observasjon.aktivitet.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
+    return this.aktivitetTyper?.find(x => x.kode === observasjon.activity.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
   }
 
   sendTilKoordinator() {

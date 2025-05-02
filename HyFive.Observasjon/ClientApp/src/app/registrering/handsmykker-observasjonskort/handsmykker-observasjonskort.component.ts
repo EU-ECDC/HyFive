@@ -42,7 +42,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
 
   sesjonsdata: HandsmykkeSesjon = null;
-  roller: Role[];
+  roles: Role[];
   handsmykkeTyper: HandsmykkeType[] = [];
 
   handsmykkevalg = [] as Handsmykkevalg[];
@@ -107,8 +107,8 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
   }
 
-  velgRolle(rolle: Role) {
-    this.kort.rolle = rolle;
+  velgRolle(role: Role) {
+    this.kort.role = role;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
@@ -119,7 +119,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       id: Uuid.generateUUID(),
       sesjonId: this.sesjonsvisning.sesjonId,
       registrerttidspunkt: new Date(Date.now()),
-      rolle: this.kort.rolle,
+      role: this.kort.role,
       handsmykker: this.handsmykkevalg.reduce((acc, item) => {
         if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.kode === item.type));
         return acc;

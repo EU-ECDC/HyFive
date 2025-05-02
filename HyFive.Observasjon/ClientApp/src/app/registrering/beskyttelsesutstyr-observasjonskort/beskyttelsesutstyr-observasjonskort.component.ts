@@ -34,7 +34,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   visInfoModal: boolean = false;
   dialogtekster = Dialogtekster;
   sesjonsdata: BeskyttelsesutstyrSesjon = null;
-  roller: Role[];
+  roles: Role[];
   beskyttelsesutstyrValg: Beskyttelsesutstyr[] = [];
   beskyttelsesutstyrsesjontype: number = SessionType.Beskyttelsesutstyr;
   institusjonid: number;
@@ -153,8 +153,8 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     });
   }
 
-  velgRolle(rolle: Role) {
-    this.kort.rolle = rolle;
+  velgRolle(role: Role) {
+    this.kort.role = role;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
@@ -163,7 +163,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   registrerObservasjon() {
     let observasjon: BeskyttelsesutstyrObservasjon = {
       id: Uuid.generateUUID(),
-      rolle: this.kort.rolle,
+      role: this.kort.role,
       registrerttidspunkt: new Date(Date.now()),
       sesjonId: this.sesjonsvisning.sesjonId,
       kommentar: this.kommentar,

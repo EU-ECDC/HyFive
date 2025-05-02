@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FireIndikasjonerObservasjon } from '../../models/api/FireIndikasjonerObservasjon';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
-import { Aktivitet } from '../../models/api/Aktivitet';
+import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
 import { AktivitetUnderRegistrering, ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { Animations } from '../../shared/animasjoner/animasjoner';
@@ -32,7 +32,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
 
   AktivitetTypeKonstanter = AktivitetTypeKonstanter;
   kommentar: string;
-  aktivitet: Aktivitet;
+  activity: Activity;
   aktivitetTyper: AktivitetType[];
   valgteIndikasjoner: IndikasjonType[] = new Array();
   aktivitetUnderRegistrering: AktivitetUnderRegistrering = null;
@@ -73,9 +73,9 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
       this.aktivitetTyper = aktivitetTyper;
     });
-    this.observasjonEventService.registreringAvAktivitetHarBegynt.subscribe(aktivitet => {
-      if (aktivitet.parentId == this.kort.id) {
-        this.aktivitetUnderRegistrering = aktivitet;
+    this.observasjonEventService.registreringAvAktivitetHarBegynt.subscribe(activity => {
+      if (activity.parentId == this.kort.id) {
+        this.aktivitetUnderRegistrering = activity;
       }
     })
   }
@@ -86,8 +86,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
   }
 
-  velgRolle(rolle: Role) {
-    this.kort.rolle = rolle;
+  velgRolle(role: Role) {
+    this.kort.role = role;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
@@ -96,7 +96,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   nullstillKort() {
     this.kommentar = "";
     this.valgteIndikasjoner = [];
-    this.aktivitet = null;
+    this.activity = null;
     this.aktivitetUnderRegistrering = null;
     this.observasjonEventService.observasjonNullstiltEvent.emit(this.kort.id);
   }
@@ -106,11 +106,11 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       this.observasjonMangelTekst = "Indikasjon(er) mangler";
       this.visInfoModal = true;
     }
-    else if (!this.aktivitet) {
-      this.observasjonMangelTekst = "Aktivitet mangler";
+    else if (!this.activity) {
+      this.observasjonMangelTekst = "Activity mangler";
       this.visInfoModal = true;
     }
-    return !(this.valgteIndikasjoner?.length && this.aktivitet);
+    return !(this.valgteIndikasjoner?.length && this.activity);
   }
 
   registrerObservasjon() {
@@ -118,8 +118,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       id: Uuid.generateUUID(),
       sesjonId: this.sesjonsvisning.sesjonId,
       kommentar: this.kommentar,
-      rolle: this.kort.rolle,
-      aktivitet: this.aktivitet,
+      role: this.kort.role,
+      activity: this.activity,
       indikasjonstyper: this.valgteIndikasjoner,
       registrerttidspunkt: new Date(Date.now())
     }
@@ -131,13 +131,13 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.kort.erAktivt = false;
   }
 
-  registrerAktivitet(aktivitet: Aktivitet) {
-    this.aktivitet = aktivitet;
+  registrerAktivitet(activity: Activity) {
+    this.activity = activity;
   }
 
   fjernTidsregistrering(){
-    this.aktivitet.sekunderBrukt = 0;
-    this.aktivitet.tidtakingBleUtfort = false;
+    this.activity.sekunderBrukt = 0;
+    this.activity.tidtakingBleUtfort = false;
   }
   indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
     this.valgteIndikasjoner = valgteIndikasjoner;
@@ -148,12 +148,12 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   skalAktivitetDeaktiveres(aktivitetTypeKode: string) {
-    return this.aktivitet != null
+    return this.activity != null
       || (this.aktivitetUnderRegistrering != null && this.aktivitetUnderRegistrering.aktivitetType.kode != aktivitetTypeKode)
   }
 
   erRegistrert(aktivitetTypeKode: string) {
-    return this.aktivitet?.aktivitetType.kode == aktivitetTypeKode;
+    return this.activity?.aktivitetType.kode == aktivitetTypeKode;
   }
 
   kortErValgt() {

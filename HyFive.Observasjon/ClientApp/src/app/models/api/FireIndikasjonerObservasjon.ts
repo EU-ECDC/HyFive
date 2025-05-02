@@ -4,10 +4,10 @@
 
 import { Observasjon } from './Observasjon';
 import { IndikasjonType } from './IndikasjonType';
-import { Aktivitet } from './Aktivitet';
+import { Activity } from './Activity';
 
 export interface FireIndikasjonerObservasjon extends Observasjon
 {
 	indikasjonstyper?: IndikasjonType[];
-	aktivitet?: Aktivitet;
+	activity?: Activity;
 }

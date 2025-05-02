@@ -68,7 +68,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerEtterlevd(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.aktivitet.aktivitetType?.kode != AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.aktivitetType?.kode != AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerEtterlevdProsent(sesjon: FireIndikasjonerSesjon): number {
@@ -80,7 +80,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerUtelatt(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.aktivitet.aktivitetType?.kode == AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.aktivitetType?.kode == AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerUtelattProsent(sesjon: FireIndikasjonerSesjon) : number{
@@ -90,7 +90,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   }
 
   hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.aktivitetTyper?.find(x => x.kode === observasjon.aktivitet.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
+    return this.aktivitetTyper?.find(x => x.kode === observasjon.activity.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
   }
 
   mottattInternetStatus(harInternett: boolean){

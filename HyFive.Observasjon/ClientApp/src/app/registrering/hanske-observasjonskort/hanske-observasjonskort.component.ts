@@ -43,7 +43,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   farger = Farger;
 
   sesjonsdata: GloveSession = null;
-  roller: Role[];
+  roles: Role[];
   hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
   hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
   handhygieneEtterHanskebrukTyper: HandhygieneEtterHanskebrukType[] = [];
@@ -141,8 +141,8 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     }
   }
 
-  velgRolle(rolle: Role) {
-    this.kort.rolle = rolle;
+  velgRolle(role: Role) {
+    this.kort.role = role;
     let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
     this.sesjonsvisning.kort[kortIndex] = this.kort;
     this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
@@ -153,7 +153,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       id: Uuid.generateUUID(),
       sesjonId: this.sesjonsvisning.sesjonId,
       registrerttidspunkt: new Date(Date.now()),
-      rolle: this.kort.rolle,
+      role: this.kort.role,
       kommentar: this.kommentar,
       hanskeMedIndikasjonTyper: this.hanskeMedIndikasjonTyper.filter(x => x.erValgt),
       hanskeUtenIndikasjonTyper: this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt),

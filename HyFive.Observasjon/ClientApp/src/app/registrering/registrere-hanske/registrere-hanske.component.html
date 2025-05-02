@@ -11,13 +11,13 @@
                                  (kortErValgtEvent)="kortErValgt($event)"
                                  [kort]="kort"
                                  [sesjonsvisning]="sesjonsvisning"
-                                 [rollevalg]="roller">
+                                 [rollevalg]="roles">
     </app-hanske-observasjonskort>
   </ng-container>
 </div>
 
 <app-nytt-kort-info [visTomForKortTekst]="visTomForKortTekst"></app-nytt-kort-info>
-<app-nytt-kort-modal [roller]="roller" (onClose)="onCloseNyttKortModal($event)" (onDismiss)="onDismissNyttKortModal($event)">
+<app-nytt-kort-modal [roles]="roles" (onClose)="onCloseNyttKortModal($event)" (onDismiss)="onDismissNyttKortModal($event)">
 </app-nytt-kort-modal>
 
 <app-hjelpetekst

@@ -81,9 +81,9 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
       0);
   }
 
-  private genererKort(roller: Role[], setting: BeskyttelsesutstyrsettingType): BeskyttelsesutstyrKort[] {
-    return roller.map((r, i) => {
-      return { id: Uuid.generateUUID(), rolle: r, utstyr: setting.utstyrstyper, erAktivt: i == 0 } as BeskyttelsesutstyrKort
+  private genererKort(roles: Role[], setting: BeskyttelsesutstyrsettingType): BeskyttelsesutstyrKort[] {
+    return roles.map((r, i) => {
+      return { id: Uuid.generateUUID(), role: r, utstyr: setting.utstyrstyper, erAktivt: i == 0 } as BeskyttelsesutstyrKort
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Aktivitet } from '../../models/api/Aktivitet';
+import { Activity } from '../../models/api/Activity';
 import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { AktivitetType } from '../../models/api/AktivitetType';
@@ -31,7 +31,7 @@ export class RegistrerAktivitetComponent implements OnInit {
   @Input("bekreftelseModalSkalVises") bekreftelseModalSkalVises: boolean;
   @Input("icon") icon: string;
 
-  @Output() aktivitetRegistertEvent = new EventEmitter<Aktivitet>();
+  @Output() aktivitetRegistertEvent = new EventEmitter<Activity>();
 
   constructor(private observasjonEventService: ObservasjonEventService, private modalService: NgbModal) {
   }

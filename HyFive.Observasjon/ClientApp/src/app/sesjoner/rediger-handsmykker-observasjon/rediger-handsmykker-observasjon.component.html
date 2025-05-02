@@ -20,14 +20,14 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.rolle.navn)}">
+         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.navn)}">
 
       <div class="row pt-3 pb-0">
         <div class="col-12">
           <ng-container *ngIf="erRedigeringsmodus">
-            <app-rolle-valg-dropdown [rolleId]="observasjon.rolle.id"
+            <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
                                      [isReadonly]="isReadonly"
-                                     [rollevalg]="avdeling.roller"
+                                     [rollevalg]="avdeling.roles"
                                      (rolleValgt)="rolleValgt($event)">
             </app-rolle-valg-dropdown>
           </ng-container>

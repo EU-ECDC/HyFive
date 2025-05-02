@@ -4,7 +4,7 @@
 
 import { AktivitetType } from './AktivitetType';
 
-export interface Aktivitet
+export interface Activity
 {
 	aktivitetType: AktivitetType;
 	sekunderBrukt?: number;

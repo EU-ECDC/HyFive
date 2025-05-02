@@ -4,7 +4,7 @@
 
 import { Role } from './Role';
 import { IndikasjonType } from './IndikasjonType';
-import { Aktivitet } from './Aktivitet';
+import { Activity } from './Activity';
 import { HandsmykkeType } from './HandsmykkeType';
 import { BeskyttelsesutstyrOversiktRapport } from './BeskyttelsesutstyrOversiktRapport';
 import { HanskeObservasjon } from './HanskeObservasjon';
@@ -13,11 +13,11 @@ import { BeskyttelsesutstyrObservasjon } from './BeskyttelsesutstyrObservasjon';
 export interface ObservasjonOversiktRapport
 {
 	id: any;
-	rolle: Role;
+	role: Role;
 	kommentar: string;
 	registrerttidspunkt: any;
 	indikasjonstyper: IndikasjonType[];
-	aktivitet: Aktivitet;
+	activity: Activity;
 	handsmykketyper: HandsmykkeType[];
 	beskyttelsesutstyrsetting: string;
 	beskyttelsesutstyr: BeskyttelsesutstyrOversiktRapport[];

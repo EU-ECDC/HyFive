@@ -28,7 +28,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
   mainMenuIsOpen: boolean;
   visTomForKortTekst: boolean = false;
 
-  roller: Role[];
+  roles: Role[];
   visRolleliste: boolean = false;
   endreSettingModus: boolean = false;
 
@@ -46,7 +46,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     private toastrService: ToastrService
   ) {
     this.institusjonService.getValgtInstitusjon()
-      .subscribe(i => this.roller = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roller);
+      .subscribe(i => this.roles = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roles);
     //this.mainMenuService.mainMenuIsOpenEvent.subscribe(m => this.mainMenuIsOpen = m);
   }
 
@@ -81,9 +81,9 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Role) {
+  leggTilNyttKort(role: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
-    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true, utstyr: this.sesjonsvisning.setting.utstyrstyper });
+    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true, utstyr: this.sesjonsvisning.setting.utstyrstyper });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);
     this.toggleRolleliste();
   }

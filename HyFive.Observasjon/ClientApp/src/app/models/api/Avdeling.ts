@@ -11,6 +11,6 @@ export interface Department
 	institusjonId: number;
 	avdelingTypeId: number;
 	navn: string;
-	roller: Role[];
+	roles: Role[];
 	avdelingType: AvdelingType;
 }

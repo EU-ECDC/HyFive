@@ -6,6 +6,6 @@
           [(ngModel)]="valgtRolleId"
           (ngModelChange)="valgtRolleEndret()"
           [style]="{ 'background-color': hentFarge() }">
-    <option *ngFor="let rolle of rollevalg" [value]="rolle.id+''" >{{rolle.navn}}</option>
+    <option *ngFor="let role of rollevalg" [value]="role.id+''" >{{role.navn}}</option>
   </select>
 </div>

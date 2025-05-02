@@ -43,7 +43,7 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
     let handsmykkerSesjonsvisning: HandsmykkeSesjonsvisning = {
       sesjonId: id,
       avdeling: avdeling,
-      kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), rolle: r, erAktivt: i == 0 } as Kort }),
+      kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
     }
     var sesjonsvisninger = this.hentSesjonsvisninger();
     sesjonsvisninger.push(handsmykkerSesjonsvisning);

@@ -9,5 +9,5 @@ export interface OppdaterAvdelingRequest
 	id: number;
 	navn: string;
 	avdelingTypeId: number;
-	roller: Role[];
+	roles: Role[];
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Aktivitet } from '../../models/api/Aktivitet';
+import { Activity } from '../../models/api/Activity';
 import { faHandsWash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AktivitetService } from '../../services/data/aktivitet.service';
@@ -16,17 +16,17 @@ export class MissedOpportunityComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   ikonklasse = '';
 
-  aktivitet: Aktivitet = null;
+  activity: Activity = null;
 
   @Input("hanskebrukSkalRegistreres") hanskebrukSkalRegistreres: boolean;
   @Input("deaktivert") deaktivert: boolean;
   @Input("erRegistrert") erRegistrert: boolean;
 
-  @Output() aktivitetRegistertEvent = new EventEmitter<Aktivitet>();
+  @Output() aktivitetRegistertEvent = new EventEmitter<Activity>();
 
   constructor(private modalService: NgbModal, private aktivitetService: AktivitetService) {
     this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
-      this.aktivitet = {
+      this.activity = {
         aktivitetType: aktivitetTyper.find(x => x.kode === AktivitetTypeKonstanter.IkkeUtfort),
         tidtakingBleUtfort: false,
         benyttetHanske: null
@@ -41,12 +41,12 @@ export class MissedOpportunityComponent implements OnInit {
     if (this.hanskebrukSkalRegistreres) {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     } else {
-      this.aktivitetRegistertEvent.emit(this.aktivitet);
+      this.aktivitetRegistertEvent.emit(this.activity);
     }
   }
 
   registrerAktivitet(bleHanskerBrukt: boolean) {
-    this.aktivitet.benyttetHanske = bleHanskerBrukt;
-    this.aktivitetRegistertEvent.emit(this.aktivitet);
+    this.activity.benyttetHanske = bleHanskerBrukt;
+    this.aktivitetRegistertEvent.emit(this.activity);
   }
 }

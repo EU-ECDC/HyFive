@@ -26,7 +26,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
 
   closeResult = '';
 
-  @Input() roller: Role[] = [];
+  @Input() roles: Role[] = [];
   rollevalg: Rollevalg[] = [];
 
   @Output() onClose = new EventEmitter();
@@ -44,9 +44,9 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   setRollevalg() {
-    if (this.roller)
-      this.rollevalg = this.roller.map((rolle) => {
-        return { rolle: rolle, erValgt: false } as Rollevalg
+    if (this.roles)
+      this.rollevalg = this.roles.map((role) => {
+        return { role: role, erValgt: false } as Rollevalg
       });
   }
 
@@ -75,7 +75,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   close() {
-    this.modalRef.close(this.rollevalg.filter(x => x.erValgt).map(x => { return x.rolle }));
+    this.modalRef.close(this.rollevalg.filter(x => x.erValgt).map(x => { return x.role }));
     window.scrollTo(0,0);
   }
 

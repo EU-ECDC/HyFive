@@ -22,7 +22,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
   Urls = Urls;
   sesjonsvisning: FireIndikasjonerSesjonsvisning;
   sesjonsdata: FireIndikasjonerSesjon = null;
-  roller: Role[];
+  roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;
 
@@ -37,7 +37,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService) {
     this.institusjonService
       .getValgtInstitusjon()
-      .subscribe(i => this.roller = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roller);
+      .subscribe(i => this.roles = i.avdelinger.find(a => a.id === this.sesjonsvisning.avdeling?.id)?.roles);
   }
 
   ngOnInit(): void {
@@ -72,9 +72,9 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.visRolleliste = !this.visRolleliste;
   }
 
-  leggTilNyttKort(rolle: Role) {
+  leggTilNyttKort(role: Role) {
     this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
-    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), rolle: rolle, erAktivt: true });
+    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true });
     this.oppdaterSesjonsvisning(this.sesjonsvisning);
     this.toggleRolleliste();
   }

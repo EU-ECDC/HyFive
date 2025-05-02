@@ -129,8 +129,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.observasjon.kommentar = kommentar;
   }
 
-  rolleValgt(rolle: Role) {
-    this.observasjon.rolle = rolle;
+  rolleValgt(role: Role) {
+    this.observasjon.role = role;
   }
 
   lukkInfoModal($event: boolean) {
