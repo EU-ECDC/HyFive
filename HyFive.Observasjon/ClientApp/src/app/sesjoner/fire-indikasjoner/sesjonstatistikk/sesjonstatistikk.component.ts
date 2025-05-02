@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FireIndikasjonerSesjon} from '../../../models/api/FireIndikasjonerSesjon';
-import {AktivitetTypeKonstanter} from '../../../models/api/AktivitetTypeKonstanter';
+import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
 
 @Component({
   selector: 'app-sesjonstatistikk',
@@ -18,7 +18,7 @@ export class SesjonstatistikkComponent implements OnInit {
   beregnAnledningerEtterlevd() : number{
     if(this.sesjon.observasjoner.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code != AktivitetTypeKonstanter.IkkeUtfort).length
+    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerEtterlevdProsent(): number {
@@ -30,7 +30,7 @@ export class SesjonstatistikkComponent implements OnInit {
   beregnAnledningerUtelatt() : number{
     if(this.sesjon.observasjoner.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code == AktivitetTypeKonstanter.IkkeUtfort).length
+    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerUtelattProsent() : number{

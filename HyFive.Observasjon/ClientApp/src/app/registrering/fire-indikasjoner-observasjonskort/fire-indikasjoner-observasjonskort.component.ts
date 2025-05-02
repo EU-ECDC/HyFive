@@ -12,7 +12,7 @@ import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
 import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../models/api/Role';
 import { IndikasjonType } from '../../models/api/IndikasjonType';
-import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
+import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { AktivitetService } from '../../services/data/aktivitet.service';
 import { ActivityType } from '../../models/api/ActivityType';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ import { Aktiviteter } from '../../konstanter/aktiviteter';
 })
 export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
-  AktivitetTypeKonstanter = AktivitetTypeKonstanter;
+  ActivityTypeConstants = ActivityTypeConstants;
   kommentar: string;
   activity: Activity;
   activityTypes: ActivityType[];

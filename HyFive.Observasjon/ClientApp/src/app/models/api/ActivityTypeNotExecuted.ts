@@ -2,8 +2,8 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export enum AktivitetTypeIkkeUtfortId {
-	IkkeUtfort = 1,
-	HanskeBleBenyttet = 2,
-	HanskeIkkeBleBenyttet = 3
+export interface ActivityTypeNotExecuted
+{
+	id: number;
+	name: string;
 }

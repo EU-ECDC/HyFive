@@ -3,7 +3,7 @@ import { Activity } from '../../models/api/Activity';
 import { faHandsWash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AktivitetService } from '../../services/data/aktivitet.service';
-import { AktivitetTypeKonstanter } from '../../models/api/AktivitetTypeKonstanter';
+import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 
 @Component({
   selector: 'app-missed-opportunity',
@@ -27,7 +27,7 @@ export class MissedOpportunityComponent implements OnInit {
   constructor(private modalService: NgbModal, private aktivitetService: AktivitetService) {
     this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
       this.activity = {
-        activityType: activityTypes.find(x => x.code === AktivitetTypeKonstanter.IkkeUtfort),
+        activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotExecuted),
         timeRecordingWasDone: false,
         gloveUsed: null
       };

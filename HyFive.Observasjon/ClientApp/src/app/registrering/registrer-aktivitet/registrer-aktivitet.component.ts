@@ -3,7 +3,7 @@ import { Activity } from '../../models/api/Activity';
 import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../../models/api/ActivityType';
-import { AktivitetTypeKonstanter } from '../../models/api/AktivitetTypeKonstanter';
+import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -48,11 +48,11 @@ export class RegistrerAktivitetComponent implements OnInit {
   }
 
   getAktivitetTekst() {
-    if (this.activityType?.code === AktivitetTypeKonstanter.Desinfeksjon)
+    if (this.activityType?.code === ActivityTypeConstants.Desinfeksjon)
       return 'Sprit';
-    if (this.activityType?.code === AktivitetTypeKonstanter.Handvask)
+    if (this.activityType?.code === ActivityTypeConstants.Handvask)
       return 'Vask';
-    if(this.activityType?.code === AktivitetTypeKonstanter.IkkeUtfort)
+    if(this.activityType?.code === ActivityTypeConstants.NotExecuted)
       return 'Ikke utført';
   }
 

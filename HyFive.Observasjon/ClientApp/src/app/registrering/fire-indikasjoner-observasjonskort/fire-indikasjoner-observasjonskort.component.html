@@ -41,34 +41,34 @@
         <div class="d-flex justify-content-around">
           <div class="hh-vertical-stadium-buttons">
             <div class="hh-vertical-stadium-buttons__button">
-              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.Desinfeksjon)"
-                                       [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.Desinfeksjon)"
+              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.Desinfeksjon)"
+                                       [erRegistrert]="erRegistrert(ActivityTypeConstants.Desinfeksjon)"
                                        [parentId]="kort.id"
                                        [sekunder]="activity?.timeSpent"
                                        [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
-                                       [activityType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
+                                       [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
                                        [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                        [icon]="faHandHoldingWater"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
               </app-registrer-aktivitet>
             </div>
             <div class="hh-vertical-stadium-buttons__button">
-              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.Handvask)"
-                                       [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.Handvask)"
+              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.Handvask)"
+                                       [erRegistrert]="erRegistrert(ActivityTypeConstants.Handvask)"
                                        [parentId]="kort.id"
                                        [sekunder]="activity?.timeSpent"
                                        [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
-                                       [activityType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
+                                       [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
                                        [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                        [icon]="faHandsWash"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
               </app-registrer-aktivitet>
             </div>
             <div class="hh-vertical-stadium-buttons__button pt-0">
-              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.IkkeUtfort)"
-                                      [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.IkkeUtfort)"
+              <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.NotExecuted)"
+                                      [erRegistrert]="erRegistrert(ActivityTypeConstants.NotExecuted)"
                                       [parentId]="kort.id"
-                                      [activityType]="getAktivitetType(AktivitetTypeKonstanter.IkkeUtfort)"
+                                      [activityType]="getAktivitetType(ActivityTypeConstants.NotExecuted)"
                                       [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                       [icon]="faTimesCircle"
                                       (aktivitetRegistertEvent)="registrerAktivitet($event)">

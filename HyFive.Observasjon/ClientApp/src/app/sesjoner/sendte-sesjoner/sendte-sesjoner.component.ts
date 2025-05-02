@@ -28,7 +28,7 @@ export class SendteSesjonerComponent {
   faSearch = faSearch;
 
   constructor(private sendteSesjonerService: SendteSesjonerService) {
-    this.sesjonsnavnMap = SesjonTypeMapper.getNavnMap();
+    this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
   }
 
   lastSesjoner() {

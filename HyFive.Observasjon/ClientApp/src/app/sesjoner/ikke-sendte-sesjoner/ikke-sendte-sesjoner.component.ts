@@ -37,7 +37,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     private beskyttelsesutstyrSesjonService: BeskyttelsesutstyrSesjonService,
     private toastrService: ToastrService
   ) {
-    this.sesjonsnavnMap = SesjonTypeMapper.getNavnMap();
+    this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
   }
 
   ngOnInit(): void {

@@ -44,11 +44,11 @@
             <div class="hh-vertical-stadium-buttons">
               <div class="hh-vertical-stadium-buttons__button">
                 <app-registrer-aktivitet class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon) }"
-                                         [activityType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
-                                         [erRegistrert]="erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) }"
+                                         [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
+                                         [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [sekunder]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -57,11 +57,11 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-registrer-aktivitet class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(AktivitetTypeKonstanter.Handvask) }"
-                                         [activityType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
-                                         [erRegistrert]="erAktivitetValgt(AktivitetTypeKonstanter.Handvask)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Handvask) }"
+                                         [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
+                                         [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Handvask)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [sekunder]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -70,8 +70,8 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-missed-opportunity class="hh-card-slider__aktivitet"
-                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(AktivitetTypeKonstanter.IkkeUtfort) }"
-                                        [erRegistrert]="erAktivitetValgt(AktivitetTypeKonstanter.IkkeUtfort)"
+                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.NotExecuted) }"
+                                        [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.NotExecuted)"
                                         (aktivitetRegistertEvent)="registrerAktivitet($event)"
                                         [deaktivert]="!erRedigeringsmodus">
                 </app-missed-opportunity>
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.timeSpent > 0 && !visAktivitetTypeIkkeUtfort">
+      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
         <div class="col-12 text-center mb-2">
           <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.activity.timeSpent = 0">
             <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
@@ -88,15 +88,15 @@
         </div>
       </div>
       <ng-container *ngIf="isReadonly == false">
-        <div *ngIf="hanskebrukSkalRegistreres && visAktivitetTypeIkkeUtfort" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
+        <div *ngIf="hanskebrukSkalRegistreres && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
           <label class="ml-2" [htmlFor]="'hanskebruk-'+id"><small>Observasjon av hansker:</small></label>
           <select [disabled]="!erRedigeringsmodus"
                   [id]="'hanskebruk-'+id"
                   class="form-control form-control--rounded form-control--smaller form-control--arrow bg-secondary"
                   [ngClass]="{'form-control--no-border': !erRedigeringsmodus}"
-                  [(ngModel)]="valgtAktivitetTypeIkkeUtfortId"
+                  [(ngModel)]="selectedActivityTypeNotExecutedSelectionId"
                   (ngModelChange)="valgtAktivitetTypeIkkeUtfortEndret($event)">
-            <option *ngFor="let aktivitetTypeIkkeUtfort of aktivitetTypeIkkeUtfortValg" [value]="aktivitetTypeIkkeUtfort.id+''">{{aktivitetTypeIkkeUtfort.name}}</option>
+            <option *ngFor="let aktivitetTypeIkkeUtfort of ActivityTypeNotExecutedSelection" [value]="aktivitetTypeIkkeUtfort.id+''">{{aktivitetTypeIkkeUtfort.name}}</option>
           </select>
         </div>
       </ng-container>

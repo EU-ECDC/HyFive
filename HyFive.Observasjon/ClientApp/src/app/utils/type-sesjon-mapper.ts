@@ -2,7 +2,7 @@ import { SessionType } from '../models/api/SessionType';
 
 export class SesjonTypeMapper {
 
-  public static getNavnMap(): Map<SessionType, string>{
+  public static getNameMap(): Map<SessionType, string>{
     var navnMap = new Map<SessionType, string>();
     navnMap.set(SessionType.Handsmykker, 'Håndsmykker');
     navnMap.set(SessionType.FireIndikasjoner, 'Fire indikasjoner');

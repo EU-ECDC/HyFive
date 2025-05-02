@@ -7,7 +7,7 @@ import { Urls } from '../../../konstanter/urls';
 import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
 import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
-import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
+import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import {FireIndikasjonerSesjon} from '../../../models/api/FireIndikasjonerSesjon';
 import {ToastrService} from 'ngx-toastr';
@@ -68,7 +68,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerEtterlevd(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code != AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerEtterlevdProsent(sesjon: FireIndikasjonerSesjon): number {
@@ -80,7 +80,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerUtelatt(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code == AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerUtelattProsent(sesjon: FireIndikasjonerSesjon) : number{
