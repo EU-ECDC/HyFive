@@ -47,7 +47,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   ngOnInit(): void {
     this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handsmykkeTyper) => {
       this.handsmykkeTyper = handsmykkeTyper;
-      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, this.observasjon.handsmykker.map(x => x?.kode));
+      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, this.observasjon.handsmykker.map(x => x?.code));
       this.handsmykkevalg.forEach(x => this.changed(x));
     });
   }
@@ -67,7 +67,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
   lagreObservasjon() {
     this.observasjon.handsmykker = this.handsmykkevalg.reduce((acc, item) => {
-      if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.kode === item.type));
+      if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));
       return acc;
     }, [] as HandsmykkeType[]) as HandsmykkeType[];
     this.sesjonService.endreObservasjon(this.observasjon);

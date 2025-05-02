@@ -39,6 +39,6 @@ export class RolleValgDropdownComponent implements OnInit{
   }
 
   hentFarge() : string {
-    return this.valgtRolle && this.isReadonly ? this.farger.hentFhiFargeHexFraTekst(this.valgtRolle.navn) : 'white';
+    return this.valgtRolle && this.isReadonly ? this.farger.hentFhiFargeHexFraTekst(this.valgtRolle.name) : 'white';
   }
 }

@@ -5,6 +5,6 @@
 export interface FeilbrukType
 {
 	id: number;
-	navn: string;
+	name: string;
 	erValgt: boolean;
 }

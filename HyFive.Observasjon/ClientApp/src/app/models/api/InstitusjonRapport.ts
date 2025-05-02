@@ -10,7 +10,7 @@ import { Helseforetak } from './Helseforetak';
 export interface InstitusjonRapport
 {
 	id: number;
-	navn: string;
+	name: string;
 	forkortelse: string;
 	herId: string;
 	institusjontype: InstitusjonType;

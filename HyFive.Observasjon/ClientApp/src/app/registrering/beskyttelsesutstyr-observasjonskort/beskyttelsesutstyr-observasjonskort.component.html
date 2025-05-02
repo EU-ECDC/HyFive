@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.navn)}">
+       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
 
     <div class="row">
       <div class="col-12">
@@ -41,11 +41,11 @@
                          class="hh-round-checkbox-list__circle"
                          [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.bleBenyttet, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
                 </fa-icon>
-                <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.kode)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
+                <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
                 <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.bleBenyttet"></fa-icon>
               </fa-stack>
               <br />
-              <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.navn }}</strong></span>
+              <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
             </label>
           </div>
         </div>
@@ -71,7 +71,7 @@
           <label ngbButtonLabel>
             <input type="checkbox" class="visually-hidden" ngbButton [(ngModel)]="valg.bleBenyttet" (change)="changed($event, valg)">
             <fa-icon class="me-2" *ngIf="valg.bleBenyttet" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
-            <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.navn }}</strong></span>
+            <span style="font-size: 17px;"><strong>{{ valg.utstyrstype.name }}</strong></span>
           </label>
         </div>
 

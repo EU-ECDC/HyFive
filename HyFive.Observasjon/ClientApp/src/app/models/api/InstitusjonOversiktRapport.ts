@@ -7,7 +7,7 @@ import { AvdelingOversiktRapport } from './AvdelingOversiktRapport';
 export interface InstitusjonOversiktRapport
 {
 	id: number;
-	navn: string;
+	name: string;
 	antallSesjoner: number;
 	antallObservasjoner: number;
 	departments: AvdelingOversiktRapport[];

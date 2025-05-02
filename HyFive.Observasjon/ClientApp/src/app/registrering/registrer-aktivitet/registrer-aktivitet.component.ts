@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Activity } from '../../models/api/Activity';
 import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
-import { AktivitetType } from '../../models/api/AktivitetType';
+import { ActivityType } from '../../models/api/ActivityType';
 import { AktivitetTypeKonstanter } from '../../models/api/AktivitetTypeKonstanter';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,7 +25,7 @@ export class RegistrerAktivitetComponent implements OnInit {
   @Input("parentId") parentId: string;
   @Input("tidtaking") tidtaking: boolean;
   @Input("deaktivert") deaktivert: boolean;
-  @Input("aktivitetType") aktivitetType: AktivitetType;
+  @Input("activityType") activityType: ActivityType;
   @Input("sekunder") sekunder: number;
   @Input("erRegistrert") erRegistrert: boolean;
   @Input("bekreftelseModalSkalVises") bekreftelseModalSkalVises: boolean;
@@ -48,11 +48,11 @@ export class RegistrerAktivitetComponent implements OnInit {
   }
 
   getAktivitetTekst() {
-    if (this.aktivitetType?.kode === AktivitetTypeKonstanter.Desinfeksjon)
+    if (this.activityType?.code === AktivitetTypeKonstanter.Desinfeksjon)
       return 'Sprit';
-    if (this.aktivitetType?.kode === AktivitetTypeKonstanter.Handvask)
+    if (this.activityType?.code === AktivitetTypeKonstanter.Handvask)
       return 'Vask';
-    if(this.aktivitetType?.kode === AktivitetTypeKonstanter.IkkeUtfort)
+    if(this.activityType?.code === AktivitetTypeKonstanter.IkkeUtfort)
       return 'Ikke utført';
   }
 
@@ -67,7 +67,7 @@ export class RegistrerAktivitetComponent implements OnInit {
         this.visTekst = false;
       }
       else {
-        this.aktivitetRegistertEvent.emit({ aktivitetType: this.aktivitetType, tidtakingBleUtfort: false });
+        this.aktivitetRegistertEvent.emit({ activityType: this.activityType, timeRecordingWasDone: false });
       }
     }
   }
@@ -81,13 +81,13 @@ export class RegistrerAktivitetComponent implements OnInit {
       this.visTekst = false;
     }
     else {
-      this.aktivitetRegistertEvent.emit({ aktivitetType: this.aktivitetType, tidtakingBleUtfort: false, benyttetHanske: bleBekreftet});
+      this.aktivitetRegistertEvent.emit({ activityType: this.activityType, timeRecordingWasDone: false, gloveUsed: bleBekreftet});
     }
     
   }
 
   startEllerStoppTimer() {
-    this.observasjonEventService.registreringAvAktivitetHarBegynt.emit({ parentId: this.parentId, aktivitetType: this.aktivitetType })
+    this.observasjonEventService.registreringAvAktivitetHarBegynt.emit({ parentId: this.parentId, activityType: this.activityType })
     if (this.timerErStartet === false) {
       this.startTimer();
       this.tidtakingUtfores = true;
@@ -95,7 +95,7 @@ export class RegistrerAktivitetComponent implements OnInit {
     else if (this.sekunder > 0) {
       this.stoppTimer();
       this.tidtakingUtfores = false;
-      this.aktivitetRegistertEvent.emit({ aktivitetType: this.aktivitetType, sekunderBrukt: this.sekunder, tidtakingBleUtfort: true, benyttetHanske: this.benyttetHansker})
+      this.aktivitetRegistertEvent.emit({ activityType: this.activityType, timeSpent: this.sekunder, timeRecordingWasDone: true, gloveUsed: this.benyttetHansker})
     }
   }
 

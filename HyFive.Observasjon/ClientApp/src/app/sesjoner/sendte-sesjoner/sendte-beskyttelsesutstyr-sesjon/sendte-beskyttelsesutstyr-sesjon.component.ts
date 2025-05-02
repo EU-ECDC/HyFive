@@ -53,7 +53,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
   }
 
   hentIngress(observasjon: BeskyttelsesutstyrObservasjon) {
-    return observasjon.settingtype.navn;
+    return observasjon.settingtype.name;
   }
 
   navigerTilSendteSesjoner() {
@@ -62,7 +62,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
 
   visUtstyr(beskyttelsesutstyr: Beskyttelsesutstyr[]): string {
     if (beskyttelsesutstyr?.length > 0) {
-      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.navn).join(', ');
+      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.name).join(', ');
     }
     return "";
   }

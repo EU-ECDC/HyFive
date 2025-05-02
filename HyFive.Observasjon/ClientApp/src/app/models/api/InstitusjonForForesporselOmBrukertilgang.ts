@@ -5,5 +5,5 @@
 export interface InstitusjonForForesporselOmBrukertilgang
 {
 	id: number;
-	navn: string;
+	name: string;
 }

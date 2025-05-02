@@ -18,9 +18,9 @@ export class IndikasjonTypeMapper {
   public static getIndikasjonstypeValg(indikasjonstyper: IndikasjonType[], valgteIndikasjonTyper: IndikasjonType[]): IndikasjonTypeValg[] {
     return indikasjonstyper.reduce((acc, item) => {
       acc.push({
-        erValgt: valgteIndikasjonTyper.some(x => x.kode === item.kode),
-        navn: item.navn,
-        kode: item.kode
+        erValgt: valgteIndikasjonTyper.some(x => x.code === item.code),
+        name: item.name,
+        code: item.code
       });
       return acc;
     }, [] as IndikasjonTypeValg[]);

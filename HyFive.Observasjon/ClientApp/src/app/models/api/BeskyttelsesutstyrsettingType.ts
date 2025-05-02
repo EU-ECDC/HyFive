@@ -7,7 +7,7 @@ import { BeskyttelsesutstyrType } from './BeskyttelsesutstyrType';
 export interface BeskyttelsesutstyrsettingType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 	utstyrstyper: BeskyttelsesutstyrType[];
 }

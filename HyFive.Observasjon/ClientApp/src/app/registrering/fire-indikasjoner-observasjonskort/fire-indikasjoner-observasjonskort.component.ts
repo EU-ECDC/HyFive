@@ -14,7 +14,7 @@ import { Role } from '../../models/api/Role';
 import { IndikasjonType } from '../../models/api/IndikasjonType';
 import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
 import { AktivitetService } from '../../services/data/aktivitet.service';
-import { AktivitetType } from '../../models/api/AktivitetType';
+import { ActivityType } from '../../models/api/ActivityType';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Dialogtekster } from '../../konstanter/dialogtekster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,7 +33,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   AktivitetTypeKonstanter = AktivitetTypeKonstanter;
   kommentar: string;
   activity: Activity;
-  aktivitetTyper: AktivitetType[];
+  activityTypes: ActivityType[];
   valgteIndikasjoner: IndikasjonType[] = new Array();
   aktivitetUnderRegistrering: AktivitetUnderRegistrering = null;
   observasjonMangelTekst: string;
@@ -70,8 +70,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   ngOnInit(): void {
-    this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
-      this.aktivitetTyper = aktivitetTyper;
+    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+      this.activityTypes = activityTypes;
     });
     this.observasjonEventService.registreringAvAktivitetHarBegynt.subscribe(activity => {
       if (activity.parentId == this.kort.id) {
@@ -136,8 +136,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   fjernTidsregistrering(){
-    this.activity.sekunderBrukt = 0;
-    this.activity.tidtakingBleUtfort = false;
+    this.activity.timeSpent = 0;
+    this.activity.timeRecordingWasDone = false;
   }
   indikasjonsValgChanged(valgteIndikasjoner: IndikasjonType[]) {
     this.valgteIndikasjoner = valgteIndikasjoner;
@@ -149,11 +149,11 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
 
   skalAktivitetDeaktiveres(aktivitetTypeKode: string) {
     return this.activity != null
-      || (this.aktivitetUnderRegistrering != null && this.aktivitetUnderRegistrering.aktivitetType.kode != aktivitetTypeKode)
+      || (this.aktivitetUnderRegistrering != null && this.aktivitetUnderRegistrering.activityType.code != aktivitetTypeKode)
   }
 
   erRegistrert(aktivitetTypeKode: string) {
-    return this.activity?.aktivitetType.kode == aktivitetTypeKode;
+    return this.activity?.activityType.code == aktivitetTypeKode;
   }
 
   kortErValgt() {
@@ -161,8 +161,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.kortErValgtEvent.emit(this.kort);
   }
 
-  getAktivitetType(kode: string) {
-    return this.aktivitetTyper?.find(x => x.kode === kode);
+  getAktivitetType(code: string) {
+    return this.activityTypes?.find(x => x.code === code);
   }
 
   lukkInfoModal(erVisInfoModal): void {

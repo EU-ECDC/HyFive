@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.navn)}">
+       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
 
     <div class="row">
 
@@ -26,14 +26,14 @@
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of hanskeMedIndikasjonTyper">
                   <div class="col-auto hh-hanske-tabs__label-td">
-                    <label class="form-check-label" [for]="type.kode">
+                    <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
-                      <strong>{{type.navn}}</strong>
+                      <strong>{{type.name}}</strong>
                     </label>
                   </div>
                   <div class="col text-end pt-1">
                     <div class="form-check mt-2">
-                      <input class="form-check-input" type="checkbox" value="" [id]="type.kode" [(ngModel)]="type.erValgt">
+                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.erValgt">
                     </div>
                   </div>
                 </div>
@@ -66,14 +66,14 @@
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of hanskeUtenIndikasjonTyper">
                   <div class="col-aitp hh-hanske-tabs__label-td">
-                    <label class="form-check-label" [for]="type.kode">
+                    <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
-                      <strong>{{type.navn}}</strong>
+                      <strong>{{type.name}}</strong>
                     </label>
                   </div>
                   <div class="col text-end pt-1">
                     <div class="form-check mt-2">
-                      <input class="form-check-input" type="checkbox" value="" [id]="type.kode" [(ngModel)]="type.erValgt">
+                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.erValgt">
                     </div>
                   </div>
                 </div>
@@ -87,8 +87,8 @@
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
                 <ng-container *ngFor="let type of handhygieneEtterHanskebrukTyper">
-                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.navn}}-{{uuid}}" name="hanskebruk-name-{{uuid}}" [value]="type.kode" [(ngModel)]="valgtHandhygieneEtterHanskebruk" />
-                  <label class="btn fhi-btn-group__btn" for="btnradio-{{type.navn}}-{{uuid}}">{{type.navn}}</label>
+                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="hanskebruk-name-{{uuid}}" [value]="type.code" [(ngModel)]="valgtHandhygieneEtterHanskebruk" />
+                  <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}-{{uuid}}">{{type.name}}</label>
                 </ng-container>
               </div>
             </div>

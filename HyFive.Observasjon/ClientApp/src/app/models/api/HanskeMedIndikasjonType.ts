@@ -5,7 +5,7 @@
 export interface HanskeMedIndikasjonType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 	erValgt: boolean;
 }

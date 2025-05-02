@@ -5,6 +5,6 @@
 export interface HandhygieneEtterHanskebrukType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 }

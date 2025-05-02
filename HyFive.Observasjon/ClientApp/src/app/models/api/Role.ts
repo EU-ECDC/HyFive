@@ -5,6 +5,6 @@
 export interface Role
 {
 	id: number;
-	navn: string;
+	name: string;
 	beskrivelse: string;
 }

@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.navn)}">
+       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
 
     <div class="row">
 
@@ -35,7 +35,7 @@
                 <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.erValgt"></fa-icon>
               </fa-stack>
               <br />
-              <span><small><strong>{{ valg.navn }}</strong></small></span>
+              <span><small><strong>{{ valg.name }}</strong></small></span>
             </label>
           </div>
         </div>

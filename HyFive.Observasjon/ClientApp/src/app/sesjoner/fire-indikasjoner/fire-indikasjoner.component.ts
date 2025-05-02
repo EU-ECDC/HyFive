@@ -9,7 +9,7 @@ import { faArrowLeft, faTrashAlt, faCircle } from '@fortawesome/free-solid-svg-i
 import { Dialogtekster } from '../../konstanter/dialogtekster';
 import { ToastrService } from 'ngx-toastr';
 import { AktivitetService } from '../../services/data/aktivitet.service';
-import { AktivitetType } from '../../models/api/AktivitetType';
+import { ActivityType } from '../../models/api/ActivityType';
 import { FireIndikasjonerSesjonsvisning } from 'src/app/models/registrering/fire-indikasjoner-sesjonsvisning.model';
 
 @Component({
@@ -22,7 +22,7 @@ export class FireIndikasjonerComponent implements OnInit {
   sesjonvisning: FireIndikasjonerSesjonsvisning;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
-  aktivitetTyper: AktivitetType[];
+  activityTypes: ActivityType[];
   erOnline: boolean;
 
   faArrowLeft = faArrowLeft;
@@ -49,8 +49,8 @@ export class FireIndikasjonerComponent implements OnInit {
         this.sesjonvisning = this.sesjonService.hentSesjonsvisningForSesjon(sesjonId);
         if (!this.sesjon) this.router.navigate(['']);
       });
-    this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
-      this.aktivitetTyper = aktivitetTyper;
+    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+      this.activityTypes = activityTypes;
     });
   }
   
@@ -70,7 +70,7 @@ export class FireIndikasjonerComponent implements OnInit {
   }
 
   hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.aktivitetTyper?.find(x => x.kode === observasjon.activity.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
+    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indikasjonstyper.map(i => i.name).join(', ');
   }
 
   sendTilKoordinator() {

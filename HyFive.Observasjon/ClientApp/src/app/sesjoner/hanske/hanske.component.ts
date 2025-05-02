@@ -69,8 +69,8 @@ export class HanskeComponent implements OnInit {
   }
 
   visIndikasjoner(item: HanskeObservasjon): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
-    if (item.hanskeMedIndikasjonTyper.length) return item.hanskeMedIndikasjonTyper.map(x => x.navn).join(', ');;
-    return item.hanskeUtenIndikasjonTyper.map(x => x.navn).join(', ');
+    if (item.hanskeMedIndikasjonTyper.length) return item.hanskeMedIndikasjonTyper.map(x => x.name).join(', ');;
+    return item.hanskeUtenIndikasjonTyper.map(x => x.name).join(', ');
   }
 
   sendTilKoordinator() {

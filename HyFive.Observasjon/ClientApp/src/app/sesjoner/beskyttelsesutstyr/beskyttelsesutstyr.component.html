@@ -10,8 +10,8 @@
     </app-accordion>
     <ng-template #header let-item="item">
       <div>
-        <p class="mb-1"><strong>{{ item.role.navn }} - {{ item.registrerttidspunkt | date:'HH:mm' }}</strong></p>
-        <p class="mb-1">{{ item.settingtype.navn }}</p>
+        <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registrerttidspunkt | date:'HH:mm' }}</strong></p>
+        <p class="mb-1">{{ item.settingtype.name }}</p>
         <p class="mb-0"><small>{{ visUtstyr(item.beskyttelsesutstyrliste) }}</small></p>
       </div>
     </ng-template>

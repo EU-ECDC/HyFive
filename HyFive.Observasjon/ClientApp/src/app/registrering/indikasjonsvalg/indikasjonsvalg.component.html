@@ -12,11 +12,11 @@
                  class="hh-round-checkbox-list__circle"
                  [ngClass]="{'hh-round-checkbox-list__circle--chosen': indikasjon.erValgt, 'hh-round-checkbox-list__circle--active': erAktiv}">
         </fa-icon>
-        <fa-icon [icon]="ikonTypeMap.get(indikasjon.kode)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indikasjon.erValgt"><span [ngStyle]="{'display': (erValgt) ? 'none' : 'block'}" *ngIf="!indikasjon.erValgt">{{indikasjon.nummer}}</span></fa-icon>
+        <fa-icon [icon]="ikonTypeMap.get(indikasjon.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indikasjon.erValgt"><span [ngStyle]="{'display': (erValgt) ? 'none' : 'block'}" *ngIf="!indikasjon.erValgt">{{indikasjon.nummer}}</span></fa-icon>
         <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="indikasjon.erValgt"></fa-icon>
       </fa-stack>
       <br />
-      <div class="text-center"><small><strong>{{ indikasjon.navn }}</strong></small></div>
+      <div class="text-center"><small><strong>{{ indikasjon.name }}</strong></small></div>
     </label>
   </div>
 </div>

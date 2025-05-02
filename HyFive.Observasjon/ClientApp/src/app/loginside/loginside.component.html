@@ -10,8 +10,8 @@
       <app-spinner> </app-spinner>
     </div>
 
-    <div class="col-12" *ngIf="bruker?.navn && erOnline">
-      <p class="mb-2">Hei, {{bruker.navn}}. </p>
+    <div class="col-12" *ngIf="bruker?.name && erOnline">
+      <p class="mb-2">Hei, {{bruker.name}}. </p>
       <p *ngIf="bruker?.erObservator">Velkommen til Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</p>
     </div>
   </div>
@@ -30,7 +30,7 @@
                         name="institusjon" id="institusjoner"
                         [(ngModel)]="valgtInstitusjon">
                   <option [ngValue]="null"></option>
-                  <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon">{{institusjon.navn}}</option>
+                  <option *ngFor="let institusjon of institusjoner" [ngValue]="institusjon">{{institusjon.name}}</option>
                 </select>
               </div>
             </div>
@@ -48,7 +48,7 @@
         Forespørselen din er sendt til godkjenning.
       </div>
       <div class="col-lg-6 alert-info p-2" *ngIf="visForesporselVenterPaaGodkjenning">
-        Forespørselen din om brukertilgang er sendt til {{institusjon?.navn}}. Den venter på godkjenning.
+        Forespørselen din om brukertilgang er sendt til {{institusjon?.name}}. Den venter på godkjenning.
       </div>
     </ng-container>
     <div *ngIf="visFeilMelding" class="row">

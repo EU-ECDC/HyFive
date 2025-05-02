@@ -5,7 +5,7 @@
 export interface AvdelingOversiktRapport
 {
 	id: number;
-	navn: string;
+	name: string;
 	antallSesjoner: number;
 	antallObservasjoner: number;
 }

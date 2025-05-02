@@ -65,7 +65,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
       if (this.observasjon.hanskeMedIndikasjonTyper.length) {
         this.activeTab = "med";
         this.hanskeMedIndikasjonTyper.forEach(x => {
-          if (this.observasjon.hanskeMedIndikasjonTyper.some(y => y.kode === x.kode))
+          if (this.observasjon.hanskeMedIndikasjonTyper.some(y => y.code === x.code))
             x.erValgt = true;
         });
       }
@@ -75,7 +75,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
       if (this.observasjon.hanskeUtenIndikasjonTyper.length) {
         this.activeTab = "uten";
         this.hanskeUtenIndikasjonTyper.forEach(x => {
-          if (this.observasjon.hanskeUtenIndikasjonTyper.some(y => y.kode === x.kode))
+          if (this.observasjon.hanskeUtenIndikasjonTyper.some(y => y.code === x.code))
             x.erValgt = true;
         });
       }
@@ -84,19 +84,19 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
       this.handhygieneEtterHanskebrukTyper = handhygieneEtterHanskebrukTyper;
     });
 
-    this.hanskeBrukt = this.observasjon.benyttetHanske;
-    this.valgtHygieneEtterHanskebruk = this.observasjon.handhygieneEtterHanskebrukType?.kode;
+    this.hanskeBrukt = this.observasjon.gloveUsed;
+    this.valgtHygieneEtterHanskebruk = this.observasjon.handhygieneEtterHanskebrukType?.code;
   }
 
-  hanskeMedIndikasjonerChanged(kode, event) {
+  hanskeMedIndikasjonerChanged(code, event) {
     this.hanskeMedIndikasjonTyper.forEach(x => {
-      if (x.kode === kode) x.erValgt = event.target.checked;
+      if (x.code === code) x.erValgt = event.target.checked;
     });
   }
 
-  hanskeUtenIndikasjonerChanged(kode, event) {
+  hanskeUtenIndikasjonerChanged(code, event) {
     this.hanskeUtenIndikasjonTyper.forEach(x => {
-      if (x.kode === kode) x.erValgt = event.target.checked;
+      if (x.code === code) x.erValgt = event.target.checked;
     });
   }
 
@@ -105,10 +105,10 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
     this.observasjon.hanskeMedIndikasjonTyper = this.hanskeMedIndikasjonTyper.filter(x => x.erValgt);
     this.observasjon.hanskeUtenIndikasjonTyper = this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt);
-    this.observasjon.benyttetHanske = this.hanskeBrukt;
+    this.observasjon.gloveUsed = this.hanskeBrukt;
 
-    if(this.observasjon.benyttetHanske){
-      this.observasjon.handhygieneEtterHanskebrukType = this.handhygieneEtterHanskebrukTyper.find(x => x.kode === this.valgtHygieneEtterHanskebruk);
+    if(this.observasjon.gloveUsed){
+      this.observasjon.handhygieneEtterHanskebrukType = this.handhygieneEtterHanskebrukTyper.find(x => x.code === this.valgtHygieneEtterHanskebruk);
     }
     else {
       this.observasjon.handhygieneEtterHanskebrukType = null;

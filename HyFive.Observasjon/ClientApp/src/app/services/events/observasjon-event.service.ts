@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AktivitetType } from '../../models/api/AktivitetType';
+import { ActivityType } from '../../models/api/ActivityType';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,5 @@ export class ObservasjonEventService {
 
 export interface AktivitetUnderRegistrering{
   parentId: string;
-  aktivitetType: AktivitetType;
+  activityType: ActivityType;
 }

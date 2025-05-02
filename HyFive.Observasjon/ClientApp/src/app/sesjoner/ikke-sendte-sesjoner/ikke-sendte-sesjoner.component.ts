@@ -100,7 +100,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     sesjonstype: SessionType
   ): SesjonRapport {
     return {
-      avdelingsnavn: sesjon.department?.navn,
+      avdelingsnavn: sesjon.department?.name,
       starttidspunkt: sesjon.starttidspunkt,
       type: sesjonstype,
       id: sesjon.id,

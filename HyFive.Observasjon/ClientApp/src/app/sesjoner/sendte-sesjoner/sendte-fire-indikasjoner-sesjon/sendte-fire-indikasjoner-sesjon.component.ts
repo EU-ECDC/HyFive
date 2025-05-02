@@ -5,7 +5,7 @@ import { Dialogtekster } from '../../../konstanter/dialogtekster';
 import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
 import { FireIndikasjonerObservasjon } from '../../../models/api/FireIndikasjonerObservasjon';
-import { AktivitetType } from '../../../models/api/AktivitetType';
+import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
 import { AktivitetTypeKonstanter } from 'src/app/models/api/AktivitetTypeKonstanter';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
@@ -20,7 +20,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   sesjon: FireIndikasjonerSesjon;
   sesjonErSendtTilServer = false;
-  aktivitetTyper: AktivitetType[];
+  activityTypes: ActivityType[];
   erOnline: boolean = true;
   lasterNedSomExcel = false;
 
@@ -52,8 +52,8 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
         );
       });
 
-      this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
-        this.aktivitetTyper = aktivitetTyper;
+      this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+        this.activityTypes = activityTypes;
       });
   }
   
@@ -68,7 +68,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerEtterlevd(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.aktivitetType?.kode != AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code != AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerEtterlevdProsent(sesjon: FireIndikasjonerSesjon): number {
@@ -80,7 +80,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   beregnAnledningerUtelatt(sesjon: FireIndikasjonerSesjon) : number{
     if(sesjon?.observasjoner?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.aktivitetType?.kode == AktivitetTypeKonstanter.IkkeUtfort).length
+    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code == AktivitetTypeKonstanter.IkkeUtfort).length
   }
 
   beregnAnledningerUtelattProsent(sesjon: FireIndikasjonerSesjon) : number{
@@ -90,7 +90,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   }
 
   hentIngress(observasjon: FireIndikasjonerObservasjon) {
-    return this.aktivitetTyper?.find(x => x.kode === observasjon.activity.aktivitetType?.kode)?.navn + ' - ' + observasjon.indikasjonstyper.map(i => i.navn).join(', ');
+    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indikasjonstyper.map(i => i.name).join(', ');
   }
 
   mottattInternetStatus(harInternett: boolean){

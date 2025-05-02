@@ -200,7 +200,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     this.sesjonsvisning.setting.utstyrstyper
     for(let i = 0; i < this.beskyttelsesutstyrValg.length; i++){
       var valg = this.beskyttelsesutstyrValg[i];
-      var utstyrstype = this.sesjonsvisning.setting.utstyrstyper.find(u => u.kode == valg.utstyrstype.kode);
+      var utstyrstype = this.sesjonsvisning.setting.utstyrstyper.find(u => u.code == valg.utstyrstype.code);
       valg.erIndikert = utstyrstype.erIndikert;
       valg.utstyrstype = utstyrstype;
     }

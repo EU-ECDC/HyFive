@@ -5,7 +5,7 @@
 export interface IndikasjonType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 	nummer: string;
 }

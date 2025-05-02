@@ -65,29 +65,29 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: BeskyttelsesutstyrType[]): BeskyttelsesutstyrType[] {
     let beskyttelsesutstyrTyperVedRekkefolge: BeskyttelsesutstyrType[] = [];
 
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Hansker)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Hansker)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hansker)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Plastforkle)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Plastforkle)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Plastforkle)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Plastforkle)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Stellefrakk)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Smittefrakk)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Munnbind)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Munnbind)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Munnbind)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Munnbind)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Andedrettsvern)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse)[0]);
     }
-    if (beskyttelsesutstyrTyper.find(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Hette)) {
-      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.kode === BeskyttelsesutstyrTypeKonstanter.Hette)[0]);
+    if (beskyttelsesutstyrTyper.find(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hette)) {
+      beskyttelsesutstyrTyperVedRekkefolge.push(beskyttelsesutstyrTyper.filter(b => b.code === BeskyttelsesutstyrTypeKonstanter.Hette)[0]);
     }
 
     return beskyttelsesutstyrTyperVedRekkefolge;

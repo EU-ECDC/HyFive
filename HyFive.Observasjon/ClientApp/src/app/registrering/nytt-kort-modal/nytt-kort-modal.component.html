@@ -21,13 +21,13 @@
             <input type="checkbox" [(ngModel)]="valg.erValgt" [id]="'profesjon'+rollevalg.indexOf(valg)"
                     class="hh-round-checkbox-list__input">
             <fa-stack size="lg">
-              <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.erValgt ? 'green' : farger.hentFhiFargeHexFraTekst(valg.role.navn), 'transition': 'all 600ms'}"></fa-icon>
+              <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.erValgt ? 'green' : farger.hentFhiFargeHexFraTekst(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
               <fa-icon [icon]="faUserNurse" stackItemSize="1x" *ngIf="!valg.erValgt"></fa-icon>
               <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="valg.erValgt"></fa-icon>
             </fa-stack>
             <br />
             <span style="font-size: 14px; word-break: break-all;">
-              {{ valg.role.navn }}
+              {{ valg.role.name }}
             </span>
           </label>
         </div>

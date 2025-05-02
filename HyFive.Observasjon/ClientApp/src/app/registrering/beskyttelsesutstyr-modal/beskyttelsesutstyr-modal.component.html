@@ -4,10 +4,10 @@
       <h4 class="d-flex align-items-center">
         <fa-stack>
           <fa-icon [icon]="faCircle" stackItemSize="2x" [styles]="{ 'color': '#DBE6EC' }"></fa-icon>
-          <fa-icon [icon]="ikonTypeMap.get(valgtUtstyr.utstyrstype.kode)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
+          <fa-icon [icon]="ikonTypeMap.get(valgtUtstyr.utstyrstype.code)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
         </fa-stack>
         <span class="modal-title" id="modal-basic-title">
-          {{valgtUtstyr.utstyrstype.navn}}
+          {{valgtUtstyr.utstyrstype.name}}
         </span>
       </h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
@@ -47,9 +47,9 @@
             </p>
             <ng-container *ngFor="let fb of valgtUtstyr.utstyrstype.feilbruktyper">
               <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox"[id]="fb.navn" [(ngModel)]="fb.erValgt" [disabled]="visningsmodus">
-                <label class="form-check-label" [for]="fb.navn">
-                  {{fb.navn}}
+                <input class="form-check-input" type="checkbox"[id]="fb.name" [(ngModel)]="fb.erValgt" [disabled]="visningsmodus">
+                <label class="form-check-label" [for]="fb.name">
+                  {{fb.name}}
                 </label>
               </div>              
             </ng-container>
@@ -57,9 +57,9 @@
           <ng-container *ngIf="visningsmodus">
             <ng-container *ngFor="let fb of valgtUtstyr.feilbruktyper">
               <div class="form-check mb-2">
-                <input type="checkbox" class="form-check-input" [id]="fb.navn" [disabled]="true" [checked]="true">
-                <label class="form-check-label" [for]="fb.navn">
-                  {{fb.navn}}
+                <input type="checkbox" class="form-check-input" [id]="fb.name" [disabled]="true" [checked]="true">
+                <label class="form-check-label" [for]="fb.name">
+                  {{fb.name}}
                 </label>
               </div>
             </ng-container>

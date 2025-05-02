@@ -11,6 +11,6 @@ export interface HanskeObservasjon extends Observasjon
 {
 	hanskeMedIndikasjonTyper?: HanskeMedIndikasjonType[];
 	hanskeUtenIndikasjonTyper?: HanskeUtenIndikasjonType[];
-	benyttetHanske: boolean;
+	gloveUsed: boolean;
 	handhygieneEtterHanskebrukType?: HandhygieneEtterHanskebrukType;
 }

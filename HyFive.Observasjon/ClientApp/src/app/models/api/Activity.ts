@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { AktivitetType } from './AktivitetType';
+import { ActivityType } from './ActivityType';
 
 export interface Activity
 {
-	aktivitetType: AktivitetType;
-	sekunderBrukt?: number;
-	tidtakingBleUtfort: boolean;
-	benyttetHanske?: boolean;
+	activityType: ActivityType;
+	timeSpent?: number;
+	timeRecordingWasDone: boolean;
+	gloveUsed?: boolean;
 }

@@ -21,7 +21,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.navn)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.name)}">
       <div class="row" *ngIf="erRedigeringsmodus">
         <div class="col-12" *ngIf="observasjon.role?.id && observasjon.role.id > 0">
           <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
@@ -42,9 +42,9 @@
                     <tbody>
                       <tr *ngFor="let type of hanskeMedIndikasjonTyper">
                         <td class="hh-hanske-tabs__label-td">
-                          <label class="form-check-label" [for]="type.kode">
+                          <label class="form-check-label" [for]="type.code">
                             <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
-                            <strong>{{type.navn}}</strong>
+                            <strong>{{type.name}}</strong>
                           </label>
                         </td>
                         <td class="text-end">
@@ -87,9 +87,9 @@
                     <tbody>
                       <tr *ngFor="let type of hanskeUtenIndikasjonTyper">
                         <td class="hh-hanske-tabs__label-td">
-                          <label class="form-check-label" [for]="type.kode">
+                          <label class="form-check-label" [for]="type.code">
                             <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
-                            <strong>{{type.navn}}</strong>
+                            <strong>{{type.name}}</strong>
                           </label>
                         </td>
                         <td class="text-end">
@@ -113,8 +113,8 @@
             <h2 class="h5">Håndhygiene etter hanskebruk?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handhygieneEtterHanskebrukTyper">
-                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.navn}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="type.kode" [(ngModel)]="valgtHygieneEtterHanskebruk" />
-                <label class="btn fhi-btn-group__btn" for="btnradio-{{type.navn}}">{{type.navn}}</label>
+                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />
+                <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}">{{type.name}}</label>
               </div>
             </div>
           </div>

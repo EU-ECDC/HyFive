@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface AktivitetType
+export interface ActivityType
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 }

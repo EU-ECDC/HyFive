@@ -22,7 +22,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon?.role?.navn)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon?.role?.name)}">
       <div class="d-flex flex-row pt-3">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="erRedigeringsmodus">
@@ -45,10 +45,10 @@
               <div class="hh-vertical-stadium-buttons__button">
                 <app-registrer-aktivitet class="hh-card-slider__aktivitet"
                                          [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon) }"
-                                         [aktivitetType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
+                                         [activityType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
                                          [erRegistrert]="erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon) ? observasjon.aktivitet?.sekunderBrukt : 0"
+                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -58,10 +58,10 @@
               <div class="hh-vertical-stadium-buttons__button">
                 <app-registrer-aktivitet class="hh-card-slider__aktivitet"
                                          [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(AktivitetTypeKonstanter.Handvask) }"
-                                         [aktivitetType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
+                                         [activityType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
                                          [erRegistrert]="erAktivitetValgt(AktivitetTypeKonstanter.Handvask)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Handvask) ? observasjon.aktivitet?.sekunderBrukt : 0"
+                                         [sekunder]="erAktivitetValgt(AktivitetTypeKonstanter.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -80,9 +80,9 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.sekunderBrukt > 0 && !visAktivitetTypeIkkeUtfort">
+      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.timeSpent > 0 && !visAktivitetTypeIkkeUtfort">
         <div class="col-12 text-center mb-2">
-          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.activity.sekunderBrukt = 0">
+          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.activity.timeSpent = 0">
             <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
           </button>
         </div>
@@ -96,7 +96,7 @@
                   [ngClass]="{'form-control--no-border': !erRedigeringsmodus}"
                   [(ngModel)]="valgtAktivitetTypeIkkeUtfortId"
                   (ngModelChange)="valgtAktivitetTypeIkkeUtfortEndret($event)">
-            <option *ngFor="let aktivitetTypeIkkeUtfort of aktivitetTypeIkkeUtfortValg" [value]="aktivitetTypeIkkeUtfort.id+''">{{aktivitetTypeIkkeUtfort.navn}}</option>
+            <option *ngFor="let aktivitetTypeIkkeUtfort of aktivitetTypeIkkeUtfortValg" [value]="aktivitetTypeIkkeUtfort.id+''">{{aktivitetTypeIkkeUtfort.name}}</option>
           </select>
         </div>
       </ng-container>

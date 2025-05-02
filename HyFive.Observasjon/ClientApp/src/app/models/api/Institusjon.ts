@@ -11,7 +11,7 @@ import { Helseforetak } from './Helseforetak';
 export interface Institution
 {
 	id: number;
-	navn: string;
+	name: string;
 	forkortelse: string;
 	herId: string;
 	departments: Department[];

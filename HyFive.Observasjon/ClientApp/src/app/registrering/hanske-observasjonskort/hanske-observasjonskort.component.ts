@@ -97,15 +97,15 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     this.valgtHandhygieneEtterHanskebruk = null;
   }
 
-  hanskeMedIndikasjonerChanged(kode, event) {
+  hanskeMedIndikasjonerChanged(code, event) {
     this.hanskeMedIndikasjonTyper.forEach(x => {
-      if (x.kode === kode) x.erValgt = event.target.checked;
+      if (x.code === code) x.erValgt = event.target.checked;
     });
   }
 
-  hanskeUtenIndikasjonerChanged(kode, event) {
+  hanskeUtenIndikasjonerChanged(code, event) {
     this.hanskeUtenIndikasjonTyper.forEach(x => {
-      if (x.kode === kode) x.erValgt = event.target.checked;
+      if (x.code === code) x.erValgt = event.target.checked;
     });
   }
 
@@ -157,8 +157,8 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       kommentar: this.kommentar,
       hanskeMedIndikasjonTyper: this.hanskeMedIndikasjonTyper.filter(x => x.erValgt),
       hanskeUtenIndikasjonTyper: this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt),
-      benyttetHanske: this.hanskeBenyttet,
-      handhygieneEtterHanskebrukType: this.hanskeBenyttet ? this.handhygieneEtterHanskebrukTyper.find(x => x.kode === this.valgtHandhygieneEtterHanskebruk) : null,
+      gloveUsed: this.hanskeBenyttet,
+      handhygieneEtterHanskebrukType: this.hanskeBenyttet ? this.handhygieneEtterHanskebrukTyper.find(x => x.code === this.valgtHandhygieneEtterHanskebruk) : null,
     } as HanskeObservasjon;
 
     this.observasjonRegistrert.emit(observasjon);

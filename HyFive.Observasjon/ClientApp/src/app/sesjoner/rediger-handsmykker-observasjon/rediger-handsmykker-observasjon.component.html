@@ -20,7 +20,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.navn)}">
+         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.name)}">
 
       <div class="row pt-3 pb-0">
         <div class="col-12">
@@ -51,7 +51,7 @@
               <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.erValgt"></fa-icon>
             </fa-stack>
             <br />
-            <span><small><strong>{{ valg.navn }}</strong></small></span>
+            <span><small><strong>{{ valg.name }}</strong></small></span>
           </label>
         </div>
       </div>

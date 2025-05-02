@@ -121,7 +121,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       registrerttidspunkt: new Date(Date.now()),
       role: this.kort.role,
       handsmykker: this.handsmykkevalg.reduce((acc, item) => {
-        if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.kode === item.type));
+        if (item.erValgt) acc.push(this.handsmykkeTyper.find(x => x.code === item.type));
         return acc;
       }, [] as HandsmykkeType[]) as HandsmykkeType[],
       kommentar: this.kommentar

@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.navn)}">
+       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
 
     <div class="d-flex flex-row">
       <div class="d-flex flex-column justify-content-start">
@@ -21,7 +21,7 @@
                              [parentId]="kort.id">
         </app-indikasjonsvalg>
 
-        <div class="row mt-n3" *ngIf="activity?.sekunderBrukt > 0">
+        <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
           <div class="col-12 text-center mb-2 mt-4">
             <button class="btn hh-transparent-button hh-transparent-button--small" (click)="fjernTidsregistrering()">
               <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
@@ -44,9 +44,9 @@
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.Desinfeksjon)"
                                        [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.Desinfeksjon)"
                                        [parentId]="kort.id"
-                                       [sekunder]="activity?.sekunderBrukt"
+                                       [sekunder]="activity?.timeSpent"
                                        [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
-                                       [aktivitetType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
+                                       [activityType]="getAktivitetType(AktivitetTypeKonstanter.Desinfeksjon)"
                                        [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                        [icon]="faHandHoldingWater"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -56,9 +56,9 @@
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.Handvask)"
                                        [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.Handvask)"
                                        [parentId]="kort.id"
-                                       [sekunder]="activity?.sekunderBrukt"
+                                       [sekunder]="activity?.timeSpent"
                                        [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
-                                       [aktivitetType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
+                                       [activityType]="getAktivitetType(AktivitetTypeKonstanter.Handvask)"
                                        [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                        [icon]="faHandsWash"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -68,7 +68,7 @@
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(AktivitetTypeKonstanter.IkkeUtfort)"
                                       [erRegistrert]="erRegistrert(AktivitetTypeKonstanter.IkkeUtfort)"
                                       [parentId]="kort.id"
-                                      [aktivitetType]="getAktivitetType(AktivitetTypeKonstanter.IkkeUtfort)"
+                                      [activityType]="getAktivitetType(AktivitetTypeKonstanter.IkkeUtfort)"
                                       [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
                                       [icon]="faTimesCircle"
                                       (aktivitetRegistertEvent)="registrerAktivitet($event)">

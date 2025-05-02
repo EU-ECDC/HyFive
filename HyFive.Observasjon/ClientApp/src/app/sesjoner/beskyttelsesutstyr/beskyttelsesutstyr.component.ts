@@ -67,7 +67,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
 
   visUtstyr(beskyttelsesutstyr: Beskyttelsesutstyr[]): string{
     if(beskyttelsesutstyr?.length > 0){
-      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.navn).join(', ');
+      return beskyttelsesutstyr.filter(b => b.bleBenyttet).map(b => b.utstyrstype.name).join(', ');
     }
     return "";
   }

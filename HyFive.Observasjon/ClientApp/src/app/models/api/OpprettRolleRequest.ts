@@ -4,6 +4,6 @@
 
 export interface OpprettRolleRequest
 {
-	navn: string;
+	name: string;
 	beskrivelse: string;
 }

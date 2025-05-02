@@ -127,7 +127,7 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
       observasjoner: [observasjon],
       starttidspunkt: new Date(),
       department: sesjonsvisning.department,
-      institusjonsnavn: institusjon.navn
+      institusjonsnavn: institusjon.name
     } as TSesjon;
     sessions.push(nySesjon);
     this.lagreSesjoner(sessions);

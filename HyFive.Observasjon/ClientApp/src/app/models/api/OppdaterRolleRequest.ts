@@ -5,6 +5,6 @@
 export interface OppdaterRolleRequest
 {
 	id: number;
-	navn: string;
+	name: string;
 	beskrivelse: string;
 }

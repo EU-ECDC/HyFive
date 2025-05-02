@@ -6,7 +6,7 @@ export interface InnloggetBruker
 {
 	id: string;
 	identPseudonym: string;
-	navn: string;
+	name: string;
 	erKoordinator: boolean;
 	erFhiAdmin: boolean;
 	erObservator: boolean;

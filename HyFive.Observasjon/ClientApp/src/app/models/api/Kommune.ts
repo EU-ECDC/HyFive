@@ -6,5 +6,5 @@ export interface Municipality
 {
 	id: number;
 	nummer: string;
-	navn: string;
+	name: string;
 }

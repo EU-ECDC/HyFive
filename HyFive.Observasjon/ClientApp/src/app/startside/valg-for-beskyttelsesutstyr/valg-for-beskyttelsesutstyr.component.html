@@ -4,11 +4,11 @@
       <div class="col">
         <h4 class="mb-4">Verneutstyr</h4>
         <div (click)='endreValgtSetting(setting)' class="hh-beskyttelsesutstyrsetting d-flex px-2 justify-content-between align-items-center" *ngFor='let setting of settinger'>
-          <p class="mb-1 mx-3 font-weight-bold">{{setting.navn}}</p>
+          <p class="mb-1 mx-3 font-weight-bold">{{setting.name}}</p>
           <div>
             <fa-stack size="lg">
               <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': '#DBE6EC'}"></fa-icon>
-              <fa-icon [icon]="beskyttelsesutstyrsettingMapper.getIkontypeMap().get(setting.kode)" stackItemSize="1x"></fa-icon>
+              <fa-icon [icon]="beskyttelsesutstyrsettingMapper.getIkontypeMap().get(setting.code)" stackItemSize="1x"></fa-icon>
             </fa-stack>
           </div>
         </div>
@@ -24,11 +24,11 @@
       <div>
         <fa-stack size="lg">
           <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': '#DBE6EC'}"></fa-icon>
-          <fa-icon [icon]="beskyttelsesutstyrsettingMapper.getIkontypeMap().get(valgtSetting.kode)" stackItemSize="1x"></fa-icon>
+          <fa-icon [icon]="beskyttelsesutstyrsettingMapper.getIkontypeMap().get(valgtSetting.code)" stackItemSize="1x"></fa-icon>
         </fa-stack>
       </div>
       <div>
-        <h5>{{valgtSetting.navn}}</h5>
+        <h5>{{valgtSetting.name}}</h5>
       </div>
     </div>
     <div class="row ml-5">
@@ -37,7 +37,7 @@
         <div class="custom-control custom-checkbox mb-3" *ngFor='let utstyr of valgtSetting.utstyrstyper'>
           <input type='checkbox' [id]="'utstyr' + utstyr.id" [(ngModel)]="utstyr.erIndikert" class="form-check-input me-3">
           <label class="custom-control-label" [htmlFor]="'utstyr' + utstyr.id">
-            {{utstyr.navn}}
+            {{utstyr.name}}
           </label>
         </div>
       </div>
@@ -46,8 +46,8 @@
       <button *ngIf="sesjonsvisning == null" class='btn fhi-btn-primary text-center' (click)='startObservasjon()'>Start observasjon</button>
       <button *ngIf="sesjonsvisning != null" class='btn fhi-btn-primary text-center' (click)='endreSettingOgUtstyr()'>Fortsett observasjon</button>
     </div>
-    <app-hjelpetekst [tittel]="'Tips og triks for valg av predefinert verneutstyr for '+valgtSetting.navn">
-      <p>Du har valgt {{valgtSetting.navn}}. Det er forhåndsdefinert hva som er indikert verneutstyr for dette smitteregimet.<br /> Du kan fjerne eller legge til indikert verneutstyr ved å hake av i listen.</p>
+    <app-hjelpetekst [tittel]="'Tips og triks for valg av predefinert verneutstyr for '+valgtSetting.name">
+      <p>Du har valgt {{valgtSetting.name}}. Det er forhåndsdefinert hva som er indikert verneutstyr for dette smitteregimet.<br /> Du kan fjerne eller legge til indikert verneutstyr ved å hake av i listen.</p>
     </app-hjelpetekst>
   </ng-container>
 </div>

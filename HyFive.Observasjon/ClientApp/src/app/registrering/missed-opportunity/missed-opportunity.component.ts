@@ -25,11 +25,11 @@ export class MissedOpportunityComponent implements OnInit {
   @Output() aktivitetRegistertEvent = new EventEmitter<Activity>();
 
   constructor(private modalService: NgbModal, private aktivitetService: AktivitetService) {
-    this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
+    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
       this.activity = {
-        aktivitetType: aktivitetTyper.find(x => x.kode === AktivitetTypeKonstanter.IkkeUtfort),
-        tidtakingBleUtfort: false,
-        benyttetHanske: null
+        activityType: activityTypes.find(x => x.code === AktivitetTypeKonstanter.IkkeUtfort),
+        timeRecordingWasDone: false,
+        gloveUsed: null
       };
     });
   }
@@ -46,7 +46,7 @@ export class MissedOpportunityComponent implements OnInit {
   }
 
   registrerAktivitet(bleHanskerBrukt: boolean) {
-    this.activity.benyttetHanske = bleHanskerBrukt;
+    this.activity.gloveUsed = bleHanskerBrukt;
     this.aktivitetRegistertEvent.emit(this.activity);
   }
 }

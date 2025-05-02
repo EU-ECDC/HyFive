@@ -5,5 +5,5 @@
 export interface AktivitetTypeIkkeUtfort
 {
 	id: number;
-	navn: string;
+	name: string;
 }

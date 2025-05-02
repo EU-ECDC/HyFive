@@ -8,6 +8,6 @@ export interface Klinikk
 {
 	id: number;
 	institusjonId: number;
-	navn: string;
+	name: string;
 	departments: Department[];
 }

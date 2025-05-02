@@ -20,7 +20,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.navn)}">
+         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.name)}">
       <ng-container *ngIf="erRedigeringsmodus">
         <div class="row">
           <div class="col-12">
@@ -50,11 +50,11 @@
                   <fa-icon [icon]="faCircle" stackItemSize="2x"
                            class="hh-round-checkbox-list__circle"
                            [ngClass]="{ 'hh-round-checkbox-list__circle--chosen': valg.bleBenyttet, 'hh-round-checkbox-list__circle--active': erRedigeringsmodus }"></fa-icon>
-                  <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.kode)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
+                  <fa-icon [icon]="ikonTypeMap.get(valg.utstyrstype.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.bleBenyttet"></fa-icon>
                   <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.bleBenyttetRiktig ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.bleBenyttet"></fa-icon>
                 </fa-stack>
                 <br />
-                <span>{{ valg.utstyrstype.navn }}</span>
+                <span>{{ valg.utstyrstype.name }}</span>
               </label>
             </div>
           </div>
@@ -82,7 +82,7 @@
               <input class="visually-hidden" type="checkbox" ngbButton [disabled]="isReadonly || !erRedigeringsmodus" [(ngModel)]="valg.bleBenyttet" (change)="changed($event, valg)">
               <div class="d-flex">
                 <i class="icon-check ms-n2" *ngIf="valg.bleBenyttet" [ngClass]="valg.bleBenyttetRiktig ? 'icon-green' : 'icon-red'"></i>
-                <strong>{{ valg.utstyrstype.navn }}</strong>
+                <strong>{{ valg.utstyrstype.name }}</strong>
               </div>
             </label>
           </div>

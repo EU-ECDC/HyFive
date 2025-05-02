@@ -76,7 +76,7 @@ export class HandsmykkerComponent implements OnInit {
   }
 
   visHandsmykker(handsmykker: HandsmykkeType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, handsmykker.map(x => x.kode)).filter(h => h.erValgt == true).map(h => h.navn).join(', ');
+    return HandsmykkeMapper.getHandsmykkevalg(this.handsmykkeTyper, handsmykker.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
   }
 
   sendTilKoordinator() {
