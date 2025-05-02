@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface BeskyttelsesutstyrOversiktRapport
+export interface ProtectiveEquipmentOverviewReport
 {
-	utstyrsnavn: string;
+	equipmentName: string;
 	incorrectTypes: string[];
 	wasUsed: boolean;
 	wasUsedCorrectly: boolean;

@@ -6,7 +6,7 @@ import { Role } from './Role';
 import { IndikasjonType } from './IndikasjonType';
 import { Activity } from './Activity';
 import { HandsmykkeType } from './HandsmykkeType';
-import { BeskyttelsesutstyrOversiktRapport } from './BeskyttelsesutstyrOversiktRapport';
+import { ProtectiveEquipmentOverviewReport } from './ProtectiveEquipmentOverviewReport';
 import { HanskeObservasjon } from './HanskeObservasjon';
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 
@@ -20,7 +20,7 @@ export interface ObservasjonOversiktRapport
 	activity: Activity;
 	handsmykketyper: HandsmykkeType[];
 	beskyttelsesutstyrsetting: string;
-	beskyttelsesutstyr: BeskyttelsesutstyrOversiktRapport[];
+	beskyttelsesutstyr: ProtectiveEquipmentOverviewReport[];
 	hanskeObservasjon: HanskeObservasjon;
 	beskyttelsesutstyrObservasjon: ProtectiveEquipmentObservation;
 }

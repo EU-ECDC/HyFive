@@ -21,7 +21,7 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   faCircle = faCircle;
   colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
-  misuseTypes: MisuseType[] = [];
+  incorrectTypes: MisuseType[] = [];
 
   closeResult = '';
 
@@ -52,11 +52,11 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   enableBackToCardOnError(misuse: MisuseType) {
     if (misuse) {
       if (misuse.isSelected === false) {
-        this.misuseTypes.push(misuse);
+        this.incorrectTypes.push(misuse);
       }
       else {
-        const index = this.misuseTypes.indexOf(misuse);
-        this.misuseTypes.splice(index, 1);
+        const index = this.incorrectTypes.indexOf(misuse);
+        this.incorrectTypes.splice(index, 1);
       }
     }
   }

@@ -5,7 +5,7 @@
 export interface ProtectiveEquipmentOverviewReport
 {
 	equipmentName: string;
-	misuseTypes: string[];
+	incorrectTypes: string[];
 	wasUsed: boolean;
 	wasUsedCorrectly: boolean;
 	isRequired: boolean;
