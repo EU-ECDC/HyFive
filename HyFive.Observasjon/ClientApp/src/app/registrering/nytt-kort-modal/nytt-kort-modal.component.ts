@@ -46,13 +46,13 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   setRollevalg() {
     if (this.roles)
       this.rollevalg = this.roles.map((role) => {
-        return { role: role, erValgt: false } as Rollevalg
+        return { role: role, isSelected: false } as Rollevalg
       });
   }
 
   resetRollevalg() {
     if (this.rollevalg)
-      this.rollevalg = this.rollevalg.map(x => { x.erValgt = false; return x; });
+      this.rollevalg = this.rollevalg.map(x => { x.isSelected = false; return x; });
   }
 
   open() {
@@ -75,7 +75,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   close() {
-    this.modalRef.close(this.rollevalg.filter(x => x.erValgt).map(x => { return x.role }));
+    this.modalRef.close(this.rollevalg.filter(x => x.isSelected).map(x => { return x.role }));
     window.scrollTo(0,0);
   }
 

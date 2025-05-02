@@ -1,5 +1,5 @@
 export class IndikasjonTypeValg {
-  public erValgt: boolean;
+  public isSelected: boolean;
   public code: string;
   public name: string;
 }

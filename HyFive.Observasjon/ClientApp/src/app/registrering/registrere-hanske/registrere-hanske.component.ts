@@ -11,7 +11,7 @@ import { Uuid } from '../../utils/uuid';
 import { HanskeSesjonsvisning } from '../../models/registrering/hansker-sesjonsvisning.model';
 import { GloveSession } from '../../models/api/GloveSession';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
-import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
+import { GloveObservation } from '../../models/api/GloveObservation';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -65,7 +65,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: HanskeObservasjon) {
+  async registrerObservasjon(observasjon: GloveObservation) {
     await this.sesjonService.registrerObservasjon(observasjon);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();

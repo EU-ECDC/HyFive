@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { HandsmykkeSesjonsvisning } from "src/app/models/registrering/handsmykke-sesjonsvisning.model";
-import { HandsmykkeSesjon } from "src/app/models/api/HandsmykkeSesjon";
+import { HandJewelrySession } from "src/app/models/api/HandJewelrySession";
 import { Role } from "src/app/models/api/Role";
 import { HandJewelryObservation } from 'src/app/models/api/HandJewelryObservation';
 import { Kort } from "src/app/models/registrering/kort.model";
@@ -41,7 +41,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   farger = Farger;
   ikonTypeMap: Map<HandsmykkeTypeKonstanter, IconProp> = HandsmykkeMapper.getIkontypeMap();
 
-  sessionsdata: HandsmykkeSesjon = null;
+  sessionsdata: HandJewelrySession = null;
   roles: Role[];
   handJewelryTypes: HandJewelryType[] = [];
 
@@ -85,7 +85,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   antallValgteHandsmykker() {
-    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.erValgt) return acc + 1; return acc; }, 0);
+    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
   kanIkkeLagre(): boolean {
@@ -99,9 +99,9 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   changed(valg: Handsmykkevalg) {
-    if (valg.erValgt && valg.type == HandsmykkeTypeKonstanter.AltOk)
+    if (valg.isSelected && valg.type == HandsmykkeTypeKonstanter.AltOk)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandsmykkeTypeKonstanter.AltOk) x.disabled = true; return x; }) // disable all
-    else if (valg.erValgt && valg.type != HandsmykkeTypeKonstanter.AltOk)
+    else if (valg.isSelected && valg.type != HandsmykkeTypeKonstanter.AltOk)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandsmykkeTypeKonstanter.AltOk) x.disabled = true; return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
@@ -121,7 +121,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       registrationTime: new Date(Date.now()),
       role: this.kort.role,
       handJewelry: this.handsmykkevalg.reduce((acc, item) => {
-        if (item.erValgt) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
+        if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
       }, [] as HandJewelryType[]) as HandJewelryType[],
       comment: this.comment

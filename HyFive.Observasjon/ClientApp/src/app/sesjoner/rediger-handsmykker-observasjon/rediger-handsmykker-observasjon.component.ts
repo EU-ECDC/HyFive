@@ -53,21 +53,21 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   }
 
   antallValgteHandsmykker() {
-    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.erValgt) return acc + 1; return acc; }, 0);
+    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
   changed(valg: Handsmykkevalg) {
-    if (valg.erValgt && valg.type == HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.erValgt = false; } return x; }) // disable all
-    else if (valg.erValgt && valg.type != HandsmykkeTypeKonstanter.AltOk)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.erValgt = false; } return x; }) // disable altok
+    if (valg.isSelected && valg.type == HandsmykkeTypeKonstanter.AltOk)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+    else if (valg.isSelected && valg.type != HandsmykkeTypeKonstanter.AltOk)
+      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandsmykkeTypeKonstanter.AltOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
       this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
   }
 
   lagreObservasjon() {
     this.observasjon.handJewelry = this.handsmykkevalg.reduce((acc, item) => {
-      if (item.erValgt) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
+      if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];
     this.sesjonService.endreObservasjon(this.observasjon);

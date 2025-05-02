@@ -34,13 +34,13 @@
       <div class="row text-break">
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
-            <li ngbNavItem="med" [disabled]="observasjon.hanskeUtenIndikasjonTyper.length">
+            <li ngbNavItem="med" [disabled]="observasjon.gloveWithoutIndicationTypes.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Gloves ved indikasjon</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
                     <tbody>
-                      <tr *ngFor="let type of hanskeMedIndikasjonTyper">
+                      <tr *ngFor="let type of gloveWithIndicationTypes">
                         <td class="hh-hanske-tabs__label-td">
                           <label class="form-check-label" [for]="type.code">
                             <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
@@ -52,8 +52,8 @@
                             <input type="checkbox" ngbButton
                                    class="visually-hidden"
                                    [disabled]="isReadonly || !erRedigeringsmodus"
-                                   [(ngModel)]="type.erValgt">
-                            <i class="icon-check icon-lg" *ngIf="type.erValgt"></i>
+                                   [(ngModel)]="type.isSelected">
+                            <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
                           </label>
                         </td>
                       </tr>
@@ -79,13 +79,13 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem="uten" [disabled]="observasjon.hanskeMedIndikasjonTyper.length">
+            <li ngbNavItem="uten" [disabled]="observasjon.gloveWithIndicationTypes.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Hanske uten indikasjon</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
                     <tbody>
-                      <tr *ngFor="let type of hanskeUtenIndikasjonTyper">
+                      <tr *ngFor="let type of gloveWithoutIndicationTypes">
                         <td class="hh-hanske-tabs__label-td">
                           <label class="form-check-label" [for]="type.code">
                             <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
@@ -97,8 +97,8 @@
                             <input type="checkbox" ngbButton
                                     class="visually-hidden"
                                     [disabled]="isReadonly || !erRedigeringsmodus"
-                                    [(ngModel)]="type.erValgt">
-                            <i class="icon-check icon-lg" *ngIf="type.erValgt"></i>
+                                    [(ngModel)]="type.isSelected">
+                            <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
                           </label>
                         </td>
                       </tr>

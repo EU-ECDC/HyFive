@@ -5,7 +5,7 @@ import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { GloveSession } from '../../../models/api/GloveSession';
-import { HanskeObservasjon } from '../../../models/api/HanskeObservasjon';
+import { GloveObservation } from '../../../models/api/GloveObservation';
 import {ToastrService} from 'ngx-toastr';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
 import {Dialogtekster} from '../../../konstanter/dialogtekster';
@@ -46,9 +46,9 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  visIndikasjoner(item: HanskeObservasjon): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
-    if (item.hanskeMedIndikasjonTyper.length) return item.hanskeMedIndikasjonTyper.map(x => x.name).join(', ');;
-    return item.hanskeUtenIndikasjonTyper.map(x => x.name).join(', ');
+  visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
+    if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
+    return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
 
   navigerTilSendteSesjoner() {

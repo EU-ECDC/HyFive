@@ -5,6 +5,6 @@
 import { HandJewelryObservation } from './HandJewelryObservation';
 import { Sesjon } from './Sesjon';
 
-export interface HandsmykkeSesjon extends Sesjon<HandJewelryObservation>
+export interface HandJewelrySession extends Sesjon<HandJewelryObservation>
 {
 }

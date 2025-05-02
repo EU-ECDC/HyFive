@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../konstanter/queryparameters';
-import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
+import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../konstanter/urls';
@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HandsmykkerComponent implements OnInit {
 
-  sesjon: HandsmykkeSesjon;
+  sesjon: HandJewelrySession;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   comment: string;
@@ -76,7 +76,7 @@ export class HandsmykkerComponent implements OnInit {
   }
 
   visHandsmykker(handJewelry: HandJewelryType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
+    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
   sendTilKoordinator() {

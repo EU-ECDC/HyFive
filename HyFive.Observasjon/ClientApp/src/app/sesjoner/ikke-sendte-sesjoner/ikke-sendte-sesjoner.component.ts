@@ -127,7 +127,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     const observables = [];
    
     this.sesjonerFiltrert.forEach((s) => {
-      if (s.erValgt) {
+      if (s.isSelected) {
         let observable;
         switch (s.type) {
           case SessionType.FireIndikasjoner:
@@ -217,12 +217,12 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
 
     
   merkSesjon(sesjon: SesjonRapport) {
-    sesjon.erValgt = !sesjon.erValgt;
-    this.harValgtEnSesjon = this.sesjonerFiltrert.some((s) => s.erValgt);
+    sesjon.isSelected = !sesjon.isSelected;
+    this.harValgtEnSesjon = this.sesjonerFiltrert.some((s) => s.isSelected);
   }
 
   merkAlleSesjoner() {
-    this.sesjonerFiltrert.forEach((s) => (s.erValgt = true));
+    this.sesjonerFiltrert.forEach((s) => (s.isSelected = true));
     this.harValgtEnSesjon = true;
   }
 }

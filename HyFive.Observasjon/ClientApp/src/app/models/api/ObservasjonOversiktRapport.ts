@@ -7,7 +7,7 @@ import { IndicationType } from './IndicationType';
 import { Activity } from './Activity';
 import { HandJewelryType } from './HandJewelryType';
 import { ProtectiveEquipmentOverviewReport } from './ProtectiveEquipmentOverviewReport';
-import { HanskeObservasjon } from './HanskeObservasjon';
+import { GloveObservation } from './GloveObservation';
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 
 export interface ObservasjonOversiktRapport
@@ -21,6 +21,6 @@ export interface ObservasjonOversiktRapport
 	handsmykketyper: HandJewelryType[];
 	beskyttelsesutstyrsetting: string;
 	beskyttelsesutstyr: ProtectiveEquipmentOverviewReport[];
-	hanskeObservasjon: HanskeObservasjon;
+	gloveObservation: GloveObservation;
 	beskyttelsesutstyrObservasjon: ProtectiveEquipmentObservation;
 }

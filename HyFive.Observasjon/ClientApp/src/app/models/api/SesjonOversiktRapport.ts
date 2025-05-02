@@ -16,5 +16,5 @@ export interface SesjonOversiktRapport
 	comment: string;
 	overforingstatus: any;
 	observasjoner: ObservasjonOversiktRapport[];
-	erValgt: boolean;
+	isSelected: boolean;
 }

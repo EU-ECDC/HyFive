@@ -5,7 +5,7 @@ import { Queryparameters } from '../../../konstanter/queryparameters';
 import { Urls } from '../../../konstanter/urls';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
-import { HandsmykkeSesjon } from '../../../models/api/HandsmykkeSesjon';
+import { HandJewelrySession } from '../../../models/api/HandJewelrySession';
 import { HandsmykkeTypeService } from '../../../services/data/handsmykketype.service';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
 import {ToastrService} from 'ngx-toastr';
@@ -17,7 +17,7 @@ import {Dialogtekster} from '../../../konstanter/dialogtekster';
 })
 export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: HandsmykkeSesjon;
+  sesjon: HandJewelrySession;
   handJewelryTypes: HandJewelryType[] = [];
   erOnline: boolean = true;
 
@@ -52,7 +52,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
   }
 
   visHandsmykker(handJewelry: HandJewelryType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.erValgt == true).map(h => h.name).join(', ');
+    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
   navigerTilSendteSesjoner() {

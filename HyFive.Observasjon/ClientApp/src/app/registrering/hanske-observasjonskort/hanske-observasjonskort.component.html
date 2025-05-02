@@ -24,7 +24,7 @@
                 Hanske ved indikasjon
               </a>
               <ng-template ngbNavContent>
-                <div class="row py-1 px-3" *ngFor="let type of hanskeMedIndikasjonTyper">
+                <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
                   <div class="col-auto hh-hanske-tabs__label-td">
                     <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
@@ -33,7 +33,7 @@
                   </div>
                   <div class="col text-end pt-1">
                     <div class="form-check mt-2">
-                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.erValgt">
+                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.isSelected">
                     </div>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
                 Hanske uten indikasjon
               </a>
               <ng-template ngbNavContent>
-                <div class="row py-1 px-3" *ngFor="let type of hanskeUtenIndikasjonTyper">
+                <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
                   <div class="col-aitp hh-hanske-tabs__label-td">
                     <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
@@ -73,7 +73,7 @@
                   </div>
                   <div class="col text-end pt-1">
                     <div class="form-check mt-2">
-                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.erValgt">
+                      <input class="form-check-input" type="checkbox" value="" [id]="type.code" [(ngModel)]="type.isSelected">
                     </div>
                   </div>
                 </div>

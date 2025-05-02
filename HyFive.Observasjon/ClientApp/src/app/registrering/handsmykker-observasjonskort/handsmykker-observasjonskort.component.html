@@ -21,7 +21,7 @@
           <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handsmykkevalg; let i = index;">
             <label [htmlFor]="'handsmykke'+kort.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
               <input type="checkbox"
-                     [(ngModel)]="valg.erValgt"
+                     [(ngModel)]="valg.isSelected"
                      (ngModelChange)="changed(valg)"
                      [disabled]="valg.disabled"
                      [id]="'handsmykke'+kort.id.substr(4)+handsmykkevalg.indexOf(valg)"
@@ -29,10 +29,10 @@
               <fa-stack class="hh-round-checkbox-list__iconstack">
                 <fa-icon [icon]="faCircle" stackItemSize="2x"
                          class="hh-round-checkbox-list__circle"
-                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.erValgt, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
                 </fa-icon>
-                <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.erValgt"></fa-icon>
-                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.erValgt"></fa-icon>
+                <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
+                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
               </fa-stack>
               <br />
               <span><small><strong>{{ valg.name }}</strong></small></span>

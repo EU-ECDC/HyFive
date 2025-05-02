@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HanskeUtenIndikasjonType } from '../../models/api/HanskeUtenIndikasjonType';
+import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicationType';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class HanskeUtenIndikasjonTypeService {
   constructor(private http: HttpClient) {
   }
 
-  getHanskeUtenIndikasjonTyper(): Observable<HanskeUtenIndikasjonType[]> {
-    return this.http.get<HanskeUtenIndikasjonType[]>('api/v1/hanske/hanskeutenindikasjontype').pipe()
+  getHanskeUtenIndikasjonTyper(): Observable<GloveWithoutIndicationType[]> {
+    return this.http.get<GloveWithoutIndicationType[]>('api/v1/hanske/hanskeutenindikasjontype').pipe()
   }
 
 }

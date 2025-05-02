@@ -18,7 +18,7 @@ export class IndikasjonTypeMapper {
   public static getIndikasjonstypeValg(indicationTypes: IndicationType[], valgteIndikasjonTyper: IndicationType[]): IndikasjonTypeValg[] {
     return indicationTypes.reduce((acc, item) => {
       acc.push({
-        erValgt: valgteIndikasjonTyper.some(x => x.code === item.code),
+        isSelected: valgteIndikasjonTyper.some(x => x.code === item.code),
         name: item.name,
         code: item.code
       });

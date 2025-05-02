@@ -11,5 +11,5 @@ export interface SesjonRapport
 	starttidspunkt: any;
 	type: SessionType;
 	institusjonsnavn: string;
-	erValgt?: boolean;
+	isSelected?: boolean;
 }

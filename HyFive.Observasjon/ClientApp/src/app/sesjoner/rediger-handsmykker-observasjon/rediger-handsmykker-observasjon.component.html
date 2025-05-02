@@ -38,7 +38,7 @@
           <label [htmlFor]="observasjon.id.substr(4)+i" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
             <input [disabled]="isReadonly || !erRedigeringsmodus || valg.disabled"
                    type="checkbox"
-                   [(ngModel)]="valg.erValgt"
+                   [(ngModel)]="valg.isSelected"
                    (ngModelChange)="changed(valg)"
                    [id]="observasjon.id.substr(4)+i"
                    class="hh-round-checkbox-list__input">
@@ -46,9 +46,9 @@
               <fa-icon [icon]="faCircle"
                        stackItemSize="2x"
                        class="hh-round-checkbox-list__circle"
-                       [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.erValgt, 'hh-round-checkbox-list__circle--active': erRedigeringsmodus}"></fa-icon>
-              <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.erValgt"></fa-icon>
-              <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.erValgt"></fa-icon>
+                       [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': erRedigeringsmodus}"></fa-icon>
+              <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
+              <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
             </fa-stack>
             <br />
             <span><small><strong>{{ valg.name }}</strong></small></span>

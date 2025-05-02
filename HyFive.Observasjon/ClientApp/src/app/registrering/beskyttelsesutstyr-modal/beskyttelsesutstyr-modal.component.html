@@ -47,7 +47,7 @@
             </p>
             <ng-container *ngFor="let fb of valgtUtstyr.equipmentType.incorrectTypes">
               <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox"[id]="fb.name" [(ngModel)]="fb.erValgt" [disabled]="visningsmodus">
+                <input class="form-check-input" type="checkbox"[id]="fb.name" [(ngModel)]="fb.isSelected" [disabled]="visningsmodus">
                 <label class="form-check-label" [for]="fb.name">
                   {{fb.name}}
                 </label>

@@ -51,7 +51,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   }
 
   startObservasjon() {
-    var valgteRoller = this.roles.filter(rollevalg => rollevalg.erValgt).map(rollevalg => rollevalg.role);
+    var valgteRoller = this.roles.filter(rollevalg => rollevalg.isSelected).map(rollevalg => rollevalg.role);
     var sessionId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
     this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], { queryParams: { sessionId: sessionId } });
   }

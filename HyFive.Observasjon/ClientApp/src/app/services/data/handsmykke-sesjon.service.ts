@@ -5,7 +5,7 @@ import { Kort } from '../../models/registrering/kort.model';
 import { Department } from '../../models/api/Department';
 import { BaseSesjonService } from './base-sesjon.service';
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
-import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
+import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -16,7 +16,7 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjonsvisning, HandsmykkeSesjon, HandJewelryObservation> {
+export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjonsvisning, HandJewelrySession, HandJewelryObservation> {
 
   sesjonLocalStoragePath = Localstoragepaths.HandsmykkeSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.HandsmykkeSesjonsvisninger;
@@ -52,11 +52,11 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
     return id;
   }
 
-  public hentSesjonFraServer(sessionId: string): Observable<HandsmykkeSesjon> {
+  public hentSesjonFraServer(sessionId: string): Observable<HandJewelrySession> {
     if (navigator.onLine) {
       let params = new HttpParams();
       params = params.append("sessionId", sessionId);
-      return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handsmykke`, { params });
+      return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handsmykke`, { params });
     }
     else {
       confirm("Ikke koblet til internet");

@@ -103,7 +103,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       return;
     }
 
-    if (!this.rollevalg.filter((r) => r.erValgt).length) {
+    if (!this.rollevalg.filter((r) => r.isSelected).length) {
       alert("Velg en eller flere roles");
       return;
     }
@@ -139,7 +139,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     let sessionId = this.fireIndikasjonerSesjonService.lagSesjonsvisning(
       this.hanskebruk,
       this.tidtaking,
-      this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
+      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
 
@@ -150,7 +150,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startHandsmykkeSesjon() {
     let sessionId = this.handsmykkeSesjonService.lagSesjonsvisning(
-      this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
+      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
     this.router.navigate([Urls.RegistrereHandsmykkerUrl], {
@@ -161,7 +161,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   startHanskeSesjon() {
     let sessionId = this.hanskeSesjonService.lagSesjonsvisning(
       this.hanskebruk,
-      this.rollevalg.filter((r) => r.erValgt).map((r) => r.role),
+      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
 
@@ -194,14 +194,14 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.rollevalg = this.institusjon.departments
       .find((x) => x.id === parseInt(this.valgtAvdelingId))
       ?.roles.map((role) => {
-        return { role: role, erValgt: false } as Rollevalg;
+        return { role: role, isSelected: false } as Rollevalg;
       });
   }
 
   kanIkkeStarteObservasjon(): boolean {
     return (
       this.valgtAvdelingId === null ||
-      this.rollevalg.filter((r) => r.erValgt).length === 0 ||
+      this.rollevalg.filter((r) => r.isSelected).length === 0 ||
       this.valgtSesjonType === SessionType.IkkeValgt
     );
   }

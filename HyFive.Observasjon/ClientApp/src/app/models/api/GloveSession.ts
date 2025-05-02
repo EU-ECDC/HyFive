@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { HanskeObservasjon } from './HanskeObservasjon';
+import { GloveObservation } from './GloveObservation';
 import { Sesjon } from './Sesjon';
 
-export interface GloveSession extends Sesjon<HanskeObservasjon>
+export interface GloveSession extends Sesjon<GloveObservation>
 {
 }

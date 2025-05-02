@@ -3,14 +3,14 @@
 //     the code is regenerated.
 
 import { Observation } from './Observation';
-import { HanskeMedIndikasjonType } from './HanskeMedIndikasjonType';
-import { HanskeUtenIndikasjonType } from './HanskeUtenIndikasjonType';
+import { GloveWithIndicationType } from './GloveWithIndicationType';
+import { GloveWithoutIndicationType } from './GloveWithoutIndicationType';
 import { HandHygieneAfterGloveUseType } from './HandHygieneAfterGloveUseType';
 
-export interface HanskeObservasjon extends Observation
+export interface GloveObservation extends Observation
 {
-	hanskeMedIndikasjonTyper?: HanskeMedIndikasjonType[];
-	hanskeUtenIndikasjonTyper?: HanskeUtenIndikasjonType[];
+	gloveWithIndicationTypes?: GloveWithIndicationType[];
+	gloveWithoutIndicationTypes?: GloveWithoutIndicationType[];
 	gloveUsed: boolean;
 	handHygieneAfterGloveUseType?: HandHygieneAfterGloveUseType;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HandsmykkeSesjon } from 'src/app/models/api/HandsmykkeSesjon';
+import { HandJewelrySession } from 'src/app/models/api/HandJewelrySession';
 import { Role } from 'src/app/models/api/Role';
 import { HandsmykkeSesjonService } from 'src/app/services/data/handsmykke-sesjon.service';
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
@@ -23,7 +23,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sesjonsvisning: HandsmykkeSesjonsvisning;
-  sessionsdata: HandsmykkeSesjon = null;
+  sessionsdata: HandJewelrySession = null;
   roles: Role[];
   visRolleliste: boolean = false;
   visTomForKortTekst: boolean = false;

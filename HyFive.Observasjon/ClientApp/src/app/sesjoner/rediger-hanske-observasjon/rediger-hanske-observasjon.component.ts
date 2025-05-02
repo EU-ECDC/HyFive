@@ -6,13 +6,13 @@ import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
-import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
+import { GloveObservation } from '../../models/api/GloveObservation';
 import { HanskeMedIndikasjonTypeService } from '../../services/data/hanske-med-indikasjon-type.service';
 import { HanskeUtenIndikasjonTypeService } from '../../services/data/hanske-uten-indikasjon-type.service';
 import { HandhygieneEtterHanskebrukTypeService } from '../../services/data/handhygiene-etter-hanskebruk-type.service';
-import { HanskeUtenIndikasjonType } from '../../models/api/HanskeUtenIndikasjonType';
+import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicationType';
 import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
-import { HanskeMedIndikasjonType } from '../../models/api/HanskeMedIndikasjonType';
+import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { Uuid } from 'src/app/utils/uuid';
 
 @Component({
@@ -24,8 +24,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   erRedigeringsmodus: boolean = false;
   Farger = Farger;
   Dialogtekster = Dialogtekster;
-  hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
-  hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
+  gloveWithIndicationTypes: GloveWithIndicationType[] = [];
+  gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
 
   activeTab = "med";
@@ -49,7 +49,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   ) { }
 
   @Input() isReadonly: boolean = false;
-  @Input() observasjon: HanskeObservasjon;
+  @Input() observasjon: GloveObservation;
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
   visInfoModal = false;
@@ -60,23 +60,23 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
     this.uuid = Uuid.generateUUID();
 
-    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((hanskeMedIndikasjonTyper) => {
-      this.hanskeMedIndikasjonTyper = hanskeMedIndikasjonTyper;
-      if (this.observasjon.hanskeMedIndikasjonTyper.length) {
+    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((gloveWithIndicationTypes) => {
+      this.gloveWithIndicationTypes = gloveWithIndicationTypes;
+      if (this.observasjon.gloveWithIndicationTypes.length) {
         this.activeTab = "med";
-        this.hanskeMedIndikasjonTyper.forEach(x => {
-          if (this.observasjon.hanskeMedIndikasjonTyper.some(y => y.code === x.code))
-            x.erValgt = true;
+        this.gloveWithIndicationTypes.forEach(x => {
+          if (this.observasjon.gloveWithIndicationTypes.some(y => y.code === x.code))
+            x.isSelected = true;
         });
       }
     });
-    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((hanskeUtenIndikasjonTyper) => {
-      this.hanskeUtenIndikasjonTyper = hanskeUtenIndikasjonTyper;
-      if (this.observasjon.hanskeUtenIndikasjonTyper.length) {
+    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+      this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
+      if (this.observasjon.gloveWithoutIndicationTypes.length) {
         this.activeTab = "uten";
-        this.hanskeUtenIndikasjonTyper.forEach(x => {
-          if (this.observasjon.hanskeUtenIndikasjonTyper.some(y => y.code === x.code))
-            x.erValgt = true;
+        this.gloveWithoutIndicationTypes.forEach(x => {
+          if (this.observasjon.gloveWithoutIndicationTypes.some(y => y.code === x.code))
+            x.isSelected = true;
         });
       }
     });
@@ -89,22 +89,22 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   }
 
   hanskeMedIndikasjonerChanged(code, event) {
-    this.hanskeMedIndikasjonTyper.forEach(x => {
-      if (x.code === code) x.erValgt = event.target.checked;
+    this.gloveWithIndicationTypes.forEach(x => {
+      if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
   hanskeUtenIndikasjonerChanged(code, event) {
-    this.hanskeUtenIndikasjonTyper.forEach(x => {
-      if (x.code === code) x.erValgt = event.target.checked;
+    this.gloveWithoutIndicationTypes.forEach(x => {
+      if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
   lagreObservasjon() {
 
 
-    this.observasjon.hanskeMedIndikasjonTyper = this.hanskeMedIndikasjonTyper.filter(x => x.erValgt);
-    this.observasjon.hanskeUtenIndikasjonTyper = this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt);
+    this.observasjon.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
+    this.observasjon.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(x => x.isSelected);
     this.observasjon.gloveUsed = this.hanskeBrukt;
 
     if(this.observasjon.gloveUsed){

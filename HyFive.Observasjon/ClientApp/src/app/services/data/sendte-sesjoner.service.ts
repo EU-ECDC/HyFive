@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { SesjonRapport } from '../../models/api/SesjonRapport';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
-import { HandsmykkeSesjon } from '../../models/api/HandsmykkeSesjon';
+import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
 import { GloveSession } from '../../models/api/GloveSession';
 import {map} from 'rxjs/operators';
@@ -27,10 +27,10 @@ export class SendteSesjonerService {
     return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/sesjon/fireindikasjoner`, {params});
   }
 
-  hentHandsmykkerSesjon(sessionId: string): Observable<HandsmykkeSesjon> {
+  hentHandsmykkerSesjon(sessionId: string): Observable<HandJewelrySession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<HandsmykkeSesjon>(`${environment.apiBaseUrl}/v1/sesjon/handJewelry`, {params});
+    return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handJewelry`, {params});
   }
 
   hentHanskeSesjon(sessionId: string): Observable<GloveSession> {

@@ -23,7 +23,7 @@ export class HandsmykkeMapper {
   public static getHandsmykkevalg(handsmykkeAlternativer: HandJewelryType[], handsmykkeValg: string[]): Handsmykkevalg[] {
     return handsmykkeAlternativer.reduce((acc, item) => {
       acc.push({
-        erValgt: handsmykkeValg.indexOf(item.code) != -1,
+        isSelected: handsmykkeValg.indexOf(item.code) != -1,
         name: item.name,
         type: item.code,
         disabled: false

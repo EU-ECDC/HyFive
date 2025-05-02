@@ -8,7 +8,7 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { GloveSession } from '../../models/api/GloveSession';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
-import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
+import { GloveObservation } from '../../models/api/GloveObservation';
 
 @Component({
   selector: 'app-hanske',
@@ -60,7 +60,7 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.RegistrereHanskeUrl], { queryParams: { sessionId: sessionId } });
   }
 
-  observasjonSlettetEventHandler($event: HanskeObservasjon) {
+  observasjonSlettetEventHandler($event: GloveObservation) {
     this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
   }
 
@@ -68,9 +68,9 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.SendteSesjonerUrl]);
   }
 
-  visIndikasjoner(item: HanskeObservasjon): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
-    if (item.hanskeMedIndikasjonTyper.length) return item.hanskeMedIndikasjonTyper.map(x => x.name).join(', ');;
-    return item.hanskeUtenIndikasjonTyper.map(x => x.name).join(', ');
+  visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
+    if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
+    return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
 
   sendTilKoordinator() {

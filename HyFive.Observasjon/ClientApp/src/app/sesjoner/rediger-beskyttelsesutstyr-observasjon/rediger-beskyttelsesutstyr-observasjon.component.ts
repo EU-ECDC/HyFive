@@ -88,11 +88,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     event.preventDefault();
 
     valg.wasUsed = true;
-    valg.equipmentType.incorrectTypes.filter(fb => fb.erValgt == true).map(fb => fb.erValgt = false);
+    valg.equipmentType.incorrectTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
     valg.incorrectTypes.forEach(f => {
       const index = valg.equipmentType.incorrectTypes.findIndex(fb => fb.id == f.id);
-      valg.equipmentType.incorrectTypes[index].erValgt = true;
+      valg.equipmentType.incorrectTypes[index].isSelected = true;
     });
 
     if (valg.wasUsed) {
@@ -132,7 +132,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       else {
         valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
         valgtUtstyr.comment = result.comment;
-        valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.erValgt);
+        valgtUtstyr.incorrectTypes = result.equipmentType.incorrectTypes.filter(x => x.isSelected);
         valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.incorrectTypes.length > 0 || valgtUtstyr.comment !== '';
       }
     }, (reason) => {

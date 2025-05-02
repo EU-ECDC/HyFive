@@ -50,7 +50,7 @@
               type="checkbox"
               value=""
               [id]="'chk_' + i"
-              [(ngModel)]="sesjonsvisning.erValgt"
+              [(ngModel)]="sesjonsvisning.isSelected"
               (click)="merkSesjon(sesjonsvisning)"
             />
             <label class="form-check-label" [for]="'chk_' + i">Velg for innsending</label>

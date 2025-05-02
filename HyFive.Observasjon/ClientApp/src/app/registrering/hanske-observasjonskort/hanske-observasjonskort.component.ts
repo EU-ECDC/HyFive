@@ -10,11 +10,11 @@ import { Farger } from "../../utils/farger";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GloveSession } from "../../models/api/GloveSession";
 import { HanskeSesjonsvisning } from "../../models/registrering/hansker-sesjonsvisning.model";
-import { HanskeObservasjon } from "../../models/api/HanskeObservasjon";
+import { GloveObservation } from "../../models/api/GloveObservation";
 import { HanskeMedIndikasjonTypeService } from "../../services/data/hanske-med-indikasjon-type.service";
-import { HanskeMedIndikasjonType } from '../../models/api/HanskeMedIndikasjonType';
+import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { HanskeUtenIndikasjonTypeService } from "../../services/data/hanske-uten-indikasjon-type.service";
-import { HanskeUtenIndikasjonType } from "../../models/api/HanskeUtenIndikasjonType";
+import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicationType";
 import { HandhygieneEtterHanskebrukTypeService } from "../../services/data/handhygiene-etter-hanskebruk-type.service";
 import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
 import { Dialogtekster } from '../../konstanter/dialogtekster';
@@ -44,8 +44,8 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
 
   sessionsdata: GloveSession = null;
   roles: Role[];
-  hanskeMedIndikasjonTyper: HanskeMedIndikasjonType[] = [];
-  hanskeUtenIndikasjonTyper: HanskeUtenIndikasjonType[] = [];
+  gloveWithIndicationTypes: GloveWithIndicationType[] = [];
+  gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
   activeTab = "med";
   hanskeBenyttet = null;
@@ -72,11 +72,11 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   }
 
   ngOnInit(): void {
-    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((hanskeMedIndikasjonTyper) => {
-      this.hanskeMedIndikasjonTyper = hanskeMedIndikasjonTyper;
+    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((gloveWithIndicationTypes) => {
+      this.gloveWithIndicationTypes = gloveWithIndicationTypes;
     });
-    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((hanskeUtenIndikasjonTyper) => {
-      this.hanskeUtenIndikasjonTyper = hanskeUtenIndikasjonTyper;
+    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+      this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
     this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper().subscribe((handHygieneAfterGloveUseTypes) => {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
@@ -91,21 +91,21 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   }
 
   nullstillFane() {
-    this.hanskeMedIndikasjonTyper.forEach(x => x.erValgt = false);
-    this.hanskeUtenIndikasjonTyper.forEach(x => x.erValgt = false);
+    this.gloveWithIndicationTypes.forEach(x => x.isSelected = false);
+    this.gloveWithoutIndicationTypes.forEach(x => x.isSelected = false);
     this.hanskeBenyttet = this.activeTab === "med" ? null : true;
     this.valgtHandhygieneEtterHanskebruk = null;
   }
 
   hanskeMedIndikasjonerChanged(code, event) {
-    this.hanskeMedIndikasjonTyper.forEach(x => {
-      if (x.code === code) x.erValgt = event.target.checked;
+    this.gloveWithIndicationTypes.forEach(x => {
+      if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
   hanskeUtenIndikasjonerChanged(code, event) {
-    this.hanskeUtenIndikasjonTyper.forEach(x => {
-      if (x.code === code) x.erValgt = event.target.checked;
+    this.gloveWithoutIndicationTypes.forEach(x => {
+      if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
@@ -121,7 +121,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   kanIkkeLagre(): boolean {
 
     if (this.activeTab === "med") {
-      if (this.hanskeMedIndikasjonTyper.filter(h => h.erValgt).length === 0) {
+      if (this.gloveWithIndicationTypes.filter(h => h.isSelected).length === 0) {
         this.observasjonMangelTekst = "Indikasjon(er) mangler";
         this.visInfoModal = true;
         return true;
@@ -133,7 +133,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       }
     }
     else {
-      if (this.hanskeUtenIndikasjonTyper.filter(h => h.erValgt).length === 0) {
+      if (this.gloveWithoutIndicationTypes.filter(h => h.isSelected).length === 0) {
         this.observasjonMangelTekst = "Indikasjon(er) mangler";
         this.visInfoModal = true;
         return true;
@@ -155,11 +155,11 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       registrationTime: new Date(Date.now()),
       role: this.kort.role,
       comment: this.comment,
-      hanskeMedIndikasjonTyper: this.hanskeMedIndikasjonTyper.filter(x => x.erValgt),
-      hanskeUtenIndikasjonTyper: this.hanskeUtenIndikasjonTyper.filter(x => x.erValgt),
+      gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),
+      gloveWithoutIndicationTypes: this.gloveWithoutIndicationTypes.filter(x => x.isSelected),
       gloveUsed: this.hanskeBenyttet,
       handHygieneAfterGloveUseType: this.hanskeBenyttet ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHandhygieneEtterHanskebruk) : null,
-    } as HanskeObservasjon;
+    } as GloveObservation;
 
     this.observasjonRegistrert.emit(observasjon);
 

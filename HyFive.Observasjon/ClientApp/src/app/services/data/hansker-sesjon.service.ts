@@ -10,13 +10,13 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HanskeSesjonsvisning } from '../../models/registrering/hansker-sesjonsvisning.model';
 import { GloveSession } from '../../models/api/GloveSession';
-import { HanskeObservasjon } from '../../models/api/HanskeObservasjon';
+import { GloveObservation } from '../../models/api/GloveObservation';
 import { InstitusjonService } from './institusjon.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, GloveSession, HanskeObservasjon> {
+export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, GloveSession, GloveObservation> {
 
   sesjonLocalStoragePath = Localstoragepaths.HanskeSesjoner;
   sesjonsvisningLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
