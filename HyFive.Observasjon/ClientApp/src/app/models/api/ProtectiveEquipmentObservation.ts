@@ -8,6 +8,6 @@ import { ProtectiveEquipmentSettingType } from './ProtectiveEquipmentSettingType
 
 export interface ProtectiveEquipmentObservation extends Observation
 {
-	beskyttelsesutstyrliste: ProtectiveEquipment[];
+	protectiveEquipmentList: ProtectiveEquipment[];
 	settingtype: ProtectiveEquipmentSettingType;
 }
