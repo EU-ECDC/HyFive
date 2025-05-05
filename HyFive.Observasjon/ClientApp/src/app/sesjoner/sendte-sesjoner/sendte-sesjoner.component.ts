@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
+import { SessionTypeMapper } from "../../utils/session-type-mapper";
 import { SentSessionsService } from "../../services/data/sendte-sessions.service";
 import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
@@ -28,7 +28,7 @@ export class SendteSesjonerComponent {
   faSearch = faSearch;
 
   constructor(private sentSessionsService: SentSessionsService) {
-    this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
+    this.sesjonsnavnMap = SessionTypeMapper.getNameMap();
   }
 
   lastSesjoner() {

@@ -4,7 +4,7 @@ import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
 import { Session } from "../../models/api/Session";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
+import { SessionTypeMapper } from "../../utils/session-type-mapper";
 import { ProtectiveEquipmentSessionService } from "../../services/data/protectiveEquipment-session.service";
 import { SessionType } from "../../models/api/SessionType";
 import { SessionReport } from "../../models/api/SessionReport";
@@ -37,7 +37,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private toastrService: ToastrService
   ) {
-    this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
+    this.sesjonsnavnMap = SessionTypeMapper.getNameMap();
   }
 
   ngOnInit(): void {

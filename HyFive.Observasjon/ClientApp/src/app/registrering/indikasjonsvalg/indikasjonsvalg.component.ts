@@ -4,7 +4,7 @@ import { IndicationType } from '../../models/api/IndicationType';
 import { IndicationService } from '../../services/data/indication.service';
 import { faCircle, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IndicationTypeSelection } from '../../models/registration/indicationType-selection.model';
-import { IndikasjonTypeMapper } from '../../utils/indikasjontype-mapper';
+import { IndicationTypeMapper } from '../../utils/indicationtype-mapper';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IndicationTypeConstants } from '../../models/api/IndicationTypeConstants';
 
@@ -17,7 +17,7 @@ export class IndikasjonsValgComponent implements OnInit {
   faCircle = faCircle;
   faCheck = faCheck;
   faPlus = faPlus;
-  ikonTypeMap: Map<IndicationTypeConstants, IconProp> = IndikasjonTypeMapper.getIconTypeMap();
+  ikonTypeMap: Map<IndicationTypeConstants, IconProp> = IndicationTypeMapper.getIconTypeMap();
 
   indicationTypeSelection: IndicationTypeSelection[] = [];
 
@@ -34,13 +34,13 @@ export class IndikasjonsValgComponent implements OnInit {
   ngOnInit(): void {
     this.indicationService.getIndicationTypes().subscribe((indicationTypes) => {
       this.tilgjengeligeIndikasjoner = indicationTypes;
-      this.indicationTypeSelection = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
+      this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
     });
 
     this.observationEventService.observationResetEvent.subscribe((parentId) => {
       if (parentId == this.parentId) {
         this.valgteIndikasjoner = [];
-        this.indicationTypeSelection = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, []);
+        this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, []);
       }
     })
   }

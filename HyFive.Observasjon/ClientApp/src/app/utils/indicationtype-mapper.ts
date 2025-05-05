@@ -4,7 +4,7 @@ import { IndicationType } from '../models/api/IndicationType';
 import { IndicationTypeSelection } from '../models/registration/indicationType-selection.model';
 import { faFour, faOne, faThree, faTwo } from './customIconer';
 
-export class IndikasjonTypeMapper {
+export class IndicationTypeMapper {
 
   public static getIconTypeMap(): Map<IndicationTypeConstants, IconProp> {
     var iconmap = new Map<IndicationTypeConstants, IconProp>();
@@ -15,10 +15,10 @@ export class IndikasjonTypeMapper {
     return iconmap;
   }
 
-  public static getIndikasjonstypeValg(indicationTypes: IndicationType[], valgteIndikasjonTyper: IndicationType[]): IndicationTypeSelection[] {
+  public static getIndicationTypeOption(indicationTypes: IndicationType[], selectedIndicationTypes: IndicationType[]): IndicationTypeSelection[] {
     return indicationTypes.reduce((acc, item) => {
       acc.push({
-        isSelected: valgteIndikasjonTyper.some(x => x.code === item.code),
+        isSelected: selectedIndicationTypes.some(x => x.code === item.code),
         name: item.name,
         code: item.code
       });
