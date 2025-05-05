@@ -35,10 +35,10 @@ export class SendteSesjonerComponent {
     this.harLastetSesjoner = false;
     this.sendteSesjonerService.getSesjoner().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
-        if (a.starttidspunkt > b.starttidspunkt) {
+        if (a.startTime > b.startTime) {
           return -1;
         }
-        if (a.starttidspunkt < b.starttidspunkt) {
+        if (a.startTime < b.startTime) {
           return 1;
         }
         return 0;
@@ -58,7 +58,7 @@ export class SendteSesjonerComponent {
             .get(s.type)
             ?.toLowerCase()
             .indexOf(this.sokeord.toLowerCase()) != -1 ||
-          s.institusjonsnavn
+          s.institutionsName
             ?.toLowerCase()
             .indexOf(this.sokeord.toLowerCase()) != -1
       );

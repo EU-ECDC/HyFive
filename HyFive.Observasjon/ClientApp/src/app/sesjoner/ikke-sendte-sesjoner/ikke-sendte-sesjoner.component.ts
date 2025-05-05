@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FireIndikasjonerSesjonService } from "../../services/data/fire-indikasjoner-sesjon.service";
 import { Urls } from "../../konstanter/urls";
 import { HandsmykkeSesjonService } from "../../services/data/handsmykke-sesjon.service";
-import { Sesjon } from "../../models/api/Sesjon";
+import { Session } from "../../models/api/Session";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { BeskyttelsesutstyrSesjonService } from "../../services/data/beskyttelsesutstyr-sesjon.service";
@@ -68,10 +68,10 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
           .map((b) => this.lagSesjonsvisning(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
-        if (a.starttidspunkt > b.starttidspunkt) {
+        if (a.startTime > b.startTime) {
           return -1;
         }
-        if (a.starttidspunkt < b.starttidspunkt) {
+        if (a.startTime < b.startTime) {
           return 1;
         }
         return 0;
@@ -96,15 +96,15 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
   lagSesjonsvisning(
-    sesjon: Sesjon<any>,
+    sesjon: Session<any>,
     sesjonstype: SessionType
   ): SesjonRapport {
     return {
       avdelingsnavn: sesjon.department?.name,
-      starttidspunkt: sesjon.starttidspunkt,
+      startTime: sesjon.startTime,
       type: sesjonstype,
       id: sesjon.id,
-      institusjonsnavn: sesjon.institusjonsnavn,
+      institutionsName: sesjon.institutionsName,
     };
   }
 

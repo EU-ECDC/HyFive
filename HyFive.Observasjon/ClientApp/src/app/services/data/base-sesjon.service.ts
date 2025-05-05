@@ -1,11 +1,11 @@
-import { Sesjon } from '../../models/api/Sesjon';
+import { Session } from '../../models/api/Session';
 import { BaseSesjonsvisning } from '../../models/registrering/base-sesjonsvisning.model';
 import { Observation } from '../../models/api/Observation';
 import { InstitusjonService } from './institusjon.service';
 import {AjaxResponse} from 'rxjs/ajax';
 import { DatoHjelper } from 'src/app/utils/datohjelper';
 
-export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisning, TSesjon extends Sesjon<TObservasjon>, TObservasjon extends Observation>  {
+export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisning, TSesjon extends Session<TObservasjon>, TObservasjon extends Observation>  {
 
   abstract sesjonsvisningLocalStoragePath: string;
   abstract sesjonLocalStoragePath: string;
@@ -36,13 +36,13 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
       sessions = JSON.parse(sesjonerString);
     }
     return sessions.sort((s1, s2) => {
-      if (s1.starttidspunkt == null && s2.starttidspunkt != null)
+      if (s1.startTime == null && s2.startTime != null)
         return 1;
-      if (s2.starttidspunkt == null && s1.starttidspunkt != null)
+      if (s2.startTime == null && s1.startTime != null)
         return -1;
-      if (s2.starttidspunkt === s1.starttidspunkt)
+      if (s2.startTime === s1.startTime)
         return 0;
-      return s1.starttidspunkt < s2.starttidspunkt ? 1 : -1
+      return s1.startTime < s2.startTime ? 1 : -1
     });
   }
 
@@ -90,7 +90,7 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
 
     let sessions = this.hentSesjoner();
     var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observasjon.sessionId);
-    sessions[eksisterendeSesjonIndex].observasjoner.push(observasjon);
+    sessions[eksisterendeSesjonIndex].observations.push(observasjon);
     this.lagreSesjoner(sessions);
   }
 
@@ -98,9 +98,9 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     var sessions = this.hentSesjoner();
     var aktuellSesjon = sessions.find(s => s.id == endretObservasjon.sessionId);
     var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
-    var observasjonSomEndres = aktuellSesjon.observasjoner.find(o => o.id === endretObservasjon.id);
-    var observasjonIndeks = aktuellSesjon.observasjoner.indexOf(observasjonSomEndres);
-    aktuellSesjon.observasjoner[observasjonIndeks] = endretObservasjon;
+    var observasjonSomEndres = aktuellSesjon.observations.find(o => o.id === endretObservasjon.id);
+    var observasjonIndeks = aktuellSesjon.observations.indexOf(observasjonSomEndres);
+    aktuellSesjon.observations[observasjonIndeks] = endretObservasjon;
     sessions[aktuellSesjonIndeks] = aktuellSesjon;
     this.lagreSesjoner(sessions);
   }
@@ -109,7 +109,7 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     var sessions = this.hentSesjoner();
     var aktuellSesjon = sessions.find(s => s.id == observasjonSomSkalSlettes.sessionId);
     var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
-    aktuellSesjon.observasjoner = aktuellSesjon.observasjoner.filter(o => o.id !== observasjonSomSkalSlettes.id)
+    aktuellSesjon.observations = aktuellSesjon.observations.filter(o => o.id !== observasjonSomSkalSlettes.id)
     sessions[aktuellSesjonIndeks] = aktuellSesjon;
     this.lagreSesjoner(sessions);
   }
@@ -124,10 +124,10 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     let institusjon = await this.institusjonService.getInstitusjon(sesjonsvisning.department.institutionId).toPromise();
     let nySesjon = {
       id: observasjon.sessionId,
-      observasjoner: [observasjon],
-      starttidspunkt: new Date(),
+      observations: [observasjon],
+      startTime: new Date(),
       department: sesjonsvisning.department,
-      institusjonsnavn: institusjon.name
+      institutionsName: institusjon.name
     } as TSesjon;
     sessions.push(nySesjon);
     this.lagreSesjoner(sessions);

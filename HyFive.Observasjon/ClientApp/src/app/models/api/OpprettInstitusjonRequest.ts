@@ -4,7 +4,7 @@
 
 export interface OpprettInstitusjonRequest
 {
-	institusjonsnavn: string;
+	institutionsName: string;
 	abbreviation: string;
 	herId: string;
 	institusjonTypeId: number;

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
-import { Sesjon } from '../../models/api/Sesjon';
+import { Session } from '../../models/api/Session';
 import { faPlus, faClipboard, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faObservasjonskort } from '../../utils/customIkoner';
 
@@ -17,12 +17,12 @@ export class ObservasjonstellerComponent {
   faCircle = faCircle;
   faObservasjonskort = faObservasjonskort;
 
-  @Input() sessionsdata: Sesjon<any>;
+  @Input() sessionsdata: Session<any>;
   @Input() url;
   constructor(private mainMenuEventService: MainMenuEventService) { }
 
   numberOfObservations() : number {
-    var antall =  this.sessionsdata?.observasjoner?.length;
+    var antall =  this.sessionsdata?.observations?.length;
     if(antall != null)
     {
       return antall;

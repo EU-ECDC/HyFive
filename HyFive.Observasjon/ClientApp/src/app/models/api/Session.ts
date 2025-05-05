@@ -4,13 +4,13 @@
 
 import { Department } from './Department';
 
-export interface Sesjon<TObservasjon>
+export interface Session<TObservasjon>
 {
 	id: string;
 	department: Department;
-	starttidspunkt: Date;
-	observasjoner?: TObservasjon[];
-	institusjonsnavn?: string;
+	startTime: Date;
+	observations?: TObservasjon[];
+	institutionsName?: string;
 	institutionId?: number;
 	comment?: string;
 }

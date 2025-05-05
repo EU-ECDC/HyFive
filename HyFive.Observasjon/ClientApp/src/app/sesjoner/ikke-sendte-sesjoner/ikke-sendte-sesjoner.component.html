@@ -56,13 +56,13 @@
             <label class="form-check-label" [for]="'chk_' + i">Velg for innsending</label>
           </div>
 
-          <h2 class="h4 mb-0">{{ sesjonsvisning.institusjonsnavn }}</h2>
+          <h2 class="h4 mb-0">{{ sesjonsvisning.institutionsName }}</h2>
           <p>Avd: {{ sesjonsvisning.avdelingsnavn }}</p>
           <p class="small">{{ sesjonsnavnMap.get(sesjonsvisning.type) }}</p>
 
           <div class="mb-2 text-muted small">
             <i class="icon-calendar icon-sm align-top"></i>
-            {{ sesjonsvisning.starttidspunkt | date : "dd.MM.yyyy HH:mm:ss" }}
+            {{ sesjonsvisning.startTime | date : "dd.MM.yyyy HH:mm:ss" }}
           </div>
 
           <div class="text-end mt-auto">

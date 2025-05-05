@@ -3,8 +3,8 @@
 //     the code is regenerated.
 
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
-import { Sesjon } from './Sesjon';
+import { Session } from './Session';
 
-export interface ProtectiveEquipmentSession extends Sesjon<ProtectiveEquipmentObservation>
+export interface ProtectiveEquipmentSession extends Session<ProtectiveEquipmentObservation>
 {
 }

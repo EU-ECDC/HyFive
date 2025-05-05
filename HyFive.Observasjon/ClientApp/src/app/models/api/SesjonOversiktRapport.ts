@@ -11,10 +11,10 @@ export interface SesjonOversiktRapport
 	type: string;
 	observatorNavn: string;
 	department: Department;
-	starttidspunkt: any;
+	startTime: any;
 	createdTime: any;
 	comment: string;
 	overforingstatus: any;
-	observasjoner: ObservationOverviewReport[];
+	observations: ObservationOverviewReport[];
 	isSelected: boolean;
 }

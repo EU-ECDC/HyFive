@@ -76,7 +76,7 @@ export class FireIndikasjonerComponent implements OnInit {
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
     this.sesjonService.sendTilServer(this.sesjon.id).subscribe(res => {
-        this.toastrService.success("Sesjon ble sendt til koordinator");
+        this.toastrService.success("Session ble sendt til koordinator");
         this.sesjonService.slettSesjon(this.sesjon.id);
         this.sesjonErSendtTilServer = true;
       },

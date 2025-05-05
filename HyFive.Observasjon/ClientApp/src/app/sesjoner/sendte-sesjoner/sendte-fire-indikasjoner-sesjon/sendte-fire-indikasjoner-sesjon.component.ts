@@ -66,27 +66,27 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   }
 
   beregnAnledningerEtterlevd(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observasjoner?.length == 0)
+    if(sesjon?.observations?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return sesjon?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerEtterlevdProsent(sesjon: FourIndicationsSession): number {
-    if (sesjon?.observasjoner?.length == 0)
+    if (sesjon?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerEtterlevd(sesjon) / sesjon?.observasjoner?.length) * 100;
+    return (this.beregnAnledningerEtterlevd(sesjon) / sesjon?.observations?.length) * 100;
   }
 
   beregnAnledningerUtelatt(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observasjoner?.length == 0)
+    if(sesjon?.observations?.length == 0)
       return 0;
-    return sesjon?.observasjoner?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return sesjon?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerUtelattProsent(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observasjoner?.length == 0)
+    if(sesjon?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observasjoner?.length)*100
+    return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observations?.length)*100
   }
 
   hentIngress(observasjon: FourIndicationsObservation) {

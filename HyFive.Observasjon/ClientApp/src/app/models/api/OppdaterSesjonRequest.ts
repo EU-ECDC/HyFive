@@ -7,5 +7,5 @@ export interface OppdaterSesjonRequest
 	sessionId: any;
 	institutionId: number;
 	comment: string;
-	starttidspunkt: any;
+	startTime: any;
 }

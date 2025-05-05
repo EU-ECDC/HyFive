@@ -16,27 +16,27 @@ export class SesjonstatistikkComponent implements OnInit {
   }
 
   beregnAnledningerEtterlevd() : number{
-    if(this.sesjon.observasjoner.length == 0)
+    if(this.sesjon.observations.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return this.sesjon.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerEtterlevdProsent(): number {
-    if (this.sesjon.observasjoner.length == 0)
+    if (this.sesjon.observations.length == 0)
       return 0;
-    return (this.beregnAnledningerEtterlevd() / this.sesjon.observasjoner.length) * 100;
+    return (this.beregnAnledningerEtterlevd() / this.sesjon.observations.length) * 100;
   }
 
   beregnAnledningerUtelatt() : number{
-    if(this.sesjon.observasjoner.length == 0)
+    if(this.sesjon.observations.length == 0)
       return 0;
-    return this.sesjon.observasjoner.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return this.sesjon.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerUtelattProsent() : number{
-    if(this.sesjon.observasjoner.length == 0)
+    if(this.sesjon.observations.length == 0)
       return 0;
-    return (this.beregnAnledningerUtelatt() / this.sesjon.observasjoner.length)*100
+    return (this.beregnAnledningerUtelatt() / this.sesjon.observations.length)*100
   }
 
 }

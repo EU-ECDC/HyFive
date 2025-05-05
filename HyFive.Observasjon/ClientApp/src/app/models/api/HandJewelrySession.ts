@@ -3,8 +3,8 @@
 //     the code is regenerated.
 
 import { HandJewelryObservation } from './HandJewelryObservation';
-import { Sesjon } from './Sesjon';
+import { Session } from './Session';
 
-export interface HandJewelrySession extends Sesjon<HandJewelryObservation>
+export interface HandJewelrySession extends Session<HandJewelryObservation>
 {
 }

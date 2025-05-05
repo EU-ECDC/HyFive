@@ -3,8 +3,8 @@
 //     the code is regenerated.
 
 import { FourIndicationsObservation } from './FourIndicationsObservation';
-import { Sesjon } from './Sesjon';
+import { Session } from './Session';
 
-export interface FourIndicationsSession extends Sesjon<FourIndicationsObservation>
+export interface FourIndicationsSession extends Session<FourIndicationsObservation>
 {
 }

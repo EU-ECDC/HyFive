@@ -8,8 +8,8 @@ export interface SesjonRapport
 {
 	id: string;
 	avdelingsnavn: string;
-	starttidspunkt: any;
+	startTime: any;
 	type: SessionType;
-	institusjonsnavn: string;
+	institutionsName: string;
 	isSelected?: boolean;
 }

@@ -8,7 +8,7 @@
 <div class="container" *ngIf="erOnline">
   <div class="accordion-compact mb-4">
     <app-accordion
-      [items]="sesjon?.observasjoner"
+      [items]="sesjon?.observations"
       [headerTemplate]="header"
       [contentTemplate]="content"
     ></app-accordion>
@@ -29,7 +29,7 @@
   
   <p *ngIf="sesjon?.comment">Kommentar: <small><strong data-hj-suppress>{{sesjon.comment}}</strong></small></p>
 
-  <div class="text-end" *ngIf="sesjon?.observasjoner?.length > 0">
+  <div class="text-end" *ngIf="sesjon?.observations?.length > 0">
     <button  class="btn fhi-btn-icon" (click)="lastNedSomExcel()" >
       <i class="icon-download"></i>
       {{ Dialogtekster.LastNedDataSomExcel }}

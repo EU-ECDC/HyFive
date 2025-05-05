@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Institution } from 'src/app/models/api/Institution';
-import { OpprettForesporselOmBrukertilgangRequest } from '../../models/api/OpprettForesporselOmBrukertilgangRequest';
+import { CreateUserAccessRequest } from '../../models/api/CreateUserAccessRequest';
 @Injectable({
   'providedIn': 'root'
 })
@@ -17,7 +17,7 @@ export class ForesporselOmBrukertilgangService {
     return this.httpClient.get<Institution[]>(url);
   }
 
-  sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang: OpprettForesporselOmBrukertilgangRequest): Observable<boolean>{
+  sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang: CreateUserAccessRequest): Observable<boolean>{
     const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/send`;
     return this.httpClient.post<boolean>(url, nyForsporselOmBrukertilgang);
   }

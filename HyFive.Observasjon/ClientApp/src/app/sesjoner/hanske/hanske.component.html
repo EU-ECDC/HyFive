@@ -1,10 +1,10 @@
 <div class="container">
   <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForHanske(sesjon.id)">Tilbake til observasjon</app-navigasjonslenke>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sesjon: Hanske'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
+  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Hanske'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
 </div>
 <div *ngIf="sesjonErSendtTilServer == false" class="container">
   <div class="accordion-compact mb-4">
-    <app-accordion [items]="sesjon.observasjoner"
+    <app-accordion [items]="sesjon.observations"
                    [headerTemplate]="header"
                    [contentTemplate]="content">
     </app-accordion>
@@ -53,7 +53,7 @@
       <button class="btn fhi-btn-primary"
               *ngIf="erOnline"
               (click)="sendTilKoordinator()"
-              [disabled]="!(sesjon?.observasjoner?.length > 0)">
+              [disabled]="!(sesjon?.observations?.length > 0)">
         Send til koordinator
       </button>
     </div>
