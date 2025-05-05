@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="card.isActive && {'background-color': farger.hentFhiFargeHexFraTekst(card.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': farger.getFhiColorHexFromText(card.role.name)}">
 
     <div class="row">
 
@@ -18,13 +18,13 @@
         <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
 
         <div class="row mt-5 text-break">
-          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handsmykkevalg; let i = index;">
-            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
+          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handJewelrySelection; let i = index;">
+            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
               <input type="checkbox"
                      [(ngModel)]="valg.isSelected"
                      (ngModelChange)="changed(valg)"
                      [disabled]="valg.disabled"
-                     [id]="'handjewelry'+card.id.substr(4)+handsmykkevalg.indexOf(valg)"
+                     [id]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(valg)"
                      class="hh-round-checkbox-list__input">
               <fa-stack class="hh-round-checkbox-list__iconstack">
                 <fa-icon [icon]="faCircle" stackItemSize="2x"

@@ -22,7 +22,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon?.role?.name)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observasjon?.role?.name)}">
       <div class="d-flex flex-row pt-3">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="erRedigeringsmodus">

@@ -3,7 +3,7 @@ import { BaseSessionView } from '../../models/registration/base-sessionView.mode
 import { Observation } from '../../models/api/Observation';
 import { InstitutionService } from './InstitutionService';
 import {AjaxResponse} from 'rxjs/ajax';
-import { DatoHjelper } from 'src/app/utils/datohjelper';
+import { DateHelper } from 'src/app/utils/datehelper';
 
 export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView, TSesjon extends Session<TObservasjon>, TObservasjon extends Observation>  {
 
@@ -19,7 +19,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   protected lagreSesjoner(sessions: TSesjon[]) {
-    localStorage.setItem(this.sessionLocalStoragePath, JSON.stringify(sessions, DatoHjelper.dateTimeSomLocaleStringReplacer));
+    localStorage.setItem(this.sessionLocalStoragePath, JSON.stringify(sessions, DateHelper.dateTimeSomLocaleStringReplacer));
   }
 
   public slettSesjon(sessionId: string) {

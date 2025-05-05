@@ -3,7 +3,7 @@ import { Department } from '../../models/api/Department';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots, faHandPaper } from '@fortawesome/free-regular-svg-icons';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
-import { Farger } from '../../utils/farger';
+import { Colors } from '../../utils/colors';
 import { Role } from '../../models/api/Role';
 import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
@@ -22,7 +22,7 @@ import { Uuid } from 'src/app/utils/uuid';
 export class RedigerHanskeObservasjonComponent implements OnInit {
 
   erRedigeringsmodus: boolean = false;
-  Farger = Farger;
+  Colors = Colors;
   DialogueTexts = DialogueTexts;
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];

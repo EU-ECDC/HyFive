@@ -4,7 +4,7 @@ import { Department } from '../../models/api/Department';
 import { Activity } from '../../models/api/Activity';
 import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { Farger } from '../../utils/farger';
+import { Colors } from '../../utils/colors';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
@@ -27,7 +27,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   activity: Activity;
   fireIndikasjoner: IndicationType[];
   activityTypes: ActivityType[];
-  Farger = Farger;
+  Colors = Colors;
   dialogueTexts = DialogueTexts;
   ActivityTypeNotExecutedSelection: ActivityTypeNotExecuted[];
   selectedActivityTypeNotExecutedSelectionId: string;

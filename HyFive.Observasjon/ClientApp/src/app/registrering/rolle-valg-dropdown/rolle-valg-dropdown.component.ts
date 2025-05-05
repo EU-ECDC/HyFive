@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Farger} from '../../utils/farger'
+import {Colors} from '../../utils/colors'
 import {Role} from '../../models/api/Role';
 import {Uuid} from '../../utils/uuid';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,7 @@ export class RolleValgDropdownComponent implements OnInit{
   valgtRolle: Role;
 
   valgtRolleId: string;
-  farger = Farger;
+  farger = Colors;
   id: string = Uuid.generateUUID().substr(4);
   faAngleDown = faAngleDown;
 
@@ -39,6 +39,6 @@ export class RolleValgDropdownComponent implements OnInit{
   }
 
   hentFarge() : string {
-    return this.valgtRolle && this.isReadonly ? this.farger.hentFhiFargeHexFraTekst(this.valgtRolle.name) : 'white';
+    return this.valgtRolle && this.isReadonly ? this.farger.getFhiColorHexFromText(this.valgtRolle.name) : 'white';
   }
 }

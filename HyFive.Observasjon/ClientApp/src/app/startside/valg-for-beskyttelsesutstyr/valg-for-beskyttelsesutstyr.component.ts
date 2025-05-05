@@ -5,7 +5,7 @@ import { ProtectiveEquipmentSessionService } from '../../services/data/protectiv
 import { Department } from '../../models/api/Department';
 import { Urls } from '../../constants/urls';
 import { Router } from '@angular/router';
-import { BeskyttelsesutstyrsettingMapper } from '../../utils/beskyttelsesutstyrsetting-mapper';
+import { ProtectiveEquipmentSettingMapper } from '../../utils/ProtectiveEquipment-setting-mapper';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { RoleSelected } from '../../models/registration/roleSelected.model';
 import { ProtectiveEquipmentSessionView } from '../../models/registration/protectiveEquipment-sessionView.model';
@@ -22,7 +22,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   valgtSetting: ProtectiveEquipmentSettingType;
   harPredefinertUtstyr = false;
   faCircle = faCircle;
-  beskyttelsesutstyrsettingMapper = BeskyttelsesutstyrsettingMapper;
+  beskyttelsesutstyrsettingMapper = ProtectiveEquipmentSettingMapper;
 
 
   @Input("sessionView") sessionView: ProtectiveEquipmentSessionView = null;

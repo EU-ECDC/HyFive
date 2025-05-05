@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Farger } from "../../utils/farger";
+import { Colors } from "../../utils/colors";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { ProtectiveEquipmentMapper } from "../../utils/protectiveEquipment-mapper";
@@ -17,7 +17,7 @@ export const BeskyttelsesutstyrModalComponentConfig = {
 export class BeskyttelsesutstyrModalComponent implements OnInit {
 
   faCircle = faCircle;
-  farger = Farger;
+  farger = Colors;
   ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
   closeResult = '';

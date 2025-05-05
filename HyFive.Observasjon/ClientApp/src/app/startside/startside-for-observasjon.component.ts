@@ -6,7 +6,7 @@ import { Institution } from "../models/api/Institution";
 import { RoleSelected } from "../models/registration/roleSelected.model";
 import { Urls } from "../constants/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { Farger } from "../utils/farger";
+import { Colors } from "../utils/colors";
 import { HandJewelrySessionService } from "../services/data/hand-Jewelry-session.service";
 import { Department } from "../models/api/Department";
 import { SessionType } from "../models/api/SessionType";
@@ -25,7 +25,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   hanskebruk: boolean;
   roleSelected: RoleSelected[];
   valgtAvdelingId: string = null;
-  farger = Farger;
+  farger = Colors;
   visStartside: boolean;
   visBeskyttelsesutstyr: boolean;
   user: LoggedInUser;

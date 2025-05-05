@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="card.isActive && {'background-color': farger.hentFhiFargeHexFraTekst(card.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': farger.getFhiColorHexFromText(card.role.name)}">
 
     <div class="d-flex flex-row">
       <div class="d-flex flex-column justify-content-start">

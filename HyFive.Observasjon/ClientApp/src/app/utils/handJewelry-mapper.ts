@@ -2,11 +2,11 @@ import { HandJewelryTypeConstants } from '../models/api/HandJewelryTypeConstants
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faTshirt } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
-import { Handsmykkevalg } from '../models/registration/handJewelry-selection.model';
+import { HandJewelrySelection } from '../models/registration/handJewelry-selection.model';
 import { HandJewelryType } from '../models/api/HandJewelryType';
 import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIconer';
 
-export class HandsmykkeMapper {
+export class HandJewelryMapper {
 
   public static getIconTypeMap(): Map<HandJewelryTypeConstants, IconProp> {
     var iconmap = new Map<HandJewelryTypeConstants, IconProp>();
@@ -20,15 +20,15 @@ export class HandsmykkeMapper {
     return iconmap;
   }
 
-  public static getHandsmykkevalg(handsmykkeAlternativer: HandJewelryType[], handsmykkeValg: string[]): Handsmykkevalg[] {
-    return handsmykkeAlternativer.reduce((acc, item) => {
+  public static getHandjewelrySelection(handjewelryChoices: HandJewelryType[], handjewelrySelection: string[]): HandJewelrySelection[] {
+    return handjewelryChoices.reduce((acc, item) => {
       acc.push({
-        isSelected: handsmykkeValg.indexOf(item.code) != -1,
+        isSelected: handjewelrySelection.indexOf(item.code) != -1,
         name: item.name,
         type: item.code,
         disabled: false
       });
       return acc;
-    }, [] as Handsmykkevalg[]);
+    }, [] as HandJewelrySelection[]);
   }
 }

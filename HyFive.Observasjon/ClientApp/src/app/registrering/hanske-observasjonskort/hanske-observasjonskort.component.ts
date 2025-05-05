@@ -6,7 +6,7 @@ import { Role } from "src/app/models/api/Role";
 import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
-import { Farger } from "../../utils/farger";
+import { Colors } from "../../utils/colors";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GloveSession } from "../../models/api/GloveSession";
 import { GloveSessionView } from "../../models/registration/glove-session-view.model";
@@ -40,7 +40,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   faCheck = faCheck;
   faTimes = faTimes;
   faHandPaper = faHandPaper;
-  farger = Farger;
+  farger = Colors;
 
   sessionsdata: GloveSession = null;
   roles: Role[];

@@ -7,7 +7,7 @@ import { ActivityUnderRegistration, ObservationEventService } from '../../servic
 import { Animations } from '../../shared/animasjoner/animasjoner';
 import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { Farger } from '../../utils/farger';
+import { Colors } from '../../utils/colors';
 import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
 import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../models/api/Role';
@@ -50,7 +50,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   faDivide = faDivide;
   faTimes = faTimes;
   faTimesCircle = faTimesCircle;
-  farger = Farger;
+  farger = Colors;
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[]

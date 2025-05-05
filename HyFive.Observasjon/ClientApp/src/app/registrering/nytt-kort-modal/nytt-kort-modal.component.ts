@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
-import { Farger } from "../../utils/farger";
+import { Colors } from "../../utils/colors";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { faUserNurse, faCheck, faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Role } from "../../models/api/Role";
@@ -19,7 +19,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   faUserNurse = faUserNurse;
   faCheck = faCheck;
   faPlus = faPlus;
-  farger = Farger;
+  farger = Colors;
 
   @ViewChild('content') modalContent: TemplateRef<any>;
   private modalRef: NgbModalRef;

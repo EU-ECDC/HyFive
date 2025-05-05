@@ -6,10 +6,10 @@ import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-s
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Handsmykkevalg } from '../../models/registration/handJewelry-selection.model';
-import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
+import { HandJewelrySelection } from '../../models/registration/handJewelry-selection.model';
+import { HandJewelryMapper } from '../../utils/handJewelry-mapper';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
-import { Farger } from '../../utils/farger';
+import { Colors } from '../../utils/colors';
 import { Role } from '../../models/api/Role';
 import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
 import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
@@ -21,10 +21,10 @@ import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.se
 export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
   erRedigeringsmodus: boolean = false;
-  handsmykkevalg = [] as Handsmykkevalg[];
+  handJewelrySelection = [] as HandJewelrySelection[];
   handJewelryTypes: HandJewelryType[] = [];
-  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandsmykkeMapper.getIconTypeMap();
-  Farger = Farger;
+  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
+  Colors = Colors;
   DialogueTexts = DialogueTexts;
 
   faCircle = faCircle;
@@ -47,26 +47,26 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   ngOnInit(): void {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
-      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, this.observasjon.handJewelry.map(x => x?.code));
-      this.handsmykkevalg.forEach(x => this.changed(x));
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observasjon.handJewelry.map(x => x?.code));
+      this.handJewelrySelection.forEach(x => this.changed(x));
     });
   }
 
   antallValgteHandsmykker() {
-    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
+    return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
-  changed(valg: Handsmykkevalg) {
+  changed(valg: HandJewelrySelection) {
     if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
     else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 
   lagreObservasjon() {
-    this.observasjon.handJewelry = this.handsmykkevalg.reduce((acc, item) => {
+    this.observasjon.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];

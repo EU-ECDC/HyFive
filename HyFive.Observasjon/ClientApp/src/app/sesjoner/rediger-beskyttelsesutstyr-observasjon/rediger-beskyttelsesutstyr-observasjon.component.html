@@ -20,7 +20,7 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Farger.hentFhiFargeHexFraTekst(observasjon.role.name)}">
+         [ngStyle]=" (erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observasjon.role.name)}">
       <ng-container *ngIf="erRedigeringsmodus">
         <div class="row">
           <div class="col-12">

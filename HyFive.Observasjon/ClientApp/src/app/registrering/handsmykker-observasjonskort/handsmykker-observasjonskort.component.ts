@@ -9,9 +9,9 @@ import { Card } from "src/app/models/registration/card.model";
 import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
-import { Farger } from "../../utils/farger";
-import { Handsmykkevalg } from "../../models/registration/handJewelry-selection.model";
-import { HandsmykkeMapper } from "../../utils/handsmykke-mapper";
+import { Colors } from "../../utils/colors";
+import { HandJewelrySelection } from "../../models/registration/handJewelry-selection.model";
+import { HandJewelryMapper } from "../../utils/handJewelry-mapper";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConstants";
 import { HandJewelryTypeService } from "../../services/data/hand-jewelry-type.service";
@@ -38,14 +38,14 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   faCircle = faCircle;
   faCheck = faCheck;
   faTimes = faTimes;
-  farger = Farger;
-  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandsmykkeMapper.getIconTypeMap();
+  farger = Colors;
+  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
 
   sessionsdata: HandJewelrySession = null;
   roles: Role[];
   handJewelryTypes: HandJewelryType[] = [];
 
-  handsmykkevalg = [] as Handsmykkevalg[];
+  handJewelrySelection = [] as HandJewelrySelection[];
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[];
@@ -65,7 +65,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   ngOnInit(): void {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
-      this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, []);
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
     });
   }
 
@@ -81,11 +81,11 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
 
   nullstillKort() {
     this.comment = "";
-    this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, []);
+    this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
   }
 
   antallValgteHandsmykker() {
-    return this.handsmykkevalg.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
+    return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
   kanIkkeLagre(): boolean {
@@ -98,13 +98,13 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     return antallValgteHandsmykker < 1;
   }
 
-  changed(valg: Handsmykkevalg) {
+  changed(valg: HandJewelrySelection) {
     if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable all
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable all
     else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable altok
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable altok
     else if (this.antallValgteHandsmykker() < 1)
-      this.handsmykkevalg = this.handsmykkevalg.map(x => { x.disabled = false; return x; }) // enable all
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 
   velgRolle(role: Role) {
@@ -120,7 +120,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       sessionId: this.sessionView.sessionId,
       registrationTime: new Date(Date.now()),
       role: this.card.role,
-      handJewelry: this.handsmykkevalg.reduce((acc, item) => {
+      handJewelry: this.handJewelrySelection.reduce((acc, item) => {
         if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
       }, [] as HandJewelryType[]) as HandJewelryType[],

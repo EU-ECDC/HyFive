@@ -5,7 +5,7 @@ import { Role } from "src/app/models/api/Role";
 import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
-import { Farger } from "../../utils/farger";
+import { Colors } from "../../utils/colors";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ProtectiveEquipmentSessionView } from "../../models/registration/protectiveEquipment-sessionView.model";
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
@@ -45,7 +45,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   faCircle = faCircle;
   faCheck = faCheck;
   faTimes = faTimes;
-  farger = Farger;
+  farger = Colors;
   ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
   @Input("card") card: ProtectiveEquipmentCard;

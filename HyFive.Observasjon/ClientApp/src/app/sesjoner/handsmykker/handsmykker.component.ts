@@ -9,7 +9,7 @@ import { FourIndicationsObservation } from '../../models/api/FourIndicationsObse
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
-import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
+import { HandJewelryMapper } from 'src/app/utils/handJewelry-mapper';
 import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -76,7 +76,7 @@ export class HandsmykkerComponent implements OnInit {
   }
 
   visHandsmykker(handJewelry: HandJewelryType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
+    return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
   sendTilKoordinator() {

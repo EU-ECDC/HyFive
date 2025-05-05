@@ -3,7 +3,7 @@ import { SentSessionsService } from '../../../services/data/sendte-sessions.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
-import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
+import { HandJewelryMapper } from 'src/app/utils/handJewelry-mapper';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandJewelrySession } from '../../../models/api/HandJewelrySession';
 import { HandJewelryTypeService } from '../../../services/data/hand-jewelry-type.service';
@@ -52,7 +52,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
   }
 
   visHandsmykker(handJewelry: HandJewelryType[]): string {
-    return HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
+    return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
   navigerTilSendteSesjoner() {

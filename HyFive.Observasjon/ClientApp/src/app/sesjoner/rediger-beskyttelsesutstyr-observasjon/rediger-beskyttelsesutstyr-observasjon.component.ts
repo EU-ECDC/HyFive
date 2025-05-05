@@ -2,7 +2,7 @@ import { Component, Input, OnInit, EventEmitter, Output, TemplateRef, ViewChild,
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { ProtectiveEquipmentMapper } from 'src/app/utils/protectiveEquipment-mapper';
-import { Farger } from '../../utils/farger';
+import { Colors } from '../../utils/colors';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { Department } from '../../models/api/Department';
@@ -21,7 +21,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   erRedigeringsmodus: boolean = false;
   dialogueTexts = DialogueTexts;
-  Farger = Farger;
+  Colors = Colors;
   ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
   comment: string;
