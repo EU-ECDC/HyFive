@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Activity } from '../../models/api/Activity';
-import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
+import { ObservationEventService } from '../../services/events/observation-event.service';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../../models/api/ActivityType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
@@ -33,14 +33,14 @@ export class RegistrerAktivitetComponent implements OnInit {
 
   @Output() aktivitetRegistertEvent = new EventEmitter<Activity>();
 
-  constructor(private observasjonEventService: ObservasjonEventService, private modalService: NgbModal) {
+  constructor(private observationEventService: ObservationEventService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
     if (this.seconds && this.seconds > 0) {
       this.visTekst = false;
     }
-    this.observasjonEventService.observasjonNullstiltEvent.subscribe((parentId) => {
+    this.observationEventService.observationResetEvent.subscribe((parentId) => {
       if (parentId === this.parentId) {
         this.nullstillKomponent();
       }
@@ -87,7 +87,7 @@ export class RegistrerAktivitetComponent implements OnInit {
   }
 
   startEllerStoppTimer() {
-    this.observasjonEventService.registreringAvAktivitetHarBegynt.emit({ parentId: this.parentId, activityType: this.activityType })
+    this.observationEventService.registrationActivityHasBegun.emit({ parentId: this.parentId, activityType: this.activityType })
     if (this.timerErStartet === false) {
       this.startTimer();
       this.tidtakingUtfores = true;

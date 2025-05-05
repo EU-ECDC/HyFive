@@ -28,7 +28,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
 
-  activeTab = "med";
+  activeTab = "with";
   hanskeBrukt = null;
   valgtHygieneEtterHanskebruk: string = null;
 
@@ -63,7 +63,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
       if (this.observasjon.gloveWithIndicationTypes.length) {
-        this.activeTab = "med";
+        this.activeTab = "with";
         this.gloveWithIndicationTypes.forEach(x => {
           if (this.observasjon.gloveWithIndicationTypes.some(y => y.code === x.code))
             x.isSelected = true;

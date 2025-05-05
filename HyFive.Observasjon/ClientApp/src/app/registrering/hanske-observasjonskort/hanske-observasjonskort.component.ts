@@ -47,7 +47,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
-  activeTab = "med";
+  activeTab = "with";
   hanskeBenyttet = null;
   valgtHandhygieneEtterHanskebruk = null;
   
@@ -93,7 +93,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   nullstillFane() {
     this.gloveWithIndicationTypes.forEach(x => x.isSelected = false);
     this.gloveWithoutIndicationTypes.forEach(x => x.isSelected = false);
-    this.hanskeBenyttet = this.activeTab === "med" ? null : true;
+    this.hanskeBenyttet = this.activeTab === "with" ? null : true;
     this.valgtHandhygieneEtterHanskebruk = null;
   }
 
@@ -120,7 +120,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
 
   kanIkkeLagre(): boolean {
 
-    if (this.activeTab === "med") {
+    if (this.activeTab === "with") {
       if (this.gloveWithIndicationTypes.filter(h => h.isSelected).length === 0) {
         this.observasjonMangelTekst = "Indikasjon(er) mangler";
         this.visInfoModal = true;

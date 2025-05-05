@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
+import { ObservationEventService } from '../../services/events/observation-event.service';
 import { IndicationType } from '../../models/api/IndicationType';
 import { IndicationService } from '../../services/data/indication.service';
 import { faCircle, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +28,7 @@ export class IndikasjonsValgComponent implements OnInit {
   @Input("isReadonly") isReadonly: boolean;
   @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
 
-  constructor(private observasjonEventService: ObservasjonEventService,
+  constructor(private observationEventService: ObservationEventService,
     private indicationService: IndicationService) { }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class IndikasjonsValgComponent implements OnInit {
       this.indicationTypeSelection = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
     });
 
-    this.observasjonEventService.observasjonNullstiltEvent.subscribe((parentId) => {
+    this.observationEventService.observationResetEvent.subscribe((parentId) => {
       if (parentId == this.parentId) {
         this.valgteIndikasjoner = [];
         this.indicationTypeSelection = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, []);

@@ -3,7 +3,7 @@ import { FourIndicationsObservation } from '../../models/api/FourIndicationsObse
 import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
 import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
-import { AktivitetUnderRegistrering, ObservasjonEventService } from '../../services/events/observasjon-event.service';
+import { ActivityUnderRegistration, ObservationEventService } from '../../services/events/observation-event.service';
 import { Animations } from '../../shared/animasjoner/animasjoner';
 import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
@@ -35,7 +35,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   activity: Activity;
   activityTypes: ActivityType[];
   valgteIndikasjoner: IndicationType[] = new Array();
-  aktivitetUnderRegistrering: AktivitetUnderRegistrering = null;
+  aktivitetUnderRegistrering: ActivityUnderRegistration = null;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
@@ -62,7 +62,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
-    private observasjonEventService: ObservasjonEventService,
+    private observationEventService: ObservationEventService,
     private activityService: ActivityService,
     protected modalService: NgbModal
   ) {
@@ -73,7 +73,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
-    this.observasjonEventService.registreringAvAktivitetHarBegynt.subscribe(activity => {
+    this.observationEventService.registrationActivityHasBegun.subscribe(activity => {
       if (activity.parentId == this.card.id) {
         this.aktivitetUnderRegistrering = activity;
       }
@@ -98,7 +98,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.valgteIndikasjoner = [];
     this.activity = null;
     this.aktivitetUnderRegistrering = null;
-    this.observasjonEventService.observasjonNullstiltEvent.emit(this.card.id);
+    this.observationEventService.observationResetEvent.emit(this.card.id);
   }
 
   kanIkkeLagre(): boolean {
