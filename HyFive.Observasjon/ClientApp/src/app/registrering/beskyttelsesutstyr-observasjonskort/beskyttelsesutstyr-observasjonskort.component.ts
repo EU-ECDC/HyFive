@@ -37,7 +37,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   roles: Role[];
   beskyttelsesutstyrValg: ProtectiveEquipment[] = [];
   beskyttelsesutstyrsesjontype: number = SessionType.ProtectiveEquipment;
-  institusjonid: number;
+  institutionid: number;
 
   faEraser = faEraser;
   faSave = faSave;
@@ -69,7 +69,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       this.oppdaterBeskyttelsesutstyrValg();
     })
     this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes);
-    this.institusjonid = this.sessionView.department.institutionId;
+    this.institutionid = this.sessionView.department.institutionId;
   }
 
 

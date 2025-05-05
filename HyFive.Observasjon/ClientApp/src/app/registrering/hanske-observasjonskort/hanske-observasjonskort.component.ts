@@ -127,7 +127,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
         return true;
       }
       else if (this.hanskeBenyttet === null) {
-        this.observasjonMangelTekst = "\"Hanske brukt?\" må besvares";
+        this.observasjonMangelTekst = "\"Glove brukt?\" må besvares";
         this.visInfoModal = true;
         return true;
       }

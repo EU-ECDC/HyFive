@@ -48,7 +48,7 @@
                                          [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
                                          [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -61,7 +61,7 @@
                                          [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
                                          [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Handvask)"
                                          [tidtaking]="false"
-                                         [sekunder]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">

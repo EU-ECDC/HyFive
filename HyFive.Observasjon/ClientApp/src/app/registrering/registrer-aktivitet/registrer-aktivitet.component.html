@@ -1,14 +1,14 @@
 <div class="hh-registrer-aktivitet" [ngClass]="{'hh-registrer-aktivitet--registrert': erRegistrert }">
-  <span *ngIf="tidtakingUtfores" class="hh-registrer-aktivitet__circle" [ngStyle]="{'transform':'rotate('+(138+(6 * (this.sekunder % 60)))+'deg)'}"> </span>
+  <span *ngIf="tidtakingUtfores" class="hh-registrer-aktivitet__circle" [ngStyle]="{'transform':'rotate('+(138+(6 * (this.seconds % 60)))+'deg)'}"> </span>
   <button class="hh-transparent-button hh-transparent-button--large hh-transparent-button--wide" style="z-index: 2; position: relative"
           [disabled]="deaktivert"
           (click)="registrerAktivitet(modal)">
     <fa-icon [icon]="icon" class="hh-vertical-stadium-buttons__icon"></fa-icon>
-    <span class="form-check-label" style="line-height: 45%" *ngIf="visTekst || sekunder === 0">
+    <span class="form-check-label" style="line-height: 45%" *ngIf="visTekst || seconds === 0">
       <small><strong>{{getAktivitetTekst()}}</strong></small>
     </span>
-    <small class="hh-registrer-aktivitet__sekunder-brukt" *ngIf="(tidtakingUtfores || erRegistrert) && sekunder > 0">
-      <strong>{{sekunder}}s</strong>
+    <small class="hh-registrer-aktivitet__sekunder-brukt" *ngIf="(tidtakingUtfores || erRegistrert) && seconds > 0">
+      <strong>{{seconds}}s</strong>
     </small>
   </button>
 </div>

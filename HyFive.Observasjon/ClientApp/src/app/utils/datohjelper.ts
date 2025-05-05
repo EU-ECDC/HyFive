@@ -3,7 +3,7 @@ export class DatoHjelper {
   static dateTimeSomLocaleStringReplacer(key, value) {
     if (this[key] instanceof Date) {
       let date = this[key];
-      //string på format: dd-mm-YYT13:30:00 - +1 for riktig måned, legg til '0' og slice for å forsikre to tall i måned og dag.
+      //string på format: dd-mm-YYT13:30:00 - +1 for riktig måned, legg til '0' og slice for å forsikre to tall i måned og day.
       let localeDateTimeString = 
         date.getFullYear() + '-' + 
         DatoHjelper.padTilToSiffer(date.getMonth() + 1) + '-' + 

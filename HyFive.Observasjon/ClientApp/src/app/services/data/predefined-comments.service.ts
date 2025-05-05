@@ -9,18 +9,18 @@ import { SessionType } from '../../models/api/SessionType';
   providedIn: 'root'
 })
 
-export class PredefinertKommentarerService {
+export class PredefinedCommentsService {
 
   constructor(private httpClient: HttpClient){  }
 
-  hentPredefinertKommentarer(institusjonid: number, sesjontype: SessionType): Observable<string[]>{
-    const url = `${environment.apiBaseUrl}/v1/institusjon/predefinertekommentarer`;
+  getPredefinedComments(institutionid: number, sessiontype: SessionType): Observable<string[]>{
+    const url = `${environment.apiBaseUrl}/v1/institution/predefinedcomments`;
     let params = new HttpParams();
-    if(institusjonid)    {
-      params = params.append("institusjonid", institusjonid.toString());
+    if(institutionid)    {
+      params = params.append("institutionid", institutionid.toString());
     }
-    if(sesjontype){
-      params = params.append("sesjontype", sesjontype.toString());
+    if(sessiontype){
+      params = params.append("sessiontype", sessiontype.toString());
     }
     return this.httpClient.get<string[]>(url, {params});
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
 import { ProtectiveEquipmentSession } from '../../../models/api/ProtectiveEquipmentSession';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
   DialogueTexts = DialogueTexts;
 
   constructor(
-    private sendteSesjonerService: SendteSesjonerService,
+    private sentSessionsService: SentSessionsService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -39,7 +39,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         if (sessionId === 0) this.router.navigate([Urls.SentSessionsUrl]);
-        this.sendteSesjonerService.hentBeskyttelsesutstyrSesjon(sessionId).subscribe(
+        this.sentSessionsService.getProtectiveEquipmentSession(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
             if (!this.sesjon) this.router.navigate([Urls.SentSessionsUrl]);
@@ -69,7 +69,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sendteSesjonerService.lastNedBeskyttelsesutstyrSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sentSessionsService.DownloadProtectiveEquipmentSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
         () => {},
         error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
         () => this.lasterNedSomExcel = false)

@@ -94,8 +94,8 @@
             <ng-container *ngIf="erRedigeringsmodus">
               <app-registrer-kommentar [deaktivert]="isReadonly"
                                        [kommentarinput]="observasjon.comment"
-                                       [institusjonid]="institusjonid"
-                                       [sesjontype]="beskyttelsesutstyrsesjontype"
+                                       [institutionid]="institutionid"
+                                       [sessiontype]="beskyttelsesutstyrsesjontype"
                                        (kommentarRegistertEvent)="registrerKommentar($event)">
               </app-registrer-kommentar>
             </ng-container>

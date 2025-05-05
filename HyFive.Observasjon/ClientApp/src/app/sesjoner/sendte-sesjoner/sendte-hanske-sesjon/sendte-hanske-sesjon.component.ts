@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
@@ -26,14 +26,14 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private sesjonService: SendteSesjonerService,
+              private sesjonService: SentSessionsService,
               private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const sessionId = params[Queryparameters.SessionId] || 0;
       if (sessionId === 0) this.router.navigate(['']);
-      this.sesjonService.hentHanskeSesjon(sessionId).subscribe(
+      this.sesjonService.getGloveSession(sessionId).subscribe(
         (sesjon) => {
           this.sesjon = sesjon;
           if (!sesjon) this.router.navigate(['']);
@@ -57,7 +57,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
   
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.lastNedHanskeSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sesjonService.downloadGloveSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

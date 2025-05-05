@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivityService } from './activity.service';
-import { IndikasjonService } from './indikasjon.service';
+import { IndicationService } from './indication.service';
 import { HandJewelryTypeService } from './hand-jewelry-type.service';
 import { HandHygieneAfterGloveUseTypeService } from './hand-hygiene-after-glove-useType-service';
 import { GloveWithIndicationTypeService } from './glove-with-indication-type.service';
@@ -11,10 +11,10 @@ import { forkJoin, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class KodeverkCacheService {
+export class CodeWorkCacheService {
 
   constructor(private activityService: ActivityService,
-    private indikasjonService: IndikasjonService,
+    private indicationService: IndicationService,
     private handJewelryTypeService: HandJewelryTypeService,
     private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
     private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
@@ -23,9 +23,9 @@ export class KodeverkCacheService {
   }
 
   lastKodeverk(){
-    const kodeverkRequests = [
+    const codeworkRequests = [
       this.activityService.getActivityTypes(),
-      this.indikasjonService.getIndikasjonstyper(),
+      this.indicationService.getIndicationTypes(),
       this.handJewelryTypeService.getHandJewelryTypes(),
       this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes(),
       this.gloveWithIndicationTypeService.getGloveWithIndicationTypes(),
@@ -33,6 +33,6 @@ export class KodeverkCacheService {
       this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings()
     ];
 
-    forkJoin(kodeverkRequests).subscribe( () => {});
+    forkJoin(codeworkRequests).subscribe( () => {});
   }
 }

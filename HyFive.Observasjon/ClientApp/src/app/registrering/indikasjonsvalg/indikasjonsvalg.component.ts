@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { IndicationType } from '../../models/api/IndicationType';
-import { IndikasjonService } from '../../services/data/indikasjon.service';
+import { IndicationService } from '../../services/data/indication.service';
 import { faCircle, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IndicationTypeSelection } from '../../models/registration/indicationType-selection.model';
 import { IndikasjonTypeMapper } from '../../utils/indikasjontype-mapper';
@@ -29,10 +29,10 @@ export class IndikasjonsValgComponent implements OnInit {
   @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
 
   constructor(private observasjonEventService: ObservasjonEventService,
-    private indikasjonService: IndikasjonService) { }
+    private indicationService: IndicationService) { }
 
   ngOnInit(): void {
-    this.indikasjonService.getIndikasjonstyper().subscribe((indicationTypes) => {
+    this.indicationService.getIndicationTypes().subscribe((indicationTypes) => {
       this.tilgjengeligeIndikasjoner = indicationTypes;
       this.indicationTypeSelection = IndikasjonTypeMapper.getIndikasjonstypeValg(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
     });

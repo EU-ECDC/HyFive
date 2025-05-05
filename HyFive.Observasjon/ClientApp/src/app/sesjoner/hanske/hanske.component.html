@@ -1,6 +1,6 @@
 <div class="container">
   <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForHanske(sesjon.id)">Tilbake til observasjon</app-navigasjonslenke>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Hanske'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
+  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Glove'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
 </div>
 <div *ngIf="sesjonErSendtTilServer == false" class="container">
   <div class="accordion-compact mb-4">

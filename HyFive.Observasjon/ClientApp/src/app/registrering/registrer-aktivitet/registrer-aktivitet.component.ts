@@ -26,7 +26,7 @@ export class RegistrerAktivitetComponent implements OnInit {
   @Input("tidtaking") tidtaking: boolean;
   @Input("deaktivert") deaktivert: boolean;
   @Input("activityType") activityType: ActivityType;
-  @Input("sekunder") sekunder: number;
+  @Input("seconds") seconds: number;
   @Input("erRegistrert") erRegistrert: boolean;
   @Input("bekreftelseModalSkalVises") bekreftelseModalSkalVises: boolean;
   @Input("icon") icon: string;
@@ -37,7 +37,7 @@ export class RegistrerAktivitetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.sekunder && this.sekunder > 0) {
+    if (this.seconds && this.seconds > 0) {
       this.visTekst = false;
     }
     this.observasjonEventService.observasjonNullstiltEvent.subscribe((parentId) => {
@@ -92,16 +92,16 @@ export class RegistrerAktivitetComponent implements OnInit {
       this.startTimer();
       this.tidtakingUtfores = true;
     }
-    else if (this.sekunder > 0) {
+    else if (this.seconds > 0) {
       this.stoppTimer();
       this.tidtakingUtfores = false;
-      this.aktivitetRegistertEvent.emit({ activityType: this.activityType, timeSpent: this.sekunder, timeRecordingWasDone: true, gloveUsed: this.benyttetHansker})
+      this.aktivitetRegistertEvent.emit({ activityType: this.activityType, timeSpent: this.seconds, timeRecordingWasDone: true, gloveUsed: this.benyttetHansker})
     }
   }
 
   private nullstillKomponent() {
     this.stoppTimer();
-    this.sekunder = 0;
+    this.seconds = 0;
     this.visTekst = true;
     this.tidtakingUtfores = false;
   }
@@ -114,9 +114,9 @@ export class RegistrerAktivitetComponent implements OnInit {
 
   private startTimer() {
     this.timerErStartet = true;
-    this.sekunder = 0;
+    this.seconds = 0;
     this.interval = setInterval(() => {
-      this.sekunder++;
+      this.seconds++;
     }, 1000);
   }
 }

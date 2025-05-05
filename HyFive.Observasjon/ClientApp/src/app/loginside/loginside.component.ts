@@ -10,7 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 import { Institution } from '../models/api/Institution';
 import { RequestAboutUserAccessService } from '../services/data/requestAboutUserAccess.service';
 import {ClipboardService} from 'ngx-clipboard';
-import { KodeverkCacheService } from '../services/data/kodeverk-cache.service';
+import { CodeWorkCacheService } from '../services/data/codeWork-cache.service';
 import { HjelpetekstComponent } from '../shared/hjelpetekst/hjelpetekst.component';
 import { Localstoragepaths } from '../constants/localstoragepaths';
 
@@ -43,7 +43,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
     private requestAboutUserAccessService: RequestAboutUserAccessService,
     private toastrService: ToastrService,
     private clipboardService: ClipboardService,
-    private kodeverkCacheService: KodeverkCacheService
+    private codeWorkCacheService: CodeWorkCacheService
   ) { }
 
   ngOnInit(): void {
@@ -71,7 +71,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
           });
 
           // denne gjør en initiell last av kodeverk, slik at cachen blir fylt ut og man kan jobbe offline
-          this.kodeverkCacheService.lastKodeverk();
+          this.codeWorkCacheService.lastKodeverk();
         });
 
         this.requestAboutUserAccessService.getInstitutions().subscribe(

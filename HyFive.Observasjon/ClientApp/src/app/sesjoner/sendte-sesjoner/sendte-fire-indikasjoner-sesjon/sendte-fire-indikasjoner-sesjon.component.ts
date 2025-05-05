@@ -8,7 +8,7 @@ import { FourIndicationsObservation } from '../../../models/api/FourIndicationsO
 import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityService } from '../../../services/data/activity.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
-import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
 import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
 import {ToastrService} from 'ngx-toastr';
 
@@ -30,7 +30,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   Urls = Urls;
 
   constructor(
-    private sesjonService: SendteSesjonerService,
+    private sesjonService: SentSessionsService,
     private router: Router,
     private route: ActivatedRoute,
     private activityService: ActivityService,
@@ -44,7 +44,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         if(sessionId === 0) this.router.navigate(['']);
-        this.sesjonService.hentFireIndikasjonerSesjon(sessionId).subscribe(
+        this.sesjonService.getFourIndicationsSession(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
             if (!this.sesjon) this.router.navigate(['']);
@@ -102,7 +102,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.lastNedFireIndikasjonerSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sesjonService.downloadFourIndicationsSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChange
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { SessionType } from '../../models/api/SessionType';
-import { PredefinertKommentarerService } from '../../services/data/predefinert-kommentarer.service';
+import { PredefinedCommentsService } from '../../services/data/predefined-comments.service';
 
 
 @Component({
@@ -20,18 +20,18 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
 
   @Input("kommentarinput") kommentarinput;
   @Input('deaktivert') deaktivert = false;
-  @Input('institusjonid') institusjonid;
-  @Input("sesjontype") sesjontype: SessionType;
+  @Input('institutionid') institutionid;
+  @Input("sessiontype") sessiontype: SessionType;
   @Output() kommentarRegistertEvent = new EventEmitter<string>();
 
   constructor(
     private modalService: NgbModal,
-    private predefinertKommentarerService: PredefinertKommentarerService) {
+    private predefinedCommentsService: PredefinedCommentsService) {
   }
 
   ngOnInit(): void {
-    if (this.institusjonid && this.sesjontype)
-      this.hentPredefinertKommentarer();
+    if (this.institutionid && this.sessiontype)
+      this.getPredefinedComments();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -45,8 +45,8 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
     this.modalService.open(modalName, { windowClass: 'hh-modal' });
   }
 
-  hentPredefinertKommentarer() {
-    this.predefinertKommentarerService.hentPredefinertKommentarer(this.institusjonid, this.sesjontype).subscribe(result => {
+  getPredefinedComments() {
+    this.predefinedCommentsService.getPredefinedComments(this.institutionid, this.sessiontype).subscribe(result => {
       this.predefinerteKommentarer = result;
     });
   }

@@ -12,7 +12,7 @@ export class SesjonsredigeringOverskriftComponent implements OnInit {
   faCircle = faCircle;
 
   @Input() sesjon: Session<any>;
-  @Input() sesjontype: string;
+  @Input() sessiontype: string;
   @Input() sesjonErSendtTilServer: boolean;
   @Input() overskrift: string;
   constructor() { }

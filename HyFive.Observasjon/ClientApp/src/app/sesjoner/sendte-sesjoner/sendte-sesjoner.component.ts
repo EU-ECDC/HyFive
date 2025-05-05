@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
-import { SendteSesjonerService } from "../../services/data/sendte-sessions.service";
+import { SentSessionsService } from "../../services/data/sendte-sessions.service";
 import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";
@@ -27,13 +27,13 @@ export class SendteSesjonerComponent {
   faCalendar = faCalendar;
   faSearch = faSearch;
 
-  constructor(private sendteSesjonerService: SendteSesjonerService) {
+  constructor(private sentSessionsService: SentSessionsService) {
     this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
   }
 
   lastSesjoner() {
     this.harLastetSesjoner = false;
-    this.sendteSesjonerService.getSesjoner().subscribe((x) => {
+    this.sentSessionsService.getSessions().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
         if (a.startTime > b.startTime) {
           return -1;

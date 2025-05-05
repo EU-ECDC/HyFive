@@ -21,7 +21,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   erOnline: boolean = true;
-  institusjonid: number;
+  institutionid: number;
 
   DialogueTexts = DialogueTexts;
   Urls = Urls;
@@ -46,7 +46,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
       params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
-        this.institusjonid = this.sesjon.department.institutionId;
+        this.institutionid = this.sesjon.department.institutionId;
         if(!this.sesjon) this.router.navigate(['']);
       }
     );

@@ -21,7 +21,7 @@
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="nullstillFane()" class="nav-tabs nav-justified hh-hanske-tabs">
             <li ngbNavItem="med">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Hanske ved indication
+                Glove ved indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
@@ -42,7 +42,7 @@
                   <div class="col">
                     <div class="d-flex">
                       <div class="d-flex flex-column justify-content-center">
-                        <p class="mb-0 me-2">Hanske brukt?</p>
+                        <p class="mb-0 me-2">Glove brukt?</p>
                       </div>
 
                       <div class="ms-auto">
@@ -61,7 +61,7 @@
             </li>
             <li ngbNavItem="uten">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Hanske uten indication
+                Glove uten indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
