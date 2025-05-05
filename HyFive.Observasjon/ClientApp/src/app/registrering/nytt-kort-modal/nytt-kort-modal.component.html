@@ -1,24 +1,24 @@
 <div class="hh-nytt-kort-dropdown">
   <button class="btn hh-nytt-kort-dropdown__toggle" (click)="open()">
     <fa-icon class="me-2" [icon]="faPlus" [ngStyle]="{ 'color': '#FD7065' }"></fa-icon>
-    <span class="hh-nytt-kort-dropdown__toggle__text">Nytt kort</span>
+    <span class="hh-nytt-kort-dropdown__toggle__text">Nytt card</span>
   </button>
 </div>
 
 <ng-template #content let-modal>
-  <ng-container *ngIf="rollevalg">
+  <ng-container *ngIf="roleSelected">
     <div class="modal-header">
       <h4 class="d-flex align-items-center">
-        Legg til nytt kort
+        Legg til nytt card
       </h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()">
       </button>
     </div>
     <div class="modal-body">
       <div class="row">
-        <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of rollevalg; let i = index;">
-          <label [htmlFor]="'profesjon'+rollevalg.indexOf(valg)">
-            <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+rollevalg.indexOf(valg)"
+        <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of roleSelected; let i = index;">
+          <label [htmlFor]="'profesjon'+roleSelected.indexOf(valg)">
+            <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+roleSelected.indexOf(valg)"
                     class="hh-round-checkbox-list__input">
             <fa-stack size="lg">
               <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : farger.hentFhiFargeHexFraTekst(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>

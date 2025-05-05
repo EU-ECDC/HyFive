@@ -26,7 +26,7 @@
           <div class="col-12">
             <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
                                      [isReadonly]="isReadonly"
-                                     [rollevalg]="department.roles"
+                                     [roleSelected]="department.roles"
                                      (rolleValgt)="observasjon.role = $event">
             </app-rolle-valg-dropdown>
           </div>

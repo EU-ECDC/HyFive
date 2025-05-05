@@ -2,23 +2,23 @@
 
   <app-lagre-skygge [vis]="showSaveShadow"></app-lagre-skygge>
 
-  <div [id]="kort.id"
+  <div [id]="card.id"
        class="hh-card-slider__card"
-       [ngClass]="{ 'hh-card-slider__card--active': kort.erAktivt }"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
        [style.transform]="transform"
        [@swipeLeftRight]="animation"
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': farger.hentFhiFargeHexFraTekst(card.role.name)}">
 
     <div class="d-flex flex-row">
       <div class="d-flex flex-column justify-content-start">
-        <app-rolle-valg-dropdown *ngIf="rollevalg" [rolleId]="kort.role.id" [rollevalg]="rollevalg" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
+        <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
 
         <app-indikasjonsvalg (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
-                             [erAktiv]="kort.erAktivt"
-                             [parentId]="kort.id">
+                             [erAktiv]="card.isActive"
+                             [parentId]="card.id">
         </app-indikasjonsvalg>
 
         <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
@@ -33,7 +33,7 @@
                                    (kommentarRegistertEvent)="registrerKommentar($event)">
           </app-registrer-kommentar>
           <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="nullstillKort()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm kort</span>
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm card</span>
           </button>
         </div>
       </div>
@@ -43,11 +43,11 @@
             <div class="hh-vertical-stadium-buttons__button">
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.Desinfeksjon)"
                                        [erRegistrert]="erRegistrert(ActivityTypeConstants.Desinfeksjon)"
-                                       [parentId]="kort.id"
+                                       [parentId]="card.id"
                                        [sekunder]="activity?.timeSpent"
-                                       [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
+                                       [tidtaking]="sessionView.timeShouldBeRegistred"
                                        [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
-                                       [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
+                                       [bekreftelseModalSkalVises]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandHoldingWater"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
               </app-registrer-aktivitet>
@@ -55,11 +55,11 @@
             <div class="hh-vertical-stadium-buttons__button">
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.Handvask)"
                                        [erRegistrert]="erRegistrert(ActivityTypeConstants.Handvask)"
-                                       [parentId]="kort.id"
+                                       [parentId]="card.id"
                                        [sekunder]="activity?.timeSpent"
-                                       [tidtaking]="sesjonsvisning.tidtakingSkalRegistreres"
+                                       [tidtaking]="sessionView.timeShouldBeRegistred"
                                        [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
-                                       [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
+                                       [bekreftelseModalSkalVises]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandsWash"
                                        (aktivitetRegistertEvent)="registrerAktivitet($event)">
               </app-registrer-aktivitet>
@@ -67,9 +67,9 @@
             <div class="hh-vertical-stadium-buttons__button pt-0">
               <app-registrer-aktivitet [deaktivert]="skalAktivitetDeaktiveres(ActivityTypeConstants.NotExecuted)"
                                       [erRegistrert]="erRegistrert(ActivityTypeConstants.NotExecuted)"
-                                      [parentId]="kort.id"
+                                      [parentId]="card.id"
                                       [activityType]="getAktivitetType(ActivityTypeConstants.NotExecuted)"
-                                      [bekreftelseModalSkalVises]="sesjonsvisning.hanskebrukSkalRegistreres"
+                                      [bekreftelseModalSkalVises]="sessionView.gloveUseMustBeRegistered"
                                       [icon]="faTimesCircle"
                                       (aktivitetRegistertEvent)="registrerAktivitet($event)">
               </app-registrer-aktivitet>

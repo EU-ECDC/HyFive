@@ -3,7 +3,7 @@ import { Farger } from "../../utils/farger";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { faUserNurse, faCheck, faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Role } from "../../models/api/Role";
-import { Rollevalg } from "../../models/registrering/rollevalg.model";
+import { RoleSelected } from "../../models/registration/roleSelected.model";
 
 export const NyttKortModalComponentConfig = {
   windowClass: 'hh-modal'
@@ -27,7 +27,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   closeResult = '';
 
   @Input() roles: Role[] = [];
-  rollevalg: Rollevalg[] = [];
+  roleSelected: RoleSelected[] = [];
 
   @Output() onClose = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
@@ -45,14 +45,14 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
 
   setRollevalg() {
     if (this.roles)
-      this.rollevalg = this.roles.map((role) => {
-        return { role: role, isSelected: false } as Rollevalg
+      this.roleSelected = this.roles.map((role) => {
+        return { role: role, isSelected: false } as RoleSelected
       });
   }
 
   resetRollevalg() {
-    if (this.rollevalg)
-      this.rollevalg = this.rollevalg.map(x => { x.isSelected = false; return x; });
+    if (this.roleSelected)
+      this.roleSelected = this.roleSelected.map(x => { x.isSelected = false; return x; });
   }
 
   open() {
@@ -75,7 +75,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   close() {
-    this.modalRef.close(this.rollevalg.filter(x => x.isSelected).map(x => { return x.role }));
+    this.modalRef.close(this.roleSelected.filter(x => x.isSelected).map(x => { return x.role }));
     window.scrollTo(0,0);
   }
 

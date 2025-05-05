@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
+import { FourIndicationsSessionView } from '../../models/registration/fire-indikasjoner-sessionView.model';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { Queryparameters } from '../../constants/queryparameters';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
-import { Kort } from '../../models/registrering/kort.model';
+import { Card } from '../../models/registration/card.model';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../constants/urls';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
-  sesjonsvisning: FireIndikasjonerSesjonsvisning;
+  sessionView: FourIndicationsSessionView;
   sessionsdata: FourIndicationsSession = null;
   roles: Role[];
   visRolleliste: boolean = false;
@@ -37,7 +37,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService) {
     this.institusjonService
       .getValgtInstitusjon()
-      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sesjonsvisning.department?.id)?.roles);
+      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 
   ngOnInit(): void {
@@ -45,12 +45,12 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
-        if (!this.sesjonsvisning) this.router.navigate(['']);
+        this.sessionView = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
+        if (!this.sessionView) this.router.navigate(['']);
         else this.lastSesjonsdata();
       });
 
-    if(this.sesjonsvisning.kort?.length === 0)
+    if(this.sessionView.card?.length === 0)
       this.visTomForKortTekst = true;
   }
   
@@ -65,7 +65,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
   }
 
   lastSesjonsdata() {
-    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sessionView.sessionId);
   }
 
   toggleRolleliste() {
@@ -73,27 +73,27 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
   }
 
   leggTilNyttKort(role: Role) {
-    this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
-    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true });
-    this.oppdaterSesjonsvisning(this.sesjonsvisning);
+    this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
+    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true });
+    this.oppdaterSesjonsvisning(this.sessionView);
     this.toggleRolleliste();
   }
 
-  oppdaterSesjonsvisning(sesjonsvisning: FireIndikasjonerSesjonsvisning) {
-    this.sesjonsvisning = this.sesjonService.oppdaterSesjonsvisningForSesjon(sesjonsvisning);
-    if(this.sesjonsvisning.kort?.length === 0)
+  oppdaterSesjonsvisning(sessionView: FourIndicationsSessionView) {
+    this.sessionView = this.sesjonService.oppdaterSesjonsvisningForSesjon(sessionView);
+    if(this.sessionView.card?.length === 0)
       this.visTomForKortTekst = true;
     else 
       this.visTomForKortTekst = false;
   }
 
-  kortErValgt(valgtKort: Kort) {
-    for (let i = 0; i < this.sesjonsvisning.kort.length; i++) {
-      if (this.sesjonsvisning.kort[i] != valgtKort) {
-        this.sesjonsvisning.kort[i].erAktivt = false;
+  kortErValgt(valgtKort: Card) {
+    for (let i = 0; i < this.sessionView.card.length; i++) {
+      if (this.sessionView.card[i] != valgtKort) {
+        this.sessionView.card[i].isActive = false;
       }
     }
-    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sesjonsvisning);
+    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sessionView);
   }
 
   onCloseNyttKortModal(result) {

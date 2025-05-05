@@ -8,9 +8,9 @@ import { Queryparameters } from '../../constants/queryparameters';
 import { faArrowLeft, faTrashAlt, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { ToastrService } from 'ngx-toastr';
-import { AktivitetService } from '../../services/data/aktivitet.service';
+import { ActivityService } from '../../services/data/activity.service';
 import { ActivityType } from '../../models/api/ActivityType';
-import { FireIndikasjonerSesjonsvisning } from 'src/app/models/registrering/fire-indikasjoner-sesjonsvisning.model';
+import { FourIndicationsSessionView } from 'src/app/models/registration/FourIndications-session-view.model';
 
 @Component({
   selector: 'app-fire-indikasjoner',
@@ -19,7 +19,7 @@ import { FireIndikasjonerSesjonsvisning } from 'src/app/models/registrering/fire
 export class FireIndikasjonerComponent implements OnInit {
 
   sesjon: FourIndicationsSession;
-  sesjonvisning: FireIndikasjonerSesjonsvisning;
+  sesjonvisning: FourIndicationsSessionView;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   activityTypes: ActivityType[];
@@ -32,7 +32,7 @@ export class FireIndikasjonerComponent implements OnInit {
 
   constructor(
     private sesjonService: FireIndikasjonerSesjonService,
-    private aktivitetService: AktivitetService,
+    private activityService: ActivityService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -49,7 +49,7 @@ export class FireIndikasjonerComponent implements OnInit {
         this.sesjonvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
-    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+    this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
   }

@@ -7,8 +7,8 @@ import { Urls } from '../../constants/urls';
 import { Router } from '@angular/router';
 import { BeskyttelsesutstyrsettingMapper } from '../../utils/beskyttelsesutstyrsetting-mapper';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import { Rollevalg } from '../../models/registrering/rollevalg.model';
-import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
+import { RoleSelected } from '../../models/registration/roleSelected.model';
+import { ProtectiveEquipmentSessionView } from '../../models/registration/protectiveEquipment-sessionView.model';
 import { ProtectiveEquipmentType } from '../../models/api/ProtectiveEquipmentType';
 import { ProtectiveEquipmentTypeConstants } from '../../models/api/ProtectiveEquipmentTypeConstants';
 
@@ -25,10 +25,10 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   beskyttelsesutstyrsettingMapper = BeskyttelsesutstyrsettingMapper;
 
 
-  @Input("sesjonsvisning") sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = null;
-  @Input("roles") roles: Rollevalg[];
+  @Input("sessionView") sessionView: ProtectiveEquipmentSessionView = null;
+  @Input("roles") roles: RoleSelected[];
   @Input("department") department: Department;
-  @Output("settingOgUtstyrBleEndret") settingOgUtstyrBleEndret: EventEmitter<BeskyttelsesutstyrSesjonsvisning> = new EventEmitter<BeskyttelsesutstyrSesjonsvisning>();
+  @Output("settingOgUtstyrBleEndret") settingOgUtstyrBleEndret: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(
     private beskyttelsesutstyrKodeverkService: BeskyttelsesutstyrKodeverkService,
@@ -51,15 +51,15 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   }
 
   startObservasjon() {
-    var valgteRoller = this.roles.filter(rollevalg => rollevalg.isSelected).map(rollevalg => rollevalg.role);
+    var valgteRoller = this.roles.filter(roleSelected => roleSelected.isSelected).map(roleSelected => roleSelected.role);
     var sessionId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
     this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], { queryParams: { sessionId: sessionId } });
   }
 
   endreSettingOgUtstyr() {
-    this.sesjonsvisning.setting = this.valgtSetting;
-    this.sesjonsvisning.kort = this.sesjonsvisning.kort.map(k => { k.utstyr = this.valgtSetting.equipmentTypes; return k });
-    this.settingOgUtstyrBleEndret.emit(this.sesjonsvisning);
+    this.sessionView.setting = this.valgtSetting;
+    this.sessionView.card = this.sessionView.card.map(k => { k.utstyr = this.valgtSetting.equipmentTypes; return k });
+    this.settingOgUtstyrBleEndret.emit(this.sessionView);
   }
 
   visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: ProtectiveEquipmentType[]): ProtectiveEquipmentType[] {

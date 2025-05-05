@@ -1,8 +1,8 @@
 import { Role } from '../api/Role';
 
-export interface Kort
+export interface Card
 {
   id: string;
   role: Role;
-  erAktivt: boolean
+  isActive: boolean
 }

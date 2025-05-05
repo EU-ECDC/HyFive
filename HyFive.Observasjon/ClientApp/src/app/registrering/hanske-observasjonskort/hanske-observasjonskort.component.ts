@@ -3,13 +3,13 @@ import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faCheck, faCircle, faEraser  } from '@fortawesome/free-solid-svg-icons';
 import { faHandPaper } from "@fortawesome/free-regular-svg-icons";
 import { Role } from "src/app/models/api/Role";
-import { Kort } from "src/app/models/registrering/kort.model";
+import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GloveSession } from "../../models/api/GloveSession";
-import { HanskeSesjonsvisning } from "../../models/registrering/hansker-sesjonsvisning.model";
+import { GloveSessionView } from "../../models/registration/glove-session-view.model";
 import { GloveObservation } from "../../models/api/GloveObservation";
 import { HanskeMedIndikasjonTypeService } from "../../services/data/hanske-med-indikasjon-type.service";
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
@@ -53,14 +53,14 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   
   uuid: string;
 
-  @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Role[];
-  @Input("sesjonsvisning") sesjonsvisning: HanskeSesjonsvisning;
+  @Input("card") card: Card;
+  @Input("roleSelected") roleSelected: Role[];
+  @Input("sessionView") sessionView: GloveSessionView;
 
   @Output() observasjonRegistrert = new EventEmitter();
   @Output() observasjonOppdatert = new EventEmitter();
   @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Kort>();
+  @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
     private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
@@ -85,9 +85,9 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   }
 
   slettKort() {
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(kortIndex, 1);
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   nullstillFane() {
@@ -142,18 +142,18 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   }
 
   velgRolle(role: Role) {
-    this.kort.role = role;
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort[kortIndex] = this.kort;
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    this.card.role = role;
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[kortIndex] = this.card;
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   registrerObservasjon() {
     let observasjon = {
       id: Uuid.generateUUID(),
-      sessionId: this.sesjonsvisning.sessionId,
+      sessionId: this.sessionView.sessionId,
       registrationTime: new Date(Date.now()),
-      role: this.kort.role,
+      role: this.card.role,
       comment: this.comment,
       gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),
       gloveWithoutIndicationTypes: this.gloveWithoutIndicationTypes.filter(x => x.isSelected),
@@ -165,12 +165,12 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
 
     this.nullstillKort();
 
-    this.kort.erAktivt = false;
+    this.card.isActive = false;
   }
 
   kortErValgt() {
-    this.kort.erAktivt = true;
-    this.kortErValgtEvent.emit(this.kort);
+    this.card.isActive = true;
+    this.kortErValgtEvent.emit(this.card);
   }
 
   lukkInfoModal(erVisInfoModal): void {

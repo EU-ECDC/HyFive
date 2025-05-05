@@ -11,7 +11,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 export class RolleValgDropdownComponent implements OnInit{
 
   @Input('isReadonly') isReadonly = false;
-  @Input('rollevalg') rollevalg : Role[];
+  @Input('roleSelected') roleSelected : Role[];
   @Input('rolleId') rolleId: number;
   @Output('rolleValgt') rolleValgt: EventEmitter<Role> = new EventEmitter<Role>();
   valgtRolle: Role;
@@ -32,8 +32,8 @@ export class RolleValgDropdownComponent implements OnInit{
   }
 
   velgRolle() {
-    if (this.rollevalg){
-      this.valgtRolle = this.rollevalg[this.rollevalg.map(r => r.id).indexOf(parseInt(this.valgtRolleId))];
+    if (this.roleSelected){
+      this.valgtRolle = this.roleSelected[this.roleSelected.map(r => r.id).indexOf(parseInt(this.valgtRolleId))];
     }
 
   }

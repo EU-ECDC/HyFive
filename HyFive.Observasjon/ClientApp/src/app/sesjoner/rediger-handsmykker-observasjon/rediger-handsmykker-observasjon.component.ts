@@ -6,7 +6,7 @@ import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-s
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Handsmykkevalg } from '../../models/registrering/handsmykkevalg.model';
+import { Handsmykkevalg } from '../../models/registration/handJewelry-selection.model';
 import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { Farger } from '../../utils/farger';

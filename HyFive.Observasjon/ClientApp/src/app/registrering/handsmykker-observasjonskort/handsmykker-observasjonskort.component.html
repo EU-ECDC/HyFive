@@ -2,34 +2,34 @@
 
   <app-lagre-skygge [vis]="showSaveShadow"></app-lagre-skygge>
 
-  <div [id]="kort.id"
+  <div [id]="card.id"
        class="hh-card-slider__card"
-       [ngClass]="{ 'hh-card-slider__card--active': kort.erAktivt }"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
        [style.transform]="transform"
        [@swipeLeftRight]="animation"
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': farger.hentFhiFargeHexFraTekst(card.role.name)}">
 
     <div class="row">
 
       <div class="col-12">
-        <app-rolle-valg-dropdown *ngIf="rollevalg" [rolleId]="kort.role.id" [rollevalg]="rollevalg" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
+        <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
 
         <div class="row mt-5 text-break">
           <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handsmykkevalg; let i = index;">
-            <label [htmlFor]="'handsmykke'+kort.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
+            <label [htmlFor]="'handsmykke'+card.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
               <input type="checkbox"
                      [(ngModel)]="valg.isSelected"
                      (ngModelChange)="changed(valg)"
                      [disabled]="valg.disabled"
-                     [id]="'handsmykke'+kort.id.substr(4)+handsmykkevalg.indexOf(valg)"
+                     [id]="'handsmykke'+card.id.substr(4)+handsmykkevalg.indexOf(valg)"
                      class="hh-round-checkbox-list__input">
               <fa-stack class="hh-round-checkbox-list__iconstack">
                 <fa-icon [icon]="faCircle" stackItemSize="2x"
                          class="hh-round-checkbox-list__circle"
-                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': kort.erAktivt}">
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': card.isActive}">
                 </fa-icon>
                 <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
                 <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
@@ -45,7 +45,7 @@
                                    (kommentarRegistertEvent)="registrerKommentar($event)">
           </app-registrer-kommentar>
           <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="nullstillKort()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm kort</span>
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm card</span>
           </button>
         </div>
       </div>

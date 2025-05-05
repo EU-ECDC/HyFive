@@ -26,7 +26,7 @@
         <div class="col-12" *ngIf="observasjon.role?.id && observasjon.role.id > 0">
           <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
                                    [isReadonly]="isReadonly"
-                                   [rollevalg]="department.roles"
+                                   [roleSelected]="department.roles"
                                    (rolleValgt)="rolleValgt($event)">
           </app-rolle-valg-dropdown>
         </div>
@@ -35,7 +35,7 @@
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
             <li ngbNavItem="med" [disabled]="observasjon.gloveWithoutIndicationTypes.length">
-              <a ngbNavLink class="hh-hanske-tabs__tab">Gloves ved indikasjon</a>
+              <a ngbNavLink class="hh-hanske-tabs__tab">Gloves ved indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -80,7 +80,7 @@
               </ng-template>
             </li>
             <li ngbNavItem="uten" [disabled]="observasjon.gloveWithIndicationTypes.length">
-              <a ngbNavLink class="hh-hanske-tabs__tab">Hanske uten indikasjon</a>
+              <a ngbNavLink class="hh-hanske-tabs__tab">Hanske uten indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">

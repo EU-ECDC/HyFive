@@ -16,7 +16,7 @@
               }}</strong>
               <br />
             </ng-container>
-            <strong>Observatør:</strong> {{ bruker?.name }}
+            <strong>Observatør:</strong> {{ user?.name }}
           </p>
         </div>
       </div>
@@ -175,14 +175,14 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="rollevalg?.length">
+    <ng-container *ngIf="roleSelected?.length">
       <div class="row mb-5">
         <div class="col">
           <h2 class="h5">Velg profesjon(er)</h2>
           <div class="row">
-            <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of rollevalg; let i = index;">
-              <label [htmlFor]="'profesjon'+rollevalg.indexOf(valg)">
-                <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+rollevalg.indexOf(valg)"
+            <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of roleSelected; let i = index;">
+              <label [htmlFor]="'profesjon'+roleSelected.indexOf(valg)">
+                <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+roleSelected.indexOf(valg)"
                         class="hh-round-checkbox-list__input">
                 <fa-stack size="lg">
                   <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : farger.hentFhiFargeHexFraTekst(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
@@ -217,7 +217,7 @@
 
 <ng-container *ngIf="visBeskyttelsesutstyr">
   <app-valg-for-beskyttelsesutstyr
-    [roles]="rollevalg"
+    [roles]="roleSelected"
     [department]="hentValgtAvdeling()"
   ></app-valg-for-beskyttelsesutstyr>
 </ng-container>

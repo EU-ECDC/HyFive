@@ -2,7 +2,7 @@ import { HandJewelryTypeConstants } from '../models/api/HandJewelryTypeConstants
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faTshirt } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
-import { Handsmykkevalg } from '../models/registrering/handsmykkevalg.model';
+import { Handsmykkevalg } from '../models/registration/handJewelry-selection.model';
 import { HandJewelryType } from '../models/api/HandJewelryType';
 import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIkoner';
 

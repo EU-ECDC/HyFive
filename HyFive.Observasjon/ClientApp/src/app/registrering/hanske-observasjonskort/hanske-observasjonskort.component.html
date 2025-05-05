@@ -2,26 +2,26 @@
 
   <app-lagre-skygge [vis]="showSaveShadow"></app-lagre-skygge>
 
-  <div [id]="kort.id"
+  <div [id]="card.id"
        class="hh-card-slider__card"
-       [ngClass]="{ 'hh-card-slider__card--active': kort.erAktivt }"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
        [style.transform]="transform"
        [@swipeLeftRight]="animation"
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="kort.erAktivt && {'background-color': farger.hentFhiFargeHexFraTekst(kort.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': farger.hentFhiFargeHexFraTekst(card.role.name)}">
 
     <div class="row">
 
       <div class="col-12">
-        <app-rolle-valg-dropdown *ngIf="rollevalg" [rolleId]="kort.role.id" [rollevalg]="rollevalg" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
+        <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (rolleValgt)="velgRolle($event)"></app-rolle-valg-dropdown>
 
         <div class="mt-3 text-break">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="nullstillFane()" class="nav-tabs nav-justified hh-hanske-tabs">
             <li ngbNavItem="med">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Hanske ved indikasjon
+                Hanske ved indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
@@ -61,7 +61,7 @@
             </li>
             <li ngbNavItem="uten">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Hanske uten indikasjon
+                Hanske uten indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
@@ -82,7 +82,7 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
 
-          <div class="mt-3" *ngIf="sesjonsvisning.hanskebrukSkalRegistreres && hanskeBenyttet">
+          <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && hanskeBenyttet">
             <h3 class="h5 text-center">Håndhygiene etter hanskebruk?</h3>
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
@@ -100,7 +100,7 @@
                                    (kommentarRegistertEvent)="registrerKommentar($event)">
           </app-registrer-kommentar>
           <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="nullstillKort()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm kort</span>
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Tøm card</span>
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AutoriseringService } from '../services/data/autorisering.service';
+import { AuthorizationService } from '../services/data/authorization.service';
 import { LoggedInUser } from '../models/api/LoggedInUser';
 import { Urls } from '../constants/urls';
 import {FireIndikasjonerSesjonService} from '../services/data/fire-indikasjoner-sesjon.service';
@@ -20,9 +20,9 @@ import { Localstoragepaths } from '../constants/localstoragepaths';
 })
 export class LoginsideComponent implements OnInit, OnDestroy {
 
-  erLoggetInn = false;
+  isLoggedIn = false;
   erOnline = false;
-  bruker: LoggedInUser;
+  user: LoggedInUser;
   Urls = Urls;
   mottattBrukerStatusFraServer = false;
   institusjoner: Institution[];
@@ -35,7 +35,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   erVisPseudonym = false;
 
   constructor(
-    private autoriseringService: AutoriseringService,
+    private authorizationService: AuthorizationService,
     private fireIndikasjonerService: FireIndikasjonerSesjonService,
     private hanskeService: HanskeSesjonService,
     private beskyttelsesutstyrService: BeskyttelsesutstyrSesjonService,
@@ -47,12 +47,12 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.autoriseringService.erLoggetInn().subscribe((erLoggetInn) => {
+    this.authorizationService.isLoggedIn().subscribe((isLoggedIn) => {
       this.mottattBrukerStatusFraServer = true;
-      this.erLoggetInn = erLoggetInn;
-      if (erLoggetInn) {
-        this.autoriseringService.getBruker().subscribe(bruker => {
-          this.bruker = bruker;
+      this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.authorizationService.getUser().subscribe(user => {
+          this.user = user;
 
           this.foresporselOmBrukertilgangService.hentForesporselSomSendtAllerede().subscribe(
             (forsporsel) => {
@@ -119,10 +119,10 @@ export class LoginsideComponent implements OnInit, OnDestroy {
     {
       var nyForsporselOmBrukertilgang = {
         institutionId: this.valgtInstitusjon?.id,
-        userFirstName: this.bruker.firstName,
-        userLastName: this.bruker.lastName,
-        hprNumber: this.bruker.hprNumber,
-        identityPseudonym: this.bruker.identityPseudonym
+        userFirstName: this.user.firstName,
+        userLastName: this.user.lastName,
+        hprNumber: this.user.hprNumber,
+        identityPseudonym: this.user.identityPseudonym
       }
       this.foresporselOmBrukertilgangService.sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang).subscribe(
         (erBrukerOpprettet) => {
@@ -142,7 +142,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   }
 
   kopierPseudonymKlikk() {
-    this.clipboardService.copy(this.bruker?.identityPseudonym);
+    this.clipboardService.copy(this.user?.identityPseudonym);
     this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
   }
 

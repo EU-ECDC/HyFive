@@ -2,14 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild 
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Role } from "src/app/models/api/Role";
-import { Kort } from "src/app/models/registrering/kort.model";
+import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { BeskyttelsesutstyrSesjonsvisning } from "../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model";
+import { ProtectiveEquipmentSessionView } from "../../models/registration/protectiveEquipment-sessionView.model";
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
-import { BeskyttelsesutstyrKort } from '../../models/registrering/beskyttelsesutstyr-kort.model';
+import { ProtectiveEquipmentCard } from '../../models/registration/protectiveEquipment-card.model';
 import { BeskyttelsesutstyrMapper } from '../../utils/beskyttelsesutstyrmapper';
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
@@ -48,14 +48,14 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   farger = Farger;
   ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
 
-  @Input("kort") kort: BeskyttelsesutstyrKort;
-  @Input("rollevalg") rollevalg: Role[];
-  @Input("sesjonsvisning") sesjonsvisning: BeskyttelsesutstyrSesjonsvisning;
+  @Input("card") card: ProtectiveEquipmentCard;
+  @Input("roleSelected") roleSelected: Role[];
+  @Input("sessionView") sessionView: ProtectiveEquipmentSessionView;
 
   @Output() observasjonRegistrert = new EventEmitter();
   @Output() observasjonOppdatert = new EventEmitter();
   @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Kort>();
+  @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(modalService: NgbModal,
               private beskyttelsesutstyrSesjonService: BeskyttelsesutstyrSesjonService) {
@@ -64,20 +64,20 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
   ngOnInit(): void {
     this.beskyttelsesutstyrSesjonService.beskyttelsesutstyrOppdatert.subscribe((bu) => {
-      this.sesjonsvisning.setting.equipmentTypes = bu;
+      this.sessionView.setting.equipmentTypes = bu;
 
       this.oppdaterBeskyttelsesutstyrValg();
     })
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes);
-    this.institusjonid = this.sesjonsvisning.department.institutionId;
+    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes);
+    this.institusjonid = this.sessionView.department.institutionId;
   }
 
 
 
   slettKort() {
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(kortIndex, 1);
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
@@ -94,12 +94,12 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
   nullstillKort() {
     this.comment = "";
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes);
+    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes);
   }
 
   nullstillUtstyr(valg: ProtectiveEquipment) {
     let valgIndex = this.beskyttelsesutstyrValg.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.beskyttelsesutstyrValg[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sesjonsvisning.setting.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+    this.beskyttelsesutstyrValg[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
 
@@ -154,20 +154,20 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   }
 
   velgRolle(role: Role) {
-    this.kort.role = role;
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort[kortIndex] = this.kort;
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    this.card.role = role;
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[kortIndex] = this.card;
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   registrerObservasjon() {
     let observasjon: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
-      role: this.kort.role,
+      role: this.card.role,
       registrationTime: new Date(Date.now()),
-      sessionId: this.sesjonsvisning.sessionId,
+      sessionId: this.sessionView.sessionId,
       comment: this.comment,
-      settingtype: this.sesjonsvisning.setting,
+      settingtype: this.sessionView.setting,
       protectiveEquipmentList: this.beskyttelsesutstyrValg
     };
 
@@ -175,12 +175,12 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
     this.nullstillKort();
 
-    this.kort.erAktivt = false;
+    this.card.isActive = false;
   }
 
   kortErValgt() {
-    this.kort.erAktivt = true;
-    this.kortErValgtEvent.emit(this.kort);
+    this.card.isActive = true;
+    this.kortErValgtEvent.emit(this.card);
   }
 
   lukkInfoModal(erVisInfoModal): void {
@@ -192,15 +192,15 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     let valg = this.beskyttelsesutstyrValg.find(b => b.equipmentType.id == droppedValg.equipmentType.id);
     valg.isRequired = valgIndikert;
     valg.equipmentType.isRequired = valgIndikert;
-    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sesjonsvisning.sessionId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
+    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sessionView.sessionId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
     this.cardLockedInPlace = false;
   }
 
   private oppdaterBeskyttelsesutstyrValg() {
-    this.sesjonsvisning.setting.equipmentTypes
+    this.sessionView.setting.equipmentTypes
     for(let i = 0; i < this.beskyttelsesutstyrValg.length; i++){
       var valg = this.beskyttelsesutstyrValg[i];
-      var equipmentType = this.sesjonsvisning.setting.equipmentTypes.find(u => u.code == valg.equipmentType.code);
+      var equipmentType = this.sessionView.setting.equipmentTypes.find(u => u.code == valg.equipmentType.code);
       valg.isRequired = equipmentType.isRequired;
       valg.equipmentType = equipmentType;
     }

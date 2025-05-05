@@ -1,37 +1,37 @@
 import { Session } from '../../models/api/Session';
-import { BaseSesjonsvisning } from '../../models/registrering/base-sesjonsvisning.model';
+import { BaseSessionView } from '../../models/registration/base-sessionView.model';
 import { Observation } from '../../models/api/Observation';
 import { InstitusjonService } from './institusjon.service';
 import {AjaxResponse} from 'rxjs/ajax';
 import { DatoHjelper } from 'src/app/utils/datohjelper';
 
-export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisning, TSesjon extends Session<TObservasjon>, TObservasjon extends Observation>  {
+export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView, TSesjon extends Session<TObservasjon>, TObservasjon extends Observation>  {
 
-  abstract sesjonsvisningLocalStoragePath: string;
-  abstract sesjonLocalStoragePath: string;
+  abstract sessionShowLocalStoragePath: string;
+  abstract sessionLocalStoragePath: string;
 
   constructor(
     public institusjonService: InstitusjonService) {
   }
 
-  protected lagreSesjonsvisninger(sesjonsvisninger: TSesjonsvisning[]) {
-    localStorage.setItem(this.sesjonsvisningLocalStoragePath, JSON.stringify(sesjonsvisninger));
+  protected saveSessionViews(sessionViews: TSesjonsvisning[]) {
+    localStorage.setItem(this.sessionShowLocalStoragePath, JSON.stringify(sessionViews));
   }
 
   protected lagreSesjoner(sessions: TSesjon[]) {
-    localStorage.setItem(this.sesjonLocalStoragePath, JSON.stringify(sessions, DatoHjelper.dateTimeSomLocaleStringReplacer));
+    localStorage.setItem(this.sessionLocalStoragePath, JSON.stringify(sessions, DatoHjelper.dateTimeSomLocaleStringReplacer));
   }
 
   public slettSesjon(sessionId: string) {
     let sessions = this.hentSesjoner().filter(s => s.id !== sessionId);
     this.lagreSesjoner(sessions);
-    let sesjonsvisninger = this.hentSesjonsvisninger().filter(s => s.sessionId !== sessionId);
-    this.lagreSesjonsvisninger(sesjonsvisninger);
+    let sessionViews = this.hentSesjonsvisninger().filter(s => s.sessionId !== sessionId);
+    this.saveSessionViews(sessionViews);
   }
 
   public hentSesjoner(): TSesjon[] {
     let sessions: TSesjon[] = [];
-    const sesjonerString = localStorage.getItem(this.sesjonLocalStoragePath);
+    const sesjonerString = localStorage.getItem(this.sessionLocalStoragePath);
     if (sesjonerString != null) {
       sessions = JSON.parse(sesjonerString);
     }
@@ -46,14 +46,14 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
     });
   }
 
-  public oppdaterSesjonsvisningForSesjon(sesjonsvisning: TSesjonsvisning): TSesjonsvisning {
-    let eksisterendeSesjonsvisning = this.hentSesjonsvisningForSesjon(sesjonsvisning.sessionId);
+  public oppdaterSesjonsvisningForSesjon(sessionView: TSesjonsvisning): TSesjonsvisning {
+    let eksisterendeSesjonsvisning = this.hentSesjonsvisningForSesjon(sessionView.sessionId);
     if (eksisterendeSesjonsvisning) {
-      let sesjonsvisninger = this.hentSesjonsvisninger();
-      var eksisterendeSesjonsvisningIndex = sesjonsvisninger.map(s => s.sessionId).indexOf(sesjonsvisning.sessionId);
-      sesjonsvisninger[eksisterendeSesjonsvisningIndex] = sesjonsvisning;
-      this.lagreSesjonsvisninger(sesjonsvisninger);
-      return sesjonsvisning;
+      let sessionViews = this.hentSesjonsvisninger();
+      var eksisterendeSesjonsvisningIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
+      sessionViews[eksisterendeSesjonsvisningIndex] = sessionView;
+      this.saveSessionViews(sessionViews);
+      return sessionView;
     }
   }
 
@@ -68,8 +68,8 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
   }
 
   protected hentSesjonsvisninger(): TSesjonsvisning[] {
-    if (localStorage.getItem(this.sesjonsvisningLocalStoragePath) != null) {
-      return JSON.parse(localStorage.getItem(this.sesjonsvisningLocalStoragePath)) as TSesjonsvisning[];
+    if (localStorage.getItem(this.sessionShowLocalStoragePath) != null) {
+      return JSON.parse(localStorage.getItem(this.sessionShowLocalStoragePath)) as TSesjonsvisning[];
     }
     return [];
   }
@@ -119,14 +119,14 @@ export abstract class BaseSesjonService<TSesjonsvisning extends BaseSesjonsvisni
   }
 
   protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
-    let sesjonsvisning = this.hentSesjonsvisningForSesjon(observasjon.sessionId);
+    let sessionView = this.hentSesjonsvisningForSesjon(observasjon.sessionId);
     let sessions = this.hentSesjoner();
-    let institusjon = await this.institusjonService.getInstitusjon(sesjonsvisning.department.institutionId).toPromise();
+    let institusjon = await this.institusjonService.getInstitusjon(sessionView.department.institutionId).toPromise();
     let nySesjon = {
       id: observasjon.sessionId,
       observations: [observasjon],
       startTime: new Date(),
-      department: sesjonsvisning.department,
+      department: sessionView.department,
       institutionsName: institusjon.name
     } as TSesjon;
     sessions.push(nySesjon);

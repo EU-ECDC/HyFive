@@ -6,7 +6,7 @@ import { debounceTime, filter } from "rxjs/operators";
 import { ViewportScroller } from "@angular/common";
 import { fromEvent, Subscription } from "rxjs";
 import { BrowserViewportService } from "./services/events/browser-viewport.service";
-import { AutoriseringService } from "./services/data/autorisering.service";
+import { AuthorizationService } from "./services/data/authorization.service";
 import { AuthorizedRole } from "./models/autorisering/authorized-role";
 import { LoggedInUser } from "./models/api/LoggedInUser";
 import { AuthenticationEventService } from "./services/events/authentication-event.service";
@@ -19,8 +19,8 @@ import { Localstoragepaths } from "./constants/localstoragepaths";
 export class AppComponent implements OnInit {
   private subscription = new Subscription();
   isMobile: boolean;
-  erLoggetInn = false;
-  bruker: LoggedInUser;
+  isLoggedIn = false;
+  user: LoggedInUser;
 
   siderMedInverterteFarger = [
     Urls.NotSentSessionsUrl,
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private browserViewportService: BrowserViewportService,
     private urlService: UrlService,
-    private autoriseringService: AutoriseringService
+    private authorizationService: AuthorizationService
   ) {}
 
   ngOnInit(): void {
@@ -65,13 +65,13 @@ export class AppComponent implements OnInit {
       })
     );
 
-    this.autoriseringService.erLoggetInn().subscribe((erLoggetInn) => {
-      this.erLoggetInn = erLoggetInn;
-      if (this.erLoggetInn) {
-        this.autoriseringService.getBruker().subscribe((bruker) => {
-          this.bruker = bruker;
+    this.authorizationService.isLoggedIn().subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+      if (this.isLoggedIn) {
+        this.authorizationService.getUser().subscribe((user) => {
+          this.user = user;
           if (
-            this.bruker.isObserver == false &&
+            this.user.isObserver == false &&
             window.location.pathname !== Urls.LoginPageUrl
           ) {
             this.router.navigate([Urls.LoginPageUrl]);
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   hovedmenySkalVises(): boolean {
-    // Vis hovedmeny hvis vi er offline og bruker har innlogget-id + valgt institusjon
+    // Vis hovedmeny hvis vi er offline og user har innlogget-id + valgt institusjon
     if (
       navigator.onLine == false &&
       localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&
@@ -93,8 +93,8 @@ export class AppComponent implements OnInit {
       return true;
     }
 
-    // Ellers vis hovedmeny kun hvis bruker er en observatør og vi ikke står på forsiden.
-    return this.bruker?.isObserver;
+    // Ellers vis hovedmeny kun hvis user er en observatør og vi ikke står på forsiden.
+    return this.user?.isObserver;
   }
   
   skalViseAppBrand() {

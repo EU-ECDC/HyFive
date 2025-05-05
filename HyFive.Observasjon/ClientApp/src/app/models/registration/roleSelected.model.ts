@@ -1,6 +1,6 @@
 import {Role} from '../api/Role';
 
-export interface Rollevalg {
+export interface RoleSelected {
     role: Role;
     isSelected: boolean;
 }

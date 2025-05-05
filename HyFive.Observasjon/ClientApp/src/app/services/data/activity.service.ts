@@ -6,13 +6,13 @@ import { ActivityType } from '../../models/api/ActivityType';
 @Injectable({
   providedIn: 'root'
 })
-export class AktivitetService {
+export class ActivityService {
 
   constructor(private http: HttpClient) {
   }
 
-  getAktivitetTyper(): Observable<ActivityType[]> {
-    return this.http.get<ActivityType[]>('api/v1/fireindikasjoner/aktivitettyper').pipe()
+  getActivityTypes(): Observable<ActivityType[]> {
+    return this.http.get<ActivityType[]>('api/v1/fourindications/activitytypes').pipe()
   }
 
 }

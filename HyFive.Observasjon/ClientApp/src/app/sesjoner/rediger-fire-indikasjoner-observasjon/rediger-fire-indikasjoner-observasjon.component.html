@@ -28,7 +28,7 @@
           <ng-container *ngIf="erRedigeringsmodus">
             <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
                                      [isReadonly]="isReadonly"
-                                     [rollevalg]="department.roles"
+                                     [roleSelected]="department.roles"
                                      (rolleValgt)="observasjon.role = $event">
             </app-rolle-valg-dropdown>
           </ng-container>
@@ -88,7 +88,7 @@
         </div>
       </div>
       <ng-container *ngIf="isReadonly == false">
-        <div *ngIf="hanskebrukSkalRegistreres && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
+        <div *ngIf="gloveUseMustBeRegistered && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
           <label class="ml-2" [htmlFor]="'hanskebruk-'+id"><small>Observation av hansker:</small></label>
           <select [disabled]="!erRedigeringsmodus"
                   [id]="'hanskebruk-'+id"

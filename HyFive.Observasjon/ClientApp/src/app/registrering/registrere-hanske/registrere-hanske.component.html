@@ -4,14 +4,14 @@
 </div>
 
 
-<div class="container" *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
-  <ng-container *ngFor="let kort of sesjonsvisning.kort">
+<div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
+  <ng-container *ngFor="let card of sessionView.card">
     <app-hanske-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                  (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"
                                  (kortErValgtEvent)="kortErValgt($event)"
-                                 [kort]="kort"
-                                 [sesjonsvisning]="sesjonsvisning"
-                                 [rollevalg]="roles">
+                                 [card]="card"
+                                 [sessionView]="sessionView"
+                                 [roleSelected]="roles">
     </app-hanske-observasjonskort>
   </ng-container>
 </div>
@@ -23,14 +23,14 @@
 <app-hjelpetekst
   [tittel]="'Tips og triks - observere hanskebruk'">
   <p>
-    Du kan nå observere på de profesjonene du valgte på <b>Start observasjon</b>-siden, bytte profesjon på det enkelte kort ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>Nytt kort</b>-knappen nede til høyre.
+    Du kan nå observere på de profesjonene du valgte på <b>Start observasjon</b>-siden, bytte profesjon på det enkelte card ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>Nytt card</b>-knappen nede til høyre.
   </p>
   <p>
-    Hvis du skal observere hanskebruk uten indikasjon må du først klikke på <b>Hanske uten indikasjon</b>.
+    Hvis du skal observere hanskebruk uten indication må du først klikke på <b>Hanske uten indication</b>.
   </p>
   <p>
     Når du er ferdig kan du dra kortet mot høyre for å lagre observasjonen.
-    Hvis du har registrert noe feil så må du trykke på "Tøm kort" - da vil kortet nullstille seg.
-    Hvis du ønsker å ta bort et kort fra listen kan du dra kortet mot venstre.
+    Hvis du har registrert noe feil så må du trykke på "Tøm card" - da vil kortet nullstille seg.
+    Hvis du ønsker å ta bort et card fra listen kan du dra kortet mot venstre.
   </p>
 </app-hjelpetekst>

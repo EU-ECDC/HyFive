@@ -1,6 +1,6 @@
 import {Department} from '../api/Department';
 
-export interface BaseSesjonsvisning
+export interface BaseSessionView
 {
   sessionId: string;
   department: Department;

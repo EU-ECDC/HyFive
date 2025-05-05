@@ -1,11 +1,11 @@
 import {Department} from '../api/Department';
 import {ProtectiveEquipmentSettingType} from '../api/ProtectiveEquipmentSettingType';
-import {BeskyttelsesutstyrKort} from './beskyttelsesutstyr-kort.model';
+import {ProtectiveEquipmentCard} from './protectiveEquipment-card.model';
 
-export class BeskyttelsesutstyrSesjonsvisning {
+export class ProtectiveEquipmentSessionView {
   sessionId: string;
   department: Department;
   setting: ProtectiveEquipmentSettingType;
-  kort: BeskyttelsesutstyrKort[];
+  card: ProtectiveEquipmentCard[];
 }
 

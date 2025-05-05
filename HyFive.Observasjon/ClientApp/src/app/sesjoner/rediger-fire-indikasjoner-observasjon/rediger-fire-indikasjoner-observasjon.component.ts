@@ -9,7 +9,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { ActivityType } from '../../models/api/ActivityType';
-import { AktivitetService } from '../../services/data/aktivitet.service';
+import { ActivityService } from '../../services/data/activity.service';
 import { ActivityTypeNotExecuted } from '../../models/api/ActivityTypeNotExecuted';
 import { ActivityTypeNotExecutedMapper } from '../../utils/ActivityTypeNotExecutedMapper';
 import { Uuid } from '../../utils/uuid';
@@ -46,7 +46,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
 
   constructor(
     private sesjonService: FireIndikasjonerSesjonService,
-    private aktivitetService: AktivitetService
+    private activityService: ActivityService
   ) {
     this.ActivityTypeNotExecutedSelection = ActivityTypeNotExecutedMapper.getNameMap();
   }
@@ -54,8 +54,8 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observasjon") observasjon: FourIndicationsObservation;
   @Input("department") department: Department;
-  @Input("hanskebrukSkalRegistreres") hanskebrukSkalRegistreres: boolean;
-  @Input("tidtakingSkalRegistreres") tidtakingSkalRegistreres: boolean;
+  @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
+  @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
       this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotExecutedId(this.observasjon.activity);
     }
 
-    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+    this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
 
@@ -139,10 +139,10 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   }
 
   lagreObservasjon() {
-    if (this.hanskebrukSkalRegistreres && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (this.gloveUseMustBeRegistered && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.observasjon = this.registrereAktivitetTypeIkkeUtfort(this.observasjon);
     }
-    else if (!this.hanskebrukSkalRegistreres && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    else if (!this.gloveUseMustBeRegistered && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.observasjon.activity.timeSpent = 0;
     }
     this.sesjonService.endreObservasjon(this.observasjon);

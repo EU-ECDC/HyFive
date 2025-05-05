@@ -41,7 +41,7 @@
     <div class="row">
       <div
         class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3 mb-md-5"
-        *ngFor="let sesjonsvisning of sesjonerFiltrert; index as i"
+        *ngFor="let sessionView of sesjonerFiltrert; index as i"
       >
         <div class="fhi-card h-100">
           <div class="form-check mb-2">
@@ -50,26 +50,26 @@
               type="checkbox"
               value=""
               [id]="'chk_' + i"
-              [(ngModel)]="sesjonsvisning.isSelected"
-              (click)="merkSesjon(sesjonsvisning)"
+              [(ngModel)]="sessionView.isSelected"
+              (click)="merkSesjon(sessionView)"
             />
             <label class="form-check-label" [for]="'chk_' + i">Velg for innsending</label>
           </div>
 
-          <h2 class="h4 mb-0">{{ sesjonsvisning.institutionsName }}</h2>
-          <p>Avd: {{ sesjonsvisning.departmentName }}</p>
-          <p class="small">{{ sesjonsnavnMap.get(sesjonsvisning.type) }}</p>
+          <h2 class="h4 mb-0">{{ sessionView.institutionsName }}</h2>
+          <p>Avd: {{ sessionView.departmentName }}</p>
+          <p class="small">{{ sesjonsnavnMap.get(sessionView.type) }}</p>
 
           <div class="mb-2 text-muted small">
             <i class="icon-calendar icon-sm align-top"></i>
-            {{ sesjonsvisning.startTime | date : "dd.MM.yyyy HH:mm:ss" }}
+            {{ sessionView.startTime | date : "dd.MM.yyyy HH:mm:ss" }}
           </div>
 
           <div class="text-end mt-auto">
             <a
               class="btn fhi-btn-shortcut-link mb-n2"
-              [routerLink]="['/' + getSesjonstypeUrl(sesjonsvisning.type)]"
-              [queryParams]="{ sessionId: sesjonsvisning.id }"
+              [routerLink]="['/' + getSesjonstypeUrl(sessionView.type)]"
+              [queryParams]="{ sessionId: sessionView.id }"
             >
               <span class="btn__text">Se detaljer</span>
               <i class="icon-arrow-right me-0 ms-2"></i>

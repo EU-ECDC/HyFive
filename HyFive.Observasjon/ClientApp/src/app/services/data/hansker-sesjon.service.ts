@@ -1,14 +1,14 @@
 import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Role } from '../../models/api/Role';
-import { Kort } from '../../models/registrering/kort.model';
+import { Card } from '../../models/registration/card.model';
 import { Department } from '../../models/api/Department';
-import { BaseSesjonService } from './base-sesjon.service';
+import { BaseSessionService } from './base-session.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HanskeSesjonsvisning } from '../../models/registrering/hansker-sesjonsvisning.model';
+import { GloveSessionView } from '../../models/registration/glove-session-view.model';
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { InstitusjonService } from './institusjon.service';
@@ -16,10 +16,10 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, GloveSession, GloveObservation> {
+export class HanskeSesjonService extends BaseSessionService<GloveSessionView, GloveSession, GloveObservation> {
 
-  sesjonLocalStoragePath = Localstoragepaths.GloveSessions;
-  sesjonsvisningLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
+  sessionLocalStoragePath = Localstoragepaths.GloveSessions;
+  sessionShowLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
 
   constructor(
     public institusjonService: InstitusjonService,
@@ -35,21 +35,21 @@ export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning,
   }
 
   public lagSesjonsvisning(
-    hanskebrukSkalRegistreres: boolean,
+    gloveUseMustBeRegistered: boolean,
     rollerSomObserveres: Role[],
     department: Department
   ): string {
     let id = Uuid.generateUUID();
 
-    let hanskeSesjonsvisning: HanskeSesjonsvisning = {
+    let gloveSessionView: GloveSessionView = {
       sessionId: id,
       department: department,
-      hanskebrukSkalRegistreres: hanskebrukSkalRegistreres,
-      kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
+      gloveUseMustBeRegistered: gloveUseMustBeRegistered,
+      card: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sesjonsvisninger = this.hentSesjonsvisninger()
-    sesjonsvisninger.push(hanskeSesjonsvisning);
-    this.lagreSesjonsvisninger(sesjonsvisninger);
+    var sessionViews = this.hentSesjonsvisninger()
+    sessionViews.push(gloveSessionView);
+    this.saveSessionViews(sessionViews);
 
     return id;
   }

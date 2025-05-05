@@ -1,10 +1,10 @@
 import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Role } from '../../models/api/Role';
-import { Kort } from '../../models/registrering/kort.model';
+import { Card } from '../../models/registration/card.model';
 import { Department } from '../../models/api/Department';
-import { BaseSesjonService } from './base-sesjon.service';
-import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
+import { BaseSessionService } from './base-session.service';
+import { HandJewelrySessionView } from '../../models/registration/handJewelry-session-view.model';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -16,10 +16,10 @@ import { InstitusjonService } from './institusjon.service';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjonsvisning, HandJewelrySession, HandJewelryObservation> {
+export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessionView, HandJewelrySession, HandJewelryObservation> {
 
-  sesjonLocalStoragePath = Localstoragepaths.HandJewelrySessions;
-  sesjonsvisningLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
+  sessionLocalStoragePath = Localstoragepaths.HandJewelrySessions;
+  sessionShowLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
 
   constructor(
     public institusjonService: InstitusjonService,
@@ -40,14 +40,14 @@ export class HandsmykkeSesjonService extends BaseSesjonService<HandsmykkeSesjons
   ): string {
     let id = Uuid.generateUUID();
 
-    let handsmykkerSesjonsvisning: HandsmykkeSesjonsvisning = {
+    let handsmykkerSesjonsvisning: HandJewelrySessionView = {
       sessionId: id,
       department: department,
-      kort: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, erAktivt: i == 0 } as Kort }),
+      card: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sesjonsvisninger = this.hentSesjonsvisninger();
-    sesjonsvisninger.push(handsmykkerSesjonsvisning);
-    this.lagreSesjonsvisninger(sesjonsvisninger);
+    var sessionViews = this.hentSesjonsvisninger();
+    sessionViews.push(handsmykkerSesjonsvisning);
+    this.saveSessionViews(sessionViews);
 
     return id;
   }

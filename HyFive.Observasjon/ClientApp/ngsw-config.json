@@ -46,8 +46,8 @@
     {
       "name": "kodeverk",
       "urls": [
-        "api/v1/fireindikasjoner/aktivitettyper",
-        "api/v1/fireindikasjoner/indicationTypes",
+        "api/v1/fourindications/activitytypes",
+        "api/v1/fourindications/indicationTypes",
         "api/v1/handsmykke/handJewelryTypes",
         "api/v1/protectiveEquipment",
         "api/v1/hanske/hanskemedindikasjontype",

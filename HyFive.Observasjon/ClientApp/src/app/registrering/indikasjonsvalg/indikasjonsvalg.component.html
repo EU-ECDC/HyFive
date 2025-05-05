@@ -1,22 +1,22 @@
 <div class="row pe-1">
-  <div class="col-6 p-2 text-center" *ngFor="let indikasjon of indikasjonTypeValg">
-    <label [htmlFor]="'fireindikasjoner'+parentId.substr(4)+indikasjonTypeValg.indexOf(indikasjon)" [ngStyle]="{ 'opacity': indikasjon.disabled ? '0.5' : '1' }">
+  <div class="col-6 p-2 text-center" *ngFor="let indication of indicationTypeSelection">
+    <label [htmlFor]="'fourindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
       <input type="checkbox"
-             [(ngModel)]="indikasjon.isSelected"
-             (ngModelChange)="changed(indikasjon)"
+             [(ngModel)]="indication.isSelected"
+             (ngModelChange)="changed(indication)"
              [disabled]="isReadonly"
-             [id]="'fireindikasjoner'+parentId.substr(4)+indikasjonTypeValg.indexOf(indikasjon)"
+             [id]="'fourindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)"
              class="hh-round-checkbox-list__input">
       <fa-stack class="hh-round-checkbox-list__iconstack">
         <fa-icon [icon]="faCircle" stackItemSize="2x"
                  class="hh-round-checkbox-list__circle"
-                 [ngClass]="{'hh-round-checkbox-list__circle--chosen': indikasjon.isSelected, 'hh-round-checkbox-list__circle--active': erAktiv}">
+                 [ngClass]="{'hh-round-checkbox-list__circle--chosen': indication.isSelected, 'hh-round-checkbox-list__circle--active': erAktiv}">
         </fa-icon>
-        <fa-icon [icon]="ikonTypeMap.get(indikasjon.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indikasjon.isSelected"><span [ngStyle]="{'display': (isSelected) ? 'none' : 'block'}" *ngIf="!indikasjon.isSelected">{{indikasjon.nummer}}</span></fa-icon>
-        <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="indikasjon.isSelected"></fa-icon>
+        <fa-icon [icon]="ikonTypeMap.get(indication.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indication.isSelected"><span [ngStyle]="{'display': (isSelected) ? 'none' : 'block'}" *ngIf="!indication.isSelected">{{indication.nummer}}</span></fa-icon>
+        <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="indication.isSelected"></fa-icon>
       </fa-stack>
       <br />
-      <div class="text-center"><small><strong>{{ indikasjon.name }}</strong></small></div>
+      <div class="text-center"><small><strong>{{ indication.name }}</strong></small></div>
     </label>
   </div>
 </div>

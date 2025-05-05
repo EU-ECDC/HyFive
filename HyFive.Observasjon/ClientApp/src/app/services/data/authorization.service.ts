@@ -8,32 +8,32 @@ import {Localstoragepaths} from '../../constants/localstoragepaths';
 @Injectable({
   providedIn: 'root'
 })
-export class AutoriseringService {
+export class AuthorizationService {
 
 
   constructor(private readonly http: HttpClient) { }
 
-  erLoggetInn(): Observable<boolean> {
+  isLoggedIn(): Observable<boolean> {
     const url = `/account/isloggedin`;
     return this.http.get<boolean>(url);
   }
 
-  getBruker(): Observable<LoggedInUser> {
-    return this.http.get<LoggedInUser>('/account').pipe(tap(bruker => {
+  getUser(): Observable<LoggedInUser> {
+    return this.http.get<LoggedInUser>('/account').pipe(tap(user => {
       // TODO: midlertidig
-      // let innloggetbruker = this.getLokalBrukerId();
-      // if(innloggetbruker != bruker.id){
+      // let innloggetbruker = this.getLocalUserId();
+      // if(innloggetbruker != user.id){
       //   localStorage.clear();
       // }
-      this.setLokalBrukerId(bruker.id);
+      this.setLocalUserId(user.id);
     }));
   }
 
-  getLokalBrukerId(){
+  getLocalUserId(){
     return localStorage.getItem(Localstoragepaths.LoggedInUserId);
   }
 
-  setLokalBrukerId(id: string) {
+  setLocalUserId(id: string) {
     localStorage.setItem(Localstoragepaths.LoggedInUserId, id)
   }
 }

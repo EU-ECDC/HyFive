@@ -6,22 +6,22 @@
     </div>
     <app-offline-melding (harInternettEvent)="mottattInternettStatus($event)"></app-offline-melding>
     <div class="col-12" *ngIf="!mottattBrukerStatusFraServer">
-      Venter på svar fra server - sjekker bruker-status
+      Venter på svar fra server - sjekker user-status
       <app-spinner> </app-spinner>
     </div>
 
-    <div class="col-12" *ngIf="bruker?.name && erOnline">
-      <p class="mb-2">Hei, {{bruker.name}}. </p>
-      <p *ngIf="bruker?.isObserver">Velkommen til Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</p>
+    <div class="col-12" *ngIf="user?.name && erOnline">
+      <p class="mb-2">Hei, {{user.name}}. </p>
+      <p *ngIf="user?.isObserver">Velkommen til Nasjonalt verktøy for observasjon av smitteforebyggende tiltak i helsetjenesten (NOST).</p>
     </div>
   </div>
 
   <ng-container *ngIf="mottattBrukerStatusFraServer">
 
-    <div *ngIf="erOnline && (erLoggetInn == false || bruker?.isObserver == false) && visForesporselRegistrering" class="row">
+    <div *ngIf="erOnline && (isLoggedIn == false || user?.isObserver == false) && visForesporselRegistrering" class="row">
       <div class="col-lg-6">
-        <div *ngIf="bruker?.isObserver == false">
-          Du er ikke registrert som bruker av NOST. Velg en institusjon i lista og trykk på "Registrer deg".
+        <div *ngIf="user?.isObserver == false">
+          Du er ikke registrert som user av NOST. Velg en institusjon i lista og trykk på "Registrer deg".
           <div class="row my-4">
             <div class="col-12">
               <h5>Velg institusjon:</h5>
@@ -52,19 +52,19 @@
       </div>
     </ng-container>
     <div *ngIf="visFeilMelding" class="row">
-      <p class="col-lg-6 alert-danger p-2">Vi kunne ikke opprette deg som bruker. Send email til <a href="mailto:nost@fhi.no">nost&#64;fhi.no</a>  </p>
+      <p class="col-lg-6 alert-danger p-2">Vi kunne ikke opprette deg som user. Send email til <a href="mailto:nost@fhi.no">nost&#64;fhi.no</a>  </p>
     </div>
 
-    <div class="row" *ngIf="erOnline && erLoggetInn == false">
+    <div class="row" *ngIf="erOnline && isLoggedIn == false">
       <div class="col-lg-4">
-        <p *ngIf="erLoggetInn == false">Du er ikke logget inn. <br />
+        <p *ngIf="isLoggedIn == false">Du er ikke logget inn. <br />
         <b>Logg inn</b> for å få tilgang til NOST.</p>
         <a href="/account/login" class="btn fhi-btn-primary">
           Logg inn
         </a>
       </div>
     </div>
-    <ng-container *ngIf="erOnline && erLoggetInn && bruker?.isObserver">
+    <ng-container *ngIf="erOnline && isLoggedIn && user?.isObserver">
       <div class="row">
         <div class="col-lg-8">
           <a [routerLink]="'/registrering'" class="btn fhi-btn-primary w-100">
@@ -88,7 +88,7 @@
   <ng-container *ngIf="erVisPseudonym">
     <app-pseudonym [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="lukkInfoModal($event)">
       <p class="text-break">
-        <small><strong>Pseudonym:</strong> {{bruker?.identityPseudonym}}</small>
+        <small><strong>Pseudonym:</strong> {{user?.identityPseudonym}}</small>
       </p>
       <p>
         <button class="btn fhi-btn-icon" (click)="kopierPseudonymKlikk()">
@@ -99,7 +99,7 @@
       <p>Pseudonym brukes kun for få tilgang til andre institusjoner</p>
     </app-pseudonym>
   </ng-container>
-  <div class="row" *ngIf="erLoggetInn">
+  <div class="row" *ngIf="isLoggedIn">
     <div class="col-lg-4 mt-3">
       <button class="btn fhi-btn-secondary">Logg ut</button>
     </div>

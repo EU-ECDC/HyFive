@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AktivitetService } from './aktivitet.service';
+import { ActivityService } from './activity.service';
 import { IndikasjonService } from './indikasjon.service';
 import { HandsmykkeTypeService } from './handsmykketype.service';
 import { HandhygieneEtterHanskebrukTypeService } from './handhygiene-etter-hanskebruk-type.service';
@@ -13,7 +13,7 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class KodeverkCacheService {
 
-  constructor(private aktivitetService: AktivitetService,
+  constructor(private activityService: ActivityService,
     private indikasjonService: IndikasjonService,
     private handsmykkeTypeService: HandsmykkeTypeService,
     private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
@@ -24,7 +24,7 @@ export class KodeverkCacheService {
 
   lastKodeverk(){
     const kodeverkRequests = [
-      this.aktivitetService.getAktivitetTyper(),
+      this.activityService.getActivityTypes(),
       this.indikasjonService.getIndikasjonstyper(),
       this.handsmykkeTypeService.getHandsmykkeTyper(),
       this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper(),

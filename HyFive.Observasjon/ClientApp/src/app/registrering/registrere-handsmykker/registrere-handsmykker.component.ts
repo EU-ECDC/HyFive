@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HandJewelrySession } from 'src/app/models/api/HandJewelrySession';
 import { Role } from 'src/app/models/api/Role';
 import { HandsmykkeSesjonService } from 'src/app/services/data/handsmykke-sesjon.service';
-import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
+import { HandJewelrySessionView } from '../../models/registration/handJewelry-session-view.model';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
@@ -10,7 +10,7 @@ import { Urls } from '../../constants/urls';
 import { faEnvelope, faPlus, faArrowDown, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
-import { Kort } from '../../models/registrering/kort.model';
+import { Card } from '../../models/registration/card.model';
 import { Uuid } from '../../utils/uuid';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
-  sesjonsvisning: HandsmykkeSesjonsvisning;
+  sessionView: HandJewelrySessionView;
   sessionsdata: HandJewelrySession = null;
   roles: Role[];
   visRolleliste: boolean = false;
@@ -41,7 +41,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     private institusjonService: InstitusjonService,
     private toastrService: ToastrService) {
     this.institusjonService.getValgtInstitusjon()
-      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sesjonsvisning.department?.id)?.roles);
+      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 
   ngOnInit(): void {
@@ -49,8 +49,8 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
-        if (!this.sesjonsvisning) {
+        this.sessionView = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
+        if (!this.sessionView) {
           this.router.navigate(['']);
         }
         else {
@@ -58,7 +58,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.sesjonsvisning.kort?.length === 0)
+    if (this.sessionView.card?.length === 0)
       this.visTomForKortTekst = true;
   }
   
@@ -73,7 +73,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   }
 
   lastSesjonsdata() {
-    this.sessionsdata = this.sesjonService.hentSesjon(this.sesjonsvisning.sessionId);
+    this.sessionsdata = this.sesjonService.hentSesjon(this.sessionView.sessionId);
   }
 
   toggleRolleliste() {
@@ -81,27 +81,27 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   }
 
   leggTilNyttKort(role: Role) {
-    this.sesjonsvisning.kort = this.sesjonsvisning.kort.map((k) => { k.erAktivt = false; return k })
-    this.sesjonsvisning.kort.push({ id: Uuid.generateUUID(), role: role, erAktivt: true });
-    this.oppdaterSesjonsvisning(this.sesjonsvisning);
+    this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
+    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true });
+    this.oppdaterSesjonsvisning(this.sessionView);
     this.toggleRolleliste();
   }
 
-  oppdaterSesjonsvisning(sesjonsvisning: HandsmykkeSesjonsvisning) {
-    this.sesjonsvisning = this.sesjonService.oppdaterSesjonsvisningForSesjon(sesjonsvisning);
-    if (this.sesjonsvisning.kort?.length === 0)
+  oppdaterSesjonsvisning(sessionView: HandJewelrySessionView) {
+    this.sessionView = this.sesjonService.oppdaterSesjonsvisningForSesjon(sessionView);
+    if (this.sessionView.card?.length === 0)
       this.visTomForKortTekst = true;
     else 
       this.visTomForKortTekst = false;
   }
 
-  kortErValgt(valgtKort: Kort) {
-    for (let i = 0; i < this.sesjonsvisning.kort.length; i++) {
-      if (this.sesjonsvisning.kort[i] != valgtKort) {
-        this.sesjonsvisning.kort[i].erAktivt = false;
+  kortErValgt(valgtKort: Card) {
+    for (let i = 0; i < this.sessionView.card.length; i++) {
+      if (this.sessionView.card[i] != valgtKort) {
+        this.sessionView.card[i].isActive = false;
       }
     }
-    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sesjonsvisning);
+    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sessionView);
   }
 
   onCloseNyttKortModal(result) {

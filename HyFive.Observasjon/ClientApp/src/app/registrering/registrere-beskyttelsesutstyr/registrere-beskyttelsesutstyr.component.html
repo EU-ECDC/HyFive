@@ -4,17 +4,17 @@
     <div class="mb-4">
       <app-navigasjonslenke (lenkeKlikket)="endreSettingModus = true">Til verneutstyr</app-navigasjonslenke>
     </div>
-    <h1 class="h3 mt-n4 mt-xl-0">{{sesjonsvisning.setting.name}}</h1>
+    <h1 class="h3 mt-n4 mt-xl-0">{{sessionView.setting.name}}</h1>
     <div class="row">
       <div class="col">
-        <div *ngIf="sesjonsvisning.sessionId != null && sesjonsvisning.kort != null && sesjonsvisning.kort.length > 0">
-          <ng-container *ngFor="let kort of sesjonsvisning.kort">
+        <div *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
+          <ng-container *ngFor="let card of sessionView.card">
             <app-beskyttelsesutstyr-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
                                                      (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"
                                                      (kortErValgtEvent)="kortErValgt($event)"
-                                                     [kort]="kort"
-                                                     [sesjonsvisning]="sesjonsvisning"
-                                                     [rollevalg]="roles">
+                                                     [card]="card"
+                                                     [sessionView]="sessionView"
+                                                     [roleSelected]="roles">
             </app-beskyttelsesutstyr-observasjonskort>
           </ng-container>
         </div>
@@ -29,13 +29,13 @@
 </ng-container>
 
 <ng-container *ngIf="endreSettingModus">
-  <app-valg-for-beskyttelsesutstyr (settingOgUtstyrBleEndret)="settingOgUtstyrBleEndret($event)" [sesjonsvisning]="sesjonsvisning"></app-valg-for-beskyttelsesutstyr>
+  <app-valg-for-beskyttelsesutstyr (settingOgUtstyrBleEndret)="settingOgUtstyrBleEndret($event)" [sessionView]="sessionView"></app-valg-for-beskyttelsesutstyr>
 </ng-container>
 
 <app-hjelpetekst
   [tittel]="'Tips og triks - observere beskyttelsesutstyr'">
   <p>
-    Du kan nå observere på de profesjonene du valgte på <b>Start observasjon</b>-siden, bytte profesjon på det enkelte kort ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>Nytt kort</b>-knappen nede til høyre.
+    Du kan nå observere på de profesjonene du valgte på <b>Start observasjon</b>-siden, bytte profesjon på det enkelte card ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>Nytt card</b>-knappen nede til høyre.
 
     Du registrerer beskyttelsesutstyr ved å klikke på ikonene i kortet.
     Dersom det ikke benyttes noe beskyttelsesutstyr må du lagre kortet uten avkrysninger for å få registrert observasjonen.
@@ -44,7 +44,7 @@
   </p>
   <p>
     Når du er ferdig kan du dra kortet mot høyre for å lagre observasjonen.
-    Hvis du har registrert noe feil så må du trykke på "Tøm kort" - da vil kortet nullstille seg.
-    Hvis du ønsker å ta bort et kort fra listen kan du dra kortet mot venstre.
+    Hvis du har registrert noe feil så må du trykke på "Tøm card" - da vil kortet nullstille seg.
+    Hvis du ønsker å ta bort et card fra listen kan du dra kortet mot venstre.
   </p>
 </app-hjelpetekst>

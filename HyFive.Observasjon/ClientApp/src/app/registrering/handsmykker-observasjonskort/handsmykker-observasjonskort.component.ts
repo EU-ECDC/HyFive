@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { HandsmykkeSesjonsvisning } from "src/app/models/registrering/handsmykke-sesjonsvisning.model";
+import { HandJewelrySessionView } from "src/app/models/registration/handJewelry-session-view.model";
 import { HandJewelrySession } from "src/app/models/api/HandJewelrySession";
 import { Role } from "src/app/models/api/Role";
 import { HandJewelryObservation } from 'src/app/models/api/HandJewelryObservation';
-import { Kort } from "src/app/models/registrering/kort.model";
+import { Card } from "src/app/models/registration/card.model";
 import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { Animations } from "../../shared/animasjoner/animasjoner";
 import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
 import { Farger } from "../../utils/farger";
-import { Handsmykkevalg } from "../../models/registrering/handsmykkevalg.model";
+import { Handsmykkevalg } from "../../models/registration/handJewelry-selection.model";
 import { HandsmykkeMapper } from "../../utils/handsmykke-mapper";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConstants";
@@ -47,14 +47,14 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
 
   handsmykkevalg = [] as Handsmykkevalg[];
 
-  @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Role[];
-  @Input("sesjonsvisning") sesjonsvisning: HandsmykkeSesjonsvisning;
+  @Input("card") card: Card;
+  @Input("roleSelected") roleSelected: Role[];
+  @Input("sessionView") sessionView: HandJewelrySessionView;
 
   @Output() observasjonRegistrert = new EventEmitter();
   @Output() observasjonOppdatert = new EventEmitter();
   @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Kort>();
+  @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
     private handsmykkeTypeService: HandsmykkeTypeService,
@@ -70,9 +70,9 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   slettKort() {
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(kortIndex, 1);
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   registrerKommentar(comment: string) {
@@ -108,18 +108,18 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   velgRolle(role: Role) {
-    this.kort.role = role;
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort[kortIndex] = this.kort;
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    this.card.role = role;
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[kortIndex] = this.card;
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   registrerObservasjon() {
     let observasjon = {
       id: Uuid.generateUUID(),
-      sessionId: this.sesjonsvisning.sessionId,
+      sessionId: this.sessionView.sessionId,
       registrationTime: new Date(Date.now()),
-      role: this.kort.role,
+      role: this.card.role,
       handJewelry: this.handsmykkevalg.reduce((acc, item) => {
         if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
@@ -131,12 +131,12 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
 
     this.nullstillKort();
 
-    this.kort.erAktivt = false;
+    this.card.isActive = false;
   }
 
   kortErValgt() {
-    this.kort.erAktivt = true;
-    this.kortErValgtEvent.emit(this.kort);
+    this.card.isActive = true;
+    this.kortErValgtEvent.emit(this.card);
   }
 
   lukkInfoModal(erVisInfoModal): void {

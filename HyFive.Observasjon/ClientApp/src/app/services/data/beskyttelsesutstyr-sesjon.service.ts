@@ -1,14 +1,14 @@
 import {EventEmitter, Injectable} from "@angular/core";
-import { BaseSesjonService } from './base-sesjon.service';
-import { BeskyttelsesutstyrSesjonsvisning } from '../../models/registrering/beskyttelsesutstyr-sesjonsvisning.model';
+import { BaseSessionService } from './base-session.service';
+import { ProtectiveEquipmentSessionView } from '../../models/registration/protectiveEquipment-sessionView.model';
 import { ProtectiveEquipmentSession } from "src/app/models/api/ProtectiveEquipmentSession";
 import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Role } from "src/app/models/api/Role";
 import { Department } from "src/app/models/api/Department";
 import { Uuid } from "src/app/utils/uuid";
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
-import { Kort } from '../../models/registrering/kort.model';
-import { BeskyttelsesutstyrKort } from "src/app/models/registrering/beskyttelsesutstyr-kort.model";
+import { Card } from '../../models/registration/card.model';
+import { ProtectiveEquipmentCard } from "src/app/models/registration/protectiveEquipment-card.model";
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -20,9 +20,9 @@ import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
 @Injectable({
   providedIn: 'root'
 })
-export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
-  sesjonsvisningLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessionViews;
-  sesjonLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessions;
+export class BeskyttelsesutstyrSesjonService extends BaseSessionService<ProtectiveEquipmentSessionView, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
+  sessionShowLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessionViews;
+  sessionLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessions;
 
 
 
@@ -47,25 +47,25 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     setting: ProtectiveEquipmentSettingType): string {
     let id = Uuid.generateUUID();
 
-    let sesjonsvisning: BeskyttelsesutstyrSesjonsvisning = {
+    let sessionView: ProtectiveEquipmentSessionView = {
       sessionId: id,
       department: department,
-      kort: this.genererKort(rollerSomObserveres, setting),
+      card: this.genererKort(rollerSomObserveres, setting),
       setting: setting
     };
 
-    var sesjonsvisninger = this.hentSesjonsvisninger();
-    sesjonsvisninger.push(sesjonsvisning);
-    this.lagreSesjonsvisninger(sesjonsvisninger);
+    var sessionViews = this.hentSesjonsvisninger();
+    sessionViews.push(sessionView);
+    this.saveSessionViews(sessionViews);
 
     return id;
   }
 
   oppdaterSesjonUtstyrstyper(sessionId: string, equipmentTypes: ProtectiveEquipmentType[]){
-    var sesjonsvisninger = this.hentSesjonsvisninger();
-    var sesjonsvisningSomSkalOppdateres = sesjonsvisninger.find(s => s.sessionId == sessionId);
+    var sessionViews = this.hentSesjonsvisninger();
+    var sesjonsvisningSomSkalOppdateres = sessionViews.find(s => s.sessionId == sessionId);
     sesjonsvisningSomSkalOppdateres.setting.equipmentTypes = equipmentTypes;
-    this.lagreSesjonsvisninger(sesjonsvisninger);
+    this.saveSessionViews(sessionViews);
     this.beskyttelsesutstyrOppdatert.emit(equipmentTypes);
   }
 
@@ -81,9 +81,9 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
       0);
   }
 
-  private genererKort(roles: Role[], setting: ProtectiveEquipmentSettingType): BeskyttelsesutstyrKort[] {
+  private genererKort(roles: Role[], setting: ProtectiveEquipmentSettingType): ProtectiveEquipmentCard[] {
     return roles.map((r, i) => {
-      return { id: Uuid.generateUUID(), role: r, utstyr: setting.equipmentTypes, erAktivt: i == 0 } as BeskyttelsesutstyrKort
+      return { id: Uuid.generateUUID(), role: r, utstyr: setting.equipmentTypes, isActive: i == 0 } as ProtectiveEquipmentCard
     });
   }
 }

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
-import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
+import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
 import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
 import { AktivitetUnderRegistrering, ObservasjonEventService } from '../../services/events/observasjon-event.service';
 import { Animations } from '../../shared/animasjoner/animasjoner';
-import { Kort } from '../../models/registrering/kort.model';
+import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { Farger } from '../../utils/farger';
 import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
@@ -13,7 +13,7 @@ import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesom
 import { Role } from '../../models/api/Role';
 import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
-import { AktivitetService } from '../../services/data/aktivitet.service';
+import { ActivityService } from '../../services/data/activity.service';
 import { ActivityType } from '../../models/api/ActivityType';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from '../../constants/dialogueTexts';
@@ -52,45 +52,45 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   faTimesCircle = faTimesCircle;
   farger = Farger;
 
-  @Input("kort") kort: Kort;
-  @Input("rollevalg") rollevalg: Role[]
-  @Input("sesjonsvisning") sesjonsvisning: FireIndikasjonerSesjonsvisning
+  @Input("card") card: Card;
+  @Input("roleSelected") roleSelected: Role[]
+  @Input("sessionView") sessionView: FourIndicationsSessionView
 
   @Output() observasjonRegistrert = new EventEmitter();
   @Output() observasjonOppdatert = new EventEmitter();
   @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Kort>();
+  @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
     private observasjonEventService: ObservasjonEventService,
-    private aktivitetService: AktivitetService,
+    private activityService: ActivityService,
     protected modalService: NgbModal
   ) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+    this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
     this.observasjonEventService.registreringAvAktivitetHarBegynt.subscribe(activity => {
-      if (activity.parentId == this.kort.id) {
+      if (activity.parentId == this.card.id) {
         this.aktivitetUnderRegistrering = activity;
       }
     })
   }
 
   slettKort() {
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(kortIndex, 1);
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   velgRolle(role: Role) {
-    this.kort.role = role;
-    let kortIndex = this.sesjonsvisning.kort.findIndex(x => x.id === this.kort.id);
-    this.sesjonsvisning.kort[kortIndex] = this.kort;
-    this.sesjonsvisningOppdatert.emit(this.sesjonsvisning);
+    this.card.role = role;
+    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[kortIndex] = this.card;
+    this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
   nullstillKort() {
@@ -98,7 +98,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.valgteIndikasjoner = [];
     this.activity = null;
     this.aktivitetUnderRegistrering = null;
-    this.observasjonEventService.observasjonNullstiltEvent.emit(this.kort.id);
+    this.observasjonEventService.observasjonNullstiltEvent.emit(this.card.id);
   }
 
   kanIkkeLagre(): boolean {
@@ -116,9 +116,9 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   registrerObservasjon() {
     let observasjon: FourIndicationsObservation = {
       id: Uuid.generateUUID(),
-      sessionId: this.sesjonsvisning.sessionId,
+      sessionId: this.sessionView.sessionId,
       comment: this.comment,
-      role: this.kort.role,
+      role: this.card.role,
       activity: this.activity,
       indicationTypes: this.valgteIndikasjoner,
       registrationTime: new Date(Date.now())
@@ -128,7 +128,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
 
     this.nullstillKort();
 
-    this.kort.erAktivt = false;
+    this.card.isActive = false;
   }
 
   registrerAktivitet(activity: Activity) {
@@ -157,8 +157,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   kortErValgt() {
-    this.kort.erAktivt = true;
-    this.kortErValgtEvent.emit(this.kort);
+    this.card.isActive = true;
+    this.kortErValgtEvent.emit(this.card);
   }
 
   getAktivitetType(code: string) {

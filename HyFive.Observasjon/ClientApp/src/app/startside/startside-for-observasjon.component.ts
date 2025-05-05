@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { FireIndikasjonerSesjonService } from "../services/data/fire-indikasjoner-sesjon.service";
 import { InstitusjonService } from "../services/data/institusjon.service";
 import { Institution } from "../models/api/Institution";
-import { Rollevalg } from "../models/registrering/rollevalg.model";
+import { RoleSelected } from "../models/registration/roleSelected.model";
 import { Urls } from "../constants/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Farger } from "../utils/farger";
@@ -11,7 +11,7 @@ import { HandsmykkeSesjonService } from "../services/data/handsmykke-sesjon.serv
 import { Department } from "../models/api/Department";
 import { SessionType } from "../models/api/SessionType";
 import { HanskeSesjonService } from "../services/data/hansker-sesjon.service";
-import { AutoriseringService } from "../services/data/autorisering.service";
+import { AuthorizationService } from "../services/data/authorization.service";
 import { LoggedInUser } from "../models/api/LoggedInUser";
 
 @Component({
@@ -23,12 +23,12 @@ export class StartsideForObservasjonComponent implements OnInit {
   valgtSesjonType: SessionType;
   tidtaking: boolean;
   hanskebruk: boolean;
-  rollevalg: Rollevalg[];
+  roleSelected: RoleSelected[];
   valgtAvdelingId: string = null;
   farger = Farger;
   visStartside: boolean;
   visBeskyttelsesutstyr: boolean;
-  bruker: LoggedInUser;
+  user: LoggedInUser;
   institusjonAlternativer: Institution[];
   valgtInstitusjonAlternativId: number;
   institusjon: Institution;
@@ -43,7 +43,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     private handsmykkeSesjonService: HandsmykkeSesjonService,
     private hanskeSesjonService: HanskeSesjonService,
     private institusjonService: InstitusjonService,
-    private autoriseringService: AutoriseringService
+    private authorizationService: AuthorizationService
   ) {}
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.valgtSesjonType = SessionType.NotSelected;
     this.tidtaking = false;
     this.hanskebruk = false;
-    this.rollevalg = [];
+    this.roleSelected = [];
     this.valgtAvdelingId = null;
     this.visStartside = true;
     this.visBeskyttelsesutstyr = false;
@@ -92,8 +92,8 @@ export class StartsideForObservasjonComponent implements OnInit {
               : 0;
           });
       });
-    this.autoriseringService.getBruker().subscribe((bruker) => {
-      this.bruker = bruker;
+    this.authorizationService.getUser().subscribe((user) => {
+      this.user = user;
     });
   }
 
@@ -103,7 +103,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       return;
     }
 
-    if (!this.rollevalg.filter((r) => r.isSelected).length) {
+    if (!this.roleSelected.filter((r) => r.isSelected).length) {
       alert("Velg en eller flere roles");
       return;
     }
@@ -139,7 +139,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     let sessionId = this.fireIndikasjonerSesjonService.lagSesjonsvisning(
       this.hanskebruk,
       this.tidtaking,
-      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
+      this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
 
@@ -150,7 +150,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startHandsmykkeSesjon() {
     let sessionId = this.handsmykkeSesjonService.lagSesjonsvisning(
-      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
+      this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
     this.router.navigate([Urls.RegisterHandJewelryUrl], {
@@ -161,7 +161,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   startHanskeSesjon() {
     let sessionId = this.hanskeSesjonService.lagSesjonsvisning(
       this.hanskebruk,
-      this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
+      this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
 
@@ -191,17 +191,17 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   valgtAvdelingEndret() {
-    this.rollevalg = this.institusjon.departments
+    this.roleSelected = this.institusjon.departments
       .find((x) => x.id === parseInt(this.valgtAvdelingId))
       ?.roles.map((role) => {
-        return { role: role, isSelected: false } as Rollevalg;
+        return { role: role, isSelected: false } as RoleSelected;
       });
   }
 
   kanIkkeStarteObservasjon(): boolean {
     return (
       this.valgtAvdelingId === null ||
-      this.rollevalg.filter((r) => r.isSelected).length === 0 ||
+      this.roleSelected.filter((r) => r.isSelected).length === 0 ||
       this.valgtSesjonType === SessionType.NotSelected
     );
   }

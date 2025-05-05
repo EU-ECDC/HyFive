@@ -24,7 +24,7 @@ export class SendteSesjonerService {
   hentFireIndikasjonerSesjon(sessionId : string): Observable<FourIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/sesjon/fireindikasjoner`, {params});
+    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/sesjon/fourindications`, {params});
   }
 
   hentHandsmykkerSesjon(sessionId: string): Observable<HandJewelrySession> {
@@ -52,7 +52,7 @@ export class SendteSesjonerService {
   }
 
   public lastNedFireIndikasjonerSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/fireindikasjoner/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
+    const url = `${environment.apiBaseUrl}/v1/fourindications/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "FourIndications");
   }
 

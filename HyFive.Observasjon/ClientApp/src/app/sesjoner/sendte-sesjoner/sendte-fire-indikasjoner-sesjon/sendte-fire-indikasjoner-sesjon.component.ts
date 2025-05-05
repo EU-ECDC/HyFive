@@ -6,7 +6,7 @@ import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
 import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { ActivityType } from '../../../models/api/ActivityType';
-import { AktivitetService } from '../../../services/data/aktivitet.service';
+import { ActivityService } from '../../../services/data/activity.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
@@ -33,7 +33,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     private sesjonService: SendteSesjonerService,
     private router: Router,
     private route: ActivatedRoute,
-    private aktivitetService: AktivitetService,
+    private activityService: ActivityService,
     private toastrService: ToastrService) {
 
   }
@@ -52,7 +52,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
         );
       });
 
-      this.aktivitetService.getAktivitetTyper().subscribe((activityTypes) => {
+      this.activityService.getActivityTypes().subscribe((activityTypes) => {
         this.activityTypes = activityTypes;
       });
   }
