@@ -21,12 +21,12 @@ WORKDIR /src
 COPY ["HyFive.Admin/Directory.Build.props", "HyFive.Admin/"]
 COPY ["HyFive.Admin/HyFive.Admin.csproj", "HyFive.Admin/"]
 COPY ["HyFive.Api.Common/HyFive.Api.Common.csproj", "HyFive.Api.Common/"]
-COPY ["HyFive.Modeller/HyFive.Modeller.csproj", "HyFive.Modeller/"]
-COPY ["HyFive.Tjenester.Autentisering/HyFive.Tjenester.Autentisering.csproj", "HyFive.Tjenester.Autentisering/"]
-COPY ["HyFive.Dataaksess/HyFive.Dataaksess.csproj", "HyFive.Dataaksess/"]
-COPY ["HyFive.Domene/HyFive.Domene.csproj", "HyFive.Domene/"]
-COPY ["HyFive.Tjenester.Rapporter/HyFive.Tjenester.Rapporter.csproj", "HyFive.Tjenester.Rapporter/"]
-COPY ["HyFive.Tjenester/HyFive.Tjenester.csproj", "HyFive.Tjenester/"]
+COPY ["HyFive.Modeller/HyFive.Models.csproj", "HyFive.Models/"]
+COPY ["HyFive.Tjenester.Autentisering/HyFive.Services.Authentication.csproj", "HyFive.Services.Authentication/"]
+COPY ["HyFive.Dataaksess/HyFive.DataAccess.csproj", "HyFive.DataAccess/"]
+COPY ["HyFive.Domene/HyFive.Domain.csproj", "HyFive.Domain/"]
+COPY ["HyFive.Tjenester.Rapporter/HyFive.Services.Reports.csproj", "HyFive.Services.Reports/"]
+COPY ["HyFive.Tjenester/HyFive.Services.csproj", "HyFive.Services/"]
 RUN dotnet restore "./HyFive.Admin/HyFive.Admin.csproj"
 COPY . .
 WORKDIR "/src/HyFive.Admin"
