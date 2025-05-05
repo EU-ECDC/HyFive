@@ -13,7 +13,7 @@ export class BeskyttelsesutstyrKodeverkService {
   constructor(private httpClient: HttpClient){}
 
   hentBeskyttelsesutstyrSettinger() : Observable<ProtectiveEquipmentSettingType[]> {
-    const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/`;
+    const url = `${environment.apiBaseUrl}/v1/protectiveEquipment/`;
     return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
   }
 }

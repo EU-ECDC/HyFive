@@ -42,7 +42,7 @@ export class SendteSesjonerService {
   hentBeskyttelsesutstyrSesjon(sessionId: string): Observable<ProtectiveEquipmentSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<ProtectiveEquipmentSession>(`${environment.apiBaseUrl}/v1/sesjon/beskyttelsesutstyr`, {params});
+    return this.httpClient.get<ProtectiveEquipmentSession>(`${environment.apiBaseUrl}/v1/sesjon/protectiveEquipment`, {params});
   }
 
 
@@ -62,7 +62,7 @@ export class SendteSesjonerService {
   }
 
   public lastNedBeskyttelsesutstyrSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/beskyttelsesutstyr/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
+    const url = `${environment.apiBaseUrl}/v1/protectiveEquipment/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "ProtectiveEquipment");
   }
 

@@ -22,8 +22,8 @@ export class BeskyttelsesutstyrMapper {
     return ikonmap;
   }
 
-  public static getBeskyttelsesutstyrvalg(beskyttelsesutstyr: ProtectiveEquipmentType[]): ProtectiveEquipment[] {
-    return beskyttelsesutstyr.reduce((acc, item) => {
+  public static getBeskyttelsesutstyrvalg(protectiveEquipment: ProtectiveEquipmentType[]): ProtectiveEquipment[] {
+    return protectiveEquipment.reduce((acc, item) => {
       acc.push({
         wasUsed: false,
         isRequired: item.isRequired,

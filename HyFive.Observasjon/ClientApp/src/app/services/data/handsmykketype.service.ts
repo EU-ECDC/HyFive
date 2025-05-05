@@ -12,7 +12,7 @@ export class HandsmykkeTypeService {
   }
 
   getHandsmykkeTyper(): Observable<HandJewelryType[]> {
-    return this.http.get<HandJewelryType[]>('api/v1/handsmykke/handsmykketyper').pipe()
+    return this.http.get<HandJewelryType[]>('api/v1/handsmykke/handJewelryTypes').pipe()
   }
 
 }

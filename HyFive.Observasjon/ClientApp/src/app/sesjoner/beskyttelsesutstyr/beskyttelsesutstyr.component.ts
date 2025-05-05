@@ -65,9 +65,9 @@ export class BeskyttelsesutstyrComponent implements OnInit {
     this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
   }
 
-  visUtstyr(beskyttelsesutstyr: ProtectiveEquipment[]): string{
-    if(beskyttelsesutstyr?.length > 0){
-      return beskyttelsesutstyr.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
+  visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string{
+    if(protectiveEquipment?.length > 0){
+      return protectiveEquipment.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
     return "";
   }

@@ -10,7 +10,7 @@ import { ProtectiveEquipmentOverviewReport } from './ProtectiveEquipmentOverview
 import { GloveObservation } from './GloveObservation';
 import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 
-export interface ObservasjonOversiktRapport
+export interface ObservationOverviewReport
 {
 	id: any;
 	role: Role;
@@ -18,9 +18,9 @@ export interface ObservasjonOversiktRapport
 	registrationTime: any;
 	indicationTypes: IndicationType[];
 	activity: Activity;
-	handsmykketyper: HandJewelryType[];
-	beskyttelsesutstyrsetting: string;
-	beskyttelsesutstyr: ProtectiveEquipmentOverviewReport[];
+	handJewelryTypes: HandJewelryType[];
+	protectiveEquipmentSettingTypeProtectiveEquipmentTypes: string;
+	protectiveEquipment: ProtectiveEquipmentOverviewReport[];
 	gloveObservation: GloveObservation;
-	beskyttelsesutstyrObservasjon: ProtectiveEquipmentObservation;
+	protectiveEquipmentObservation: ProtectiveEquipmentObservation;
 }

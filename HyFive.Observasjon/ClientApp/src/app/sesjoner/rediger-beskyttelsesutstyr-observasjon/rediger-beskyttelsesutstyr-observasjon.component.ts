@@ -23,7 +23,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   dialogtekster = Dialogtekster;
   Farger = Farger;
   ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
-  beskyttelsesutstyr: ProtectiveEquipment[] = [];
+  protectiveEquipment: ProtectiveEquipment[] = [];
   comment: string;
   valgtUtstyr = null;
   beskyttelsesutstyrsesjontype: SessionType = SessionType.ProtectiveEquipment;
@@ -48,7 +48,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
 
   ngOnInit(): void {
-    this.beskyttelsesutstyr = this.observasjon.protectiveEquipmentList;
+    this.protectiveEquipment = this.observasjon.protectiveEquipmentList;
   }
   
   ngOnDestroy(): void {
@@ -76,11 +76,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
-    return this.beskyttelsesutstyr.filter(b => b.isRequired);
+    return this.protectiveEquipment.filter(b => b.isRequired);
   }
 
   beskyttelsesutstyrIkkeIndikert(): ProtectiveEquipment[] {
-    return this.beskyttelsesutstyr.filter(b => b.isRequired === false);
+    return this.protectiveEquipment.filter(b => b.isRequired === false);
   }
 
   changed(event, valg: ProtectiveEquipment) {
@@ -151,8 +151,8 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   nullstillUtstyr(valg: ProtectiveEquipment) {
-    let valgIndex = this.beskyttelsesutstyr.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.beskyttelsesutstyr[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+    let valgIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
+    this.protectiveEquipment[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
   visVisningsmodusModal(event, valg: ProtectiveEquipment) {

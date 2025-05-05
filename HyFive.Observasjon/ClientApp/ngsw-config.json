@@ -48,8 +48,8 @@
       "urls": [
         "api/v1/fireindikasjoner/aktivitettyper",
         "api/v1/fireindikasjoner/indicationTypes",
-        "api/v1/handsmykke/handsmykketyper",
-        "api/v1/beskyttelsesutstyr",
+        "api/v1/handsmykke/handJewelryTypes",
+        "api/v1/protectiveEquipment",
         "api/v1/hanske/hanskemedindikasjontype",
         "api/v1/hanske/hanskeutenindikasjontype",
         "api/v1/hanske/handhygieneetterhanskebruktype"

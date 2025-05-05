@@ -36,7 +36,7 @@ export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<Beskyttel
     var sessions = this.hentSesjoner();
     var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
     var sesjonSomSkalSendes = sessions[sesjonIndeks];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/beskyttelsesutstyr`, sesjonSomSkalSendes)
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/protectiveEquipment`, sesjonSomSkalSendes)
   }
 
   beskyttelsesutstyrOppdatert: EventEmitter<ProtectiveEquipmentType[]> = new EventEmitter<ProtectiveEquipmentType[]>()

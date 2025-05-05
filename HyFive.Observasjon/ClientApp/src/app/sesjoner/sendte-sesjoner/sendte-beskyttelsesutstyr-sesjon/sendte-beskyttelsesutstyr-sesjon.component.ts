@@ -60,9 +60,9 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.router.navigate([Urls.SendteSesjonerUrl])
   }
 
-  visUtstyr(beskyttelsesutstyr: ProtectiveEquipment[]): string {
-    if (beskyttelsesutstyr?.length > 0) {
-      return beskyttelsesutstyr.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
+  visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string {
+    if (protectiveEquipment?.length > 0) {
+      return protectiveEquipment.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
     return "";
   }

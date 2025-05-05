@@ -4,16 +4,16 @@ export class Urls {
   static RegistrereFireIndikasjonerUrl = 'registrering/fire-indikasjoner';
   static RegistrereHandsmykkerUrl = 'registrering/handJewelry';
   static RegistrereHanskeUrl = 'registrering/hanske';
-  static RegistrereBeskyttelsesutstyrUrl = 'registrering/beskyttelsesutstyr';
+  static RegistrereBeskyttelsesutstyrUrl = 'registrering/protectiveEquipment';
   static IkkeSendteSesjonerUrl = 'sessions/ikke-sendte';
   static SendteSesjonerUrl = 'sessions/sendte';
   static FireIndikasjonerSesjonUrl = 'sessions/fire-indikasjoner';
   static HandsmykkeSesjonUrl = 'sessions/handJewelry';
   static HanskeSesjonUrl = 'sessions/hanske';
-  static BeskyttelsesutstyrSesjonUrl = 'sessions/beskyttelsesutstyr';
+  static BeskyttelsesutstyrSesjonUrl = 'sessions/protectiveEquipment';
   static SendteFireIndikasjonerSesjonUrl = 'sessions/sendte/fire-indikasjoner';
   static SendteHandsmykkeSesjonUrl = 'sessions/sendte/handJewelry';
   static SendteHanskeSesjonUrl = 'sessions/sendte/hanske';
-  static SendteBeskyttelsesutstyrSesjonUrl = 'sessions/sendte/beskyttelsesutstyr';
+  static SendteBeskyttelsesutstyrSesjonUrl = 'sessions/sendte/protectiveEquipment';
   static ProfilUrl = 'profil';
 }
