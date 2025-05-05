@@ -7,7 +7,7 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { BeskyttelsesutstyrSesjonService } from "../../services/data/beskyttelsesutstyr-sesjon.service";
 import { SessionType } from "../../models/api/SessionType";
-import { SesjonRapport } from "../../models/api/SesjonRapport";
+import { SessionReport } from "../../models/api/SessionReport";
 import { ToastrService } from "ngx-toastr";
 import { HanskeSesjonService } from "../../services/data/hansker-sesjon.service";
 import { forkJoin, of } from "rxjs";
@@ -20,8 +20,8 @@ import { catchError, tap } from "rxjs/operators";
 export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
-  sessions: SesjonRapport[];
-  sesjonerFiltrert: SesjonRapport[];
+  sessions: SessionReport[];
+  sesjonerFiltrert: SessionReport[];
   sokeord: string = null;
   sesjonsnavnMap: Map<SessionType, string>;
   erOnline: boolean = true;
@@ -51,11 +51,11 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   lastSesjoner() {
     this.sessions = this.fireIndikasjonerSesjonService
       .hentSesjoner()
-      .map((f) => this.lagSesjonsvisning(f, SessionType.FireIndikasjoner))
+      .map((f) => this.lagSesjonsvisning(f, SessionType.FourIndications))
       .concat(
         this.handsmykkeSesjonService
           .hentSesjoner()
-          .map((h) => this.lagSesjonsvisning(h, SessionType.Handsmykker))
+          .map((h) => this.lagSesjonsvisning(h, SessionType.HandJewelry))
       )
       .concat(
         this.hanskeSesjonService
@@ -83,7 +83,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     if (this.sokeord != null && this.sessions != null) {
       this.sesjonerFiltrert = this.sessions.filter(
         (s) =>
-          s.avdelingsnavn?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
+          s.departmentName?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
           -1 ||
           this.sesjonsnavnMap
             .get(s.type)
@@ -98,9 +98,9 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   lagSesjonsvisning(
     sesjon: Session<any>,
     sesjonstype: SessionType
-  ): SesjonRapport {
+  ): SessionReport {
     return {
-      avdelingsnavn: sesjon.department?.name,
+      departmentName: sesjon.department?.name,
       startTime: sesjon.startTime,
       type: sesjonstype,
       id: sesjon.id,
@@ -110,9 +110,9 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
 
   getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
-      case SessionType.FireIndikasjoner:
+      case SessionType.FourIndications:
         return Urls.FireIndikasjonerSesjonUrl;
-      case SessionType.Handsmykker:
+      case SessionType.HandJewelry:
         return Urls.HandsmykkeSesjonUrl;
       case SessionType.Gloves:
         return Urls.HanskeSesjonUrl;
@@ -130,7 +130,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
       if (s.isSelected) {
         let observable;
         switch (s.type) {
-          case SessionType.FireIndikasjoner:
+          case SessionType.FourIndications:
             observable = this.fireIndikasjonerSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {
@@ -147,7 +147,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
               );
             break;
    
-          case SessionType.Handsmykker:
+          case SessionType.HandJewelry:
             observable = this.handsmykkeSesjonService
               .sendTilServer(s.id).pipe(
                 tap(() => {
@@ -216,7 +216,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
     
-  merkSesjon(sesjon: SesjonRapport) {
+  merkSesjon(sesjon: SessionReport) {
     sesjon.isSelected = !sesjon.isSelected;
     this.harValgtEnSesjon = this.sesjonerFiltrert.some((s) => s.isSelected);
   }

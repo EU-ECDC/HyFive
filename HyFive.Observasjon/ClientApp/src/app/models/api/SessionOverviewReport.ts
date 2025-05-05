@@ -5,16 +5,16 @@
 import { Department } from './Department';
 import { ObservationOverviewReport } from './ObservationOverviewReport';
 
-export interface SesjonOversiktRapport
+export interface SessionOverviewReport
 {
 	id: any;
 	type: string;
-	observatorNavn: string;
+	observerName: string;
 	department: Department;
 	startTime: any;
 	createdTime: any;
 	comment: string;
-	overforingstatus: any;
+	transferStatus: any;
 	observations: ObservationOverviewReport[];
 	isSelected: boolean;
 }

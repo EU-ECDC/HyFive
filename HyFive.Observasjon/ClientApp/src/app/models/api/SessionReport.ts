@@ -4,10 +4,10 @@
 
 import { SessionType } from './SessionType';
 
-export interface SesjonRapport
+export interface SessionReport
 {
 	id: string;
-	avdelingsnavn: string;
+	departmentName: string;
 	startTime: any;
 	type: SessionType;
 	institutionsName: string;

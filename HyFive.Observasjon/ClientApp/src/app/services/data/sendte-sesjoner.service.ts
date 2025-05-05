@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { SesjonRapport } from '../../models/api/SesjonRapport';
+import { SessionReport } from '../../models/api/SessionReport';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
@@ -16,9 +16,9 @@ export class SendteSesjonerService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getSesjoner(): Observable<SesjonRapport[]> {
+  getSesjoner(): Observable<SessionReport[]> {
     const url = `${environment.apiBaseUrl}/v1/sesjon/`;
-    return this.httpClient.get<SesjonRapport[]>(url);
+    return this.httpClient.get<SessionReport[]>(url);
   }
 
   hentFireIndikasjonerSesjon(sessionId : string): Observable<FourIndicationsSession> {
@@ -53,7 +53,7 @@ export class SendteSesjonerService {
 
   public lastNedFireIndikasjonerSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
     const url = `${environment.apiBaseUrl}/v1/fireindikasjoner/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
-    return this.lastNedSesjonSomExcelNy(url, "FireIndikasjoner");
+    return this.lastNedSesjonSomExcelNy(url, "FourIndications");
   }
 
   public lastNedHandsmykkeSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {

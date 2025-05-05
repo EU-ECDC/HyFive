@@ -5,7 +5,7 @@ import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { SendteSesjonerService } from "../../services/data/sendte-sessions.service";
 import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
-import { SesjonRapport } from "../../models/api/SesjonRapport";
+import { SessionReport } from "../../models/api/SessionReport";
 
 @Component({
   selector: "app-sendte-sessions",
@@ -14,8 +14,8 @@ import { SesjonRapport } from "../../models/api/SesjonRapport";
 export class SendteSesjonerComponent {
   Urls = Urls;
 
-  sessions: SesjonRapport[];
-  sesjonerFiltrert: SesjonRapport[];
+  sessions: SessionReport[];
+  sesjonerFiltrert: SessionReport[];
   harLastetSesjoner = false;
   sokeord: string = null;
   sesjonsnavnMap: Map<SessionType, string>;
@@ -52,7 +52,7 @@ export class SendteSesjonerComponent {
     if (this.sokeord != null && this.sessions != null) {
       this.sesjonerFiltrert = this.sessions.filter(
         (s) =>
-          s.avdelingsnavn?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
+          s.departmentName?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
             -1 ||
           this.sesjonsnavnMap
             .get(s.type)
@@ -69,9 +69,9 @@ export class SendteSesjonerComponent {
 
   getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
-      case SessionType.FireIndikasjoner:
+      case SessionType.FourIndications:
         return Urls.SendteFireIndikasjonerSesjonUrl;
-      case SessionType.Handsmykker:
+      case SessionType.HandJewelry:
         return Urls.SendteHandsmykkeSesjonUrl;
       case SessionType.ProtectiveEquipment:
         return Urls.SendteBeskyttelsesutstyrSesjonUrl;

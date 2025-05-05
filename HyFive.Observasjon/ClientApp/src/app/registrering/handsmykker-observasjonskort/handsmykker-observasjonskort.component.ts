@@ -92,7 +92,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     let antallValgteHandsmykker = this.antallValgteHandsmykker();
 
     if (antallValgteHandsmykker < 1) {
-      this.observasjonMangelTekst = "Handsmykker mangler";
+      this.observasjonMangelTekst = "HandJewelry mangler";
       this.visInfoModal = true;
     }
     return antallValgteHandsmykker < 1;

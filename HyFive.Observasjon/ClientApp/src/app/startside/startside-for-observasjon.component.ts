@@ -56,7 +56,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   resetState() {
-    this.valgtSesjonType = SessionType.IkkeValgt;
+    this.valgtSesjonType = SessionType.NotSelected;
     this.tidtaking = false;
     this.hanskebruk = false;
     this.rollevalg = [];
@@ -109,13 +109,13 @@ export class StartsideForObservasjonComponent implements OnInit {
     }
 
     switch (this.valgtSesjonType) {
-      case SessionType.IkkeValgt:
+      case SessionType.NotSelected:
         alert("Velg sesjonstypen du ønsker å starte");
         break;
-      case SessionType.FireIndikasjoner:
+      case SessionType.FourIndications:
         this.startFireIndikasjonerSesjon();
         break;
-      case SessionType.Handsmykker:
+      case SessionType.HandJewelry:
         this.startHandsmykkeSesjon();
         break;
       case SessionType.Gloves:
@@ -202,7 +202,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     return (
       this.valgtAvdelingId === null ||
       this.rollevalg.filter((r) => r.isSelected).length === 0 ||
-      this.valgtSesjonType === SessionType.IkkeValgt
+      this.valgtSesjonType === SessionType.NotSelected
     );
   }
 }

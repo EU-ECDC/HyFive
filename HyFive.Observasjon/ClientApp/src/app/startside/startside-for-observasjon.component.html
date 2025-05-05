@@ -74,12 +74,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SessionType.FireIndikasjoner" 
+                [id]="SessionType.FourIndications" 
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.FireIndikasjoner"
-                [value]="SessionType.FireIndikasjoner"
+                [checked]="valgtSesjonType == SessionType.FourIndications"
+                [value]="SessionType.FourIndications"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FireIndikasjoner">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FourIndications">
                 <span class="fhi-form-check-tile__label-text">4 indikasjoner</span>
               </label>
             </div>
@@ -91,12 +91,12 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SessionType.Handsmykker"
+                [id]="SessionType.HandJewelry"
                 [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.Handsmykker"
-                [value]="SessionType.Handsmykker"
+                [checked]="valgtSesjonType == SessionType.HandJewelry"
+                [value]="SessionType.HandJewelry"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Handsmykker">
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandJewelry">
                 <span class="fhi-form-check-tile__label-text">Smykker, klokker og negler</span>
               </label>
             </div>
@@ -141,8 +141,8 @@
 
     <ng-container
       *ngIf="
-        valgtSesjonType === SessionType.InnUt ||
-        valgtSesjonType === SessionType.FireIndikasjoner ||
+        valgtSesjonType === SessionType.InOut ||
+        valgtSesjonType === SessionType.FourIndications ||
         valgtSesjonType === SessionType.Gloves
       "
     >
@@ -161,7 +161,7 @@
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ valgtSesjonType == SessionType.FireIndikasjoner ? "Hanskebruk" : "Handhygiene" }}</h2>
+            <h2 class="h5 text-center">{{ valgtSesjonType == SessionType.FourIndications ? "Hanskebruk" : "Handhygiene" }}</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !hanskebruk ? 'bold' : '' }">Av</span>
               <label class="hh-switch">
