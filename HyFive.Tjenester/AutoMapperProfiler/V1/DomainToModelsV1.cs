@@ -267,7 +267,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalHealthcareOrganization>(MemberList.None);
 
-            CreateMap<Domain.Place.Municipality, Models.V1.Institution.Comment>(MemberList.None);
+            CreateMap<Domain.Place.Municipality, Models.V1.Institution.Municipality>(MemberList.None);
         }
 
         private static string GetObserverName(Observer observer)

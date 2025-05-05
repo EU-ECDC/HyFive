@@ -172,7 +172,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    var opprettetSesjon = await HentSesjon(opprettetSesjonId);
         //    var handler = new UpdateFourIndicationsObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateFourIndicationsObservation.Handler>());
         //    var observasjon = opprettetSesjon.Observations.First();
-        //    observasjon.Comment = "Oppdatert";
+        //    observasjon.Municipality = "Oppdatert";
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = observasjon };
 
         //    // Act
@@ -183,7 +183,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    Assert.Multiple(() =>
         //    {
         //        Assert.That(oppdatertObservasjon.Id, Is.EqualTo(observasjon.Id));
-        //        Assert.That(oppdatertObservasjon.Comment, Is.EqualTo(observasjon.Comment));
+        //        Assert.That(oppdatertObservasjon.Municipality, Is.EqualTo(observasjon.Municipality));
         //    });
         //}
 

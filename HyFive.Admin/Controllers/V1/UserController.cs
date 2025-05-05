@@ -199,7 +199,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 var response = await _mediator.Send(new CreateFhiAdmin.Command() { Request = request });
                 return Ok(response);
-                //return CreatedAtRoute("GetFhiAdmin", new { id = response.InstitutionId }, response);
+                //return CreatedAtRoute("GetFhiAdmin", new { id = response.HealthcareOrganizationId }, response);
             }
             catch (Exception e)
             {

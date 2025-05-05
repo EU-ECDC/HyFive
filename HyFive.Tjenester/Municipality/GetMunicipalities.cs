@@ -12,10 +12,10 @@ namespace HyFive.Services.Municipality
 {
     public class GetMunicipalities
     {
-        public class Query : IRequest<List<Models.V1.Institution.Comment>>
+        public class Query : IRequest<List<Models.V1.Institution.Municipality>>
         { }
 
-        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.Comment>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.Municipality>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -25,11 +25,11 @@ namespace HyFive.Services.Municipality
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<List<Models.V1.Institution.Comment>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Models.V1.Institution.Municipality>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var municipalityList = await _context.Municipality
                                            .AsNoTracking()
-                                           .ProjectTo<Models.V1.Institution.Comment>(_mapper.ConfigurationProvider)
+                                           .ProjectTo<Models.V1.Institution.Municipality>(_mapper.ConfigurationProvider)
                                            .OrderBy(k => k.Name)
                                            .ToListAsync();
 

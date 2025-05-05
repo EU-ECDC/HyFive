@@ -173,8 +173,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations.First();
         //    var nyKommentar = Guid.NewGuid()+" bla bla";
         //    var beskyttelsesutstyrSomSkalEndres = observasjonSomSkalEndres.ProtectiveEquipmentList.First(b => b.Id == 1);
-        //    var gammelKommentar = beskyttelsesutstyrSomSkalEndres.Comment;
-        //    beskyttelsesutstyrSomSkalEndres.Comment = nyKommentar;
+        //    var gammelKommentar = beskyttelsesutstyrSomSkalEndres.Municipality;
+        //    beskyttelsesutstyrSomSkalEndres.Municipality = nyKommentar;
             
         //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
         //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
@@ -187,7 +187,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //        .FirstOrDefault(o => o.Id == observasjonSomSkalEndres.Id).ProtectiveEquipmentList
         //        .First(b => b.Id == beskyttelsesutstyrSomSkalEndres.Id);
             
-        //    var oppdatertKommentar =  oppdatertBeskyttelsesutstyr.Comment;
+        //    var oppdatertKommentar =  oppdatertBeskyttelsesutstyr.Municipality;
             
         //    // Assert
         //    Assert.That(oppdatertKommentar, Is.EqualTo(nyKommentar));
@@ -203,7 +203,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    // Act
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations.First();
         //    var nyKommentar = Guid.NewGuid()+" bla bla";
-        //    observasjonSomSkalEndres.Comment = nyKommentar;
+        //    observasjonSomSkalEndres.Municipality = nyKommentar;
 
         //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
         //    await handler.Handle(new UpdateProtectiveEquipmentObservation.Command()
@@ -214,7 +214,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    var hentetSesjonFraDatabaseEtterEndring = await HentSesjon(opprettetSesjonId);
         //    var oppdatertObservasjon = hentetSesjonFraDatabaseEtterEndring.Observations
         //        .FirstOrDefault(o => o.Id == observasjonSomSkalEndres.Id);
-        //    var oppdatertKommentar =  oppdatertObservasjon.Comment;
+        //    var oppdatertKommentar =  oppdatertObservasjon.Municipality;
             
         //    // Assert
         //    Assert.That(oppdatertKommentar, Is.EqualTo(nyKommentar));

@@ -42,7 +42,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Update Predefined Comment
+        /// Update Predefined Municipality
         /// </summary>
         /// <param name="predefinedComment"></param>
         /// <param name="institutionId"></param>
@@ -66,7 +66,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Create Predefined Comment
+        /// Create Predefined Municipality
         /// </summary>
         /// <param name="newPredefinedComment"></param>
         /// <param name="institutionId"></param>

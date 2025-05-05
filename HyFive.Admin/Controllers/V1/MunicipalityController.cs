@@ -21,7 +21,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Models.V1.Institution.Comment>>> GetMunicipalities()
+        public async Task<ActionResult<List<Models.V1.Institution.Municipality>>> GetMunicipalities()
         {
             var result = await _mediator.Send(new GetMunicipalities.Query());
 

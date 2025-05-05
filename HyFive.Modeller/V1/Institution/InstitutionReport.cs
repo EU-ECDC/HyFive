@@ -12,7 +12,7 @@ namespace HyFive.Models.V1.Institution
         public string HERId { get; set; }
         public InstitutionType InstitutionType { get; set; }
         public Region Region { get; set; }
-        public Comment Comment { get; set; }
-        public HealthcareOrganization HealthcareEnterprise { get; set; }
+        public Municipality Municipality { get; set; }
+        public HealthcareOrganization HealthcareOrganization { get; set; }
     }
 }

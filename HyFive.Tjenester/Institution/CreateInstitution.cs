@@ -39,7 +39,7 @@ namespace HyFive.Services.Institution
 
                 var municipality = await _context.Municipality.FirstOrDefaultAsync(k => k.Id == command.Request.MunicipalityId);
                 
-                var healthcareOrganization = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Request.InstitutionId);
+                var healthcareOrganization = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Request.HealthcareOrganizationId);
                 
                 var coordinator = new Coordinator()
                 {

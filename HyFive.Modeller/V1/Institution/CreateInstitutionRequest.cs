@@ -19,6 +19,6 @@ namespace HyFive.Models.V1.Institution
         public string CoordinatorEmail { get; set; }    
         public int RegionId { get; set; }
         public int MunicipalityId { get; set; }
-        public int InstitutionId { get; set; }
+        public int HealthcareOrganizationId { get; set; }
     }
 }

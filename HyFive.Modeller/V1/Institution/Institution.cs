@@ -13,7 +13,7 @@ namespace HyFive.Models.V1.Institution
         public List<Department> Departments { get; set; }
         public InstitutionType InstitutionType { get; set; }
         public Region Region { get; set; }
-        public Comment Comment { get; set; }
+        public Municipality Municipality { get; set; }
         public bool HasObservations { get; set; }
         public HealthcareOrganization HealthcareOrganization { get; set; }
     }
