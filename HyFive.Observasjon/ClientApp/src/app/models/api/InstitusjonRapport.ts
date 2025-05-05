@@ -2,19 +2,19 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { InstitusjonType } from './InstitusjonType';
+import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
 import { Municipality } from './Municipality';
 import { HealthcareOrganization } from './HealthcareOrganization';
 
-export interface InstitusjonRapport
+export interface InstitutionReport
 {
 	id: number;
 	name: string;
-	forkortelse: string;
+	abbreviation: string;
 	herId: string;
-	institusjontype: InstitusjonType;
+	institutionType: InstitutionType;
 	region: Region;
-	kommune: Municipality;
-	helseforetak: HealthcareOrganization;
+	municipality: Municipality;
+	healthcareOrganization: HealthcareOrganization;
 }

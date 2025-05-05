@@ -3,7 +3,7 @@
 //     the code is regenerated.
 
 import { Department } from './Department';
-import { InstitusjonType } from './InstitusjonType';
+import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
 import { Municipality } from './Municipality';
 import { HealthcareOrganization } from './HealthcareOrganization';
@@ -12,12 +12,12 @@ export interface Institution
 {
 	id: number;
 	name: string;
-	forkortelse: string;
+	abbreviation: string;
 	herId: string;
 	departments: Department[];
-	institusjontype: InstitusjonType;
+	institutionType: InstitutionType;
 	region: Region;
-	kommune: Municipality;
-	harObservasjoner: boolean;
-	helseforetak: HealthcareOrganization;
+	municipality: Municipality;
+	hasObservations: boolean;
+	healthcareOrganization: HealthcareOrganization;
 }

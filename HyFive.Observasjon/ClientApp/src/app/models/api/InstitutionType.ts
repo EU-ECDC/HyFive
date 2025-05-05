@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface InstitusjonType
+export interface InstitutionType
 {
 	id: number;
 	code: string;
