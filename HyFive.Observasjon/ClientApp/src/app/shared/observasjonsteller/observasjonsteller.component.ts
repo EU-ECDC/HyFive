@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { Session } from '../../models/api/Session';
 import { faPlus, faClipboard, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { faObservasjonskort } from '../../utils/customIkoner';
+import { faObservasjonskort } from '../../utils/customIconer';
 
 @Component({
   selector: 'app-observasjonsteller',

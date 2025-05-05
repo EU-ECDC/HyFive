@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faNyttKortPil } from '../../utils/customIkoner';
+import { faNyttKortPil } from '../../utils/customIconer';
 
 @Component({
   selector: 'app-nytt-kort-info',

@@ -4,20 +4,20 @@ import { faTshirt } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { Handsmykkevalg } from '../models/registration/handJewelry-selection.model';
 import { HandJewelryType } from '../models/api/HandJewelryType';
-import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIkoner';
+import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIconer';
 
 export class HandsmykkeMapper {
 
-  public static getIkontypeMap(): Map<HandJewelryTypeConstants, IconProp> {
-    var ikonmap = new Map<HandJewelryTypeConstants, IconProp>();
-    ikonmap.set(HandJewelryTypeConstants.AllClear, faThumbsUp);
-    ikonmap.set(HandJewelryTypeConstants.Ring, faRing);
-    ikonmap.set(HandJewelryTypeConstants.WatchBracelet, faKlokke);
-    ikonmap.set(HandJewelryTypeConstants.LongNails, faLangNegl);
-    ikonmap.set(HandJewelryTypeConstants.ArtificialNailsShellac, faKunstigNegl);
-    ikonmap.set(HandJewelryTypeConstants.ShortSleeved, faTshirt);
-    ikonmap.set(HandJewelryTypeConstants.LongSleeved, faLangermet);
-    return ikonmap;
+  public static getIconTypeMap(): Map<HandJewelryTypeConstants, IconProp> {
+    var iconmap = new Map<HandJewelryTypeConstants, IconProp>();
+    iconmap.set(HandJewelryTypeConstants.AllClear, faThumbsUp);
+    iconmap.set(HandJewelryTypeConstants.Ring, faRing);
+    iconmap.set(HandJewelryTypeConstants.WatchBracelet, faKlokke);
+    iconmap.set(HandJewelryTypeConstants.LongNails, faLangNegl);
+    iconmap.set(HandJewelryTypeConstants.ArtificialNailsShellac, faKunstigNegl);
+    iconmap.set(HandJewelryTypeConstants.ShortSleeved, faTshirt);
+    iconmap.set(HandJewelryTypeConstants.LongSleeved, faLangermet);
+    return iconmap;
   }
 
   public static getHandsmykkevalg(handsmykkeAlternativer: HandJewelryType[], handsmykkeValg: string[]): Handsmykkevalg[] {

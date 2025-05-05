@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
-import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
+import { ProtectiveEquipmentMapper } from 'src/app/utils/protectiveEquipment-mapper';
 import { Farger } from '../../utils/farger';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
@@ -22,7 +22,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   erRedigeringsmodus: boolean = false;
   dialogueTexts = DialogueTexts;
   Farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
+  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
   comment: string;
   valgtUtstyr = null;
@@ -152,7 +152,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   nullstillUtstyr(valg: ProtectiveEquipment) {
     let valgIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.protectiveEquipment[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+    this.protectiveEquipment[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
   visVisningsmodusModal(event, valg: ProtectiveEquipment) {

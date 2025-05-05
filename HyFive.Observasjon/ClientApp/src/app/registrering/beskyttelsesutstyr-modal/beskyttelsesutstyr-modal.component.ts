@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Farger } from "../../utils/farger";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { BeskyttelsesutstyrMapper } from "../../utils/beskyttelsesutstyrmapper";
+import { ProtectiveEquipmentMapper } from "../../utils/protectiveEquipment-mapper";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 
@@ -18,7 +18,7 @@ export class BeskyttelsesutstyrModalComponent implements OnInit {
 
   faCircle = faCircle;
   farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
+  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
   closeResult = '';
 

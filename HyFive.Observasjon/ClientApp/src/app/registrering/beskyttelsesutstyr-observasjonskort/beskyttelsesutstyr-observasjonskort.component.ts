@@ -10,7 +10,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ProtectiveEquipmentSessionView } from "../../models/registration/protectiveEquipment-sessionView.model";
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { ProtectiveEquipmentCard } from '../../models/registration/protectiveEquipment-card.model';
-import { BeskyttelsesutstyrMapper } from '../../utils/beskyttelsesutstyrmapper';
+import { ProtectiveEquipmentMapper } from '../../utils/protectiveEquipment-mapper';
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -46,7 +46,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   faCheck = faCheck;
   faTimes = faTimes;
   farger = Farger;
-  ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
+  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
   @Input("card") card: ProtectiveEquipmentCard;
   @Input("roleSelected") roleSelected: Role[];
@@ -68,7 +68,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
       this.oppdaterBeskyttelsesutstyrValg();
     })
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes);
+    this.beskyttelsesutstyrValg = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes);
     this.institutionid = this.sessionView.department.institutionId;
   }
 
@@ -94,12 +94,12 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
   nullstillKort() {
     this.comment = "";
-    this.beskyttelsesutstyrValg = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes);
+    this.beskyttelsesutstyrValg = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes);
   }
 
   nullstillUtstyr(valg: ProtectiveEquipment) {
     let valgIndex = this.beskyttelsesutstyrValg.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.beskyttelsesutstyrValg[valgIndex] = BeskyttelsesutstyrMapper.getBeskyttelsesutstyrvalg(this.sessionView.setting.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+    this.beskyttelsesutstyrValg[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
 
