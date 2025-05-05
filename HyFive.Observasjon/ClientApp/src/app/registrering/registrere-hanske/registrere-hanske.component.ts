@@ -10,7 +10,7 @@ import { Card } from '../../models/registration/card.model';
 import { Uuid } from '../../utils/uuid';
 import { GloveSessionView } from '../../models/registration/hansker-sessionView.model';
 import { GloveSession } from '../../models/api/GloveSession';
-import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
+import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { ToastrService } from 'ngx-toastr';
 
@@ -34,7 +34,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sesjonService: HanskeSesjonService,
+    private sesjonService: GloveSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private institutionService: InstitutionService,

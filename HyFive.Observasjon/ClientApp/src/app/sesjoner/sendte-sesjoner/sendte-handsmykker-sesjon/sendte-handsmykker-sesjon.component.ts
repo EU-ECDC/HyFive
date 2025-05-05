@@ -6,7 +6,7 @@ import { Urls } from '../../../constants/urls';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandJewelrySession } from '../../../models/api/HandJewelrySession';
-import { HandsmykkeTypeService } from '../../../services/data/handsmykketype.service';
+import { HandJewelryTypeService } from '../../../services/data/hand-jewelry-type.service';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
 import {ToastrService} from 'ngx-toastr';
 import {DialogueTexts} from '../../../constants/dialogueTexts';
@@ -28,7 +28,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private sesjonService: SendteSesjonerService,
-    private handsmykkeTypeService: HandsmykkeTypeService,
+    private handJewelryTypeService: HandJewelryTypeService,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
         }
       );
     });
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
     });
   }

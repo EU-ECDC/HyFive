@@ -26,7 +26,7 @@ import { SlettBekrefelsesdialogComponent } from './sessions/slett-bekreftelsesdi
 import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
 import { LagreSkyggeComponent } from './registrering/lagre-skygge/lagre-skygge.component';
 import { SlettSkyggeComponent } from './registrering/slett-skygge/slett-skygge.component';
-import { HandsmykkeSesjonService } from './services/data/handsmykke-sesjon.service';
+import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
 import { HandsmykkerObservasjonskortComponent } from './registrering/handsmykker-observasjonskort/handsmykker-observasjonskort.component';
 import { HandsmykkerComponent } from './sessions/handsmykker/handsmykker.component';
 import { RedigerHandsmykkerObservasjonComponent } from './sessions/rediger-handsmykker-observasjon/rediger-handsmykker-observasjon.component';
@@ -150,7 +150,7 @@ export const httpInterceptorProviders = [
         DragDropModule
     ],
     bootstrap: [AppComponent],
-    providers: [FourIndicationsSessionService, HandsmykkeSesjonService, HandHygieneHammerJS, httpInterceptorProviders],
+    providers: [FourIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
         RedigerBeskyttelsesutstyrObservasjonComponent,
         RegistrerKommentarComponent

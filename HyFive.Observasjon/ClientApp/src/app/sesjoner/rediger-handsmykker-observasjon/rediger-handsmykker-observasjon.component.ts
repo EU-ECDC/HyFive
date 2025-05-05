@@ -4,7 +4,7 @@ import { HandJewelryObservation } from '../../models/api/HandJewelryObservation'
 import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
-import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
+import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Handsmykkevalg } from '../../models/registration/handJewelry-selection.model';
 import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
@@ -12,7 +12,7 @@ import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
 import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
-import { HandsmykkeTypeService } from '../../services/data/handsmykketype.service';
+import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
 
 @Component({
   selector: 'app-rediger-handsmykker-observasjon',
@@ -34,8 +34,8 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   faTrashAlt = faTrashAlt;
 
   constructor(
-    private sesjonService: HandsmykkeSesjonService,
-    private handsmykkeTypeService: HandsmykkeTypeService
+    private sesjonService: HandJewelrySessionService,
+    private handJewelryTypeService: HandJewelryTypeService
   ) { }
 
   @Input() isReadonly: boolean = false;
@@ -45,7 +45,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
       this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, this.observasjon.handJewelry.map(x => x?.code));
       this.handsmykkevalg.forEach(x => this.changed(x));

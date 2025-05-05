@@ -3,12 +3,12 @@ import { AuthorizationService } from '../services/data/authorization.service';
 import { LoggedInUser } from '../models/api/LoggedInUser';
 import { Urls } from '../constants/urls';
 import {FourIndicationsSessionService} from '../services/data/four-indications-session.service';
-import {HanskeSesjonService} from '../services/data/hansker-sesjon.service';
+import {GloveSessionService} from '../services/data/glove-session.service';
 import {ProtectiveEquipmentSessionService} from '../services/data/protectiveEquipment-session.service';
-import {HandsmykkeSesjonService} from '../services/data/handsmykke-sesjon.service';
+import {HandJewelrySessionService} from '../services/data/hand-Jewelry-session.service';
 import {ToastrService} from 'ngx-toastr';
 import { Institution } from '../models/api/Institution';
-import { ForesporselOmBrukertilgangService } from '../services/data/foresporselombrukertilgang.sevice';
+import { RequestAboutUserAccessService } from '../services/data/requestAboutUserAccess.service';
 import {ClipboardService} from 'ngx-clipboard';
 import { KodeverkCacheService } from '../services/data/kodeverk-cache.service';
 import { HjelpetekstComponent } from '../shared/hjelpetekst/hjelpetekst.component';
@@ -37,10 +37,10 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   constructor(
     private authorizationService: AuthorizationService,
     private fireIndikasjonerService: FourIndicationsSessionService,
-    private hanskeService: HanskeSesjonService,
+    private hanskeService: GloveSessionService,
     private beskyttelsesutstyrService: ProtectiveEquipmentSessionService,
-    private handsmykkeService: HandsmykkeSesjonService,
-    private foresporselOmBrukertilgangService: ForesporselOmBrukertilgangService,
+    private handsmykkeService: HandJewelrySessionService,
+    private requestAboutUserAccessService: RequestAboutUserAccessService,
     private toastrService: ToastrService,
     private clipboardService: ClipboardService,
     private kodeverkCacheService: KodeverkCacheService
@@ -54,11 +54,11 @@ export class LoginsideComponent implements OnInit, OnDestroy {
         this.authorizationService.getUser().subscribe(user => {
           this.user = user;
 
-          this.foresporselOmBrukertilgangService.hentForesporselSomSendtAllerede().subscribe(
+          this.requestAboutUserAccessService.fetchRequestSentAlready().subscribe(
             (forsporsel) => {
               if(forsporsel != null)
               {
-                this.foresporselOmBrukertilgangService.hentInstitusjon(forsporsel.institutionId).subscribe(
+                this.requestAboutUserAccessService.getInstitution(forsporsel.institutionId).subscribe(
                   (institusjon) => {
                     if(institusjon != null)
                     {
@@ -74,7 +74,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
           this.kodeverkCacheService.lastKodeverk();
         });
 
-        this.foresporselOmBrukertilgangService.hentInstitusjoner().subscribe(
+        this.requestAboutUserAccessService.getInstitutions().subscribe(
           (institusjoner) => {
             this.institusjoner = institusjoner;
           }
@@ -117,14 +117,14 @@ export class LoginsideComponent implements OnInit, OnDestroy {
   sendForesporsel() {
     if(this.valgtInstitusjon)
     {
-      var nyForsporselOmBrukertilgang = {
+      var newRequestAboutUserAccess = {
         institutionId: this.valgtInstitusjon?.id,
         userFirstName: this.user.firstName,
         userLastName: this.user.lastName,
         hprNumber: this.user.hprNumber,
         identityPseudonym: this.user.identityPseudonym
       }
-      this.foresporselOmBrukertilgangService.sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang).subscribe(
+      this.requestAboutUserAccessService.sendRequestAboutUserAccess(newRequestAboutUserAccess).subscribe(
         (erBrukerOpprettet) => {
           if (erBrukerOpprettet)
           {

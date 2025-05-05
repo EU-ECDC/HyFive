@@ -5,11 +5,11 @@ import { faCommentDots, faHandPaper } from '@fortawesome/free-regular-svg-icons'
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
-import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
+import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
-import { HanskeMedIndikasjonTypeService } from '../../services/data/hanske-med-indikasjon-type.service';
-import { HanskeUtenIndikasjonTypeService } from '../../services/data/hanske-uten-indikasjon-type.service';
-import { HandhygieneEtterHanskebrukTypeService } from '../../services/data/handhygiene-etter-hanskebruk-type.service';
+import { GloveWithIndicationTypeService } from '../../services/data/glove-with-indication-type.service';
+import { GloveWithoutIndicationTypeService } from '../../services/data/glove-without-indication-type.service';
+import { HandHygieneAfterGloveUseTypeService } from '../../services/data/hand-hygiene-after-glove-useType-service';
 import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicationType';
 import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
@@ -42,10 +42,10 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   faHandPaper = faHandPaper;
 
   constructor(
-    private sesjonService: HanskeSesjonService,
-    private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
-    private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,
-    private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
+    private sesjonService: GloveSessionService,
+    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
+    private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
   ) { }
 
   @Input() isReadonly: boolean = false;
@@ -60,7 +60,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
     this.uuid = Uuid.generateUUID();
 
-    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((gloveWithIndicationTypes) => {
+    this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
       if (this.observasjon.gloveWithIndicationTypes.length) {
         this.activeTab = "med";
@@ -70,7 +70,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
         });
       }
     });
-    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+    this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
       if (this.observasjon.gloveWithoutIndicationTypes.length) {
         this.activeTab = "uten";
@@ -80,7 +80,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
         });
       }
     });
-    this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper().subscribe((handHygieneAfterGloveUseTypes) => {
+    this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes().subscribe((handHygieneAfterGloveUseTypes) => {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HandJewelrySession } from 'src/app/models/api/HandJewelrySession';
 import { Role } from 'src/app/models/api/Role';
-import { HandsmykkeSesjonService } from 'src/app/services/data/handsmykke-sesjon.service';
+import { HandJewelrySessionService } from 'src/app/services/data/hand-Jewelry-session.service';
 import { HandJewelrySessionView } from '../../models/registration/handJewelry-session-view.model';
 import { InstitutionService } from '../../services/data/InstitutionService';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -35,7 +35,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   faArrowDown = faArrowDown;
 
   constructor(
-    private sesjonService: HandsmykkeSesjonService,
+    private sesjonService: HandJewelrySessionService,
     private router: Router,
     private route: ActivatedRoute,
     private institutionService: InstitutionService,

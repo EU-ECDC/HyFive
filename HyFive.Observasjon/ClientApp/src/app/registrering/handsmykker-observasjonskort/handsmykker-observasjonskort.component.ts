@@ -14,7 +14,7 @@ import { Handsmykkevalg } from "../../models/registration/handJewelry-selection.
 import { HandsmykkeMapper } from "../../utils/handsmykke-mapper";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConstants";
-import { HandsmykkeTypeService } from "../../services/data/handsmykketype.service";
+import { HandJewelryTypeService } from "../../services/data/hand-jewelry-type.service";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 
@@ -57,13 +57,13 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
-    private handsmykkeTypeService: HandsmykkeTypeService,
+    private handJewelryTypeService: HandJewelryTypeService,
     protected modalService: NgbModal) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
       this.handsmykkevalg = HandsmykkeMapper.getHandsmykkevalg(this.handJewelryTypes, []);
     });

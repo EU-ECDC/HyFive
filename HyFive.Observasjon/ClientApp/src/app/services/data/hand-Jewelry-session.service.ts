@@ -16,7 +16,7 @@ import { InstitutionService } from './InstitutionService';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessionView, HandJewelrySession, HandJewelryObservation> {
+export class HandJewelrySessionService extends BaseSessionService<HandJewelrySessionView, HandJewelrySession, HandJewelryObservation> {
 
   sessionLocalStoragePath = Localstoragepaths.HandJewelrySessions;
   sessionShowLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
@@ -28,10 +28,10 @@ export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessi
   }
 
   public sendToServer(sessionId: string): Observable<string> {
-    var sessions = this.hentSesjoner();
+    var sessions = this.getSessions();
     var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
     var sessionToSend = sessions[sessionIndex];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handsmykke`, sessionToSend)
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handjewelry`, sessionToSend)
   }
 
   public createSessionView(
@@ -56,7 +56,7 @@ export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessi
     if (navigator.onLine) {
       let params = new HttpParams();
       params = params.append("sessionId", sessionId);
-      return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handsmykke`, { params });
+      return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handjewelry`, { params });
     }
     else {
       confirm("Ikke koblet til internet");

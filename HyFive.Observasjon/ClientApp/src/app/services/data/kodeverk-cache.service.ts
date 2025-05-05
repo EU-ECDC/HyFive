@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivityService } from './activity.service';
 import { IndikasjonService } from './indikasjon.service';
-import { HandsmykkeTypeService } from './handsmykketype.service';
-import { HandhygieneEtterHanskebrukTypeService } from './handhygiene-etter-hanskebruk-type.service';
-import { HanskeMedIndikasjonTypeService } from './hanske-med-indikasjon-type.service';
-import { HanskeUtenIndikasjonTypeService } from './hanske-uten-indikasjon-type.service';
+import { HandJewelryTypeService } from './hand-jewelry-type.service';
+import { HandHygieneAfterGloveUseTypeService } from './hand-hygiene-after-glove-useType-service';
+import { GloveWithIndicationTypeService } from './glove-with-indication-type.service';
+import { GloveWithoutIndicationTypeService } from './glove-without-indication-type.service';
 import { ProtectiveEquipmentCodingService } from './protectiveEquipment-coding-service';
 import { forkJoin, Observable } from 'rxjs';
 
@@ -15,10 +15,10 @@ export class KodeverkCacheService {
 
   constructor(private activityService: ActivityService,
     private indikasjonService: IndikasjonService,
-    private handsmykkeTypeService: HandsmykkeTypeService,
-    private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
-    private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
-    private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,   
+    private handJewelryTypeService: HandJewelryTypeService,
+    private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
+    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,   
     private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService ) {
   }
 
@@ -26,10 +26,10 @@ export class KodeverkCacheService {
     const kodeverkRequests = [
       this.activityService.getActivityTypes(),
       this.indikasjonService.getIndikasjonstyper(),
-      this.handsmykkeTypeService.getHandsmykkeTyper(),
-      this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper(),
-      this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper(),
-      this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper(),
+      this.handJewelryTypeService.getHandJewelryTypes(),
+      this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes(),
+      this.gloveWithIndicationTypeService.getGloveWithIndicationTypes(),
+      this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper(),
       this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings()
     ];
 

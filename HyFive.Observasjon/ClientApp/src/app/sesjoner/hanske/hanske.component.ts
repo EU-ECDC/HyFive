@@ -7,7 +7,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { GloveSession } from '../../models/api/GloveSession';
-import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
+import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 
 @Component({
@@ -33,7 +33,7 @@ export class HanskeComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sesjonService: HanskeSesjonService,
+    private sesjonService: GloveSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {

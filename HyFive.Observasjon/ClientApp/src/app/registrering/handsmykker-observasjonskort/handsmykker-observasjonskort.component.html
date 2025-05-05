@@ -19,12 +19,12 @@
 
         <div class="row mt-5 text-break">
           <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handsmykkevalg; let i = index;">
-            <label [htmlFor]="'handsmykke'+card.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
+            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handsmykkevalg.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
               <input type="checkbox"
                      [(ngModel)]="valg.isSelected"
                      (ngModelChange)="changed(valg)"
                      [disabled]="valg.disabled"
-                     [id]="'handsmykke'+card.id.substr(4)+handsmykkevalg.indexOf(valg)"
+                     [id]="'handjewelry'+card.id.substr(4)+handsmykkevalg.indexOf(valg)"
                      class="hh-round-checkbox-list__input">
               <fa-stack class="hh-round-checkbox-list__iconstack">
                 <fa-icon [icon]="faCircle" stackItemSize="2x"

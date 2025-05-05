@@ -6,13 +6,13 @@ import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationTyp
 @Injectable({
   providedIn: 'root'
 })
-export class HanskeMedIndikasjonTypeService {
+export class GloveWithIndicationTypeService {
 
   constructor(private http: HttpClient) {
   }
 
-  getHanskeMedIndikasjonTyper(): Observable<GloveWithIndicationType[]> {
-    return this.http.get<GloveWithIndicationType[]>('api/v1/hanske/hanskemedindikasjontype').pipe()
+  getGloveWithIndicationTypes(): Observable<GloveWithIndicationType[]> {
+    return this.http.get<GloveWithIndicationType[]>('api/v1/glove/gloveindicationtype').pipe()
   }
 
 }

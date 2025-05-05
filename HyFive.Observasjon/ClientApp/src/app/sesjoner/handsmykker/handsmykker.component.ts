@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
-import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
+import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../constants/urls';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
@@ -10,7 +10,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
-import { HandsmykkeTypeService } from '../../services/data/handsmykketype.service';
+import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -37,8 +37,8 @@ export class HandsmykkerComponent implements OnInit {
   handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
-    private sesjonService: HandsmykkeSesjonService,
-    private handsmykkeTypeService: HandsmykkeTypeService,
+    private sesjonService: HandJewelrySessionService,
+    private handJewelryTypeService: HandJewelryTypeService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -53,7 +53,7 @@ export class HandsmykkerComponent implements OnInit {
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
-    this.handsmykkeTypeService.getHandsmykkeTyper().subscribe((handJewelryTypes) => {
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
     });
   }

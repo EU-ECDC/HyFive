@@ -8,27 +8,27 @@ import { CreateUserAccessRequest } from '../../models/api/CreateUserAccessReques
 @Injectable({
   'providedIn': 'root'
 })
-export class ForesporselOmBrukertilgangService {
+export class RequestAboutUserAccessService {
 
   constructor(private readonly httpClient: HttpClient){  }
 
-  hentInstitusjoner(): Observable<Institution[]> {
-    const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/institusjoner`;
+  getInstitutions(): Observable<Institution[]> {
+    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/institutions`;
     return this.httpClient.get<Institution[]>(url);
   }
 
-  sendForesporselOmBrukertilgang(nyForsporselOmBrukertilgang: CreateUserAccessRequest): Observable<boolean>{
-    const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/send`;
-    return this.httpClient.post<boolean>(url, nyForsporselOmBrukertilgang);
+  sendRequestAboutUserAccess(newRequestAboutUserAccess: CreateUserAccessRequest): Observable<boolean>{
+    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/send`;
+    return this.httpClient.post<boolean>(url, newRequestAboutUserAccess);
   }
 
-  hentForesporselSomSendtAllerede(): Observable<UserAccessRequest> {
-    const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang`;
+  fetchRequestSentAlready(): Observable<UserAccessRequest> {
+    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess`;
     return this.httpClient.get<UserAccessRequest>(url);
   }
 
-  hentInstitusjon(id: number): Observable<Institution> {
-    const url = `${environment.apiBaseUrl}/v1/foresporselombrukertilgang/institusjon`;
+  getInstitution(id: number): Observable<Institution> {
+    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/institution`;
     let params = new HttpParams();
     params = params.append("institutionId", id.toString());
     return this.httpClient.get<Institution>(url, {params});

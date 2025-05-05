@@ -6,13 +6,13 @@ import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterG
 @Injectable({
   providedIn: 'root'
 })
-export class HandhygieneEtterHanskebrukTypeService {
+export class HandHygieneAfterGloveUseTypeService {
 
   constructor(private http: HttpClient) {
   }
 
-  getHandhygieneEtterHanskebrukTyper(): Observable<HandHygieneAfterGloveUseType[]> {
-    return this.http.get<HandHygieneAfterGloveUseType[]>('api/v1/hanske/handhygieneetterhanskebruktype').pipe()
+  getHandhygieneAfterGloveUseTypes(): Observable<HandHygieneAfterGloveUseType[]> {
+    return this.http.get<HandHygieneAfterGloveUseType[]>('api/v1/glove/handhygieneaftergloveusetype').pipe()
   }
 
 }

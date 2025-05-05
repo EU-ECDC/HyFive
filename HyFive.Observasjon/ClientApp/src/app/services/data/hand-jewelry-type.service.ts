@@ -6,13 +6,13 @@ import { HandJewelryType } from '../../models/api/HandJewelryType';
 @Injectable({
   providedIn: 'root'
 })
-export class HandsmykkeTypeService {
+export class HandJewelryTypeService {
 
   constructor(private http: HttpClient) {
   }
 
-  getHandsmykkeTyper(): Observable<HandJewelryType[]> {
-    return this.http.get<HandJewelryType[]>('api/v1/handsmykke/handJewelryTypes').pipe()
+  getHandJewelryTypes(): Observable<HandJewelryType[]> {
+    return this.http.get<HandJewelryType[]>('api/v1/handjewelry/handJewelryTypes').pipe()
   }
 
 }

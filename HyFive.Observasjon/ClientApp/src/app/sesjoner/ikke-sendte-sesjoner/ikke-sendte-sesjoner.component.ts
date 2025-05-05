@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FourIndicationsSessionService } from "../../services/data/four-indications-session.service";
 import { Urls } from "../../constants/urls";
-import { HandsmykkeSesjonService } from "../../services/data/handsmykke-sesjon.service";
+import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
 import { Session } from "../../models/api/Session";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
@@ -9,7 +9,7 @@ import { ProtectiveEquipmentSessionService } from "../../services/data/protectiv
 import { SessionType } from "../../models/api/SessionType";
 import { SessionReport } from "../../models/api/SessionReport";
 import { ToastrService } from "ngx-toastr";
-import { HanskeSesjonService } from "../../services/data/hansker-sesjon.service";
+import { GloveSessionService } from "../../services/data/glove-session.service";
 import { forkJoin, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
@@ -32,8 +32,8 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
 
   constructor(
     private fourIndicationsSessionService: FourIndicationsSessionService,
-    private handsmykkeSesjonService: HandsmykkeSesjonService,
-    private hanskeSesjonService: HanskeSesjonService,
+    private handJewelrySessionService: HandJewelrySessionService,
+    private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private toastrService: ToastrService
   ) {
@@ -50,21 +50,21 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
 
   lastSesjoner() {
     this.sessions = this.fourIndicationsSessionService
-      .hentSesjoner()
+      .getSessions()
       .map((f) => this.createSessionView(f, SessionType.FourIndications))
       .concat(
-        this.handsmykkeSesjonService
-          .hentSesjoner()
+        this.handJewelrySessionService
+          .getSessions()
           .map((h) => this.createSessionView(h, SessionType.HandJewelry))
       )
       .concat(
-        this.hanskeSesjonService
-          .hentSesjoner()
+        this.gloveSessionService
+          .getSessions()
           .map((h) => this.createSessionView(h, SessionType.Gloves))
       )
       .concat(
         this.protectiveEquipmentSessionService
-          .hentSesjoner()
+          .getSessions()
           .map((b) => this.createSessionView(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
@@ -148,14 +148,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             break;
    
           case SessionType.HandJewelry:
-            observable = this.handsmykkeSesjonService
+            observable = this.handJewelrySessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.handsmykkeSesjonService.slettSesjon(s.id);
+                  this.handJewelrySessionService.slettSesjon(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);
@@ -165,14 +165,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             break;
    
           case SessionType.Gloves:
-            observable = this.hanskeSesjonService
+            observable = this.gloveSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.hanskeSesjonService.slettSesjon(s.id);
+                  this.gloveSessionService.slettSesjon(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);

@@ -57,7 +57,7 @@ export class SendteSesjonerService {
   }
 
   public lastNedHandsmykkeSesjonSomExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/handsmykke/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
+    const url = `${environment.apiBaseUrl}/v1/handjewelry/mineobservasjoner/excel?institutionId=${institutionId}&sessionId=${sessionId}`;
     return this.lastNedSesjonSomExcelNy(url, "Handsmykke");
   }
 

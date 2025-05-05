@@ -11,11 +11,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GloveSession } from "../../models/api/GloveSession";
 import { GloveSessionView } from "../../models/registration/glove-session-view.model";
 import { GloveObservation } from "../../models/api/GloveObservation";
-import { HanskeMedIndikasjonTypeService } from "../../services/data/hanske-med-indikasjon-type.service";
+import { GloveWithIndicationTypeService } from "../../services/data/glove-with-indication-type.service";
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
-import { HanskeUtenIndikasjonTypeService } from "../../services/data/hanske-uten-indikasjon-type.service";
+import { GloveWithoutIndicationTypeService } from "../../services/data/glove-without-indication-type.service";
 import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicationType";
-import { HandhygieneEtterHanskebrukTypeService } from "../../services/data/handhygiene-etter-hanskebruk-type.service";
+import { HandHygieneAfterGloveUseTypeService } from "../../services/data/hand-hygiene-after-glove-useType-service";
 import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
 import { DialogueTexts } from '../../constants/dialogueTexts';
 
@@ -63,22 +63,22 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(
-    private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
-    private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,
-    private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
+    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
+    private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
     protected modalService: NgbModal
   ) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper().subscribe((gloveWithIndicationTypes) => {
+    this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
     });
-    this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+    this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
-    this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper().subscribe((handHygieneAfterGloveUseTypes) => {
+    this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes().subscribe((handHygieneAfterGloveUseTypes) => {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
     this.uuid = Uuid.generateUUID();

@@ -23,13 +23,13 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public slettSesjon(sessionId: string) {
-    let sessions = this.hentSesjoner().filter(s => s.id !== sessionId);
+    let sessions = this.getSessions().filter(s => s.id !== sessionId);
     this.lagreSesjoner(sessions);
     let sessionViews = this.getSessionViews().filter(s => s.sessionId !== sessionId);
     this.saveSessionViews(sessionViews);
   }
 
-  public hentSesjoner(): TSesjon[] {
+  public getSessions(): TSesjon[] {
     let sessions: TSesjon[] = [];
     const sesjonerString = localStorage.getItem(this.sessionLocalStoragePath);
     if (sesjonerString != null) {
@@ -58,7 +58,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public oppdaterSesjon(sesjon: TSesjon) {
-    var sessions = this.hentSesjoner();
+    var sessions = this.getSessions();
     sessions[sessions.map(s => s.id).indexOf(sesjon.id)] = sesjon;
     this.lagreSesjoner(sessions);
   }
@@ -75,27 +75,27 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public hentSesjon(sessionId: string): TSesjon {
-    if (this.hentSesjoner().filter(s => s.id == sessionId).length > 0) {
-      return this.hentSesjoner().filter(s => s.id == sessionId)[0] as TSesjon;
+    if (this.getSessions().filter(s => s.id == sessionId).length > 0) {
+      return this.getSessions().filter(s => s.id == sessionId)[0] as TSesjon;
     }
     return null;
   }
 
   public async registrerObservasjon(observasjon: TObservasjon): Promise<void> {
-    var finnesEksisterendeSesjon = this.hentSesjoner().filter(s => s.id == observasjon.sessionId).length > 0;
+    var finnesEksisterendeSesjon = this.getSessions().filter(s => s.id == observasjon.sessionId).length > 0;
     if (finnesEksisterendeSesjon == false) {
       await this.opprettSesjonMedObservasjon(observasjon);
       return;
     }
 
-    let sessions = this.hentSesjoner();
+    let sessions = this.getSessions();
     var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observasjon.sessionId);
     sessions[eksisterendeSesjonIndex].observations.push(observasjon);
     this.lagreSesjoner(sessions);
   }
 
   public endreObservasjon(endretObservasjon: TObservasjon) {
-    var sessions = this.hentSesjoner();
+    var sessions = this.getSessions();
     var aktuellSesjon = sessions.find(s => s.id == endretObservasjon.sessionId);
     var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
     var observasjonSomEndres = aktuellSesjon.observations.find(o => o.id === endretObservasjon.id);
@@ -106,7 +106,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public slettObservasjon(observasjonSomSkalSlettes: TObservasjon) {
-    var sessions = this.hentSesjoner();
+    var sessions = this.getSessions();
     var aktuellSesjon = sessions.find(s => s.id == observasjonSomSkalSlettes.sessionId);
     var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
     aktuellSesjon.observations = aktuellSesjon.observations.filter(o => o.id !== observasjonSomSkalSlettes.id)
@@ -115,12 +115,12 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public numberOfSessions() : number{
-    return this.hentSesjoner().length;
+    return this.getSessions().length;
   }
 
   protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
     let sessionView = this.hentSesjonsvisningForSesjon(observasjon.sessionId);
-    let sessions = this.hentSesjoner();
+    let sessions = this.getSessions();
     let institusjon = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
     let nySesjon = {
       id: observasjon.sessionId,
