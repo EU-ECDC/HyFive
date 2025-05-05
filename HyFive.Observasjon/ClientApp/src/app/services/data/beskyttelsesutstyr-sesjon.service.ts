@@ -9,7 +9,7 @@ import { Uuid } from "src/app/utils/uuid";
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { Kort } from '../../models/registrering/kort.model';
 import { BeskyttelsesutstyrKort } from "src/app/models/registrering/beskyttelsesutstyr-kort.model";
-import { Localstoragepaths } from '../../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -21,8 +21,8 @@ import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
   providedIn: 'root'
 })
 export class BeskyttelsesutstyrSesjonService extends BaseSesjonService<BeskyttelsesutstyrSesjonsvisning, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
-  sesjonsvisningLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjonsvisninger;
-  sesjonLocalStoragePath: string = Localstoragepaths.BeskyttelsesutstyrSesjoner;
+  sesjonsvisningLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessionViews;
+  sesjonLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessions;
 
 
 

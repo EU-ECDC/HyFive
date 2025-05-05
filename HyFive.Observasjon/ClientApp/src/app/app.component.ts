@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { NavigationEnd, Router, Scroll } from "@angular/router";
-import { Urls } from "./konstanter/urls";
+import { Urls } from "./constants/urls";
 import { UrlService } from "./services/events/url.service";
 import { debounceTime, filter } from "rxjs/operators";
 import { ViewportScroller } from "@angular/common";
@@ -10,7 +10,7 @@ import { AutoriseringService } from "./services/data/autorisering.service";
 import { AuthorizedRole } from "./models/autorisering/authorized-role";
 import { LoggedInUser } from "./models/api/LoggedInUser";
 import { AuthenticationEventService } from "./services/events/authentication-event.service";
-import { Localstoragepaths } from "./konstanter/localstoragepaths";
+import { Localstoragepaths } from "./constants/localstoragepaths";
 
 @Component({
   selector: "app-root",
@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   bruker: LoggedInUser;
 
   siderMedInverterteFarger = [
-    Urls.IkkeSendteSesjonerUrl,
-    Urls.SendteSesjonerUrl,
+    Urls.NotSentSessionsUrl,
+    Urls.SentSessionsUrl,
   ];
 
   constructor(
@@ -72,13 +72,13 @@ export class AppComponent implements OnInit {
           this.bruker = bruker;
           if (
             this.bruker.isObserver == false &&
-            window.location.pathname !== Urls.LoginsideUrl
+            window.location.pathname !== Urls.LoginPageUrl
           ) {
-            this.router.navigate([Urls.LoginsideUrl]);
+            this.router.navigate([Urls.LoginPageUrl]);
           }
         });
       } else {
-        this.router.navigate([Urls.LoginsideUrl]);
+        this.router.navigate([Urls.LoginPageUrl]);
       }
     });
   }
@@ -87,8 +87,8 @@ export class AppComponent implements OnInit {
     // Vis hovedmeny hvis vi er offline og bruker har innlogget-id + valgt institusjon
     if (
       navigator.onLine == false &&
-      localStorage.getItem(Localstoragepaths.InnloggetBrukerId) != null &&
-      localStorage.getItem(Localstoragepaths.ValgtInstitusjon) != null
+      localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&
+      localStorage.getItem(Localstoragepaths.SelectedInstitution) != null
     ) {
       return true;
     }
@@ -99,8 +99,8 @@ export class AppComponent implements OnInit {
   
   skalViseAppBrand() {
     var erRotside       = window.location.pathname === "/";
-    var erLoginSide     = window.location.pathname === "/"+Urls.LoginsideUrl;
-    var erStartside     = window.location.pathname === "/"+Urls.StartsideForObservasjonUrl;
+    var erLoginSide     = window.location.pathname === "/"+Urls.LoginPageUrl;
+    var erStartside     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
     return erLoginSide || erRotside || erStartside;
   }
 }

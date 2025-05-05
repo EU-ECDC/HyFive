@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faTrashAlt, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
-import { Dialogtekster } from '../../../konstanter/dialogtekster';
-import { Queryparameters } from '../../../konstanter/queryparameters';
-import { Urls } from '../../../konstanter/urls';
+import { DialogueTexts } from '../../../constants/dialogueTexts';
+import { Queryparameters } from '../../../constants/queryparameters';
+import { Urls } from '../../../constants/urls';
 import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { ActivityType } from '../../../models/api/ActivityType';
 import { AktivitetService } from '../../../services/data/aktivitet.service';
@@ -26,7 +26,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   faArrowLeft = faLongArrowAltLeft;
   faTrashAlt = faTrashAlt;
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   Urls = Urls;
 
   constructor(
@@ -42,7 +42,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         if(sessionId === 0) this.router.navigate(['']);
         this.sesjonService.hentFireIndikasjonerSesjon(sessionId).subscribe(
           (sesjon) => {
@@ -62,7 +62,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   }
 
   navigerTilSendteSesjoner(){
-    this.router.navigate([Urls.SendteSesjonerUrl])
+    this.router.navigate([Urls.SentSessionsUrl])
   }
 
   beregnAnledningerEtterlevd(sesjon: FourIndicationsSession) : number{
@@ -104,7 +104,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.lasterNedSomExcel = true;
     this.sesjonService.lastNedFireIndikasjonerSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
-      error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
+      error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)
   }
 }

@@ -5,8 +5,8 @@ import { HandsmykkeSesjonService } from 'src/app/services/data/handsmykke-sesjon
 import { HandsmykkeSesjonsvisning } from '../../models/registrering/handsmykke-sesjonsvisning.model';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Queryparameters } from '../../konstanter/queryparameters';
-import { Urls } from '../../konstanter/urls';
+import { Queryparameters } from '../../constants/queryparameters';
+import { Urls } from '../../constants/urls';
 import { faEnvelope, faPlus, faArrowDown, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
@@ -48,7 +48,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) {
           this.router.navigate(['']);

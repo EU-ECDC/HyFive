@@ -3,7 +3,7 @@ import { BeskyttelsesutstyrKodeverkService } from '../../services/data/beskyttel
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
 import { Department } from '../../models/api/Department';
-import { Urls } from '../../konstanter/urls';
+import { Urls } from '../../constants/urls';
 import { Router } from '@angular/router';
 import { BeskyttelsesutstyrsettingMapper } from '../../utils/beskyttelsesutstyrsetting-mapper';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -53,7 +53,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   startObservasjon() {
     var valgteRoller = this.roles.filter(rollevalg => rollevalg.isSelected).map(rollevalg => rollevalg.role);
     var sessionId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
-    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], { queryParams: { sessionId: sessionId } });
+    this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], { queryParams: { sessionId: sessionId } });
   }
 
   endreSettingOgUtstyr() {

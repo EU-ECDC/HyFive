@@ -15,7 +15,7 @@ import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipment
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from "../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import {BeskyttelsesutstyrSesjonService} from "../../services/data/beskyttelsesutstyr-sesjon.service";
@@ -32,7 +32,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
-  dialogtekster = Dialogtekster;
+  dialogueTexts = DialogueTexts;
   sessionsdata: ProtectiveEquipmentSession = null;
   roles: Role[];
   beskyttelsesutstyrValg: ProtectiveEquipment[] = [];
@@ -107,7 +107,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     let antallKvalifisertUtstyr = this.beskyttelsesutstyrSesjonService.antallKvalifisertUtstyr(this.beskyttelsesutstyrValg);
 
     if (antallKvalifisertUtstyr < 1) {
-      this.observasjonMangelTekst = Dialogtekster.KanIkkeLagreBeskyttelsesutstyrObservasjon;
+      this.observasjonMangelTekst = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
       this.visInfoModal = true;
     }
     return antallKvalifisertUtstyr < 1;

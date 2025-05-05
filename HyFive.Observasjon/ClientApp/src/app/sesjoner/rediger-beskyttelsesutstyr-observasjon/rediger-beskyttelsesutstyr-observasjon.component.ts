@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
-import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
+import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { BeskyttelsesutstyrMapper } from 'src/app/utils/beskyttelsesutstyrmapper';
 import { Farger } from '../../utils/farger';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -20,7 +20,7 @@ import {ToastrService} from "ngx-toastr";
 export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, OnDestroy {
 
   erRedigeringsmodus: boolean = false;
-  dialogtekster = Dialogtekster;
+  dialogueTexts = DialogueTexts;
   Farger = Farger;
   ikonTypeMap: Map<string, IconProp> = BeskyttelsesutstyrMapper.getIkontypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
@@ -28,7 +28,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   valgtUtstyr = null;
   beskyttelsesutstyrsesjontype: SessionType = SessionType.ProtectiveEquipment;
 
-  kanIkkeLagreMelding = Dialogtekster.KanIkkeLagreBeskyttelsesutstyrObservasjon;
+  kanIkkeLagreMelding = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
 
   faSave = faSave;
   faTrashAlt = faTrashAlt;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { Urls } from './konstanter/urls';
+import { Urls } from './constants/urls';
 import { LoginsideComponent } from './loginside/loginside.component';
 import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
 import { RegistrereFireIndikasjonerComponent } from './registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component';
@@ -19,7 +19,7 @@ import { RegistrereHanskeComponent } from './registrering/registrere-hanske/regi
 import { HanskeComponent } from './sessions/hanske/hanske.component';
 import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
 
-const defaultPath = Urls.ProfilUrl;
+const defaultPath = Urls.ProfileUrl;
 
 const routes: Routes = [
   {
@@ -27,26 +27,26 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: defaultPath
   },
-  { path: Urls.ProfilUrl, component: LoginsideComponent },
+  { path: Urls.ProfileUrl, component: LoginsideComponent },
   {
-    path: Urls.StartsideForObservasjonUrl,
+    path: Urls.HomePageForObservationUrl,
     component: StartsideForObservasjonComponent,
     runGuardsAndResolvers: 'always',
   },
-  { path: Urls.RegistrereFireIndikasjonerUrl, component: RegistrereFireIndikasjonerComponent },
-  { path: Urls.IkkeSendteSesjonerUrl, component: IkkeSendteSesjonerComponent },
-  { path: Urls.SendteSesjonerUrl, component: SendteSesjonerComponent },
-  { path: Urls.FireIndikasjonerSesjonUrl, component: FireIndikasjonerComponent },
-  { path: Urls.RegistrereHandsmykkerUrl, component: RegistrereHandsmykkerComponent },
+  { path: Urls.RegisterFourndicationsUrl, component: RegistrereFireIndikasjonerComponent },
+  { path: Urls.NotSentSessionsUrl, component: IkkeSendteSesjonerComponent },
+  { path: Urls.SentSessionsUrl, component: SendteSesjonerComponent },
+  { path: Urls.FourIndicationsSessionUrl, component: FireIndikasjonerComponent },
+  { path: Urls.RegisterHandJewelryUrl, component: RegistrereHandsmykkerComponent },
   { path: Urls.HandsmykkeSesjonUrl, component: HandsmykkerComponent },
-  { path: Urls.RegistrereBeskyttelsesutstyrUrl, component: RegistrereBeskyttelsesutstyrComponent },
-  { path: Urls.BeskyttelsesutstyrSesjonUrl, component: BeskyttelsesutstyrComponent },
-  { path: Urls.SendteFireIndikasjonerSesjonUrl, component: SendteFireIndikasjonerSesjonComponent },
-  { path: Urls.SendteHandsmykkeSesjonUrl, component: SendteHandsmykkerSesjonComponent },
-  { path: Urls.SendteBeskyttelsesutstyrSesjonUrl, component: SendteBeskyttelsesutstyrSesjonComponent },
-  { path: Urls.RegistrereHanskeUrl, component: RegistrereHanskeComponent },
-  { path: Urls.HanskeSesjonUrl, component: HanskeComponent },
-  { path: Urls.SendteHanskeSesjonUrl, component: SendteHanskeSesjonComponent },
+  { path: Urls.RegisterProtectiveEquipmentUrl, component: RegistrereBeskyttelsesutstyrComponent },
+  { path: Urls.ProtectiveEquipmentSessionUrl, component: BeskyttelsesutstyrComponent },
+  { path: Urls.SentFourIndicationsSessionUrl, component: SendteFireIndikasjonerSesjonComponent },
+  { path: Urls.SentHandJewelrySessionUrl, component: SendteHandsmykkerSesjonComponent },
+  { path: Urls.SendProtectiveEquipmentSessionUrl, component: SendteBeskyttelsesutstyrSesjonComponent },
+  { path: Urls.RegisterGloveUrl, component: RegistrereHanskeComponent },
+  { path: Urls.GloveSessionUrl, component: HanskeComponent },
+  { path: Urls.SentGloveSessionUrl, component: SendteHanskeSesjonComponent },
   {
     path: '**',
     redirectTo: defaultPath

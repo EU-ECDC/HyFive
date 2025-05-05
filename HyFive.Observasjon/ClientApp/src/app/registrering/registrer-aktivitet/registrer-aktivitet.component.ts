@@ -49,9 +49,9 @@ export class RegistrerAktivitetComponent implements OnInit {
 
   getAktivitetTekst() {
     if (this.activityType?.code === ActivityTypeConstants.Desinfeksjon)
-      return 'Sprit';
+      return 'Alcohol';
     if (this.activityType?.code === ActivityTypeConstants.Handvask)
-      return 'Vask';
+      return 'Wash';
     if(this.activityType?.code === ActivityTypeConstants.NotExecuted)
       return 'Ikke utført';
   }

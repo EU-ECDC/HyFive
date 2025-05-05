@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Queryparameters } from '../../../konstanter/queryparameters';
-import { Urls } from '../../../konstanter/urls';
+import { Queryparameters } from '../../../constants/queryparameters';
+import { Urls } from '../../../constants/urls';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { GloveSession } from '../../../models/api/GloveSession';
 import { GloveObservation } from '../../../models/api/GloveObservation';
 import {ToastrService} from 'ngx-toastr';
 import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
-import {Dialogtekster} from '../../../konstanter/dialogtekster';
+import {DialogueTexts} from '../../../constants/dialogueTexts';
 
 @Component({
   selector: 'app-sendte-hanske-sesjon',
@@ -20,7 +20,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
   handJewelryTypes: HandJewelryType[] = [];
   erOnline: boolean = true;
   faFileExcel = faFileExcel
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
 
   private lasterNedSomExcel: boolean;
 
@@ -31,7 +31,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const sessionId = params[Queryparameters.SesjonId] || 0;
+      const sessionId = params[Queryparameters.SessionId] || 0;
       if (sessionId === 0) this.router.navigate(['']);
       this.sesjonService.hentHanskeSesjon(sessionId).subscribe(
         (sesjon) => {
@@ -52,14 +52,14 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
   }
 
   navigerTilSendteSesjoner() {
-    this.router.navigate([Urls.SendteSesjonerUrl]);
+    this.router.navigate([Urls.SentSessionsUrl]);
   }
   
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
     this.sesjonService.lastNedHanskeSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
-      error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
+      error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)
   }
 }

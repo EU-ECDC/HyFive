@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Queryparameters } from '../../konstanter/queryparameters';
+import { Queryparameters } from '../../constants/queryparameters';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { Urls } from '../../konstanter/urls';
+import { Urls } from '../../constants/urls';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
 import { HandsmykkeMapper } from 'src/app/utils/handsmykke-mapper';
@@ -32,7 +32,7 @@ export class HandsmykkerComponent implements OnInit {
   faClock = faClock;
   faAngleDown = faAngleDown;
 
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   Urls = Urls;
   handJewelryTypes: HandJewelryType[] = [];
 
@@ -49,7 +49,7 @@ export class HandsmykkerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
@@ -60,11 +60,11 @@ export class HandsmykkerComponent implements OnInit {
   
   sesjonSlettetEventHandler(id: string) {
     this.sesjonService.slettSesjon(id);
-    this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
+    this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
   navigerTilRegistreringssideForHandsmykker(sessionId: string) {
-    this.router.navigate([Urls.RegistrereHandsmykkerUrl], { queryParams: { sessionId: sessionId } });
+    this.router.navigate([Urls.RegisterHandJewelryUrl], { queryParams: { sessionId: sessionId } });
   }
 
   observasjonSlettetEventHandler($event: FourIndicationsObservation) {
@@ -72,7 +72,7 @@ export class HandsmykkerComponent implements OnInit {
   }
 
   navigerTilSendteSesjoner() {
-    this.router.navigate([Urls.SendteSesjonerUrl]);
+    this.router.navigate([Urls.SentSessionsUrl]);
   }
 
   visHandsmykker(handJewelry: HandJewelryType[]): string {
@@ -94,6 +94,6 @@ export class HandsmykkerComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/' + Urls.SendteHandsmykkeSesjonUrl], { queryParams: { sessionId: this.sesjon.id } })
+    this.router.navigate(['/' + Urls.SentHandJewelrySessionUrl], { queryParams: { sessionId: this.sesjon.id } })
   }
 }

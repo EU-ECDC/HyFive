@@ -4,7 +4,7 @@ import { FireIndikasjonerSesjonService } from "../services/data/fire-indikasjone
 import { InstitusjonService } from "../services/data/institusjon.service";
 import { Institution } from "../models/api/Institution";
 import { Rollevalg } from "../models/registrering/rollevalg.model";
-import { Urls } from "../konstanter/urls";
+import { Urls } from "../constants/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Farger } from "../utils/farger";
 import { HandsmykkeSesjonService } from "../services/data/handsmykke-sesjon.service";
@@ -143,7 +143,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       this.hentValgtAvdeling()
     );
 
-    this.router.navigate([Urls.RegistrereFireIndikasjonerUrl], {
+    this.router.navigate([Urls.RegisterFourndicationsUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
@@ -153,7 +153,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       this.rollevalg.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
-    this.router.navigate([Urls.RegistrereHandsmykkerUrl], {
+    this.router.navigate([Urls.RegisterHandJewelryUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
@@ -165,7 +165,7 @@ export class StartsideForObservasjonComponent implements OnInit {
       this.hentValgtAvdeling()
     );
 
-    this.router.navigate([Urls.RegistrereHanskeUrl], {
+    this.router.navigate([Urls.RegisterGloveUrl], {
       queryParams: { sessionId: sessionId },
     });
   }

@@ -16,9 +16,9 @@ import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants'
 import { AktivitetService } from '../../services/data/aktivitet.service';
 import { ActivityType } from '../../models/api/ActivityType';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Aktiviteter } from '../../konstanter/aktiviteter';
+import { Activities } from '../../constants/Activities';
 
 
 @Component({
@@ -38,9 +38,9 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   aktivitetUnderRegistrering: AktivitetUnderRegistrering = null;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
-  dialogtekster = Dialogtekster;
-  sprit: string = Aktiviteter.Sprit;
-  vask: string = Aktiviteter.Vask;
+  dialogueTexts = DialogueTexts;
+  sprit: string = Activities.Alcohol;
+  vask: string = Activities.Wash;
 
   faEraser = faEraser;
   faSave = faSave;

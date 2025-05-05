@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Queryparameters } from '../../konstanter/queryparameters';
+import { Queryparameters } from '../../constants/queryparameters';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { Urls } from '../../konstanter/urls';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { Urls } from '../../constants/urls';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { GloveSession } from '../../models/api/GloveSession';
@@ -29,7 +29,7 @@ export class HanskeComponent implements OnInit {
   faClock = faClock;
   faAngleDown = faAngleDown;
 
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   Urls = Urls;
 
   constructor(
@@ -44,7 +44,7 @@ export class HanskeComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
@@ -53,11 +53,11 @@ export class HanskeComponent implements OnInit {
  
   sesjonSlettetEventHandler(id: string) {
     this.sesjonService.slettSesjon(id);
-    this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
+    this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
   navigerTilRegistreringssideForHanske(sessionId: string) {
-    this.router.navigate([Urls.RegistrereHanskeUrl], { queryParams: { sessionId: sessionId } });
+    this.router.navigate([Urls.RegisterGloveUrl], { queryParams: { sessionId: sessionId } });
   }
 
   observasjonSlettetEventHandler($event: GloveObservation) {
@@ -65,7 +65,7 @@ export class HanskeComponent implements OnInit {
   }
 
   navigerTilSendteSesjoner() {
-    this.router.navigate([Urls.SendteSesjonerUrl]);
+    this.router.navigate([Urls.SentSessionsUrl]);
   }
 
   visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var med eller uten indikasjoner
@@ -88,6 +88,6 @@ export class HanskeComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/' + Urls.SendteHanskeSesjonUrl], { queryParams: { sessionId: this.sesjon.id } })
+    this.router.navigate(['/' + Urls.SentGloveSessionUrl], { queryParams: { sessionId: this.sesjon.id } })
   }
 }

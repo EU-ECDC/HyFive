@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Department } from '../../models/api/Department';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots, faHandPaper } from '@fortawesome/free-regular-svg-icons';
-import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
+import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
 import { HanskeSesjonService } from '../../services/data/hansker-sesjon.service';
@@ -23,7 +23,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
   erRedigeringsmodus: boolean = false;
   Farger = Farger;
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SendteSesjonerService } from '../../../services/data/sendte-sessions.service';
 import { ProtectiveEquipmentSession } from '../../../models/api/ProtectiveEquipmentSession';
-import { Queryparameters } from '../../../konstanter/queryparameters';
+import { Queryparameters } from '../../../constants/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';
 import {faFileExcel, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
-import { Urls } from 'src/app/konstanter/urls';
+import { Urls } from 'src/app/constants/urls';
 import { ProtectiveEquipmentObservation } from '../../../models/api/ProtectiveEquipmentObservation';
 import { ProtectiveEquipment } from '../../../models/api/ProtectiveEquipment';
 import {ToastrService} from 'ngx-toastr';
-import {Dialogtekster} from '../../../konstanter/dialogtekster';
+import {DialogueTexts} from '../../../constants/dialogueTexts';
 
 @Component({
   selector: 'app-sendte-beskyttelsesutstyr-sesjon',
@@ -23,7 +23,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
   erOnline: boolean = true;
   faFileExcel = faFileExcel;
   lasterNedSomExcel: boolean;
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
 
   constructor(
     private sendteSesjonerService: SendteSesjonerService,
@@ -37,12 +37,12 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
-        if (sessionId === 0) this.router.navigate([Urls.SendteSesjonerUrl]);
+        const sessionId = params[Queryparameters.SessionId] || 0;
+        if (sessionId === 0) this.router.navigate([Urls.SentSessionsUrl]);
         this.sendteSesjonerService.hentBeskyttelsesutstyrSesjon(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
-            if (!this.sesjon) this.router.navigate([Urls.SendteSesjonerUrl]);
+            if (!this.sesjon) this.router.navigate([Urls.SentSessionsUrl]);
           }
         );
       });
@@ -57,7 +57,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
   }
 
   navigerTilSendteSesjoner() {
-    this.router.navigate([Urls.SendteSesjonerUrl])
+    this.router.navigate([Urls.SentSessionsUrl])
   }
 
   visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string {
@@ -71,7 +71,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.lasterNedSomExcel = true;
     this.sendteSesjonerService.lastNedBeskyttelsesutstyrSesjonSomExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
         () => {},
-        error => this.toastrService.error(error?.message ? error.message : error, Dialogtekster.FeilUnderNedlastingSesjonExcel, {disableTimeOut: true}),
+        error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
         () => this.lasterNedSomExcel = false)
   }
 }

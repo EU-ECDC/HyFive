@@ -8,7 +8,7 @@ import { HandsmykkeSesjonService } from '../../services/data/handsmykke-sesjon.s
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Handsmykkevalg } from '../../models/registrering/handsmykkevalg.model';
 import { HandsmykkeMapper } from '../../utils/handsmykke-mapper';
-import { Dialogtekster } from 'src/app/konstanter/dialogtekster';
+import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { Farger } from '../../utils/farger';
 import { Role } from '../../models/api/Role';
 import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
@@ -25,7 +25,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   handJewelryTypes: HandJewelryType[] = [];
   ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandsmykkeMapper.getIkontypeMap();
   Farger = Farger;
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
 
   faCircle = faCircle;
   faCheck = faCheck;

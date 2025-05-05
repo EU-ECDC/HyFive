@@ -2,10 +2,10 @@ import { Component, HostListener, Input } from "@angular/core";
 import { faBars, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { MainMenuItem } from "./main-menu-item.model";
-import { Urls } from "../konstanter/urls";
+import { Urls } from "../constants/urls";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { MainMenuEventService } from "../services/events/main-menu-event.service";
-import { MenuParameters } from "../konstanter/menu-parameters";
+import { MenuParameters } from "../constants/menu-parameters";
 
 @Component({
   selector: "app-main-menu",
@@ -52,25 +52,25 @@ export class MainMenuComponent {
     this.mainMenuItems = [
       {
         name: "Start observasjon",
-        routerLink: `/${Urls.StartsideForObservasjonUrl}`,
+        routerLink: `/${Urls.HomePageForObservationUrl}`,
         exactRouteMatch: true,
         icon: faHospital
       },
       {
         name: "Ikke sendte sessions",
-        routerLink: `/${Urls.IkkeSendteSesjonerUrl}`,
+        routerLink: `/${Urls.NotSentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faClipboard
       },
       {
         name: "Sendte sessions",
-        routerLink: `/${Urls.SendteSesjonerUrl}`,
+        routerLink: `/${Urls.SentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faInbox
       },
       {
         name: "Profil",
-        routerLink: `/${Urls.ProfilUrl}`,
+        routerLink: `/${Urls.ProfileUrl}`,
         exactRouteMatch: true,
         icon: faUser
       },

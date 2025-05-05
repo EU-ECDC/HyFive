@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AutoriseringService } from '../services/data/autorisering.service';
 import { LoggedInUser } from '../models/api/LoggedInUser';
-import { Urls } from '../konstanter/urls';
+import { Urls } from '../constants/urls';
 import {FireIndikasjonerSesjonService} from '../services/data/fire-indikasjoner-sesjon.service';
 import {HanskeSesjonService} from '../services/data/hansker-sesjon.service';
 import {BeskyttelsesutstyrSesjonService} from '../services/data/beskyttelsesutstyr-sesjon.service';
@@ -12,7 +12,7 @@ import { ForesporselOmBrukertilgangService } from '../services/data/foresporselo
 import {ClipboardService} from 'ngx-clipboard';
 import { KodeverkCacheService } from '../services/data/kodeverk-cache.service';
 import { HjelpetekstComponent } from '../shared/hjelpetekst/hjelpetekst.component';
-import { Localstoragepaths } from '../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../constants/localstoragepaths';
 
 @Component({
   selector: 'app-loginside',

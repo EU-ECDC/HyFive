@@ -5,7 +5,7 @@ import { Activity } from '../../models/api/Activity';
 import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Farger } from '../../utils/farger';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { ActivityType } from '../../models/api/ActivityType';
@@ -14,7 +14,7 @@ import { ActivityTypeNotExecuted } from '../../models/api/ActivityTypeNotExecute
 import { ActivityTypeNotExecutedMapper } from '../../utils/ActivityTypeNotExecutedMapper';
 import { Uuid } from '../../utils/uuid';
 import { ActivityTypeNotExecutedId } from '../../models/api/ActivityTypeNotExecutedId';
-import { Aktiviteter } from '../../konstanter/aktiviteter';
+import { Activities } from '../../constants/Activities';
 
 @Component({
   selector: 'app-rediger-fire-indikasjoner-observasjon',
@@ -28,15 +28,15 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   fireIndikasjoner: IndicationType[];
   activityTypes: ActivityType[];
   Farger = Farger;
-  dialogtekster = Dialogtekster;
+  dialogueTexts = DialogueTexts;
   ActivityTypeNotExecutedSelection: ActivityTypeNotExecuted[];
   selectedActivityTypeNotExecutedSelectionId: string;
   id: string = Uuid.generateUUID().substr(4);
   showActivityTypeNotExecuted: boolean = false;
   hanskebrukTekst: string;
   ikkeUtfortAktivitet: Activity;
-  sprit: string = Aktiviteter.Sprit;
-  vask: string = Aktiviteter.Vask;
+  sprit: string = Activities.Alcohol;
+  vask: string = Activities.Wash;
 
   faHandHoldingWater = faHandHoldingWater;
   faHandsWash = faHandsWash;
@@ -113,11 +113,11 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
       this.observasjon.activity = activity;
       if (this.observasjon.activity.activityType.code === ActivityTypeConstants.Handwash) {
         this.vask = '';
-        this.sprit = Aktiviteter.Sprit;
+        this.sprit = Activities.Alcohol;
       }
       else {
         this.sprit = '';
-        this.vask = Aktiviteter.Vask;
+        this.vask = Activities.Wash;
       }
     }
   }

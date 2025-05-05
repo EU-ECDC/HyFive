@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Institution } from '../../models/api/Institution';
-import { Localstoragepaths } from '../../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../constants/localstoragepaths';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +28,12 @@ export class InstitusjonService {
   }
 
   hentValgtInstitusjonId(): number | null {
-    const valgtInstitusjonIdString = localStorage.getItem(Localstoragepaths.ValgtInstitusjon);
+    const valgtInstitusjonIdString = localStorage.getItem(Localstoragepaths.SelectedInstitution);
     return valgtInstitusjonIdString ? parseInt(valgtInstitusjonIdString) : null;
   }
 
   oppdaterValgtInstitusjonId(institutionId: number): number | null {
-    localStorage.setItem(Localstoragepaths.ValgtInstitusjon, JSON.stringify(institutionId));
+    localStorage.setItem(Localstoragepaths.SelectedInstitution, JSON.stringify(institutionId));
     return this.hentValgtInstitusjonId();
   }
 }

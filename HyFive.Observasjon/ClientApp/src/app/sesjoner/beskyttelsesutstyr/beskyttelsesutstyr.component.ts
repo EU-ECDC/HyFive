@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Queryparameters } from '../../konstanter/queryparameters';
+import { Queryparameters } from '../../constants/queryparameters';
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
-import { Urls } from '../../konstanter/urls';
+import { Urls } from '../../constants/urls';
 import { faCircle, faAngleUp, faClipboard, faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import {Dialogtekster} from '../../konstanter/dialogtekster';
+import {DialogueTexts} from '../../constants/dialogueTexts';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import {ToastrService} from 'ngx-toastr';
@@ -23,7 +23,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   erOnline: boolean = true;
   institusjonid: number;
 
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   Urls = Urls;
 
   faCircle = faCircle;
@@ -44,7 +44,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         this.institusjonid = this.sesjon.department.institutionId;
         if(!this.sesjon) this.router.navigate(['']);
@@ -53,16 +53,16 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   }
 
   navigerTilRegistreringssideForBeskyttelsesutstyr(sessionId: string){
-    this.router.navigate([Urls.RegistrereBeskyttelsesutstyrUrl], {queryParams: {sessionId: sessionId}});
+    this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], {queryParams: {sessionId: sessionId}});
   }
 
   navigerTilSendteSesjoner() {
-    this.router.navigate([Urls.SendteSesjonerUrl]);
+    this.router.navigate([Urls.SentSessionsUrl]);
   }
 
   sesjonSlettetEventHandler(sessionId: string) {
     this.sesjonService.slettSesjon(sessionId);
-    this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
+    this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
   visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string{
@@ -93,6 +93,6 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SendteBeskyttelsesutstyrSesjonUrl], { queryParams: {sessionId: this.sesjon.id}})
+    this.router.navigate(['/'+Urls.SendProtectiveEquipmentSessionUrl], { queryParams: {sessionId: this.sesjon.id}})
   }
 }

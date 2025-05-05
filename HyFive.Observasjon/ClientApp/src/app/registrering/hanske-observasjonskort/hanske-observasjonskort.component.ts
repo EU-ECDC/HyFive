@@ -17,7 +17,7 @@ import { HanskeUtenIndikasjonTypeService } from "../../services/data/hanske-uten
 import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicationType";
 import { HandhygieneEtterHanskebrukTypeService } from "../../services/data/handhygiene-etter-hanskebruk-type.service";
 import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 
 @Component({
   selector: 'app-hanske-observasjonskort',
@@ -31,7 +31,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
-  dialogtekster = Dialogtekster;
+  dialogueTexts = DialogueTexts;
 
   faEraser = faEraser;
   faSave = faSave;

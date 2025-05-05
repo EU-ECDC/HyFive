@@ -51,7 +51,7 @@ import { SendteHandsmykkerSesjonComponent } from './sessions/sendte-sessions/sen
 import { OfflineMeldingComponent } from './shared/offline-melding/offline-melding.component';
 import { SendteBeskyttelsesutstyrSesjonComponent } from './sessions/sendte-sessions/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
 import { SesjonstatistikkComponent } from './sessions/fire-indikasjoner/sesjonstatistikk/sesjonstatistikk.component';
-import { ToastrConfig } from './konstanter/toastr-config';
+import { ToastrConfig } from './constants/toastr-config';
 import { ObservasjonstellerComponent } from './shared/observasjonsteller/observasjonsteller.component';
 import { InfoModalComponent } from './shared/info-modal/info-modal.component';
 import { RegistrereHanskeComponent } from './registrering/registrere-hanske/registrere-hanske.component';

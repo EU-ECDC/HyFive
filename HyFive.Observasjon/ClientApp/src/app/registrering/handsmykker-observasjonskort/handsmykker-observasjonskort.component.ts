@@ -16,7 +16,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConstants";
 import { HandsmykkeTypeService } from "../../services/data/handsmykketype.service";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 
 @Component({
   selector: 'app-handsmykker-observasjonskort',
@@ -30,7 +30,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   comment: string;
   observasjonMangelTekst: string;
   visInfoModal: boolean = false;
-  dialogtekster = Dialogtekster;
+  dialogueTexts = DialogueTexts;
 
   faEraser = faEraser;
   faSave = faSave;

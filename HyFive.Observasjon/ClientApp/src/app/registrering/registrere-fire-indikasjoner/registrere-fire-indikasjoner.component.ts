@@ -3,14 +3,14 @@ import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasj
 import { ActivatedRoute, Router } from '@angular/router';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
-import { Queryparameters } from '../../konstanter/queryparameters';
+import { Queryparameters } from '../../constants/queryparameters';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
 import { Kort } from '../../models/registrering/kort.model';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { Urls } from '../../konstanter/urls';
+import { Urls } from '../../constants/urls';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -44,7 +44,7 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) this.router.navigate(['']);
         else this.lastSesjonsdata();

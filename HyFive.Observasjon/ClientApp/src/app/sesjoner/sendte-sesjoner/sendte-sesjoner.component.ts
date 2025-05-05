@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Urls } from "../../konstanter/urls";
+import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
 import { SendteSesjonerService } from "../../services/data/sendte-sessions.service";
@@ -70,13 +70,13 @@ export class SendteSesjonerComponent {
   getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
       case SessionType.FourIndications:
-        return Urls.SendteFireIndikasjonerSesjonUrl;
+        return Urls.SentFourIndicationsSessionUrl;
       case SessionType.HandJewelry:
-        return Urls.SendteHandsmykkeSesjonUrl;
+        return Urls.SentHandJewelrySessionUrl;
       case SessionType.ProtectiveEquipment:
-        return Urls.SendteBeskyttelsesutstyrSesjonUrl;
+        return Urls.SendProtectiveEquipmentSessionUrl;
       case SessionType.Gloves:
-        return Urls.SendteHanskeSesjonUrl;
+        return Urls.SentGloveSessionUrl;
       default:
         return "";
     }

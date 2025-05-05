@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {LoggedInUser} from '../../models/api/LoggedInUser';
 import {tap} from 'rxjs/operators';
-import {Localstoragepaths} from '../../konstanter/localstoragepaths';
+import {Localstoragepaths} from '../../constants/localstoragepaths';
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +30,10 @@ export class AutoriseringService {
   }
 
   getLokalBrukerId(){
-    return localStorage.getItem(Localstoragepaths.InnloggetBrukerId);
+    return localStorage.getItem(Localstoragepaths.LoggedInUserId);
   }
 
   setLokalBrukerId(id: string) {
-    localStorage.setItem(Localstoragepaths.InnloggetBrukerId, id)
+    localStorage.setItem(Localstoragepaths.LoggedInUserId, id)
   }
 }

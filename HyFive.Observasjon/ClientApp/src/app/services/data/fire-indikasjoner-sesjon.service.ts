@@ -1,6 +1,6 @@
 import { Uuid } from '../../utils/uuid';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
-import { Localstoragepaths } from '../../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { FireIndikasjonerSesjonsvisning } from '../../models/registrering/fire-indikasjoner-sesjonsvisning.model';
 import { Role } from '../../models/api/Role';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
@@ -18,8 +18,8 @@ import { InstitusjonService } from './institusjon.service';
 })
 export class FireIndikasjonerSesjonService extends BaseSesjonService<FireIndikasjonerSesjonsvisning, FourIndicationsSession, FourIndicationsObservation> {
 
-  sesjonLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjoner;
-  sesjonsvisningLocalStoragePath = Localstoragepaths.FireIndikasjonerSesjonsvisninger;
+  sesjonLocalStoragePath = Localstoragepaths.FourIndicationsSessions;
+  sesjonsvisningLocalStoragePath = Localstoragepaths.FireIndicationsSessionViews;
 
   constructor(
     public institusjonService: InstitusjonService,

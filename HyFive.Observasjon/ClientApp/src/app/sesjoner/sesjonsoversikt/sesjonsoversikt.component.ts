@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Urls } from '../../konstanter/urls';
+import { Urls } from '../../constants/urls';
 
 @Component({
   selector: 'app-sesjonsoversikt',

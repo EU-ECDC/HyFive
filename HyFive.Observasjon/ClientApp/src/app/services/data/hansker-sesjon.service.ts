@@ -1,5 +1,5 @@
 import { Uuid } from '../../utils/uuid';
-import { Localstoragepaths } from '../../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Role } from '../../models/api/Role';
 import { Kort } from '../../models/registrering/kort.model';
 import { Department } from '../../models/api/Department';
@@ -18,7 +18,7 @@ import { InstitusjonService } from './institusjon.service';
 })
 export class HanskeSesjonService extends BaseSesjonService<HanskeSesjonsvisning, GloveSession, GloveObservation> {
 
-  sesjonLocalStoragePath = Localstoragepaths.HanskeSesjoner;
+  sesjonLocalStoragePath = Localstoragepaths.GloveSessions;
   sesjonsvisningLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
 
   constructor(

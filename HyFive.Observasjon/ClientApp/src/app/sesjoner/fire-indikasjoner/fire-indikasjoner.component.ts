@@ -3,10 +3,10 @@ import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasj
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Urls } from '../../konstanter/urls';
-import { Queryparameters } from '../../konstanter/queryparameters';
+import { Urls } from '../../constants/urls';
+import { Queryparameters } from '../../constants/queryparameters';
 import { faArrowLeft, faTrashAlt, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { Dialogtekster } from '../../konstanter/dialogtekster';
+import { DialogueTexts } from '../../constants/dialogueTexts';
 import { ToastrService } from 'ngx-toastr';
 import { AktivitetService } from '../../services/data/aktivitet.service';
 import { ActivityType } from '../../models/api/ActivityType';
@@ -27,7 +27,7 @@ export class FireIndikasjonerComponent implements OnInit {
 
   faArrowLeft = faArrowLeft;
   faTrashAlt = faTrashAlt;
-  Dialogtekster = Dialogtekster;
+  DialogueTexts = DialogueTexts;
   Urls = Urls;
 
   constructor(
@@ -44,7 +44,7 @@ export class FireIndikasjonerComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjon = this.sesjonService.hentSesjon(sessionId);
         this.sesjonvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
@@ -57,11 +57,11 @@ export class FireIndikasjonerComponent implements OnInit {
 
   sesjonSlettetEventHandler(id: string) {
     this.sesjonService.slettSesjon(id);
-    this.router.navigate([Urls.IkkeSendteSesjonerUrl]);
+    this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
   navigerTilRegistreringssideForFireIndikasjoner(sessionId: string){
-    this.router.navigate([Urls.RegistrereFireIndikasjonerUrl], {queryParams: { sessionId: sessionId}})
+    this.router.navigate([Urls.RegisterFourndicationsUrl], {queryParams: { sessionId: sessionId}})
   }
 
   observasjonSlettetEventHandler($event: FourIndicationsObservation) {
@@ -89,6 +89,6 @@ export class FireIndikasjonerComponent implements OnInit {
   };
 
   navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SendteFireIndikasjonerSesjonUrl], { queryParams: {sessionId: this.sesjon.id}})
+    this.router.navigate(['/'+Urls.SentFourIndicationsSessionUrl], { queryParams: {sessionId: this.sesjon.id}})
   }
 }

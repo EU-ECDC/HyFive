@@ -15,7 +15,7 @@
 
       <div class="mb-3">
         <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="slettObservasjon()"
-                                      [dialogmelding]="dialogtekster.ObservasjonSlettBekreftelse">
+                                      [dialogmelding]="dialogueTexts.ObservationDeleteConfirmation">
           <i class="icon-trash3"></i> Slett
         </app-slett-bekreftelsesdialog>
       </div>
@@ -52,7 +52,7 @@
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
-                  <!-- <fa-icon [icon]="faHandHoldingWater" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Sprit</strong></small></span> -->
+                  <!-- <fa-icon [icon]="faHandHoldingWater" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Alcohol</strong></small></span> -->
                 </app-registrer-aktivitet>
               </div>
               <div class="hh-vertical-stadium-buttons__button">
@@ -65,7 +65,7 @@
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
-                  <!-- <fa-icon [icon]="faHandsWash" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Vask</strong></small></span> -->
+                  <!-- <fa-icon [icon]="faHandsWash" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Wash</strong></small></span> -->
                 </app-registrer-aktivitet>
               </div>
               <div class="hh-vertical-stadium-buttons__button">

@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Role } from 'src/app/models/api/Role';
 import { InstitusjonService } from '../../services/data/institusjon.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Queryparameters } from '../../konstanter/queryparameters';
-import { Urls } from '../../konstanter/urls';
+import { Queryparameters } from '../../constants/queryparameters';
+import { Urls } from '../../constants/urls';
 import { faEnvelope, faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { Kort } from '../../models/registrering/kort.model';
@@ -47,7 +47,7 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SesjonId] || 0;
+        const sessionId = params[Queryparameters.SessionId] || 0;
         this.sesjonsvisning = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
         if (!this.sesjonsvisning) {
           this.router.navigate(['']);

@@ -43,7 +43,7 @@
   <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
   <div class="row mb-4" *ngIf="!sesjonSendesTilServer">
     <div class="col ms-auto mb-3">
-      <app-slett-bekreftelsesdialog (slettetEvent)="sesjonSlettetEventHandler(sesjon.id)" [dialogmelding]="Dialogtekster.SesjonSlettBekreftelse" [erSvartFarge]="false">
+      <app-slett-bekreftelsesdialog (slettetEvent)="sesjonSlettetEventHandler(sesjon.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
         <i class="icon-trash3"></i>
         Slett sesjon
       </app-slett-bekreftelsesdialog>
@@ -68,7 +68,7 @@
 
 <div class="container" *ngIf="sesjonErSendtTilServer">
   <div class="row">
-    <p>{{Dialogtekster.SesjonenErSendtTilKoordinator}}<a [routerLink]="navigerTilSendtSesjon()">{{Dialogtekster.VisInnsendtSesjon}}</a></p>
+    <p>{{DialogueTexts.SessionIsSentToCoordinator}}<a [routerLink]="navigerTilSendtSesjon()">{{DialogueTexts.ShowSubmittedSession}}</a></p>
   </div>
 </div>
 

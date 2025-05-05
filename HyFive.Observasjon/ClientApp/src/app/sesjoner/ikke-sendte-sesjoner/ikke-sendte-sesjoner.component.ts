@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FireIndikasjonerSesjonService } from "../../services/data/fire-indikasjoner-sesjon.service";
-import { Urls } from "../../konstanter/urls";
+import { Urls } from "../../constants/urls";
 import { HandsmykkeSesjonService } from "../../services/data/handsmykke-sesjon.service";
 import { Session } from "../../models/api/Session";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -111,13 +111,13 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   getSesjonstypeUrl(sesjonstype: SessionType): string {
     switch (sesjonstype) {
       case SessionType.FourIndications:
-        return Urls.FireIndikasjonerSesjonUrl;
+        return Urls.FourIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.HandsmykkeSesjonUrl;
       case SessionType.Gloves:
-        return Urls.HanskeSesjonUrl;
+        return Urls.GloveSessionUrl;
       case SessionType.ProtectiveEquipment:
-        return Urls.BeskyttelsesutstyrSesjonUrl;
+        return Urls.ProtectiveEquipmentSessionUrl;
       default:
         return "";
     }
