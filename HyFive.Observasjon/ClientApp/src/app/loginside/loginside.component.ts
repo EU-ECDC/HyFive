@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../services/data/authorization.service';
 import { LoggedInUser } from '../models/api/LoggedInUser';
 import { Urls } from '../constants/urls';
-import {FireIndikasjonerSesjonService} from '../services/data/fire-indikasjoner-sesjon.service';
+import {FourIndicationsSessionService} from '../services/data/four-indications-session.service';
 import {HanskeSesjonService} from '../services/data/hansker-sesjon.service';
-import {BeskyttelsesutstyrSesjonService} from '../services/data/beskyttelsesutstyr-sesjon.service';
+import {ProtectiveEquipmentSessionService} from '../services/data/protectiveEquipment-session.service';
 import {HandsmykkeSesjonService} from '../services/data/handsmykke-sesjon.service';
 import {ToastrService} from 'ngx-toastr';
 import { Institution } from '../models/api/Institution';
@@ -36,9 +36,9 @@ export class LoginsideComponent implements OnInit, OnDestroy {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private fireIndikasjonerService: FireIndikasjonerSesjonService,
+    private fireIndikasjonerService: FourIndicationsSessionService,
     private hanskeService: HanskeSesjonService,
-    private beskyttelsesutstyrService: BeskyttelsesutstyrSesjonService,
+    private beskyttelsesutstyrService: ProtectiveEquipmentSessionService,
     private handsmykkeService: HandsmykkeSesjonService,
     private foresporselOmBrukertilgangService: ForesporselOmBrukertilgangService,
     private toastrService: ToastrService,

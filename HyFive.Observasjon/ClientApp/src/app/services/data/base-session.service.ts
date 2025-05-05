@@ -1,7 +1,7 @@
 import { Session } from '../../models/api/Session';
 import { BaseSessionView } from '../../models/registration/base-sessionView.model';
 import { Observation } from '../../models/api/Observation';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './InstitutionService';
 import {AjaxResponse} from 'rxjs/ajax';
 import { DatoHjelper } from 'src/app/utils/datohjelper';
 
@@ -11,7 +11,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   abstract sessionLocalStoragePath: string;
 
   constructor(
-    public institusjonService: InstitusjonService) {
+    public institutionService: InstitutionService) {
   }
 
   protected saveSessionViews(sessionViews: TSesjonsvisning[]) {
@@ -25,7 +25,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   public slettSesjon(sessionId: string) {
     let sessions = this.hentSesjoner().filter(s => s.id !== sessionId);
     this.lagreSesjoner(sessions);
-    let sessionViews = this.hentSesjonsvisninger().filter(s => s.sessionId !== sessionId);
+    let sessionViews = this.getSessionViews().filter(s => s.sessionId !== sessionId);
     this.saveSessionViews(sessionViews);
   }
 
@@ -49,7 +49,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   public oppdaterSesjonsvisningForSesjon(sessionView: TSesjonsvisning): TSesjonsvisning {
     let eksisterendeSesjonsvisning = this.hentSesjonsvisningForSesjon(sessionView.sessionId);
     if (eksisterendeSesjonsvisning) {
-      let sessionViews = this.hentSesjonsvisninger();
+      let sessionViews = this.getSessionViews();
       var eksisterendeSesjonsvisningIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
       sessionViews[eksisterendeSesjonsvisningIndex] = sessionView;
       this.saveSessionViews(sessionViews);
@@ -64,10 +64,10 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   public hentSesjonsvisningForSesjon(sessionId: string): TSesjonsvisning {
-    return this.hentSesjonsvisninger().filter(s => s.sessionId == sessionId)[0] as TSesjonsvisning;
+    return this.getSessionViews().filter(s => s.sessionId == sessionId)[0] as TSesjonsvisning;
   }
 
-  protected hentSesjonsvisninger(): TSesjonsvisning[] {
+  protected getSessionViews(): TSesjonsvisning[] {
     if (localStorage.getItem(this.sessionShowLocalStoragePath) != null) {
       return JSON.parse(localStorage.getItem(this.sessionShowLocalStoragePath)) as TSesjonsvisning[];
     }
@@ -121,7 +121,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
     let sessionView = this.hentSesjonsvisningForSesjon(observasjon.sessionId);
     let sessions = this.hentSesjoner();
-    let institusjon = await this.institusjonService.getInstitusjon(sessionView.department.institutionId).toPromise();
+    let institusjon = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
     let nySesjon = {
       id: observasjon.sessionId,
       observations: [observasjon],

@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './InstitutionService';
 
 @Injectable({
   providedIn: 'root'
@@ -22,20 +22,20 @@ export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessi
   sessionShowLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
 
   constructor(
-    public institusjonService: InstitusjonService,
+    public institutionService: InstitutionService,
     private httpClient: HttpClient) {
-    super(institusjonService);
+    super(institutionService);
   }
 
-  public sendTilServer(sessionId: string): Observable<string> {
+  public sendToServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
-    var sesjonSomSkalSendes = sessions[sesjonIndeks];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handsmykke`, sesjonSomSkalSendes)
+    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    var sessionToSend = sessions[sessionIndex];
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/handsmykke`, sessionToSend)
   }
 
-  public lagSesjonsvisning(
-    rollerSomObserveres: Role[],
+  public createSessionView(
+    rolesAsObserved: Role[],
     department: Department
   ): string {
     let id = Uuid.generateUUID();
@@ -43,9 +43,9 @@ export class HandsmykkeSesjonService extends BaseSessionService<HandJewelrySessi
     let handsmykkerSesjonsvisning: HandJewelrySessionView = {
       sessionId: id,
       department: department,
-      card: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
+      card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sessionViews = this.hentSesjonsvisninger();
+    var sessionViews = this.getSessionViews();
     sessionViews.push(handsmykkerSesjonsvisning);
     this.saveSessionViews(sessionViews);
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Role } from 'src/app/models/api/Role';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { InstitutionService } from '../../services/data/InstitutionService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { Urls } from '../../constants/urls';
@@ -37,9 +37,9 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     private sesjonService: HanskeSesjonService,
     private router: Router,
     private route: ActivatedRoute,
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private toastrService: ToastrService) {
-    this.institusjonService.getValgtInstitusjon()
+    this.institutionService.getSelectedInstitution()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 

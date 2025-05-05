@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
+import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ export class FireIndikasjonerComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sesjonService: FireIndikasjonerSesjonService,
+    private sesjonService: FourIndicationsSessionService,
     private activityService: ActivityService,
     private router: Router,
     private route: ActivatedRoute,
@@ -75,7 +75,7 @@ export class FireIndikasjonerComponent implements OnInit {
 
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
-    this.sesjonService.sendTilServer(this.sesjon.id).subscribe(res => {
+    this.sesjonService.sendToServer(this.sesjon.id).subscribe(res => {
         this.toastrService.success("Session ble sendt til koordinator");
         this.sesjonService.slettSesjon(this.sesjon.id);
         this.sesjonErSendtTilServer = true;

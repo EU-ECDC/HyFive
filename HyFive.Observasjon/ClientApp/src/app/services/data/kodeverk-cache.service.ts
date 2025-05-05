@@ -5,7 +5,7 @@ import { HandsmykkeTypeService } from './handsmykketype.service';
 import { HandhygieneEtterHanskebrukTypeService } from './handhygiene-etter-hanskebruk-type.service';
 import { HanskeMedIndikasjonTypeService } from './hanske-med-indikasjon-type.service';
 import { HanskeUtenIndikasjonTypeService } from './hanske-uten-indikasjon-type.service';
-import { BeskyttelsesutstyrKodeverkService } from './beskyttelsesutstyr-kodeverk.service';
+import { ProtectiveEquipmentCodingService } from './protectiveEquipment-coding-service';
 import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class KodeverkCacheService {
     private handhygieneEtterHanskebrukTypeService: HandhygieneEtterHanskebrukTypeService,
     private hanskeMedIndikasjonTypeService: HanskeMedIndikasjonTypeService,
     private hanskeUtenIndikasjonTypeService: HanskeUtenIndikasjonTypeService,   
-    private beskyttelsesutstyrKodeverkService: BeskyttelsesutstyrKodeverkService ) {
+    private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService ) {
   }
 
   lastKodeverk(){
@@ -30,7 +30,7 @@ export class KodeverkCacheService {
       this.handhygieneEtterHanskebrukTypeService.getHandhygieneEtterHanskebrukTyper(),
       this.hanskeMedIndikasjonTypeService.getHanskeMedIndikasjonTyper(),
       this.hanskeUtenIndikasjonTypeService.getHanskeUtenIndikasjonTyper(),
-      this.beskyttelsesutstyrKodeverkService.hentBeskyttelsesutstyrSettinger()
+      this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings()
     ];
 
     forkJoin(kodeverkRequests).subscribe( () => {});

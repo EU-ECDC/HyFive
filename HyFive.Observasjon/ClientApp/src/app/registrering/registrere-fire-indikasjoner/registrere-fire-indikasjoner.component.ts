@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
+import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FourIndicationsSessionView } from '../../models/registration/fire-indikasjoner-sessionView.model';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { Queryparameters } from '../../constants/queryparameters';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { InstitutionService } from '../../services/data/InstitutionService';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
 import { Card } from '../../models/registration/card.model';
@@ -30,13 +30,13 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sesjonService: FireIndikasjonerSesjonService,
+    private sesjonService: FourIndicationsSessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private toastrService: ToastrService) {
-    this.institusjonService
-      .getValgtInstitusjon()
+    this.institutionService
+      .getSelectedInstitution()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { Department } from '../../models/api/Department';
 import { Activity } from '../../models/api/Activity';
-import { FireIndikasjonerSesjonService } from '../../services/data/fire-indikasjoner-sesjon.service';
+import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Farger } from '../../utils/farger';
 import { DialogueTexts } from '../../constants/dialogueTexts';
@@ -45,7 +45,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   faTimesCircle = faTimesCircle;
 
   constructor(
-    private sesjonService: FireIndikasjonerSesjonService,
+    private sesjonService: FourIndicationsSessionService,
     private activityService: ActivityService
   ) {
     this.ActivityTypeNotExecutedSelection = ActivityTypeNotExecutedMapper.getNameMap();

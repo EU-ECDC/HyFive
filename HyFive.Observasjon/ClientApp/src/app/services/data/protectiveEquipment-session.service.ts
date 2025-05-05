@@ -13,36 +13,36 @@ import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { InstitusjonService } from "./institusjon.service";
+import { InstitutionService } from "./InstitutionService";
 import {ProtectiveEquipmentType} from "../../models/api/ProtectiveEquipmentType";
 import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BeskyttelsesutstyrSesjonService extends BaseSessionService<ProtectiveEquipmentSessionView, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
+export class ProtectiveEquipmentSessionService extends BaseSessionService<ProtectiveEquipmentSessionView, ProtectiveEquipmentSession, ProtectiveEquipmentObservation>{
   sessionShowLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessionViews;
   sessionLocalStoragePath: string = Localstoragepaths.ProtectiveEquipmentSessions;
 
 
 
   constructor(
-    public institusjonService: InstitusjonService,
+    public institutionService: InstitutionService,
     private httpClient: HttpClient) {
-    super(institusjonService);
+    super(institutionService);
   }
 
-  public sendTilServer(sessionId: string): Observable<string> {
+  public sendToServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
-    var sesjonSomSkalSendes = sessions[sesjonIndeks];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/protectiveEquipment`, sesjonSomSkalSendes)
+    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    var sessionToSend = sessions[sessionIndex];
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/protectiveEquipment`, sessionToSend)
   }
 
-  beskyttelsesutstyrOppdatert: EventEmitter<ProtectiveEquipmentType[]> = new EventEmitter<ProtectiveEquipmentType[]>()
+  protectiveEquipmentUpdated: EventEmitter<ProtectiveEquipmentType[]> = new EventEmitter<ProtectiveEquipmentType[]>()
 
-  lagSesjonsvisning(
-    rollerSomObserveres: Role[],
+  createSessionView(
+    rolesAsObserved: Role[],
     department: Department,
     setting: ProtectiveEquipmentSettingType): string {
     let id = Uuid.generateUUID();
@@ -50,40 +50,40 @@ export class BeskyttelsesutstyrSesjonService extends BaseSessionService<Protecti
     let sessionView: ProtectiveEquipmentSessionView = {
       sessionId: id,
       department: department,
-      card: this.genererKort(rollerSomObserveres, setting),
+      card: this.generateCard(rolesAsObserved, setting),
       setting: setting
     };
 
-    var sessionViews = this.hentSesjonsvisninger();
+    var sessionViews = this.getSessionViews();
     sessionViews.push(sessionView);
     this.saveSessionViews(sessionViews);
 
     return id;
   }
 
-  oppdaterSesjonUtstyrstyper(sessionId: string, equipmentTypes: ProtectiveEquipmentType[]){
-    var sessionViews = this.hentSesjonsvisninger();
-    var sesjonsvisningSomSkalOppdateres = sessionViews.find(s => s.sessionId == sessionId);
-    sesjonsvisningSomSkalOppdateres.setting.equipmentTypes = equipmentTypes;
+  updateSessionEquipmentTypes(sessionId: string, equipmentTypes: ProtectiveEquipmentType[]){
+    var sessionViews = this.getSessionViews();
+    var sessionviewToBeUpdated = sessionViews.find(s => s.sessionId == sessionId);
+    sessionviewToBeUpdated.setting.equipmentTypes = equipmentTypes;
     this.saveSessionViews(sessionViews);
-    this.beskyttelsesutstyrOppdatert.emit(equipmentTypes);
+    this.protectiveEquipmentUpdated.emit(equipmentTypes);
   }
 
-  antallKvalifisertUtstyr(beskyttelsesutstyrListe: ProtectiveEquipment[]) : number{
-    return beskyttelsesutstyrListe.reduce((kvalifiserteUtstyr, curr) => {
+  numberOfQualifiedEquipment(protectiveEquipmentList: ProtectiveEquipment[]) : number{
+    return protectiveEquipmentList.reduce((qualifiedEquipment, curr) => {
         if (curr.isRequired || curr.wasUsed){
-          return kvalifiserteUtstyr + 1;
+          return qualifiedEquipment + 1;
         }
         else {
-          return kvalifiserteUtstyr;
+          return qualifiedEquipment;
         }
       },
       0);
   }
 
-  private genererKort(roles: Role[], setting: ProtectiveEquipmentSettingType): ProtectiveEquipmentCard[] {
+  private generateCard(roles: Role[], setting: ProtectiveEquipmentSettingType): ProtectiveEquipmentCard[] {
     return roles.map((r, i) => {
-      return { id: Uuid.generateUUID(), role: r, utstyr: setting.equipmentTypes, isActive: i == 0 } as ProtectiveEquipmentCard
+      return { id: Uuid.generateUUID(), role: r, equipment: setting.equipmentTypes, isActive: i == 0 } as ProtectiveEquipmentCard
     });
   }
 }

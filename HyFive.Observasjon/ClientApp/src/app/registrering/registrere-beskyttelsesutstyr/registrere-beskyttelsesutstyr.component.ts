@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Role } from 'src/app/models/api/Role';
-import { InstitusjonService } from '../../services/data/institusjon.service';
+import { InstitutionService } from '../../services/data/InstitutionService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { Urls } from '../../constants/urls';
@@ -11,7 +11,7 @@ import { Uuid } from '../../utils/uuid';
 import { ProtectiveEquipmentSessionView } from '../../models/registration/protectiveEquipment-sessionView.model';
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
-import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
+import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -38,14 +38,14 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
   faCircle = faCircle;
 
   constructor(
-    private sesjonService: BeskyttelsesutstyrSesjonService,
+    private sesjonService: ProtectiveEquipmentSessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private mainMenuService: MainMenuEventService,
     private toastrService: ToastrService
   ) {
-    this.institusjonService.getValgtInstitusjon()
+    this.institutionService.getSelectedInstitution()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
     //this.mainMenuService.mainMenuIsOpenEvent.subscribe(m => this.mainMenuIsOpen = m);
   }
@@ -83,7 +83,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
 
   leggTilNyttKort(role: Role) {
     this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
-    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true, utstyr: this.sessionView.setting.equipmentTypes });
+    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true, equipment: this.sessionView.setting.equipmentTypes });
     this.oppdaterSesjonsvisning(this.sessionView);
     this.toggleRolleliste();
   }

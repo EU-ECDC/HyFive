@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FireIndikasjonerSesjonService } from "../../services/data/fire-indikasjoner-sesjon.service";
+import { FourIndicationsSessionService } from "../../services/data/four-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandsmykkeSesjonService } from "../../services/data/handsmykke-sesjon.service";
 import { Session } from "../../models/api/Session";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { SesjonTypeMapper } from "../../utils/type-sesjon-mapper";
-import { BeskyttelsesutstyrSesjonService } from "../../services/data/beskyttelsesutstyr-sesjon.service";
+import { ProtectiveEquipmentSessionService } from "../../services/data/protectiveEquipment-session.service";
 import { SessionType } from "../../models/api/SessionType";
 import { SessionReport } from "../../models/api/SessionReport";
 import { ToastrService } from "ngx-toastr";
@@ -31,10 +31,10 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   faCalendar = faCalendar;
 
   constructor(
-    private fireIndikasjonerSesjonService: FireIndikasjonerSesjonService,
+    private fourIndicationsSessionService: FourIndicationsSessionService,
     private handsmykkeSesjonService: HandsmykkeSesjonService,
     private hanskeSesjonService: HanskeSesjonService,
-    private beskyttelsesutstyrSesjonService: BeskyttelsesutstyrSesjonService,
+    private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private toastrService: ToastrService
   ) {
     this.sesjonsnavnMap = SesjonTypeMapper.getNameMap();
@@ -49,23 +49,23 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
   lastSesjoner() {
-    this.sessions = this.fireIndikasjonerSesjonService
+    this.sessions = this.fourIndicationsSessionService
       .hentSesjoner()
-      .map((f) => this.lagSesjonsvisning(f, SessionType.FourIndications))
+      .map((f) => this.createSessionView(f, SessionType.FourIndications))
       .concat(
         this.handsmykkeSesjonService
           .hentSesjoner()
-          .map((h) => this.lagSesjonsvisning(h, SessionType.HandJewelry))
+          .map((h) => this.createSessionView(h, SessionType.HandJewelry))
       )
       .concat(
         this.hanskeSesjonService
           .hentSesjoner()
-          .map((h) => this.lagSesjonsvisning(h, SessionType.Gloves))
+          .map((h) => this.createSessionView(h, SessionType.Gloves))
       )
       .concat(
-        this.beskyttelsesutstyrSesjonService
+        this.protectiveEquipmentSessionService
           .hentSesjoner()
-          .map((b) => this.lagSesjonsvisning(b, SessionType.ProtectiveEquipment))
+          .map((b) => this.createSessionView(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
         if (a.startTime > b.startTime) {
@@ -95,7 +95,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     }
   }
 
-  lagSesjonsvisning(
+  createSessionView(
     sesjon: Session<any>,
     sesjonstype: SessionType
   ): SessionReport {
@@ -131,14 +131,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         let observable;
         switch (s.type) {
           case SessionType.FourIndications:
-            observable = this.fireIndikasjonerSesjonService
-              .sendTilServer(s.id).pipe(
+            observable = this.fourIndicationsSessionService
+              .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.fireIndikasjonerSesjonService.slettSesjon(s.id);
+                  this.fourIndicationsSessionService.slettSesjon(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);
@@ -149,7 +149,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
    
           case SessionType.HandJewelry:
             observable = this.handsmykkeSesjonService
-              .sendTilServer(s.id).pipe(
+              .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
@@ -166,7 +166,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
    
           case SessionType.Gloves:
             observable = this.hanskeSesjonService
-              .sendTilServer(s.id).pipe(
+              .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
@@ -182,14 +182,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             break;
    
           case SessionType.ProtectiveEquipment:
-            observable = this.beskyttelsesutstyrSesjonService
-              .sendTilServer(s.id).pipe(
+            observable = this.protectiveEquipmentSessionService
+              .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.beskyttelsesutstyrSesjonService.slettSesjon(s.id);
+                  this.protectiveEquipmentSessionService.slettSesjon(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);

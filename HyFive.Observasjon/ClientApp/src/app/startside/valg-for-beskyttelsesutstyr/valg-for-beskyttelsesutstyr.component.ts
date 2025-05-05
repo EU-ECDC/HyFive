@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BeskyttelsesutstyrKodeverkService } from '../../services/data/beskyttelsesutstyr-kodeverk.service';
+import { ProtectiveEquipmentCodingService } from '../../services/data/protectiveEquipment-coding-service';
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
-import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
+import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { Department } from '../../models/api/Department';
 import { Urls } from '../../constants/urls';
 import { Router } from '@angular/router';
@@ -31,12 +31,12 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   @Output("settingOgUtstyrBleEndret") settingOgUtstyrBleEndret: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(
-    private beskyttelsesutstyrKodeverkService: BeskyttelsesutstyrKodeverkService,
-    private beskyttelsesutstyrSesjonService: BeskyttelsesutstyrSesjonService,
+    private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService,
+    private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.beskyttelsesutstyrKodeverkService.hentBeskyttelsesutstyrSettinger().subscribe(
+    this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings().subscribe(
       (settinger) => {
         this.settinger = settinger;
       }
@@ -52,13 +52,13 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
 
   startObservasjon() {
     var valgteRoller = this.roles.filter(roleSelected => roleSelected.isSelected).map(roleSelected => roleSelected.role);
-    var sessionId = this.beskyttelsesutstyrSesjonService.lagSesjonsvisning(valgteRoller, this.department, this.valgtSetting);
+    var sessionId = this.protectiveEquipmentSessionService.createSessionView(valgteRoller, this.department, this.valgtSetting);
     this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], { queryParams: { sessionId: sessionId } });
   }
 
   endreSettingOgUtstyr() {
     this.sessionView.setting = this.valgtSetting;
-    this.sessionView.card = this.sessionView.card.map(k => { k.utstyr = this.valgtSetting.equipmentTypes; return k });
+    this.sessionView.card = this.sessionView.card.map(k => { k.equipment = this.valgtSetting.equipmentTypes; return k });
     this.settingOgUtstyrBleEndret.emit(this.sessionView);
   }
 

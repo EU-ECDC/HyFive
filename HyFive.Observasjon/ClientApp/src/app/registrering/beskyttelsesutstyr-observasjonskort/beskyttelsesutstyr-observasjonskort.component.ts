@@ -18,7 +18,7 @@ import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfi
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
-import {BeskyttelsesutstyrSesjonService} from "../../services/data/beskyttelsesutstyr-sesjon.service";
+import {ProtectiveEquipmentSessionService} from "../../services/data/protectiveEquipment-session.service";
 
 @Component({
   selector: 'app-beskyttelsesutstyr-observasjonskort',
@@ -58,12 +58,12 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   @Output() kortErValgtEvent = new EventEmitter<Card>();
 
   constructor(modalService: NgbModal,
-              private beskyttelsesutstyrSesjonService: BeskyttelsesutstyrSesjonService) {
+              private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.beskyttelsesutstyrSesjonService.beskyttelsesutstyrOppdatert.subscribe((bu) => {
+    this.protectiveEquipmentSessionService.protectiveEquipmentUpdated.subscribe((bu) => {
       this.sessionView.setting.equipmentTypes = bu;
 
       this.oppdaterBeskyttelsesutstyrValg();
@@ -104,13 +104,13 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
 
 
   kanIkkeLagre(): boolean {
-    let antallKvalifisertUtstyr = this.beskyttelsesutstyrSesjonService.antallKvalifisertUtstyr(this.beskyttelsesutstyrValg);
+    let numberOfQualifiedEquipment = this.protectiveEquipmentSessionService.numberOfQualifiedEquipment(this.beskyttelsesutstyrValg);
 
-    if (antallKvalifisertUtstyr < 1) {
+    if (numberOfQualifiedEquipment < 1) {
       this.observasjonMangelTekst = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
       this.visInfoModal = true;
     }
-    return antallKvalifisertUtstyr < 1;
+    return numberOfQualifiedEquipment < 1;
   }
 
   changed(event, valg: ProtectiveEquipment) {
@@ -192,7 +192,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     let valg = this.beskyttelsesutstyrValg.find(b => b.equipmentType.id == droppedValg.equipmentType.id);
     valg.isRequired = valgIndikert;
     valg.equipmentType.isRequired = valgIndikert;
-    this.beskyttelsesutstyrSesjonService.oppdaterSesjonUtstyrstyper(this.sessionView.sessionId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
+    this.protectiveEquipmentSessionService.updateSessionEquipmentTypes(this.sessionView.sessionId, this.beskyttelsesutstyrValg.map(b => b.equipmentType))
     this.cardLockedInPlace = false;
   }
 

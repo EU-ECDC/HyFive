@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { GloveSessionView } from '../../models/registration/glove-session-view.model';
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveObservation } from '../../models/api/GloveObservation';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './InstitutionService';
 
 @Injectable({
   providedIn: 'root'
@@ -22,21 +22,21 @@ export class HanskeSesjonService extends BaseSessionService<GloveSessionView, Gl
   sessionShowLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
 
   constructor(
-    public institusjonService: InstitusjonService,
+    public institutionService: InstitutionService,
     private httpClient: HttpClient) {
-    super(institusjonService);
+    super(institutionService);
   }
 
-  public sendTilServer(sessionId: string): Observable<string> {
+  public sendToServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
-    var sesjonSomSkalSendes = sessions[sesjonIndeks];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/hanske`, sesjonSomSkalSendes)
+    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    var sessionToSend = sessions[sessionIndex];
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/hanske`, sessionToSend)
   }
 
-  public lagSesjonsvisning(
+  public createSessionView(
     gloveUseMustBeRegistered: boolean,
-    rollerSomObserveres: Role[],
+    rolesAsObserved: Role[],
     department: Department
   ): string {
     let id = Uuid.generateUUID();
@@ -45,9 +45,9 @@ export class HanskeSesjonService extends BaseSessionService<GloveSessionView, Gl
       sessionId: id,
       department: department,
       gloveUseMustBeRegistered: gloveUseMustBeRegistered,
-      card: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
+      card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sessionViews = this.hentSesjonsvisninger()
+    var sessionViews = this.getSessionViews()
     sessionViews.push(gloveSessionView);
     this.saveSessionViews(sessionViews);
 

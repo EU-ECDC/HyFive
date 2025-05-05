@@ -7,7 +7,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import { Department } from '../../models/api/Department';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
-import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
+import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
 import { SessionType } from 'src/app/models/api/SessionType';
@@ -36,7 +36,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   faCheck = faCheck;
 
   constructor(
-    private sesjonService: BeskyttelsesutstyrSesjonService,
+    private sesjonService: ProtectiveEquipmentSessionService,
     private modalService: NgbModal,
     private toastrService: ToastrService) { }
 
@@ -165,6 +165,6 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   kanLagre() {
-    return this.sesjonService.antallKvalifisertUtstyr(this.observasjon.protectiveEquipmentList) > 0;
+    return this.sesjonService.numberOfQualifiedEquipment(this.observasjon.protectiveEquipmentList) > 0;
   }
 }

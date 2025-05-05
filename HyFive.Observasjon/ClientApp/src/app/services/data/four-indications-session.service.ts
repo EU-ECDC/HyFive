@@ -11,46 +11,46 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { InstitusjonService } from './institusjon.service';
+import { InstitutionService } from './InstitutionService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FireIndikasjonerSesjonService extends BaseSessionService<FourIndicationsSessionView, FourIndicationsSession, FourIndicationsObservation> {
+export class FourIndicationsSessionService extends BaseSessionService<FourIndicationsSessionView, FourIndicationsSession, FourIndicationsObservation> {
 
   sessionLocalStoragePath = Localstoragepaths.FourIndicationsSessions;
-  sessionShowLocalStoragePath = Localstoragepaths.FireIndicationsSessionViews;
+  sessionShowLocalStoragePath = Localstoragepaths.FourIndicationsSessionView;
 
   constructor(
-    public institusjonService: InstitusjonService,
+    public institutionService: InstitutionService,
     private httpClient: HttpClient) {
-    super(institusjonService);
+    super(institutionService);
   }
 
-  public sendTilServer(sessionId: string): Observable<string> {
+  public sendToServer(sessionId: string): Observable<string> {
     var sessions = this.hentSesjoner();
-    var sesjonIndeks = sessions.map(s => s.id).indexOf(sessionId);
-    var sesjonSomSkalSendes = sessions[sesjonIndeks];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fourindications`, sesjonSomSkalSendes)
+    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    var sessionToSend = sessions[sessionIndex];
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fourindications`, sessionToSend)
   }
 
-  public lagSesjonsvisning(
+  public createSessionView(
     gloveUseMustBeRegistered: boolean,
     timeShouldBeRegistred: boolean,
-    rollerSomObserveres: Role[],
+    rolesAsObserved: Role[],
     department: Department
   ): string {
     let id = Uuid.generateUUID();
 
-    let fireIndikasjonerSesjonsvisning: FourIndicationsSessionView = {
+    let fourIndicationsSessionView: FourIndicationsSessionView = {
       sessionId: id,
       department: department,
       gloveUseMustBeRegistered: gloveUseMustBeRegistered,
       timeShouldBeRegistred: timeShouldBeRegistred,
-      card: rollerSomObserveres.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
+      card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sessionViews = this.hentSesjonsvisninger()
-    sessionViews.push(fireIndikasjonerSesjonsvisning);
+    var sessionViews = this.getSessionViews()
+    sessionViews.push(fourIndicationsSessionView);
     this.saveSessionViews(sessionViews);
 
     return id;

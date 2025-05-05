@@ -9,7 +9,7 @@ import { StartsideForObservasjonComponent } from './startside/startside-for-obse
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RegistrereFireIndikasjonerComponent } from "./registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component";
-import { FireIndikasjonerSesjonService } from './services/data/fire-indikasjoner-sesjon.service';
+import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
 import { RegistrerAktivitetComponent } from './registrering/registrer-aktivitet/registrer-aktivitet.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
 import { FireIndikasjonerObservasjonskortComponent } from './registrering/fire-indikasjoner-observasjonskort/fire-indikasjoner-observasjonskort.component';
@@ -150,7 +150,7 @@ export const httpInterceptorProviders = [
         DragDropModule
     ],
     bootstrap: [AppComponent],
-    providers: [FireIndikasjonerSesjonService, HandsmykkeSesjonService, HandHygieneHammerJS, httpInterceptorProviders],
+    providers: [FourIndicationsSessionService, HandsmykkeSesjonService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
         RedigerBeskyttelsesutstyrObservasjonComponent,
         RegistrerKommentarComponent

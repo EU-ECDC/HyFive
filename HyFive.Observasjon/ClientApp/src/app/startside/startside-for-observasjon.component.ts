@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { FireIndikasjonerSesjonService } from "../services/data/fire-indikasjoner-sesjon.service";
-import { InstitusjonService } from "../services/data/institusjon.service";
+import { FourIndicationsSessionService } from "../services/data/four-indications-session.service";
+import { InstitutionService } from "../services/data/InstitutionService";
 import { Institution } from "../models/api/Institution";
 import { RoleSelected } from "../models/registration/roleSelected.model";
 import { Urls } from "../constants/urls";
@@ -39,10 +39,10 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fireIndikasjonerSesjonService: FireIndikasjonerSesjonService,
+    private fourIndicationsSessionService: FourIndicationsSessionService,
     private handsmykkeSesjonService: HandsmykkeSesjonService,
     private hanskeSesjonService: HanskeSesjonService,
-    private institusjonService: InstitusjonService,
+    private institutionService: InstitutionService,
     private authorizationService: AuthorizationService
   ) {}
 
@@ -66,8 +66,8 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.institusjonAlternativer = [];
     this.valgtInstitusjonAlternativId = 0;
     this.institusjon = null;
-    this.institusjonService
-      .getInstitusjoner()
+    this.institutionService
+      .getInstitutions()
       .subscribe((institusjoner: Institution[]) => {
         this.institusjonAlternativer = institusjoner;
         let enesteInstitusjon: Institution = null;
@@ -75,15 +75,15 @@ export class StartsideForObservasjonComponent implements OnInit {
           enesteInstitusjon = this.institusjonAlternativer[0];
         }
 
-        this.institusjonService
-          .getValgtInstitusjon()
+        this.institutionService
+          .getSelectedInstitution()
           .subscribe((valgtInstitusjon) => {
             if (valgtInstitusjon) {
               this.institusjon = valgtInstitusjon;
             }
             if (!valgtInstitusjon && enesteInstitusjon) {
               this.institusjon = enesteInstitusjon;
-              this.institusjonService.oppdaterValgtInstitusjonId(
+              this.institutionService.updateSelectedInstitutionId(
                 enesteInstitusjon.id
               );
             }
@@ -136,7 +136,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   startFireIndikasjonerSesjon() {
-    let sessionId = this.fireIndikasjonerSesjonService.lagSesjonsvisning(
+    let sessionId = this.fourIndicationsSessionService.createSessionView(
       this.hanskebruk,
       this.tidtaking,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
@@ -149,7 +149,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   startHandsmykkeSesjon() {
-    let sessionId = this.handsmykkeSesjonService.lagSesjonsvisning(
+    let sessionId = this.handsmykkeSesjonService.createSessionView(
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );
@@ -159,7 +159,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   startHanskeSesjon() {
-    let sessionId = this.hanskeSesjonService.lagSesjonsvisning(
+    let sessionId = this.hanskeSesjonService.createSessionView(
       this.hanskebruk,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
@@ -172,7 +172,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   valgtInstitusjonEndret() {
     // bytt institusjon
-    this.institusjonService.oppdaterValgtInstitusjonId(
+    this.institutionService.updateSelectedInstitutionId(
       this.valgtInstitusjonAlternativId
     );
 

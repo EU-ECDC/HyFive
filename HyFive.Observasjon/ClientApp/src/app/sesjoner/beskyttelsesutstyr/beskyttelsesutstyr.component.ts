@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
-import { BeskyttelsesutstyrSesjonService } from '../../services/data/beskyttelsesutstyr-sesjon.service';
+import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { Urls } from '../../constants/urls';
 import { faCircle, faAngleUp, faClipboard, faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
@@ -34,7 +34,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
 
 
   constructor(
-    private sesjonService: BeskyttelsesutstyrSesjonService,
+    private sesjonService: ProtectiveEquipmentSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -78,7 +78,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
 
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
-    this.sesjonService.sendTilServer(this.sesjon.id).subscribe(res => {
+    this.sesjonService.sendToServer(this.sesjon.id).subscribe(res => {
         this.toastrService.success("Session ble sendt til koordinator");
         this.sesjonService.slettSesjon(this.sesjon.id);
         this.sesjonErSendtTilServer = true;

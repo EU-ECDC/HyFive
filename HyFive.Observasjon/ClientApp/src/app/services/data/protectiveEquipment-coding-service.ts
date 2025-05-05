@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-export class BeskyttelsesutstyrKodeverkService {
+export class ProtectiveEquipmentCodingService {
 
   constructor(private httpClient: HttpClient){}
 
-  hentBeskyttelsesutstyrSettinger() : Observable<ProtectiveEquipmentSettingType[]> {
-    const url = `${environment.apiBaseUrl}/v1/protectiveEquipment/`;
+  getProtectiveEquipmentSettings() : Observable<ProtectiveEquipmentSettingType[]> {
+    const url = `${environment.apiBaseUrl}/v1/protectiveequipment/`;
     return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
   }
 }
