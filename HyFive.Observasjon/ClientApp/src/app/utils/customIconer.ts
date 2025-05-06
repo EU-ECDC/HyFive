@@ -135,7 +135,7 @@ export const faFour: IconDefinition = {
   ]
 };
 
-export const faNyttKortPil: IconDefinition = {
+export const faNewCardArrow: IconDefinition = {
   prefix: 'fal',
   iconName: 'nyttkortpil',
   icon: [
@@ -256,7 +256,7 @@ library.add(faOne);
 library.add(faTwo);
 library.add(faThree);
 library.add(faFour);
-library.add(faNyttKortPil);
+library.add(faNewCardArrow);
 library.add(faKunstigNegl);
 library.add(faLangNegl);
 library.add(faLangermet);

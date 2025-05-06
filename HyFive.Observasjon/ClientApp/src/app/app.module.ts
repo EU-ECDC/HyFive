@@ -61,7 +61,7 @@ import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-h
 import { RedigerHanskeObservasjonComponent } from './sessions/rediger-hanske-observasjon/rediger-hanske-observasjon.component';
 import { DialogModalComponent } from './shared/dialog-modal/dialog-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NyttKortInfoComponent } from './shared/nytt-kort-info/nytt-kort-info.component';
+import { NewCardInfoComponent } from './shared/new-card-info/new-card-info.component';
 import { LoginPageComponent } from './login-page/loginpage.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -126,7 +126,7 @@ export const httpInterceptorProviders = [
         SendteHanskeSesjonComponent,
         RedigerHanskeObservasjonComponent,
         DialogModalComponent,
-        NyttKortInfoComponent,
+        NewCardInfoComponent,
         LoginPageComponent,
         SpinnerComponent,
         AuthenticationFailedModalComponent,
