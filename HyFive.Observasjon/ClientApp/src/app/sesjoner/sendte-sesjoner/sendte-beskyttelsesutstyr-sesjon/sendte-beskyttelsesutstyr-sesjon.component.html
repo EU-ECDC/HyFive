@@ -1,7 +1,7 @@
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigerTilSendteSesjoner()">Tilbake</app-navigation-link>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sendt sesjon - Verneutstyr'"></app-sesjonsredigering-overskrift>
+  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sendt sesjon - Protective equipment'"></app-sesjonsredigering-overskrift>
   <div class="accordion-compact mb-4">
     <app-accordion [items]="sesjon?.observations"
                    [headerTemplate]="header"

@@ -97,7 +97,7 @@ export class StartsideForObservasjonComponent implements OnInit {
     });
   }
 
-  startObservasjon() {
+  startObservation() {
     if (!this.valgtAvdelingId) {
       alert("Select en department");
       return;

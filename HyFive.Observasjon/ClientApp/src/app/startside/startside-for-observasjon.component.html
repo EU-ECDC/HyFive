@@ -131,7 +131,7 @@
                 [value]="SessionType.ProtectiveEquipment"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.ProtectiveEquipment">
-                <span class="fhi-form-check-tile__label-text">Verneutstyr</span>
+                <span class="fhi-form-check-tile__label-text">Protective equipment</span>
               </label>
             </div>
           </div>
@@ -205,7 +205,7 @@
         <button
           class="btn fhi-btn-primary"
           style="height: unset; padding: 0.575rem 1.2rem"
-          (click)="startObservasjon()"
+          (click)="startObservation()"
           [disabled]="kanIkkeStarteObservasjon()"
         >
           Start observation
@@ -216,10 +216,10 @@
 </div>
 
 <ng-container *ngIf="visBeskyttelsesutstyr">
-  <app-valg-for-beskyttelsesutstyr
+  <app-selection-for-protective-equipment
     [roles]="roleSelected"
     [department]="hentValgtAvdeling()"
-  ></app-valg-for-beskyttelsesutstyr>
+  ></app-selection-for-protective-equipment>
 </ng-container>
 
 <app-help-text [title]="'Tips og triks - start observation'">
