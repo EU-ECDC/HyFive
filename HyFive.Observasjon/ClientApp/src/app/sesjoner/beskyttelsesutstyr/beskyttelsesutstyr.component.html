@@ -1,5 +1,5 @@
 <div class="container">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigasjonslenke>
+  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigation-link>
   <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Verneutstyr'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
 </div>
 <div class="container" *ngIf="sesjonErSendtTilServer == false">
@@ -58,7 +58,7 @@
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigasjonslenke [mobileCssClass]="'override--noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigasjonslenke>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigation-link>
     </div>
   </div>
 

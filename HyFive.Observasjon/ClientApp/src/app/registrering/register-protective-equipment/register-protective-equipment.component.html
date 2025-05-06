@@ -2,7 +2,7 @@
   <div class="container">
     <app-observation-counter [sessionsdata]="sessionsdata" [url]="Urls.ProtectiveEquipmentSessionUrl"></app-observation-counter>
     <div class="mb-4">
-      <app-navigasjonslenke (lenkeKlikket)="changeSettingMode = true">For protective equipment</app-navigasjonslenke>
+      <app-navigation-link (linkClicked)="changeSettingMode = true">For protective equipment</app-navigation-link>
     </div>
     <h1 class="h3 mt-n4 mt-xl-0">{{sessionView.setting.name}}</h1>
     <div class="row">

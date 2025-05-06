@@ -37,7 +37,7 @@ import { SesjonsoversiktComponent } from './sessions/sesjonsoversikt/sesjonsover
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
 import { ProtectiveEquipmentObservationCardComponent } from './registrering/protective equipment-observation-card/protective equipment-observation-card.component';
 import { ValgForBeskyttelsesutstyrComponent } from './startside/valg-for-beskyttelsesutstyr/valg-for-beskyttelsesutstyr.component';
-import { NavigasjonslenkeComponent } from './shared/navigasjonslenke/navigasjonslenke.component';
+import { NavigationLinkComponent } from './shared/navigation-link/navigation-link.component';
 import { BeskyttelsesutstyrComponent } from './sessions/beskyttelsesutstyr/beskyttelsesutstyr.component';
 import { AccordionComponent } from './shared/accordion/accordion.component';
 import { SesjonsredigeringOverskriftComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
@@ -105,7 +105,7 @@ export const httpInterceptorProviders = [
         RegisterProtectiveEquipmentComponent,
         ProtectiveEquipmentObservationCardComponent,
         ValgForBeskyttelsesutstyrComponent,
-        NavigasjonslenkeComponent,
+        NavigationLinkComponent,
         BeskyttelsesutstyrComponent,
         AccordionComponent,
         SesjonsredigeringOverskriftComponent,

@@ -1,6 +1,6 @@
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilSendteSesjoner()">Tilbake</app-navigasjonslenke>
+  <app-navigation-link (linkClicked)="navigerTilSendteSesjoner()">Tilbake</app-navigation-link>
   <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sendt sesjon - Fire indikasjoner'"></app-sesjonsredigering-overskrift>
 </div>
 <app-sesjonstatistikk *ngIf='isOnline' [sesjon]="sesjon"> </app-sesjonstatistikk>

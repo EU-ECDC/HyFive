@@ -1,5 +1,5 @@
 <div class="container">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigasjonslenke>
+  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigation-link>
   <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Fire indikasjoner'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
 </div>
 <app-sesjonstatistikk [sesjon]="sesjon"></app-sesjonstatistikk>
@@ -64,7 +64,7 @@
   </div>
   <div class="row mb-3">
     <div class="col">
-      <app-navigasjonslenke [mobileCssClass]="'override--noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigasjonslenke>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigation-link>
     </div>
   </div>
 </div>
