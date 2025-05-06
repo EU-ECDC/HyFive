@@ -9,13 +9,13 @@
       <div class="col">
         <div *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
           <ng-container *ngFor="let card of sessionView.card">
-            <app-protective equipment-observation-card (observationRegister)="registerObservation($event)"
+            <app-protective-equipment-observation-card (observationRegister)="registerObservation($event)"
                                                      (sessionViewUpdate)="updateSessionView($event)"
                                                      (cardIsSelectedEvent)="cardIsSelected($event)"
                                                      [card]="card"
                                                      [sessionView]="sessionView"
                                                      [roleSelected]="roles">
-            </app-protective equipment-observation-card>
+            </app-protective-equipment-observation-card>
           </ng-container>
         </div>
       </div>
@@ -32,8 +32,8 @@
   <app-valg-for-beskyttelsesutstyr (settingEquipmentWasChanged)="settingEquipmentWasChanged($event)" [sessionView]="sessionView"></app-valg-for-beskyttelsesutstyr>
 </ng-container>
 
-<app-hjelpetekst
-  [tittel]="'Tips og triks - observere beskyttelsesutstyr'">
+<app-help-text
+  [title]="'Tips og triks - observere beskyttelsesutstyr'">
   <p>
     You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
 
@@ -48,4 +48,4 @@
     If you have registered any errors, you must press "Clear card" - then the card will reset itself.
     If you want to remove a card from the list, you can drag the card to the left.
   </p>
-</app-hjelpetekst>
+</app-help-text>

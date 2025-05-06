@@ -68,7 +68,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import { AuthenticationFailedModalComponent } from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {HjelpetekstComponent} from "./shared/hjelpetekst/hjelpetekst.component";
+import {HelpTextComponent} from "./shared/help-text/help-text.component";
 import { HjelpetekstInnstillingerComponent } from './shared/hjelpetekst-innstillinger/hjelpetekst-innstillinger.component';
 import { PseudonymComponent } from './shared/pseudonym-modal/pseudonym.component';
 
@@ -130,7 +130,7 @@ export const httpInterceptorProviders = [
         LoginPageComponent,
         SpinnerComponent,
         AuthenticationFailedModalComponent,
-        HjelpetekstComponent,
+        HelpTextComponent,
         HjelpetekstInnstillingerComponent,
         PseudonymComponent
     ],

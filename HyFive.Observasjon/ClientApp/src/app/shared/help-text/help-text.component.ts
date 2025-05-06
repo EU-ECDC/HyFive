@@ -2,17 +2,17 @@ import {AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild} from '@
 import {NgbModalConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-hjelpetekst',
-  templateUrl: './hjelpetekst.component.html'
+  selector: 'app-help-text',
+  templateUrl: './help-text.component.html'
 })
-export class HjelpetekstComponent implements AfterViewInit{
+export class HelpTextComponent implements AfterViewInit{
 
-  static HjelpetekstPrefiks = "hjelpetekst_";
-  @Input() tittel: string;
-  @Input() bekreftKnappTekst: string = "Not show igjen";
+  static HelpTextPrefix = "helptext_";
+  @Input() title: string;
+  @Input() confirmButtonText: string = "Not show again";
   @ViewChild('content') modalContent: TemplateRef<any>;
 
-  harSettVerdi = "har_sett";
+  hasSetValue = "has_set";
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
@@ -20,21 +20,21 @@ export class HjelpetekstComponent implements AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    // if(localStorage.getItem(this.getHjelpetekstId()) !== this.harSettVerdi){
+    // if(localStorage.getItem(this.getHelpTextId()) !== this.hasSetValue){
     //   const modalRef = this.modalService.open(this.modalContent, {
     //     ariaLabelledBy: 'modal-basic-title'
     //   });
 
     //   modalRef.result.then((r) => {
-    //     if(r == this.harSettVerdi){
-    //       localStorage.setItem(this.getHjelpetekstId(), this.harSettVerdi)
+    //     if(r == this.hasSetValue){
+    //       localStorage.setItem(this.getHelpTextId(), this.hasSetValue)
     //     }
     //   });
     // }
   }
 
-  private getHjelpetekstId() {
-    return HjelpetekstComponent.HjelpetekstPrefiks +this.camelize(this.tittel);
+  private getHelpTextId() {
+    return HelpTextComponent.HelpTextPrefix +this.camelize(this.title);
   }
 
   // Credits: vitaly-t (https://stackoverflow.com/a/57927739)

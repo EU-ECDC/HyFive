@@ -21,7 +21,7 @@ import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import {ProtectiveEquipmentSessionService} from "../../services/data/protectiveEquipment-session.service";
 
 @Component({
-  selector: 'app-protective equipment-observation-card',
+  selector: 'app-protective-equipment-observation-card',
   templateUrl: './protective equipment-observation-card.component.html',
   animations: [
     Animations.swipeLeftRight

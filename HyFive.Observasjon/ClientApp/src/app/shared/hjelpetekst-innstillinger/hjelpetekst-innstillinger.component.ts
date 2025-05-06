@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {HjelpetekstComponent} from "../../shared/hjelpetekst/hjelpetekst.component";
+import {HelpTextComponent} from "../help-text/help-text.component";
 
 @Component({
-  selector: 'app-hjelpetekst-innstillinger',
+  selector: 'app-help-text-innstillinger',
   templateUrl: './hjelpetekst-innstillinger.component.html'
 })
 export class HjelpetekstInnstillingerComponent implements OnInit {
@@ -18,7 +18,7 @@ export class HjelpetekstInnstillingerComponent implements OnInit {
 
   markerHjelpeteksterSomUsett(){
     for (let localStorageKey in localStorage) {
-      if(localStorageKey.startsWith(HjelpetekstComponent.HjelpetekstPrefiks)){
+      if(localStorageKey.startsWith(HelpTextComponent.HelpTextPrefix)){
         localStorage.removeItem(localStorageKey);
       }
     }
@@ -26,7 +26,7 @@ export class HjelpetekstInnstillingerComponent implements OnInit {
   }
   private setHarSettHjelpetekster() : void {
     for (let localStorageKey in localStorage) {
-      if(localStorageKey.startsWith(HjelpetekstComponent.HjelpetekstPrefiks)){
+      if(localStorageKey.startsWith(HelpTextComponent.HelpTextPrefix)){
         this.harSettHjelpetekster = true;
         return;
       }

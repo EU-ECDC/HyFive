@@ -11,7 +11,7 @@ import { Institution } from '../models/api/Institution';
 import { RequestAboutUserAccessService } from '../services/data/requestAboutUserAccess.service';
 import {ClipboardService} from 'ngx-clipboard';
 import { CodeWorkCacheService } from '../services/data/codeWork-cache.service';
-import { HjelpetekstComponent } from '../shared/hjelpetekst/hjelpetekst.component';
+import { HelpTextComponent } from '../shared/help-text/help-text.component';
 import { Localstoragepaths } from '../constants/localstoragepaths';
 
 @Component({

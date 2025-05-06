@@ -46,8 +46,8 @@
       <button *ngIf="sessionView == null" class='btn fhi-btn-primary text-center' (click)='startObservasjon()'>Start observation</button>
       <button *ngIf="sessionView != null" class='btn fhi-btn-primary text-center' (click)='endreSettingOgUtstyr()'>Fortsett observation</button>
     </div>
-    <app-hjelpetekst [tittel]="'Tips og triks for valg av predefinert verneutstyr for '+valgtSetting.name">
+    <app-help-text [title]="'Tips og triks for valg av predefinert verneutstyr for '+valgtSetting.name">
       <p>Du har valgt {{valgtSetting.name}}. Det er forhåndsdefinert hva som er required verneutstyr for dette smitteregimet.<br /> Du kan fjerne eller legge til required verneutstyr ved å hake av i listen.</p>
-    </app-hjelpetekst>
+    </app-help-text>
   </ng-container>
 </div>

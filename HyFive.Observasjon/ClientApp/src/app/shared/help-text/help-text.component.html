@@ -1,7 +1,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <div class="text-center">
-      <h4>{{tittel}}</h4>
+      <h4>{{title}}</h4>
     </div>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
     </button>
@@ -17,8 +17,8 @@
   </div>
   <div class="modal-footer">
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-md fhi-btn-primary" (click)="modal.close(harSettVerdi)">
-        {{bekreftKnappTekst}}
+      <button type="button" class="btn btn-md fhi-btn-primary" (click)="modal.close(hasSetValue)">
+        {{confirmButtonText}}
       </button>
     </div>
   </div>
