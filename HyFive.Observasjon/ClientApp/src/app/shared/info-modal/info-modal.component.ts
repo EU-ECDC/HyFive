@@ -23,7 +23,7 @@ export class InfoModalComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  lukk(): void {
+  close(): void {
     this.showInfoModal = false;
     this.closeInfoModalEvent.emit(this.showInfoModal);
   }

@@ -43,7 +43,7 @@ import { AccordionComponent } from './shared/accordion/accordion.component';
 import { SesjonsredigeringOverskriftComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
-import { NyttKortModalComponent } from './registrering/nytt-kort-modal/nytt-kort-modal.component';
+import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
 import { SendteFireIndikasjonerSesjonComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
 import { RedigerBeskyttelsesutstyrObservasjonComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
 import { SendteSesjonsoversiktComponent } from './sessions/sendte-sessions/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
@@ -111,7 +111,7 @@ export const httpInterceptorProviders = [
         SesjonsredigeringOverskriftComponent,
         RedigerBeskyttelsesutstyrObservasjonComponent,
         ProtectiveEquipmentModalComponent,
-        NyttKortModalComponent,
+        NewCardModalComponent,
         SendteFireIndikasjonerSesjonComponent,
         SendteSesjonsoversiktComponent,
         OfflineMeldingComponent,

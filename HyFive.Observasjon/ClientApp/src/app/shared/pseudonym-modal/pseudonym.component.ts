@@ -21,7 +21,7 @@ export class PseudonymComponent implements AfterViewInit{
     });
   }
 
-  lukk() {
+  close() {
     this.showInfoModal = false;
     this.closeInfoModalEvent.emit(this.showInfoModal);
   }

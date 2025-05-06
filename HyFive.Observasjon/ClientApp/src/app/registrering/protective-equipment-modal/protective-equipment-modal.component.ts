@@ -38,7 +38,7 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
 
   dismiss() {
     this.selectedEquipment.wasUsed == false;
-    this.activeModal.dismiss('lukk');
+    this.activeModal.dismiss('close');
   }
 
   resetIncorrectUseAndMarkUsed(val: boolean) {

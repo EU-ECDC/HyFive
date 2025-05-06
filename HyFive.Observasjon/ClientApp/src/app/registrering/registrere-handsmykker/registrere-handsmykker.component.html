@@ -17,12 +17,12 @@
 
 <app-new-card-info [showEmptyForShortText]="showEmptyForShortText"></app-new-card-info>
 
-<app-nytt-kort-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
-</app-nytt-kort-modal>
+<app-new-card-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
+</app-new-card-modal>
 
 <app-help-text [title]="'Tips og triks - observere håndsmykker'">
   <p>
-    Du kan nå observere på de profesjonene du valgte på <b>Start observation</b>-siden, bytte profesjon på det enkelte card ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>Nytt card</b>-knappen nede til høyre.
+    Du kan nå observere på de profesjonene du valgte på <b>Start observation</b>-siden, bytte profession på det enkelte card ved å klikke på rullegardinen eller legge til nye profesjoner ved å klikke på <b>New card</b>-knappen nede til høyre.
 
     Du registrerer håndsmykker ved å klikke på ikonene i kortet.
     </p>

@@ -23,8 +23,8 @@
   </div>
 
   <app-new-card-info [showEmptyForShortText]="showEmptyForShortText"></app-new-card-info>
-  <app-nytt-kort-modal [roles="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
-  </app-nytt-kort-modal>
+  <app-new-card-modal [roles="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
+  </app-new-card-modal>
 
 </ng-container>
 
@@ -33,7 +33,7 @@
 </ng-container>
 
 <app-help-text
-  [title]="'Tips og triks - observere beskyttelsesutstyr'">
+  [title]="'Tips and tricks - observe protective equipment'">
   <p>
     You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
 

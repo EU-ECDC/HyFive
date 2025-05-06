@@ -5,15 +5,15 @@ import { faUserNurse, faCheck, faCircle, faPlus } from "@fortawesome/free-solid-
 import { Role } from "../../models/api/Role";
 import { RoleSelected } from "../../models/registration/roleSelected.model";
 
-export const NyttKortModalComponentConfig = {
+export const NewCardModalComponentConfig = {
   windowClass: 'hh-modal'
 };
 
 @Component({
-  selector: 'app-nytt-kort-modal',
-  templateUrl: './nytt-kort-modal.component.html',
+  selector: 'app-new-card-modal',
+  templateUrl: './new-card-modal.component.html',
 })
-export class NyttKortModalComponent implements OnChanges, OnInit {
+export class NewCardModalComponent implements OnChanges, OnInit {
 
   faCircle = faCircle;
   faUserNurse = faUserNurse;
@@ -36,21 +36,21 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.setRollevalg();
+    this.setRoleSelection();
   }
 
   ngOnInit(): void {
-    this.setRollevalg();
+    this.setRoleSelection();
   }
 
-  setRollevalg() {
+  setRoleSelection() {
     if (this.roles)
       this.roleSelected = this.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected
       });
   }
 
-  resetRollevalg() {
+  resetRoleSelection() {
     if (this.roleSelected)
       this.roleSelected = this.roleSelected.map(x => { x.isSelected = false; return x; });
   }
@@ -58,18 +58,18 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   open() {
     this.modalRef = this.modalService.open(this.modalContent, {
       ariaLabelledBy: 'modal-basic-title',
-      windowClass: NyttKortModalComponentConfig.windowClass
+      windowClass: NewCardModalComponentConfig.windowClass
     });
 
     this.modalRef.result.then((result: Role[]) => {
 
       this.onClose.emit(result);
-      this.resetRollevalg();
+      this.resetRoleSelection();
 
     }, (reason) => {
 
       this.onDismiss.emit(reason);
-      this.resetRollevalg();
+      this.resetRoleSelection();
 
     });
   }
@@ -80,6 +80,6 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   }
 
   dismiss() {
-    this.modalRef.dismiss('lukk');
+    this.modalRef.dismiss('close');
   }
 }

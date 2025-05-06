@@ -178,11 +178,11 @@
     <ng-container *ngIf="roleSelected?.length">
       <div class="row mb-5">
         <div class="col">
-          <h2 class="h5">Select profesjon(er)</h2>
+          <h2 class="h5">Select profession(er)</h2>
           <div class="row">
             <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of roleSelected; let i = index;">
-              <label [htmlFor]="'profesjon'+roleSelected.indexOf(valg)">
-                <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+roleSelected.indexOf(valg)"
+              <label [htmlFor]="'profession'+roleSelected.indexOf(valg)">
+                <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profession'+roleSelected.indexOf(valg)"
                         class="hh-round-checkbox-list__input">
                 <fa-stack size="lg">
                   <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : colors.getFhiColorHexFromText(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
