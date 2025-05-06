@@ -143,7 +143,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.valgteIndikasjoner = valgteIndikasjoner;
   }
 
-  registrerKommentar(comment: string) {
+  registerComment(comment: string) {
     this.comment = comment;
   }
 

@@ -109,7 +109,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     });
   }
 
-  registrerKommentar(comment: string) {
+  registerComment(comment: string) {
     this.comment = comment;
   }
 

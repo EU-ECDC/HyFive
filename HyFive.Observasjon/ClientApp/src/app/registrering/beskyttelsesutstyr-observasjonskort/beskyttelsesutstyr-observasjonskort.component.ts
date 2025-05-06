@@ -88,7 +88,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     return this.beskyttelsesutstyrValg.filter(b => b.isRequired === false);
   }
 
-  registrerKommentar(comment: string) {
+  registerComment(comment: string) {
     this.comment = comment;
   }
 

@@ -75,7 +75,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
-  registrerKommentar(comment: string) {
+  registerComment(comment: string) {
     this.comment = comment;
   }
 

@@ -16,7 +16,7 @@ import { FireIndikasjonerObservasjonskortComponent } from './registrering/fire-i
 import { IndikasjonsValgComponent } from './registrering/indikasjonsvalg/indikasjonsvalg.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
-import { RegistrerKommentarComponent } from './registrering/registrer-kommentar/registrer-kommentar.component';
+import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
 import { RedigerFireIndikasjonerObservasjonComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
@@ -88,7 +88,7 @@ export const httpInterceptorProviders = [
         RegisterActivityComponent,
         MissedOpportunityComponent,
         IndikasjonsValgComponent,
-        RegistrerKommentarComponent,
+        RegisterCommentComponent,
         IkkeSendteSesjonerComponent,
         RedigerFireIndikasjonerObservasjonComponent,
         FireIndikasjonerComponent,
@@ -153,7 +153,7 @@ export const httpInterceptorProviders = [
     providers: [FourIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
         RedigerBeskyttelsesutstyrObservasjonComponent,
-        RegistrerKommentarComponent
+        RegisterCommentComponent
     ]
 })
 export class AppModule {

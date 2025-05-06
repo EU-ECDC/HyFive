@@ -59,10 +59,10 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-around">
             <ng-container *ngIf="erRedigeringsmodus">
-              <app-registrer-kommentar [disabled]="isReadonly"
-                                       [kommentarinput]="observation.comment"
-                                       (kommentarRegistertEvent)="registrerKommentar($event)">
-              </app-registrer-kommentar>
+              <app-register-comment [disabled]="isReadonly"
+                                       [commentInput]="observation.comment"
+                                       (commentRegisteredEvent)="registerComment($event)">
+              </app-register-comment>
             </ng-container>
             <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
               <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>

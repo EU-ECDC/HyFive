@@ -81,11 +81,11 @@
     <div class="row">
       <div class="col-12">
         <div class=" d-flex flex-row mt-2 justify-content-around">
-          <app-registrer-kommentar [kommentarinput]="comment"
+          <app-register-comment [commentInput]="comment"
                                    [institutionid]="institutionid"
                                    [sessiontype]="beskyttelsesutstyrsesjontype"
-                                   (kommentarRegistertEvent)="registrerKommentar($event)">
-          </app-registrer-kommentar>
+                                   (commentRegisteredEvent)="registerComment($event)">
+          </app-register-comment>
           <button type="button" class="hh-transparent-button hh-transparent-button--small p-0" (click)="nullstillKort()">
             <span class="d-flex align-items-center"><fa-icon class="me-1" [icon]="faEraser"></fa-icon>Tøm card</span>
           </button>

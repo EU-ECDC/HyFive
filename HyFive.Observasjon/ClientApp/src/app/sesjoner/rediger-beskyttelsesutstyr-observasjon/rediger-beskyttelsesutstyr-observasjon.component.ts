@@ -55,7 +55,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     this.toastrService.clear();
   }
 
-  registrerKommentar(comment: string) {
+  registerComment(comment: string) {
     this.observation.comment = comment;
   }
 

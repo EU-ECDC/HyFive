@@ -6,23 +6,23 @@ import { PredefinedCommentsService } from '../../services/data/predefined-commen
 
 
 @Component({
-  selector: 'app-registrer-kommentar',
-  templateUrl: './registrer-kommentar.component.html'
+  selector: 'app-register-comment',
+  templateUrl: './register-comment.component.html'
 })
 
-export class RegistrerKommentarComponent implements OnInit, OnChanges {
+export class RegisterCommentComponent implements OnInit, OnChanges {
 
-  predefinerteKommentarer: string[];
+  predefinedComments: string[];
   comment: string = "";
-  labelTekst: string = "Comment";
+  labelText: string = "Comment";
 
   faCommentLines = faCommentDots;
 
-  @Input("kommentarinput") kommentarinput;
+  @Input("commentInput") commentInput;
   @Input('disabled') disabled = false;
   @Input('institutionid') institutionid;
   @Input("sessiontype") sessiontype: SessionType;
-  @Output() kommentarRegistertEvent = new EventEmitter<string>();
+  @Output() commentRegisteredEvent = new EventEmitter<string>();
 
   constructor(
     private modalService: NgbModal,
@@ -35,27 +35,27 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.kommentarinput?.currentValue !== changes.kommentarinput?.previousValue) {
-      this.comment = this.kommentarinput;
+    if (changes.commentInput?.currentValue !== changes.commentInput?.previousValue) {
+      this.comment = this.commentInput;
     }
   }
 
-  visKommentarModal(modalName) {
-    this.comment = this.kommentarinput;
+  showCommentModal(modalName) {
+    this.comment = this.commentInput;
     this.modalService.open(modalName, { windowClass: 'hh-modal' });
   }
 
   getPredefinedComments() {
     this.predefinedCommentsService.getPredefinedComments(this.institutionid, this.sessiontype).subscribe(result => {
-      this.predefinerteKommentarer = result;
+      this.predefinedComments = result;
     });
   }
 
-  predfinertKommentarValgt(comment: string) {
+  predefinedCommentSelected(comment: string) {
     this.comment = comment;
   }
 
-  registrerKommentar() {
-    this.kommentarRegistertEvent.emit(this.comment);
+  registerComment() {
+    this.commentRegisteredEvent.emit(this.comment);
   }
 }

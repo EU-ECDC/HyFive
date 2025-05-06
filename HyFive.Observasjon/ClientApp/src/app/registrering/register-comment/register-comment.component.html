@@ -1,13 +1,13 @@
 <button class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0 h-100"
-        (click)="visKommentarModal(visemodal)"
+        (click)="showCommentModal(showModal)"
         [disabled]="disabled">
   <span class="d-flex align-items-center" data-hj-suppress>
     <fa-icon [icon]="faCommentLines" class="me-1"></fa-icon>
-    {{labelTekst}} <ng-container *ngIf="comment?.length > 0">: {{comment}}</ng-container>
+    {{labelText}} <ng-container *ngIf="comment?.length > 0">: {{comment}}</ng-container>
   </span>
 </button>
 
-<ng-template #visemodal let-modal>
+<ng-template #showModal let-modal>
   <div class="modal-header">
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close')">
     </button>
@@ -16,9 +16,9 @@
     <div class="container">
       <div class="row" >
         <div class="col">
-          <ul class="list-unstyled p-1" *ngIf="predefinerteKommentarer">
-            <li class="mb-3" style="font-size: 17px;" role="button" *ngFor="let predefinertKommentar of predefinerteKommentarer" (click)="predfinertKommentarValgt(predefinertKommentar)">
-              <strong data-hj-suppress>{{predefinertKommentar}}</strong>
+          <ul class="list-unstyled p-1" *ngIf="predefinedComments">
+            <li class="mb-3" style="font-size: 17px;" role="button" *ngFor="let predefinedComment of predefinedComments" (click)="predefinedCommentSelected(predefinedComment)">
+              <strong data-hj-suppress>{{predefinedComment}}</strong>
             </li>
           </ul>
           <textarea [(ngModel)]="comment" class="form-control" placeholder="Skriv notat" rows="2"></textarea>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Ok'); registrerKommentar()">
+    <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Ok'); registerComment()">
       Back to card
     </button>
   </div>
