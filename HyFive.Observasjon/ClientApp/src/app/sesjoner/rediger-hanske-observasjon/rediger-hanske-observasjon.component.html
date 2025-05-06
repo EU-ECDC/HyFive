@@ -65,10 +65,10 @@
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
                                 <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="true" [(ngModel)]="hanskeBrukt"/>
-                                <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Ja</label>
+                                <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
                                 
                                 <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="false" [(ngModel)]="hanskeBrukt" />
-                                <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">Nei</label>
+                                <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
                               </div>
                             </div>
                           </div>
@@ -124,7 +124,7 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-around">
             <ng-container *ngIf="erRedigeringsmodus">
-              <app-registrer-kommentar [deaktivert]="isReadonly"
+              <app-registrer-kommentar [disabled]="isReadonly"
                                        [kommentarinput]="observation.comment"
                                        (kommentarRegistertEvent)="registrerKommentar($event)">
               </app-registrer-kommentar>

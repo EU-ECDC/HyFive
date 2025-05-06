@@ -4,7 +4,7 @@
 
 <ng-template #modal let-modal>
   <div class="modal-header">
-    <button type="button" class="btn-close" aria-label="Lukk" (click)="modal.dismiss('Lukk')">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close')">
     </button>
   </div>
   <div class="modal-body">
@@ -18,8 +18,8 @@
   </div>
   <div class="modal-footer">
     <div class="d-flex justify-content-center">
-      <button type="button" class="btn fhi-btn-secondary me-3" (click)="modal.dismiss('Nei')">Nei</button>
-      <button type="button" class="btn fhi-btn-primary" (click)="modal.close('Ja'); slett()">Ja</button>
+      <button type="button" class="btn fhi-btn-secondary me-3" (click)="modal.dismiss('No')">No</button>
+      <button type="button" class="btn fhi-btn-primary" (click)="modal.close('Yes'); slett()">Yes</button>
     </div>
   </div>
 </ng-template>

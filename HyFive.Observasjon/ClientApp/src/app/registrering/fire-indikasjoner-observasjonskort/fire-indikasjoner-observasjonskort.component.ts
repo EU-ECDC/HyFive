@@ -131,7 +131,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.card.isActive = false;
   }
 
-  registrerAktivitet(activity: Activity) {
+  registerActivity(activity: Activity) {
     this.activity = activity;
   }
 
@@ -152,7 +152,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       || (this.aktivitetUnderRegistrering != null && this.aktivitetUnderRegistrering.activityType.code != aktivitetTypeKode)
   }
 
-  erRegistrert(aktivitetTypeKode: string) {
+  isRegistered(aktivitetTypeKode: string) {
     return this.activity?.activityType.code == aktivitetTypeKode;
   }
 

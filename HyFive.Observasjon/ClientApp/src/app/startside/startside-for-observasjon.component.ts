@@ -21,7 +21,7 @@ import { LoggedInUser } from "../models/api/LoggedInUser";
 export class StartsideForObservasjonComponent implements OnInit {
   SessionType = SessionType;
   valgtSesjonType: SessionType;
-  tidtaking: boolean;
+  timekeeping: boolean;
   hanskebruk: boolean;
   roleSelected: RoleSelected[];
   valgtAvdelingId: string = null;
@@ -57,7 +57,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   resetState() {
     this.valgtSesjonType = SessionType.NotSelected;
-    this.tidtaking = false;
+    this.timekeeping = false;
     this.hanskebruk = false;
     this.roleSelected = [];
     this.valgtAvdelingId = null;
@@ -138,7 +138,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   startFireIndikasjonerSesjon() {
     let sessionId = this.fourIndicationsSessionService.createSessionView(
       this.hanskebruk,
-      this.tidtaking,
+      this.timekeeping,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );

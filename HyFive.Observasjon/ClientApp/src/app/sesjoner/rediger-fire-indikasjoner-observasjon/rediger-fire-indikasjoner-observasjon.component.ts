@@ -90,7 +90,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     }
   }
 
-  registrerAktivitet(activity: Activity) {
+  registerActivity(activity: Activity) {
     if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.ikkeUtfortAktivitet = this.observation.activity;
     }

@@ -92,7 +92,7 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-around" [ngClass]="{'mt-2' : !erRedigeringsmodus}">
             <ng-container *ngIf="erRedigeringsmodus">
-              <app-registrer-kommentar [deaktivert]="isReadonly"
+              <app-registrer-kommentar [disabled]="isReadonly"
                                        [kommentarinput]="observation.comment"
                                        [institutionid]="institutionid"
                                        [sessiontype]="beskyttelsesutstyrsesjontype"

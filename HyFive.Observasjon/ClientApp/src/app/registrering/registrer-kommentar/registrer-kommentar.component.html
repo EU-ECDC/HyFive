@@ -1,6 +1,6 @@
 <button class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0 h-100"
         (click)="visKommentarModal(visemodal)"
-        [disabled]="deaktivert">
+        [disabled]="disabled">
   <span class="d-flex align-items-center" data-hj-suppress>
     <fa-icon [icon]="faCommentLines" class="me-1"></fa-icon>
     {{labelTekst}} <ng-container *ngIf="comment?.length > 0">: {{comment}}</ng-container>
@@ -9,7 +9,7 @@
 
 <ng-template #visemodal let-modal>
   <div class="modal-header">
-    <button type="button" class="btn-close" aria-label="Lukk" (click)="modal.dismiss('Lukk')">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close')">
     </button>
   </div>
   <div class="modal-body">

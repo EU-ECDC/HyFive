@@ -19,10 +19,10 @@ export class MissedOpportunityComponent implements OnInit {
   activity: Activity = null;
 
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
-  @Input("deaktivert") deaktivert: boolean;
-  @Input("erRegistrert") erRegistrert: boolean;
+  @Input("disabled") disabled: boolean;
+  @Input("isRegistered") isRegistered: boolean;
 
-  @Output() aktivitetRegistertEvent = new EventEmitter<Activity>();
+  @Output() activityRegisteredEvent = new EventEmitter<Activity>();
 
   constructor(private modalService: NgbModal, private activityService: ActivityService) {
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
@@ -41,12 +41,12 @@ export class MissedOpportunityComponent implements OnInit {
     if (this.gloveUseMustBeRegistered) {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     } else {
-      this.aktivitetRegistertEvent.emit(this.activity);
+      this.activityRegisteredEvent.emit(this.activity);
     }
   }
 
-  registrerAktivitet(bleHanskerBrukt: boolean) {
+  registerActivity(bleHanskerBrukt: boolean) {
     this.activity.gloveUsed = bleHanskerBrukt;
-    this.aktivitetRegistertEvent.emit(this.activity);
+    this.activityRegisteredEvent.emit(this.activity);
   }
 }

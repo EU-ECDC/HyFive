@@ -19,7 +19,7 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
   faCommentLines = faCommentDots;
 
   @Input("kommentarinput") kommentarinput;
-  @Input('deaktivert') deaktivert = false;
+  @Input('disabled') disabled = false;
   @Input('institutionid') institutionid;
   @Input("sessiontype") sessiontype: SessionType;
   @Output() kommentarRegistertEvent = new EventEmitter<string>();

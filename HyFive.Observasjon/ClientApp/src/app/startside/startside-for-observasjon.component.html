@@ -151,12 +151,12 @@
           <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SessionType.Gloves">
             <h2 class="h5 text-center">Tidtaking</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !tidtaking ? 'bold' : '' }">Av</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Av</span>
               <label class="hh-switch">
-                <input type="checkbox" checked [(ngModel)]="tidtaking" />
+                <input type="checkbox" checked [(ngModel)]="timekeeping" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': tidtaking ? 'bold' : '' }">På</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': timekeeping ? 'bold' : '' }">På</span>
             </div>
           </div>
 

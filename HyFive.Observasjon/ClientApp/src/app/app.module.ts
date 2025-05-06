@@ -10,7 +10,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RegistrereFireIndikasjonerComponent } from "./registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component";
 import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
-import { RegistrerAktivitetComponent } from './registrering/registrer-aktivitet/registrer-aktivitet.component';
+import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
 import { FireIndikasjonerObservasjonskortComponent } from './registrering/fire-indikasjoner-observasjonskort/fire-indikasjoner-observasjonskort.component';
 import { IndikasjonsValgComponent } from './registrering/indikasjonsvalg/indikasjonsvalg.component';
@@ -85,7 +85,7 @@ export const httpInterceptorProviders = [
         StartsideForObservasjonComponent,
         RegistrereFireIndikasjonerComponent,
         FireIndikasjonerObservasjonskortComponent,
-        RegistrerAktivitetComponent,
+        RegisterActivityComponent,
         MissedOpportunityComponent,
         IndikasjonsValgComponent,
         RegistrerKommentarComponent,
