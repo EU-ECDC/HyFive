@@ -40,7 +40,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   faCheck = faCheck;
   faTimes = faTimes;
   faHandPaper = faHandPaper;
-  farger = Colors;
+  colors = Colors;
 
   sessionsdata: GloveSession = null;
   roles: Role[];

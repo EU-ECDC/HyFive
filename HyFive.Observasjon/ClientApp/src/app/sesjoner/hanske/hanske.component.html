@@ -28,7 +28,7 @@
         <input type="text"
                id="FormInput"
                class="form-control"
-               placeholder="Legg til comment"
+               placeholder="Add comment"
                [(ngModel)]="sesjon.comment"
                (ngModelChange)="sesjonService.oppdaterSesjon(sesjon)">
       </div>
@@ -45,7 +45,7 @@
     <div class="col ms-auto mb-3">
       <app-slett-bekreftelsesdialog (slettetEvent)="sesjonSlettetEventHandler(sesjon.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
         <i class="icon-trash3"></i>
-        Slett sesjon
+        Delete sesjon
       </app-slett-bekreftelsesdialog>
     </div>
 

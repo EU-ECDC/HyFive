@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="card.isActive && {'background-color': farger.getFhiColorHexFromText(card.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
 
     <div class="row">
 

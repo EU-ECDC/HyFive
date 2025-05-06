@@ -10,7 +10,7 @@
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
        (click)="kortErValgt()"
-       [ngStyle]="card.isActive && {'background-color': farger.getFhiColorHexFromText(card.role.name)}">
+       [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
 
     <div class="row">
       <div class="col-12">
@@ -41,7 +41,7 @@
                          class="hh-round-checkbox-list__circle"
                          [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.wasUsed, 'hh-round-checkbox-list__circle--active': card.isActive}">
                 </fa-icon>
-                <fa-icon [icon]="ikonTypeMap.get(valg.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.wasUsed"></fa-icon>
+                <fa-icon [icon]="iconTypeMap.get(valg.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.wasUsed"></fa-icon>
                 <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.wasUsed"></fa-icon>
               </fa-stack>
               <br />

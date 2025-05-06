@@ -7,14 +7,14 @@
           <fa-icon [icon]="faPencil"></fa-icon> Rediger
         </button>
         <button *ngIf="erRedigeringsmodus" class="btn fhi-btn-icon" style="background-color: white;" (click)="lagreObservasjon()">
-          <fa-icon [icon]="faSave"></fa-icon> Lagre
+          <fa-icon [icon]="faSave"></fa-icon> Save
         </button>
 
       </div>
       <div class="mb-3">
         <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="slettObservasjon()"
                                       [dialogmelding]="dialogueTexts.ObservationDeleteConfirmation">
-          <fa-icon [icon]="faTrashAlt"></fa-icon> Slett
+          <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
         </app-slett-bekreftelsesdialog>
       </div>
     </div>
@@ -50,7 +50,7 @@
                   <fa-icon [icon]="faCircle" stackItemSize="2x"
                            class="hh-round-checkbox-list__circle"
                            [ngClass]="{ 'hh-round-checkbox-list__circle--chosen': valg.wasUsed, 'hh-round-checkbox-list__circle--active': erRedigeringsmodus }"></fa-icon>
-                  <fa-icon [icon]="ikonTypeMap.get(valg.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.wasUsed"></fa-icon>
+                  <fa-icon [icon]="iconTypeMap.get(valg.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.wasUsed"></fa-icon>
                   <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': valg.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="valg.wasUsed"></fa-icon>
                 </fa-stack>
                 <br />
@@ -61,8 +61,8 @@
         </div>
         <div class="col-auto mx-auto" *ngIf="erRedigeringsmodus">
           <div class="fhi-form-check-tile">
-            <button class="btn fhi-btn-icon btn-lg mt-3" [disabled]="isReadonly || visningsmodus" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAlleUtstyrTilRiktigBrukt($event)"><strong>Alt equipment korrekt benyttet</strong></button>
-            <!-- <input class="fhi-form-check-tile__input form-check-input" type="checkbox" [disabled]="isReadonly || visningsmodus" id="allTypesOfEquipmentCorrectlyUsedDisabled" (click)="setAlleUtstyrTilRiktigBrukt($event)">
+            <button class="btn fhi-btn-icon btn-lg mt-3" [disabled]="isReadonly || displayMode" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAlleUtstyrTilRiktigBrukt($event)"><strong>Alt equipment korrekt benyttet</strong></button>
+            <!-- <input class="fhi-form-check-tile__input form-check-input" type="checkbox" [disabled]="isReadonly || displayMode" id="allTypesOfEquipmentCorrectlyUsedDisabled" (click)="setAlleUtstyrTilRiktigBrukt($event)">
           
             <label class="fhi-form-check-tile__label form-check-label" for="allTypesOfEquipmentCorrectlyUsedDisabled">
               <span class="fhi-form-check-tile__label-text">Alt equipment korrekt benyttet</span>
@@ -100,7 +100,7 @@
               </app-registrer-kommentar>
             </ng-container>
             <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
-              <label><small>Kommentar: <strong>{{observation.comment}}</strong></small></label>
+              <label><small>Comment: <strong>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>

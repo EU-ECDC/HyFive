@@ -23,7 +23,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   erRedigeringsmodus: boolean = false;
   handJewelrySelection = [] as HandJewelrySelection[];
   handJewelryTypes: HandJewelryType[] = [];
-  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
+  iconTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
   Colors = Colors;
   DialogueTexts = DialogueTexts;
 

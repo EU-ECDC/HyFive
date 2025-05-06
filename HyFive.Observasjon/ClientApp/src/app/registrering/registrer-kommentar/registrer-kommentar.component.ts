@@ -14,7 +14,7 @@ export class RegistrerKommentarComponent implements OnInit, OnChanges {
 
   predefinerteKommentarer: string[];
   comment: string = "";
-  labelTekst: string = "Kommentar";
+  labelTekst: string = "Comment";
 
   faCommentLines = faCommentDots;
 

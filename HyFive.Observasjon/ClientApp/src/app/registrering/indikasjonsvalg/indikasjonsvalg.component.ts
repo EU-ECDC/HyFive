@@ -17,7 +17,7 @@ export class IndikasjonsValgComponent implements OnInit {
   faCircle = faCircle;
   faCheck = faCheck;
   faPlus = faPlus;
-  ikonTypeMap: Map<IndicationTypeConstants, IconProp> = IndicationTypeMapper.getIconTypeMap();
+  iconTypeMap: Map<IndicationTypeConstants, IconProp> = IndicationTypeMapper.getIconTypeMap();
 
   indicationTypeSelection: IndicationTypeSelection[] = [];
 

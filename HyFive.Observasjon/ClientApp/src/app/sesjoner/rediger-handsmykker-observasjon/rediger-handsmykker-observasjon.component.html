@@ -8,13 +8,13 @@
         </button>
         <button *ngIf="erRedigeringsmodus" class="btn fhi-btn-icon" (click)="lagreObservasjon()">
           <i class="icon-check-circle"></i>
-          Lagre
+          Save
         </button>
       </div>
       <div class="mr-3">
         <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="slettObservasjon()"
                                       [dialogmelding]="DialogueTexts.ObservationDeleteConfirmation">
-          <fa-icon [icon]="faTrashAlt"></fa-icon> Slett
+          <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
         </app-slett-bekreftelsesdialog>
       </div>
     </div>
@@ -47,7 +47,7 @@
                        stackItemSize="2x"
                        class="hh-round-checkbox-list__circle"
                        [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': erRedigeringsmodus}"></fa-icon>
-              <fa-icon [icon]="ikonTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
+              <fa-icon [icon]="iconTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
               <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
             </fa-stack>
             <br />
@@ -65,7 +65,7 @@
               </app-registrer-kommentar>
             </ng-container>
             <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
-              <label><small>Kommentar: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>

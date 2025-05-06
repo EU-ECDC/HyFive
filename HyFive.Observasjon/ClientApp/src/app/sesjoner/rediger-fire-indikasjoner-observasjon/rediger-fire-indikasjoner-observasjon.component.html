@@ -9,14 +9,14 @@
         </button>
         <button *ngIf="erRedigeringsmodus" class="btn fhi-btn-icon" (click)="lagreObservasjon()">
           <i class="icon-check-circle"></i>
-          Lagre
+          Save
         </button>
       </div>
 
       <div class="mb-3">
         <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="slettObservasjon()"
                                       [dialogmelding]="dialogueTexts.ObservationDeleteConfirmation">
-          <i class="icon-trash3"></i> Slett
+          <i class="icon-trash3"></i> Delete
         </app-slett-bekreftelsesdialog>
       </div>
     </div>
@@ -122,7 +122,7 @@
               </app-registrer-kommentar>
             </ng-container>
             <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
-              <label><small>Kommentar: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>

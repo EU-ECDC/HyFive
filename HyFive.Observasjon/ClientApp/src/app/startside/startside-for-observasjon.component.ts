@@ -25,7 +25,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   hanskebruk: boolean;
   roleSelected: RoleSelected[];
   valgtAvdelingId: string = null;
-  farger = Colors;
+  colors = Colors;
   visStartside: boolean;
   visBeskyttelsesutstyr: boolean;
   user: LoggedInUser;

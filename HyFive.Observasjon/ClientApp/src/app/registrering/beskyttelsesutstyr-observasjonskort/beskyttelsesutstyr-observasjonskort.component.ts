@@ -14,7 +14,7 @@ import { ProtectiveEquipmentMapper } from '../../utils/protectiveEquipment-mappe
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from "../beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component";
+import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from "../beskyttelsesutstyr-modal/protective-equipment-modal.component";
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
@@ -45,8 +45,8 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   faCircle = faCircle;
   faCheck = faCheck;
   faTimes = faTimes;
-  farger = Colors;
-  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
+  colors = Colors;
+  iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
   @Input("card") card: ProtectiveEquipmentCard;
   @Input("roleSelected") roleSelected: Role[];
@@ -124,25 +124,25 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       this.nullstillUtstyr(valg);
   }
 
-  visModal(valgtUtstyr: ProtectiveEquipment) {
+  visModal(selectedEquipment: ProtectiveEquipment) {
     this.cardLockedInPlace = false;
-    const modalRef = this.modalService.open(BeskyttelsesutstyrModalComponent, {
+    const modalRef = this.modalService.open(ProtectiveEquipmentModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
-      windowClass: BeskyttelsesutstyrModalComponentConfig.windowClass
+      windowClass: ProtectiveEquipmentModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as ProtectiveEquipment;
-    modalRef.componentInstance.valgtUtstyr.wasUsedCorrectly = null;
+    modalRef.componentInstance.selectedEquipment = JSON.parse(JSON.stringify(selectedEquipment)) as ProtectiveEquipment;
+    modalRef.componentInstance.selectedEquipment.wasUsedCorrectly = null;
 
     modalRef.result.then((result: ProtectiveEquipment) => {
-      valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
-      valgtUtstyr.comment = result.comment;
-      valgtUtstyr.isRequired = result.isRequired;
-      valgtUtstyr.equipmentType.isRequired = result.isRequired;
-      valgtUtstyr.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
-      valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '';
+      selectedEquipment.wasUsedCorrectly = result.wasUsedCorrectly;
+      selectedEquipment.comment = result.comment;
+      selectedEquipment.isRequired = result.isRequired;
+      selectedEquipment.equipmentType.isRequired = result.isRequired;
+      selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
+      selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
     }, (reason) => {
-      valgtUtstyr.wasUsed = false;
+      selectedEquipment.wasUsed = false;
     });
   }
 

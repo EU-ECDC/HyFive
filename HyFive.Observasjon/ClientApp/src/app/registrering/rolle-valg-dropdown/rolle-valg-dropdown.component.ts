@@ -17,7 +17,7 @@ export class RolleValgDropdownComponent implements OnInit{
   valgtRolle: Role;
 
   valgtRolleId: string;
-  farger = Colors;
+  colors = Colors;
   id: string = Uuid.generateUUID().substr(4);
   faAngleDown = faAngleDown;
 
@@ -39,6 +39,6 @@ export class RolleValgDropdownComponent implements OnInit{
   }
 
   hentFarge() : string {
-    return this.valgtRolle && this.isReadonly ? this.farger.getFhiColorHexFromText(this.valgtRolle.name) : 'white';
+    return this.valgtRolle && this.isReadonly ? this.colors.getFhiColorHexFromText(this.valgtRolle.name) : 'white';
   }
 }

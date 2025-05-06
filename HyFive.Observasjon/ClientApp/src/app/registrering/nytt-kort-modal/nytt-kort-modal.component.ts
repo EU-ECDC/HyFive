@@ -19,7 +19,7 @@ export class NyttKortModalComponent implements OnChanges, OnInit {
   faUserNurse = faUserNurse;
   faCheck = faCheck;
   faPlus = faPlus;
-  farger = Colors;
+  colors = Colors;
 
   @ViewChild('content') modalContent: TemplateRef<any>;
   private modalRef: NgbModalRef;

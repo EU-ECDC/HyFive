@@ -9,7 +9,7 @@ import { Department } from '../../models/api/Department';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BeskyttelsesutstyrModalComponent, BeskyttelsesutstyrModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
+import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/protective-equipment-modal.component';
 import { SessionType } from 'src/app/models/api/SessionType';
 import {ToastrService} from "ngx-toastr";
 
@@ -22,10 +22,10 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   erRedigeringsmodus: boolean = false;
   dialogueTexts = DialogueTexts;
   Colors = Colors;
-  ikonTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
+  iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
   protectiveEquipment: ProtectiveEquipment[] = [];
   comment: string;
-  valgtUtstyr = null;
+  selectedEquipment = null;
   beskyttelsesutstyrsesjontype: SessionType = SessionType.ProtectiveEquipment;
 
   kanIkkeLagreMelding = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
@@ -60,7 +60,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   lagreObservasjon() {
-    if(!this.kanLagre()){
+    if(!this.canSave()){
       this.toastrService.error(this.kanIkkeLagreMelding, '', {disableTimeOut: true})
       return;
     }
@@ -100,23 +100,23 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     }
   }
 
-  visModal(valgtUtstyr: ProtectiveEquipment) {
+  visModal(selectedEquipment: ProtectiveEquipment) {
 
-    const modalRef = this.modalService.open(BeskyttelsesutstyrModalComponent, {
+    const modalRef = this.modalService.open(ProtectiveEquipmentModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
-      windowClass: BeskyttelsesutstyrModalComponentConfig.windowClass
+      windowClass: ProtectiveEquipmentModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.valgtUtstyr = JSON.parse(JSON.stringify(valgtUtstyr)) as ProtectiveEquipment;
+    modalRef.componentInstance.selectedEquipment = JSON.parse(JSON.stringify(selectedEquipment)) as ProtectiveEquipment;
 
-    modalRef.componentInstance.visningsmodus = !this.erRedigeringsmodus;
+    modalRef.componentInstance.displayMode = !this.erRedigeringsmodus;
 
-    if (this.erRedigeringsmodus && valgtUtstyr.wasUsed) {
-      if (valgtUtstyr.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '') {
-        modalRef.componentInstance.visKnappForSlettingAvUtstyr = true;
+    if (this.erRedigeringsmodus && selectedEquipment.wasUsed) {
+      if (selectedEquipment.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '') {
+        modalRef.componentInstance.showEquipmentDeleteButton = true;
       }
       else {
-        modalRef.componentInstance.valgtUtstyr.wasUsedCorrectly = null;
+        modalRef.componentInstance.selectedEquipment.wasUsedCorrectly = null;
       }
     }
 
@@ -124,21 +124,21 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       if (!this.erRedigeringsmodus) {
         return;
       }
-      valgtUtstyr.isRequired = result.isRequired;
-      valgtUtstyr.equipmentType.isRequired = result.isRequired;
+      selectedEquipment.isRequired = result.isRequired;
+      selectedEquipment.equipmentType.isRequired = result.isRequired;
       if (result.wasUsed === false) {
-        this.nullstillUtstyr(valgtUtstyr);
+        this.nullstillUtstyr(selectedEquipment);
       }
       else {
-        valgtUtstyr.wasUsedCorrectly = result.wasUsedCorrectly;
-        valgtUtstyr.comment = result.comment;
-        valgtUtstyr.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
-        valgtUtstyr.wasUsed = result.wasUsedCorrectly || valgtUtstyr.misuseTypes.length > 0 || valgtUtstyr.comment !== '';
+        selectedEquipment.wasUsedCorrectly = result.wasUsedCorrectly;
+        selectedEquipment.comment = result.comment;
+        selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
+        selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
       }
     }, (reason) => {
       if (this.erRedigeringsmodus) {
-        valgtUtstyr.wasUsed = false;
-        this.nullstillUtstyr(valgtUtstyr);
+        selectedEquipment.wasUsed = false;
+        this.nullstillUtstyr(selectedEquipment);
       }
     });
   }
@@ -164,7 +164,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     }
   }
 
-  kanLagre() {
+  canSave() {
     return this.sesjonService.numberOfQualifiedEquipment(this.observation.protectiveEquipmentList) > 0;
   }
 }

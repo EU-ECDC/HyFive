@@ -27,7 +27,7 @@
     </ng-template>
   </div>
   
-  <p *ngIf="sesjon?.comment">Kommentar: <small><strong data-hj-suppress>{{sesjon.comment}}</strong></small></p>
+  <p *ngIf="sesjon?.comment">Comment: <small><strong data-hj-suppress>{{sesjon.comment}}</strong></small></p>
 
   <div class="text-end" *ngIf="sesjon?.observations?.length > 0">
     <button  class="btn fhi-btn-icon" (click)="lastNedSomExcel()" >

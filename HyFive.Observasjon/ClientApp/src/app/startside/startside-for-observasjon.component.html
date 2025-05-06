@@ -52,7 +52,7 @@
           bindLabel="name"
           bindValue="id"
           placeholder="Select department"
-          clearAllText="Slett"
+          clearAllText="Delete"
           notFoundText="Ingen resultater"
           [(ngModel)]="valgtAvdelingId"
           (ngModelChange)="valgtAvdelingEndret()"
@@ -185,7 +185,7 @@
                 <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profesjon'+roleSelected.indexOf(valg)"
                         class="hh-round-checkbox-list__input">
                 <fa-stack size="lg">
-                  <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : farger.getFhiColorHexFromText(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
+                  <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : colors.getFhiColorHexFromText(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
                   <fa-icon [icon]="faUserNurse" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
                   <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
                 </fa-stack>

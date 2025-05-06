@@ -50,7 +50,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   faDivide = faDivide;
   faTimes = faTimes;
   faTimesCircle = faTimesCircle;
-  farger = Colors;
+  colors = Colors;
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[]

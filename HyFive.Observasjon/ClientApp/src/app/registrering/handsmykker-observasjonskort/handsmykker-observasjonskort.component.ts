@@ -38,8 +38,8 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   faCircle = faCircle;
   faCheck = faCheck;
   faTimes = faTimes;
-  farger = Colors;
-  ikonTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
+  colors = Colors;
+  iconTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
 
   sessionsdata: HandJewelrySession = null;
   roles: Role[];
