@@ -12,7 +12,7 @@ import { MenuParameters } from "../constants/menu-parameters";
   templateUrl: "./main-menu.component.html",
 })
 export class MainMenuComponent {
-  @Input() prosjektnavn: string;
+  @Input() projectName: string;
 
   faBars = faBars;
   faTimes = faTimes;
@@ -25,7 +25,7 @@ export class MainMenuComponent {
 
   constructor(private mainMenuEventService: MainMenuEventService)
   {
-    this.lagMenyValg();
+    this.loadMenuOptions();
   }
 
   mainMenuClose(): void {
@@ -48,7 +48,7 @@ export class MainMenuComponent {
     return this.isMobileMenu() == false;
   }
 
-  private lagMenyValg(): void {
+  private loadMenuOptions(): void {
     this.mainMenuItems = [
       {
         name: "Start observation",
@@ -57,19 +57,19 @@ export class MainMenuComponent {
         icon: faHospital
       },
       {
-        name: "Ikke sendte sessions",
+        name: "Not send sessions",
         routerLink: `/${Urls.NotSentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faClipboard
       },
       {
-        name: "Sendte sessions",
+        name: "Send sessions",
         routerLink: `/${Urls.SentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faInbox
       },
       {
-        name: "Profil",
+        name: "Profile",
         routerLink: `/${Urls.ProfileUrl}`,
         exactRouteMatch: true,
         icon: faUser

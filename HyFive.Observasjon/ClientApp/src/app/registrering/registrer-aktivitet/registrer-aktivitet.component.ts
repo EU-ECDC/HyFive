@@ -53,7 +53,7 @@ export class RegistrerAktivitetComponent implements OnInit {
     if (this.activityType?.code === ActivityTypeConstants.Handvask)
       return 'Wash';
     if(this.activityType?.code === ActivityTypeConstants.NotExecuted)
-      return 'Ikke utført';
+      return 'Not utført';
   }
 
   registrerAktivitet(modalName) {

@@ -59,7 +59,7 @@ export class HandJewelrySessionService extends BaseSessionService<HandJewelrySes
       return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handjewelry`, { params });
     }
     else {
-      confirm("Ikke koblet til internet");
+      confirm("Not koblet til internet");
     }
   }
 }

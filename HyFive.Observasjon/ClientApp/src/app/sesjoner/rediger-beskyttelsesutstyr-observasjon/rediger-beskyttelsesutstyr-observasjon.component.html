@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="hh-card-slider__stripe" *ngIf="beskyttelsesutstyrIkkeIndikert().length > 0">
-        <h2 class="h5 mb-3">Ikke indikert</h2>
+        <h2 class="h5 mb-3">Not indikert</h2>
         <div class="custom-control custom-checkbox hh-stadium-checkbox"
              *ngFor="let valg of beskyttelsesutstyrIkkeIndikert(); let i = index;"
              [ngClass]="{ 'hh-stadium-checkbox--checked':valg.wasUsed }"

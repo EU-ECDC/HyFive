@@ -9,7 +9,7 @@ export class HjelpetekstComponent implements AfterViewInit{
 
   static HjelpetekstPrefiks = "hjelpetekst_";
   @Input() tittel: string;
-  @Input() bekreftKnappTekst: string = "Ikke vis igjen";
+  @Input() bekreftKnappTekst: string = "Not vis igjen";
   @ViewChild('content') modalContent: TemplateRef<any>;
 
   harSettVerdi = "har_sett";

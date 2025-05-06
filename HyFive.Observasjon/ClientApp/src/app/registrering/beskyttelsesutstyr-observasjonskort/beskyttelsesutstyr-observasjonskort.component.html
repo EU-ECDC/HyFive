@@ -60,7 +60,7 @@
          cdkDropList (cdkDropListDropped)="handleValgDragDrop($event, false)"
          #listIkkeIndikert="cdkDropList"
          [cdkDropListConnectedTo]="[listIndikert]" >
-      <h2 class="h5 mb-3">Ikke indikert</h2>
+      <h2 class="h5 mb-3">Not indikert</h2>
       <div class="custom-control custom-checkbox hh-stadium-checkbox"
            [ngClass]="{'hh-stadium-checkbox--checked':valg.wasUsed}"
            *ngFor="let valg of beskyttelsesutstyrIkkeIndikert(); let i = index;"
