@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FourIndicationsSessionView } from '../../models/registration/fire-indikasjoner-sessionView.model';
+import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
 import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
 import { Queryparameters } from '../../constants/queryparameters';
 import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
@@ -14,10 +14,10 @@ import { Urls } from '../../constants/urls';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-registrere-fire-indikasjoner-component',
-  templateUrl: './registrere-fire-indikasjoner.component.html',
+  selector: 'app-register-four-indications',
+  templateUrl: './register-four-indications.component.html',
 })
-export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
+export class RegisterFourIndicationsComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sessionView: FourIndicationsSessionView;

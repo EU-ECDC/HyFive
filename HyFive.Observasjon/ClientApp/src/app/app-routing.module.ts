@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Urls } from './constants/urls';
 import { LoginPageComponent } from './login-page/loginpage.component';
 import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
-import { RegistrereFireIndikasjonerComponent } from './registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component';
+import { RegisterFourIndicationsComponent } from './registrering/register-four-indications/register-four-indications.component';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
 import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
 import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
     component: StartsideForObservasjonComponent,
     runGuardsAndResolvers: 'always',
   },
-  { path: Urls.RegisterFourndicationsUrl, component: RegistrereFireIndikasjonerComponent },
+  { path: Urls.RegisterFourndicationsUrl, component: RegisterFourIndicationsComponent },
   { path: Urls.NotSentSessionsUrl, component: IkkeSendteSesjonerComponent },
   { path: Urls.SentSessionsUrl, component: SendteSesjonerComponent },
   { path: Urls.FourIndicationsSessionUrl, component: FireIndikasjonerComponent },

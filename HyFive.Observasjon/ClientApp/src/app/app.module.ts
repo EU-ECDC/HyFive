@@ -8,7 +8,7 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { RegistrereFireIndikasjonerComponent } from "./registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component";
+import { RegisterFourIndicationsComponent } from "./registrering/register-four-indications/register-four-indications.component";
 import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
 import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
@@ -83,7 +83,7 @@ export const httpInterceptorProviders = [
         AppComponent,
         MainMenuComponent,
         StartsideForObservasjonComponent,
-        RegistrereFireIndikasjonerComponent,
+        RegisterFourIndicationsComponent,
         FireIndikasjonerObservasjonskortComponent,
         RegisterActivityComponent,
         MissedOpportunityComponent,
