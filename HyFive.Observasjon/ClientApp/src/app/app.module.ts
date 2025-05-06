@@ -24,7 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { SlettBekrefelsesdialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
 import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
-import { LagreSkyggeComponent } from './registrering/lagre-skygge/lagre-skygge.component';
+import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
 import { SlettSkyggeComponent } from './registrering/slett-skygge/slett-skygge.component';
 import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
 import { HandsmykkerObservasjonskortComponent } from './registrering/handsmykker-observasjonskort/handsmykker-observasjonskort.component';
@@ -95,7 +95,7 @@ export const httpInterceptorProviders = [
         SlettBekrefelsesdialogComponent,
         RegistrereHandsmykkerComponent,
         HandsmykkerObservasjonskortComponent,
-        LagreSkyggeComponent,
+        SaveShadowComponent,
         SlettSkyggeComponent,
         HandsmykkerComponent,
         RedigerHandsmykkerObservasjonComponent,

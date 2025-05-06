@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faSave } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
-  selector: 'app-lagre-skygge',
-  templateUrl: './lagre-skygge.component.html'
+  selector: 'app-save-shadow',
+  templateUrl: './save-shadow.component.html'
 })
-export class LagreSkyggeComponent implements OnInit {
+export class SaveShadowComponent implements OnInit {
 
   faSave = faSave;
 
