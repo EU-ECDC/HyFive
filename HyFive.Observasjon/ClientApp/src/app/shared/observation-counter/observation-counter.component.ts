@@ -2,30 +2,30 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { Session } from '../../models/api/Session';
 import { faPlus, faClipboard, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { faObservasjonskort } from '../../utils/customIconer';
+import { faObservationCard } from '../../utils/customIconer';
 
 @Component({
-  selector: 'app-observasjonsteller',
-  templateUrl: './observasjonsteller.component.html'
+  selector: 'app-observation-counter',
+  templateUrl: './observation-counter.component.html'
 })
-export class ObservasjonstellerComponent {
+export class ObservationCounterComponent {
 
   mainMenuIsOpen = false;
 
   faClipboard = faClipboard;
   faPlus = faPlus;
   faCircle = faCircle;
-  faObservasjonskort = faObservasjonskort;
+  faObservationCard = faObservationCard;
 
   @Input() sessionsdata: Session<any>;
   @Input() url;
   constructor(private mainMenuEventService: MainMenuEventService) { }
 
   numberOfObservations() : number {
-    var antall =  this.sessionsdata?.observations?.length;
-    if(antall != null)
+    var number =  this.sessionsdata?.observations?.length;
+    if(number != null)
     {
-      return antall;
+      return number;
     }
     return 0;
   }

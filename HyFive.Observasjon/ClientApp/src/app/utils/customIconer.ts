@@ -51,7 +51,7 @@ export const faHette: IconDefinition = {
   ]
 };
 
-export const faObservasjonskort: IconDefinition = {
+export const faObservationCard: IconDefinition = {
   prefix: 'fal',
   iconName: 'observasjonskort',
   icon: [
@@ -249,7 +249,7 @@ library.add(faSmittefrakk);
 library.add(faVernebriller);
 library.add(faAnderettsvern);
 library.add(faHette);
-library.add(faObservasjonskort);
+library.add(faObservationCard);
 library.add(faPlastforkle);
 library.add(faStellefrakk);
 library.add(faOne);

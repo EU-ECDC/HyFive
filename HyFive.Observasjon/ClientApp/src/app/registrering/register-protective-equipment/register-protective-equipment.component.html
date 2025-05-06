@@ -1,6 +1,6 @@
 <ng-container *ngIf="changeSettingMode == false">
   <div class="container">
-    <app-observasjonsteller [sessionsdata]="sessionsdata" [url]="Urls.ProtectiveEquipmentSessionUrl"></app-observasjonsteller>
+    <app-observation-counter [sessionsdata]="sessionsdata" [url]="Urls.ProtectiveEquipmentSessionUrl"></app-observation-counter>
     <div class="mb-4">
       <app-navigasjonslenke (lenkeKlikket)="changeSettingMode = true">For protective equipment</app-navigasjonslenke>
     </div>
