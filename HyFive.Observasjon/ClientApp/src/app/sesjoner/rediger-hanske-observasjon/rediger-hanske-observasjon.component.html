@@ -24,11 +24,11 @@
          [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
       <div class="row" *ngIf="erRedigeringsmodus">
         <div class="col-12" *ngIf="observation.role?.id && observation.role.id > 0">
-          <app-rolle-valg-dropdown [rolleId]="observation.role.id"
+          <app-role-selection-dropdown [rolleId]="observation.role.id"
                                    [isReadonly]="isReadonly"
-                                   [roleSelected]="department.roles"
-                                   (roleSelected)="roleSelected($event)">
-          </app-rolle-valg-dropdown>
+                                   [roleSelectedI]="department.roles"
+                                   (roleSelectedEvent)="roleSelected($event)">
+          </app-role-selection-dropdown>
         </div>
       </div>
       <div class="row text-break">

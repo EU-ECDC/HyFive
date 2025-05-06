@@ -25,11 +25,11 @@
       <div class="row pt-3 pb-0">
         <div class="col-12">
           <ng-container *ngIf="erRedigeringsmodus">
-            <app-rolle-valg-dropdown [rolleId]="observation.role.id"
+            <app-role-selection-dropdown [rolleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
-                                     [roleSelected]="department.roles"
-                                     (roleSelected)="roleSelected($event)">
-            </app-rolle-valg-dropdown>
+                                     [roleSelectedI]="department.roles"
+                                     (roleSelectedEvent)="roleSelected($event)">
+            </app-role-selection-dropdown>
           </ng-container>
         </div>
       </div>

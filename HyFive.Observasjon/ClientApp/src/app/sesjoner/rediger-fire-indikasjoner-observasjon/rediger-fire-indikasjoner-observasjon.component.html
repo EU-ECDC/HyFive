@@ -26,11 +26,11 @@
       <div class="d-flex flex-row pt-3">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="erRedigeringsmodus">
-            <app-rolle-valg-dropdown [rolleId]="observation.role.id"
+            <app-role-selection-dropdown [rolleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
-                                     [roleSelected]="department.roles"
-                                     (roleSelected)="observation.role = $event">
-            </app-rolle-valg-dropdown>
+                                     [roleSelectedI]="department.roles"
+                                     (roleSelectedEvent)="observation.role = $event">
+            </app-role-selection-dropdown>
           </ng-container>
           <app-indikasjonsvalg [valgteIndikasjoner]="observation.indicationTypes"
                                (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"

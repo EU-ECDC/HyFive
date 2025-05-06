@@ -14,7 +14,7 @@
 
     <div class="d-flex flex-row">
       <div class="d-flex flex-column justify-content-start">
-        <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (roleSelected)="selectRole($event)"></app-rolle-valg-dropdown>
+        <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <app-indikasjonsvalg (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
                              [erAktiv]="card.isActive"

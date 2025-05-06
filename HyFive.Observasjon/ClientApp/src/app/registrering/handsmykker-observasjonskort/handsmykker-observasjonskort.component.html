@@ -15,7 +15,7 @@
     <div class="row">
 
       <div class="col-12">
-        <app-rolle-valg-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelected]="roleSelected" (roleSelected)="selectRole($event)"></app-rolle-valg-dropdown>
+        <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <div class="row mt-5 text-break">
           <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handJewelrySelection; let i = index;">

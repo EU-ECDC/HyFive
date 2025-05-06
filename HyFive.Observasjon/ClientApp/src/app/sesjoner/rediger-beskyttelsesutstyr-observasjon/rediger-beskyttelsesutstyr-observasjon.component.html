@@ -24,11 +24,11 @@
       <ng-container *ngIf="erRedigeringsmodus">
         <div class="row">
           <div class="col-12">
-            <app-rolle-valg-dropdown [rolleId]="observation.role.id"
+            <app-role-selection-dropdown [rolleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
-                                     [roleSelected]="department.roles"
-                                     (roleSelected)="observation.role = $event">
-            </app-rolle-valg-dropdown>
+                                     [roleSelectedI]="department.roles"
+                                     (roleSelectedEvent)="observation.role = $event">
+            </app-role-selection-dropdown>
           </div>
         </div>
         <div class="hh-horizontal-separator"></div>
