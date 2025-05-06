@@ -52,7 +52,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
     });
   }
 
-  antallValgteHandsmykker() {
+  numberOfHandJewelrySelected () {
     return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
@@ -60,8 +60,8 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
     if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
     else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable altok
-    else if (this.antallValgteHandsmykker() < 1)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
+    else if (this.numberOfHandJewelrySelected () < 1)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 

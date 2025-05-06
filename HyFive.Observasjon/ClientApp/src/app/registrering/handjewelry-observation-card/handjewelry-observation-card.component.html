@@ -18,24 +18,24 @@
         <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <div class="row mt-5 text-break">
-          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let valg of handJewelrySelection; let i = index;">
-            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(valg)" [ngStyle]="{ 'opacity': valg.disabled ? '0.5' : '1' }">
+          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let selection of handJewelrySelection; let i = index;">
+            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(selection)" [ngStyle]="{ 'opacity': selection.disabled ? '0.5' : '1' }">
               <input type="checkbox"
-                     [(ngModel)]="valg.isSelected"
-                     (ngModelChange)="changed(valg)"
-                     [disabled]="valg.disabled"
-                     [id]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(valg)"
+                     [(ngModel)]="selection.isSelected"
+                     (ngModelChange)="changed(selection)"
+                     [disabled]="selection.disabled"
+                     [id]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(selection)"
                      class="hh-round-checkbox-list__input">
               <fa-stack class="hh-round-checkbox-list__iconstack">
                 <fa-icon [icon]="faCircle" stackItemSize="2x"
                          class="hh-round-checkbox-list__circle"
-                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': valg.isSelected, 'hh-round-checkbox-list__circle--active': card.isActive}">
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': selection.isSelected, 'hh-round-checkbox-list__circle--active': card.isActive}">
                 </fa-icon>
-                <fa-icon [icon]="iconTypeMap.get(valg.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
-                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
+                <fa-icon [icon]="iconTypeMap.get(selection.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!selection.isSelected"></fa-icon>
+                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="selection.isSelected"></fa-icon>
               </fa-stack>
               <br />
-              <span><small><strong>{{ valg.name }}</strong></small></span>
+              <span><small><strong>{{ selection.name }}</strong></small></span>
             </label>
           </div>
         </div>

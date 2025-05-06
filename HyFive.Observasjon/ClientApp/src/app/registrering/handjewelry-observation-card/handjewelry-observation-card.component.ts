@@ -19,13 +19,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 
 @Component({
-  selector: 'app-handsmykker-observasjonskort',
-  templateUrl: './handsmykker-observasjonskort.component.html',
+  selector: 'app-handjewelry-observation-card',
+  templateUrl: './handjewelry-observation-card.component.html',
   animations: [
     Animations.swipeLeftRight
   ]
 })
-export class HandsmykkerObservasjonskortComponent extends BaseCardSwipe implements OnInit {
+export class HandJewelryObservationCardComponent extends BaseCardSwipe implements OnInit {
 
   comment: string;
   observationMissingText: string;
@@ -84,26 +84,26 @@ export class HandsmykkerObservasjonskortComponent extends BaseCardSwipe implemen
     this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
   }
 
-  antallValgteHandsmykker() {
+  numberOfHandJewelrySelected () {
     return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
   canNotSave(): boolean {
-    let antallValgteHandsmykker = this.antallValgteHandsmykker();
+    let numberOfHandJewelrySelected  = this.numberOfHandJewelrySelected ();
 
-    if (antallValgteHandsmykker < 1) {
-      this.observationMissingText = "HandJewelry mangler";
+    if (numberOfHandJewelrySelected  < 1) {
+      this.observationMissingText = "HandJewelry missing";
       this.showInfoModal = true;
     }
-    return antallValgteHandsmykker < 1;
+    return numberOfHandJewelrySelected  < 1;
   }
 
-  changed(valg: HandJewelrySelection) {
-    if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
+  changed(select: HandJewelrySelection) {
+    if (select.isSelected && select.type == HandJewelryTypeConstants.AllClear)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable all
-    else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable altok
-    else if (this.antallValgteHandsmykker() < 1)
+    else if (select.isSelected && select.type != HandJewelryTypeConstants.AllClear)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable anyway
+    else if (this.numberOfHandJewelrySelected () < 1)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 
