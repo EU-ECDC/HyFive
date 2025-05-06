@@ -77,9 +77,9 @@ export abstract class BaseKortSwipe {
 
     setTimeout(async () => {
       if (await this.skalSletteKort()) {
-        this.nullstillKort();
+        this.resetCard();
         setTimeout(() => {
-          this.slettKort();
+          this.deleteCard();
           this.showDeleteShadow = false;
         }, AnimationsConfig.swipeLeftAnimationDuration);
       }
@@ -96,7 +96,7 @@ export abstract class BaseKortSwipe {
     this.animation = AnimationStates.swipeRight;
 
     setTimeout(() => {
-      if (this.kanIkkeLagre()) {
+      if (this.canNotSave()) {
         this.animation = AnimationStates.initialError;
         setTimeout(() => {
           this.showSaveShadow = false;
@@ -129,8 +129,8 @@ export abstract class BaseKortSwipe {
     });
   }
 
-  abstract kanIkkeLagre();
+  abstract canNotSave();
   abstract registerObservation();
-  abstract nullstillKort();
-  abstract slettKort();
+  abstract resetCard();
+  abstract deleteCard();
 }

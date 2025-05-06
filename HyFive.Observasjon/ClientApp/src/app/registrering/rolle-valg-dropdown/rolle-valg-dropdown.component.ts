@@ -13,7 +13,7 @@ export class RolleValgDropdownComponent implements OnInit{
   @Input('isReadonly') isReadonly = false;
   @Input('roleSelected') roleSelected : Role[];
   @Input('rolleId') rolleId: number;
-  @Output('rolleValgt') rolleValgt: EventEmitter<Role> = new EventEmitter<Role>();
+  @Output('roleSelected') roleSelected: EventEmitter<Role> = new EventEmitter<Role>();
   valgtRolle: Role;
 
   valgtRolleId: string;
@@ -23,15 +23,15 @@ export class RolleValgDropdownComponent implements OnInit{
 
   ngOnInit() {
     this.valgtRolleId = this.rolleId+'';
-    this.velgRolle();
+    this.selectRole();
   }
 
   valgtRolleEndret() {
-    this.velgRolle();
-    this.rolleValgt.emit(this.valgtRolle);
+    this.selectRole();
+    this.roleSelected.emit(this.valgtRolle);
   }
 
-  velgRolle() {
+  selectRole() {
     if (this.roleSelected){
       this.valgtRolle = this.roleSelected[this.roleSelected.map(r => r.id).indexOf(parseInt(this.valgtRolleId))];
     }

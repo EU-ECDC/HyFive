@@ -7,7 +7,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 })
 export class SlettSkyggeComponent implements OnInit {
 
-  @Input("vis") vis: Boolean;
+  @Input("show") show: Boolean;
 
   faTrashAlt = faTrashAlt;
 

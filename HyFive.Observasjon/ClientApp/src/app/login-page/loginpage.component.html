@@ -86,7 +86,7 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="isShowPseudonym">
-    <app-pseudonym [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="closeInfoModal($event)">
+    <app-pseudonym [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)">
       <p class="text-break">
         <small><strong>Pseudonym:</strong> {{user?.identityPseudonym}}</small>
       </p>

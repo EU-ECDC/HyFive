@@ -52,8 +52,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   @Input() observation: GloveObservation;
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
-  visInfoModal = false;
-  observasjonMangelTekst: any;
+  showInfoModal = false;
+  observationDeficiencyText: any;
 
 
   ngOnInit(): void {
@@ -129,14 +129,14 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.observation.comment = comment;
   }
 
-  rolleValgt(role: Role) {
+  roleSelected(role: Role) {
     this.observation.role = role;
   }
 
   closeInfoModal($event: boolean) {
-    this.visInfoModal = $event;
-    if(this.visInfoModal === false){
-      this.observasjonMangelTekst = null;
+    this.showInfoModal = $event;
+    if(this.showInfoModal === false){
+      this.observationDeficiencyText = null;
     }
   }
 }

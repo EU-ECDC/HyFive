@@ -29,7 +29,7 @@
             <app-rolle-valg-dropdown [rolleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
                                      [roleSelected]="department.roles"
-                                     (rolleValgt)="observation.role = $event">
+                                     (roleSelected)="observation.role = $event">
             </app-rolle-valg-dropdown>
           </ng-container>
           <app-indikasjonsvalg [valgteIndikasjoner]="observation.indicationTypes"

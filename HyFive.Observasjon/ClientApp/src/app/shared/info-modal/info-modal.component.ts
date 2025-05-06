@@ -7,14 +7,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class InfoModalComponent implements OnInit {
 
-  @Input() visInfoModal: boolean;
-  @Input() modalTekst: string;
-  @Output() lukkInfoModalEvent = new EventEmitter<boolean>();
+  @Input() showInfoModal: boolean;
+  @Input() modalText: string;
+  @Output() closeInfoModalEvent = new EventEmitter<boolean>();
 
   @ViewChild("modal") modal: TemplateRef<any>;
 
   ngOnChanges(changes: SimpleChanges){
-    if(changes.visInfoModal?.previousValue === false && changes.visInfoModal?.currentValue === true){
+    if(changes.showInfoModal?.previousValue === false && changes.showInfoModal?.currentValue === true){
       this.modalService.open(this.modal, { windowClass: 'hh-modal' });
     }
   }
@@ -24,7 +24,7 @@ export class InfoModalComponent implements OnInit {
   ngOnInit(): void { }
 
   lukk(): void {
-    this.visInfoModal = false;
-    this.lukkInfoModalEvent.emit(this.visInfoModal);
+    this.showInfoModal = false;
+    this.closeInfoModalEvent.emit(this.showInfoModal);
   }
 }

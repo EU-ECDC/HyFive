@@ -5,9 +5,9 @@
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
   <ng-container *ngFor="let card of sessionView.card">
-    <app-handsmykker-observasjonskort (observasjonRegistrert)="registerObservation($event)"
-                                      (sesjonsvisningOppdatert)="updateSessionView($event)"
-                                      (kortErValgtEvent)="cardIsSelected($event)"
+    <app-handsmykker-observasjonskort (observationRegister)="registerObservation($event)"
+                                      (sessionViewUpdate)="updateSessionView($event)"
+                                      (cardIsSelectedEvent)="cardIsSelected($event)"
                                       [card]="card"
                                       [sessionView]="sessionView"
                                       [roleSelected]="roles">
@@ -43,7 +43,7 @@
   </ol>
   <p>
     Når du er ferdig kan du dra kortet mot høyre for å lagre observasjonen.
-    Hvis du har registrert noe feil så må du trykke på "Tøm card" - da vil kortet nullstille seg.
+    Hvis du har registrert noe feil så må du trykke på "Empty card" - da vil kortet nullstille seg.
     Hvis du ønsker å ta bort et card fra listen kan du dra kortet mot venstre.
   </p>
 </app-hjelpetekst>

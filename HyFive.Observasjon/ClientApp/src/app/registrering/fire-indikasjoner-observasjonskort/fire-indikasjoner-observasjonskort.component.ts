@@ -36,8 +36,8 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   activityTypes: ActivityType[];
   valgteIndikasjoner: IndicationType[] = new Array();
   aktivitetUnderRegistrering: ActivityUnderRegistration = null;
-  observasjonMangelTekst: string;
-  visInfoModal: boolean = false;
+  observationDeficiencyText: string;
+  showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
   sprit: string = Activities.Alcohol;
   vask: string = Activities.Wash;
@@ -56,10 +56,10 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   @Input("roleSelected") roleSelected: Role[]
   @Input("sessionView") sessionView: FourIndicationsSessionView
 
-  @Output() observasjonRegistrert = new EventEmitter();
-  @Output() observasjonOppdatert = new EventEmitter();
-  @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Card>();
+  @Output() observationRegister = new EventEmitter();
+  @Output() observationUpdate = new EventEmitter();
+  @Output() sessionViewUpdate = new EventEmitter();
+  @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(
     private observationEventService: ObservationEventService,
@@ -80,20 +80,20 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     })
   }
 
-  slettKort() {
-    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
-    this.sessionView.card.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sessionView);
+  deleteCard() {
+    let cardIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(cardIndex, 1);
+    this.sessionViewUpdate.emit(this.sessionView);
   }
 
-  velgRolle(role: Role) {
+  selectRole(role: Role) {
     this.card.role = role;
-    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
-    this.sessionView.card[kortIndex] = this.card;
-    this.sesjonsvisningOppdatert.emit(this.sessionView);
+    let cardIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[cardIndex] = this.card;
+    this.sessionViewUpdate.emit(this.sessionView);
   }
 
-  nullstillKort() {
+  resetCard() {
     this.comment = "";
     this.valgteIndikasjoner = [];
     this.activity = null;
@@ -101,14 +101,14 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.observationEventService.observationResetEvent.emit(this.card.id);
   }
 
-  kanIkkeLagre(): boolean {
+  canNotSave(): boolean {
     if (this.valgteIndikasjoner?.length === 0) {
-      this.observasjonMangelTekst = "Indikasjon(er) mangler";
-      this.visInfoModal = true;
+      this.observationDeficiencyText = "Indikasjon(er) mangler";
+      this.showInfoModal = true;
     }
     else if (!this.activity) {
-      this.observasjonMangelTekst = "Activity mangler";
-      this.visInfoModal = true;
+      this.observationDeficiencyText = "Activity mangler";
+      this.showInfoModal = true;
     }
     return !(this.valgteIndikasjoner?.length && this.activity);
   }
@@ -124,9 +124,9 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       registrationTime: new Date(Date.now())
     }
 
-    this.observasjonRegistrert.emit(observation);
+    this.observationRegister.emit(observation);
 
-    this.nullstillKort();
+    this.resetCard();
 
     this.card.isActive = false;
   }
@@ -158,7 +158,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
 
   cardIsSelected() {
     this.card.isActive = true;
-    this.kortErValgtEvent.emit(this.card);
+    this.cardIsSelectedEvent.emit(this.card);
   }
 
   getAktivitetType(code: string) {
@@ -166,6 +166,6 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   closeInfoModal(erVisInfoModal): void {
-    this.visInfoModal = erVisInfoModal;
+    this.showInfoModal = erVisInfoModal;
   }
 }

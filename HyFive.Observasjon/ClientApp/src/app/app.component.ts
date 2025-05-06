@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
       return true;
     }
 
-    // Ellers vis hovedmeny kun hvis user er en observatør og vi ikke står på forsiden.
+    // Ellers show hovedmeny kun hvis user er en observatør og vi ikke står på forsiden.
     return this.user?.isObserver;
   }
   

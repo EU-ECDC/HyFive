@@ -26,7 +26,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   protectiveEquipment: ProtectiveEquipment[] = [];
   comment: string;
   selectedEquipment = null;
-  beskyttelsesutstyrsesjontype: SessionType = SessionType.ProtectiveEquipment;
+  protectiveEquipmentSessionType: SessionType = SessionType.ProtectiveEquipment;
 
   kanIkkeLagreMelding = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
 
@@ -75,11 +75,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     this.observasjonSlettetEvent.emit();
   }
 
-  beskyttelsesutstyrIndikert(): ProtectiveEquipment[] {
+  ProtectiveEquipmentRequired(): ProtectiveEquipment[] {
     return this.protectiveEquipment.filter(b => b.isRequired);
   }
 
-  beskyttelsesutstyrIkkeIndikert(): ProtectiveEquipment[] {
+  ProtectiveEquipmentNotRequired(): ProtectiveEquipment[] {
     return this.protectiveEquipment.filter(b => b.isRequired === false);
   }
 
@@ -96,11 +96,11 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     });
 
     if (valg.wasUsed) {
-      this.visModal(valg);
+      this.showModal(valg);
     }
   }
 
-  visModal(selectedEquipment: ProtectiveEquipment) {
+  showModal(selectedEquipment: ProtectiveEquipment) {
 
     const modalRef = this.modalService.open(ProtectiveEquipmentModalComponent, {
       ariaLabelledBy: 'modal-basic-title',
@@ -127,7 +127,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       selectedEquipment.isRequired = result.isRequired;
       selectedEquipment.equipmentType.isRequired = result.isRequired;
       if (result.wasUsed === false) {
-        this.nullstillUtstyr(selectedEquipment);
+        this.resetEquipment(selectedEquipment);
       }
       else {
         selectedEquipment.wasUsedCorrectly = result.wasUsedCorrectly;
@@ -138,19 +138,19 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     }, (reason) => {
       if (this.erRedigeringsmodus) {
         selectedEquipment.wasUsed = false;
-        this.nullstillUtstyr(selectedEquipment);
+        this.resetEquipment(selectedEquipment);
       }
     });
   }
 
-  setAlleUtstyrTilRiktigBrukt(event) {
-    this.beskyttelsesutstyrIndikert().forEach(x => {
+  setAllEquipmentToProperUsed(event) {
+    this.ProtectiveEquipmentRequired().forEach(x => {
       x.wasUsed = true;
       x.wasUsedCorrectly = true;
     });
   }
 
-  nullstillUtstyr(valg: ProtectiveEquipment) {
+  resetEquipment(valg: ProtectiveEquipment) {
     let valgIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
     this.protectiveEquipment[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
@@ -159,7 +159,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     if (!this.erRedigeringsmodus && valg.wasUsed) {
       event.stopPropagation();
       event.preventDefault();
-      this.visModal(valg);
+      this.showModal(valg);
       return;
     }
   }

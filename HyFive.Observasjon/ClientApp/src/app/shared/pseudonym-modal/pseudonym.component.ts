@@ -7,10 +7,10 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class PseudonymComponent implements AfterViewInit{
 
-  @Output() lukkInfoModalEvent = new EventEmitter<boolean>();
+  @Output() closeInfoModalEvent = new EventEmitter<boolean>();
   @ViewChild('content') modalContent: TemplateRef<any>;
 
-  visInfoModal = true;
+  showInfoModal = true;
 
   constructor(private modalService: NgbModal) {
   }
@@ -22,7 +22,7 @@ export class PseudonymComponent implements AfterViewInit{
   }
 
   lukk() {
-    this.visInfoModal = false;
-    this.lukkInfoModalEvent.emit(this.visInfoModal);
+    this.showInfoModal = false;
+    this.closeInfoModalEvent.emit(this.showInfoModal);
   }
 }

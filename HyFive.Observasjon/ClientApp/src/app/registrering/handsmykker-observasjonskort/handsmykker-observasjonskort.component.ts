@@ -28,8 +28,8 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
   comment: string;
-  observasjonMangelTekst: string;
-  visInfoModal: boolean = false;
+  observationDeficiencyText: string;
+  showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
 
   faEraser = faEraser;
@@ -51,10 +51,10 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   @Input("roleSelected") roleSelected: Role[];
   @Input("sessionView") sessionView: HandJewelrySessionView;
 
-  @Output() observasjonRegistrert = new EventEmitter();
-  @Output() observasjonOppdatert = new EventEmitter();
-  @Output() sesjonsvisningOppdatert = new EventEmitter();
-  @Output() kortErValgtEvent = new EventEmitter<Card>();
+  @Output() observationRegister = new EventEmitter();
+  @Output() observationUpdate = new EventEmitter();
+  @Output() sessionViewUpdate = new EventEmitter();
+  @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(
     private handJewelryTypeService: HandJewelryTypeService,
@@ -69,17 +69,17 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     });
   }
 
-  slettKort() {
-    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
-    this.sessionView.card.splice(kortIndex, 1);
-    this.sesjonsvisningOppdatert.emit(this.sessionView);
+  deleteCard() {
+    let cardIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card.splice(cardIndex, 1);
+    this.sessionViewUpdate.emit(this.sessionView);
   }
 
   registerComment(comment: string) {
     this.comment = comment;
   }
 
-  nullstillKort() {
+  resetCard() {
     this.comment = "";
     this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
   }
@@ -88,12 +88,12 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
-  kanIkkeLagre(): boolean {
+  canNotSave(): boolean {
     let antallValgteHandsmykker = this.antallValgteHandsmykker();
 
     if (antallValgteHandsmykker < 1) {
-      this.observasjonMangelTekst = "HandJewelry mangler";
-      this.visInfoModal = true;
+      this.observationDeficiencyText = "HandJewelry mangler";
+      this.showInfoModal = true;
     }
     return antallValgteHandsmykker < 1;
   }
@@ -107,11 +107,11 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 
-  velgRolle(role: Role) {
+  selectRole(role: Role) {
     this.card.role = role;
-    let kortIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
-    this.sessionView.card[kortIndex] = this.card;
-    this.sesjonsvisningOppdatert.emit(this.sessionView);
+    let cardIndex = this.sessionView.card.findIndex(x => x.id === this.card.id);
+    this.sessionView.card[cardIndex] = this.card;
+    this.sessionViewUpdate.emit(this.sessionView);
   }
 
   registerObservation() {
@@ -127,20 +127,20 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       comment: this.comment
     } as HandJewelryObservation;
 
-    this.observasjonRegistrert.emit(observation);
+    this.observationRegister.emit(observation);
 
-    this.nullstillKort();
+    this.resetCard();
 
     this.card.isActive = false;
   }
 
   cardIsSelected() {
     this.card.isActive = true;
-    this.kortErValgtEvent.emit(this.card);
+    this.cardIsSelectedEvent.emit(this.card);
   }
 
   closeInfoModal(erVisInfoModal): void {
-    this.visInfoModal = erVisInfoModal;
+    this.showInfoModal = erVisInfoModal;
   }
 }
 

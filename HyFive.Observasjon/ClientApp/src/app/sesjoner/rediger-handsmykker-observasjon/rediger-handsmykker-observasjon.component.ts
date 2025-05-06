@@ -83,7 +83,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
     this.observation.comment = comment;
   }
 
-  rolleValgt(role: Role) {
+  roleSelected(role: Role) {
     this.observation.role = role;
   }
 }

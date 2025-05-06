@@ -27,7 +27,7 @@
           <app-rolle-valg-dropdown [rolleId]="observation.role.id"
                                    [isReadonly]="isReadonly"
                                    [roleSelected]="department.roles"
-                                   (rolleValgt)="rolleValgt($event)">
+                                   (roleSelected)="roleSelected($event)">
           </app-rolle-valg-dropdown>
         </div>
       </div>
@@ -138,4 +138,4 @@
     </div>
   </div>
 </div>
-<app-info-modal [modalTekst]="observasjonMangelTekst" [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
+<app-info-modal [modalText]="observationDeficiencyText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>

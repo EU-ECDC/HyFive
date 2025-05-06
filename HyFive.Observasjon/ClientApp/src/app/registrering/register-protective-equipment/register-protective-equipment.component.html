@@ -9,13 +9,13 @@
       <div class="col">
         <div *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
           <ng-container *ngFor="let card of sessionView.card">
-            <app-beskyttelsesutstyr-observasjonskort (observasjonRegistrert)="registerObservation($event)"
-                                                     (sesjonsvisningOppdatert)="updateSessionView($event)"
-                                                     (kortErValgtEvent)="cardIsSelected($event)"
+            <app-protective equipment-observation-card (observationRegister)="registerObservation($event)"
+                                                     (sessionViewUpdate)="updateSessionView($event)"
+                                                     (cardIsSelectedEvent)="cardIsSelected($event)"
                                                      [card]="card"
                                                      [sessionView]="sessionView"
                                                      [roleSelected]="roles">
-            </app-beskyttelsesutstyr-observasjonskort>
+            </app-protective equipment-observation-card>
           </ng-container>
         </div>
       </div>

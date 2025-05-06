@@ -9,7 +9,7 @@ export class LagreSkyggeComponent implements OnInit {
 
   faSave = faSave;
 
-  @Input("vis") vis: Boolean;
+  @Input("show") show: Boolean;
 
   constructor() { }
 
