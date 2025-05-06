@@ -18,10 +18,10 @@
         <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <div class="mt-3 text-break">
-          <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="nullstillFane()" class="nav-tabs nav-justified hh-hanske-tabs">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="resetTab()" class="nav-tabs nav-justified hh-hanske-tabs">
             <li ngbNavItem="with">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Glove ved indication
+                Glove with indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
@@ -42,15 +42,15 @@
                   <div class="col">
                     <div class="d-flex">
                       <div class="d-flex flex-column justify-content-center">
-                        <p class="mb-0 me-2">Glove brukt?</p>
+                        <p class="mb-0 me-2">Glove used?</p>
                       </div>
 
                       <div class="ms-auto">
                         <div class="btn-group fhi-btn-group" role="group">
-                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-ja-{{uuid}}"  [value]="true" [(ngModel)]="hanskeBenyttet" />
+                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-ja-{{uuid}}"  [value]="true" [(ngModel)]="gloveUsed" />
                           <label class="btn fhi-btn-group__btn" for="btn-ja-{{uuid}}">Yes</label>
                           
-                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-nei-{{uuid}}" [value]="false"[(ngModel)]="hanskeBenyttet" />
+                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-nei-{{uuid}}" [value]="false"[(ngModel)]="gloveUsed" />
                           <label class="btn fhi-btn-group__btn" for="btn-nei-{{uuid}}">No</label>
                         </div>
                       </div>
@@ -61,7 +61,7 @@
             </li>
             <li ngbNavItem="uten">
               <a ngbNavLink class="hh-hanske-tabs__tab">
-                Glove uten indication
+                Glove without indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
@@ -82,12 +82,12 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
 
-          <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && hanskeBenyttet">
-            <h3 class="h5 text-center">Håndhygiene etter hanskebruk?</h3>
+          <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && gloveUsed">
+            <h3 class="h5 text-center">Hand hygiene after using gloves?</h3>
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
                 <ng-container *ngFor="let type of handHygieneAfterGloveUseTypes">
-                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="hanskebruk-name-{{uuid}}" [value]="type.code" [(ngModel)]="valgtHandhygieneEtterHanskebruk" />
+                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="hanskebruk-name-{{uuid}}" [value]="type.code" [(ngModel)]="selectedHandHygieneAfterGloveUsed" />
                   <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}-{{uuid}}">{{type.name}}</label>
                 </ng-container>
               </div>

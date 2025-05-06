@@ -6,13 +6,13 @@
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
   <ng-container *ngFor="let card of sessionView.card">
-    <app-hanske-observasjonskort (observationRegister)="registerObservation($event)"
+    <app-glove-observation-card (observationRegister)="registerObservation($event)"
                                  (sessionViewUpdate)="updateSessionView($event)"
                                  (cardIsSelectedEvent)="cardIsSelected($event)"
                                  [card]="card"
                                  [sessionView]="sessionView"
                                  [roleSelected]="roles">
-    </app-hanske-observasjonskort>
+    </app-glove-observation-card>
   </ng-container>
 </div>
 

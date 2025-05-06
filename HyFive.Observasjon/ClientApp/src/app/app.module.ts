@@ -55,7 +55,7 @@ import { ToastrConfig } from './constants/toastr-config';
 import { ObservationCounterComponent } from './shared/observation-counter/observation-counter.component';
 import { InfoModalComponent } from './shared/info-modal/info-modal.component';
 import { RegistrereHanskeComponent } from './registrering/registrere-hanske/registrere-hanske.component';
-import { HanskeObservasjonskortComponent } from './registrering/hanske-observasjonskort/hanske-observasjonskort.component';
+import { GloveObservationCardComponent } from './registrering/glove-observation-card/glove-observation-card.component';
 import { HanskeComponent } from './sessions/hanske/hanske.component';
 import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
 import { RedigerHanskeObservasjonComponent } from './sessions/rediger-hanske-observasjon/rediger-hanske-observasjon.component';
@@ -121,7 +121,7 @@ export const httpInterceptorProviders = [
         ObservationCounterComponent,
         InfoModalComponent,
         RegistrereHanskeComponent,
-        HanskeObservasjonskortComponent,
+        GloveObservationCardComponent,
         HanskeComponent,
         SendteHanskeSesjonComponent,
         RedigerHanskeObservasjonComponent,

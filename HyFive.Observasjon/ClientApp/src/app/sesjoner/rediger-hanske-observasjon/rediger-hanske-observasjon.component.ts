@@ -88,13 +88,13 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     this.valgtHygieneEtterHanskebruk = this.observation.handHygieneAfterGloveUseType?.code;
   }
 
-  hanskeMedIndikasjonerChanged(code, event) {
+  gloveWithIndicationsChanged(code, event) {
     this.gloveWithIndicationTypes.forEach(x => {
       if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
-  hanskeUtenIndikasjonerChanged(code, event) {
+  gloveWithoutIndicationsChanged(code, event) {
     this.gloveWithoutIndicationTypes.forEach(x => {
       if (x.code === code) x.isSelected = event.target.checked;
     });

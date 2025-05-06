@@ -60,7 +60,7 @@
                       <tr>
                         <td class="hh-hanske-tabs__label-td" colspan="2">
                           <div class="d-flex">
-                            <strong class="pt-2" id="gloveIsUsedHeading">Glove brukt?</strong>
+                            <strong class="pt-2" id="gloveIsUsedHeading">Glove used?</strong>
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
@@ -110,7 +110,7 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
           <div class="w-100" *ngIf="hanskeBrukt">
-            <h2 class="h5">Håndhygiene etter hanskebruk?</h2>
+            <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
                 <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />

@@ -20,13 +20,13 @@ import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterG
 import { DialogueTexts } from '../../constants/dialogueTexts';
 
 @Component({
-  selector: 'app-hanske-observasjonskort',
-  templateUrl: './hanske-observasjonskort.component.html',
+  selector: 'app-glove-observation-card',
+  templateUrl: './glove-observation-card.component.html',
   animations: [
     Animations.swipeLeftRight
   ]
 })
-export class HanskeObservasjonskortComponent extends BaseCardSwipe implements OnInit {
+export class GloveObservationCardComponent extends BaseCardSwipe implements OnInit {
 
   comment: string;
   observationMissingText: string;
@@ -48,8 +48,8 @@ export class HanskeObservasjonskortComponent extends BaseCardSwipe implements On
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
   activeTab = "with";
-  hanskeBenyttet = null;
-  valgtHandhygieneEtterHanskebruk = null;
+  gloveUsed = null;
+  selectedHandHygieneAfterGloveUsed = null;
   
   uuid: string;
 
@@ -90,20 +90,20 @@ export class HanskeObservasjonskortComponent extends BaseCardSwipe implements On
     this.sessionViewUpdate.emit(this.sessionView);
   }
 
-  nullstillFane() {
+  resetTab() {
     this.gloveWithIndicationTypes.forEach(x => x.isSelected = false);
     this.gloveWithoutIndicationTypes.forEach(x => x.isSelected = false);
-    this.hanskeBenyttet = this.activeTab === "with" ? null : true;
-    this.valgtHandhygieneEtterHanskebruk = null;
+    this.gloveUsed = this.activeTab === "with" ? null : true;
+    this.selectedHandHygieneAfterGloveUsed = null;
   }
 
-  hanskeMedIndikasjonerChanged(code, event) {
+  gloveWithIndicationsChanged(code, event) {
     this.gloveWithIndicationTypes.forEach(x => {
       if (x.code === code) x.isSelected = event.target.checked;
     });
   }
 
-  hanskeUtenIndikasjonerChanged(code, event) {
+  gloveWithoutIndicationsChanged(code, event) {
     this.gloveWithoutIndicationTypes.forEach(x => {
       if (x.code === code) x.isSelected = event.target.checked;
     });
@@ -114,7 +114,7 @@ export class HanskeObservasjonskortComponent extends BaseCardSwipe implements On
   }
 
   resetCard() {
-    this.nullstillFane();
+    this.resetTab();
     this.comment = "";
   }
 
@@ -126,8 +126,8 @@ export class HanskeObservasjonskortComponent extends BaseCardSwipe implements On
         this.showInfoModal = true;
         return true;
       }
-      else if (this.hanskeBenyttet === null) {
-        this.observationMissingText = "\"Glove brukt?\" må besvares";
+      else if (this.gloveUsed === null) {
+        this.observationMissingText = "\"Glove used?\" must be answered";
         this.showInfoModal = true;
         return true;
       }
@@ -157,8 +157,8 @@ export class HanskeObservasjonskortComponent extends BaseCardSwipe implements On
       comment: this.comment,
       gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),
       gloveWithoutIndicationTypes: this.gloveWithoutIndicationTypes.filter(x => x.isSelected),
-      gloveUsed: this.hanskeBenyttet,
-      handHygieneAfterGloveUseType: this.hanskeBenyttet ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHandhygieneEtterHanskebruk) : null,
+      gloveUsed: this.gloveUsed,
+      handHygieneAfterGloveUseType: this.gloveUsed ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHandHygieneAfterGloveUsed) : null,
     } as GloveObservation;
 
     this.observationRegister.emit(observation);
