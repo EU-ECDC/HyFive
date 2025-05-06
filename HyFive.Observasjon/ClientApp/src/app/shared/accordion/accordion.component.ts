@@ -13,7 +13,7 @@ import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
      {{item.name}}
     </ng-template>
     <ng-template #content let-item="item">
-     {{item.nummer}}
+     {{item.number}}
     </ng-template>
 
  */

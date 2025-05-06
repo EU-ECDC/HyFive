@@ -13,7 +13,7 @@ import { FourIndicationsSessionService } from './services/data/four-indications-
 import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
 import { FourIndicationsObservationCardComponent } from './registrering/four-indications-observation-card/four-indications-observation-card.component';
-import { IndikasjonsValgComponent } from './registrering/indikasjonsvalg/indikasjonsvalg.component';
+import { IndicationSelectionComponent } from './registrering/indication-selection/indication-selection.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
 import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
@@ -87,7 +87,7 @@ export const httpInterceptorProviders = [
         FourIndicationsObservationCardComponent,
         RegisterActivityComponent,
         MissedOpportunityComponent,
-        IndikasjonsValgComponent,
+        IndicationSelectionComponent,
         RegisterCommentComponent,
         IkkeSendteSesjonerComponent,
         RedigerFireIndikasjonerObservasjonComponent,

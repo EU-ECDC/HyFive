@@ -9,10 +9,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IndicationTypeConstants } from '../../models/api/IndicationTypeConstants';
 
 @Component({
-  selector: 'app-indikasjonsvalg',
-  templateUrl: './indikasjonsvalg.component.html'
+  selector: 'app-indication-selection',
+  templateUrl: './indication-selection.component.html'
 })
-export class IndikasjonsValgComponent implements OnInit {
+export class IndicationSelectionComponent implements OnInit {
 
   faCircle = faCircle;
   faCheck = faCheck;
@@ -23,30 +23,30 @@ export class IndikasjonsValgComponent implements OnInit {
 
   @Input("isActive") isActive: boolean;
   @Input("parentId") parentId: string;
-  @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndicationType[];
+  @Input("availableIndications") availableIndications: IndicationType[];
   @Input("selectedIndications") selectedIndications: IndicationType[] = [];
   @Input("isReadonly") isReadonly: boolean;
-  @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
+  @Output() indicationSelectionChangedEvent = new EventEmitter<IndicationType[]>();
 
   constructor(private observationEventService: ObservationEventService,
     private indicationService: IndicationService) { }
 
   ngOnInit(): void {
     this.indicationService.getIndicationTypes().subscribe((indicationTypes) => {
-      this.tilgjengeligeIndikasjoner = indicationTypes;
-      this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, this.selectedIndications);
+      this.availableIndications = indicationTypes;
+      this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.availableIndications, this.selectedIndications);
     });
 
     this.observationEventService.observationResetEvent.subscribe((parentId) => {
       if (parentId == this.parentId) {
         this.selectedIndications = [];
-        this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, []);
+        this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.availableIndications, []);
       }
     })
   }
 
   changed(indication: IndicationType): void {
-    let valg = this.indicationTypeSelection.filter(x => x.isSelected);
-    this.indikasjonsValgChangedEvent.emit(this.tilgjengeligeIndikasjoner.filter(x => valg.some(y => y.code === x.code)));
+    let selection = this.indicationTypeSelection.filter(x => x.isSelected);
+    this.indicationSelectionChangedEvent.emit(this.availableIndications.filter(x => selection.some(y => y.code === x.code)));
   }
 }

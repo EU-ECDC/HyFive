@@ -7,5 +7,5 @@ export interface IndicationType
 	id: number;
 	code: string;
 	name: string;
-	nummer: string;
+	number: string;
 }

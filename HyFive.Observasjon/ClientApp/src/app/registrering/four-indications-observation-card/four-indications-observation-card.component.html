@@ -16,10 +16,10 @@
       <div class="d-flex flex-column justify-content-start">
         <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
-        <app-indikasjonsvalg (indikasjonsValgChangedEvent)="indicationSelectionChanged($event)"
+        <app-indication-selection (indicationSelectionChangedEvent)="indicationSelectionChanged($event)"
                              [isActive]="card.isActive"
                              [parentId]="card.id">
-        </app-indikasjonsvalg>
+        </app-indication-selection>
 
         <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
           <div class="col-12 text-center mb-2 mt-4">

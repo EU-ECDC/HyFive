@@ -32,12 +32,12 @@
                                      (roleSelectedEvent)="observation.role = $event">
             </app-role-selection-dropdown>
           </ng-container>
-          <app-indikasjonsvalg [selectedIndications]="observation.indicationTypes"
-                               (indikasjonsValgChangedEvent)="indicationSelectionChanged($event)"
+          <app-indication-selection [selectedIndications]="observation.indicationTypes"
+                               (indicationSelectionChangedEvent)="indicationSelectionChanged($event)"
                                [isReadonly]="!erRedigeringsmodus"
                                [isActive]="erRedigeringsmodus"
                                [parentId]="observation.id">
-          </app-indikasjonsvalg>
+          </app-indication-selection>
         </div>
         <div class="flex-column justify-content-end">
           <div class="d-flex justify-content-around">
