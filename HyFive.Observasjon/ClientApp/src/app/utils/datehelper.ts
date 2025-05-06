@@ -1,6 +1,6 @@
 export class DateHelper {
 //create a local string of a date
-static dateTimeSomLocaleStringReplacer(key, value) {
+static dateTimeAsLocaleStringReplacer(key, value) {
     if (this[key] instanceof Date) {
       let date = this[key];
 //string in format: dd-mm-YYT13:30:00 - +1 for correct month, add '0' and slice to ensure two numbers in month and day.

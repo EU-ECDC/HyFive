@@ -145,13 +145,13 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.observation.activity.timeSpent = 0;
     }
-    this.sessionService.endreObservasjon(this.observation);
+    this.sessionService.changeObservation(this.observation);
     this.erRedigeringsmodus = false;
     this.ikkeUtfortAktivitet = null;
   }
 
-  slettObservasjon() {
-    this.sessionService.slettObservasjon(this.observation);
+  deleteObservation() {
+    this.sessionService.deleteObservation(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 

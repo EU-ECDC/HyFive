@@ -59,7 +59,7 @@ export class HandsmykkerComponent implements OnInit {
   }
   
   sesjonSlettetEventHandler(id: string) {
-    this.sessionService.slettSesjon(id);
+    this.sessionService.deleteSession(id);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
@@ -83,7 +83,7 @@ export class HandsmykkerComponent implements OnInit {
     this.sesjonSendesTilServer = true;
     this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
       this.toastrService.success("Session ble sendt til koordinator");
-      this.sessionService.slettSesjon(this.sesjon.id);
+      this.sessionService.deleteSession(this.sesjon.id);
       this.sesjonErSendtTilServer = true;
     },
       error => {

@@ -65,13 +65,13 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       return;
     }
     if (this.erRedigeringsmodus) {
-      this.sessionService.endreObservasjon(this.observation);
+      this.sessionService.changeObservation(this.observation);
     }
     this.erRedigeringsmodus = false;
   }
 
-  slettObservasjon() {
-    this.sessionService.slettObservasjon(this.observation);
+  deleteObservation() {
+    this.sessionService.deleteObservation(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 

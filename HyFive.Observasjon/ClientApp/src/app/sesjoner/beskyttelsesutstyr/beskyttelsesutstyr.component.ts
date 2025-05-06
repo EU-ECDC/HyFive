@@ -61,7 +61,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   }
 
   sesjonSlettetEventHandler(sessionId: string) {
-    this.sessionService.slettSesjon(sessionId);
+    this.sessionService.deleteSession(sessionId);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
@@ -80,7 +80,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
     this.sesjonSendesTilServer = true;
     this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
         this.toastrService.success("Session ble sendt til koordinator");
-        this.sessionService.slettSesjon(this.sesjon.id);
+        this.sessionService.deleteSession(this.sesjon.id);
         this.sesjonErSendtTilServer = true;
         this.sesjonSendesTilServer = false;
       },

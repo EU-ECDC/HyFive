@@ -70,12 +70,12 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];
-    this.sessionService.endreObservasjon(this.observation);
+    this.sessionService.changeObservation(this.observation);
     this.erRedigeringsmodus = false;
   }
 
-  slettObservasjon() {
-    this.sessionService.slettObservasjon(this.observation);
+  deleteObservation() {
+    this.sessionService.deleteObservation(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 

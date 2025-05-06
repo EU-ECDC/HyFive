@@ -138,7 +138,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.fourIndicationsSessionService.slettSesjon(s.id);
+                  this.fourIndicationsSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);
@@ -155,7 +155,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.handJewelrySessionService.slettSesjon(s.id);
+                  this.handJewelrySessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);
@@ -172,7 +172,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.gloveSessionService.slettSesjon(s.id);
+                  this.gloveSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);
@@ -189,7 +189,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sesjonerFiltrert.splice(index, 1);
                   }
-                  this.protectiveEquipmentSessionService.slettSesjon(s.id);
+                  this.protectiveEquipmentSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error i sesjon:', error);

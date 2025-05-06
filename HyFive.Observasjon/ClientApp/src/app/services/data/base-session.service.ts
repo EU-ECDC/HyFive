@@ -5,7 +5,7 @@ import { InstitutionService } from './InstitutionService';
 import {AjaxResponse} from 'rxjs/ajax';
 import { DateHelper } from 'src/app/utils/datehelper';
 
-export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView, TSesjon extends Session<TObservasjon>, TObservasjon extends Observation>  {
+export abstract class BaseSessionService<TSessionView extends BaseSessionView, TSession extends Session<TObservation>, TObservation extends Observation>  {
 
   abstract sessionShowLocalStoragePath: string;
   abstract sessionLocalStoragePath: string;
@@ -14,26 +14,26 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     public institutionService: InstitutionService) {
   }
 
-  protected saveSessionViews(sessionViews: TSesjonsvisning[]) {
+  protected saveSessionViews(sessionViews: TSessionView[]) {
     localStorage.setItem(this.sessionShowLocalStoragePath, JSON.stringify(sessionViews));
   }
 
-  protected lagreSesjoner(sessions: TSesjon[]) {
-    localStorage.setItem(this.sessionLocalStoragePath, JSON.stringify(sessions, DateHelper.dateTimeSomLocaleStringReplacer));
+  protected saveSessions(sessions: TSession[]) {
+    localStorage.setItem(this.sessionLocalStoragePath, JSON.stringify(sessions, DateHelper.dateTimeAsLocaleStringReplacer));
   }
 
-  public slettSesjon(sessionId: string) {
+  public deleteSession(sessionId: string) {
     let sessions = this.getSessions().filter(s => s.id !== sessionId);
-    this.lagreSesjoner(sessions);
+    this.saveSessions(sessions);
     let sessionViews = this.getSessionViews().filter(s => s.sessionId !== sessionId);
     this.saveSessionViews(sessionViews);
   }
 
-  public getSessions(): TSesjon[] {
-    let sessions: TSesjon[] = [];
-    const sesjonerString = localStorage.getItem(this.sessionLocalStoragePath);
-    if (sesjonerString != null) {
-      sessions = JSON.parse(sesjonerString);
+  public getSessions(): TSession[] {
+    let sessions: TSession[] = [];
+    const sessionsString = localStorage.getItem(this.sessionLocalStoragePath);
+    if (sessionsString != null) {
+      sessions = JSON.parse(sessionsString);
     }
     return sessions.sort((s1, s2) => {
       if (s1.startTime == null && s2.startTime != null)
@@ -46,91 +46,91 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     });
   }
 
-  public updateSessionViewForSession(sessionView: TSesjonsvisning): TSesjonsvisning {
-    let eksisterendeSesjonsvisning = this.getSessionViewForSession(sessionView.sessionId);
-    if (eksisterendeSesjonsvisning) {
+  public updateSessionViewForSession(sessionView: TSessionView): TSessionView {
+    let existingSessionView = this.getSessionViewForSession(sessionView.sessionId);
+    if (existingSessionView) {
       let sessionViews = this.getSessionViews();
-      var eksisterendeSesjonsvisningIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
-      sessionViews[eksisterendeSesjonsvisningIndex] = sessionView;
+      var existingSessionViewIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
+      sessionViews[existingSessionViewIndex] = sessionView;
       this.saveSessionViews(sessionViews);
       return sessionView;
     }
   }
 
-  public oppdaterSesjon(sesjon: TSesjon) {
+  public updateSession(session: TSession) {
     var sessions = this.getSessions();
-    sessions[sessions.map(s => s.id).indexOf(sesjon.id)] = sesjon;
-    this.lagreSesjoner(sessions);
+    sessions[sessions.map(s => s.id).indexOf(session.id)] = session;
+    this.saveSessions(sessions);
   }
 
-  public getSessionViewForSession(sessionId: string): TSesjonsvisning {
-    return this.getSessionViews().filter(s => s.sessionId == sessionId)[0] as TSesjonsvisning;
+  public getSessionViewForSession(sessionId: string): TSessionView {
+    return this.getSessionViews().filter(s => s.sessionId == sessionId)[0] as TSessionView;
   }
 
-  protected getSessionViews(): TSesjonsvisning[] {
+  protected getSessionViews(): TSessionView[] {
     if (localStorage.getItem(this.sessionShowLocalStoragePath) != null) {
-      return JSON.parse(localStorage.getItem(this.sessionShowLocalStoragePath)) as TSesjonsvisning[];
+      return JSON.parse(localStorage.getItem(this.sessionShowLocalStoragePath)) as TSessionView[];
     }
     return [];
   }
 
-  public getSession(sessionId: string): TSesjon {
+  public getSession(sessionId: string): TSession {
     if (this.getSessions().filter(s => s.id == sessionId).length > 0) {
-      return this.getSessions().filter(s => s.id == sessionId)[0] as TSesjon;
+      return this.getSessions().filter(s => s.id == sessionId)[0] as TSession;
     }
     return null;
   }
 
-  public async registerObservation(observation: TObservasjon): Promise<void> {
-    var finnesEksisterendeSesjon = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
-    if (finnesEksisterendeSesjon == false) {
-      await this.opprettSesjonMedObservasjon(observation);
+  public async registerObservation(observation: TObservation): Promise<void> {
+    var existsExistingSession = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
+    if (existsExistingSession == false) {
+      await this.createSessionWithObservation(observation);
       return;
     }
 
     let sessions = this.getSessions();
-    var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observation.sessionId);
-    sessions[eksisterendeSesjonIndex].observations.push(observation);
-    this.lagreSesjoner(sessions);
+    var existingSessionIndex = sessions.map(s => s.id).indexOf(observation.sessionId);
+    sessions[existingSessionIndex].observations.push(observation);
+    this.saveSessions(sessions);
   }
 
-  public endreObservasjon(endretObservasjon: TObservasjon) {
+  public changeObservation(changedObservation: TObservation) {
     var sessions = this.getSessions();
-    var aktuellSesjon = sessions.find(s => s.id == endretObservasjon.sessionId);
-    var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
-    var observasjonSomEndres = aktuellSesjon.observations.find(o => o.id === endretObservasjon.id);
-    var observasjonIndeks = aktuellSesjon.observations.indexOf(observasjonSomEndres);
-    aktuellSesjon.observations[observasjonIndeks] = endretObservasjon;
-    sessions[aktuellSesjonIndeks] = aktuellSesjon;
-    this.lagreSesjoner(sessions);
+    var currentSession = sessions.find(s => s.id == changedObservation.sessionId);
+    var currentSessionIndex = sessions.indexOf(currentSession);
+    var observationAsChanged = currentSession.observations.find(o => o.id === changedObservation.id);
+    var observationIndex = currentSession.observations.indexOf(observationAsChanged);
+    currentSession.observations[observationIndex] = changedObservation;
+    sessions[currentSessionIndex] = currentSession;
+    this.saveSessions(sessions);
   }
 
-  public slettObservasjon(observasjonSomSkalSlettes: TObservasjon) {
+  public deleteObservation(observationToBeDeleted: TObservation) {
     var sessions = this.getSessions();
-    var aktuellSesjon = sessions.find(s => s.id == observasjonSomSkalSlettes.sessionId);
-    var aktuellSesjonIndeks = sessions.indexOf(aktuellSesjon);
-    aktuellSesjon.observations = aktuellSesjon.observations.filter(o => o.id !== observasjonSomSkalSlettes.id)
-    sessions[aktuellSesjonIndeks] = aktuellSesjon;
-    this.lagreSesjoner(sessions);
+    var currentSession = sessions.find(s => s.id == observationToBeDeleted.sessionId);
+    var currentSessionIndex = sessions.indexOf(currentSession);
+    currentSession.observations = currentSession.observations.filter(o => o.id !== observationToBeDeleted.id)
+    sessions[currentSessionIndex] = currentSession;
+    this.saveSessions(sessions);
   }
 
   public numberOfSessions() : number{
     return this.getSessions().length;
   }
 
-  protected async opprettSesjonMedObservasjon(observation: TObservasjon) {
+  protected async createSessionWithObservation(observation: TObservation) {
     let sessionView = this.getSessionViewForSession(observation.sessionId);
     let sessions = this.getSessions();
     let institution = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
-    let nySesjon = {
+    let newSession = {
       id: observation.sessionId,
       observations: [observation],
       startTime: new Date(),
       department: sessionView.department,
       institutionsName: institution.name
-    } as TSesjon;
-    sessions.push(nySesjon);
-    this.lagreSesjoner(sessions);
+    } as TSession;
+    sessions.push(newSession);
+    this.saveSessions(sessions);
   }
 
 }

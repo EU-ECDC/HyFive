@@ -12,7 +12,7 @@
 
       </div>
       <div class="mb-3">
-        <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="slettObservasjon()"
+        <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="deleteObservation()"
                                       [dialogmelding]="dialogueTexts.ObservationDeleteConfirmation">
           <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
         </app-slett-bekreftelsesdialog>
