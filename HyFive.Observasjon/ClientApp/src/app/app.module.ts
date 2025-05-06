@@ -25,7 +25,7 @@ import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-ind
 import { SlettBekrefelsesdialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
 import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
 import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
-import { SlettSkyggeComponent } from './registrering/slett-skygge/slett-skygge.component';
+import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shadow.component';
 import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
 import { HandsmykkerObservasjonskortComponent } from './registrering/handsmykker-observasjonskort/handsmykker-observasjonskort.component';
 import { HandsmykkerComponent } from './sessions/handsmykker/handsmykker.component';
@@ -96,7 +96,7 @@ export const httpInterceptorProviders = [
         RegistrereHandsmykkerComponent,
         HandsmykkerObservasjonskortComponent,
         SaveShadowComponent,
-        SlettSkyggeComponent,
+        DeleteShadowComponent,
         HandsmykkerComponent,
         RedigerHandsmykkerObservasjonComponent,
         RoleSelectDropdownComponent,

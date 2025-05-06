@@ -24,7 +24,7 @@
         <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
           <div class="col-12 text-center mb-2 mt-4">
             <button class="btn hh-transparent-button hh-transparent-button--small" (click)="fjernTidsregistrering()">
-              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
+              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Remove tidsregistrering</span>
             </button>
           </div>
         </div>
@@ -83,7 +83,7 @@
 
   </div>
 
-  <app-slett-skygge [show]="showDeleteShadow"></app-slett-skygge>
+  <app-delete-shadow [show]="showDeleteShadow"></app-delete-shadow>
 
   <app-info-modal [modalText]="observationDeficiencyText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
 </div>
