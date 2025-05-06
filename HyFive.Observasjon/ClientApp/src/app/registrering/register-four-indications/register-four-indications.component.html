@@ -5,13 +5,13 @@
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
   <ng-container *ngFor="let card of sessionView.card">
-    <app-fire-indikasjoner-observasjonskort (observationRegister)="registerObservation($event)"
+    <app-four-indications-observation-card (observationRegister)="registerObservation($event)"
                                             (sessionViewUpdate)="updateSessionView($event)"
                                             (cardIsSelectedEvent)="cardIsSelected($event)"
                                             [card]="card"
                                             [sessionView]="sessionView"
                                             [roleSelected]="sessionView.department.roles">
-    </app-fire-indikasjoner-observasjonskort>
+    </app-four-indications-observation-card>
   </ng-container>
 </div>
 

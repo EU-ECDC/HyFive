@@ -29,7 +29,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 export class HanskeObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
   comment: string;
-  observationDeficiencyText: string;
+  observationMissingText: string;
   showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
 
@@ -122,19 +122,19 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
 
     if (this.activeTab === "with") {
       if (this.gloveWithIndicationTypes.filter(h => h.isSelected).length === 0) {
-        this.observationDeficiencyText = "Indikasjon(er) mangler";
+        this.observationMissingText = "Indication(s) missing";
         this.showInfoModal = true;
         return true;
       }
       else if (this.hanskeBenyttet === null) {
-        this.observationDeficiencyText = "\"Glove brukt?\" må besvares";
+        this.observationMissingText = "\"Glove brukt?\" må besvares";
         this.showInfoModal = true;
         return true;
       }
     }
     else {
       if (this.gloveWithoutIndicationTypes.filter(h => h.isSelected).length === 0) {
-        this.observationDeficiencyText = "Indikasjon(er) mangler";
+        this.observationMissingText = "Indication(s) missing";
         this.showInfoModal = true;
         return true;
       }

@@ -28,7 +28,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
 
   comment: string;
-  observationDeficiencyText: string;
+  observationMissingText: string;
   showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
 
@@ -92,7 +92,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     let antallValgteHandsmykker = this.antallValgteHandsmykker();
 
     if (antallValgteHandsmykker < 1) {
-      this.observationDeficiencyText = "HandJewelry mangler";
+      this.observationMissingText = "HandJewelry mangler";
       this.showInfoModal = true;
     }
     return antallValgteHandsmykker < 1;

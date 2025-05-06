@@ -30,7 +30,7 @@ import {ProtectiveEquipmentSessionService} from "../../services/data/protectiveE
 export class ProtectiveEquipmentObservationCardComponent extends BaseKortSwipe implements OnInit {
 
   comment: string;
-  observationDeficiencyText: string;
+  observationMissingText: string;
   showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
   sessionsdata: ProtectiveEquipmentSession = null;
@@ -107,7 +107,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseKortSwipe i
     let numberOfQualifiedEquipment = this.protectiveEquipmentSessionService.numberOfQualifiedEquipment(this.ProtectiveEquipmentSelection);
 
     if (numberOfQualifiedEquipment < 1) {
-      this.observationDeficiencyText = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
+      this.observationMissingText = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
       this.showInfoModal = true;
     }
     return numberOfQualifiedEquipment < 1;

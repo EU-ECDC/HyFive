@@ -21,10 +21,10 @@ export class IndikasjonsValgComponent implements OnInit {
 
   indicationTypeSelection: IndicationTypeSelection[] = [];
 
-  @Input("erAktiv") erAktiv: boolean;
+  @Input("isActive") isActive: boolean;
   @Input("parentId") parentId: string;
   @Input("tilgjengeligeIndikasjoner") tilgjengeligeIndikasjoner: IndicationType[];
-  @Input("valgteIndikasjoner") valgteIndikasjoner: IndicationType[] = [];
+  @Input("selectedIndications") selectedIndications: IndicationType[] = [];
   @Input("isReadonly") isReadonly: boolean;
   @Output() indikasjonsValgChangedEvent = new EventEmitter<IndicationType[]>();
 
@@ -34,12 +34,12 @@ export class IndikasjonsValgComponent implements OnInit {
   ngOnInit(): void {
     this.indicationService.getIndicationTypes().subscribe((indicationTypes) => {
       this.tilgjengeligeIndikasjoner = indicationTypes;
-      this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, this.valgteIndikasjoner);
+      this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, this.selectedIndications);
     });
 
     this.observationEventService.observationResetEvent.subscribe((parentId) => {
       if (parentId == this.parentId) {
-        this.valgteIndikasjoner = [];
+        this.selectedIndications = [];
         this.indicationTypeSelection = IndicationTypeMapper.getIndicationTypeOption(this.tilgjengeligeIndikasjoner, []);
       }
     })

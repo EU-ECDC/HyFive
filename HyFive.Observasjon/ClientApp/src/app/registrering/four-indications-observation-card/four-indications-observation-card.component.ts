@@ -22,25 +22,25 @@ import { Activities } from '../../constants/Activities';
 
 
 @Component({
-  selector: 'app-fire-indikasjoner-observasjonskort',
-  templateUrl: './fire-indikasjoner-observasjonskort.component.html',
+  selector: 'app-four-indications-observation-card',
+  templateUrl: './four-indications-observation-card.component.html',
   animations: [
     Animations.swipeLeftRight
   ]
 })
-export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
+export class FourIndicationsObservationCardComponent extends BaseKortSwipe implements OnInit {
 
   ActivityTypeConstants = ActivityTypeConstants;
   comment: string;
   activity: Activity;
   activityTypes: ActivityType[];
-  valgteIndikasjoner: IndicationType[] = new Array();
-  aktivitetUnderRegistrering: ActivityUnderRegistration = null;
-  observationDeficiencyText: string;
+  selectedIndications: IndicationType[] = new Array();
+  activityUnderRegistration: ActivityUnderRegistration = null;
+  observationMissingText: string;
   showInfoModal: boolean = false;
   dialogueTexts = DialogueTexts;
-  sprit: string = Activities.Alcohol;
-  vask: string = Activities.Wash;
+  alcohol: string = Activities.Alcohol;
+  wash: string = Activities.Wash;
 
   faEraser = faEraser;
   faSave = faSave;
@@ -75,7 +75,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     });
     this.observationEventService.registrationActivityHasBegun.subscribe(activity => {
       if (activity.parentId == this.card.id) {
-        this.aktivitetUnderRegistrering = activity;
+        this.activityUnderRegistration = activity;
       }
     })
   }
@@ -95,22 +95,22 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
 
   resetCard() {
     this.comment = "";
-    this.valgteIndikasjoner = [];
+    this.selectedIndications = [];
     this.activity = null;
-    this.aktivitetUnderRegistrering = null;
+    this.activityUnderRegistration = null;
     this.observationEventService.observationResetEvent.emit(this.card.id);
   }
 
   canNotSave(): boolean {
-    if (this.valgteIndikasjoner?.length === 0) {
-      this.observationDeficiencyText = "Indikasjon(er) mangler";
+    if (this.selectedIndications?.length === 0) {
+      this.observationMissingText = "Indication(s) missing";
       this.showInfoModal = true;
     }
     else if (!this.activity) {
-      this.observationDeficiencyText = "Activity mangler";
+      this.observationMissingText = "Activity missing";
       this.showInfoModal = true;
     }
-    return !(this.valgteIndikasjoner?.length && this.activity);
+    return !(this.selectedIndications?.length && this.activity);
   }
 
   registerObservation() {
@@ -120,7 +120,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       comment: this.comment,
       role: this.card.role,
       activity: this.activity,
-      indicationTypes: this.valgteIndikasjoner,
+      indicationTypes: this.selectedIndications,
       registrationTime: new Date(Date.now())
     }
 
@@ -135,25 +135,25 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.activity = activity;
   }
 
-  fjernTidsregistrering(){
+  removeTimeRegistration(){
     this.activity.timeSpent = 0;
     this.activity.timeRecordingWasDone = false;
   }
-  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
-    this.valgteIndikasjoner = valgteIndikasjoner;
+  indicationSelectionChanged(selectedIndications: IndicationType[]) {
+    this.selectedIndications = selectedIndications;
   }
 
   registerComment(comment: string) {
     this.comment = comment;
   }
 
-  skalAktivitetDeaktiveres(aktivitetTypeKode: string) {
+  ShouldActivityDeactivated(activityTypeCode: string) {
     return this.activity != null
-      || (this.aktivitetUnderRegistrering != null && this.aktivitetUnderRegistrering.activityType.code != aktivitetTypeKode)
+      || (this.activityUnderRegistration != null && this.activityUnderRegistration.activityType.code != activityTypeCode)
   }
 
-  isRegistered(aktivitetTypeKode: string) {
-    return this.activity?.activityType.code == aktivitetTypeKode;
+  isRegistered(activityTypeCode: string) {
+    return this.activity?.activityType.code == activityTypeCode;
   }
 
   cardIsSelected() {
@@ -161,7 +161,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     this.cardIsSelectedEvent.emit(this.card);
   }
 
-  getAktivitetType(code: string) {
+  getAktivityType(code: string) {
     return this.activityTypes?.find(x => x.code === code);
   }
 

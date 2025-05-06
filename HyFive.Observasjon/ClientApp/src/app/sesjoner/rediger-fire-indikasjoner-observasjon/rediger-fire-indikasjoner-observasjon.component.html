@@ -32,10 +32,10 @@
                                      (roleSelectedEvent)="observation.role = $event">
             </app-role-selection-dropdown>
           </ng-container>
-          <app-indikasjonsvalg [valgteIndikasjoner]="observation.indicationTypes"
-                               (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
+          <app-indikasjonsvalg [selectedIndications]="observation.indicationTypes"
+                               (indikasjonsValgChangedEvent)="indicationSelectionChanged($event)"
                                [isReadonly]="!erRedigeringsmodus"
-                               [erAktiv]="erRedigeringsmodus"
+                               [isActive]="erRedigeringsmodus"
                                [parentId]="observation.id">
           </app-indikasjonsvalg>
         </div>
@@ -44,11 +44,11 @@
             <div class="hh-vertical-stadium-buttons">
               <div class="hh-vertical-stadium-buttons__button">
                 <app-register-activity class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) }"
-                                         [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
-                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Disinfection) }"
+                                         [activityType]="getAktivityType(ActivityTypeConstants.Disinfection)"
+                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Disinfection)"
                                          [timekeeping]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observation.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Disinfection) ? observation.aktivitet?.timeSpent : 0"
                                          [disabled]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -57,11 +57,11 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-register-activity class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Handvask) }"
-                                         [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
-                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Handvask)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Handwash) }"
+                                         [activityType]="getAktivityType(ActivityTypeConstants.Handwash)"
+                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Handwash)"
                                          [timekeeping]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observation.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handwash) ? observation.aktivitet?.timeSpent : 0"
                                          [disabled]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -83,7 +83,7 @@
       <div class="row mt-n3" *ngIf="erRedigeringsmodus && observation.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
         <div class="col-12 text-center mb-2">
           <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.timeSpent = 0">
-            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Remove tidsregistrering</span>
+            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Remove time registration</span>
           </button>
         </div>
       </div>

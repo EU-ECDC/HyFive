@@ -53,7 +53,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
   showInfoModal = false;
-  observationDeficiencyText: any;
+  observationMissingText: any;
 
 
   ngOnInit(): void {
@@ -136,7 +136,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   closeInfoModal($event: boolean) {
     this.showInfoModal = $event;
     if(this.showInfoModal === false){
-      this.observationDeficiencyText = null;
+      this.observationMissingText = null;
     }
   }
 }

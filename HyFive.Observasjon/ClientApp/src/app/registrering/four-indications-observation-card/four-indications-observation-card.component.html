@@ -16,15 +16,15 @@
       <div class="d-flex flex-column justify-content-start">
         <app-role-selection-dropdown *ngIf="roleSelected" [rolleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
-        <app-indikasjonsvalg (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
-                             [erAktiv]="card.isActive"
+        <app-indikasjonsvalg (indikasjonsValgChangedEvent)="indicationSelectionChanged($event)"
+                             [isActive]="card.isActive"
                              [parentId]="card.id">
         </app-indikasjonsvalg>
 
         <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
           <div class="col-12 text-center mb-2 mt-4">
-            <button class="btn hh-transparent-button hh-transparent-button--small" (click)="fjernTidsregistrering()">
-              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Remove tidsregistrering</span>
+            <button class="btn hh-transparent-button hh-transparent-button--small" (click)="removeTimeRegistration()">
+              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
             </button>
           </div>
         </div>
@@ -41,34 +41,34 @@
         <div class="d-flex justify-content-around">
           <div class="hh-vertical-stadium-buttons">
             <div class="hh-vertical-stadium-buttons__button">
-              <app-register-activity [disabled]="skalAktivitetDeaktiveres(ActivityTypeConstants.Desinfeksjon)"
-                                       [isRegistered]="isRegistered(ActivityTypeConstants.Desinfeksjon)"
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Disinfection)"
+                                       [isRegistered]="isRegistered(ActivityTypeConstants.Disinfection)"
                                        [parentId]="card.id"
                                        [seconds]="activity?.timeSpent"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
-                                       [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
+                                       [activityType]="getAktivityType(ActivityTypeConstants.Disinfection)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandHoldingWater"
                                        (activityRegisteredEvent)="registerActivity($event)">
               </app-register-activity>
             </div>
             <div class="hh-vertical-stadium-buttons__button">
-              <app-register-activity [disabled]="skalAktivitetDeaktiveres(ActivityTypeConstants.Handvask)"
-                                       [isRegistered]="isRegistered(ActivityTypeConstants.Handvask)"
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Handwash)"
+                                       [isRegistered]="isRegistered(ActivityTypeConstants.Handwash)"
                                        [parentId]="card.id"
                                        [seconds]="activity?.timeSpent"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
-                                       [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
+                                       [activityType]="getAktivityType(ActivityTypeConstants.Handwash)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandsWash"
                                        (activityRegisteredEvent)="registerActivity($event)">
               </app-register-activity>
             </div>
             <div class="hh-vertical-stadium-buttons__button pt-0">
-              <app-register-activity [disabled]="skalAktivitetDeaktiveres(ActivityTypeConstants.NotExecuted)"
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.NotExecuted)"
                                       [isRegistered]="isRegistered(ActivityTypeConstants.NotExecuted)"
                                       [parentId]="card.id"
-                                      [activityType]="getAktivitetType(ActivityTypeConstants.NotExecuted)"
+                                      [activityType]="getAktivityType(ActivityTypeConstants.NotExecuted)"
                                       [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                       [icon]="faTimesCircle"
                                       (activityRegisteredEvent)="registerActivity($event)">
@@ -85,5 +85,5 @@
 
   <app-delete-shadow [show]="showDeleteShadow"></app-delete-shadow>
 
-  <app-info-modal [modalText]="observationDeficiencyText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
+  <app-info-modal [modalText]="observationMissingText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
 </div>

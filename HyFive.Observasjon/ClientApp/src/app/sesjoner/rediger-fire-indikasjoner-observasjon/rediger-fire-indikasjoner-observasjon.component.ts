@@ -35,8 +35,8 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   showActivityTypeNotExecuted: boolean = false;
   hanskebrukTekst: string;
   ikkeUtfortAktivitet: Activity;
-  sprit: string = Activities.Alcohol;
-  vask: string = Activities.Wash;
+  alcohol: string = Activities.Alcohol;
+  wash: string = Activities.Wash;
 
   faHandHoldingWater = faHandHoldingWater;
   faHandsWash = faHandsWash;
@@ -112,12 +112,12 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
       activity.timeRecordingWasDone = activity.timeSpent > 0;
       this.observation.activity = activity;
       if (this.observation.activity.activityType.code === ActivityTypeConstants.Handwash) {
-        this.vask = '';
-        this.sprit = Activities.Alcohol;
+        this.wash = '';
+        this.alcohol = Activities.Alcohol;
       }
       else {
-        this.sprit = '';
-        this.vask = Activities.Wash;
+        this.alcohol = '';
+        this.wash = Activities.Wash;
       }
     }
   }
@@ -134,8 +134,8 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     }
   }
 
-  indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
-    this.observation.indicationTypes = valgteIndikasjoner;
+  indicationSelectionChanged(selectedIndications: IndicationType[]) {
+    this.observation.indicationTypes = selectedIndications;
   }
 
   lagreObservasjon() {
@@ -155,11 +155,11 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     this.observasjonSlettetEvent.emit();
   }
 
-  erAktivitetValgt(aktivitetTypeKode: string): boolean {
-    return this.observation.activity.activityType.code === aktivitetTypeKode;
+  erAktivitetValgt(activityTypeCode: string): boolean {
+    return this.observation.activity.activityType.code === activityTypeCode;
   }
 
-  getAktivitetType(code: string) {
+  getAktivityType(code: string) {
     return this.activityTypes?.find(x => x.code === code);
   }
 

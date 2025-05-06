@@ -10,7 +10,7 @@
       <fa-stack class="hh-round-checkbox-list__iconstack">
         <fa-icon [icon]="faCircle" stackItemSize="2x"
                  class="hh-round-checkbox-list__circle"
-                 [ngClass]="{'hh-round-checkbox-list__circle--chosen': indication.isSelected, 'hh-round-checkbox-list__circle--active': erAktiv}">
+                 [ngClass]="{'hh-round-checkbox-list__circle--chosen': indication.isSelected, 'hh-round-checkbox-list__circle--active': isActive}">
         </fa-icon>
         <fa-icon [icon]="iconTypeMap.get(indication.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indication.isSelected"><span [ngStyle]="{'display': (isSelected) ? 'none' : 'block'}" *ngIf="!indication.isSelected">{{indication.nummer}}</span></fa-icon>
         <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="indication.isSelected"></fa-icon>
