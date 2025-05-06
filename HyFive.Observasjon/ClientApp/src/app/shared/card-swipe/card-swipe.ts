@@ -1,10 +1,10 @@
 import { Directive } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AnimationsConfig, AnimationStates } from '../../shared/animasjoner/animasjoner';
+import { AnimationsConfig, AnimationStates } from '../animasjoner/animasjoner';
 import { DialogModalComponent, DialogModalComponentConfig } from "../dialog-modal/dialog-modal.component";
 
 @Directive()
-export abstract class BaseKortSwipe {
+export abstract class BaseCardSwipe {
 
   transform: string = "";
   animation: string = "";
@@ -76,7 +76,7 @@ export abstract class BaseKortSwipe {
     this.animation = AnimationStates.swipeLeft;
 
     setTimeout(async () => {
-      if (await this.skalSletteKort()) {
+      if (await this.shouldDeleteCard()) {
         this.resetCard();
         setTimeout(() => {
           this.deleteCard();
@@ -113,14 +113,14 @@ export abstract class BaseKortSwipe {
     }, AnimationsConfig.swipeRightAnimationDuration);
   }
 
-  async skalSletteKort(): Promise<boolean> {
+  async shouldDeleteCard(): Promise<boolean> {
     const modalRef = this.modalService.open(DialogModalComponent, {
       keyboard: false,
       ariaLabelledBy: 'modal-basic-title',
       windowClass: DialogModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.melding = "Ønsker du å slette dette kortet?";
+    modalRef.componentInstance.message = "Do you want to delete this card?";
 
     return await modalRef.result.then((result: boolean) => {
       return result;

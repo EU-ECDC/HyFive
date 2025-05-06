@@ -8,7 +8,7 @@ import { Animations } from '../../shared/animasjoner/animasjoner';
 import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { Colors } from '../../utils/colors';
-import { BaseKortSwipe } from '../../shared/kort-swipe/kort-swipe';
+import { BaseCardSwipe } from '../../shared/card-swipe/card-swipe';
 import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../models/api/Role';
 import { IndicationType } from '../../models/api/IndicationType';
@@ -28,7 +28,7 @@ import { Activities } from '../../constants/Activities';
     Animations.swipeLeftRight
   ]
 })
-export class FourIndicationsObservationCardComponent extends BaseKortSwipe implements OnInit {
+export class FourIndicationsObservationCardComponent extends BaseCardSwipe implements OnInit {
 
   ActivityTypeConstants = ActivityTypeConstants;
   comment: string;

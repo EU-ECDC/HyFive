@@ -4,7 +4,7 @@ import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@forta
 import { Role } from "src/app/models/api/Role";
 import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
-import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
+import { BaseCardSwipe } from "../../shared/card-swipe/card-swipe";
 import { Colors } from "../../utils/colors";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ProtectiveEquipmentSessionView } from "../../models/registration/protectiveEquipment-sessionView.model";
@@ -27,7 +27,7 @@ import {ProtectiveEquipmentSessionService} from "../../services/data/protectiveE
     Animations.swipeLeftRight
   ]
 })
-export class ProtectiveEquipmentObservationCardComponent extends BaseKortSwipe implements OnInit {
+export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe implements OnInit {
 
   comment: string;
   observationMissingText: string;

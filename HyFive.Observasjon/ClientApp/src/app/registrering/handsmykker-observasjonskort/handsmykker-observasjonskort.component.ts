@@ -8,7 +8,7 @@ import { HandJewelryObservation } from 'src/app/models/api/HandJewelryObservatio
 import { Card } from "src/app/models/registration/card.model";
 import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { Animations } from "../../shared/animasjoner/animasjoner";
-import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
+import { BaseCardSwipe } from "../../shared/card-swipe/card-swipe";
 import { Colors } from "../../utils/colors";
 import { HandJewelrySelection } from "../../models/registration/handJewelry-selection.model";
 import { HandJewelryMapper } from "../../utils/handJewelry-mapper";
@@ -25,7 +25,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
     Animations.swipeLeftRight
   ]
 })
-export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implements OnInit {
+export class HandsmykkerObservasjonskortComponent extends BaseCardSwipe implements OnInit {
 
   comment: string;
   observationMissingText: string;

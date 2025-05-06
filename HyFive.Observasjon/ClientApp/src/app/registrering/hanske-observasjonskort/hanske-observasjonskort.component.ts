@@ -5,7 +5,7 @@ import { faHandPaper } from "@fortawesome/free-regular-svg-icons";
 import { Role } from "src/app/models/api/Role";
 import { Card } from "src/app/models/registration/card.model";
 import { Animations } from "../../shared/animasjoner/animasjoner";
-import { BaseKortSwipe } from "../../shared/kort-swipe/kort-swipe";
+import { BaseCardSwipe } from "../../shared/card-swipe/card-swipe";
 import { Colors } from "../../utils/colors";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GloveSession } from "../../models/api/GloveSession";
@@ -26,7 +26,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
     Animations.swipeLeftRight
   ]
 })
-export class HanskeObservasjonskortComponent extends BaseKortSwipe implements OnInit {
+export class HanskeObservasjonskortComponent extends BaseCardSwipe implements OnInit {
 
   comment: string;
   observationMissingText: string;
