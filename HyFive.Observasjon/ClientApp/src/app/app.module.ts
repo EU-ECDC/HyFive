@@ -42,7 +42,7 @@ import { BeskyttelsesutstyrComponent } from './sessions/beskyttelsesutstyr/besky
 import { AccordionComponent } from './shared/accordion/accordion.component';
 import { SesjonsredigeringOverskriftComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
 import { ToastrModule } from 'ngx-toastr';
-import { ProtectiveEquipmentModalComponent } from './registrering/beskyttelsesutstyr-modal/protective-equipment-modal.component';
+import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { NyttKortModalComponent } from './registrering/nytt-kort-modal/nytt-kort-modal.component';
 import { SendteFireIndikasjonerSesjonComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
 import { RedigerBeskyttelsesutstyrObservasjonComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';

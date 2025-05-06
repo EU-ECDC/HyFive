@@ -9,7 +9,7 @@ import { Department } from '../../models/api/Department';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../../registrering/beskyttelsesutstyr-modal/protective-equipment-modal.component';
+import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../../registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { SessionType } from 'src/app/models/api/SessionType';
 import {ToastrService} from "ngx-toastr";
 

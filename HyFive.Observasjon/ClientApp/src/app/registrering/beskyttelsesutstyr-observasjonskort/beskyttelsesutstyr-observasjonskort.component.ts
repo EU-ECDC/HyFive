@@ -14,7 +14,7 @@ import { ProtectiveEquipmentMapper } from '../../utils/protectiveEquipment-mappe
 import { ProtectiveEquipmentSession } from '../../models/api/ProtectiveEquipmentSession';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from "../beskyttelsesutstyr-modal/protective-equipment-modal.component";
+import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from "../protective-equipment-modal/protective-equipment-modal.component";
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
