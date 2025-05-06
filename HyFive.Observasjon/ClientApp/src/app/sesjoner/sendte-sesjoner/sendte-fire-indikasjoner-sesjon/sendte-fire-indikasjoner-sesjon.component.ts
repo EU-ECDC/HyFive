@@ -30,7 +30,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   Urls = Urls;
 
   constructor(
-    private sesjonService: SentSessionsService,
+    private sessionService: SentSessionsService,
     private router: Router,
     private route: ActivatedRoute,
     private activityService: ActivityService,
@@ -44,7 +44,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         if(sessionId === 0) this.router.navigate(['']);
-        this.sesjonService.getFourIndicationsSession(sessionId).subscribe(
+        this.sessionService.getFourIndicationsSession(sessionId).subscribe(
           (sesjon) => {
             this.sesjon = sesjon;
             if (!this.sesjon) this.router.navigate(['']);
@@ -102,7 +102,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.downloadFourIndicationsSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sessionService.downloadFourIndicationsSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

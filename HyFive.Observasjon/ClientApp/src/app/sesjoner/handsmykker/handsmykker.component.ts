@@ -37,7 +37,7 @@ export class HandsmykkerComponent implements OnInit {
   handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
-    private sesjonService: HandJewelrySessionService,
+    private sessionService: HandJewelrySessionService,
     private handJewelryTypeService: HandJewelryTypeService,
     private router: Router,
     private route: ActivatedRoute,
@@ -50,7 +50,7 @@ export class HandsmykkerComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sessionId);
+        this.sesjon = this.sessionService.getSession(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
@@ -59,7 +59,7 @@ export class HandsmykkerComponent implements OnInit {
   }
   
   sesjonSlettetEventHandler(id: string) {
-    this.sesjonService.slettSesjon(id);
+    this.sessionService.slettSesjon(id);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
@@ -68,7 +68,7 @@ export class HandsmykkerComponent implements OnInit {
   }
 
   observasjonSlettetEventHandler($event: FourIndicationsObservation) {
-    this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
+    this.sesjon = this.sessionService.getSession(this.sesjon.id);
   }
 
   navigerTilSendteSesjoner() {
@@ -81,9 +81,9 @@ export class HandsmykkerComponent implements OnInit {
 
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
-    this.sesjonService.sendToServer(this.sesjon.id).subscribe(res => {
+    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
       this.toastrService.success("Session ble sendt til koordinator");
-      this.sesjonService.slettSesjon(this.sesjon.id);
+      this.sessionService.slettSesjon(this.sesjon.id);
       this.sesjonErSendtTilServer = true;
     },
       error => {

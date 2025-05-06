@@ -103,7 +103,7 @@ export abstract class BaseKortSwipe {
         }, AnimationsConfig.initialErrorAnimationDuration);
       }
       else {
-        this.registrerObservasjon();
+        this.registerObservation();
 
         this.animation = AnimationStates.initialOk;
         setTimeout(() => {
@@ -130,7 +130,7 @@ export abstract class BaseKortSwipe {
   }
 
   abstract kanIkkeLagre();
-  abstract registrerObservasjon();
+  abstract registerObservation();
   abstract nullstillKort();
   abstract slettKort();
 }

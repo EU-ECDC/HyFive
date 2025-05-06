@@ -34,7 +34,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   faTrashAlt = faTrashAlt;
 
   constructor(
-    private sesjonService: HandJewelrySessionService,
+    private sessionService: HandJewelrySessionService,
     private handJewelryTypeService: HandJewelryTypeService
   ) { }
 
@@ -70,12 +70,12 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];
-    this.sesjonService.endreObservasjon(this.observation);
+    this.sessionService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observation);
+    this.sessionService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 

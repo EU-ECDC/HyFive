@@ -45,7 +45,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   faTimesCircle = faTimesCircle;
 
   constructor(
-    private sesjonService: FourIndicationsSessionService,
+    private sessionService: FourIndicationsSessionService,
     private activityService: ActivityService
   ) {
     this.ActivityTypeNotExecutedSelection = ActivityTypeNotExecutedMapper.getNameMap();
@@ -145,13 +145,13 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.observation.activity.timeSpent = 0;
     }
-    this.sesjonService.endreObservasjon(this.observation);
+    this.sessionService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
     this.ikkeUtfortAktivitet = null;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observation);
+    this.sessionService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 

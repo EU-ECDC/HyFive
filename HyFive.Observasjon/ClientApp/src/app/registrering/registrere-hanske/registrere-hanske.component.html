@@ -6,9 +6,9 @@
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
   <ng-container *ngFor="let card of sessionView.card">
-    <app-hanske-observasjonskort (observasjonRegistrert)="registrerObservasjon($event)"
-                                 (sesjonsvisningOppdatert)="oppdaterSesjonsvisning($event)"
-                                 (kortErValgtEvent)="kortErValgt($event)"
+    <app-hanske-observasjonskort (observasjonRegistrert)="registerObservation($event)"
+                                 (sesjonsvisningOppdatert)="updateSessionView($event)"
+                                 (kortErValgtEvent)="cardIsSelected($event)"
                                  [card]="card"
                                  [sessionView]="sessionView"
                                  [roleSelected]="roles">
@@ -16,8 +16,8 @@
   </ng-container>
 </div>
 
-<app-nytt-kort-info [visTomForKortTekst]="visTomForKortTekst"></app-nytt-kort-info>
-<app-nytt-kort-modal [roles]="roles" (onClose)="onCloseNyttKortModal($event)" (onDismiss)="onDismissNyttKortModal($event)">
+<app-nytt-kort-info [showEmptyForShortText]="showEmptyForShortText"></app-nytt-kort-info>
+<app-nytt-kort-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
 </app-nytt-kort-modal>
 
 <app-hjelpetekst

@@ -1,0 +1,51 @@
+<ng-container *ngIf="changeSettingMode == false">
+  <div class="container">
+    <app-observasjonsteller [sessionsdata]="sessionsdata" [url]="Urls.ProtectiveEquipmentSessionUrl"></app-observasjonsteller>
+    <div class="mb-4">
+      <app-navigasjonslenke (lenkeKlikket)="changeSettingMode = true">For protective equipment</app-navigasjonslenke>
+    </div>
+    <h1 class="h3 mt-n4 mt-xl-0">{{sessionView.setting.name}}</h1>
+    <div class="row">
+      <div class="col">
+        <div *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
+          <ng-container *ngFor="let card of sessionView.card">
+            <app-beskyttelsesutstyr-observasjonskort (observasjonRegistrert)="registerObservation($event)"
+                                                     (sesjonsvisningOppdatert)="updateSessionView($event)"
+                                                     (kortErValgtEvent)="cardIsSelected($event)"
+                                                     [card]="card"
+                                                     [sessionView]="sessionView"
+                                                     [roleSelected]="roles">
+            </app-beskyttelsesutstyr-observasjonskort>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-nytt-kort-info [showEmptyForShortText]="showEmptyForShortText"></app-nytt-kort-info>
+  <app-nytt-kort-modal [roles="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
+  </app-nytt-kort-modal>
+
+</ng-container>
+
+<ng-container *ngIf="changeSettingMode">
+  <app-valg-for-beskyttelsesutstyr (settingEquipmentWasChanged)="settingEquipmentWasChanged($event)" [sessionView]="sessionView"></app-valg-for-beskyttelsesutstyr>
+</ng-container>
+
+<app-hjelpetekst
+  [tittel]="'Tips og triks - observere beskyttelsesutstyr'">
+  <p>
+    You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
+
+    You register protective equipment by clicking on the icons in the card.
+    
+    If no protective equipment is used, you must save the card without any checkmarks to register the observation.
+    
+    If you find out along the way that an <b>Indicated</b> equipment is <b>Not indicated</b> or vice versa, you can drag and drop the equipment as you wish between the <b>Indicated</b> and <b>Not indicated</b> fields on the card.
+  </p>
+  <p>
+    When you are finished, you can drag the card to the right to save the observation.
+    If you have registered any errors, you must press "Clear card" - then the card will reset itself.
+    If you want to remove a card from the list, you can drag the card to the left.
+  </p>
+</app-hjelpetekst>

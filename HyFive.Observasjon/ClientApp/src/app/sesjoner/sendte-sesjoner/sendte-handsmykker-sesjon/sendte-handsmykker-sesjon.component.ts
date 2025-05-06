@@ -27,7 +27,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private sesjonService: SentSessionsService,
+    private sessionService: SentSessionsService,
     private handJewelryTypeService: HandJewelryTypeService,
     private toastrService: ToastrService) { }
 
@@ -35,7 +35,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(params => {
       const sessionId = params[Queryparameters.SessionId] || 0;
       if (sessionId === 0) this.router.navigate(['']);
-      this.sesjonService.getHandJewelrySession(sessionId).subscribe(
+      this.sessionService.getHandJewelrySession(sessionId).subscribe(
         (sesjon) => {
           this.sesjon = sesjon;
           if (!sesjon) this.router.navigate(['']);
@@ -61,7 +61,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sesjonService.downloadHandJewelrySessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sessionService.downloadHandJewelrySessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

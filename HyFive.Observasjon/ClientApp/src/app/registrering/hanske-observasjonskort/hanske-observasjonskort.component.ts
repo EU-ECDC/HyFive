@@ -148,7 +148,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
-  registrerObservasjon() {
+  registerObservation() {
     let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
@@ -168,7 +168,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     this.card.isActive = false;
   }
 
-  kortErValgt() {
+  cardIsSelected() {
     this.card.isActive = true;
     this.kortErValgtEvent.emit(this.card);
   }

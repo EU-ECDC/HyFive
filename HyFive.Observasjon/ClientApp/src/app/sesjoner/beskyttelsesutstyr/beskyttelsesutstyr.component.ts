@@ -34,7 +34,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
 
 
   constructor(
-    private sesjonService: ProtectiveEquipmentSessionService,
+    private sessionService: ProtectiveEquipmentSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -45,7 +45,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
     this.route.queryParams.subscribe(
       params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sessionId);
+        this.sesjon = this.sessionService.getSession(sessionId);
         this.institutionid = this.sesjon.department.institutionId;
         if(!this.sesjon) this.router.navigate(['']);
       }
@@ -61,7 +61,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   }
 
   sesjonSlettetEventHandler(sessionId: string) {
-    this.sesjonService.slettSesjon(sessionId);
+    this.sessionService.slettSesjon(sessionId);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
@@ -73,14 +73,14 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   }
 
   observasjonSlettetEventHandler($event: ProtectiveEquipmentObservation) {
-    this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
+    this.sesjon = this.sessionService.getSession(this.sesjon.id);
   }
 
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
-    this.sesjonService.sendToServer(this.sesjon.id).subscribe(res => {
+    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
         this.toastrService.success("Session ble sendt til koordinator");
-        this.sesjonService.slettSesjon(this.sesjon.id);
+        this.sessionService.slettSesjon(this.sesjon.id);
         this.sesjonErSendtTilServer = true;
         this.sesjonSendesTilServer = false;
       },

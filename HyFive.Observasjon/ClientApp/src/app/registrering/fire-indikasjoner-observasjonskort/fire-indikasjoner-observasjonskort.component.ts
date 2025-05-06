@@ -113,7 +113,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     return !(this.valgteIndikasjoner?.length && this.activity);
   }
 
-  registrerObservasjon() {
+  registerObservation() {
     let observation: FourIndicationsObservation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
@@ -156,7 +156,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     return this.activity?.activityType.code == aktivitetTypeKode;
   }
 
-  kortErValgt() {
+  cardIsSelected() {
     this.card.isActive = true;
     this.kortErValgtEvent.emit(this.card);
   }

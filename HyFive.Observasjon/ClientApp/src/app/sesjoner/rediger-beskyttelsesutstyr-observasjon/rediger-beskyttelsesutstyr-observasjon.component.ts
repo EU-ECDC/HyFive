@@ -36,7 +36,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   faCheck = faCheck;
 
   constructor(
-    private sesjonService: ProtectiveEquipmentSessionService,
+    private sessionService: ProtectiveEquipmentSessionService,
     private modalService: NgbModal,
     private toastrService: ToastrService) { }
 
@@ -65,13 +65,13 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       return;
     }
     if (this.erRedigeringsmodus) {
-      this.sesjonService.endreObservasjon(this.observation);
+      this.sessionService.endreObservasjon(this.observation);
     }
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observation);
+    this.sessionService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
@@ -165,6 +165,6 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   canSave() {
-    return this.sesjonService.numberOfQualifiedEquipment(this.observation.protectiveEquipmentList) > 0;
+    return this.sessionService.numberOfQualifiedEquipment(this.observation.protectiveEquipmentList) > 0;
   }
 }

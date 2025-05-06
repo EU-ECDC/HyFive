@@ -34,7 +34,7 @@ import { RolleValgDropdownComponent } from './registrering/rolle-valg-dropdown/r
 import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
 import { SesjonsoversiktComponent } from './sessions/sesjonsoversikt/sesjonsoversikt.component';
 //import { FhiAccordionModule } from '@folkehelseinstituttet/ng-components';
-import { RegistrereBeskyttelsesutstyrComponent } from './registrering/registrere-beskyttelsesutstyr/registrere-beskyttelsesutstyr.component';
+import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
 import { BeskyttelsesutstyrObservasjonskortComponent } from './registrering/beskyttelsesutstyr-observasjonskort/beskyttelsesutstyr-observasjonskort.component';
 import { ValgForBeskyttelsesutstyrComponent } from './startside/valg-for-beskyttelsesutstyr/valg-for-beskyttelsesutstyr.component';
 import { NavigasjonslenkeComponent } from './shared/navigasjonslenke/navigasjonslenke.component';
@@ -102,7 +102,7 @@ export const httpInterceptorProviders = [
         RolleValgDropdownComponent,
         SendteSesjonerComponent,
         SesjonsoversiktComponent,
-        RegistrereBeskyttelsesutstyrComponent,
+        RegisterProtectiveEquipmentComponent,
         BeskyttelsesutstyrObservasjonskortComponent,
         ValgForBeskyttelsesutstyrComponent,
         NavigasjonslenkeComponent,

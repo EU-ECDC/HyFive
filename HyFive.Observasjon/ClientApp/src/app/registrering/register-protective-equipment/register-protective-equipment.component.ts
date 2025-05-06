@@ -16,21 +16,21 @@ import { MainMenuEventService } from '../../services/events/main-menu-event.serv
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-registrere-beskyttelsesutstyr',
-  templateUrl: './registrere-beskyttelsesutstyr.component.html'
+  selector: 'app-register-protective-equipment',
+  templateUrl: './register-protective-equipment.component.html'
 })
 
-export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy {
+export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sessionView: ProtectiveEquipmentSessionView;
   sessionsdata: ProtectiveEquipmentSession = null;
   mainMenuIsOpen: boolean;
-  visTomForKortTekst: boolean = false;
+  showEmptyForShortText: boolean = false;
 
   roles: Role[];
-  visRolleliste: boolean = false;
-  endreSettingModus: boolean = false;
+  showRoleList: boolean = false;
+  changeSettingMode: boolean = false;
 
   faPlus = faPlus;
   faClipboard = faClipboard;
@@ -38,7 +38,7 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
   faCircle = faCircle;
 
   constructor(
-    private sesjonService: ProtectiveEquipmentSessionService,
+    private sessionService: ProtectiveEquipmentSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private institutionService: InstitutionService,
@@ -55,67 +55,67 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sessionView = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
+        this.sessionView = this.sessionService.getSessionViewForSession(sessionId);
         if (!this.sessionView) this.router.navigate(['']);
-        else this.lastSesjonsdata();
+        else this.loadSessionData();
       });
       if(this.sessionView.card?.length === 0)
-        this.visTomForKortTekst = true;
+        this.showEmptyForShortText = true;
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observation: ProtectiveEquipmentObservation) {
-    await this.sesjonService.registrerObservasjon(observation);
-    this.toastrService.success("Observasjonen ble lagret");
-    this.lastSesjonsdata();
+  async registerObservation(observation: ProtectiveEquipmentObservation) {
+    await this.sessionService.registerObservation(observation);
+    this.toastrService.success("Observation was saved");
+    this.loadSessionData();
   }
 
-  lastSesjonsdata() {
-    this.sessionsdata = this.sesjonService.hentSesjon(this.sessionView.sessionId);
+  loadSessionData() {
+    this.sessionsdata = this.sessionService.getSession(this.sessionView.sessionId);
   }
 
-  toggleRolleliste() {
-    this.visRolleliste = !this.visRolleliste;
+  toggleRoleList() {
+    this.showRoleList = !this.showRoleList;
   }
 
-  leggTilNyttKort(role: Role) {
+  addNewCard(role: Role) {
     this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
     this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true, equipment: this.sessionView.setting.equipmentTypes });
-    this.oppdaterSesjonsvisning(this.sessionView);
-    this.toggleRolleliste();
+    this.updateSessionView(this.sessionView);
+    this.toggleRoleList();
   }
 
-  oppdaterSesjonsvisning(sessionView: ProtectiveEquipmentSessionView) {
-    this.sessionView = this.sesjonService.oppdaterSesjonsvisningForSesjon(sessionView);
+  updateSessionView(sessionView: ProtectiveEquipmentSessionView) {
+    this.sessionView = this.sessionService.updateSessionViewForSession(sessionView);
     if(this.sessionView.card?.length === 0)
-      this.visTomForKortTekst = true;
+      this.showEmptyForShortText = true;
     else 
-      this.visTomForKortTekst = false;
+      this.showEmptyForShortText = false;
   }
 
-  kortErValgt(valgtKort: Card) {
+  cardIsSelected(selectedCard: Card) {
     for (let i = 0; i < this.sessionView.card.length; i++) {
-      if (this.sessionView.card[i] != valgtKort) {
+      if (this.sessionView.card[i] != selectedCard) {
         this.sessionView.card[i].isActive = false;
       }
     }
-    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sessionView);
+    this.sessionService.updateSessionViewForSession(this.sessionView);
   }
 
-  settingOgUtstyrBleEndret(sessionView: ProtectiveEquipmentSessionView) {
-    this.oppdaterSesjonsvisning(sessionView);
-    this.endreSettingModus = false;
+  settingEquipmentWasChanged(sessionView: ProtectiveEquipmentSessionView) {
+    this.updateSessionView(sessionView);
+    this.changeSettingMode = false;
   }
 
-  onCloseNyttKortModal(result) {
+  onCloseNewCardModal(result) {
     if (result) {
-      result.forEach(x => this.leggTilNyttKort(x));
+      result.forEach(x => this.addNewCard(x));
     }
   }
 
-  onDismissNyttKortModal(reason) {
+  onDismissNewShortModal(reason) {
   }
 }

@@ -114,7 +114,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
-  registrerObservasjon() {
+  registerObservation() {
     let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
@@ -134,7 +134,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     this.card.isActive = false;
   }
 
-  kortErValgt() {
+  cardIsSelected() {
     this.card.isActive = true;
     this.kortErValgtEvent.emit(this.card);
   }

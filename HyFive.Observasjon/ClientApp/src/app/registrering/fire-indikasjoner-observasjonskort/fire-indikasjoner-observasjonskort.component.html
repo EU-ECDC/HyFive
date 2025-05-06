@@ -9,7 +9,7 @@
        [@swipeLeftRight]="animation"
        (panmove)="onPanMove($event)"
        (panend)="onPanEnd($event)"
-       (click)="kortErValgt()"
+       (click)="cardIsSelected()"
        [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
 
     <div class="d-flex flex-row">

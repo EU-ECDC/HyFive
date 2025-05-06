@@ -28,7 +28,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   @Input("sessionView") sessionView: ProtectiveEquipmentSessionView = null;
   @Input("roles") roles: RoleSelected[];
   @Input("department") department: Department;
-  @Output("settingOgUtstyrBleEndret") settingOgUtstyrBleEndret: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
+  @Output("settingEquipmentWasChanged") settingEquipmentWasChanged: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(
     private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService,
@@ -59,7 +59,7 @@ export class ValgForBeskyttelsesutstyrComponent implements OnInit {
   endreSettingOgUtstyr() {
     this.sessionView.setting = this.valgtSetting;
     this.sessionView.card = this.sessionView.card.map(k => { k.equipment = this.valgtSetting.equipmentTypes; return k });
-    this.settingOgUtstyrBleEndret.emit(this.sessionView);
+    this.settingEquipmentWasChanged.emit(this.sessionView);
   }
 
   visUtstyrVedRekkefolge(beskyttelsesutstyrTyper: ProtectiveEquipmentType[]): ProtectiveEquipmentType[] {

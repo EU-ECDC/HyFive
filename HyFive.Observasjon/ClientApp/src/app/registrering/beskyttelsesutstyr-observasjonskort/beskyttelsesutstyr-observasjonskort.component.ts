@@ -160,7 +160,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     this.sesjonsvisningOppdatert.emit(this.sessionView);
   }
 
-  registrerObservasjon() {
+  registerObservation() {
     let observation: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
       role: this.card.role,
@@ -178,7 +178,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     this.card.isActive = false;
   }
 
-  kortErValgt() {
+  cardIsSelected() {
     this.card.isActive = true;
     this.kortErValgtEvent.emit(this.card);
   }

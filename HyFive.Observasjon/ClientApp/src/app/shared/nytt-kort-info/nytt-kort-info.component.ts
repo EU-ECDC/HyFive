@@ -11,7 +11,7 @@ export class NyttKortInfoComponent implements OnInit {
 
   faNyttKortPil = faNyttKortPil;
 
-  @Input("visTomForKortTekst") visTomForKortTekst: boolean;
+  @Input("showEmptyForShortText") showEmptyForShortText: boolean;
 
   ngOnInit(): void {
   }

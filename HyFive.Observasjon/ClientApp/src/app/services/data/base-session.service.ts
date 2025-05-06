@@ -46,8 +46,8 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     });
   }
 
-  public oppdaterSesjonsvisningForSesjon(sessionView: TSesjonsvisning): TSesjonsvisning {
-    let eksisterendeSesjonsvisning = this.hentSesjonsvisningForSesjon(sessionView.sessionId);
+  public updateSessionViewForSession(sessionView: TSesjonsvisning): TSesjonsvisning {
+    let eksisterendeSesjonsvisning = this.getSessionViewForSession(sessionView.sessionId);
     if (eksisterendeSesjonsvisning) {
       let sessionViews = this.getSessionViews();
       var eksisterendeSesjonsvisningIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
@@ -63,7 +63,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     this.lagreSesjoner(sessions);
   }
 
-  public hentSesjonsvisningForSesjon(sessionId: string): TSesjonsvisning {
+  public getSessionViewForSession(sessionId: string): TSesjonsvisning {
     return this.getSessionViews().filter(s => s.sessionId == sessionId)[0] as TSesjonsvisning;
   }
 
@@ -74,14 +74,14 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     return [];
   }
 
-  public hentSesjon(sessionId: string): TSesjon {
+  public getSession(sessionId: string): TSesjon {
     if (this.getSessions().filter(s => s.id == sessionId).length > 0) {
       return this.getSessions().filter(s => s.id == sessionId)[0] as TSesjon;
     }
     return null;
   }
 
-  public async registrerObservasjon(observation: TObservasjon): Promise<void> {
+  public async registerObservation(observation: TObservasjon): Promise<void> {
     var finnesEksisterendeSesjon = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
     if (finnesEksisterendeSesjon == false) {
       await this.opprettSesjonMedObservasjon(observation);
@@ -119,7 +119,7 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
   }
 
   protected async opprettSesjonMedObservasjon(observation: TObservasjon) {
-    let sessionView = this.hentSesjonsvisningForSesjon(observation.sessionId);
+    let sessionView = this.getSessionViewForSession(observation.sessionId);
     let sessions = this.getSessions();
     let institution = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
     let nySesjon = {

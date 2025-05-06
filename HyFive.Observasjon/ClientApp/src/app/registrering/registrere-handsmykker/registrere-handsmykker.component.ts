@@ -25,8 +25,8 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   sessionView: HandJewelrySessionView;
   sessionsdata: HandJewelrySession = null;
   roles: Role[];
-  visRolleliste: boolean = false;
-  visTomForKortTekst: boolean = false;
+  showRoleList: boolean = false;
+  showEmptyForShortText: boolean = false;
 
   faPlus = faPlus;
   faClipboard = faClipboard;
@@ -35,7 +35,7 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
   faArrowDown = faArrowDown;
 
   constructor(
-    private sesjonService: HandJewelrySessionService,
+    private sessionService: HandJewelrySessionService,
     private router: Router,
     private route: ActivatedRoute,
     private institutionService: InstitutionService,
@@ -49,68 +49,68 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sessionView = this.sesjonService.hentSesjonsvisningForSesjon(sessionId);
+        this.sessionView = this.sessionService.getSessionViewForSession(sessionId);
         if (!this.sessionView) {
           this.router.navigate(['']);
         }
         else {
-          this.lastSesjonsdata();
+          this.loadSessionData();
         }
       });
 
     if (this.sessionView.card?.length === 0)
-      this.visTomForKortTekst = true;
+      this.showEmptyForShortText = true;
   }
   
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observation: HandJewelryObservation) {
-    await this.sesjonService.registrerObservasjon(observation);
-    this.toastrService.success("Observasjonen ble lagret");
-    this.lastSesjonsdata();
+  async registerObservation(observation: HandJewelryObservation) {
+    await this.sessionService.registerObservation(observation);
+    this.toastrService.success("Observation was saved");
+    this.loadSessionData();
   }
 
-  lastSesjonsdata() {
-    this.sessionsdata = this.sesjonService.hentSesjon(this.sessionView.sessionId);
+  loadSessionData() {
+    this.sessionsdata = this.sessionService.getSession(this.sessionView.sessionId);
   }
 
-  toggleRolleliste() {
-    this.visRolleliste = !this.visRolleliste;
+  toggleRoleList() {
+    this.showRoleList = !this.showRoleList;
   }
 
-  leggTilNyttKort(role: Role) {
+  addNewCard(role: Role) {
     this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
     this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true });
-    this.oppdaterSesjonsvisning(this.sessionView);
-    this.toggleRolleliste();
+    this.updateSessionView(this.sessionView);
+    this.toggleRoleList();
   }
 
-  oppdaterSesjonsvisning(sessionView: HandJewelrySessionView) {
-    this.sessionView = this.sesjonService.oppdaterSesjonsvisningForSesjon(sessionView);
+  updateSessionView(sessionView: HandJewelrySessionView) {
+    this.sessionView = this.sessionService.updateSessionViewForSession(sessionView);
     if (this.sessionView.card?.length === 0)
-      this.visTomForKortTekst = true;
+      this.showEmptyForShortText = true;
     else 
-      this.visTomForKortTekst = false;
+      this.showEmptyForShortText = false;
   }
 
-  kortErValgt(valgtKort: Card) {
+  cardIsSelected(selectedCard: Card) {
     for (let i = 0; i < this.sessionView.card.length; i++) {
-      if (this.sessionView.card[i] != valgtKort) {
+      if (this.sessionView.card[i] != selectedCard) {
         this.sessionView.card[i].isActive = false;
       }
     }
-    this.sesjonService.oppdaterSesjonsvisningForSesjon(this.sessionView);
+    this.sessionService.updateSessionViewForSession(this.sessionView);
   }
 
-  onCloseNyttKortModal(result) {
+  onCloseNewCardModal(result) {
     if (result) {
-      result.forEach(x => this.leggTilNyttKort(x));
+      result.forEach(x => this.addNewCard(x));
     }
   }
 
-  onDismissNyttKortModal(reason) {
+  onDismissNewShortModal(reason) {
   }
 }
 

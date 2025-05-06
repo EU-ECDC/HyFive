@@ -33,7 +33,7 @@ export class HanskeComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sesjonService: GloveSessionService,
+    private sessionService: GloveSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService) {
@@ -45,14 +45,14 @@ export class HanskeComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sesjonService.hentSesjon(sessionId);
+        this.sesjon = this.sessionService.getSession(sessionId);
         if (!this.sesjon) this.router.navigate(['']);
       });
   }
 
  
   sesjonSlettetEventHandler(id: string) {
-    this.sesjonService.slettSesjon(id);
+    this.sessionService.slettSesjon(id);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
@@ -61,7 +61,7 @@ export class HanskeComponent implements OnInit {
   }
 
   observasjonSlettetEventHandler($event: GloveObservation) {
-    this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
+    this.sesjon = this.sessionService.getSession(this.sesjon.id);
   }
 
   navigerTilSendteSesjoner() {
@@ -75,9 +75,9 @@ export class HanskeComponent implements OnInit {
 
   sendTilKoordinator() {
     this.sesjonSendesTilServer = true;
-    this.sesjonService.sendToServer(this.sesjon.id).subscribe(res => {
+    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
       this.toastrService.success("Session ble sendt til koordinator");
-      this.sesjonService.slettSesjon(this.sesjon.id);
+      this.sessionService.slettSesjon(this.sesjon.id);
       this.sesjonErSendtTilServer = true;
     },
       error => {

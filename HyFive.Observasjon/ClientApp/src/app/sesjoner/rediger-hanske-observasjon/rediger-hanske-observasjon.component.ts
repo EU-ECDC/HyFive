@@ -42,7 +42,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   faHandPaper = faHandPaper;
 
   constructor(
-    private sesjonService: GloveSessionService,
+    private sessionService: GloveSessionService,
     private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
     private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
     private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
@@ -116,12 +116,12 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     }
 
 
-    this.sesjonService.endreObservasjon(this.observation);
+    this.sessionService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observation);
+    this.sessionService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
