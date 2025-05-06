@@ -32,9 +32,9 @@
   ],
   "dataGroups": [
     {
-      "name": "institusjon",
+      "name": "institution",
       "urls": [
-        "api/v1/institusjon"
+        "api/v1/institution"
       ],
       "cacheConfig": {
         "strategy": "freshness",

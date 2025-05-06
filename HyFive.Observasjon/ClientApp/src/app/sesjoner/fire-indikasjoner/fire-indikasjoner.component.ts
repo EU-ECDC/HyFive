@@ -23,7 +23,7 @@ export class FireIndikasjonerComponent implements OnInit {
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
   activityTypes: ActivityType[];
-  erOnline: boolean;
+  isOnline: boolean;
 
   faArrowLeft = faArrowLeft;
   faTrashAlt = faTrashAlt;
@@ -40,7 +40,7 @@ export class FireIndikasjonerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.erOnline=true;
+    this.isOnline=true;
     this.route
       .queryParams
       .subscribe(params => {
@@ -69,8 +69,8 @@ export class FireIndikasjonerComponent implements OnInit {
     this.sesjon = this.sesjonService.hentSesjon(this.sesjon.id);
   }
 
-  hentIngress(observasjon: FourIndicationsObservation) {
-    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indicationTypes.map(i => i.name).join(', ');
+  hentIngress(observation: FourIndicationsObservation) {
+    return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 
   sendTilKoordinator() {

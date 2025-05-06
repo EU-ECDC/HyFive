@@ -58,8 +58,8 @@ export class RegistrereFireIndikasjonerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: FourIndicationsObservation) {
-    await this.sesjonService.registrerObservasjon(observasjon);
+  async registrerObservasjon(observation: FourIndicationsObservation) {
+    await this.sesjonService.registrerObservasjon(observation);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
   }

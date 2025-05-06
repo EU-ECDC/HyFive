@@ -13,7 +13,7 @@ export interface KoordinatorForHelseforetak
 	identityPseudonym: string;
 	isDisabled: boolean;
 	hprNumber: string;
-	institusjoner: InstitutionReport[];
+	institutions: InstitutionReport[];
 	endretIdentPseudonym?: string;
 	endretHPRNummer?: string;
 }

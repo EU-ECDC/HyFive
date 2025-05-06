@@ -22,21 +22,21 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observasjon?.role?.name)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation?.role?.name)}">
       <div class="d-flex flex-row pt-3">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="erRedigeringsmodus">
-            <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
+            <app-rolle-valg-dropdown [rolleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
                                      [roleSelected]="department.roles"
-                                     (rolleValgt)="observasjon.role = $event">
+                                     (rolleValgt)="observation.role = $event">
             </app-rolle-valg-dropdown>
           </ng-container>
-          <app-indikasjonsvalg [valgteIndikasjoner]="observasjon.indicationTypes"
+          <app-indikasjonsvalg [valgteIndikasjoner]="observation.indicationTypes"
                                (indikasjonsValgChangedEvent)="indikasjonsValgChanged($event)"
                                [isReadonly]="!erRedigeringsmodus"
                                [erAktiv]="erRedigeringsmodus"
-                               [parentId]="observasjon.id">
+                               [parentId]="observation.id">
           </app-indikasjonsvalg>
         </div>
         <div class="flex-column justify-content-end">
@@ -48,7 +48,7 @@
                                          [activityType]="getAktivitetType(ActivityTypeConstants.Desinfeksjon)"
                                          [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon)"
                                          [tidtaking]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Desinfeksjon) ? observation.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandHoldingWater"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -61,7 +61,7 @@
                                          [activityType]="getAktivitetType(ActivityTypeConstants.Handvask)"
                                          [erRegistrert]="erAktivitetValgt(ActivityTypeConstants.Handvask)"
                                          [tidtaking]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observasjon.aktivitet?.timeSpent : 0"
+                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handvask) ? observation.aktivitet?.timeSpent : 0"
                                          [deaktivert]="!erRedigeringsmodus"
                                          [icon]="faHandsWash"
                                          (aktivitetRegistertEvent)="registrerAktivitet($event)">
@@ -80,9 +80,9 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observasjon.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
+      <div class="row mt-n3" *ngIf="erRedigeringsmodus && observation.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
         <div class="col-12 text-center mb-2">
-          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observasjon.activity.timeSpent = 0">
+          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.timeSpent = 0">
             <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Fjern tidsregistrering</span>
           </button>
         </div>
@@ -117,12 +117,12 @@
           <div class="d-flex flex-row justify-content-around">
             <ng-container *ngIf="erRedigeringsmodus">
               <app-registrer-kommentar [deaktivert]="isReadonly"
-                                       [kommentarinput]="observasjon.comment"
+                                       [kommentarinput]="observation.comment"
                                        (kommentarRegistertEvent)="registrerKommentar($event)">
               </app-registrer-kommentar>
             </ng-container>
-            <ng-container *ngIf="!erRedigeringsmodus && observasjon.comment">
-              <label><small>Kommentar: <strong data-hj-suppress>{{observasjon.comment}}</strong></small></label>
+            <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
+              <label><small>Kommentar: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>

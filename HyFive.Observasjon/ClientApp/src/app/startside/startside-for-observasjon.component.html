@@ -4,15 +4,15 @@
       <div class="d-flex">
         <div
           class="d-flex flex-column justify-content-between"
-          *ngIf="institusjon"
+          *ngIf="institution"
         >
           <i class="icon-hospital icon-lg mt-1 me-3"></i>
         </div>
         <div>
           <p>
-            <ng-container *ngIf="institusjon">
+            <ng-container *ngIf="institution">
               <strong style="word-break: break-word">{{
-                institusjon.name
+                institution.name
               }}</strong>
               <br />
             </ng-container>
@@ -27,12 +27,12 @@
       <div class="form-group">
         <select
           class="form-select"
-          name="institusjon"
-          id="institusjoner"
+          name="institution"
+          id="institutions"
           [(ngModel)]="valgtInstitusjonAlternativId"
           (ngModelChange)="valgtInstitusjonEndret()"
         >
-          <option [ngValue]="null">Velg institusjon</option>
+          <option [ngValue]="null">Select institution</option>
           <option
             *ngFor="let institusjonAlternativ of institusjonAlternativer"
             [ngValue]="institusjonAlternativ.id"
@@ -43,15 +43,15 @@
       </div>
     </div>
 
-    <div class="col-md-6" *ngIf="institusjon">
+    <div class="col-md-6" *ngIf="institution">
       <h2 class="h5">Department</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
         class="hh-avdeling-dropdown"
-        [items]="institusjon?.departments"
+        [items]="institution?.departments"
           bindLabel="name"
           bindValue="id"
-          placeholder="Velg department"
+          placeholder="Select department"
           clearAllText="Slett"
           notFoundText="Ingen resultater"
           [(ngModel)]="valgtAvdelingId"
@@ -62,10 +62,10 @@
     </div>
   </div>
 
-  <div *ngIf="institusjon">
+  <div *ngIf="institution">
     <div class="row mb-5">
       <div class="col">
-        <h2 class="h5">Type observasjon</h2>
+        <h2 class="h5">Type observation</h2>
         
         <div class="row">
           <div class="col-md-6 col-xl-3">
@@ -178,7 +178,7 @@
     <ng-container *ngIf="roleSelected?.length">
       <div class="row mb-5">
         <div class="col">
-          <h2 class="h5">Velg profesjon(er)</h2>
+          <h2 class="h5">Select profesjon(er)</h2>
           <div class="row">
             <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of roleSelected; let i = index;">
               <label [htmlFor]="'profesjon'+roleSelected.indexOf(valg)">
@@ -208,7 +208,7 @@
           (click)="startObservasjon()"
           [disabled]="kanIkkeStarteObservasjon()"
         >
-          Start observasjon
+          Start observation
         </button>
       </div>
     </div>
@@ -222,17 +222,17 @@
   ></app-valg-for-beskyttelsesutstyr>
 </ng-container>
 
-<app-hjelpetekst [tittel]="'Tips og triks - starte observasjon'">
+<app-hjelpetekst [tittel]="'Tips og triks - start observation'">
   <p>
-    Hei, og velkommen til observasjonsmodulen. For å starte observasjon må du
+    Hei, og velkommen til observasjonsmodulen. For å start observation må du
     gjøre følgende:
   </p>
   <ol>
-    <li>Velg institusjon</li>
-    <li>Velg department</li>
-    <li>Velg type observasjon</li>
+    <li>Select institution</li>
+    <li>Select department</li>
+    <li>Select type observation</li>
     <li>Velge hvilke profesjoner du ønsker å observere</li>
   </ol>
-  Når du så er klar til å starte å observere, kan du klikke på
-  <b>Start observasjon</b>.
+  Når du så er klar til å start å observere, kan du klikke på
+  <b>Start observation</b>.
 </app-hjelpetekst>

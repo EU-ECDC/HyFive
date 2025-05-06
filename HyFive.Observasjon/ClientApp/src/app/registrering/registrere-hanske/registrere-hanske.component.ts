@@ -65,8 +65,8 @@ export class RegistrereHanskeComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: GloveObservation) {
-    await this.sesjonService.registrerObservasjon(observasjon);
+  async registrerObservasjon(observation: GloveObservation) {
+    await this.sesjonService.registrerObservasjon(observation);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
   }

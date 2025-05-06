@@ -22,7 +22,7 @@ export class SendteSesjonerComponent {
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
   subscriptions: Subscription[] = [];
-  erOnline: boolean = true;
+  isOnline: boolean = true;
 
   faCalendar = faCalendar;
   faSearch = faSearch;
@@ -82,9 +82,9 @@ export class SendteSesjonerComponent {
     }
   }
 
-  mottattInternettStatus(harInternett: boolean) {
-    this.erOnline = harInternett;
-    if (this.erOnline) {
+  receivedInternetStatus(harInternett: boolean) {
+    this.isOnline = harInternett;
+    if (this.isOnline) {
       this.lastSesjoner();
     }
   }

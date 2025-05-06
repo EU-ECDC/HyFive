@@ -21,10 +21,10 @@
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observasjon.role.name)}">
+         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
       <div class="row" *ngIf="erRedigeringsmodus">
-        <div class="col-12" *ngIf="observasjon.role?.id && observasjon.role.id > 0">
-          <app-rolle-valg-dropdown [rolleId]="observasjon.role.id"
+        <div class="col-12" *ngIf="observation.role?.id && observation.role.id > 0">
+          <app-rolle-valg-dropdown [rolleId]="observation.role.id"
                                    [isReadonly]="isReadonly"
                                    [roleSelected]="department.roles"
                                    (rolleValgt)="rolleValgt($event)">
@@ -34,7 +34,7 @@
       <div class="row text-break">
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
-            <li ngbNavItem="with" [disabled]="observasjon.gloveWithoutIndicationTypes.length">
+            <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Gloves ved indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
@@ -79,7 +79,7 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem="uten" [disabled]="observasjon.gloveWithIndicationTypes.length">
+            <li ngbNavItem="uten" [disabled]="observation.gloveWithIndicationTypes.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Glove uten indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
@@ -125,12 +125,12 @@
           <div class="d-flex flex-row justify-content-around">
             <ng-container *ngIf="erRedigeringsmodus">
               <app-registrer-kommentar [deaktivert]="isReadonly"
-                                       [kommentarinput]="observasjon.comment"
+                                       [kommentarinput]="observation.comment"
                                        (kommentarRegistertEvent)="registrerKommentar($event)">
               </app-registrer-kommentar>
             </ng-container>
-            <ng-container *ngIf="!erRedigeringsmodus && observasjon.comment">
-              <label><small>Kommentar: <strong data-hj-suppress>{{observasjon.comment}}</strong></small></label>
+            <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
+              <label><small>Kommentar: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>
         </div>
@@ -138,4 +138,4 @@
     </div>
   </div>
 </div>
-<app-info-modal [modalTekst]="observasjonMangelTekst" [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="lukkInfoModal($event)"></app-info-modal>
+<app-info-modal [modalTekst]="observasjonMangelTekst" [visInfoModal]="visInfoModal" (lukkInfoModalEvent)="closeInfoModal($event)"></app-info-modal>

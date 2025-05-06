@@ -5,10 +5,10 @@
 <div class="container px-0">
   <app-sesjonsoversikt>
     <app-offline-melding
-      (harInternettEvent)="mottattInternettStatus($event)"
+      (harInternettEvent)="receivedInternetStatus($event)"
       [darkmode]="true"
     ></app-offline-melding>
-    <ng-container *ngIf="erOnline">
+    <ng-container *ngIf="isOnline">
       <div class="row">
         <div class="col-lg-8 mb-4">
           <div class="d-flex">

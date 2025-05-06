@@ -31,7 +31,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   user: LoggedInUser;
   institusjonAlternativer: Institution[];
   valgtInstitusjonAlternativId: number;
-  institusjon: Institution;
+  institution: Institution;
 
   faCircle = faCircle;
   faUserNurse = faUserNurse;
@@ -65,11 +65,11 @@ export class StartsideForObservasjonComponent implements OnInit {
     this.visBeskyttelsesutstyr = false;
     this.institusjonAlternativer = [];
     this.valgtInstitusjonAlternativId = 0;
-    this.institusjon = null;
+    this.institution = null;
     this.institutionService
       .getInstitutions()
-      .subscribe((institusjoner: Institution[]) => {
-        this.institusjonAlternativer = institusjoner;
+      .subscribe((institutions: Institution[]) => {
+        this.institusjonAlternativer = institutions;
         let enesteInstitusjon: Institution = null;
         if (this.institusjonAlternativer?.length == 1) {
           enesteInstitusjon = this.institusjonAlternativer[0];
@@ -77,18 +77,18 @@ export class StartsideForObservasjonComponent implements OnInit {
 
         this.institutionService
           .getSelectedInstitution()
-          .subscribe((valgtInstitusjon) => {
-            if (valgtInstitusjon) {
-              this.institusjon = valgtInstitusjon;
+          .subscribe((selectedInstitution) => {
+            if (selectedInstitution) {
+              this.institution = selectedInstitution;
             }
-            if (!valgtInstitusjon && enesteInstitusjon) {
-              this.institusjon = enesteInstitusjon;
+            if (!selectedInstitution && enesteInstitusjon) {
+              this.institution = enesteInstitusjon;
               this.institutionService.updateSelectedInstitutionId(
                 enesteInstitusjon.id
               );
             }
-            this.valgtInstitusjonAlternativId = this.institusjon
-              ? this.institusjon.id
+            this.valgtInstitusjonAlternativId = this.institution
+              ? this.institution.id
               : 0;
           });
       });
@@ -99,18 +99,18 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startObservasjon() {
     if (!this.valgtAvdelingId) {
-      alert("Velg en department");
+      alert("Select en department");
       return;
     }
 
     if (!this.roleSelected.filter((r) => r.isSelected).length) {
-      alert("Velg en eller flere roles");
+      alert("Select en eller flere roles");
       return;
     }
 
     switch (this.valgtSesjonType) {
       case SessionType.NotSelected:
-        alert("Velg sesjonstypen du ønsker å starte");
+        alert("Select sesjonstypen du ønsker å start");
         break;
       case SessionType.FourIndications:
         this.startFireIndikasjonerSesjon();
@@ -171,13 +171,13 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   valgtInstitusjonEndret() {
-    // bytt institusjon
+    // bytt institution
     this.institutionService.updateSelectedInstitutionId(
       this.valgtInstitusjonAlternativId
     );
 
-    // endre valgtInstitusjon
-    this.institusjon = this.institusjonAlternativer.find(
+    // endre selectedInstitution
+    this.institution = this.institusjonAlternativer.find(
       (x) => x.id === this.valgtInstitusjonAlternativId
     );
     this.valgtAvdelingId = null;
@@ -185,13 +185,13 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   hentValgtAvdeling(): Department {
-    return this.institusjon.departments.find(
+    return this.institution.departments.find(
       (x) => x.id === parseInt(this.valgtAvdelingId)
     );
   }
 
   valgtAvdelingEndret() {
-    this.roleSelected = this.institusjon.departments
+    this.roleSelected = this.institution.departments
       .find((x) => x.id === parseInt(this.valgtAvdelingId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;

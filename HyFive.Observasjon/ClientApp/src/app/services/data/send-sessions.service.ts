@@ -94,7 +94,7 @@ export class SentSessionsService {
       seconds = ('0' + dateTime.getSeconds()).slice(-2);
 
     let timestamp = [day, month, year, hours, minutes, seconds].join('-');
-    let filename = 'NOST-' + observationType + '-' + timestamp + '.xlsx';
+    let filename = 'ECDC-' + observationType + '-' + timestamp + '.xlsx';
 
     return filename;
   }

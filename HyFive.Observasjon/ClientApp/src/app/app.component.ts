@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   hovedmenySkalVises(): boolean {
-    // Vis hovedmeny hvis vi er offline og user har innlogget-id + valgt institusjon
+    // Show hovedmeny hvis vi er offline og user har innlogget-id + valgt institution
     if (
       navigator.onLine == false &&
       localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&

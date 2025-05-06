@@ -62,7 +62,7 @@ import { RedigerHanskeObservasjonComponent } from './sessions/rediger-hanske-obs
 import { DialogModalComponent } from './shared/dialog-modal/dialog-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NyttKortInfoComponent } from './shared/nytt-kort-info/nytt-kort-info.component';
-import { LoginsideComponent } from './loginside/loginside.component';
+import { LoginPageComponent } from './loginside/loginpage.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
@@ -127,7 +127,7 @@ export const httpInterceptorProviders = [
         RedigerHanskeObservasjonComponent,
         DialogModalComponent,
         NyttKortInfoComponent,
-        LoginsideComponent,
+        LoginPageComponent,
         SpinnerComponent,
         AuthenticationFailedModalComponent,
         HjelpetekstComponent,

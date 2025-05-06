@@ -52,28 +52,28 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   }
 
   @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observasjon") observasjon: FourIndicationsObservation;
+  @Input("observation") observation: FourIndicationsObservation;
   @Input("department") department: Department;
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
   @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
 
   ngOnInit(): void {
-    if (this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.showActivityTypeNotExecuted = true;
-      this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotExecutedId(this.observasjon.activity);
+      this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotExecutedId(this.observation.activity);
     }
 
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
 
-    if (this.isReadonly && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      if (this.observasjon.activity.gloveUsed === null)
+    if (this.isReadonly && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+      if (this.observation.activity.gloveUsed === null)
         this.hanskebrukTekst = this.ActivityTypeNotExecutedSelection[0].name;
-      else if (this.observasjon.activity.gloveUsed === true)
+      else if (this.observation.activity.gloveUsed === true)
         this.hanskebrukTekst = this.ActivityTypeNotExecutedSelection[1].name;
-      else if (this.observasjon.activity.gloveUsed === false)
+      else if (this.observation.activity.gloveUsed === false)
         this.hanskebrukTekst = this.ActivityTypeNotExecutedSelection[2].name;
     }
   }
@@ -91,8 +91,8 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   }
 
   registrerAktivitet(activity: Activity) {
-    if (this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      this.ikkeUtfortAktivitet = this.observasjon.activity;
+    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+      this.ikkeUtfortAktivitet = this.observation.activity;
     }
     if (activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.showActivityTypeNotExecuted = true;
@@ -102,16 +102,16 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
       else {
         this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotExecutedId.NotExecuted.toString();
       }
-      activity.timeSpent = this.observasjon.activity.timeSpent;
-      this.observasjon.activity = !this.ikkeUtfortAktivitet ? activity : this.ikkeUtfortAktivitet;
+      activity.timeSpent = this.observation.activity.timeSpent;
+      this.observation.activity = !this.ikkeUtfortAktivitet ? activity : this.ikkeUtfortAktivitet;
       this.ikkeUtfortAktivitet = null;
     }
     else {
       this.showActivityTypeNotExecuted = false;
-      activity.timeSpent = !this.observasjon.activity.timeSpent ? 0 : this.observasjon.activity.timeSpent;
+      activity.timeSpent = !this.observation.activity.timeSpent ? 0 : this.observation.activity.timeSpent;
       activity.timeRecordingWasDone = activity.timeSpent > 0;
-      this.observasjon.activity = activity;
-      if (this.observasjon.activity.activityType.code === ActivityTypeConstants.Handwash) {
+      this.observation.activity = activity;
+      if (this.observation.activity.activityType.code === ActivityTypeConstants.Handwash) {
         this.vask = '';
         this.sprit = Activities.Alcohol;
       }
@@ -135,28 +135,28 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   }
 
   indikasjonsValgChanged(valgteIndikasjoner: IndicationType[]) {
-    this.observasjon.indicationTypes = valgteIndikasjoner;
+    this.observation.indicationTypes = valgteIndikasjoner;
   }
 
   lagreObservasjon() {
-    if (this.gloveUseMustBeRegistered && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      this.observasjon = this.registrereAktivitetTypeIkkeUtfort(this.observasjon);
+    if (this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+      this.observation = this.registrereAktivitetTypeIkkeUtfort(this.observation);
     }
-    else if (!this.gloveUseMustBeRegistered && this.observasjon.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      this.observasjon.activity.timeSpent = 0;
+    else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+      this.observation.activity.timeSpent = 0;
     }
-    this.sesjonService.endreObservasjon(this.observasjon);
+    this.sesjonService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
     this.ikkeUtfortAktivitet = null;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observasjon);
+    this.sesjonService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
   erAktivitetValgt(aktivitetTypeKode: string): boolean {
-    return this.observasjon.activity.activityType.code === aktivitetTypeKode;
+    return this.observation.activity.activityType.code === aktivitetTypeKode;
   }
 
   getAktivitetType(code: string) {
@@ -167,22 +167,22 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     this.selectedActivityTypeNotExecutedSelectionId = valgtId;
   }
 
-  private registrereAktivitetTypeIkkeUtfort(observasjon: FourIndicationsObservation): FourIndicationsObservation {
+  private registrereAktivitetTypeIkkeUtfort(observation: FourIndicationsObservation): FourIndicationsObservation {
     if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.NotExecuted.toString())) {
-      observasjon.activity.gloveUsed = null;
+      observation.activity.gloveUsed = null;
     }
     else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.GloveWasUsed.toString()) {
-      observasjon.activity.gloveUsed = true;
+      observation.activity.gloveUsed = true;
     }
     else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.GloveWasNotUsed.toString()) {
-      observasjon.activity.gloveUsed = false;
+      observation.activity.gloveUsed = false;
     }
-    observasjon.activity.timeRecordingWasDone = false;
-    observasjon.activity.timeSpent = 0;
-    return observasjon;
+    observation.activity.timeRecordingWasDone = false;
+    observation.activity.timeSpent = 0;
+    return observation;
   }
 
   registrerKommentar(comment: string) {
-    this.observasjon.comment = comment;
+    this.observation.comment = comment;
   }
 }

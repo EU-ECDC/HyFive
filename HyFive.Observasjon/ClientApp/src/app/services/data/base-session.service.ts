@@ -81,16 +81,16 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     return null;
   }
 
-  public async registrerObservasjon(observasjon: TObservasjon): Promise<void> {
-    var finnesEksisterendeSesjon = this.getSessions().filter(s => s.id == observasjon.sessionId).length > 0;
+  public async registrerObservasjon(observation: TObservasjon): Promise<void> {
+    var finnesEksisterendeSesjon = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
     if (finnesEksisterendeSesjon == false) {
-      await this.opprettSesjonMedObservasjon(observasjon);
+      await this.opprettSesjonMedObservasjon(observation);
       return;
     }
 
     let sessions = this.getSessions();
-    var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observasjon.sessionId);
-    sessions[eksisterendeSesjonIndex].observations.push(observasjon);
+    var eksisterendeSesjonIndex = sessions.map(s => s.id).indexOf(observation.sessionId);
+    sessions[eksisterendeSesjonIndex].observations.push(observation);
     this.lagreSesjoner(sessions);
   }
 
@@ -118,16 +118,16 @@ export abstract class BaseSessionService<TSesjonsvisning extends BaseSessionView
     return this.getSessions().length;
   }
 
-  protected async opprettSesjonMedObservasjon(observasjon: TObservasjon) {
-    let sessionView = this.hentSesjonsvisningForSesjon(observasjon.sessionId);
+  protected async opprettSesjonMedObservasjon(observation: TObservasjon) {
+    let sessionView = this.hentSesjonsvisningForSesjon(observation.sessionId);
     let sessions = this.getSessions();
-    let institusjon = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
+    let institution = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
     let nySesjon = {
-      id: observasjon.sessionId,
-      observations: [observasjon],
+      id: observation.sessionId,
+      observations: [observation],
       startTime: new Date(),
       department: sessionView.department,
-      institutionsName: institusjon.name
+      institutionsName: institution.name
     } as TSesjon;
     sessions.push(nySesjon);
     this.lagreSesjoner(sessions);

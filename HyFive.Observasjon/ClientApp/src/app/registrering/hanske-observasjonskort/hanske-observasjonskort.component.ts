@@ -149,7 +149,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
   }
 
   registrerObservasjon() {
-    let observasjon = {
+    let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
       registrationTime: new Date(Date.now()),
@@ -161,7 +161,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
       handHygieneAfterGloveUseType: this.hanskeBenyttet ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHandhygieneEtterHanskebruk) : null,
     } as GloveObservation;
 
-    this.observasjonRegistrert.emit(observasjon);
+    this.observasjonRegistrert.emit(observation);
 
     this.nullstillKort();
 
@@ -173,7 +173,7 @@ export class HanskeObservasjonskortComponent extends BaseKortSwipe implements On
     this.kortErValgtEvent.emit(this.card);
   }
 
-  lukkInfoModal(erVisInfoModal): void {
+  closeInfoModal(erVisInfoModal): void {
     this.visInfoModal = erVisInfoModal;
   }
 }

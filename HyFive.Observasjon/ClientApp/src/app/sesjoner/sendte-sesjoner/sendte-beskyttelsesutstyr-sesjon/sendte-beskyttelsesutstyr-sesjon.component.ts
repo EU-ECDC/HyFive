@@ -20,7 +20,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
 
   Urls = Urls;
   faArrowLeft = faLongArrowAltLeft;
-  erOnline: boolean = true;
+  isOnline: boolean = true;
   faFileExcel = faFileExcel;
   lasterNedSomExcel: boolean;
   DialogueTexts = DialogueTexts;
@@ -52,8 +52,8 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.toastrService.clear();
   }
 
-  hentIngress(observasjon: ProtectiveEquipmentObservation) {
-    return observasjon.settingtype.name;
+  hentIngress(observation: ProtectiveEquipmentObservation) {
+    return observation.settingtype.name;
   }
 
   navigerTilSendteSesjoner() {

@@ -51,7 +51,7 @@ export class MainMenuComponent {
   private lagMenyValg(): void {
     this.mainMenuItems = [
       {
-        name: "Start observasjon",
+        name: "Start observation",
         routerLink: `/${Urls.HomePageForObservationUrl}`,
         exactRouteMatch: true,
         icon: faHospital

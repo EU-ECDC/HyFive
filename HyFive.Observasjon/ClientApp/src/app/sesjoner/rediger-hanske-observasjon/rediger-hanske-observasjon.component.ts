@@ -49,7 +49,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   ) { }
 
   @Input() isReadonly: boolean = false;
-  @Input() observasjon: GloveObservation;
+  @Input() observation: GloveObservation;
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
   visInfoModal = false;
@@ -62,20 +62,20 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
-      if (this.observasjon.gloveWithIndicationTypes.length) {
+      if (this.observation.gloveWithIndicationTypes.length) {
         this.activeTab = "with";
         this.gloveWithIndicationTypes.forEach(x => {
-          if (this.observasjon.gloveWithIndicationTypes.some(y => y.code === x.code))
+          if (this.observation.gloveWithIndicationTypes.some(y => y.code === x.code))
             x.isSelected = true;
         });
       }
     });
     this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
-      if (this.observasjon.gloveWithoutIndicationTypes.length) {
+      if (this.observation.gloveWithoutIndicationTypes.length) {
         this.activeTab = "uten";
         this.gloveWithoutIndicationTypes.forEach(x => {
-          if (this.observasjon.gloveWithoutIndicationTypes.some(y => y.code === x.code))
+          if (this.observation.gloveWithoutIndicationTypes.some(y => y.code === x.code))
             x.isSelected = true;
         });
       }
@@ -84,8 +84,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
 
-    this.hanskeBrukt = this.observasjon.gloveUsed;
-    this.valgtHygieneEtterHanskebruk = this.observasjon.handHygieneAfterGloveUseType?.code;
+    this.hanskeBrukt = this.observation.gloveUsed;
+    this.valgtHygieneEtterHanskebruk = this.observation.handHygieneAfterGloveUseType?.code;
   }
 
   hanskeMedIndikasjonerChanged(code, event) {
@@ -103,37 +103,37 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   lagreObservasjon() {
 
 
-    this.observasjon.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
-    this.observasjon.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(x => x.isSelected);
-    this.observasjon.gloveUsed = this.hanskeBrukt;
+    this.observation.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
+    this.observation.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(x => x.isSelected);
+    this.observation.gloveUsed = this.hanskeBrukt;
 
-    if(this.observasjon.gloveUsed){
-      this.observasjon.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHygieneEtterHanskebruk);
+    if(this.observation.gloveUsed){
+      this.observation.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHygieneEtterHanskebruk);
     }
     else {
-      this.observasjon.handHygieneAfterGloveUseType = null;
+      this.observation.handHygieneAfterGloveUseType = null;
       this.valgtHygieneEtterHanskebruk = null;
     }
 
 
-    this.sesjonService.endreObservasjon(this.observasjon);
+    this.sesjonService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observasjon);
+    this.sesjonService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
   registrerKommentar(comment: string) {
-    this.observasjon.comment = comment;
+    this.observation.comment = comment;
   }
 
   rolleValgt(role: Role) {
-    this.observasjon.role = role;
+    this.observation.role = role;
   }
 
-  lukkInfoModal($event: boolean) {
+  closeInfoModal($event: boolean) {
     this.visInfoModal = $event;
     if(this.visInfoModal === false){
       this.observasjonMangelTekst = null;

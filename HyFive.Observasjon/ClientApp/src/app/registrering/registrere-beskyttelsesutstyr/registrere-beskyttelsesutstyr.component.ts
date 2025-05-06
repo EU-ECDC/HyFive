@@ -67,8 +67,8 @@ export class RegistrereBeskyttelsesutstyrComponent implements OnInit, OnDestroy 
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: ProtectiveEquipmentObservation) {
-    await this.sesjonService.registrerObservasjon(observasjon);
+  async registrerObservasjon(observation: ProtectiveEquipmentObservation) {
+    await this.sesjonService.registrerObservasjon(observation);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
   }

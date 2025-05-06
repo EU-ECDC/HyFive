@@ -15,31 +15,31 @@ import { HjelpetekstComponent } from '../shared/hjelpetekst/hjelpetekst.componen
 import { Localstoragepaths } from '../constants/localstoragepaths';
 
 @Component({
-  selector: 'app-loginside',
-  templateUrl: './loginside.component.html'
+  selector: 'app-loginpage',
+  templateUrl: './loginpage.component.html'
 })
-export class LoginsideComponent implements OnInit, OnDestroy {
+export class LoginPageComponent implements OnInit, OnDestroy {
 
   isLoggedIn = false;
-  erOnline = false;
+  isOnline = false;
   user: LoggedInUser;
   Urls = Urls;
-  mottattBrukerStatusFraServer = false;
-  institusjoner: Institution[];
-  valgtInstitusjon: Institution = null;
-  visFeilMelding: boolean = false;
-  visForesporselErRegistrert = false;
-  institusjon: Institution;
-  visForesporselVenterPaaGodkjenning = false;
-  visForesporselRegistrering = true;
-  erVisPseudonym = false;
+  receivedUserStatusFromServer = false;
+  institutions: Institution[];
+  selectedInstitution: Institution = null;
+  showErrorMessage: boolean = false;
+  showRequestIsRegistered = false;
+  institution: Institution;
+  showRequestAwaitingApproval = false;
+  showRequestRegistration = true;
+  isShowPseudonym = false;
 
   constructor(
     private authorizationService: AuthorizationService,
-    private fireIndikasjonerService: FourIndicationsSessionService,
-    private hanskeService: GloveSessionService,
-    private beskyttelsesutstyrService: ProtectiveEquipmentSessionService,
-    private handsmykkeService: HandJewelrySessionService,
+    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private gloveSessionService: GloveSessionService,
+    private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
+    private handJewelrySessionService: HandJewelrySessionService,
     private requestAboutUserAccessService: RequestAboutUserAccessService,
     private toastrService: ToastrService,
     private clipboardService: ClipboardService,
@@ -48,7 +48,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authorizationService.isLoggedIn().subscribe((isLoggedIn) => {
-      this.mottattBrukerStatusFraServer = true;
+      this.receivedUserStatusFromServer = true;
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
         this.authorizationService.getUser().subscribe(user => {
@@ -59,24 +59,24 @@ export class LoginsideComponent implements OnInit, OnDestroy {
               if(forsporsel != null)
               {
                 this.requestAboutUserAccessService.getInstitution(forsporsel.institutionId).subscribe(
-                  (institusjon) => {
-                    if(institusjon != null)
+                  (institution) => {
+                    if(institution != null)
                     {
-                      this.institusjon = institusjon;
-                      this.visForesporselVenterPaaGodkjenning = true;
-                      this.visForesporselRegistrering = false;
+                      this.institution = institution;
+                      this.showRequestAwaitingApproval = true;
+                      this.showRequestRegistration = false;
                     }
                   });
               }
           });
 
-          // denne gjør en initiell last av kodeverk, slik at cachen blir fylt ut og man kan jobbe offline
-          this.codeWorkCacheService.lastKodeverk();
+          // this does an initial load of code, so that the cache is filled and you can work offline          
+          // this.codeWorkCacheService.lastKodeverk();
         });
 
         this.requestAboutUserAccessService.getInstitutions().subscribe(
-          (institusjoner) => {
-            this.institusjoner = institusjoner;
+          (institutions) => {
+            this.institutions = institutions;
           }
         );
       }
@@ -87,7 +87,7 @@ export class LoginsideComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  loggUt() {
+  logout() {
     this.unregisterSw().then(() => {
       window.location.href = "/account/logout";
     });
@@ -102,55 +102,55 @@ export class LoginsideComponent implements OnInit, OnDestroy {
 
   }
 
-  harLokaleSesjonerLiggende(): boolean {
-    var harHanskesesjoner = this.hanskeService.numberOfSessions() > 0;
-    var harbeskyttelsesutstyrsesjoner = this.beskyttelsesutstyrService.numberOfSessions() > 0;
-    var harFireindikasjonersesjoner = this.fireIndikasjonerService.numberOfSessions() > 0;
-    var harHandsmykkesesjoner = this.handsmykkeService.numberOfSessions() > 0;
-    return harHanskesesjoner || harbeskyttelsesutstyrsesjoner || harFireindikasjonersesjoner || harHandsmykkesesjoner;
+  hasLocalSessionsLying(): boolean {
+    var hasGloveSessions = this.gloveSessionService.numberOfSessions() > 0;
+    var hasProtectiveEquipmentSessions = this.protectiveEquipmentSessionService.numberOfSessions() > 0;
+    var hasFourIndicationsSessions = this.fourIndicationsSessionService.numberOfSessions() > 0;
+    var hasHandJewelrySessions = this.handJewelrySessionService.numberOfSessions() > 0;
+    return hasGloveSessions || hasProtectiveEquipmentSessions || hasFourIndicationsSessions || hasHandJewelrySessions;
   }
 
-  mottattInternettStatus(erOnline: boolean) {
-    this.erOnline = erOnline;
+  receivedInternetStatus(isOnline: boolean) {
+    this.isOnline = isOnline;
   }
 
-  sendForesporsel() {
-    if(this.valgtInstitusjon)
+  sendRequest() {
+    if(this.selectedInstitution)
     {
       var newRequestAboutUserAccess = {
-        institutionId: this.valgtInstitusjon?.id,
+        institutionId: this.selectedInstitution?.id,
         userFirstName: this.user.firstName,
         userLastName: this.user.lastName,
         hprNumber: this.user.hprNumber,
         identityPseudonym: this.user.identityPseudonym
       }
       this.requestAboutUserAccessService.sendRequestAboutUserAccess(newRequestAboutUserAccess).subscribe(
-        (erBrukerOpprettet) => {
-          if (erBrukerOpprettet)
+        (isUserCreated) => {
+          if (isUserCreated)
           {
-            this.visForesporselErRegistrert = true;
-            this.visForesporselRegistrering = false;
+            this.showRequestIsRegistered = true;
+            this.showRequestRegistration = false;
           }
           else
-            this.visFeilMelding = true;
+            this.showErrorMessage = true;
         },
         (error) =>{
-          this.visFeilMelding = true;
+          this.showErrorMessage = true;
         }
       );
     }
   }
 
-  kopierPseudonymKlikk() {
+  copyPseudonymClick() {
     this.clipboardService.copy(this.user?.identityPseudonym);
-    this.toastrService.success('Pseudonym kopiert til utklippstavle og kan limes inn andre steder ved bruk av Lim inn (CTRL+V)');
+    this.toastrService.success('Pseudonym copied to clipboard and can be pasted elsewhere using Paste (CTRL+V)');
   }
 
-  visPseudonym() : void {
-    this.erVisPseudonym = true;
+  showPseudonym() : void {
+    this.isShowPseudonym = true;
   }
 
-  lukkInfoModal($event: boolean) {
-    this.erVisPseudonym = $event;
+  closeInfoModal($event: boolean) {
+    this.isShowPseudonym = $event;
   }
 }

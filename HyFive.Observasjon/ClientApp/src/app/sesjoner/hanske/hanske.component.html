@@ -15,7 +15,7 @@
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-hanske-observasjon [observasjon]="item"
+      <app-rediger-hanske-observasjon [observation]="item"
                                       [department]="sesjon.department"
                                       (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">
       </app-rediger-hanske-observasjon>
@@ -37,7 +37,7 @@
 
   <div class="row">
     <div class="col">
-      <app-offline-melding (harInternettEvent)="erOnline = $event"></app-offline-melding>
+      <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
     </div>
   </div>
   <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
@@ -51,7 +51,7 @@
 
     <div class="col-auto text-end ms-auto">
       <button class="btn fhi-btn-primary"
-              *ngIf="erOnline"
+              *ngIf="isOnline"
               (click)="sendTilKoordinator()"
               [disabled]="!(sesjon?.observations?.length > 0)">
         Send til koordinator
@@ -61,7 +61,7 @@
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigasjonslenke   [mobileCssClass]="'override-noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForHanske(sesjon.id)">Tilbake til observasjon</app-navigasjonslenke>
+      <app-navigasjonslenke   [mobileCssClass]="'override-noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForHanske(sesjon.id)">Tilbake til observation</app-navigasjonslenke>
     </div>
   </div>
 </div>

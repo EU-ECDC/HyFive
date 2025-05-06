@@ -66,8 +66,8 @@ export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registrerObservasjon(observasjon: HandJewelryObservation) {
-    await this.sesjonService.registrerObservasjon(observasjon);
+  async registrerObservasjon(observation: HandJewelryObservation) {
+    await this.sesjonService.registrerObservasjon(observation);
     this.toastrService.success("Observasjonen ble lagret");
     this.lastSesjonsdata();
   }

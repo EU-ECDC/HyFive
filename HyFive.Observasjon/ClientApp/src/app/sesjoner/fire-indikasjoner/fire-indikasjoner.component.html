@@ -42,7 +42,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <app-offline-melding (harInternettEvent)="erOnline = $event"></app-offline-melding>
+      <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
     </div>
   </div>
   <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
@@ -54,7 +54,7 @@
       </app-slett-bekreftelsesdialog>
     </div>
 
-    <div class="col-auto text-end ms-auto" *ngIf="erOnline">
+    <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
               (click)="sendTilKoordinator()"
               [disabled]="!(sesjon?.observations?.length > 0)">

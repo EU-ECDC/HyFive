@@ -115,7 +115,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
   }
 
   registrerObservasjon() {
-    let observasjon = {
+    let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
       registrationTime: new Date(Date.now()),
@@ -127,7 +127,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
       comment: this.comment
     } as HandJewelryObservation;
 
-    this.observasjonRegistrert.emit(observasjon);
+    this.observasjonRegistrert.emit(observation);
 
     this.nullstillKort();
 
@@ -139,7 +139,7 @@ export class HandsmykkerObservasjonskortComponent extends BaseKortSwipe implemen
     this.kortErValgtEvent.emit(this.card);
   }
 
-  lukkInfoModal(erVisInfoModal): void {
+  closeInfoModal(erVisInfoModal): void {
     this.visInfoModal = erVisInfoModal;
   }
 }

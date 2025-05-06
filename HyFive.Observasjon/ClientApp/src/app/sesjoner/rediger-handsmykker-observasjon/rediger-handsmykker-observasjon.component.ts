@@ -39,7 +39,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   ) { }
 
   @Input() isReadonly: boolean = false;
-  @Input() observasjon: HandJewelryObservation;
+  @Input() observation: HandJewelryObservation;
   @Input() department: Department;
   @Output() observasjonSlettetEvent = new EventEmitter();
 
@@ -47,7 +47,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   ngOnInit(): void {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
-      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observasjon.handJewelry.map(x => x?.code));
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelry.map(x => x?.code));
       this.handJewelrySelection.forEach(x => this.changed(x));
     });
   }
@@ -66,24 +66,24 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   }
 
   lagreObservasjon() {
-    this.observasjon.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
+    this.observation.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];
-    this.sesjonService.endreObservasjon(this.observasjon);
+    this.sesjonService.endreObservasjon(this.observation);
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observasjon);
+    this.sesjonService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
   registrerKommentar(comment: string) {
-    this.observasjon.comment = comment;
+    this.observation.comment = comment;
   }
 
   rolleValgt(role: Role) {
-    this.observasjon.role = role;
+    this.observation.role = role;
   }
 }

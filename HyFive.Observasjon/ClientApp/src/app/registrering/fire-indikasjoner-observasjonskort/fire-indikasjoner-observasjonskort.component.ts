@@ -114,7 +114,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
   }
 
   registrerObservasjon() {
-    let observasjon: FourIndicationsObservation = {
+    let observation: FourIndicationsObservation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
       comment: this.comment,
@@ -124,7 +124,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
       registrationTime: new Date(Date.now())
     }
 
-    this.observasjonRegistrert.emit(observasjon);
+    this.observasjonRegistrert.emit(observation);
 
     this.nullstillKort();
 
@@ -165,7 +165,7 @@ export class FireIndikasjonerObservasjonskortComponent extends BaseKortSwipe imp
     return this.activityTypes?.find(x => x.code === code);
   }
 
-  lukkInfoModal(erVisInfoModal): void {
+  closeInfoModal(erVisInfoModal): void {
     this.visInfoModal = erVisInfoModal;
   }
 }

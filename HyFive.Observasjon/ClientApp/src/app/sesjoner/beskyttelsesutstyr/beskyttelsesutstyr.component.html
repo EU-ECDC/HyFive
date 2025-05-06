@@ -1,5 +1,5 @@
 <div class="container">
-  <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observasjon</app-navigasjonslenke>
+  <app-navigasjonslenke (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigasjonslenke>
   <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Verneutstyr'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
 </div>
 <div class="container" *ngIf="sesjonErSendtTilServer == false">
@@ -16,7 +16,7 @@
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-beskyttelsesutstyr-observasjon [observasjon]="item"
+      <app-rediger-beskyttelsesutstyr-observasjon [observation]="item"
                                                   [department]="sesjon.department"
                                                   [institutionid]="institutionid"
                                                   (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">
@@ -36,7 +36,7 @@
 
   <div class="row">
     <div class="col">
-      <app-offline-melding (harInternettEvent)="erOnline = $event"></app-offline-melding>
+      <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
     </div>
   </div>
   <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
@@ -47,7 +47,7 @@
         Slett sesjon
       </app-slett-bekreftelsesdialog>
     </div>
-    <div class="col-auto text-end ms-auto" *ngIf="erOnline">
+    <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
               (click)="sendTilKoordinator()"
               [disabled]="!(sesjon?.observations?.length > 0)">
@@ -58,7 +58,7 @@
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigasjonslenke [mobileCssClass]="'override--noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observasjon</app-navigasjonslenke>
+      <app-navigasjonslenke [mobileCssClass]="'override--noeffect'" (lenkeKlikket)="navigerTilRegistreringssideForBeskyttelsesutstyr(sesjon.id)">Tilbake til observation</app-navigasjonslenke>
     </div>
   </div>
 

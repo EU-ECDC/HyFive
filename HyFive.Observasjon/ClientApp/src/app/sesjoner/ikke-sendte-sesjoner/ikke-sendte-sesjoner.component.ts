@@ -24,7 +24,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   sesjonerFiltrert: SessionReport[];
   sokeord: string = null;
   sesjonsnavnMap: Map<SessionType, string>;
-  erOnline: boolean = true;
+  isOnline: boolean = true;
 
   harValgtEnSesjon: boolean = false;
 

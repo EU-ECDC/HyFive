@@ -19,7 +19,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
   sesjon: HandJewelrySession;
   handJewelryTypes: HandJewelryType[] = [];
-  erOnline: boolean = true;
+  isOnline: boolean = true;
 
   faFileExcel = faFileExcel;
   lasterNedSomExcel = false;

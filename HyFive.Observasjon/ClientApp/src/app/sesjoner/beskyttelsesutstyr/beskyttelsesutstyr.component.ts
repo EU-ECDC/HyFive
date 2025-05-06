@@ -20,7 +20,7 @@ export class BeskyttelsesutstyrComponent implements OnInit {
   sesjon: ProtectiveEquipmentSession;
   sesjonErSendtTilServer = false;
   sesjonSendesTilServer = false;
-  erOnline: boolean = true;
+  isOnline: boolean = true;
   institutionid: number;
 
   DialogueTexts = DialogueTexts;

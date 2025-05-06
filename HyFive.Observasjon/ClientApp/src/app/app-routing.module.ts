@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { Urls } from './constants/urls';
-import { LoginsideComponent } from './loginside/loginside.component';
+import { LoginPageComponent } from './loginside/loginpage.component';
 import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
 import { RegistrereFireIndikasjonerComponent } from './registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: defaultPath
   },
-  { path: Urls.ProfileUrl, component: LoginsideComponent },
+  { path: Urls.ProfileUrl, component: LoginPageComponent },
   {
     path: Urls.HomePageForObservationUrl,
     component: StartsideForObservasjonComponent,

@@ -161,7 +161,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
   }
 
   registrerObservasjon() {
-    let observasjon: ProtectiveEquipmentObservation = {
+    let observation: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
       role: this.card.role,
       registrationTime: new Date(Date.now()),
@@ -171,7 +171,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
       protectiveEquipmentList: this.beskyttelsesutstyrValg
     };
 
-    this.observasjonRegistrert.emit(observasjon);
+    this.observasjonRegistrert.emit(observation);
 
     this.nullstillKort();
 
@@ -183,7 +183,7 @@ export class BeskyttelsesutstyrObservasjonskortComponent extends BaseKortSwipe i
     this.kortErValgtEvent.emit(this.card);
   }
 
-  lukkInfoModal(erVisInfoModal): void {
+  closeInfoModal(erVisInfoModal): void {
     this.visInfoModal = erVisInfoModal;
   }
 

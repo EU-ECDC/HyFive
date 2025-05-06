@@ -41,14 +41,14 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     private toastrService: ToastrService) { }
 
   @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observasjon") observasjon: ProtectiveEquipmentObservation;
+  @Input("observation") observation: ProtectiveEquipmentObservation;
   @Input("department") department: Department;
   @Input("institutionid") institutionid: number;
   @Output("observasjonSlettetEvent") observasjonSlettetEvent = new EventEmitter();
 
 
   ngOnInit(): void {
-    this.protectiveEquipment = this.observasjon.protectiveEquipmentList;
+    this.protectiveEquipment = this.observation.protectiveEquipmentList;
   }
   
   ngOnDestroy(): void {
@@ -56,7 +56,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   registrerKommentar(comment: string) {
-    this.observasjon.comment = comment;
+    this.observation.comment = comment;
   }
 
   lagreObservasjon() {
@@ -65,13 +65,13 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
       return;
     }
     if (this.erRedigeringsmodus) {
-      this.sesjonService.endreObservasjon(this.observasjon);
+      this.sesjonService.endreObservasjon(this.observation);
     }
     this.erRedigeringsmodus = false;
   }
 
   slettObservasjon() {
-    this.sesjonService.slettObservasjon(this.observasjon);
+    this.sesjonService.slettObservasjon(this.observation);
     this.observasjonSlettetEvent.emit();
   }
 
@@ -152,7 +152,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
   nullstillUtstyr(valg: ProtectiveEquipment) {
     let valgIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.protectiveEquipment[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observasjon.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+    this.protectiveEquipment[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
   }
 
   visVisningsmodusModal(event, valg: ProtectiveEquipment) {
@@ -165,6 +165,6 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   kanLagre() {
-    return this.sesjonService.numberOfQualifiedEquipment(this.observasjon.protectiveEquipmentList) > 0;
+    return this.sesjonService.numberOfQualifiedEquipment(this.observation.protectiveEquipmentList) > 0;
   }
 }

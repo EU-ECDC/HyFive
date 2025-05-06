@@ -21,7 +21,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   sesjon: FourIndicationsSession;
   sesjonErSendtTilServer = false;
   activityTypes: ActivityType[];
-  erOnline: boolean = true;
+  isOnline: boolean = true;
   lasterNedSomExcel = false;
 
   faArrowLeft = faLongArrowAltLeft;
@@ -89,13 +89,13 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observations?.length)*100
   }
 
-  hentIngress(observasjon: FourIndicationsObservation) {
-    return this.activityTypes?.find(x => x.code === observasjon.activity.activityType?.code)?.name + ' - ' + observasjon.indicationTypes.map(i => i.name).join(', ');
+  hentIngress(observation: FourIndicationsObservation) {
+    return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 
   mottattInternetStatus(harInternett: boolean){
-    this.erOnline = harInternett;
-    if(this.erOnline) {
+    this.isOnline = harInternett;
+    if(this.isOnline) {
 
     }
   }

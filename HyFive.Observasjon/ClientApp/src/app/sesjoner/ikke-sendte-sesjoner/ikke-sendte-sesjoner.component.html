@@ -10,7 +10,7 @@
         [disabled]="sessions.length < 1"
         (click)="merkAlleSesjoner()"
       >
-        Velg alle
+        Select all
       </button>
       <button
         class="btn fhi-btn-primary mb-2"
@@ -53,7 +53,7 @@
               [(ngModel)]="sessionView.isSelected"
               (click)="merkSesjon(sessionView)"
             />
-            <label class="form-check-label" [for]="'chk_' + i">Velg for innsending</label>
+            <label class="form-check-label" [for]="'chk_' + i">Select for innsending</label>
           </div>
 
           <h2 class="h4 mb-0">{{ sessionView.institutionsName }}</h2>
@@ -79,7 +79,7 @@
       </div>
     </div>
     <app-offline-melding
-      (harInternettEvent)="erOnline = $event"
+      (harInternettEvent)="isOnline = $event"
       [darkmode]="true"
     ></app-offline-melding>
   </app-sesjonsoversikt>

@@ -18,7 +18,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
   sesjon: GloveSession;
   handJewelryTypes: HandJewelryType[] = [];
-  erOnline: boolean = true;
+  isOnline: boolean = true;
   faFileExcel = faFileExcel
   DialogueTexts = DialogueTexts;
 
@@ -46,7 +46,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observasjon var with eller uten indikasjoner
+  visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller uten indikasjoner
     if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
