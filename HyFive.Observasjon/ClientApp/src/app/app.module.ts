@@ -69,7 +69,7 @@ import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authenti
 import { AuthenticationFailedModalComponent } from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {HelpTextComponent} from "./shared/help-text/help-text.component";
-import { HjelpetekstInnstillingerComponent } from './shared/hjelpetekst-innstillinger/hjelpetekst-innstillinger.component';
+import { HelpTextSettingsComponent } from './shared/help-text-setting/help-text-setting.component';
 import { PseudonymComponent } from './shared/pseudonym-modal/pseudonym.component';
 
 
@@ -131,7 +131,7 @@ export const httpInterceptorProviders = [
         SpinnerComponent,
         AuthenticationFailedModalComponent,
         HelpTextComponent,
-        HjelpetekstInnstillingerComponent,
+        HelpTextSettingsComponent,
         PseudonymComponent
     ],
     imports: [

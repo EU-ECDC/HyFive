@@ -2,32 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import {HelpTextComponent} from "../help-text/help-text.component";
 
 @Component({
-  selector: 'app-help-text-innstillinger',
-  templateUrl: './hjelpetekst-innstillinger.component.html'
+  selector: 'app-help-text-settings',
+  templateUrl: './help-text-setting.component.html'
 })
-export class HjelpetekstInnstillingerComponent implements OnInit {
+export class HelpTextSettingsComponent implements OnInit {
 
-  harSettHjelpetekster: boolean;
-  hjelpeteksterBleNullstilt: boolean;
+  hasSetHelpTexts: boolean;
+  HelpTextsWereReset: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.setHarSettHjelpetekster();
+    this.setHasSetHelpTexts();
   }
 
-  markerHjelpeteksterSomUsett(){
+  markHelpTextAsUnseen(){
     for (let localStorageKey in localStorage) {
       if(localStorageKey.startsWith(HelpTextComponent.HelpTextPrefix)){
         localStorage.removeItem(localStorageKey);
       }
     }
-    this.hjelpeteksterBleNullstilt = true;
+    this.HelpTextsWereReset = true;
   }
-  private setHarSettHjelpetekster() : void {
+  private setHasSetHelpTexts() : void {
     for (let localStorageKey in localStorage) {
       if(localStorageKey.startsWith(HelpTextComponent.HelpTextPrefix)){
-        this.harSettHjelpetekster = true;
+        this.hasSetHelpTexts = true;
         return;
       }
     }
