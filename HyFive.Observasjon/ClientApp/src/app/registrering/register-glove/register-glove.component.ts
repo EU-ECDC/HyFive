@@ -8,18 +8,18 @@ import { faEnvelope, faPlus, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { Card } from '../../models/registration/card.model';
 import { Uuid } from '../../utils/uuid';
-import { GloveSessionView } from '../../models/registration/hansker-sessionView.model';
+import { GloveSessionView } from '../../models/registration/glove-session-view.model';
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-registrere-hanske',
-  templateUrl: './registrere-hanske.component.html'
+  selector: 'app-register-glove',
+  templateUrl: './register-glove.component.html'
 })
 
-export class RegistrereHanskeComponent implements OnInit, OnDestroy {
+export class RegisterGloveComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sessionView: GloveSessionView;

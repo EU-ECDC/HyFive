@@ -15,7 +15,7 @@ import { ProtectiveEquipmentComponent } from './sessions/beskyttelsesutstyr/besk
 import { SendteFireIndikasjonerSesjonComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
 import { SendteHandsmykkerSesjonComponent } from './sessions/sendte-sessions/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
 import { SendteBeskyttelsesutstyrSesjonComponent } from './sessions/sendte-sessions/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
-import { RegistrereHanskeComponent } from './registrering/registrere-hanske/registrere-hanske.component';
+import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
 import { HanskeComponent } from './sessions/hanske/hanske.component';
 import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
 
@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: Urls.SentFourIndicationsSessionUrl, component: SendteFireIndikasjonerSesjonComponent },
   { path: Urls.SentHandJewelrySessionUrl, component: SendteHandsmykkerSesjonComponent },
   { path: Urls.SendProtectiveEquipmentSessionUrl, component: SendteBeskyttelsesutstyrSesjonComponent },
-  { path: Urls.RegisterGloveUrl, component: RegistrereHanskeComponent },
+  { path: Urls.RegisterGloveUrl, component: RegisterGloveComponent },
   { path: Urls.GloveSessionUrl, component: HanskeComponent },
   { path: Urls.SentGloveSessionUrl, component: SendteHanskeSesjonComponent },
   {
