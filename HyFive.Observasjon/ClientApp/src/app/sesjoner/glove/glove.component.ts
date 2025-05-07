@@ -11,10 +11,10 @@ import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 
 @Component({
-  selector: 'app-hanske',
-  templateUrl: './hanske.component.html'
+  selector: 'app-glove',
+  templateUrl: './glove.component.html'
 })
-export class HanskeComponent implements OnInit {
+export class GloveComponent implements OnInit {
 
   session: GloveSession;
   sessionIsSentToServer = false;
@@ -56,7 +56,7 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
-  navigerTilRegistreringssideForHanske(sessionId: string) {
+  navigateToRegistrationPageForGlove(sessionId: string) {
     this.router.navigate([Urls.RegisterGloveUrl], { queryParams: { sessionId: sessionId } });
   }
 
@@ -68,7 +68,7 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  visIndikasjoner(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller uten indikasjoner
+  showIndications(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller uten indikasjoner
     if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
