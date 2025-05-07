@@ -12,10 +12,10 @@ import {ToastrService} from 'ngx-toastr';
 import {DialogueTexts} from '../../../constants/dialogueTexts';
 
 @Component({
-  selector: 'app-sendte-handsmykker-sesjon',
-  templateUrl: './sendte-handsmykker-sesjon.component.html'
+  selector: 'app-sent-hand-jewelry-session',
+  templateUrl: './sent-hand-jewelry-session.component.html'
 })
-export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
+export class SentHandJewelrySessionComponent implements OnInit, OnDestroy {
 
   session: HandJewelrySession;
   handJewelryTypes: HandJewelryType[] = [];
