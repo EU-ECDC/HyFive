@@ -13,10 +13,10 @@ import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
-  selector: 'app-sendte-fire-indikasjoner',
-  templateUrl: './sendte-fire-indikasjoner-sesjon.component.html',
+  selector: 'app-sent-four-indications-session',
+  templateUrl: './sent-four-indications-session.component.html',
 })
-export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy {
+export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
 
   session: FourIndicationsSession;
   sessionIsSentToServer = false;
@@ -93,7 +93,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 
-  mottattInternetStatus(hasInternet: boolean){
+  receivedInternetStatus(hasInternet: boolean){
     this.isOnline = hasInternet;
     if(this.isOnline) {
 

@@ -44,7 +44,7 @@ import { SessionEditHeaderComponent } from './sessions/sesjonsredigering-overskr
 import { ToastrModule } from 'ngx-toastr';
 import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
-import { SendteFireIndikasjonerSesjonComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
+import { SentFourIndicationsSessionComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
 import { EditProtectiveEquipmentObservationComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
 import { SendteSesjonsoversiktComponent } from './sessions/sendte-sessions/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
 import { SendteHandsmykkerSesjonComponent } from './sessions/sendte-sessions/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
@@ -112,7 +112,7 @@ export const httpInterceptorProviders = [
         EditProtectiveEquipmentObservationComponent,
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,
-        SendteFireIndikasjonerSesjonComponent,
+        SentFourIndicationsSessionComponent,
         SendteSesjonsoversiktComponent,
         OfflineMessageComponent,
         SendteHandsmykkerSesjonComponent,
