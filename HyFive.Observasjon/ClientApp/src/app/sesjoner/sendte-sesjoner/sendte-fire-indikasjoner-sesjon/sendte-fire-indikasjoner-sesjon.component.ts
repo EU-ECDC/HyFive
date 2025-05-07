@@ -93,8 +93,8 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 
-  mottattInternetStatus(harInternett: boolean){
-    this.isOnline = harInternett;
+  mottattInternetStatus(hasInternet: boolean){
+    this.isOnline = hasInternet;
     if(this.isOnline) {
 
     }

@@ -82,8 +82,8 @@ export class SendteSesjonerComponent {
     }
   }
 
-  receivedInternetStatus(harInternett: boolean) {
-    this.isOnline = harInternett;
+  receivedInternetStatus(hasInternet: boolean) {
+    this.isOnline = hasInternet;
     if (this.isOnline) {
       this.lastSesjoner();
     }

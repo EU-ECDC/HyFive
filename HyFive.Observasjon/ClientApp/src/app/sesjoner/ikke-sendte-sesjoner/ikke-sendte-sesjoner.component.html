@@ -78,9 +78,9 @@
         </div>
       </div>
     </div>
-    <app-offline-melding
-      (harInternettEvent)="isOnline = $event"
-      [darkmode]="true"
-    ></app-offline-melding>
+    <app-offline-message
+      (hasInternetEvent)="isOnline = $event"
+      [darkMode]="true"
+    ></app-offline-message>
   </app-sesjonsoversikt>
 </div>

@@ -18,7 +18,7 @@
     </ng-template>
     <ng-template #content let-item="item">
       <app-edit-four-indications-observation class="mb-2"
-                                                 [observasjon]="item"
+                                                 [observation]="item"
                                                  [department]="session.department"
                                                  [gloveUseMustBeRegistered]="sessionView.gloveUseMustBeRegistered"
                                                  [timeShouldBeRegistred]="sessionView.timeShouldBeRegistred"
@@ -42,7 +42,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
+      <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
     </div>
   </div>
   <app-spinner *ngIf="sessionSentToServer"></app-spinner>

@@ -36,7 +36,7 @@
 
   <div class="row">
     <div class="col">
-      <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
+      <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
     </div>
   </div>
   <app-spinner *ngIf="sessionSentToServer"></app-spinner>

@@ -4,10 +4,10 @@
 
 <div class="container px-0">
   <app-sesjonsoversikt>
-    <app-offline-melding
-      (harInternettEvent)="receivedInternetStatus($event)"
-      [darkmode]="true"
-    ></app-offline-melding>
+    <app-offline-message
+      (hasInternetEvent)="receivedInternetStatus($event)"
+      [darkMode]="true"
+    ></app-offline-message>
     <ng-container *ngIf="isOnline">
       <div class="row">
         <div class="col-lg-8 mb-4">

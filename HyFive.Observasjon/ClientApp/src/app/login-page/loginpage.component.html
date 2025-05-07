@@ -4,7 +4,7 @@
     <div class="col-12">
       <h3>ECDC</h3>
     </div>
-    <app-offline-melding (harInternettEvent)="receivedInternetStatus($event)"></app-offline-melding>
+    <app-offline-message (hasInternetEvent)="receivedInternetStatus($event)"></app-offline-message>
     <div class="col-12" *ngIf="!receivedUserStatusFromServer">
       Waiting for response from server - checking user status
       <app-spinner> </app-spinner>

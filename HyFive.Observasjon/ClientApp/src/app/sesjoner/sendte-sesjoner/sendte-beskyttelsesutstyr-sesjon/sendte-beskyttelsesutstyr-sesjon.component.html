@@ -1,4 +1,4 @@
-<app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
+<app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
   <app-session-edit-header [session]="session" [header]="'Sendt session - Protective equipment'"></app-session-edit-header>
