@@ -21,7 +21,7 @@ import { Uuid } from 'src/app/utils/uuid';
 })
 export class RedigerHanskeObservasjonComponent implements OnInit {
 
-  erRedigeringsmodus: boolean = false;
+  isEditMode: boolean = false;
   Colors = Colors;
   DialogueTexts = DialogueTexts;
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
@@ -51,7 +51,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: GloveObservation;
   @Input() department: Department;
-  @Output() observasjonSlettetEvent = new EventEmitter();
+  @Output() observationDeletedEvent = new EventEmitter();
   showInfoModal = false;
   observationMissingText: any;
 
@@ -100,7 +100,7 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
     });
   }
 
-  lagreObservasjon() {
+  saveObservation() {
 
 
     this.observation.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
@@ -117,12 +117,12 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
 
     this.sessionService.changeObservation(this.observation);
-    this.erRedigeringsmodus = false;
+    this.isEditMode = false;
   }
 
   deleteObservation() {
     this.sessionService.deleteObservation(this.observation);
-    this.observasjonSlettetEvent.emit();
+    this.observationDeletedEvent.emit();
   }
 
   registerComment(comment: string) {

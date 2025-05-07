@@ -20,7 +20,7 @@ import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.se
 })
 export class RedigerHandsmykkerObservasjonComponent implements OnInit {
 
-  erRedigeringsmodus: boolean = false;
+  isEditMode: boolean = false;
   handJewelrySelection = [] as HandJewelrySelection[];
   handJewelryTypes: HandJewelryType[] = [];
   iconTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
@@ -41,7 +41,7 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: HandJewelryObservation;
   @Input() department: Department;
-  @Output() observasjonSlettetEvent = new EventEmitter();
+  @Output() observationDeletedEvent = new EventEmitter();
 
 
   ngOnInit(): void {
@@ -65,18 +65,18 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
 
-  lagreObservasjon() {
+  saveObservation() {
     this.observation.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];
     this.sessionService.changeObservation(this.observation);
-    this.erRedigeringsmodus = false;
+    this.isEditMode = false;
   }
 
   deleteObservation() {
     this.sessionService.deleteObservation(this.observation);
-    this.observasjonSlettetEvent.emit();
+    this.observationDeletedEvent.emit();
   }
 
   registerComment(comment: string) {

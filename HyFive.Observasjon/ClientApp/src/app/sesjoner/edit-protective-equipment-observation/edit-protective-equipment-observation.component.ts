@@ -14,12 +14,12 @@ import { SessionType } from 'src/app/models/api/SessionType';
 import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-rediger-beskyttelsesutstyr-observasjon',
-  templateUrl: './rediger-beskyttelsesutstyr-observasjon.component.html'
+  selector: 'app-edit-protective-equipment-observation',
+  templateUrl: './edit-protective-equipment-observation.component.html'
 })
-export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, OnDestroy {
+export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDestroy {
 
-  erRedigeringsmodus: boolean = false;
+  isEditMode: boolean = false;
   dialogueTexts = DialogueTexts;
   Colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
@@ -28,7 +28,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   selectedEquipment = null;
   protectiveEquipmentSessionType: SessionType = SessionType.ProtectiveEquipment;
 
-  kanIkkeLagreMelding = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
+  canNotSaveMessage = DialogueTexts.CanNotSaveProtectiveEquipmentObservation;
 
   faSave = faSave;
   faTrashAlt = faTrashAlt;
@@ -44,7 +44,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   @Input("observation") observation: ProtectiveEquipmentObservation;
   @Input("department") department: Department;
   @Input("institutionid") institutionid: number;
-  @Output("observasjonSlettetEvent") observasjonSlettetEvent = new EventEmitter();
+  @Output("observationDeletedEvent") observationDeletedEvent = new EventEmitter();
 
 
   ngOnInit(): void {
@@ -59,44 +59,44 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     this.observation.comment = comment;
   }
 
-  lagreObservasjon() {
+  saveObservation() {
     if(!this.canSave()){
-      this.toastrService.error(this.kanIkkeLagreMelding, '', {disableTimeOut: true})
+      this.toastrService.error(this.canNotSaveMessage, '', {disableTimeOut: true})
       return;
     }
-    if (this.erRedigeringsmodus) {
+    if (this.isEditMode) {
       this.sessionService.changeObservation(this.observation);
     }
-    this.erRedigeringsmodus = false;
+    this.isEditMode = false;
   }
 
   deleteObservation() {
     this.sessionService.deleteObservation(this.observation);
-    this.observasjonSlettetEvent.emit();
+    this.observationDeletedEvent.emit();
   }
 
-  ProtectiveEquipmentRequired(): ProtectiveEquipment[] {
+  protectiveEquipmentRequired(): ProtectiveEquipment[] {
     return this.protectiveEquipment.filter(b => b.isRequired);
   }
 
-  ProtectiveEquipmentNotRequired(): ProtectiveEquipment[] {
+  protectiveEquipmentNotRequired(): ProtectiveEquipment[] {
     return this.protectiveEquipment.filter(b => b.isRequired === false);
   }
 
-  changed(event, valg: ProtectiveEquipment) {
+  changed(event, selection: ProtectiveEquipment) {
     event.srcElement.blur();
     event.preventDefault();
 
-    valg.wasUsed = true;
-    valg.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
+    selection.wasUsed = true;
+    selection.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
 
-    valg.misuseTypes.forEach(f => {
-      const index = valg.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
-      valg.equipmentType.misuseTypes[index].isSelected = true;
+    selection.misuseTypes.forEach(f => {
+      const index = selection.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
+      selection.equipmentType.misuseTypes[index].isSelected = true;
     });
 
-    if (valg.wasUsed) {
-      this.showModal(valg);
+    if (selection.wasUsed) {
+      this.showModal(selection);
     }
   }
 
@@ -109,9 +109,9 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
 
     modalRef.componentInstance.selectedEquipment = JSON.parse(JSON.stringify(selectedEquipment)) as ProtectiveEquipment;
 
-    modalRef.componentInstance.displayMode = !this.erRedigeringsmodus;
+    modalRef.componentInstance.displayMode = !this.isEditMode;
 
-    if (this.erRedigeringsmodus && selectedEquipment.wasUsed) {
+    if (this.isEditMode && selectedEquipment.wasUsed) {
       if (selectedEquipment.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '') {
         modalRef.componentInstance.showEquipmentDeleteButton = true;
       }
@@ -121,7 +121,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
     }
 
     modalRef.result.then((result: ProtectiveEquipment) => {
-      if (!this.erRedigeringsmodus) {
+      if (!this.isEditMode) {
         return;
       }
       selectedEquipment.isRequired = result.isRequired;
@@ -136,7 +136,7 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
         selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
       }
     }, (reason) => {
-      if (this.erRedigeringsmodus) {
+      if (this.isEditMode) {
         selectedEquipment.wasUsed = false;
         this.resetEquipment(selectedEquipment);
       }
@@ -144,22 +144,22 @@ export class RedigerBeskyttelsesutstyrObservasjonComponent implements OnInit, On
   }
 
   setAllEquipmentToProperUsed(event) {
-    this.ProtectiveEquipmentRequired().forEach(x => {
+    this.protectiveEquipmentRequired().forEach(x => {
       x.wasUsed = true;
       x.wasUsedCorrectly = true;
     });
   }
 
-  resetEquipment(valg: ProtectiveEquipment) {
-    let valgIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === valg.equipmentType.id);
-    this.protectiveEquipment[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypes).find(x => x.equipmentType.id === valg.equipmentType.id);
+  resetEquipment(selection: ProtectiveEquipment) {
+    let selectedIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === selection.equipmentType.id);
+    this.protectiveEquipment[selectedIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypes).find(x => x.equipmentType.id === selection.equipmentType.id);
   }
 
-  visVisningsmodusModal(event, valg: ProtectiveEquipment) {
-    if (!this.erRedigeringsmodus && valg.wasUsed) {
+  showDisplayModeModal(event, selection: ProtectiveEquipment) {
+    if (!this.isEditMode && selection.wasUsed) {
       event.stopPropagation();
       event.preventDefault();
-      this.showModal(valg);
+      this.showModal(selection);
       return;
     }
   }

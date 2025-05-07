@@ -22,7 +22,7 @@ import { Activities } from '../../constants/Activities';
 })
 export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
 
-  erRedigeringsmodus: boolean = false;
+  isEditMode: boolean = false;
   ActivityTypeConstants = ActivityTypeConstants;
   activity: Activity;
   fireIndikasjoner: IndicationType[];
@@ -56,7 +56,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
   @Input("department") department: Department;
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
   @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
-  @Output("observasjonSlettetEvent") observasjonSlettetEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
+  @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
 
   ngOnInit(): void {
     if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
@@ -138,7 +138,7 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
     this.observation.indicationTypes = selectedIndications;
   }
 
-  lagreObservasjon() {
+  saveObservation() {
     if (this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
       this.observation = this.registrereAktivitetTypeIkkeUtfort(this.observation);
     }
@@ -146,13 +146,13 @@ export class RedigerFireIndikasjonerObservasjonComponent implements OnInit {
       this.observation.activity.timeSpent = 0;
     }
     this.sessionService.changeObservation(this.observation);
-    this.erRedigeringsmodus = false;
+    this.isEditMode = false;
     this.ikkeUtfortAktivitet = null;
   }
 
   deleteObservation() {
     this.sessionService.deleteObservation(this.observation);
-    this.observasjonSlettetEvent.emit();
+    this.observationDeletedEvent.emit();
   }
 
   erAktivitetValgt(activityTypeCode: string): boolean {

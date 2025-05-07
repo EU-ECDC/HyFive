@@ -26,7 +26,7 @@
         <h2 class="h5 mb-3">Required</h2>
         <div class="row text-break">
           <div class="col-4 col-md-3 text-center mb-3 px-1"
-               *ngFor="let select of ProtectiveEquipmentRequired(); let i = index;"
+               *ngFor="let select of protectiveEquipmentRequired(); let i = index;"
                cdkDrag [cdkDragData]="select"
                (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
             <label [htmlFor]="'required'+card.id.substr(4)+ProtectiveEquipmentSelection.indexOf(select)">
@@ -52,7 +52,7 @@
       </div>
       <div class="col-auto mx-auto">
         <div class="fhi-form-check-tile">
-          <button class="btn fhi-btn-icon btn-lg mt-3" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>Alt equipment korrekt benyttet</strong></button>
+          <button class="btn fhi-btn-icon btn-lg mt-3" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>All equipment correctly used</strong></button>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
       <h2 class="h5 mb-3">Not required</h2>
       <div class="custom-control custom-checkbox hh-stadium-checkbox"
            [ngClass]="{'hh-stadium-checkbox--checked':select.wasUsed}"
-           *ngFor="let select of ProtectiveEquipmentNotRequired(); let i = index;"
+           *ngFor="let select of protectiveEquipmentNotRequired(); let i = index;"
            cdkDrag [cdkDragData]="select"
            (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
 

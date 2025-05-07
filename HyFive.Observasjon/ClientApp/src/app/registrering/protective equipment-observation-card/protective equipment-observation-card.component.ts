@@ -80,11 +80,11 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
     this.sessionViewUpdate.emit(this.sessionView);
   }
 
-  ProtectiveEquipmentRequired(): ProtectiveEquipment[] {
+  protectiveEquipmentRequired(): ProtectiveEquipment[] {
     return this.ProtectiveEquipmentSelection.filter(b => b.isRequired);
   }
 
-  ProtectiveEquipmentNotRequired(): ProtectiveEquipment[] {
+  protectiveEquipmentNotRequired(): ProtectiveEquipment[] {
     return this.ProtectiveEquipmentSelection.filter(b => b.isRequired === false);
   }
 
@@ -98,8 +98,8 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   }
 
   resetEquipment(select: ProtectiveEquipment) {
-    let valgIndex = this.ProtectiveEquipmentSelection.findIndex(x => x.equipmentType.id === select.equipmentType.id);
-    this.ProtectiveEquipmentSelection[valgIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes).find(x => x.equipmentType.id === select.equipmentType.id);
+    let selectedIndex = this.ProtectiveEquipmentSelection.findIndex(x => x.equipmentType.id === select.equipmentType.id);
+    this.ProtectiveEquipmentSelection[selectedIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes).find(x => x.equipmentType.id === select.equipmentType.id);
   }
 
 
@@ -147,7 +147,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   }
 
   setAllEquipmentToProperUsed(event) {
-    this.ProtectiveEquipmentRequired().forEach(x => {
+    this.protectiveEquipmentRequired().forEach(x => {
       x.wasUsed = true;
       x.wasUsedCorrectly = true;
     });

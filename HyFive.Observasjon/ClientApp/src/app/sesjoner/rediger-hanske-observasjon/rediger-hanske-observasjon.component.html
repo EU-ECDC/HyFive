@@ -2,11 +2,11 @@
   <div class="d-flex flex-column">
     <div class="d-flex justify-content-between" *ngIf="!isReadonly">
       <div class="mb-3">
-        <button *ngIf="!erRedigeringsmodus" class="btn fhi-btn-icon" (click)="erRedigeringsmodus = true">
+        <button *ngIf="!isEditMode" class="btn fhi-btn-icon" (click)="isEditMode = true">
           <i class="icon-pencil"></i>
-          Rediger
+          Edit
         </button>
-        <button *ngIf="erRedigeringsmodus" class="btn fhi-btn-icon" (click)="lagreObservasjon()">
+        <button *ngIf="isEditMode" class="btn fhi-btn-icon" (click)="saveObservation()">
           <i class="icon-check-circle"></i>
           Save
         </button>
@@ -20,9 +20,9 @@
       </div>
     </div>
     <div class="hh-card-slider__card"
-         [ngClass]="{ 'hh-card-slider__card--active': erRedigeringsmodus || isReadonly }"
-         [ngStyle]="(erRedigeringsmodus || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
-      <div class="row" *ngIf="erRedigeringsmodus">
+         [ngClass]="{ 'hh-card-slider__card--active': isEditMode || isReadonly }"
+         [ngStyle]="(isEditMode || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
+      <div class="row" *ngIf="isEditMode">
         <div class="col-12" *ngIf="observation.role?.id && observation.role.id > 0">
           <app-role-selection-dropdown [rolleId]="observation.role.id"
                                    [isReadonly]="isReadonly"
@@ -51,7 +51,7 @@
                           <label ngbButtonLabel>
                             <input type="checkbox" ngbButton
                                    class="visually-hidden"
-                                   [disabled]="isReadonly || !erRedigeringsmodus"
+                                   [disabled]="isReadonly || !isEditMode"
                                    [(ngModel)]="type.isSelected">
                             <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
                           </label>
@@ -64,10 +64,10 @@
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="true" [(ngModel)]="hanskeBrukt"/>
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="hanskeBrukt"/>
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
                                 
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="false" [(ngModel)]="hanskeBrukt" />
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="hanskeBrukt" />
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
                               </div>
                             </div>
@@ -96,7 +96,7 @@
                           <label ngbButtonLabel>
                             <input type="checkbox" ngbButton
                                     class="visually-hidden"
-                                    [disabled]="isReadonly || !erRedigeringsmodus"
+                                    [disabled]="isReadonly || !isEditMode"
                                     [(ngModel)]="type.isSelected">
                             <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
                           </label>
@@ -113,7 +113,7 @@
             <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
-                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !erRedigeringsmodus" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />
+                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !isEditMode" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />
                 <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}">{{type.name}}</label>
               </div>
             </div>
@@ -123,13 +123,13 @@
       <div class="row">
         <div class="col">
           <div class="d-flex flex-row justify-content-around">
-            <ng-container *ngIf="erRedigeringsmodus">
+            <ng-container *ngIf="isEditMode">
               <app-register-comment [disabled]="isReadonly"
                                        [commentInput]="observation.comment"
                                        (commentRegisteredEvent)="registerComment($event)">
               </app-register-comment>
             </ng-container>
-            <ng-container *ngIf="!erRedigeringsmodus && observation.comment">
+            <ng-container *ngIf="!isEditMode && observation.comment">
               <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
             </ng-container>
           </div>

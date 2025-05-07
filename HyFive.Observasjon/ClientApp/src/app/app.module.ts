@@ -45,7 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
 import { SendteFireIndikasjonerSesjonComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
-import { RedigerBeskyttelsesutstyrObservasjonComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
+import { EditProtectiveEquipmentObservationComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
 import { SendteSesjonsoversiktComponent } from './sessions/sendte-sessions/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
 import { SendteHandsmykkerSesjonComponent } from './sessions/sendte-sessions/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
 import { OfflineMeldingComponent } from './shared/offline-melding/offline-melding.component';
@@ -109,7 +109,7 @@ export const httpInterceptorProviders = [
         ProtectiveEquipmentComponent,
         AccordionComponent,
         SessionEditHeaderComponent,
-        RedigerBeskyttelsesutstyrObservasjonComponent,
+        EditProtectiveEquipmentObservationComponent,
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,
         SendteFireIndikasjonerSesjonComponent,
@@ -152,7 +152,7 @@ export const httpInterceptorProviders = [
     bootstrap: [AppComponent],
     providers: [FourIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
-        RedigerBeskyttelsesutstyrObservasjonComponent,
+        EditProtectiveEquipmentObservationComponent,
         RegisterCommentComponent
     ]
 })

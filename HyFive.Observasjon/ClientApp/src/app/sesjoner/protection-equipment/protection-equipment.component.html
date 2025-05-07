@@ -16,11 +16,11 @@
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-beskyttelsesutstyr-observasjon [observation]="item"
+      <app-edit-protective-equipment-observation [observation]="item"
                                                   [department]="session.department"
                                                   [institutionid]="institutionid"
-                                                  (observasjonSlettetEvent)="observationDeletedEventHandler($event)">
-      </app-rediger-beskyttelsesutstyr-observasjon>
+                                                  (observationDeletedEvent)="observationDeletedEventHandler($event)">
+      </app-edit-protective-equipment-observation>
     </ng-template>
   </div>
 
