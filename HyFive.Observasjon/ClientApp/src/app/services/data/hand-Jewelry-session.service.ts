@@ -56,7 +56,7 @@ export class HandJewelrySessionService extends BaseSessionService<HandJewelrySes
     if (navigator.onLine) {
       let params = new HttpParams();
       params = params.append("sessionId", sessionId);
-      return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/sesjon/handjewelry`, { params });
+      return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/session/handjewelry`, { params });
     }
     else {
       confirm("Not koblet til internet");

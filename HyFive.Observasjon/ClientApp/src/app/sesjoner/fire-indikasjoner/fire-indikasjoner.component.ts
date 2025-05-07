@@ -18,10 +18,10 @@ import { FourIndicationsSessionView } from 'src/app/models/registration/FourIndi
 })
 export class FireIndikasjonerComponent implements OnInit {
 
-  sesjon: FourIndicationsSession;
+  session: FourIndicationsSession;
   sesjonvisning: FourIndicationsSessionView;
-  sesjonErSendtTilServer = false;
-  sesjonSendesTilServer = false;
+  sessionIsSentToServer = false;
+  sessionSentToServer = false;
   activityTypes: ActivityType[];
   isOnline: boolean;
 
@@ -45,9 +45,9 @@ export class FireIndikasjonerComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sessionService.getSession(sessionId);
+        this.session = this.sessionService.getSession(sessionId);
         this.sesjonvisning = this.sessionService.getSessionViewForSession(sessionId);
-        if (!this.sesjon) this.router.navigate(['']);
+        if (!this.session) this.router.navigate(['']);
       });
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
@@ -55,7 +55,7 @@ export class FireIndikasjonerComponent implements OnInit {
   }
   
 
-  sesjonSlettetEventHandler(id: string) {
+  sessionDeletedEventHandler(id: string) {
     this.sessionService.deleteSession(id);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
@@ -64,31 +64,31 @@ export class FireIndikasjonerComponent implements OnInit {
     this.router.navigate([Urls.RegisterFourndicationsUrl], {queryParams: { sessionId: sessionId}})
   }
 
-  observasjonSlettetEventHandler($event: FourIndicationsObservation) {
+  observationDeletedEventHandler($event: FourIndicationsObservation) {
     // Mulig TODO: pop observasjonen rett fra lista istedet for å laste på nytt fra LocalStorage
-    this.sesjon = this.sessionService.getSession(this.sesjon.id);
+    this.session = this.sessionService.getSession(this.session.id);
   }
 
   hentIngress(observation: FourIndicationsObservation) {
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 
-  sendTilKoordinator() {
-    this.sesjonSendesTilServer = true;
-    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
-        this.toastrService.success("Session ble sendt til koordinator");
-        this.sessionService.deleteSession(this.sesjon.id);
-        this.sesjonErSendtTilServer = true;
+  sendToCoordinator() {
+    this.sessionSentToServer = true;
+    this.sessionService.sendToServer(this.session.id).subscribe(res => {
+        this.toastrService.success("Session was sent to coordinator");
+        this.sessionService.deleteSession(this.session.id);
+        this.sessionIsSentToServer = true;
       },
       error => {
-        const message = "Noe galt skjedde ved sending av sesjon til koordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
+        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
         this.toastrService.error(message, '', { disableTimeOut: true});
       },
-      () => this.sesjonSendesTilServer = false);
+      () => this.sessionSentToServer = false);
 
   };
 
-  navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SentFourIndicationsSessionUrl], { queryParams: {sessionId: this.sesjon.id}})
+  navigateToSentSession() {
+    this.router.navigate(['/'+Urls.SentFourIndicationsSessionUrl], { queryParams: {sessionId: this.session.id}})
   }
 }

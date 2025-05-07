@@ -1,13 +1,13 @@
 
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
-  <app-navigation-link (linkClicked)="navigerTilSendteSesjoner()">Tilbake</app-navigation-link>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sendt sesjon - Glove'"></app-sesjonsredigering-overskrift>
+  <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
+  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Sendt session - Glove'"></app-sesjonsredigering-overskrift>
 </div>
 
 <div class="container" *ngIf='isOnline'>
   <div class="accordion-compact mb-4">
-    <app-accordion [items]="sesjon?.observations"
+    <app-accordion [items]="session?.observations"
                    [headerTemplate]="header"
                    [contentTemplate]="content">
     </app-accordion>
@@ -19,17 +19,17 @@
     </ng-template>
     <ng-template #content let-item="item">
       <app-rediger-hanske-observasjon [observation]="item"
-                                      [department]="sesjon.department"
+                                      [department]="session.department"
                                       [isReadonly]="true">
       </app-rediger-hanske-observasjon>
     </ng-template>
   </div>
 
-  <p *ngIf="sesjon?.comment">
-      Comment: <small><strong data-hj-suppress>{{sesjon.comment}}</strong></small>
+  <p *ngIf="session?.comment">
+      Comment: <small><strong data-hj-suppress>{{session.comment}}</strong></small>
   </p>
 
-  <div class="text-end" *ngIf="sesjon?.observations?.length > 0">
+  <div class="text-end" *ngIf="session?.observations?.length > 0">
     <button  class="btn fhi-btn-icon" (click)="lastNedSomExcel()">
       <i class="icon-download"></i>
       {{DialogueTexts.DownloadDataAsExcel}}

@@ -1,8 +1,8 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHanske(session.id)">Tilbake til observasjon</app-navigation-link>
-  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Glove'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
+  <app-navigation-link (linkClicked)="navigateToProtectiveEquipmentRegistrationPage(session.id)">Back to observation</app-navigation-link>
+  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Protective equipment'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
 </div>
-<div *ngIf="sessionIsSentToServer == false" class="container">
+<div class="container" *ngIf="sessionIsSentToServer == false">
   <div class="accordion-compact mb-4">
     <app-accordion [items]="session.observations"
                    [headerTemplate]="header"
@@ -11,24 +11,23 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-0 lh-1"><small>{{ visIndikasjoner(item) }}</small></p>
+        <p class="mb-1">{{ item.settingtype.name }}</p>
+        <p class="mb-0"><small>{{ showEquipment(item.protectiveEquipmentList) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-hanske-observasjon [observation]="item"
-                                      [department]="session.department"
-                                      (observasjonSlettetEvent)="observationDeletedEventHandler($event)">
-      </app-rediger-hanske-observasjon>
+      <app-rediger-beskyttelsesutstyr-observasjon [observation]="item"
+                                                  [department]="session.department"
+                                                  [institutionid]="institutionid"
+                                                  (observasjonSlettetEvent)="observationDeletedEventHandler($event)">
+      </app-rediger-beskyttelsesutstyr-observasjon>
     </ng-template>
   </div>
 
-  <div class="row mb-3">
+  <div class="row mb-6">
     <div class="col-12">
       <div class="form-group">
-        <input type="text"
-               id="FormInput"
-               class="form-control"
-               placeholder="Add comment"
+        <input type="text" id="FormInput" class="form-control" placeholder="Add comment"
                [(ngModel)]="session.comment"
                (ngModelChange)="sessionService.updateSession(session)">
       </div>
@@ -48,20 +47,26 @@
         Delete session
       </app-slett-bekreftelsesdialog>
     </div>
-
-    <div class="col-auto text-end ms-auto">
+    <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
-              *ngIf="isOnline"
               (click)="sendToCoordinator()"
               [disabled]="!(session?.observations?.length > 0)">
-        Send til koordinator
+        Send to coordinator
       </button>
     </div>
   </div>
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link   [mobileCssClass]="'override-noeffect'" (linkClicked)="navigerTilRegistreringssideForHanske(session.id)">Back to observation</app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToProtectiveEquipmentRegistrationPage(session.id)">Back to observation</app-navigation-link>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <button class="btn fhi-btn-outline-primary" (click)="navigateToSentSessions()" style="color: #5E8A9C;">
+        Send sessions
+      </button>
     </div>
   </div>
 </div>

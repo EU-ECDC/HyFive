@@ -1,29 +1,29 @@
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
-  <app-navigation-link (linkClicked)="navigerTilSendteSesjoner()">Tilbake</app-navigation-link>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Sendt sesjon - Protective equipment'"></app-sesjonsredigering-overskrift>
+  <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
+  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Sendt session - Protective equipment'"></app-sesjonsredigering-overskrift>
   <div class="accordion-compact mb-4">
-    <app-accordion [items]="sesjon?.observations"
+    <app-accordion [items]="session?.observations"
                    [headerTemplate]="header"
                    [contentTemplate]="content"></app-accordion>
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{item.role.name}} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
         <p class="mb-1">{{ hentIngress(item)}}</p>
-        <p class="mb-0 lh-1"><small>{{ visUtstyr(item.protectiveEquipmentList) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ showEquipment(item.protectiveEquipmentList) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
       <app-rediger-beskyttelsesutstyr-observasjon [observation]="item"
-                                                  [department]="sesjon.department"
+                                                  [department]="session.department"
                                                   [isReadonly]="true">
       </app-rediger-beskyttelsesutstyr-observasjon>
     </ng-template>
   </div>
-  <p *ngIf="sesjon?.comment">
-      Comment: <small><strong data-hj-suppress>{{sesjon?.comment}}</strong></small>
+  <p *ngIf="session?.comment">
+      Comment: <small><strong data-hj-suppress>{{session?.comment}}</strong></small>
   </p>
-  <div class="text-end" *ngIf="sesjon?.observations?.length > 0">
+  <div class="text-end" *ngIf="session?.observations?.length > 0">
     <button class="btn fhi-btn-icon" (click)="lastNedSomExcel()">
       <i class="icon-download"></i>
       {{DialogueTexts.DownloadDataAsExcel}}

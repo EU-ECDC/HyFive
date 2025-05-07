@@ -16,9 +16,9 @@ import { GloveObservation } from '../../models/api/GloveObservation';
 })
 export class HanskeComponent implements OnInit {
 
-  sesjon: GloveSession;
-  sesjonErSendtTilServer = false;
-  sesjonSendesTilServer = false;
+  session: GloveSession;
+  sessionIsSentToServer = false;
+  sessionSentToServer = false;
   comment: string;
   isOnline: boolean = true;
 
@@ -45,13 +45,13 @@ export class HanskeComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sessionService.getSession(sessionId);
-        if (!this.sesjon) this.router.navigate(['']);
+        this.session = this.sessionService.getSession(sessionId);
+        if (!this.session) this.router.navigate(['']);
       });
   }
 
  
-  sesjonSlettetEventHandler(id: string) {
+  sessionDeletedEventHandler(id: string) {
     this.sessionService.deleteSession(id);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
@@ -60,11 +60,11 @@ export class HanskeComponent implements OnInit {
     this.router.navigate([Urls.RegisterGloveUrl], { queryParams: { sessionId: sessionId } });
   }
 
-  observasjonSlettetEventHandler($event: GloveObservation) {
-    this.sesjon = this.sessionService.getSession(this.sesjon.id);
+  observationDeletedEventHandler($event: GloveObservation) {
+    this.session = this.sessionService.getSession(this.session.id);
   }
 
-  navigerTilSendteSesjoner() {
+  navigateToSentSessions() {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
@@ -73,21 +73,21 @@ export class HanskeComponent implements OnInit {
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
 
-  sendTilKoordinator() {
-    this.sesjonSendesTilServer = true;
-    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
-      this.toastrService.success("Session ble sendt til koordinator");
-      this.sessionService.deleteSession(this.sesjon.id);
-      this.sesjonErSendtTilServer = true;
+  sendToCoordinator() {
+    this.sessionSentToServer = true;
+    this.sessionService.sendToServer(this.session.id).subscribe(res => {
+      this.toastrService.success("Session was sent to coordinator");
+      this.sessionService.deleteSession(this.session.id);
+      this.sessionIsSentToServer = true;
     },
       error => {
-        const message = "Noe galt skjedde ved sending av sesjon til koordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
+        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
         this.toastrService.error(message, '', { disableTimeOut: true});
       },
-      () => this.sesjonSendesTilServer = false);
+      () => this.sessionSentToServer = false);
   };
 
-  navigerTilSendtSesjon() {
-    this.router.navigate(['/' + Urls.SentGloveSessionUrl], { queryParams: { sessionId: this.sesjon.id } })
+  navigateToSentSession() {
+    this.router.navigate(['/' + Urls.SentGloveSessionUrl], { queryParams: { sessionId: this.session.id } })
   }
 }

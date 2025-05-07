@@ -10,5 +10,5 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 export class SendteSesjonsoversiktComponent {
 
   faCalendar = faCalendar;
-  @Input("sesjon") sesjon: FourIndicationsSession;
+  @Input("session") session: FourIndicationsSession;
 }

@@ -1,10 +1,10 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHandsmykker(sesjon.id)">Tilbake til observasjon</app-navigation-link>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Håndsmykker'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
+  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Tilbake til observasjon</app-navigation-link>
+  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Håndsmykker'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
 </div>
-<div *ngIf="sesjonErSendtTilServer == false" class="container">
+<div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">
-    <app-accordion [items]="sesjon.observations"
+    <app-accordion [items]="session.observations"
                    [headerTemplate]="header"
                    [contentTemplate]="content">
     </app-accordion>
@@ -16,8 +16,8 @@
     </ng-template>
     <ng-template #content let-item="item">
       <app-rediger-handsmykker-observation [observasjon]="item"
-                                            [department]="sesjon.department"
-                                            (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">
+                                            [department]="session.department"
+                                            (observasjonSlettetEvent)="observationDeletedEventHandler($event)">
       </app-rediger-handsmykker-observasjon>
     </ng-template>
   </div>
@@ -30,8 +30,8 @@
                class="form-control"
               
                placeholder="Add comment"
-               [(ngModel)]="sesjon.comment"
-               (ngModelChange)="sessionService.updateSession(sesjon)">
+               [(ngModel)]="session.comment"
+               (ngModelChange)="sessionService.updateSession(session)">
       </div>
     </div>
   </div>
@@ -41,18 +41,18 @@
       <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
     </div>
   </div>
-  <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
-  <div class="row mb-4" *ngIf="!sesjonSendesTilServer">
+  <app-spinner *ngIf="sessionSentToServer"></app-spinner>
+  <div class="row mb-4" *ngIf="!sessionSentToServer">
     <div class="col ms-auto mb-3">
-      <app-slett-bekreftelsesdialog (slettetEvent)="sesjonSlettetEventHandler(sesjon.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
+      <app-slett-bekreftelsesdialog (slettetEvent)="sessionDeletedEventHandler(session.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
         <i class="icon-trash3"></i>
-        Delete sesjon
+        Delete session
       </app-slett-bekreftelsesdialog>
     </div>
     <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
-              (click)="sendTilKoordinator()"
-              [disabled]="!(sesjon?.observations?.length > 0)">
+              (click)="sendToCoordinator()"
+              [disabled]="!(session?.observations?.length > 0)">
         Send til koordinator
       </button>
     </div>
@@ -60,14 +60,14 @@
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigerTilRegistreringssideForHandsmykker(sesjon.id)">Tilbake til observation</app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Back to observation</app-navigation-link>
     </div>
   </div>
 </div>
 
-<div class="container" *ngIf="sesjonErSendtTilServer">
+<div class="container" *ngIf="sessionIsSentToServer">
   <div class="row">
-    <p>{{DialogueTexts.SessionIsSentToCoordinator}}<a [routerLink]="navigerTilSendtSesjon()">{{DialogueTexts.ShowSubmittedSession}}</a></p>
+    <p>{{DialogueTexts.SessionIsSentToCoordinator}}<a [routerLink]="navigateToSentSession()">{{DialogueTexts.ShowSubmittedSession}}</a></p>
   </div>
 </div>
 

@@ -8,12 +8,12 @@
           </h1>
           <p>
              <i class="icon-clipboard2 icon-lg me-1"></i>
-            <span *ngIf="sesjonErSendtTilServer === false">(Under arbeid)</span>
+            <span *ngIf="sessionIsSentToServer === false">(Under arbeid)</span>
           </p>
           
-          <div *ngIf="sesjon" class="hh-observasjoner-under-arbeid__tidspunkt row d-flex">
-            <div class="col-auto"><i class="icon-clock icon-sm me-1"></i> {{ sesjon.startTime | date:'HH:mm' }} </div>
-            <div class="col"><i class="icon-calendar icon-sm me-1"></i> {{ sesjon.startTime | date:'dd.MM.yyyy' }} </div>
+          <div *ngIf="session" class="hh-observasjoner-under-arbeid__tidspunkt row d-flex">
+            <div class="col-auto"><i class="icon-clock icon-sm me-1"></i> {{ session.startTime | date:'HH:mm' }} </div>
+            <div class="col"><i class="icon-calendar icon-sm me-1"></i> {{ session.startTime | date:'dd.MM.yyyy' }} </div>
           </div>
         </div>
       </div>

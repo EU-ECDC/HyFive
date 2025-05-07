@@ -96,15 +96,15 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
   createSessionView(
-    sesjon: Session<any>,
+    session: Session<any>,
     sesjonstype: SessionType
   ): SessionReport {
     return {
-      departmentName: sesjon.department?.name,
-      startTime: sesjon.startTime,
+      departmentName: session.department?.name,
+      startTime: session.startTime,
       type: sesjonstype,
-      id: sesjon.id,
-      institutionsName: sesjon.institutionsName,
+      id: session.id,
+      institutionsName: session.institutionsName,
     };
   }
 
@@ -141,7 +141,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   this.fourIndicationsSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i sesjon:', error);
+                  console.error('Error i session:', error);
                   return of(null);  // Return a null value so forkJoin still completes
                 })
               );
@@ -158,7 +158,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   this.handJewelrySessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i sesjon:', error);
+                  console.error('Error i session:', error);
                   return of(null);
                 })
               );
@@ -175,7 +175,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   this.gloveSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i sesjon:', error);
+                  console.error('Error i session:', error);
                   return of(null);
                 })
               );
@@ -192,7 +192,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
                   this.protectiveEquipmentSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i sesjon:', error);
+                  console.error('Error i session:', error);
                   return of(null);
                 })
               );
@@ -216,8 +216,8 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
   }
 
     
-  merkSesjon(sesjon: SessionReport) {
-    sesjon.isSelected = !sesjon.isSelected;
+  merkSesjon(session: SessionReport) {
+    session.isSelected = !session.isSelected;
     this.harValgtEnSesjon = this.sesjonerFiltrert.some((s) => s.isSelected);
   }
 

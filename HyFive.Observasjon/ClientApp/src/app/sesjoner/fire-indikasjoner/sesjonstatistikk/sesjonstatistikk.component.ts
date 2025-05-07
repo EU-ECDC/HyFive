@@ -8,7 +8,7 @@ import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
 })
 export class SesjonstatistikkComponent implements OnInit {
 
-  @Input() sesjon: FourIndicationsSession;
+  @Input() session: FourIndicationsSession;
 
   constructor() { }
 
@@ -16,27 +16,27 @@ export class SesjonstatistikkComponent implements OnInit {
   }
 
   beregnAnledningerEtterlevd() : number{
-    if(this.sesjon.observations.length == 0)
+    if(this.session.observations.length == 0)
       return 0;
-    return this.sesjon.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return this.session.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerEtterlevdProsent(): number {
-    if (this.sesjon.observations.length == 0)
+    if (this.session.observations.length == 0)
       return 0;
-    return (this.beregnAnledningerEtterlevd() / this.sesjon.observations.length) * 100;
+    return (this.beregnAnledningerEtterlevd() / this.session.observations.length) * 100;
   }
 
   beregnAnledningerUtelatt() : number{
-    if(this.sesjon.observations.length == 0)
+    if(this.session.observations.length == 0)
       return 0;
-    return this.sesjon.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return this.session.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
   beregnAnledningerUtelattProsent() : number{
-    if(this.sesjon.observations.length == 0)
+    if(this.session.observations.length == 0)
       return 0;
-    return (this.beregnAnledningerUtelatt() / this.sesjon.observations.length)*100
+    return (this.beregnAnledningerUtelatt() / this.session.observations.length)*100
   }
 
 }

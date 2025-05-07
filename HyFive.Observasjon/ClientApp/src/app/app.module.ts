@@ -38,7 +38,7 @@ import { RegisterProtectiveEquipmentComponent } from './registrering/register-pr
 import { ProtectiveEquipmentObservationCardComponent } from './registrering/protective equipment-observation-card/protective equipment-observation-card.component';
 import { SelectionForProtectiveEquipmentComponent } from './startside/selection-for-protective-equipment/selection-for-protective-equipment.component';
 import { NavigationLinkComponent } from './shared/navigation-link/navigation-link.component';
-import { BeskyttelsesutstyrComponent } from './sessions/beskyttelsesutstyr/beskyttelsesutstyr.component';
+import { ProtectiveEquipmentComponent } from './sessions/beskyttelsesutstyr/beskyttelsesutstyr.component';
 import { AccordionComponent } from './shared/accordion/accordion.component';
 import { SesjonsredigeringOverskriftComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -106,7 +106,7 @@ export const httpInterceptorProviders = [
         ProtectiveEquipmentObservationCardComponent,
         SelectionForProtectiveEquipmentComponent,
         NavigationLinkComponent,
-        BeskyttelsesutstyrComponent,
+        ProtectiveEquipmentComponent,
         AccordionComponent,
         SesjonsredigeringOverskriftComponent,
         RedigerBeskyttelsesutstyrObservasjonComponent,

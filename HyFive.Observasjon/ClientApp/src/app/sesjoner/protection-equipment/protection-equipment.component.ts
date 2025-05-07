@@ -12,14 +12,14 @@ import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquip
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
-  selector: 'app-beskyttelsesutstyr',
-  templateUrl: './beskyttelsesutstyr.component.html'
+  selector: 'app-protection-equipment',
+  templateUrl: './protection-equipment.component.html'
 })
-export class BeskyttelsesutstyrComponent implements OnInit {
+export class ProtectiveEquipmentComponent implements OnInit {
 
-  sesjon: ProtectiveEquipmentSession;
-  sesjonErSendtTilServer = false;
-  sesjonSendesTilServer = false;
+  session: ProtectiveEquipmentSession;
+  sessionIsSentToServer = false;
+  sessionSentToServer = false;
   isOnline: boolean = true;
   institutionid: number;
 
@@ -45,54 +45,54 @@ export class BeskyttelsesutstyrComponent implements OnInit {
     this.route.queryParams.subscribe(
       params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sesjon = this.sessionService.getSession(sessionId);
-        this.institutionid = this.sesjon.department.institutionId;
-        if(!this.sesjon) this.router.navigate(['']);
+        this.session = this.sessionService.getSession(sessionId);
+        this.institutionid = this.session.department.institutionId;
+        if(!this.session) this.router.navigate(['']);
       }
     );
   }
 
-  navigerTilRegistreringssideForBeskyttelsesutstyr(sessionId: string){
+  navigateToProtectiveEquipmentRegistrationPage(sessionId: string){
     this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], {queryParams: {sessionId: sessionId}});
   }
 
-  navigerTilSendteSesjoner() {
+  navigateToSentSessions() {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  sesjonSlettetEventHandler(sessionId: string) {
+  sessionDeletedEventHandler(sessionId: string) {
     this.sessionService.deleteSession(sessionId);
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
-  visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string{
+  showEquipment(protectiveEquipment: ProtectiveEquipment[]): string{
     if(protectiveEquipment?.length > 0){
       return protectiveEquipment.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
     return "";
   }
 
-  observasjonSlettetEventHandler($event: ProtectiveEquipmentObservation) {
-    this.sesjon = this.sessionService.getSession(this.sesjon.id);
+  observationDeletedEventHandler($event: ProtectiveEquipmentObservation) {
+    this.session = this.sessionService.getSession(this.session.id);
   }
 
-  sendTilKoordinator() {
-    this.sesjonSendesTilServer = true;
-    this.sessionService.sendToServer(this.sesjon.id).subscribe(res => {
-        this.toastrService.success("Session ble sendt til koordinator");
-        this.sessionService.deleteSession(this.sesjon.id);
-        this.sesjonErSendtTilServer = true;
-        this.sesjonSendesTilServer = false;
+  sendToCoordinator() {
+    this.sessionSentToServer = true;
+    this.sessionService.sendToServer(this.session.id).subscribe(res => {
+        this.toastrService.success("Session was sent to coordinator");
+        this.sessionService.deleteSession(this.session.id);
+        this.sessionIsSentToServer = true;
+        this.sessionSentToServer = false;
       },
       error => {
-        this.sesjonSendesTilServer = false;
-        const message = "Noe galt skjedde ved sending av sesjon til koordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
+        this.sessionSentToServer = false;
+        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
         this.toastrService.error(message, '', { disableTimeOut: true});
       },
-      () => this.sesjonSendesTilServer = false);
+      () => this.sessionSentToServer = false);
   };
 
-  navigerTilSendtSesjon() {
-    this.router.navigate(['/'+Urls.SendProtectiveEquipmentSessionUrl], { queryParams: {sessionId: this.sesjon.id}})
+  navigateToSentSession() {
+    this.router.navigate(['/'+Urls.SendProtectiveEquipmentSessionUrl], { queryParams: {sessionId: this.session.id}})
   }
 }

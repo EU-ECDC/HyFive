@@ -8,7 +8,7 @@ import { FourIndicationsObservation } from '../../../models/api/FourIndicationsO
 import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityService } from '../../../services/data/activity.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
-import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/send-sessions.service';
 import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
 import {ToastrService} from 'ngx-toastr';
 
@@ -18,8 +18,8 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: FourIndicationsSession;
-  sesjonErSendtTilServer = false;
+  session: FourIndicationsSession;
+  sessionIsSentToServer = false;
   activityTypes: ActivityType[];
   isOnline: boolean = true;
   lasterNedSomExcel = false;
@@ -45,9 +45,9 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
         const sessionId = params[Queryparameters.SessionId] || 0;
         if(sessionId === 0) this.router.navigate(['']);
         this.sessionService.getFourIndicationsSession(sessionId).subscribe(
-          (sesjon) => {
-            this.sesjon = sesjon;
-            if (!this.sesjon) this.router.navigate(['']);
+          (session) => {
+            this.session = session;
+            if (!this.session) this.router.navigate(['']);
           }
         );
       });
@@ -61,32 +61,32 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.toastrService.clear();
   }
 
-  navigerTilSendteSesjoner(){
+  navigateToSentSessions(){
     this.router.navigate([Urls.SentSessionsUrl])
   }
 
-  beregnAnledningerEtterlevd(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observations?.length == 0)
+  beregnAnledningerEtterlevd(session: FourIndicationsSession) : number{
+    if(session?.observations?.length == 0)
       return 0;
-    return sesjon?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerEtterlevdProsent(sesjon: FourIndicationsSession): number {
-    if (sesjon?.observations?.length == 0)
+  beregnAnledningerEtterlevdProsent(session: FourIndicationsSession): number {
+    if (session?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerEtterlevd(sesjon) / sesjon?.observations?.length) * 100;
+    return (this.beregnAnledningerEtterlevd(session) / session?.observations?.length) * 100;
   }
 
-  beregnAnledningerUtelatt(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observations?.length == 0)
+  beregnAnledningerUtelatt(session: FourIndicationsSession) : number{
+    if(session?.observations?.length == 0)
       return 0;
-    return sesjon?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerUtelattProsent(sesjon: FourIndicationsSession) : number{
-    if(sesjon?.observations?.length == 0)
+  beregnAnledningerUtelattProsent(session: FourIndicationsSession) : number{
+    if(session?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerUtelatt(sesjon) / sesjon?.observations?.length)*100
+    return (this.beregnAnledningerUtelatt(session) / session?.observations?.length)*100
   }
 
   hentIngress(observation: FourIndicationsObservation) {
@@ -102,7 +102,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sessionService.downloadFourIndicationsSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sessionService.downloadFourIndicationsSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

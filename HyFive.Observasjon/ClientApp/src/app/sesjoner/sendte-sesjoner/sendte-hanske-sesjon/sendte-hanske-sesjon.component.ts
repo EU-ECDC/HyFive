@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/send-sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
@@ -16,7 +16,7 @@ import {DialogueTexts} from '../../../constants/dialogueTexts';
 })
 export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: GloveSession;
+  session: GloveSession;
   handJewelryTypes: HandJewelryType[] = [];
   isOnline: boolean = true;
   faFileExcel = faFileExcel
@@ -34,9 +34,9 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
       const sessionId = params[Queryparameters.SessionId] || 0;
       if (sessionId === 0) this.router.navigate(['']);
       this.sessionService.getGloveSession(sessionId).subscribe(
-        (sesjon) => {
-          this.sesjon = sesjon;
-          if (!sesjon) this.router.navigate(['']);
+        (session) => {
+          this.session = session;
+          if (!session) this.router.navigate(['']);
         }
       )
     });
@@ -51,13 +51,13 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
 
-  navigerTilSendteSesjoner() {
+  navigateToSentSessions() {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
   
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sessionService.downloadGloveSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sessionService.downloadGloveSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)

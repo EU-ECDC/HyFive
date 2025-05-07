@@ -1,11 +1,11 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigation-link>
-  <app-sesjonsredigering-overskrift [sesjon]="sesjon" [overskrift]="'Session: Fire indikasjoner'" [sesjonErSendtTilServer]="sesjonErSendtTilServer"></app-sesjonsredigering-overskrift>
+  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
+  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Fire indikasjoner'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
 </div>
-<app-sesjonstatistikk [sesjon]="sesjon"></app-sesjonstatistikk>
-<div *ngIf="sesjonErSendtTilServer == false" class="container">
+<app-sesjonstatistikk [session]="session"></app-sesjonstatistikk>
+<div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">
-    <app-accordion [items]="sesjon.observations"
+    <app-accordion [items]="session.observations"
                    [headerTemplate]="header"
                    [contentTemplate]="content"></app-accordion>
     <ng-template #header let-item="item">
@@ -19,10 +19,10 @@
     <ng-template #content let-item="item">
       <app-rediger-fire-indikasjoner-observasjon class="mb-2"
                                                  [observasjon]="item"
-                                                 [department]="sesjon.department"
+                                                 [department]="session.department"
                                                  [gloveUseMustBeRegistered]="sesjonvisning.gloveUseMustBeRegistered"
                                                  [timeShouldBeRegistred]="sesjonvisning.timeShouldBeRegistred"
-                                                 (observasjonSlettetEvent)="observasjonSlettetEventHandler($event)">
+                                                 (observasjonSlettetEvent)="observationDeletedEventHandler($event)">
       </app-rediger-fire-indikasjoner-observasjon>
     </ng-template>
   </div>
@@ -35,8 +35,8 @@
                class="form-control"
                style="font-size: 17px;"
                placeholder="Add comment"
-               [(ngModel)]="sesjon.comment"
-               (ngModelChange)="sessionService.updateSession(sesjon)">
+               [(ngModel)]="session.comment"
+               (ngModelChange)="sessionService.updateSession(session)">
       </div>
     </div>
   </div>
@@ -45,32 +45,32 @@
       <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
     </div>
   </div>
-  <app-spinner *ngIf="sesjonSendesTilServer"></app-spinner>
-  <div class="row mb-4" *ngIf="!sesjonSendesTilServer">
+  <app-spinner *ngIf="sessionSentToServer"></app-spinner>
+  <div class="row mb-4" *ngIf="!sessionSentToServer">
     <div class="col ms-auto mb-3">
-      <app-slett-bekreftelsesdialog (slettetEvent)="sesjonSlettetEventHandler(sesjon.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
+      <app-slett-bekreftelsesdialog (slettetEvent)="sessionDeletedEventHandler(session.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
         <i class="icon-trash3"></i>
-        Delete sesjon
+        Delete session
       </app-slett-bekreftelsesdialog>
     </div>
 
     <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
-              (click)="sendTilKoordinator()"
-              [disabled]="!(sesjon?.observations?.length > 0)">
+              (click)="sendToCoordinator()"
+              [disabled]="!(session?.observations?.length > 0)">
         Send til koordinator
       </button>
     </div>
   </div>
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(sesjon.id)">Tilbake til observasjon </app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
     </div>
   </div>
 </div>
-<div class="container" *ngIf="sesjonErSendtTilServer">
+<div class="container" *ngIf="sessionIsSentToServer">
   <div class="row">
-    <p>{{DialogueTexts.SessionIsSentToCoordinator}}<a [routerLink]="navigerTilSendtSesjon()">{{DialogueTexts.ShowSubmittedSession}}</a></p>
+    <p>{{DialogueTexts.SessionIsSentToCoordinator}}<a [routerLink]="navigateToSentSession()">{{DialogueTexts.ShowSubmittedSession}}</a></p>
   </div>
 </div>
 

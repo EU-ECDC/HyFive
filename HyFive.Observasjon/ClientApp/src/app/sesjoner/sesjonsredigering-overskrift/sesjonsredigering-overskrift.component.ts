@@ -11,9 +11,9 @@ export class SesjonsredigeringOverskriftComponent implements OnInit {
   faClipboard = faClipboard;
   faCircle = faCircle;
 
-  @Input() sesjon: Session<any>;
+  @Input() session: Session<any>;
   @Input() sessiontype: string;
-  @Input() sesjonErSendtTilServer: boolean;
+  @Input() sessionIsSentToServer: boolean;
   @Input() overskrift: string;
   constructor() { }
 

@@ -16,7 +16,7 @@ import {DialogueTexts} from '../../../constants/dialogueTexts';
 })
 export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: ProtectiveEquipmentSession = null;
+  session: ProtectiveEquipmentSession = null;
 
   Urls = Urls;
   faArrowLeft = faLongArrowAltLeft;
@@ -40,9 +40,9 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
         const sessionId = params[Queryparameters.SessionId] || 0;
         if (sessionId === 0) this.router.navigate([Urls.SentSessionsUrl]);
         this.sentSessionsService.getProtectiveEquipmentSession(sessionId).subscribe(
-          (sesjon) => {
-            this.sesjon = sesjon;
-            if (!this.sesjon) this.router.navigate([Urls.SentSessionsUrl]);
+          (session) => {
+            this.session = session;
+            if (!this.session) this.router.navigate([Urls.SentSessionsUrl]);
           }
         );
       });
@@ -56,11 +56,11 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     return observation.settingtype.name;
   }
 
-  navigerTilSendteSesjoner() {
+  navigateToSentSessions() {
     this.router.navigate([Urls.SentSessionsUrl])
   }
 
-  visUtstyr(protectiveEquipment: ProtectiveEquipment[]): string {
+  showEquipment(protectiveEquipment: ProtectiveEquipment[]): string {
     if (protectiveEquipment?.length > 0) {
       return protectiveEquipment.filter(b => b.wasUsed).map(b => b.equipmentType.name).join(', ');
     }
@@ -69,7 +69,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sentSessionsService.DownloadProtectiveEquipmentSessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sentSessionsService.DownloadProtectiveEquipmentSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
         () => {},
         error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
         () => this.lasterNedSomExcel = false)

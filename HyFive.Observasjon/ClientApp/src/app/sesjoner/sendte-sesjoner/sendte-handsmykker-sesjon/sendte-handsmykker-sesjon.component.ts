@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
+import { SentSessionsService } from '../../../services/data/send-sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
@@ -17,7 +17,7 @@ import {DialogueTexts} from '../../../constants/dialogueTexts';
 })
 export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
 
-  sesjon: HandJewelrySession;
+  session: HandJewelrySession;
   handJewelryTypes: HandJewelryType[] = [];
   isOnline: boolean = true;
 
@@ -36,9 +36,9 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
       const sessionId = params[Queryparameters.SessionId] || 0;
       if (sessionId === 0) this.router.navigate(['']);
       this.sessionService.getHandJewelrySession(sessionId).subscribe(
-        (sesjon) => {
-          this.sesjon = sesjon;
-          if (!sesjon) this.router.navigate(['']);
+        (session) => {
+          this.session = session;
+          if (!session) this.router.navigate(['']);
         }
       );
     });
@@ -55,13 +55,13 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
     return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
-  navigerTilSendteSesjoner() {
+  navigateToSentSessions() {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
   lastNedSomExcel() {
     this.lasterNedSomExcel = true;
-    this.sessionService.downloadHandJewelrySessionAsExcel(this.sesjon.institutionId, this.sesjon.id).subscribe(
+    this.sessionService.downloadHandJewelrySessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.lasterNedSomExcel = false)
