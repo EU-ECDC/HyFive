@@ -46,7 +46,7 @@ import { ProtectiveEquipmentModalComponent } from './registrering/protective-equ
 import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
 import { SentFourIndicationsSessionComponent } from './sessions/sendte-sessions/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
 import { EditProtectiveEquipmentObservationComponent } from './sessions/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
-import { SendteSesjonsoversiktComponent } from './sessions/sendte-sessions/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
+import { SentSessionOverviewComponent } from './sessions/sendte-sessions/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
 import { SentHandJewelrySessionComponent } from './sessions/sendte-sessions/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
 import { OfflineMessageComponent } from './shared/offline-message/offline-message.component';
 import { SentProtectiveEquipmentSessionComponent } from './sessions/sendte-sessions/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
@@ -113,7 +113,7 @@ export const httpInterceptorProviders = [
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,
         SentFourIndicationsSessionComponent,
-        SendteSesjonsoversiktComponent,
+        SentSessionOverviewComponent,
         OfflineMessageComponent,
         SentHandJewelrySessionComponent,
         SentProtectiveEquipmentSessionComponent,

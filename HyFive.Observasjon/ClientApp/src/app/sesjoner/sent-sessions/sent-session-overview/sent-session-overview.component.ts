@@ -3,11 +3,11 @@ import { FourIndicationsSession } from '../../../models/api/FourIndicationsSessi
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
-  selector: 'app-sendte-sesjonsoversikt',
-  templateUrl: './sendte-sesjonsoversikt.component.html'
+  selector: 'app-sent-session-overview',
+  templateUrl: './sent-session-overview.component.html'
 })
 
-export class SendteSesjonsoversiktComponent {
+export class SentSessionOverviewComponent {
 
   faCalendar = faCalendar;
   @Input("session") session: FourIndicationsSession;
