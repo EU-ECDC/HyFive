@@ -2,7 +2,7 @@
 <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Sendt session - Håndsmykker'"></app-session-edit-header>
+  <app-session-edit-header [session]="session" [header]="'Sendt session - HandJewelry'"></app-session-edit-header>
 </div>
 
 <div class="container" *ngIf='isOnline'>
@@ -14,7 +14,7 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-0 lh-1"><small>{{ visHandsmykker(item.handJewelry) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ showHandJewelry(item.handJewelry) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">

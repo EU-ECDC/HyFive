@@ -1,6 +1,6 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Back to observation</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: Håndsmykker'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">Back to observation</app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Session: HandJewelry'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">
@@ -11,11 +11,11 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-0 lh-1"><small>{{ visHandsmykker(item.handJewelry) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ showHandJewelry(item.handJewelry) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-handsmykker-observation [observasjon]="item"
+      <app-rediger-handsmykker-observasjon [observation]="item"
                                             [department]="session.department"
                                             (observationDeletedEvent)="observationDeletedEventHandler($event)">
       </app-rediger-handsmykker-observasjon>
@@ -60,7 +60,7 @@
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Back to observation</app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">Back to observation</app-navigation-link>
     </div>
   </div>
 </div>

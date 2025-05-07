@@ -51,7 +51,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  visHandsmykker(handJewelry: HandJewelryType[]): string {
+  showHandJewelry(handJewelry: HandJewelryType[]): string {
     return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 

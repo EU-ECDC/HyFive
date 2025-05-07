@@ -14,10 +14,10 @@ import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.se
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-handsmykker',
-  templateUrl: './handsmykker.component.html'
+  selector: 'app-handJewelry',
+  templateUrl: './handJewelry.component.html'
 })
-export class HandsmykkerComponent implements OnInit {
+export class HandJewelryComponent implements OnInit {
 
   session: HandJewelrySession;
   sessionIsSentToServer = false;
@@ -63,7 +63,7 @@ export class HandsmykkerComponent implements OnInit {
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
-  navigerTilRegistreringssideForHandsmykker(sessionId: string) {
+  navigateToRegistrationPageForHandJewelry(sessionId: string) {
     this.router.navigate([Urls.RegisterHandJewelryUrl], { queryParams: { sessionId: sessionId } });
   }
 
@@ -75,7 +75,7 @@ export class HandsmykkerComponent implements OnInit {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  visHandsmykker(handJewelry: HandJewelryType[]): string {
+  showHandJewelry(handJewelry: HandJewelryType[]): string {
     return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
   }
 
