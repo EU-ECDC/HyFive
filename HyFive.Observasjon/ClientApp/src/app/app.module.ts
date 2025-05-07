@@ -40,7 +40,7 @@ import { SelectionForProtectiveEquipmentComponent } from './startside/selection-
 import { NavigationLinkComponent } from './shared/navigation-link/navigation-link.component';
 import { ProtectiveEquipmentComponent } from './sessions/beskyttelsesutstyr/beskyttelsesutstyr.component';
 import { AccordionComponent } from './shared/accordion/accordion.component';
-import { SesjonsredigeringOverskriftComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
+import { SessionEditHeaderComponent } from './sessions/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
@@ -108,7 +108,7 @@ export const httpInterceptorProviders = [
         NavigationLinkComponent,
         ProtectiveEquipmentComponent,
         AccordionComponent,
-        SesjonsredigeringOverskriftComponent,
+        SessionEditHeaderComponent,
         RedigerBeskyttelsesutstyrObservasjonComponent,
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,

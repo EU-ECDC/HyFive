@@ -3,10 +3,10 @@ import {Session} from '../../models/api/Session';
 import { faCircle, faClipboard } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-sesjonsredigering-overskrift',
-  templateUrl: './sesjonsredigering-overskrift.component.html'
+  selector: 'app-session-edit-header',
+  templateUrl: './session-edit-header.component.html'
 })
-export class SesjonsredigeringOverskriftComponent implements OnInit {
+export class SessionEditHeaderComponent implements OnInit {
 
   faClipboard = faClipboard;
   faCircle = faCircle;
@@ -14,7 +14,7 @@ export class SesjonsredigeringOverskriftComponent implements OnInit {
   @Input() session: Session<any>;
   @Input() sessiontype: string;
   @Input() sessionIsSentToServer: boolean;
-  @Input() overskrift: string;
+  @Input() header: string;
   constructor() { }
 
   ngOnInit(): void {

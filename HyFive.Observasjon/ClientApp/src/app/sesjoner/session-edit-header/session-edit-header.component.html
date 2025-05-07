@@ -4,11 +4,11 @@
       <div class="d-flex align-items-center">
         <div class="hh-observasjoner-under-arbeid__overskrift">
           <h1 class="h3">
-            {{overskrift}}
+            {{header}}
           </h1>
           <p>
              <i class="icon-clipboard2 icon-lg me-1"></i>
-            <span *ngIf="sessionIsSentToServer === false">(Under arbeid)</span>
+            <span *ngIf="sessionIsSentToServer === false">(During work)</span>
           </p>
           
           <div *ngIf="session" class="hh-observasjoner-under-arbeid__tidspunkt row d-flex">

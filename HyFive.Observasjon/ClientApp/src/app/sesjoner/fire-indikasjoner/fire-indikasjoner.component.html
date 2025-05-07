@@ -1,6 +1,6 @@
 <div class="container">
   <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
-  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Fire indikasjoner'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
+  <app-session-edit-header [session]="session" [header]="'Session: Fire indikasjoner'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <app-sesjonstatistikk [session]="session"></app-sesjonstatistikk>
 <div *ngIf="sessionIsSentToServer == false" class="container">

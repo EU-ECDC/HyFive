@@ -1,6 +1,6 @@
 <div class="container">
   <app-navigation-link (linkClicked)="navigateToProtectiveEquipmentRegistrationPage(session.id)">Back to observation</app-navigation-link>
-  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Session: Protective equipment'" [sessionIsSentToServer]="sessionIsSentToServer"></app-sesjonsredigering-overskrift>
+  <app-session-edit-header [session]="session" [header]="'Session: Protective equipment'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <div class="container" *ngIf="sessionIsSentToServer == false">
   <div class="accordion-compact mb-4">

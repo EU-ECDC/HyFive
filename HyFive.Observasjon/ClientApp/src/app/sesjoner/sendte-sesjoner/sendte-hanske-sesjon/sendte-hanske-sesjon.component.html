@@ -2,7 +2,7 @@
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
-  <app-sesjonsredigering-overskrift [session]="session" [overskrift]="'Sendt session - Glove'"></app-sesjonsredigering-overskrift>
+  <app-session-edit-header [session]="session" [header]="'Sendt session - Glove'"></app-session-edit-header>
 </div>
 
 <div class="container" *ngIf='isOnline'>
