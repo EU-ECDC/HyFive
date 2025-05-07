@@ -17,7 +17,7 @@ import { SentHandJewelrySessionComponent } from './sessions/sendte-sessions/send
 import { SentProtectiveEquipmentSessionComponent } from './sessions/sendte-sessions/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
 import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
 import { GloveComponent } from './sessions/hanske/hanske.component';
-import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
+import { SentGloveSessionComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
 
 const defaultPath = Urls.ProfileUrl;
 
@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: Urls.SendProtectiveEquipmentSessionUrl, component: SentProtectiveEquipmentSessionComponent },
   { path: Urls.RegisterGloveUrl, component: RegisterGloveComponent },
   { path: Urls.GloveSessionUrl, component: GloveComponent },
-  { path: Urls.SentGloveSessionUrl, component: SendteHanskeSesjonComponent },
+  { path: Urls.SentGloveSessionUrl, component: SentGloveSessionComponent },
   {
     path: '**',
     redirectTo: defaultPath

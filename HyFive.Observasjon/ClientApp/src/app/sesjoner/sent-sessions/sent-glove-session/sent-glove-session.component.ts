@@ -11,10 +11,10 @@ import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
 import {DialogueTexts} from '../../../constants/dialogueTexts';
 
 @Component({
-  selector: 'app-sendte-hanske-sesjon',
-  templateUrl: './sendte-hanske-sesjon.component.html'
+  selector: 'app-sent-glove-session',
+  templateUrl: './sent-glove-session.component.html'
 })
-export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
+export class SentGloveSessionComponent implements OnInit, OnDestroy {
 
   session: GloveSession;
   handJewelryTypes: HandJewelryType[] = [];
@@ -46,7 +46,7 @@ export class SendteHanskeSesjonComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  showIndications(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller without indikasjoner
+  showIndications(item: GloveObservation): string { // TODO Choose between displaying indications/types, or showing whether the observation was with or without indications
     if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
