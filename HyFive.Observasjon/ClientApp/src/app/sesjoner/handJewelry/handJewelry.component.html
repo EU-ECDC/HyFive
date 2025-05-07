@@ -15,10 +15,10 @@
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-rediger-handsmykker-observasjon [observation]="item"
-                                            [department]="session.department"
-                                            (observationDeletedEvent)="observationDeletedEventHandler($event)">
-      </app-rediger-handsmykker-observasjon>
+      <app-edit-hand-jewelry-observation [observation]="item"
+                                         [department]="session.department"
+                                         (observationDeletedEvent)="observationDeletedEventHandler($event)">
+      </app-edit-hand-jewelry-observation>
     </ng-template>
   </div>
 

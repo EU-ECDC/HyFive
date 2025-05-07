@@ -29,7 +29,7 @@ import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shado
 import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
 import { HandJewelryObservationCardComponent } from './registrering/handjewelry-observation-card/handjewelry-observation-card.component';
 import { HandJewelryComponent } from './sessions/handsmykker/handsmykker.component';
-import { RedigerHandsmykkerObservasjonComponent } from './sessions/rediger-handsmykker-observasjon/rediger-handsmykker-observasjon.component';
+import { EditHandJewelryObservationComponent } from './sessions/rediger-handsmykker-observasjon/rediger-handsmykker-observasjon.component';
 import { RoleSelectDropdownComponent } from './registrering/role-selection-dropdown/role-selection-dropdown.component';
 import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
 import { SesjonsoversiktComponent } from './sessions/sesjonsoversikt/sesjonsoversikt.component';
@@ -98,7 +98,7 @@ export const httpInterceptorProviders = [
         SaveShadowComponent,
         DeleteShadowComponent,
         HandJewelryComponent,
-        RedigerHandsmykkerObservasjonComponent,
+        EditHandJewelryObservationComponent,
         RoleSelectDropdownComponent,
         SendteSesjonerComponent,
         SesjonsoversiktComponent,

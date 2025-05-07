@@ -24,7 +24,7 @@
          [ngStyle]="(isEditMode || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
       <div class="row" *ngIf="isEditMode">
         <div class="col-12" *ngIf="observation.role?.id && observation.role.id > 0">
-          <app-role-selection-dropdown [rolleId]="observation.role.id"
+          <app-role-selection-dropdown [roleId]="observation.role.id"
                                    [isReadonly]="isReadonly"
                                    [roleSelectedI]="department.roles"
                                    (roleSelectedEvent)="roleSelected($event)">

@@ -180,18 +180,18 @@
         <div class="col">
           <h2 class="h5">Select profession(er)</h2>
           <div class="row">
-            <div class="col-4 col-md-3 text-center mb-3" *ngFor="let valg of roleSelected; let i = index;">
-              <label [htmlFor]="'profession'+roleSelected.indexOf(valg)">
-                <input type="checkbox" [(ngModel)]="valg.isSelected" [id]="'profession'+roleSelected.indexOf(valg)"
+            <div class="col-4 col-md-3 text-center mb-3" *ngFor="let selection of roleSelected; let i = index;">
+              <label [htmlFor]="'profession'+roleSelected.indexOf(selection)">
+                <input type="checkbox" [(ngModel)]="selection.isSelected" [id]="'profession'+roleSelected.indexOf(selection)"
                         class="hh-round-checkbox-list__input">
                 <fa-stack size="lg">
-                  <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': valg.isSelected ? 'green' : colors.getFhiColorHexFromText(valg.role.name), 'transition': 'all 600ms'}"></fa-icon>
-                  <fa-icon [icon]="faUserNurse" stackItemSize="1x" *ngIf="!valg.isSelected"></fa-icon>
-                  <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="valg.isSelected"></fa-icon>
+                  <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': selection.isSelected ? 'green' : colors.getFhiColorHexFromText(selection.role.name), 'transition': 'all 600ms'}"></fa-icon>
+                  <fa-icon [icon]="faUserNurse" stackItemSize="1x" *ngIf="!selection.isSelected"></fa-icon>
+                  <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="selection.isSelected"></fa-icon>
                 </fa-stack>
                 <br />
                 <span style="font-size: 14px; word-break: break-all;">
-                  {{ valg.role.name }}
+                  {{ selection.role.name }}
                 </span>
               </label>
             </div>

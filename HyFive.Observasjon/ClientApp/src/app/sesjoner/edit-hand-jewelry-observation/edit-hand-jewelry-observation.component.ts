@@ -15,10 +15,10 @@ import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConsta
 import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
 
 @Component({
-  selector: 'app-rediger-handsmykker-observasjon',
-  templateUrl: './rediger-handsmykker-observasjon.component.html'
+  selector: 'app-edit-hand-jewelry-observation',
+  templateUrl: './edit-hand-jewelry-observation.component.html'
 })
-export class RedigerHandsmykkerObservasjonComponent implements OnInit {
+export class EditHandJewelryObservationComponent implements OnInit {
 
   isEditMode: boolean = false;
   handJewelrySelection = [] as HandJewelrySelection[];
@@ -56,10 +56,10 @@ export class RedigerHandsmykkerObservasjonComponent implements OnInit {
     return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
   }
 
-  changed(valg: HandJewelrySelection) {
-    if (valg.isSelected && valg.type == HandJewelryTypeConstants.AllClear)
+  changed(selection: HandJewelrySelection) {
+    if (selection.isSelected && selection.type == HandJewelryTypeConstants.AllClear)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
-    else if (valg.isSelected && valg.type != HandJewelryTypeConstants.AllClear)
+    else if (selection.isSelected && selection.type != HandJewelryTypeConstants.AllClear)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
     else if (this.numberOfHandJewelrySelected () < 1)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all

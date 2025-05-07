@@ -12,7 +12,7 @@ export class RoleSelectDropdownComponent implements OnInit{
 
   @Input('isReadonly') isReadonly = false;
   @Input('roleSelectedI') roleSelectedI : Role[];
-  @Input('rolleId') rolleId: number;
+  @Input('roleId') roleId: number;
   @Output('roleSelectedEvent') roleSelectedEvent: EventEmitter<Role> = new EventEmitter<Role>();
   selectedRole: Role;
 
@@ -22,7 +22,7 @@ export class RoleSelectDropdownComponent implements OnInit{
   faAngleDown = faAngleDown;
 
   ngOnInit() {
-    this.selectedRoleId = this.rolleId+'';
+    this.selectedRoleId = this.roleId+'';
     this.selectRole();
   }
 

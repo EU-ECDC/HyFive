@@ -24,7 +24,7 @@
       <ng-container *ngIf="isEditMode">
         <div class="row">
           <div class="col-12">
-            <app-role-selection-dropdown [rolleId]="observation.role.id"
+            <app-role-selection-dropdown [roleId]="observation.role.id"
                                      [isReadonly]="isReadonly"
                                      [roleSelectedI]="department.roles"
                                      (roleSelectedEvent)="observation.role = $event">
