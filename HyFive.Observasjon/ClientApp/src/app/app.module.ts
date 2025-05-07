@@ -21,7 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
 import { RedigerFireIndikasjonerObservasjonComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
+import { FourIndicationsComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { DeleteConfirmationDialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
@@ -91,7 +91,7 @@ export const httpInterceptorProviders = [
         RegisterCommentComponent,
         IkkeSendteSesjonerComponent,
         RedigerFireIndikasjonerObservasjonComponent,
-        FireIndikasjonerComponent,
+        FourIndicationsComponent,
         DeleteConfirmationDialogComponent,
         RegisterHandjewelryComponent,
         HandJewelryObservationCardComponent,

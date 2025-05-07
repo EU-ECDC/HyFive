@@ -1,7 +1,7 @@
 <app-offline-melding (harInternettEvent)="isOnline = $event"></app-offline-melding>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Sendt session - Fire indikasjoner'"></app-session-edit-header>
+  <app-session-edit-header [session]="session" [header]="'Sendt session - Four indications'"></app-session-edit-header>
 </div>
 <app-session-statistics *ngIf='isOnline' [session]="session"> </app-session-statistics>
 
@@ -15,7 +15,7 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{item.role.name}} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-0 lh-1"><small>{{ hentIngress(item)}}</small></p>
+        <p class="mb-0 lh-1"><small>{{ getIngress(item)}}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">

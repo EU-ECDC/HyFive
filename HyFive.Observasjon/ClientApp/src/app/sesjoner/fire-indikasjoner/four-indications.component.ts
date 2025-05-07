@@ -13,13 +13,13 @@ import { ActivityType } from '../../models/api/ActivityType';
 import { FourIndicationsSessionView } from 'src/app/models/registration/FourIndications-session-view.model';
 
 @Component({
-  selector: 'app-fire-indikasjoner',
-  templateUrl: './fire-indikasjoner.component.html',
+  selector: 'app-four-indications',
+  templateUrl: './four-indications.component.html',
 })
-export class FireIndikasjonerComponent implements OnInit {
+export class FourIndicationsComponent implements OnInit {
 
   session: FourIndicationsSession;
-  sesjonvisning: FourIndicationsSessionView;
+  sessionView: FourIndicationsSessionView;
   sessionIsSentToServer = false;
   sessionSentToServer = false;
   activityTypes: ActivityType[];
@@ -46,7 +46,7 @@ export class FireIndikasjonerComponent implements OnInit {
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.session = this.sessionService.getSession(sessionId);
-        this.sesjonvisning = this.sessionService.getSessionViewForSession(sessionId);
+        this.sessionView = this.sessionService.getSessionViewForSession(sessionId);
         if (!this.session) this.router.navigate(['']);
       });
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
@@ -60,7 +60,7 @@ export class FireIndikasjonerComponent implements OnInit {
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
-  navigerTilRegistreringssideForFireIndikasjoner(sessionId: string){
+  navigateToRegistrationPageForFourIndications(sessionId: string){
     this.router.navigate([Urls.RegisterFourndicationsUrl], {queryParams: { sessionId: sessionId}})
   }
 
@@ -69,7 +69,7 @@ export class FireIndikasjonerComponent implements OnInit {
     this.session = this.sessionService.getSession(this.session.id);
   }
 
-  hentIngress(observation: FourIndicationsObservation) {
+  getIngress(observation: FourIndicationsObservation) {
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 

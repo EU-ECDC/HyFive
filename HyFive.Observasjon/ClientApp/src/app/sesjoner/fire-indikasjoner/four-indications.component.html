@@ -1,6 +1,6 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: Fire indikasjoner'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToRegistrationPageForFourIndications(session.id)">Back to observation </app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Session: Four indications'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <app-session-statistics [session]="session"></app-session-statistics>
 <div *ngIf="sessionIsSentToServer == false" class="container">
@@ -13,15 +13,15 @@
         <p class="mb-1">
           <strong>{{item.role.name}} - {{ item.registrationTime | date:'HH:mm' }}</strong>
         </p>
-        <p class="mb-0 lh-1"><small>{{ hentIngress(item) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ getIngress(item) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">
       <app-rediger-fire-indikasjoner-observasjon class="mb-2"
                                                  [observasjon]="item"
                                                  [department]="session.department"
-                                                 [gloveUseMustBeRegistered]="sesjonvisning.gloveUseMustBeRegistered"
-                                                 [timeShouldBeRegistred]="sesjonvisning.timeShouldBeRegistred"
+                                                 [gloveUseMustBeRegistered]="sessionView.gloveUseMustBeRegistered"
+                                                 [timeShouldBeRegistred]="sessionView.timeShouldBeRegistred"
                                                  (observationDeletedEvent)="observationDeletedEventHandler($event)">
       </app-rediger-fire-indikasjoner-observasjon>
     </ng-template>
@@ -58,13 +58,13 @@
       <button class="btn fhi-btn-primary"
               (click)="sendToCoordinator()"
               [disabled]="!(session?.observations?.length > 0)">
-        Send til koordinator
+        Send to coordinator
       </button>
     </div>
   </div>
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToRegistrationPageForFourIndications(session.id)">Back to observation </app-navigation-link>
     </div>
   </div>
 </div>

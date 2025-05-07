@@ -1,5 +1,5 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Tilbake til observasjon</app-navigation-link>
+  <app-navigation-link (linkClicked)="navigerTilRegistreringssideForHandsmykker(session.id)">Back to observation</app-navigation-link>
   <app-session-edit-header [session]="session" [header]="'Session: Håndsmykker'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <div *ngIf="sessionIsSentToServer == false" class="container">
@@ -53,7 +53,7 @@
       <button class="btn fhi-btn-primary"
               (click)="sendToCoordinator()"
               [disabled]="!(session?.observations?.length > 0)">
-        Send til koordinator
+        Send to coordinator
       </button>
     </div>
   </div>

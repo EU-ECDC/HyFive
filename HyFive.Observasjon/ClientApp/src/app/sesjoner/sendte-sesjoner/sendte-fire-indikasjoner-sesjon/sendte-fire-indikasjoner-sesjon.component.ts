@@ -89,7 +89,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     return (this.calculateOccasionsOmitted(session) / session?.observations?.length)*100
   }
 
-  hentIngress(observation: FourIndicationsObservation) {
+  getIngress(observation: FourIndicationsObservation) {
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 

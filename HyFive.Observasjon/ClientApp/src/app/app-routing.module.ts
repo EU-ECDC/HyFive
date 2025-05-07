@@ -7,7 +7,7 @@ import { StartsideForObservasjonComponent } from './startside/startside-for-obse
 import { RegisterFourIndicationsComponent } from './registrering/register-four-indications/register-four-indications.component';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
 import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
-import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
+import { FourIndicationsComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { HandsmykkerComponent } from './sessions/handsmykker/handsmykker.component';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: Urls.RegisterFourndicationsUrl, component: RegisterFourIndicationsComponent },
   { path: Urls.NotSentSessionsUrl, component: IkkeSendteSesjonerComponent },
   { path: Urls.SentSessionsUrl, component: SendteSesjonerComponent },
-  { path: Urls.FourIndicationsSessionUrl, component: FireIndikasjonerComponent },
+  { path: Urls.FourIndicationsSessionUrl, component: FourIndicationsComponent },
   { path: Urls.RegisterHandJewelryUrl, component: RegisterHandjewelryComponent },
   { path: Urls.HandJewelrySessionUrl, component: HandsmykkerComponent },
   { path: Urls.RegisterProtectiveEquipmentUrl, component: RegisterProtectiveEquipmentComponent },

@@ -52,7 +52,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     this.toastrService.clear();
   }
 
-  hentIngress(observation: ProtectiveEquipmentObservation) {
+  getIngress(observation: ProtectiveEquipmentObservation) {
     return observation.settingtype.name;
   }
 
