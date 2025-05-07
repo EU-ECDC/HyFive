@@ -3,7 +3,7 @@
 </div>
 
 <div class="container px-0">
-  <app-sesjonsoversikt>
+  <app-session-overview>
     <app-offline-message
       (hasInternetEvent)="receivedInternetStatus($event)"
       [darkMode]="true"
@@ -61,5 +61,5 @@
       </div>
       <app-spinner *ngIf="!harLastetSesjoner"></app-spinner>
     </ng-container>
-  </app-sesjonsoversikt>
+  </app-session-overview>
 </div>
