@@ -8,7 +8,7 @@ import { FourIndicationsObservation } from '../../../models/api/FourIndicationsO
 import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityService } from '../../../services/data/activity.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
-import { SentSessionsService } from '../../../services/data/send-sessions.service';
+import { SentSessionsService } from '../../../services/data/sent-sessions.service';
 import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
 import {ToastrService} from 'ngx-toastr';
 
@@ -22,7 +22,7 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
   sessionIsSentToServer = false;
   activityTypes: ActivityType[];
   isOnline: boolean = true;
-  lasterNedSomExcel = false;
+  downloadAsExcel = false;
 
   faArrowLeft = faLongArrowAltLeft;
   faTrashAlt = faTrashAlt;
@@ -100,11 +100,11 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     }
   }
 
-  lastNedSomExcel() {
-    this.lasterNedSomExcel = true;
+  downloadAsExcelFnct() {
+    this.downloadAsExcel = true;
     this.sessionService.downloadFourIndicationsSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
-      () => this.lasterNedSomExcel = false)
+      () => this.downloadAsExcel = false)
   }
 }

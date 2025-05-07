@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SentSessionsService } from '../../../services/data/send-sessions.service';
+import { SentSessionsService } from '../../../services/data/sent-sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
@@ -22,7 +22,7 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
   isOnline: boolean = true;
 
   faFileExcel = faFileExcel;
-  lasterNedSomExcel = false;
+  downloadAsExcel = false;
   DialogueTexts = DialogueTexts;
 
   constructor(private router: Router,
@@ -59,11 +59,11 @@ export class SendteHandsmykkerSesjonComponent implements OnInit, OnDestroy {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  lastNedSomExcel() {
-    this.lasterNedSomExcel = true;
+  downloadAsExcelFnct() {
+    this.downloadAsExcel = true;
     this.sessionService.downloadHandJewelrySessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
-      () => this.lasterNedSomExcel = false)
+      () => this.downloadAsExcel = false)
   }
 }

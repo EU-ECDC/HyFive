@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SessionTypeMapper } from "../../utils/session-type-mapper";
-import { SentSessionsService } from "../../services/data/send-sessions.service";
+import { SentSessionsService } from "../../services/data/sent-sessions.service";
 import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";

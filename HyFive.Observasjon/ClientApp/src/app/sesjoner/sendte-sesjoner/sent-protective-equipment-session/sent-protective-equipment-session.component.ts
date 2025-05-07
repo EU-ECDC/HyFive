@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SentSessionsService } from '../../../services/data/sendte-sessions.service';
 import { ProtectiveEquipmentSession } from '../../../models/api/ProtectiveEquipmentSession';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,12 +8,13 @@ import { ProtectiveEquipmentObservation } from '../../../models/api/ProtectiveEq
 import { ProtectiveEquipment } from '../../../models/api/ProtectiveEquipment';
 import {ToastrService} from 'ngx-toastr';
 import {DialogueTexts} from '../../../constants/dialogueTexts';
+import { SentSessionsService } from 'src/app/services/data/sent-sessions.service';
 
 @Component({
-  selector: 'app-sendte-beskyttelsesutstyr-sesjon',
-  templateUrl: './sendte-beskyttelsesutstyr-sesjon.component.html'
+  selector: 'app-sent-protective-equipment-session',
+  templateUrl: './sent-protective-equipment-session.component.html'
 })
-export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestroy {
+export class SentProtectiveEquipmentSessionComponent implements OnInit, OnDestroy {
 
   session: ProtectiveEquipmentSession = null;
 
@@ -22,7 +22,7 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
   faArrowLeft = faLongArrowAltLeft;
   isOnline: boolean = true;
   faFileExcel = faFileExcel;
-  lasterNedSomExcel: boolean;
+  downloadAsExcel: boolean;
   DialogueTexts = DialogueTexts;
 
   constructor(
@@ -67,11 +67,11 @@ export class SendteBeskyttelsesutstyrSesjonComponent implements OnInit, OnDestro
     return "";
   }
 
-  lastNedSomExcel() {
-    this.lasterNedSomExcel = true;
+  downloadAsExcelFnct() {
+    this.downloadAsExcel = true;
     this.sentSessionsService.DownloadProtectiveEquipmentSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
         () => {},
         error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
-        () => this.lasterNedSomExcel = false)
+        () => this.downloadAsExcel = false)
   }
 }

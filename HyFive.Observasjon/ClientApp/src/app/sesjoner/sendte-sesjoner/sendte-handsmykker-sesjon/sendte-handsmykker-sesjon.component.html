@@ -1,7 +1,7 @@
 
 <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
 <div class="container" *ngIf='isOnline'>
-  <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
+  <app-navigation-link (linkClicked)="navigateToSentSessions()">Back</app-navigation-link>
   <app-session-edit-header [session]="session" [header]="'Sendt session - HandJewelry'"></app-session-edit-header>
 </div>
 
@@ -32,10 +32,10 @@
     </div>
   </div>
   <div class="text-end" *ngIf="session?.observations?.length > 0">
-    <button  class="btn fhi-btn-icon" (click)="lastNedSomExcel()" >
+    <button  class="btn fhi-btn-icon" (click)="downloadAsExcelFnct()" >
       <i class="icon-download"></i>
       {{DialogueTexts.DownloadDataAsExcel}}
     </button>
-    <app-spinner *ngIf="lasterNedSomExcel"></app-spinner>
+    <app-spinner *ngIf="downloadAsExcel"></app-spinner>
   </div>
 </div>
