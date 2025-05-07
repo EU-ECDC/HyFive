@@ -15,10 +15,10 @@ export class SendteSesjonerComponent {
   Urls = Urls;
 
   sessions: SessionReport[];
-  sesjonerFiltrert: SessionReport[];
+  sessionsFiltered: SessionReport[];
   harLastetSesjoner = false;
-  sokeord: string = null;
-  sesjonsnavnMap: Map<SessionType, string>;
+  keyword: string = null;
+  sessionNameMap: Map<SessionType, string>;
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
   subscriptions: Subscription[] = [];
@@ -28,10 +28,10 @@ export class SendteSesjonerComponent {
   faSearch = faSearch;
 
   constructor(private sentSessionsService: SentSessionsService) {
-    this.sesjonsnavnMap = SessionTypeMapper.getNameMap();
+    this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
-  lastSesjoner() {
+  loadSessions() {
     this.harLastetSesjoner = false;
     this.sentSessionsService.getSessions().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
@@ -43,32 +43,32 @@ export class SendteSesjonerComponent {
         }
         return 0;
       });
-      this.sesjonerFiltrert = this.sessions;
+      this.sessionsFiltered = this.sessions;
       this.harLastetSesjoner = true;
     });
   }
 
-  filtrerSesjoner() {
-    if (this.sokeord != null && this.sessions != null) {
-      this.sesjonerFiltrert = this.sessions.filter(
+  filterSessions() {
+    if (this.keyword != null && this.sessions != null) {
+      this.sessionsFiltered = this.sessions.filter(
         (s) =>
-          s.departmentName?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
+          s.departmentName?.toLowerCase().indexOf(this.keyword.toLowerCase()) !=
             -1 ||
-          this.sesjonsnavnMap
+          this.sessionNameMap
             .get(s.type)
             ?.toLowerCase()
-            .indexOf(this.sokeord.toLowerCase()) != -1 ||
+            .indexOf(this.keyword.toLowerCase()) != -1 ||
           s.institutionsName
             ?.toLowerCase()
-            .indexOf(this.sokeord.toLowerCase()) != -1
+            .indexOf(this.keyword.toLowerCase()) != -1
       );
     } else {
-      this.sesjonerFiltrert = this.sessions;
+      this.sessionsFiltered = this.sessions;
     }
   }
 
-  getSesjonstypeUrl(sesjonstype: SessionType): string {
-    switch (sesjonstype) {
+  getSessionTypeUrl(sessionType: SessionType): string {
+    switch (sessionType) {
       case SessionType.FourIndications:
         return Urls.SentFourIndicationsSessionUrl;
       case SessionType.HandJewelry:
@@ -85,7 +85,7 @@ export class SendteSesjonerComponent {
   receivedInternetStatus(hasInternet: boolean) {
     this.isOnline = hasInternet;
     if (this.isOnline) {
-      this.lastSesjoner();
+      this.loadSessions();
     }
   }
 }

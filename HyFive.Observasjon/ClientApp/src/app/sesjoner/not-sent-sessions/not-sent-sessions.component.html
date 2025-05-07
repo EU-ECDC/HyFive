@@ -1,5 +1,5 @@
 <div class="container d-xl-none pb-3 mt-n5">
-  <h1 class="h2">Sesjoner</h1>
+  <h1 class="h2">Sessions</h1>
 </div>
 
 <div class="container px-0">
@@ -8,31 +8,31 @@
       <button
         class="btn fhi-btn-secondary me-3 mb-2"
         [disabled]="sessions.length < 1"
-        (click)="merkAlleSesjoner()"
+        (click)="markAllSessions()"
       >
         Select all
       </button>
       <button
         class="btn fhi-btn-primary mb-2"
-        [disabled]="!harValgtEnSesjon"
-        (click)="sendValgteSesjonerTilServer()"
+        [disabled]="!hasSelectedASession"
+        (click)="sendSelectedSessionsToServer()"
       >
-        Send valgte
+        Send selected
       </button>
     </div>
     <div class="row">
       <div class="col-lg-8 mb-4">
         <div class="d-flex">
           <label class="icon-search mt-2 me-3" for="search-unsent-items"
-            ><span class="visually-hidden">Filtrer listen</span></label
+            ><span class="visually-hidden">Filtrer list</span></label
           >
           <input
             id="search-unsent-items"
             type="search"
             class="form-control"
             placeholder="Søk etter..."
-            [(ngModel)]="sokeord"
-            (ngModelChange)="filtrerSesjoner()"
+            [(ngModel)]="keyword"
+            (ngModelChange)="filterSessions()"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@
     <div class="row">
       <div
         class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3 mb-md-5"
-        *ngFor="let sessionView of sesjonerFiltrert; index as i"
+        *ngFor="let sessionView of sessionsFiltered; index as i"
       >
         <div class="fhi-card h-100">
           <div class="form-check mb-2">
@@ -51,14 +51,14 @@
               value=""
               [id]="'chk_' + i"
               [(ngModel)]="sessionView.isSelected"
-              (click)="merkSesjon(sessionView)"
+              (click)="markSession(sessionView)"
             />
-            <label class="form-check-label" [for]="'chk_' + i">Select for innsending</label>
+            <label class="form-check-label" [for]="'chk_' + i">Select for submission</label>
           </div>
 
           <h2 class="h4 mb-0">{{ sessionView.institutionsName }}</h2>
-          <p>Avd: {{ sessionView.departmentName }}</p>
-          <p class="small">{{ sesjonsnavnMap.get(sessionView.type) }}</p>
+          <p>Dep: {{ sessionView.departmentName }}</p>
+          <p class="small">{{ sessionNameMap.get(sessionView.type) }}</p>
 
           <div class="mb-2 text-muted small">
             <i class="icon-calendar icon-sm align-top"></i>
@@ -68,10 +68,10 @@
           <div class="text-end mt-auto">
             <a
               class="btn fhi-btn-shortcut-link mb-n2"
-              [routerLink]="['/' + getSesjonstypeUrl(sessionView.type)]"
+              [routerLink]="['/' + getSessionTypeUrl(sessionView.type)]"
               [queryParams]="{ sessionId: sessionView.id }"
             >
-              <span class="btn__text">Se detaljer</span>
+              <span class="btn__text">See details</span>
               <i class="icon-arrow-right me-0 ms-2"></i>
             </a>
           </div>

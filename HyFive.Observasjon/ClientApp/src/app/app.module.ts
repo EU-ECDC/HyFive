@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
 import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
+import { NotSentSessionsComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
 import { EditFourIndicationsObservationComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FourIndicationsComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
@@ -89,7 +89,7 @@ export const httpInterceptorProviders = [
         MissedOpportunityComponent,
         IndicationSelectionComponent,
         RegisterCommentComponent,
-        IkkeSendteSesjonerComponent,
+        NotSentSessionsComponent,
         EditFourIndicationsObservationComponent,
         FourIndicationsComponent,
         DeleteConfirmationDialogComponent,

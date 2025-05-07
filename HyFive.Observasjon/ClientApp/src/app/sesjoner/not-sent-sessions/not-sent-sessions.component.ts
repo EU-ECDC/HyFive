@@ -14,19 +14,19 @@ import { forkJoin, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
 @Component({
-  selector: "app-ikke-sendte-sessions",
-  templateUrl: "./ikke-sendte-sessions.component.html",
+  selector: "app-not-sent-sessions",
+  templateUrl: "./not-sent-sessions.component.html",
 })
-export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
+export class NotSentSessionsComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
   sessions: SessionReport[];
-  sesjonerFiltrert: SessionReport[];
-  sokeord: string = null;
-  sesjonsnavnMap: Map<SessionType, string>;
+  sessionsFiltered: SessionReport[];
+  keyword: string = null;
+  sessionNameMap: Map<SessionType, string>;
   isOnline: boolean = true;
 
-  harValgtEnSesjon: boolean = false;
+  hasSelectedASession: boolean = false;
 
   faCalendar = faCalendar;
 
@@ -37,18 +37,18 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private toastrService: ToastrService
   ) {
-    this.sesjonsnavnMap = SessionTypeMapper.getNameMap();
+    this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
   ngOnInit(): void {
-    this.lastSesjoner();
+    this.loadSessions();
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  lastSesjoner() {
+  loadSessions() {
     this.sessions = this.fourIndicationsSessionService
       .getSessions()
       .map((f) => this.createSessionView(f, SessionType.FourIndications))
@@ -76,40 +76,40 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         }
         return 0;
       });
-    this.sesjonerFiltrert = this.sessions;
+    this.sessionsFiltered = this.sessions;
   }
 
-  filtrerSesjoner() {
-    if (this.sokeord != null && this.sessions != null) {
-      this.sesjonerFiltrert = this.sessions.filter(
+  filterSessions() {
+    if (this.keyword != null && this.sessions != null) {
+      this.sessionsFiltered = this.sessions.filter(
         (s) =>
-          s.departmentName?.toLowerCase().indexOf(this.sokeord.toLowerCase()) !=
+          s.departmentName?.toLowerCase().indexOf(this.keyword.toLowerCase()) !=
           -1 ||
-          this.sesjonsnavnMap
+          this.sessionNameMap
             .get(s.type)
             ?.toLowerCase()
-            .indexOf(this.sokeord.toLowerCase()) != -1
+            .indexOf(this.keyword.toLowerCase()) != -1
       );
     } else {
-      this.sesjonerFiltrert = this.sessions;
+      this.sessionsFiltered = this.sessions;
     }
   }
 
   createSessionView(
     session: Session<any>,
-    sesjonstype: SessionType
+    sessionType: SessionType
   ): SessionReport {
     return {
       departmentName: session.department?.name,
       startTime: session.startTime,
-      type: sesjonstype,
+      type: sessionType,
       id: session.id,
       institutionsName: session.institutionsName,
     };
   }
 
-  getSesjonstypeUrl(sesjonstype: SessionType): string {
-    switch (sesjonstype) {
+  getSessionTypeUrl(sessionType: SessionType): string {
+    switch (sessionType) {
       case SessionType.FourIndications:
         return Urls.FourIndicationsSessionUrl;
       case SessionType.HandJewelry:
@@ -123,10 +123,10 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendValgteSesjonerTilServer() {
+  sendSelectedSessionsToServer() {
     const observables = [];
    
-    this.sesjonerFiltrert.forEach((s) => {
+    this.sessionsFiltered.forEach((s) => {
       if (s.isSelected) {
         let observable;
         switch (s.type) {
@@ -134,14 +134,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             observable = this.fourIndicationsSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
-                  const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
+                  const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
-                    this.sesjonerFiltrert.splice(index, 1);
+                    this.sessionsFiltered.splice(index, 1);
                   }
                   this.fourIndicationsSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i session:', error);
+                  console.error('Error in session:', error);
                   return of(null);  // Return a null value so forkJoin still completes
                 })
               );
@@ -151,14 +151,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             observable = this.handJewelrySessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
-                  const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
+                  const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
-                    this.sesjonerFiltrert.splice(index, 1);
+                    this.sessionsFiltered.splice(index, 1);
                   }
                   this.handJewelrySessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i session:', error);
+                  console.error('Error in session:', error);
                   return of(null);
                 })
               );
@@ -168,14 +168,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             observable = this.gloveSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
-                  const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
+                  const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
-                    this.sesjonerFiltrert.splice(index, 1);
+                    this.sessionsFiltered.splice(index, 1);
                   }
                   this.gloveSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i session:', error);
+                  console.error('Error in session:', error);
                   return of(null);
                 })
               );
@@ -185,14 +185,14 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
             observable = this.protectiveEquipmentSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
-                  const index = this.sesjonerFiltrert.findIndex((sf) => sf.id === s.id);
+                  const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
-                    this.sesjonerFiltrert.splice(index, 1);
+                    this.sessionsFiltered.splice(index, 1);
                   }
                   this.protectiveEquipmentSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
-                  console.error('Error i session:', error);
+                  console.error('Error in session:', error);
                   return of(null);
                 })
               );
@@ -207,22 +207,22 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
    
     forkJoin(observables).subscribe({
       next: () => {
-        this.toastrService.success("Sesjonene ble sendt til server");
+        this.toastrService.success("The sessions were sent to the server");
       },
       error: (err) => {
-        this.toastrService.error("Feil with sending av sessions til server");
+        this.toastrService.error("Error sending sessions to server");
       }
     });
   }
 
     
-  merkSesjon(session: SessionReport) {
+  markSession(session: SessionReport) {
     session.isSelected = !session.isSelected;
-    this.harValgtEnSesjon = this.sesjonerFiltrert.some((s) => s.isSelected);
+    this.hasSelectedASession = this.sessionsFiltered.some((s) => s.isSelected);
   }
 
-  merkAlleSesjoner() {
-    this.sesjonerFiltrert.forEach((s) => (s.isSelected = true));
-    this.harValgtEnSesjon = true;
+  markAllSessions() {
+    this.sessionsFiltered.forEach((s) => (s.isSelected = true));
+    this.hasSelectedASession = true;
   }
 }
