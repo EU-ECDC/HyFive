@@ -58,7 +58,7 @@ import { RegisterGloveComponent } from './registrering/register-glove/register-g
 import { GloveObservationCardComponent } from './registrering/glove-observation-card/glove-observation-card.component';
 import { GloveComponent } from './sessions/hanske/hanske.component';
 import { SendteHanskeSesjonComponent } from './sessions/sendte-sessions/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
-import { RedigerHanskeObservasjonComponent } from './sessions/rediger-hanske-observasjon/rediger-hanske-observasjon.component';
+import { EditGloveObservationComponent } from './sessions/rediger-hanske-observasjon/rediger-hanske-observasjon.component';
 import { DialogModalComponent } from './shared/dialog-modal/dialog-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NewCardInfoComponent } from './shared/new-card-info/new-card-info.component';
@@ -124,7 +124,7 @@ export const httpInterceptorProviders = [
         GloveObservationCardComponent,
         GloveComponent,
         SendteHanskeSesjonComponent,
-        RedigerHanskeObservasjonComponent,
+        EditGloveObservationComponent,
         DialogModalComponent,
         NewCardInfoComponent,
         LoginPageComponent,

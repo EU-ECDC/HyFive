@@ -210,7 +210,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
         this.toastrService.success("Sesjonene ble sendt til server");
       },
       error: (err) => {
-        this.toastrService.error("Feil ved sending av sessions til server");
+        this.toastrService.error("Feil with sending av sessions til server");
       }
     });
   }

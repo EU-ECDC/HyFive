@@ -71,7 +71,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           });
 
           // this does an initial load of code, so that the cache is filled and you can work offline          
-          // this.codeWorkCacheService.lastKodeverk();
+          // this.codeWorkCacheService.loadCodeworks();
         });
 
         this.requestAboutUserAccessService.getInstitutions().subscribe(

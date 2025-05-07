@@ -35,7 +35,7 @@
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
             <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes.length">
-              <a ngbNavLink class="hh-hanske-tabs__tab">Gloves ved indication</a>
+              <a ngbNavLink class="hh-hanske-tabs__tab">Gloves with indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -64,10 +64,10 @@
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="hanskeBrukt"/>
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="gloveUsed"/>
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
                                 
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="hanskeBrukt" />
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="gloveUsed" />
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
                               </div>
                             </div>
@@ -79,8 +79,8 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem="uten" [disabled]="observation.gloveWithIndicationTypes.length">
-              <a ngbNavLink class="hh-hanske-tabs__tab">Glove uten indication</a>
+            <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes.length">
+              <a ngbNavLink class="hh-hanske-tabs__tab">Glove without indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -109,11 +109,11 @@
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
-          <div class="w-100" *ngIf="hanskeBrukt">
+          <div class="w-100" *ngIf="gloveUsed">
             <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
-                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !isEditMode" [value]="type.code" [(ngModel)]="valgtHygieneEtterHanskebruk" />
+                <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !isEditMode" [value]="type.code" [(ngModel)]="selectedHygieneAfterGloveUse" />
                 <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}">{{type.name}}</label>
               </div>
             </div>

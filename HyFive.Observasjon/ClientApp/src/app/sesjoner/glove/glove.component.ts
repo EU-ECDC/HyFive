@@ -68,7 +68,7 @@ export class GloveComponent implements OnInit {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  showIndications(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller uten indikasjoner
+  showIndications(item: GloveObservation): string { // TODO Velge mellom visning av indikasjoner/typer, eller vise om observation var with eller without indikasjoner
     if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }

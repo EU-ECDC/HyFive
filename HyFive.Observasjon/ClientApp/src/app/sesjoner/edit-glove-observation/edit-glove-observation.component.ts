@@ -16,10 +16,10 @@ import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationTyp
 import { Uuid } from 'src/app/utils/uuid';
 
 @Component({
-  selector: 'app-rediger-hanske-observasjon',
-  templateUrl: './rediger-hanske-observasjon.component.html'
+  selector: 'app-edit-glove-observation',
+  templateUrl: './edit-glove-observation.component.html'
 })
-export class RedigerHanskeObservasjonComponent implements OnInit {
+export class EditGloveObservationComponent implements OnInit {
 
   isEditMode: boolean = false;
   Colors = Colors;
@@ -29,8 +29,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
 
   activeTab = "with";
-  hanskeBrukt = null;
-  valgtHygieneEtterHanskebruk: string = null;
+  gloveUsed = null;
+  selectedHygieneAfterGloveUse: string = null;
 
   uuid: string;
 
@@ -70,10 +70,10 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
         });
       }
     });
-    this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+    this.gloveWithoutIndicationTypeService.getGloveWithoutIndicationTypes().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
       if (this.observation.gloveWithoutIndicationTypes.length) {
-        this.activeTab = "uten";
+        this.activeTab = "without";
         this.gloveWithoutIndicationTypes.forEach(x => {
           if (this.observation.gloveWithoutIndicationTypes.some(y => y.code === x.code))
             x.isSelected = true;
@@ -84,8 +84,8 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
 
-    this.hanskeBrukt = this.observation.gloveUsed;
-    this.valgtHygieneEtterHanskebruk = this.observation.handHygieneAfterGloveUseType?.code;
+    this.gloveUsed = this.observation.gloveUsed;
+    this.selectedHygieneAfterGloveUse = this.observation.handHygieneAfterGloveUseType?.code;
   }
 
   gloveWithIndicationsChanged(code, event) {
@@ -105,14 +105,14 @@ export class RedigerHanskeObservasjonComponent implements OnInit {
 
     this.observation.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
     this.observation.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(x => x.isSelected);
-    this.observation.gloveUsed = this.hanskeBrukt;
+    this.observation.gloveUsed = this.gloveUsed;
 
     if(this.observation.gloveUsed){
-      this.observation.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.valgtHygieneEtterHanskebruk);
+      this.observation.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHygieneAfterGloveUse);
     }
     else {
       this.observation.handHygieneAfterGloveUseType = null;
-      this.valgtHygieneEtterHanskebruk = null;
+      this.selectedHygieneAfterGloveUse = null;
     }
 
 

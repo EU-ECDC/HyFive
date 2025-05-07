@@ -75,7 +75,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
     });
-    this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper().subscribe((gloveWithoutIndicationTypes) => {
+    this.gloveWithoutIndicationTypeService.getGloveWithoutIndicationTypes().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
     this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes().subscribe((handHygieneAfterGloveUseTypes) => {

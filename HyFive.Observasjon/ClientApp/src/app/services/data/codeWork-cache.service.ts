@@ -22,14 +22,14 @@ export class CodeWorkCacheService {
     private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService ) {
   }
 
-  lastKodeverk(){
+  loadCodeworks(){
     const codeworkRequests = [
       this.activityService.getActivityTypes(),
       this.indicationService.getIndicationTypes(),
       this.handJewelryTypeService.getHandJewelryTypes(),
       this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes(),
       this.gloveWithIndicationTypeService.getGloveWithIndicationTypes(),
-      this.gloveWithoutIndicationTypeService.getHanskeUtenIndikasjonTyper(),
+      this.gloveWithoutIndicationTypeService.getGloveWithoutIndicationTypes(),
       this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings()
     ];
 

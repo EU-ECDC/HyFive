@@ -11,7 +11,7 @@ export class GloveWithoutIndicationTypeService {
   constructor(private http: HttpClient) {
   }
 
-  getHanskeUtenIndikasjonTyper(): Observable<GloveWithoutIndicationType[]> {
+  getGloveWithoutIndicationTypes(): Observable<GloveWithoutIndicationType[]> {
     return this.http.get<GloveWithoutIndicationType[]>('api/v1/glove/glovewithoutindicationtype').pipe()
   }
 
