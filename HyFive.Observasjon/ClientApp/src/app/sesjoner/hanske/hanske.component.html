@@ -43,10 +43,10 @@
   <app-spinner *ngIf="sessionSentToServer"></app-spinner>
   <div class="row mb-4" *ngIf="!sessionSentToServer">
     <div class="col ms-auto mb-3">
-      <app-slett-bekreftelsesdialog (slettetEvent)="sessionDeletedEventHandler(session.id)" [dialogmelding]="DialogueTexts.SessionDeleteConfirmation" [erSvartFarge]="false">
+      <app-delete-confirmation-dialog (deletedEvent)="sessionDeletedEventHandler(session.id)" [dialogMessage]="DialogueTexts.SessionDeleteConfirmation" [isBlackColor]="false">
         <i class="icon-trash3"></i>
         Delete session
-      </app-slett-bekreftelsesdialog>
+      </app-delete-confirmation-dialog>
     </div>
 
     <div class="col-auto text-end ms-auto">

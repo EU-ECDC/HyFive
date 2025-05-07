@@ -12,10 +12,10 @@
         </button>
       </div>
       <div class="mr-3">
-        <app-slett-bekreftelsesdialog [erSvartFarge]="false" (slettetEvent)="deleteObservation()"
-                                      [dialogmelding]="DialogueTexts.ObservationDeleteConfirmation">
+        <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
+                                      [dialogMessage]="DialogueTexts.ObservationDeleteConfirmation">
           <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
-        </app-slett-bekreftelsesdialog>
+        </app-delete-confirmation-dialog>
       </div>
     </div>
     <div class="hh-card-slider__card"

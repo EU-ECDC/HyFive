@@ -22,7 +22,7 @@ import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikk
 import { RedigerFireIndikasjonerObservasjonComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
-import { SlettBekrefelsesdialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
+import { DeleteConfirmationDialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
 import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
 import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
 import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shadow.component';
@@ -92,7 +92,7 @@ export const httpInterceptorProviders = [
         IkkeSendteSesjonerComponent,
         RedigerFireIndikasjonerObservasjonComponent,
         FireIndikasjonerComponent,
-        SlettBekrefelsesdialogComponent,
+        DeleteConfirmationDialogComponent,
         RegistrereHandsmykkerComponent,
         HandJewelryObservationCardComponent,
         SaveShadowComponent,
