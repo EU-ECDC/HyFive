@@ -36,7 +36,7 @@
       <div class="row">
         <div class="col-12" *ngIf="protectiveEquipmentRequired().length > 0">
           <h2 class="h5 mb-3">Required</h2>
-          <div class="row text-break" *ngIf="beskyttelsesutstyr?.length">
+          <div class="row text-break" *ngIf="protectiveEquipment?.length">
             <div class="col-6 col-sm-4 col-md-3 text-center px-0 mb-3" *ngFor="let selection of protectiveEquipmentRequired(); let i = index;" (click)="showDisplayModeModal($event, selection)">
               <label [htmlFor]="'required'+observation.id.substr(4)+i">
                 <input type="checkbox"

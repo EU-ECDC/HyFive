@@ -23,7 +23,7 @@ import { RedigerFireIndikasjonerObservasjonComponent } from './sessions/rediger-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FireIndikasjonerComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { DeleteConfirmationDialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
-import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
+import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
 import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shadow.component';
 import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
@@ -93,7 +93,7 @@ export const httpInterceptorProviders = [
         RedigerFireIndikasjonerObservasjonComponent,
         FireIndikasjonerComponent,
         DeleteConfirmationDialogComponent,
-        RegistrereHandsmykkerComponent,
+        RegisterHandjewelryComponent,
         HandJewelryObservationCardComponent,
         SaveShadowComponent,
         DeleteShadowComponent,

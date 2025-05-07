@@ -113,7 +113,7 @@ export class IkkeSendteSesjonerComponent implements OnInit, OnDestroy {
       case SessionType.FourIndications:
         return Urls.FourIndicationsSessionUrl;
       case SessionType.HandJewelry:
-        return Urls.HandsmykkeSesjonUrl;
+        return Urls.HandJewelrySessionUrl;
       case SessionType.Gloves:
         return Urls.GloveSessionUrl;
       case SessionType.ProtectiveEquipment:

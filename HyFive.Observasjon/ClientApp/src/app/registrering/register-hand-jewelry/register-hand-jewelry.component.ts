@@ -15,11 +15,11 @@ import { Uuid } from '../../utils/uuid';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-registrere-handsmykker',
-  templateUrl: './registrere-handsmykker.component.html'
+  selector: 'app-register-hand-jewelry',
+  templateUrl: './register-hand-jewelry.component.html'
 })
 
-export class RegistrereHandsmykkerComponent implements OnInit, OnDestroy {
+export class RegisterHandjewelryComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
   sessionView: HandJewelrySessionView;

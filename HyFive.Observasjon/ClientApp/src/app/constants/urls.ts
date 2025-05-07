@@ -8,7 +8,7 @@ export class Urls {
   static NotSentSessionsUrl = 'sessions/not-send';
   static SentSessionsUrl = 'sessions/send';
   static FourIndicationsSessionUrl = 'sessions/four-indications';
-  static HandsmykkeSesjonUrl = 'sessions/handJewelry';
+  static HandJewelrySessionUrl = 'sessions/handJewelry';
   static GloveSessionUrl = 'sessions/glove';
   static ProtectiveEquipmentSessionUrl = 'sessions/protectiveEquipment';
   static SentFourIndicationsSessionUrl = 'sessions/send/four-indications';
