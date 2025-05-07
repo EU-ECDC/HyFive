@@ -2,7 +2,7 @@
   <app-navigation-link (linkClicked)="navigerTilRegistreringssideForFireIndikasjoner(session.id)">Tilbake til observasjon </app-navigation-link>
   <app-session-edit-header [session]="session" [header]="'Session: Fire indikasjoner'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
-<app-sesjonstatistikk [session]="session"></app-sesjonstatistikk>
+<app-session-statistics [session]="session"></app-session-statistics>
 <div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">
     <app-accordion [items]="session.observations"

@@ -65,28 +65,28 @@ export class SendteFireIndikasjonerSesjonComponent implements OnInit, OnDestroy 
     this.router.navigate([Urls.SentSessionsUrl])
   }
 
-  beregnAnledningerEtterlevd(session: FourIndicationsSession) : number{
+  calculateOccasionsComplied(session: FourIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerEtterlevdProsent(session: FourIndicationsSession): number {
+  calculateOccasionsCompliedPercent(session: FourIndicationsSession): number {
     if (session?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerEtterlevd(session) / session?.observations?.length) * 100;
+    return (this.calculateOccasionsComplied(session) / session?.observations?.length) * 100;
   }
 
-  beregnAnledningerUtelatt(session: FourIndicationsSession) : number{
+  calculateOccasionsOmitted(session: FourIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
   }
 
-  beregnAnledningerUtelattProsent(session: FourIndicationsSession) : number{
+  calculateOccasionsOmittedPercent(session: FourIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
-    return (this.beregnAnledningerUtelatt(session) / session?.observations?.length)*100
+    return (this.calculateOccasionsOmitted(session) / session?.observations?.length)*100
   }
 
   hentIngress(observation: FourIndicationsObservation) {

@@ -3,7 +3,7 @@
   <app-navigation-link (linkClicked)="navigateToSentSessions()">Tilbake</app-navigation-link>
   <app-session-edit-header [session]="session" [header]="'Sendt session - Fire indikasjoner'"></app-session-edit-header>
 </div>
-<app-sesjonstatistikk *ngIf='isOnline' [session]="session"> </app-sesjonstatistikk>
+<app-session-statistics *ngIf='isOnline' [session]="session"> </app-session-statistics>
 
 <div class="container" *ngIf="isOnline">
   <div class="accordion-compact mb-4">

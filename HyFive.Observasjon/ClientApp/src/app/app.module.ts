@@ -50,7 +50,7 @@ import { SendteSesjonsoversiktComponent } from './sessions/sendte-sessions/sendt
 import { SendteHandsmykkerSesjonComponent } from './sessions/sendte-sessions/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
 import { OfflineMeldingComponent } from './shared/offline-melding/offline-melding.component';
 import { SendteBeskyttelsesutstyrSesjonComponent } from './sessions/sendte-sessions/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
-import { SesjonstatistikkComponent } from './sessions/fire-indikasjoner/sesjonstatistikk/sesjonstatistikk.component';
+import { SessionStatisticsComponent } from './sessions/fire-indikasjoner/sesjonstatistikk/sesjonstatistikk.component';
 import { ToastrConfig } from './constants/toastr-config';
 import { ObservationCounterComponent } from './shared/observation-counter/observation-counter.component';
 import { InfoModalComponent } from './shared/info-modal/info-modal.component';
@@ -117,7 +117,7 @@ export const httpInterceptorProviders = [
         OfflineMeldingComponent,
         SendteHandsmykkerSesjonComponent,
         SendteBeskyttelsesutstyrSesjonComponent,
-        SesjonstatistikkComponent,
+        SessionStatisticsComponent,
         ObservationCounterComponent,
         InfoModalComponent,
         RegisterGloveComponent,
