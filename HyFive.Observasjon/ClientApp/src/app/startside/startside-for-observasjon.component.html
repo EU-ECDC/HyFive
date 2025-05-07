@@ -163,12 +163,12 @@
           <div>
             <h2 class="h5 text-center">{{ valgtSesjonType == SessionType.FourIndications ? "Hanskebruk" : "Handhygiene" }}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !hanskebruk ? 'bold' : '' }">Av</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Av</span>
               <label class="hh-switch">
-                <input type="checkbox" checked [(ngModel)]="hanskebruk" />
+                <input type="checkbox" checked [(ngModel)]="gloveUse" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': hanskebruk ? 'bold' : '' }">På</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">På</span>
             </div>
           </div>
         </div>

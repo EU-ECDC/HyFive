@@ -44,11 +44,11 @@
             <div class="hh-vertical-stadium-buttons">
               <div class="hh-vertical-stadium-buttons__button">
                 <app-register-activity class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Disinfection) }"
-                                         [activityType]="getAktivityType(ActivityTypeConstants.Disinfection)"
-                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Disinfection)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Disinfection) }"
+                                         [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
+                                         [isRegistered]="isActivitySelected(ActivityTypeConstants.Disinfection)"
                                          [timekeeping]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Disinfection) ? observation.aktivitet?.timeSpent : 0"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Disinfection) ? observation.activity?.timeSpent : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandHoldingWater"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -57,11 +57,11 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-register-activity class="hh-card-slider__aktivitet"
-                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.Handwash) }"
-                                         [activityType]="getAktivityType(ActivityTypeConstants.Handwash)"
-                                         [isRegistered]="erAktivitetValgt(ActivityTypeConstants.Handwash)"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Handwash) }"
+                                         [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
+                                         [isRegistered]="isActivitySelected(ActivityTypeConstants.Handwash)"
                                          [timekeeping]="false"
-                                         [seconds]="erAktivitetValgt(ActivityTypeConstants.Handwash) ? observation.aktivitet?.timeSpent : 0"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Handwash) ? observation.activity?.timeSpent : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandsWash"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -70,8 +70,8 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-missed-opportunity class="hh-card-slider__aktivitet"
-                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': erAktivitetValgt(ActivityTypeConstants.NotExecuted) }"
-                                        [isRegistered]="erAktivitetValgt(ActivityTypeConstants.NotExecuted)"
+                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.NotExecuted) }"
+                                        [isRegistered]="isActivitySelected(ActivityTypeConstants.NotExecuted)"
                                         (activityRegisteredEvent)="registerActivity($event)"
                                         [disabled]="!isEditMode">
                 </app-missed-opportunity>
@@ -83,30 +83,30 @@
       <div class="row mt-n3" *ngIf="isEditMode && observation.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
         <div class="col-12 text-center mb-2">
           <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.timeSpent = 0">
-            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>  Remove time registration</span>
+            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
           </button>
         </div>
       </div>
       <ng-container *ngIf="isReadonly == false">
         <div *ngIf="gloveUseMustBeRegistered && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
-          <label class="ml-2" [htmlFor]="'hanskebruk-'+id"><small>Observation av hansker:</small></label>
+          <label class="ml-2" [htmlFor]="'gloveUse-'+id"><small>Observation of gloves:</small></label>
           <select [disabled]="!isEditMode"
-                  [id]="'hanskebruk-'+id"
+                  [id]="'gloveUse-'+id"
                   class="form-control form-control--rounded form-control--smaller form-control--arrow bg-secondary"
                   [ngClass]="{'form-control--no-border': !isEditMode}"
                   [(ngModel)]="selectedActivityTypeNotExecutedSelectionId"
-                  (ngModelChange)="valgtAktivitetTypeIkkeUtfortEndret($event)">
-            <option *ngFor="let aktivitetTypeIkkeUtfort of ActivityTypeNotExecutedSelection" [value]="aktivitetTypeIkkeUtfort.id+''">{{aktivitetTypeIkkeUtfort.name}}</option>
+                  (ngModelChange)="selectedActivityTypeNotExecutedChanged($event)">
+            <option *ngFor="let actTypeNotExctdSelection of activityTypeNotExecutedSelection" [value]="actTypeNotExctdSelection.id+''">{{actTypeNotExctdSelection.name}}</option>
           </select>
         </div>
       </ng-container>
-      <ng-container *ngIf="isReadonly && hanskebrukTekst">
+      <ng-container *ngIf="isReadonly && gloveUseText">
         <div class="row">
           <div class="col">
             <label>
               <small>
-                Observation av hansker:
-                <strong>{{hanskebrukTekst}}</strong>
+                Observation of gloves:
+                <strong>{{gloveUseText}}</strong>
               </small>
             </label>
           </div>

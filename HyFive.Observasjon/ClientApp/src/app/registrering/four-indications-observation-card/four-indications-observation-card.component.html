@@ -46,7 +46,7 @@
                                        [parentId]="card.id"
                                        [seconds]="activity?.timeSpent"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
-                                       [activityType]="getAktivityType(ActivityTypeConstants.Disinfection)"
+                                       [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandHoldingWater"
                                        (activityRegisteredEvent)="registerActivity($event)">
@@ -58,7 +58,7 @@
                                        [parentId]="card.id"
                                        [seconds]="activity?.timeSpent"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
-                                       [activityType]="getAktivityType(ActivityTypeConstants.Handwash)"
+                                       [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                        [icon]="faHandsWash"
                                        (activityRegisteredEvent)="registerActivity($event)">
@@ -68,7 +68,7 @@
               <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.NotExecuted)"
                                       [isRegistered]="isRegistered(ActivityTypeConstants.NotExecuted)"
                                       [parentId]="card.id"
-                                      [activityType]="getAktivityType(ActivityTypeConstants.NotExecuted)"
+                                      [activityType]="getActivityType(ActivityTypeConstants.NotExecuted)"
                                       [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                       [icon]="faTimesCircle"
                                       (activityRegisteredEvent)="registerActivity($event)">

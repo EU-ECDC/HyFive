@@ -22,7 +22,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   SessionType = SessionType;
   valgtSesjonType: SessionType;
   timekeeping: boolean;
-  hanskebruk: boolean;
+  gloveUse: boolean;
   roleSelected: RoleSelected[];
   valgtAvdelingId: string = null;
   colors = Colors;
@@ -58,7 +58,7 @@ export class StartsideForObservasjonComponent implements OnInit {
   resetState() {
     this.valgtSesjonType = SessionType.NotSelected;
     this.timekeeping = false;
-    this.hanskebruk = false;
+    this.gloveUse = false;
     this.roleSelected = [];
     this.valgtAvdelingId = null;
     this.visStartside = true;
@@ -137,7 +137,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startFireIndikasjonerSesjon() {
     let sessionId = this.fourIndicationsSessionService.createSessionView(
-      this.hanskebruk,
+      this.gloveUse,
       this.timekeeping,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
@@ -160,7 +160,7 @@ export class StartsideForObservasjonComponent implements OnInit {
 
   startHanskeSesjon() {
     let sessionId = this.gloveSessionService.createSessionView(
-      this.hanskebruk,
+      this.gloveUse,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.hentValgtAvdeling()
     );

@@ -161,7 +161,7 @@ export class FourIndicationsObservationCardComponent extends BaseCardSwipe imple
     this.cardIsSelectedEvent.emit(this.card);
   }
 
-  getAktivityType(code: string) {
+  getActivityType(code: string) {
     return this.activityTypes?.find(x => x.code === code);
   }
 

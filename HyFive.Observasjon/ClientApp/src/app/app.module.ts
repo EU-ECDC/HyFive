@@ -19,7 +19,7 @@ import { HandHygieneHammerJS } from '../hammerjsConfig';
 import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IkkeSendteSesjonerComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
-import { RedigerFireIndikasjonerObservasjonComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
+import { EditFourIndicationsObservationComponent } from './sessions/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FourIndicationsComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { DeleteConfirmationDialogComponent } from './sessions/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
@@ -90,7 +90,7 @@ export const httpInterceptorProviders = [
         IndicationSelectionComponent,
         RegisterCommentComponent,
         IkkeSendteSesjonerComponent,
-        RedigerFireIndikasjonerObservasjonComponent,
+        EditFourIndicationsObservationComponent,
         FourIndicationsComponent,
         DeleteConfirmationDialogComponent,
         RegisterHandjewelryComponent,
