@@ -31,7 +31,7 @@ import { HandJewelryObservationCardComponent } from './registrering/handjewelry-
 import { HandJewelryComponent } from './sessions/handsmykker/handsmykker.component';
 import { EditHandJewelryObservationComponent } from './sessions/rediger-handsmykker-observasjon/rediger-handsmykker-observasjon.component';
 import { RoleSelectDropdownComponent } from './registrering/role-selection-dropdown/role-selection-dropdown.component';
-import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
+import { SentSessionsComponent } from './sessions/sendte-sessions/sendte-sessions.component';
 import { SessionOverviewComponent } from './sessions/sesjonsoversikt/sesjonsoversikt.component';
 //import { FhiAccordionModule } from '@folkehelseinstituttet/ng-components';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
@@ -100,7 +100,7 @@ export const httpInterceptorProviders = [
         HandJewelryComponent,
         EditHandJewelryObservationComponent,
         RoleSelectDropdownComponent,
-        SendteSesjonerComponent,
+        SentSessionsComponent,
         SessionOverviewComponent,
         RegisterProtectiveEquipmentComponent,
         ProtectiveEquipmentObservationCardComponent,

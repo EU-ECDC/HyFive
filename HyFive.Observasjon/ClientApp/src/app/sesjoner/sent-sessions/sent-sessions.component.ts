@@ -8,15 +8,15 @@ import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";
 
 @Component({
-  selector: "app-sendte-sessions",
-  templateUrl: "./sendte-sessions.component.html",
+  selector: "app-sent-sessions",
+  templateUrl: "./sent-sessions.component.html",
 })
-export class SendteSesjonerComponent {
+export class SentSessionsComponent {
   Urls = Urls;
 
   sessions: SessionReport[];
   sessionsFiltered: SessionReport[];
-  harLastetSesjoner = false;
+  hasLoadedSessions = false;
   keyword: string = null;
   sessionNameMap: Map<SessionType, string>;
   offlineEvent: Observable<Event>;
@@ -32,7 +32,7 @@ export class SendteSesjonerComponent {
   }
 
   loadSessions() {
-    this.harLastetSesjoner = false;
+    this.hasLoadedSessions = false;
     this.sentSessionsService.getSessions().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
         if (a.startTime > b.startTime) {
@@ -44,7 +44,7 @@ export class SendteSesjonerComponent {
         return 0;
       });
       this.sessionsFiltered = this.sessions;
-      this.harLastetSesjoner = true;
+      this.hasLoadedSessions = true;
     });
   }
 

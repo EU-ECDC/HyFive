@@ -6,7 +6,7 @@ import { LoginPageComponent } from './login-page/loginpage.component';
 import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
 import { RegisterFourIndicationsComponent } from './registrering/register-four-indications/register-four-indications.component';
 import { NotSentSessionsComponent } from './sessions/ikke-sendte-sessions/ikke-sendte-sessions.component';
-import { SendteSesjonerComponent } from './sessions/sendte-sessions/sendte-sessions.component';
+import { SentSessionsComponent } from './sessions/sendte-sessions/sendte-sessions.component';
 import { FourIndicationsComponent } from './sessions/fire-indikasjoner/fire-indikasjoner.component';
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { HandJewelryComponent } from './sessions/handsmykker/handsmykker.component';
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   { path: Urls.RegisterFourndicationsUrl, component: RegisterFourIndicationsComponent },
   { path: Urls.NotSentSessionsUrl, component: NotSentSessionsComponent },
-  { path: Urls.SentSessionsUrl, component: SendteSesjonerComponent },
+  { path: Urls.SentSessionsUrl, component: SentSessionsComponent },
   { path: Urls.FourIndicationsSessionUrl, component: FourIndicationsComponent },
   { path: Urls.RegisterHandJewelryUrl, component: RegisterHandjewelryComponent },
   { path: Urls.HandJewelrySessionUrl, component: HandJewelryComponent },

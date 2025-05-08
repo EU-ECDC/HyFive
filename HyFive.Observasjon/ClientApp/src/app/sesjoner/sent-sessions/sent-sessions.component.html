@@ -13,7 +13,7 @@
         <div class="col-lg-8 mb-4">
           <div class="d-flex">
             <label class="icon-search mt-2 me-3" for="search-sent-items"
-              ><span class="visually-hidden">Filtrer list</span></label
+              ><span class="visually-hidden">Filter list</span></label
             >
             <input
               id="search-sent-items"
@@ -59,7 +59,7 @@
           </article>
         </div>
       </div>
-      <app-spinner *ngIf="!harLastetSesjoner"></app-spinner>
+      <app-spinner *ngIf="!hasLoadedSessions"></app-spinner>
     </ng-container>
   </app-session-overview>
 </div>
