@@ -7,7 +7,7 @@ import { ViewportScroller } from "@angular/common";
 import { fromEvent, Subscription } from "rxjs";
 import { BrowserViewportService } from "./services/events/browser-viewport.service";
 import { AuthorizationService } from "./services/data/authorization.service";
-import { AuthorizedRole } from "./models/autorisering/authorized-role";
+import { AuthorizedRole } from "./models/authorization/authorized-role";
 import { LoggedInUser } from "./models/api/LoggedInUser";
 import { AuthenticationEventService } from "./services/events/authentication-event.service";
 import { Localstoragepaths } from "./constants/localstoragepaths";

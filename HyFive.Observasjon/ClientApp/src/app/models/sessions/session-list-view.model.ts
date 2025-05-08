@@ -1,6 +1,6 @@
 import { SessionType } from "../api/SessionType";
 
-export interface Sesjonslistevisning1 {
+export interface SessionListView1 {
   id: string;
   departmentName : string,
   startTime: Date,
