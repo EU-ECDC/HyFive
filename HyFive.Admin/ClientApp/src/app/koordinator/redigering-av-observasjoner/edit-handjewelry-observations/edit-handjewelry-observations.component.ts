@@ -6,7 +6,7 @@ import {KeyEventService} from "../../../services/events/key-event.service";
 import {Role} from "../../../models/api/Role";
 import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
-import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registrering/handsmykkevalg.model";
+import {HandJewelrySelection} from "../../../../../../../HyFive.Observasjon/ClientApp/src/app/models/registration/handJewelry-selection.model";
 import {HandJewelryTypeService} from "../../../services/data/handJewelryType.service";
 import {HandJewelryType} from "../../../models/api/HandJewelryType";
 
