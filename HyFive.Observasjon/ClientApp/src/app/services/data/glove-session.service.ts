@@ -19,7 +19,7 @@ import { InstitutionService } from './InstitutionService';
 export class GloveSessionService extends BaseSessionService<GloveSessionView, GloveSession, GloveObservation> {
 
   sessionLocalStoragePath = Localstoragepaths.GloveSessions;
-  sessionShowLocalStoragePath = Localstoragepaths.HanskeSesjonsvisninger;
+  sessionShowLocalStoragePath = Localstoragepaths.GloveSessionViews;
 
   constructor(
     public institutionService: InstitutionService,

@@ -3,9 +3,9 @@
     <div class="fhi-header__brand pb-5">
       <div
         class="container fhi-header__brand-container d-flex"
-        [ngClass]="{ 'pb-3': !hovedmenySkalVises() }"
+        [ngClass]="{ 'pb-3': !mainMenuToBeDisplayed() }"
       >
-        <div class="fhi-header__brand-content" [ngClass]="{'d-xl-flex': !skalViseAppBrand()}">
+        <div class="fhi-header__brand-content" [ngClass]="{'d-xl-flex': !shouldShowAppBrand()}">
           <a class="fhi-header__logo" routerLink="/">
             <i class="icon-fhi-logo fhi-header__logo-icon"></i>
           </a>
@@ -16,15 +16,13 @@
               >
               <small
                 class="d-none d-md-inline d-lg-flex flex-column justify-content-center"
-                >Nasjonalt verktøy for observation av smitteforebyggende tiltak
-                i helsetjenesten</small
-              >
+                >National tool for observation of infection prevention measures in the health service</small>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div class="fhi-app__main-menu" *ngIf="hovedmenySkalVises()">
+    <div class="fhi-app__main-menu" *ngIf="mainMenuToBeDisplayed()">
       <div class="fhi-app__main-menu-container">
         <app-main-menu></app-main-menu>
       </div>

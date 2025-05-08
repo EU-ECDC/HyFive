@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { Urls } from './constants/urls';
 import { LoginPageComponent } from './login-page/loginpage.component';
-import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
+import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { RegisterFourIndicationsComponent } from './registrering/register-four-indications/register-four-indications.component';
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: Urls.ProfileUrl, component: LoginPageComponent },
   {
     path: Urls.HomePageForObservationUrl,
-    component: StartsideForObservasjonComponent,
+    component: HomePageForObservationComponent,
     runGuardsAndResolvers: 'always',
   },
   { path: Urls.RegisterFourndicationsUrl, component: RegisterFourIndicationsComponent },

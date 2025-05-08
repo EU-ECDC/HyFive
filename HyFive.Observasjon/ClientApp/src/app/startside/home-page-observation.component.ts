@@ -15,22 +15,22 @@ import { AuthorizationService } from "../services/data/authorization.service";
 import { LoggedInUser } from "../models/api/LoggedInUser";
 
 @Component({
-  selector: "app-startsideforobservasjon",
-  templateUrl: "./startside-for-observasjon.component.html",
+  selector: "app-home-page-observation",
+  templateUrl: "./home-page-observation.component.html",
 })
-export class StartsideForObservasjonComponent implements OnInit {
+export class HomePageForObservationComponent implements OnInit {
   SessionType = SessionType;
-  valgtSesjonType: SessionType;
+  selectedSessionType: SessionType;
   timekeeping: boolean;
   gloveUse: boolean;
   roleSelected: RoleSelected[];
-  valgtAvdelingId: string = null;
+  selectedDepartmentId: string = null;
   colors = Colors;
-  visStartside: boolean;
-  visBeskyttelsesutstyr: boolean;
+  showHomePage: boolean;
+  showProtectiveEquipment: boolean;
   user: LoggedInUser;
-  institusjonAlternativer: Institution[];
-  valgtInstitusjonAlternativId: number;
+  institutionOptions: Institution[];
+  selectedInstitutionOptionId: number;
   institution: Institution;
 
   faCircle = faCircle;
@@ -56,23 +56,23 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   resetState() {
-    this.valgtSesjonType = SessionType.NotSelected;
+    this.selectedSessionType = SessionType.NotSelected;
     this.timekeeping = false;
     this.gloveUse = false;
     this.roleSelected = [];
-    this.valgtAvdelingId = null;
-    this.visStartside = true;
-    this.visBeskyttelsesutstyr = false;
-    this.institusjonAlternativer = [];
-    this.valgtInstitusjonAlternativId = 0;
+    this.selectedDepartmentId = null;
+    this.showHomePage = true;
+    this.showProtectiveEquipment = false;
+    this.institutionOptions = [];
+    this.selectedInstitutionOptionId = 0;
     this.institution = null;
     this.institutionService
       .getInstitutions()
       .subscribe((institutions: Institution[]) => {
-        this.institusjonAlternativer = institutions;
+        this.institutionOptions = institutions;
         let enesteInstitusjon: Institution = null;
-        if (this.institusjonAlternativer?.length == 1) {
-          enesteInstitusjon = this.institusjonAlternativer[0];
+        if (this.institutionOptions?.length == 1) {
+          enesteInstitusjon = this.institutionOptions[0];
         }
 
         this.institutionService
@@ -87,7 +87,7 @@ export class StartsideForObservasjonComponent implements OnInit {
                 enesteInstitusjon.id
               );
             }
-            this.valgtInstitusjonAlternativId = this.institution
+            this.selectedInstitutionOptionId = this.institution
               ? this.institution.id
               : 0;
           });
@@ -98,49 +98,49 @@ export class StartsideForObservasjonComponent implements OnInit {
   }
 
   startObservation() {
-    if (!this.valgtAvdelingId) {
-      alert("Select en department");
+    if (!this.selectedDepartmentId) {
+      alert("Select a department");
       return;
     }
 
     if (!this.roleSelected.filter((r) => r.isSelected).length) {
-      alert("Select en eller flere roles");
+      alert("Select one or more roles");
       return;
     }
 
-    switch (this.valgtSesjonType) {
+    switch (this.selectedSessionType) {
       case SessionType.NotSelected:
-        alert("Select sesjonstypen du ønsker å start");
+        alert("Select the sessionType you want to start");
         break;
       case SessionType.FourIndications:
-        this.startFireIndikasjonerSesjon();
+        this.startFourIndicationsSession();
         break;
       case SessionType.HandJewelry:
-        this.startHandsmykkeSesjon();
+        this.startHandJewelrySession();
         break;
       case SessionType.Gloves:
-        this.startHanskeSesjon();
+        this.startGloveSession();
         break;
       case SessionType.ProtectiveEquipment:
-        this.visStartside = false;
-        this.visBeskyttelsesutstyr = true;
+        this.showHomePage = false;
+        this.showProtectiveEquipment = true;
         break;
       default:
         alert(
-          `Observation av ${
-            Object.values(SessionType)[this.valgtSesjonType]
-          } er ikke støttet enda`
+          `Observation of ${
+            Object.values(SessionType)[this.selectedSessionType]
+          } is not supported yet`
         );
         break;
     }
   }
 
-  startFireIndikasjonerSesjon() {
+  startFourIndicationsSession() {
     let sessionId = this.fourIndicationsSessionService.createSessionView(
       this.gloveUse,
       this.timekeeping,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.hentValgtAvdeling()
+      this.getSelectedDepartment()
     );
 
     this.router.navigate([Urls.RegisterFourndicationsUrl], {
@@ -148,21 +148,21 @@ export class StartsideForObservasjonComponent implements OnInit {
     });
   }
 
-  startHandsmykkeSesjon() {
+  startHandJewelrySession() {
     let sessionId = this.handJewelrySessionService.createSessionView(
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.hentValgtAvdeling()
+      this.getSelectedDepartment()
     );
     this.router.navigate([Urls.RegisterHandJewelryUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
 
-  startHanskeSesjon() {
+  startGloveSession() {
     let sessionId = this.gloveSessionService.createSessionView(
       this.gloveUse,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.hentValgtAvdeling()
+      this.getSelectedDepartment()
     );
 
     this.router.navigate([Urls.RegisterGloveUrl], {
@@ -170,39 +170,39 @@ export class StartsideForObservasjonComponent implements OnInit {
     });
   }
 
-  valgtInstitusjonEndret() {
-    // bytt institution
+  selectedInstitutionChanged() {
+    // change institution
     this.institutionService.updateSelectedInstitutionId(
-      this.valgtInstitusjonAlternativId
+      this.selectedInstitutionOptionId
     );
 
-    // endre selectedInstitution
-    this.institution = this.institusjonAlternativer.find(
-      (x) => x.id === this.valgtInstitusjonAlternativId
+    // change selectedInstitution
+    this.institution = this.institutionOptions.find(
+      (x) => x.id === this.selectedInstitutionOptionId
     );
-    this.valgtAvdelingId = null;
-    this.valgtAvdelingEndret();
+    this.selectedDepartmentId = null;
+    this.selectedDepartmentChanged();
   }
 
-  hentValgtAvdeling(): Department {
+  getSelectedDepartment(): Department {
     return this.institution.departments.find(
-      (x) => x.id === parseInt(this.valgtAvdelingId)
+      (x) => x.id === parseInt(this.selectedDepartmentId)
     );
   }
 
-  valgtAvdelingEndret() {
+  selectedDepartmentChanged() {
     this.roleSelected = this.institution.departments
-      .find((x) => x.id === parseInt(this.valgtAvdelingId))
+      .find((x) => x.id === parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;
       });
   }
 
-  kanIkkeStarteObservasjon(): boolean {
+  canNotStartObservation(): boolean {
     return (
-      this.valgtAvdelingId === null ||
+      this.selectedDepartmentId === null ||
       this.roleSelected.filter((r) => r.isSelected).length === 0 ||
-      this.valgtSesjonType === SessionType.NotSelected
+      this.selectedSessionType === SessionType.NotSelected
     );
   }
 }

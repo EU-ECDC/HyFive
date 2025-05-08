@@ -37,7 +37,7 @@ export class MissedOpportunityComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registrerIkkeUtfortAktivitet(modalName): void {
+  registerNotExecutedActivity(modalName): void {
     if (this.gloveUseMustBeRegistered) {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     } else {

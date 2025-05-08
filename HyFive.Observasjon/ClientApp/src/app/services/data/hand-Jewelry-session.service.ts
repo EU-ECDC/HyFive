@@ -40,26 +40,26 @@ export class HandJewelrySessionService extends BaseSessionService<HandJewelrySes
   ): string {
     let id = Uuid.generateUUID();
 
-    let handsmykkerSesjonsvisning: HandJewelrySessionView = {
+    let handJewelrySessionView: HandJewelrySessionView = {
       sessionId: id,
       department: department,
       card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
     var sessionViews = this.getSessionViews();
-    sessionViews.push(handsmykkerSesjonsvisning);
+    sessionViews.push(handJewelrySessionView);
     this.saveSessionViews(sessionViews);
 
     return id;
   }
 
-  public hentSesjonFraServer(sessionId: string): Observable<HandJewelrySession> {
+  public getSessionFromServer(sessionId: string): Observable<HandJewelrySession> {
     if (navigator.onLine) {
       let params = new HttpParams();
       params = params.append("sessionId", sessionId);
       return this.httpClient.get<HandJewelrySession>(`${environment.apiBaseUrl}/v1/session/handjewelry`, { params });
     }
     else {
-      confirm("Not koblet til internet");
+      confirm("Not connected to the internet");
     }
   }
 }

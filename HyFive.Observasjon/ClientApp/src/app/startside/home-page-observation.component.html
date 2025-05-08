@@ -1,4 +1,4 @@
-<div class="container" *ngIf="visStartside">
+<div class="container" *ngIf="showHomePage">
   <div class="row mb-5">
     <div class="col-12 mb-2">
       <div class="d-flex">
@@ -16,7 +16,7 @@
               }}</strong>
               <br />
             </ng-container>
-            <strong>Observatør:</strong> {{ user?.name }}
+            <strong>Observer:</strong> {{ user?.name }}
           </p>
         </div>
       </div>
@@ -29,15 +29,15 @@
           class="form-select"
           name="institution"
           id="institutions"
-          [(ngModel)]="valgtInstitusjonAlternativId"
-          (ngModelChange)="valgtInstitusjonEndret()"
+          [(ngModel)]="selectedInstitutionOptionId"
+          (ngModelChange)="selectedInstitutionChanged()"
         >
           <option [ngValue]="null">Select institution</option>
           <option
-            *ngFor="let institusjonAlternativ of institusjonAlternativer"
-            [ngValue]="institusjonAlternativ.id"
+            *ngFor="let institutionOption of institutionOptions"
+            [ngValue]="institutionOption.id"
           >
-            {{ institusjonAlternativ.name }}
+            {{ institutionOption.name }}
           </option>
         </select>
       </div>
@@ -53,9 +53,9 @@
           bindValue="id"
           placeholder="Select department"
           clearAllText="Delete"
-          notFoundText="Ingen resultater"
-          [(ngModel)]="valgtAvdelingId"
-          (ngModelChange)="valgtAvdelingEndret()"
+          notFoundText="No results"
+          [(ngModel)]="selectedDepartmentId"
+          (ngModelChange)="selectedDepartmentChanged()"
         >
         </ng-select>
       </div>
@@ -75,12 +75,12 @@
                 type="radio"
                 name="observationTypes"
                 [id]="SessionType.FourIndications" 
-                [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.FourIndications"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.FourIndications"
                 [value]="SessionType.FourIndications"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FourIndications">
-                <span class="fhi-form-check-tile__label-text">4 indikasjoner</span>
+                <span class="fhi-form-check-tile__label-text">4 indications</span>
               </label>
             </div>
           </div>
@@ -92,8 +92,8 @@
                 type="radio"
                 name="observationTypes"
                 [id]="SessionType.HandJewelry"
-                [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.HandJewelry"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.HandJewelry"
                 [value]="SessionType.HandJewelry"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandJewelry">
@@ -109,8 +109,8 @@
                 type="radio"
                 name="observationTypes"
                 [id]="SessionType.Gloves"
-                [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.Gloves"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.Gloves"
                 [value]="SessionType.Gloves"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Gloves">
@@ -126,8 +126,8 @@
                 type="radio"
                 name="observationTypes"
                 [id]="SessionType.ProtectiveEquipment"
-                [(ngModel)]="valgtSesjonType"
-                [checked]="valgtSesjonType == SessionType.ProtectiveEquipment"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.ProtectiveEquipment"
                 [value]="SessionType.ProtectiveEquipment"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.ProtectiveEquipment">
@@ -141,34 +141,34 @@
 
     <ng-container
       *ngIf="
-        valgtSesjonType === SessionType.InOut ||
-        valgtSesjonType === SessionType.FourIndications ||
-        valgtSesjonType === SessionType.Gloves
+        selectedSessionType === SessionType.InOut ||
+        selectedSessionType === SessionType.FourIndications ||
+        selectedSessionType === SessionType.Gloves
       "
     >
       <div class="d-flex mt-n2 mb-5">
         <div class="d-flex mx-auto">
-          <div class="me-6 me-sm-7" *ngIf="valgtSesjonType != SessionType.Gloves">
-            <h2 class="h5 text-center">Tidtaking</h2>
+          <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
+            <h2 class="h5 text-center">Timekeeping</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Av</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Of</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="timekeeping" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': timekeeping ? 'bold' : '' }">På</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': timekeeping ? 'bold' : '' }">On</span>
             </div>
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ valgtSesjonType == SessionType.FourIndications ? "Hanskebruk" : "Handhygiene" }}</h2>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FourIndications ? "GloveUse" : "Handhygiene" }}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Av</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Of</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="gloveUse" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">På</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">On</span>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@
     <ng-container *ngIf="roleSelected?.length">
       <div class="row mb-5">
         <div class="col">
-          <h2 class="h5">Select profession(er)</h2>
+          <h2 class="h5">Select profession(s)</h2>
           <div class="row">
             <div class="col-4 col-md-3 text-center mb-3" *ngFor="let selection of roleSelected; let i = index;">
               <label [htmlFor]="'profession'+roleSelected.indexOf(selection)">
@@ -206,7 +206,7 @@
           class="btn fhi-btn-primary"
           style="height: unset; padding: 0.575rem 1.2rem"
           (click)="startObservation()"
-          [disabled]="kanIkkeStarteObservasjon()"
+          [disabled]="canNotStartObservation()"
         >
           Start observation
         </button>
@@ -215,24 +215,24 @@
   </div>
 </div>
 
-<ng-container *ngIf="visBeskyttelsesutstyr">
+<ng-container *ngIf="showProtectiveEquipment">
   <app-selection-for-protective-equipment
     [roles]="roleSelected"
-    [department]="hentValgtAvdeling()"
+    [department]="getSelectedDepartment()"
   ></app-selection-for-protective-equipment>
 </ng-container>
 
-<app-help-text [title]="'Tips og triks - start observation'">
+<app-help-text [title]="'Tips and trciks - start observation'">
   <p>
-    Hei, og velkommen til observasjonsmodulen. For å start observation må du
-    gjøre følgende:
+    Hello, and welcome to the observation module. To start observation, you need to
+    do the following:
   </p>
   <ol>
     <li>Select institution</li>
     <li>Select department</li>
     <li>Select type observation</li>
-    <li>Velge hvilke profesjoner du ønsker å observere</li>
+    <li>Choose which professions you want to observe</li>
   </ol>
-  Når du så er klar til å start å observere, kan du klikke på
-  <b>Start observation</b>.
+    When you are ready to start observing, you can click to
+    <b>Start observation</b>.
 </app-help-text>

@@ -83,8 +83,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  hovedmenySkalVises(): boolean {
-    // Show hovedmeny hvis vi er offline og user har innlogget-id + valgt institution
+  mainMenuToBeDisplayed(): boolean {
+  // Show main menu if we are offline and user has logged in-id + selected institution
     if (
       navigator.onLine == false &&
       localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&
@@ -93,14 +93,14 @@ export class AppComponent implements OnInit {
       return true;
     }
 
-    // Ellers show hovedmeny kun hvis user er en observatør og vi ikke står på forsiden.
+  // Otherwise show main menu only if user is an Observer and we are not on the front page.
     return this.user?.isObserver;
   }
   
-  skalViseAppBrand() {
-    var erRotside       = window.location.pathname === "/";
-    var erLoginSide     = window.location.pathname === "/"+Urls.LoginPageUrl;
-    var erStartside     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
-    return erLoginSide || erRotside || erStartside;
+  shouldShowAppBrand() {
+    var isRootPage       = window.location.pathname === "/";
+    var isLoginPage     = window.location.pathname === "/"+Urls.LoginPageUrl;
+    var isHomePage     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
+    return isLoginPage || isRootPage || isHomePage;
   }
 }

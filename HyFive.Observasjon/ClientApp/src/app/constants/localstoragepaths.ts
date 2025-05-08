@@ -8,7 +8,7 @@ export class Localstoragepaths {
   public static HandJewelrySessionViews = "handJewelrySessionView";
 
   public static GloveSessions = "gloveSessions";
-  public static HanskeSesjonsvisninger = "GloveSessionView";
+  public static GloveSessionViews = "GloveSessionView";
 
   public static ProtectiveEquipmentSessions = "protectiveEquipmentSessions";
   public static ProtectiveEquipmentSessionViews = "protectiveEquipmentSessionViews";

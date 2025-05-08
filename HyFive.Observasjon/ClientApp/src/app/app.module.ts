@@ -5,7 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
-import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
+import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RegisterFourIndicationsComponent } from "./registrering/register-four-indications/register-four-indications.component";
@@ -82,7 +82,7 @@ export const httpInterceptorProviders = [
     declarations: [
         AppComponent,
         MainMenuComponent,
-        StartsideForObservasjonComponent,
+        HomePageForObservationComponent,
         RegisterFourIndicationsComponent,
         FourIndicationsObservationCardComponent,
         RegisterActivityComponent,
