@@ -4,7 +4,7 @@ import { FourIndicationsSessionView } from '../../models/registration/FourIndica
 import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
 import { ActivityUnderRegistration, ObservationEventService } from '../../services/events/observation-event.service';
-import { Animations } from '../../shared/animasjoner/animasjoner';
+import { Animations } from '../../shared/animations/animations';
 import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { Colors } from '../../utils/colors';

@@ -7,7 +7,7 @@ import { Role } from "src/app/models/api/Role";
 import { HandJewelryObservation } from 'src/app/models/api/HandJewelryObservation';
 import { Card } from "src/app/models/registration/card.model";
 import { HandJewelryType } from '../../models/api/HandJewelryType';
-import { Animations } from "../../shared/animasjoner/animasjoner";
+import { Animations } from "../../shared/animations/animations";
 import { BaseCardSwipe } from "../../shared/card-swipe/card-swipe";
 import { Colors } from "../../utils/colors";
 import { HandJewelrySelection } from "../../models/registration/handJewelry-selection.model";

@@ -4,7 +4,7 @@ import { faSave, faTrashAlt, faTimes, faCheck, faCircle, faEraser  } from '@fort
 import { faHandPaper } from "@fortawesome/free-regular-svg-icons";
 import { Role } from "src/app/models/api/Role";
 import { Card } from "src/app/models/registration/card.model";
-import { Animations } from "../../shared/animasjoner/animasjoner";
+import { Animations } from "../../shared/animations/animations";
 import { BaseCardSwipe } from "../../shared/card-swipe/card-swipe";
 import { Colors } from "../../utils/colors";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

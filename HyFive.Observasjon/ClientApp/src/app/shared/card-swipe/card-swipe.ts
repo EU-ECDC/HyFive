@@ -1,6 +1,6 @@
 import { Directive } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AnimationsConfig, AnimationStates } from '../animasjoner/animasjoner';
+import { AnimationsConfig, AnimationStates } from '../animations/animations';
 import { DialogModalComponent, DialogModalComponentConfig } from "../dialog-modal/dialog-modal.component";
 
 @Directive()
