@@ -80,7 +80,7 @@ namespace HyFive.Api.Common
                     });
             });
 
-            services.AddHelseIdWebAuthentication(Configuration).UseJwkKeySecretHandler().Build();
+            services.AddHelseIdWebAuthentication(Configuration).Build();
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();

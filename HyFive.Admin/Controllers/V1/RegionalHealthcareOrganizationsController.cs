@@ -20,6 +20,7 @@ namespace HyFive.Admin.Controllers.V1
             _mediator = mediator;
         }
 
+        [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpGet]
         public async Task<ActionResult<List<Models.V1.Institution.RegionalHealthcareOrganization>>> GetAllRegionalHealthcareOrganizations()
         {

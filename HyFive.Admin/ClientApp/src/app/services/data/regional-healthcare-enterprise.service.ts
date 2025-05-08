@@ -13,7 +13,7 @@ export class RegionalHealthcareOrganizationService {
     constructor(private httpClient: HttpClient) { }
 
     getAllRegionalHealthcareOrganizations() : Observable<RegionalHealthcareOrganization[]> {
-        const url = `${environment.apiBaseUrl}/v1/regionalhealthcareorganization`;
+        const url = `${environment.apiBaseUrl}/v1/regionalhealthcareorganizations`;
         var regionalHealthcareOrganisationList = this.httpClient.get<RegionalHealthcareOrganization[]>(url);
         return regionalHealthcareOrganisationList;
     }
