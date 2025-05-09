@@ -1,13 +1,13 @@
 <div class="row mb-5">
   <app-accordion class="col-12"
                  [items]="session"
-                 [headerTemplate]="isTransferOverview ? overforHeader : oversiktHeader"
-                 [contentTemplate]="contentSesjoner">
+                 [headerTemplate]="isTransferOverview ? transferHeader : overviewHeader"
+                 [contentTemplate]="contentSessions">
   </app-accordion>
 </div>
 
 <!-- Header templates -->
-<ng-template #oversiktHeader let-item="item">
+<ng-template #overviewHeader let-item="item">
   <div class="row w-100">
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>Type</strong></div>
@@ -26,16 +26,16 @@
       <span>{{item.createdTime | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
     <div class="col mb-3 mb-lg-2">
-      <div class="mb-2"><strong>Overføringsstatus</strong></div>
+      <div class="mb-2"><strong>Transfer Status</strong></div>
       <span>{{item.transferStatus.name}}</span>
     </div>
   </div>
 </ng-template>
 
-<ng-template #overforHeader let-item="item">
+<ng-template #transferHeader let-item="item">
   <div class="row w-100">
     <div class="col-12 col-md-2 mb-3">
-      <div class="mb-2"><strong>Avdelingsnavn</strong></div>
+      <div class="mb-2"><strong>Department Name</strong></div>
       <span>{{item.department.name}}</span>
     </div>
     <div class="col-12 col-md-2 mb-3">
@@ -54,7 +54,7 @@
       <div class="mb-2 me-2">
         <button class="btn btn-sm fhi-btn-primary col-md-8" (click)="transfer(item.id, $event)">
           <fa-icon [icon]="faPaperPlane"></fa-icon>
-          Overfør til FHI
+          Transfer to FHI
         </button>
       </div>
       <div>
@@ -71,7 +71,7 @@
     <div class="col-12 col-md-1 mb-3">
       <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator" class="mt-2">
         <input type="checkbox" id="check" class="form-check-input" (click)="selectOverToFhi(item.id, $event)" [(ngModel)]="item.isSelected">
-        <label class="ms-2" for="check">Velg</label>
+        <label class="ms-2" for="check">Select</label>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@
 
 
 <!-- Content template(s) -->
-<ng-template #contentSesjoner let-item="item">
+<ng-template #contentSessions let-item="item">
   <div class="mt-n3" style="padding: 0.625rem 0.75rem;">
     <div class="pb-4">
       <app-edit-sessionsdata [session]="item"

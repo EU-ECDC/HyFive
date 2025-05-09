@@ -52,8 +52,8 @@ export class EditingDepartmentsComponent implements OnInit {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Velg alle',
-      unSelectAllText: 'Velg alle',
+      selectAllText: 'Select all',
+      unSelectAllText: 'Select all',
       itemsShowLimit: 5
     };
 

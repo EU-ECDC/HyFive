@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { map, tap } from 'rxjs/operators';
 import { Localstoragepaths } from '../konstanter/localstoragepaths';
-
+import { LoggedInUser } from '../../models/api/LoggedinUser';
 @Injectable({
   providedIn: 'root'
 })

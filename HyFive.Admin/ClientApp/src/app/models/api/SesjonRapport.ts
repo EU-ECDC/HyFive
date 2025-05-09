@@ -7,7 +7,7 @@ import { SessionType } from './SessionType';
 export interface SesjonRapport
 {
 	id: string;
-	avdelingsnavn: string;
+	DepartmentName: string;
 	starttidspunkt: any;
 	type: SessionType;
 	institutionname: string;

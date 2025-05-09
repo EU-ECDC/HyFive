@@ -7,7 +7,7 @@ import { BrowserViewportService } from './_felles/services/browser-viewport.serv
 import { UrlService } from './_felles/services/url.service';
 import { InstitutionService } from './services/data/institution.service';
 import { AuthorizationService } from './_felles/services/authorization.service';
-import { LoggedInUser } from './models/api/LoggedInUser';
+import { LoggedInUser } from './models/api/LoggedinUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
 import { UrlPaths } from './_felles/konstanter/url-paths';
 

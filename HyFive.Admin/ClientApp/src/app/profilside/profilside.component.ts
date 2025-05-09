@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../_felles/services/authorization.service';
-import { LoggedInUser } from '../models/api/LoggedInUser';
+import { LoggedInUser } from '../models/api/LoggedinUser';
 import { AuthorizedRole } from '../_felles/authorization/authorized-role';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { RoleEventService } from '../services/events/role-event.service';
