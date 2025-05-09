@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UrlPaths } from './_felles/konstanter/url-paths';
-import { HomePageForAdministrationComponent } from './front-page-for-administration/front-page-for-administration.component';
+import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
 import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-institutions.component';
 import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
@@ -24,7 +24,7 @@ import { DownloadExcelComponent } from './koordinator/rapporter/download/downloa
 import { ComplianceFourIndicationsPdfComponent } from './koordinator/rapporter/predefined/compliance-four-indications-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './koordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 
-const defaultPath = `/${UrlPaths.frontPage}`;
+const defaultPath = `/${UrlPaths.homePage}`;
 
 const routes: Routes = [
   {
@@ -33,7 +33,7 @@ const routes: Routes = [
     redirectTo: defaultPath
   },
   {
-    path: UrlPaths.frontPage,
+    path: UrlPaths.homePage,
     component: HomePageForAdministrationComponent
   },
   {
