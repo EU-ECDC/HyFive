@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { RegionalInstitution } from './RegionalInstitution';
+import { RegionalHealthcareOrganization } from './RegionalHealthcareOrganization';
 
 export interface HealthcareOrganization
 {
 	id: number;
 	name: string;
 	regionaltHealthcareOrganizationId: number;
-	regionalHealthcareOrganization: RegionalInstitution;
+	regionalHealthcareOrganization: RegionalHealthcareOrganization;
 }

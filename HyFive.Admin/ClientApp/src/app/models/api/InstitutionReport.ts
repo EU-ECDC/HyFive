@@ -4,9 +4,8 @@
 
 import { InstitutionType } from './InstitutionType';
 import { Region } from './Region';
-import { Comment } from './Comment';
-import { HealthcareOrganization } from './HealthcareOrganization';
 import { Municipality } from './Municipality';
+import { HealthcareOrganization } from './HealthcareOrganization';
 
 export interface InstitutionReport
 {
