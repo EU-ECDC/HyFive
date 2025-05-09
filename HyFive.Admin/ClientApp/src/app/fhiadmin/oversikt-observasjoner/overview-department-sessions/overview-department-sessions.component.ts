@@ -14,7 +14,7 @@ import { InstitutionService } from 'src/app/services/data/institution.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-oversikt-department-sesjoner',
+  selector: 'app-overview-department-sessions',
   templateUrl: './overview-department-sessions.component.html'
 })
 export class OverviewDepartmentSessionsComponent implements OnInit {

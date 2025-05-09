@@ -20,7 +20,7 @@ export class ReportComponent implements OnInit {
   private getTreeviewNavigationItems(): FhiTreeViewNavigationItem[] {
     return [
       // {
-      //   name: 'Fire indikasjoner',
+      //   name: 'Four indications',
       //   children: [
       //     {
       //       name: 'Etterlevelse',

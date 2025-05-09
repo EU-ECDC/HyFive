@@ -15,7 +15,7 @@
       <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="newHealthcareOrganization.name.trim().length < 1">Create</button>
     </div>
     <div class="col-12 m-3">
-      <label *ngIf="!listOfHealthcareOrganizations">None found HealthcareOrganization</label>
+      <label *ngIf="!listOfHealthcareOrganizations">No HealthcareOrganization found</label>
       
       <ng-container>
         <div class="table-responsive">
