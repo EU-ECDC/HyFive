@@ -7,7 +7,7 @@
   margin-bottom: $fhi-core-space-5;
   padding: $fhi-core-space-3 $fhi-core-space-6 $fhi-core-space-3 $fhi-core-space-4;
 
-  &--darkmode {
+  &--darkMode {
     p { color:white; }
   }
 
@@ -17,7 +17,7 @@
       line-height: $fhi-core-px * 43;
       padding-right: $fhi-core-space-3;
   }
-  &__btn-lukk {
+  &__btn-close {
       position: absolute;
       top: 0;
       right: 0;

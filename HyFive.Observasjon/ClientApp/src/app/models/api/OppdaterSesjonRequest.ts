@@ -4,8 +4,8 @@
 
 export interface OppdaterSesjonRequest
 {
-	sesjonId: any;
-	institusjonId: number;
-	kommentar: string;
-	starttidspunkt: any;
+	sessionId: any;
+	institutionId: number;
+	comment: string;
+	startTime: any;
 }

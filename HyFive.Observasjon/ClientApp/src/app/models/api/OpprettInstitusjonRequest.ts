@@ -4,8 +4,8 @@
 
 export interface OpprettInstitusjonRequest
 {
-	institusjonsnavn: string;
-	forkortelse: string;
+	institutionsName: string;
+	abbreviation: string;
 	herId: string;
 	institusjonTypeId: number;
 	koordinatorHPRnummer: string;

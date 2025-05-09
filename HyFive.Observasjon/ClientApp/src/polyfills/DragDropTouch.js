@@ -146,7 +146,7 @@ var DragDropTouch;
           return true;
         }
       });
-      // listen to touch events
+      // list to touch events
       if (navigator.maxTouchPoints) {
         var d = document,
           ts = this._touchstart.bind(this),

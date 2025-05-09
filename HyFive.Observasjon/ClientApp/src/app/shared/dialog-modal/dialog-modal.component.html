@@ -1,15 +1,15 @@
 <div>
   <div class="modal-header pt-6">
-    <button type="button" class="btn-close" aria-label="Lukk" (click)="dismiss()">
+    <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()">
     </button>
   </div>
   <div class="modal-body px-7 py-1">
-    {{ melding }}
+    {{ message }}
   </div>
   <div class="modal-footer">
     <div class="d-flex">
-      <button type="button" class="btn fhi-btn-primary me-2" (click)="close(true)">Ja</button>
-      <button type="button" class="btn fhi-btn-secondary" (click)="close(false)">Nei</button>
+      <button type="button" class="btn fhi-btn-primary me-2" (click)="close(true)">Yes</button>
+      <button type="button" class="btn fhi-btn-secondary" (click)="close(false)">No</button>
     </div>
   </div>
 </div>

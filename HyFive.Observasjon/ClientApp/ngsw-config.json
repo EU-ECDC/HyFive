@@ -32,9 +32,9 @@
   ],
   "dataGroups": [
     {
-      "name": "institusjon",
+      "name": "institution",
       "urls": [
-        "api/v1/institusjon"
+        "api/v1/institution"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -46,13 +46,13 @@
     {
       "name": "kodeverk",
       "urls": [
-        "api/v1/fireindikasjoner/aktivitettyper",
-        "api/v1/fireindikasjoner/indikasjonstyper",
-        "api/v1/handsmykke/handsmykketyper",
-        "api/v1/beskyttelsesutstyr",
-        "api/v1/hanske/hanskemedindikasjontype",
-        "api/v1/hanske/hanskeutenindikasjontype",
-        "api/v1/hanske/handhygieneetterhanskebruktype"
+        "api/v1/fourindications/activitytypes",
+        "api/v1/fourindications/indicationTypes",
+        "api/v1/handjewelry/handJewelryTypes",
+        "api/v1/protectiveEquipment",
+        "api/v1/glove/gloveindicationtype",
+        "api/v1/glove/glovewithoutindicationtype",
+        "api/v1/glove/handhygieneaftergloveusetype"
       ],
       "cacheConfig": {
         "strategy": "freshness",

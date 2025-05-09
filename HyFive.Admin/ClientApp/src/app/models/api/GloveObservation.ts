@@ -4,13 +4,13 @@
 
 import { Observation } from './Observation';
 import { IndicatedGloveType } from './IndicatedGloveType';
-import { GeneralPurposeGloveType } from './GeneralPurposeGloveType';
+import { GloveWithoutIndicationType } from './GloveWithoutIndicationType';
 import { PostGloveHandHygieneType } from './PostGloveHandHygieneType';
 
 export interface GloveObservation extends Observation
 {
 	indicatedGloveTypes?: IndicatedGloveType[];
-	generalPurposeGloveTypes?: GeneralPurposeGloveType[];
+	gloveWithoutIndicationType?: GloveWithoutIndicationType[];
 	gloveUsed: boolean;
 	postGloveHandHygieneType?: PostGloveHandHygieneType;
 }

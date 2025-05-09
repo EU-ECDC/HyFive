@@ -1,9 +1,0 @@
-<div class="container ml-3" *ngIf='sesjon'>
-<div class="row">  <small><strong>{{sesjon.institusjonsnavn}}</strong></small></div>
-<div class="row"><small>{{sesjon.avdeling.navn}}</small></div>
-
-  <div class="row d-flex text-black-50">
-    <small><fa-icon [icon]="faCalendar" class="col ml-n3"></fa-icon>{{ sesjon.starttidspunkt | date:'dd.MM.yyyy'}}</small>
-    <small class="col">Sesjon nr.{{sesjon.id.substr(0,4)}}</small>
-  </div>
-</div>

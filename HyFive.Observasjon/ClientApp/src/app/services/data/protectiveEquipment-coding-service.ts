@@ -1,0 +1,19 @@
+import { Injectable } from "@angular/core";
+import { ProtectiveEquipmentSettingType } from "src/app/models/api/ProtectiveEquipmentSettingType";
+import { HttpClient } from '@angular/common/http';
+import { environment } from "src/environments/environment";
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ProtectiveEquipmentCodingService {
+
+  constructor(private httpClient: HttpClient){}
+
+  getProtectiveEquipmentSettings() : Observable<ProtectiveEquipmentSettingType[]> {
+    const url = `${environment.apiBaseUrl}/v1/protectiveequipment/`;
+    return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
+  }
+}

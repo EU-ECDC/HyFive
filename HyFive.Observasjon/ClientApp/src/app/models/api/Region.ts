@@ -5,6 +5,6 @@
 export interface Region
 {
 	id: number;
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 }

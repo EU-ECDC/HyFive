@@ -7,7 +7,7 @@ import { Role } from './Role';
 export interface OppdaterAvdelingRequest
 {
 	id: number;
-	navn: string;
+	name: string;
 	avdelingTypeId: number;
-	roller: Role[];
+	roles: Role[];
 }

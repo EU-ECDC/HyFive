@@ -1,16 +1,16 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { NavigationEnd, Router, Scroll } from "@angular/router";
-import { Urls } from "./konstanter/urls";
+import { Urls } from "./constants/urls";
 import { UrlService } from "./services/events/url.service";
 import { debounceTime, filter } from "rxjs/operators";
 import { ViewportScroller } from "@angular/common";
 import { fromEvent, Subscription } from "rxjs";
 import { BrowserViewportService } from "./services/events/browser-viewport.service";
-import { AutoriseringService } from "./services/data/autorisering.service";
-import { AuthorizedRole } from "./models/autorisering/authorized-role";
-import { InnloggetBruker } from "./models/api/InnloggetBruker";
+import { AuthorizationService } from "./services/data/authorization.service";
+import { AuthorizedRole } from "./models/authorization/authorized-role";
+import { LoggedInUser } from "./models/api/LoggedInUser";
 import { AuthenticationEventService } from "./services/events/authentication-event.service";
-import { Localstoragepaths } from "./konstanter/localstoragepaths";
+import { Localstoragepaths } from "./constants/localstoragepaths";
 
 @Component({
   selector: "app-root",
@@ -19,12 +19,12 @@ import { Localstoragepaths } from "./konstanter/localstoragepaths";
 export class AppComponent implements OnInit {
   private subscription = new Subscription();
   isMobile: boolean;
-  erLoggetInn = false;
-  bruker: InnloggetBruker;
+  isLoggedIn = false;
+  user: LoggedInUser;
 
   siderMedInverterteFarger = [
-    Urls.IkkeSendteSesjonerUrl,
-    Urls.SendteSesjonerUrl,
+    Urls.NotSentSessionsUrl,
+    Urls.SentSessionsUrl,
   ];
 
   constructor(
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private browserViewportService: BrowserViewportService,
     private urlService: UrlService,
-    private autoriseringService: AutoriseringService
+    private authorizationService: AuthorizationService
   ) {}
 
   ngOnInit(): void {
@@ -65,42 +65,42 @@ export class AppComponent implements OnInit {
       })
     );
 
-    this.autoriseringService.erLoggetInn().subscribe((erLoggetInn) => {
-      this.erLoggetInn = erLoggetInn;
-      if (this.erLoggetInn) {
-        this.autoriseringService.getBruker().subscribe((bruker) => {
-          this.bruker = bruker;
+    this.authorizationService.isLoggedIn().subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+      if (this.isLoggedIn) {
+        this.authorizationService.getUser().subscribe((user) => {
+          this.user = user;
           if (
-            this.bruker.erObservator == false &&
-            window.location.pathname !== Urls.LoginsideUrl
+            this.user.isObserver == false &&
+            window.location.pathname !== Urls.LoginPageUrl
           ) {
-            this.router.navigate([Urls.LoginsideUrl]);
+            this.router.navigate([Urls.LoginPageUrl]);
           }
         });
       } else {
-        this.router.navigate([Urls.LoginsideUrl]);
+        this.router.navigate([Urls.LoginPageUrl]);
       }
     });
   }
 
-  hovedmenySkalVises(): boolean {
-    // Vis hovedmeny hvis vi er offline og bruker har innlogget-id + valgt institusjon
+  mainMenuToBeDisplayed(): boolean {
+  // Show main menu if we are offline and user has logged in-id + selected institution
     if (
       navigator.onLine == false &&
-      localStorage.getItem(Localstoragepaths.InnloggetBrukerId) != null &&
-      localStorage.getItem(Localstoragepaths.ValgtInstitusjon) != null
+      localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&
+      localStorage.getItem(Localstoragepaths.SelectedInstitution) != null
     ) {
       return true;
     }
 
-    // Ellers vis hovedmeny kun hvis bruker er en observatør og vi ikke står på forsiden.
-    return this.bruker?.erObservator;
+  // Otherwise show main menu only if user is an Observer and we are not on the front page.
+    return this.user?.isObserver;
   }
   
-  skalViseAppBrand() {
-    var erRotside       = window.location.pathname === "/";
-    var erLoginSide     = window.location.pathname === "/"+Urls.LoginsideUrl;
-    var erStartside     = window.location.pathname === "/"+Urls.StartsideForObservasjonUrl;
-    return erLoginSide || erRotside || erStartside;
+  shouldShowAppBrand() {
+    var isRootPage       = window.location.pathname === "/";
+    var isLoginPage     = window.location.pathname === "/"+Urls.LoginPageUrl;
+    var isHomePage     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
+    return isLoginPage || isRootPage || isHomePage;
   }
 }

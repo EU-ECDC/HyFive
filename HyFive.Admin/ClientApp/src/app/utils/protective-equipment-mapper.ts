@@ -28,7 +28,7 @@ export class ProtectiveEquipmentMapper {
         isRequired: valg.isRequired,
         equipmentType: item,
         wasUsedCorrectly: false,
-        incorrectTypes: [],
+        misuseTypes: [],
         comment: ""
       } as ProtectiveEquipment);
       return acc;

@@ -1,0 +1,60 @@
+<div class="hh-card-slider">
+
+  <app-save-shadow [show]="showSaveShadow"></app-save-shadow>
+
+  <div [id]="card.id"
+       class="hh-card-slider__card"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
+       [style.transform]="transform"
+       [@swipeLeftRight]="animation"
+       (panmove)="onPanMove($event)"
+       (panend)="onPanEnd($event)"
+       (click)="cardIsSelected()"
+       [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
+
+    <div class="row">
+
+      <div class="col-12">
+        <app-role-selection-dropdown *ngIf="roleSelected" [roleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
+
+        <div class="row mt-5 text-break">
+          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let selection of handJewelrySelection; let i = index;">
+            <label [htmlFor]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(selection)" [ngStyle]="{ 'opacity': selection.disabled ? '0.5' : '1' }">
+              <input type="checkbox"
+                     [(ngModel)]="selection.isSelected"
+                     (ngModelChange)="changed(selection)"
+                     [disabled]="selection.disabled"
+                     [id]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(selection)"
+                     class="hh-round-checkbox-list__input">
+              <fa-stack class="hh-round-checkbox-list__iconstack">
+                <fa-icon [icon]="faCircle" stackItemSize="2x"
+                         class="hh-round-checkbox-list__circle"
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': selection.isSelected, 'hh-round-checkbox-list__circle--active': card.isActive}">
+                </fa-icon>
+                <fa-icon [icon]="iconTypeMap.get(selection.type)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!selection.isSelected"></fa-icon>
+                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="selection.isSelected"></fa-icon>
+              </fa-stack>
+              <br />
+              <span><small><strong>{{ selection.name }}</strong></small></span>
+            </label>
+          </div>
+        </div>
+
+        <div class=" d-flex flex-row mt-2 justify-content-around">
+          <app-register-comment [commentInput]="comment"
+                                   (commentRegisteredEvent)="registerComment($event)">
+          </app-register-comment>
+          <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Empty card</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <app-delete-shadow [show]="showDeleteShadow"></app-delete-shadow>
+
+  <app-info-modal [modalText]="observationMissingText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
+
+</div>

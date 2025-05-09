@@ -5,5 +5,5 @@
 export interface OppdaterRollerForInstitusjonRequest
 {
 	rolleIder: number[];
-	institusjonId: number;
+	institutionId: number;
 }

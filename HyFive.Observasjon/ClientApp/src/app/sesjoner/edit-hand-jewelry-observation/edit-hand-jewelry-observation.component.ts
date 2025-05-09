@@ -1,0 +1,89 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Department } from '../../models/api/Department';
+import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
+import { HandJewelryType } from '../../models/api/HandJewelryType';
+import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
+import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { HandJewelrySelection } from '../../models/registration/handJewelry-selection.model';
+import { HandJewelryMapper } from '../../utils/handJewelry-mapper';
+import { DialogueTexts } from 'src/app/constants/dialogueTexts';
+import { Colors } from '../../utils/colors';
+import { Role } from '../../models/api/Role';
+import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
+import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
+
+@Component({
+  selector: 'app-edit-hand-jewelry-observation',
+  templateUrl: './edit-hand-jewelry-observation.component.html'
+})
+export class EditHandJewelryObservationComponent implements OnInit {
+
+  isEditMode: boolean = false;
+  handJewelrySelection = [] as HandJewelrySelection[];
+  handJewelryTypes: HandJewelryType[] = [];
+  iconTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
+  Colors = Colors;
+  DialogueTexts = DialogueTexts;
+
+  faCircle = faCircle;
+  faCheck = faCheck;
+  faCommentLines = faCommentDots;
+  faSave = faSave;
+  faTrashAlt = faTrashAlt;
+
+  constructor(
+    private sessionService: HandJewelrySessionService,
+    private handJewelryTypeService: HandJewelryTypeService
+  ) { }
+
+  @Input() isReadonly: boolean = false;
+  @Input() observation: HandJewelryObservation;
+  @Input() department: Department;
+  @Output() observationDeletedEvent = new EventEmitter();
+
+
+  ngOnInit(): void {
+    this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
+      this.handJewelryTypes = handJewelryTypes;
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelry.map(x => x?.code));
+      this.handJewelrySelection.forEach(x => this.changed(x));
+    });
+  }
+
+  numberOfHandJewelrySelected () {
+    return this.handJewelrySelection.reduce((acc, curr) => { if (curr.isSelected) return acc + 1; return acc; }, 0);
+  }
+
+  changed(selection: HandJewelrySelection) {
+    if (selection.isSelected && selection.type == HandJewelryTypeConstants.AllClear)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+    else if (selection.isSelected && selection.type != HandJewelryTypeConstants.AllClear)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
+    else if (this.numberOfHandJewelrySelected () < 1)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
+  }
+
+  saveObservation() {
+    this.observation.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
+      if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
+      return acc;
+    }, [] as HandJewelryType[]) as HandJewelryType[];
+    this.sessionService.changeObservation(this.observation);
+    this.isEditMode = false;
+  }
+
+  deleteObservation() {
+    this.sessionService.deleteObservation(this.observation);
+    this.observationDeletedEvent.emit();
+  }
+
+  registerComment(comment: string) {
+    this.observation.comment = comment;
+  }
+
+  roleSelected(role: Role) {
+    this.observation.role = role;
+  }
+}

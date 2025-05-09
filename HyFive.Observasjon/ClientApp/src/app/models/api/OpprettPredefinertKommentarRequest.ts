@@ -4,5 +4,5 @@
 
 export interface OpprettPredefinertKommentarRequest
 {
-	kommentar: string;
+	comment: string;
 }
