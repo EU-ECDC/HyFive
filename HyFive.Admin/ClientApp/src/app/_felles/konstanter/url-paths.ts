@@ -1,5 +1,5 @@
 export class UrlPaths {
-  static frontPage = 'frontpage';
+  static homePage = 'homepage';
   static observations = 'fhiadmin/observations';
   static observationsDepartment = 'fhiadmin/observations/department';
   static transferSessions = 'coordinator/transfer';

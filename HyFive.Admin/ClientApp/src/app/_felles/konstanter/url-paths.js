@@ -4,7 +4,7 @@ exports.UrlPaths = void 0;
 var UrlPaths = /** @class */ (function () {
     function UrlPaths() {
     }
-    UrlPaths.frontPage = 'frontpage';
+    UrlPaths.homePage = 'homepage';
     UrlPaths.observations = 'fhiadmin/observations';
     UrlPaths.observationsDepartment = 'fhiadmin/observations/department';
     UrlPaths.transferSessions = 'coordinator/transfer';

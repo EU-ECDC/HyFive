@@ -97,8 +97,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private createAllMenuOptions() {
     this.allMenuOptions = [
       {
-        name: 'FrontPage',
-        routerLink: `/${UrlPaths.frontPage}`,
+        name: 'Home Page',
+        routerLink: `/${UrlPaths.homePage}`,
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator, AuthorizedRole.Observer]
       },
       {

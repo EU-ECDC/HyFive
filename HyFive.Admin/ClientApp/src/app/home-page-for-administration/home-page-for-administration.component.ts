@@ -6,8 +6,8 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
-  selector: 'app-front-page-for-administration',
-  templateUrl: './front-page-for-administration.component.html'
+  selector: 'app-home-page-for-administration',
+  templateUrl: './home-page-for-administration.component.html'
 })
 export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
   loading = true;
