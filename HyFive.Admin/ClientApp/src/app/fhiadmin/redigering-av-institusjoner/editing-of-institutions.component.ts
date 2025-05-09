@@ -3,7 +3,7 @@ import { InstitutionService } from '../../services/data/institution.service';
 import { Institution } from '../../models/api/Institution';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { QueryParameters } from '../../_felles/konstanter/queryparameters';
+import { QueryParameters } from '../../_common/konstanter/queryparameters';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from 'src/app/models/api/User';
 import { SearchHelper } from 'src/app/utils/searchHelper';

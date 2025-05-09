@@ -4,7 +4,7 @@ import { InstitutionService } from '../../services/data/institution.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Clinic } from '../../models/api/Clinic';
 import { ClinicService } from '../../services/data/clinic.service';
-import { QueryParameters } from "../../_felles/konstanter/queryparameters";
+import { QueryParameters } from "../../_common/konstanter/queryparameters";
 import { Institution } from '../../models/api/Institution';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 

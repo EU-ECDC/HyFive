@@ -8,7 +8,7 @@ import { UserService } from '../../services/data/user.service';
 import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
 import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
-import { AuthorizationService } from '../../_felles/services/authorization.service';
+import { AuthorizationService } from '../../_common/services/authorization.service';
 import { ObservationService } from 'src/app/services/data/observation.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 

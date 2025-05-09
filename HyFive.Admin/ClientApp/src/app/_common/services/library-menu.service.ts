@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LibraryExample } from 'src/app/shared/models/library-example.model';
 import { LibraryMenuLevel2Item } from 'src/app/shared/models/library-menu-level-2-item.model';
 import { LibraryMenuLevel2Category } from 'src/app/shared/models/library-menu-level-2-category.model';
-import { LibraryMenuLevel2Categories } from 'src/app/_felles/konstanter/library-menu-level-2-categories';
+import { LibraryMenuLevel2Categories } from 'src/app/_common/konstanter/library-menu-level-2-categories';
 
 @Injectable({
   providedIn: 'root'

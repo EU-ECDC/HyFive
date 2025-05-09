@@ -10,7 +10,7 @@ import { User } from '../../models/api/User';
 import {HandJewelryObservation} from "../../models/api/HandJewelryObservation";
 import {GloveObservation} from "../../models/api/GloveObservation";
 import {ProtectiveEquipmentObservation} from "../../models/api/ProtectiveEquipmentObservation";
-import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
+import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthorizationService } from '../_felles/services/authorization.service';
+import { AuthorizationService } from '../_common/services/authorization.service';
 import { LoggedInUser } from '../models/api/LoggedinUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';

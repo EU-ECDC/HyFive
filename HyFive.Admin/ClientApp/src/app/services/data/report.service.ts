@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
 import { SessionType } from "src/app/models/api/SessionType";
-import { AuthorizedRole } from "src/app/_felles/authorization/authorized-role";
+import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
 
 @Injectable({
   providedIn: 'root'

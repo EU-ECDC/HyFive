@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizationService } from '../../_felles/services/authorization.service';
+import { AuthorizationService } from '../../_common/services/authorization.service';
 import { LoggedInUser } from '../../models/api/LoggedinUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { RoleEventService } from '../../services/events/role-event.service';
-import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
+import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
 @Component({
   selector: 'app-change-institution',

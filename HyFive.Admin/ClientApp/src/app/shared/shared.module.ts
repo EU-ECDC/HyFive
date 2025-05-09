@@ -15,7 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionComponent } from './accordion/accordion.component';
 import { NavigationLinkComponent } from './navigation-link/navigation-bar.component';
-import {ToastrConfig} from '../_felles/konstanter/toastr-config';
+import {ToastrConfig} from '../_common/konstanter/toastr-config';
 
 @NgModule({
   declarations: [

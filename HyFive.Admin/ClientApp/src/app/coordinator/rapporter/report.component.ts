@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FhiTreeViewNavigationItem } from '@folkehelseinstituttet/angular-components';
-import { UrlPaths } from '../../_felles/konstanter/url-paths';
+import { UrlPaths } from '../../_common/konstanter/url-paths';
 
 @Component({
   selector: 'app-report',

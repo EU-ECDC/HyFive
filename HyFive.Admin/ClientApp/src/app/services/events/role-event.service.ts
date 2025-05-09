@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
+import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 
 @Injectable({
   providedIn: 'root'

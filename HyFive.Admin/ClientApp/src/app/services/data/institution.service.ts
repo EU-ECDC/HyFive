@@ -8,7 +8,7 @@ import { InstitutionType } from '../../models/api/InstitutionType';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from '../../models/api/User';
 import { Department} from "../../models/api/Department";
-import { Localstoragepaths } from '../../_felles/konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../_common/konstanter/localstoragepaths';
 
 @Injectable({
   providedIn: 'root'

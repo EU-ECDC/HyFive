@@ -3,7 +3,7 @@ import { InstitutionService } from '../../../services/data/institution.service';
 import { Institution } from '../../../models/api/Institution';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { ToastrService } from 'ngx-toastr';
-import { UrlPaths } from '../../../_felles/konstanter/url-paths';
+import { UrlPaths } from '../../../_common/konstanter/url-paths';
 import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
 import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
 import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';

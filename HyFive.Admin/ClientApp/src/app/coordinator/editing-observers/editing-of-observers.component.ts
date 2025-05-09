@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InstitutionService } from '../../services/data/institution.service';
-import { QueryParameters } from '../../_felles/konstanter/queryparameters';
+import { QueryParameters } from '../../_common/konstanter/queryparameters';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 
 @Component({

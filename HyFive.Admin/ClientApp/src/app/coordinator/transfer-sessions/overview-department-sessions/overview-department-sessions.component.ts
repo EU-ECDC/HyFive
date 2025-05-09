@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParameters } from '../../../_felles/konstanter/queryparameters';
+import { QueryParameters } from '../../../_common/konstanter/queryparameters';
 import { SessionType } from '../../../models/api/SessionType';
 import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
-import { UrlPaths } from '../../../_felles/konstanter/url-paths';
+import { UrlPaths } from '../../../_common/konstanter/url-paths';
 import { DatePipe } from '@angular/common';
 import { DepartmentService } from '../../../services/data/department.service';
 import { Department} from '../../../models/api/Department';
-import { AuthorizedRole } from '../../../_felles/authorization/authorized-role';
-import { AuthorizationService } from '../../../_felles/services/authorization.service';
+import { AuthorizedRole } from '../../../_common/authorization/authorized-role';
+import { AuthorizationService } from '../../../_common/services/authorization.service';
 
 @Component({
   selector: 'app-overview-department-sessions',

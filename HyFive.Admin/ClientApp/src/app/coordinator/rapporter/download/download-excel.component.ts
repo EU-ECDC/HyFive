@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { AuthorizedRole } from 'src/app/_felles/authorization/authorized-role';
-import { AuthorizationService } from 'src/app/_felles/services/authorization.service';
+import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
+import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
 import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
 import { SessionType } from 'src/app/models/api/SessionType';
