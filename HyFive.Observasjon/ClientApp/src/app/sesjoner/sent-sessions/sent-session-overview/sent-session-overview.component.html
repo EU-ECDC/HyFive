@@ -1,0 +1,9 @@
+<div class="container ml-3" *ngIf='session'>
+<div class="row">  <small><strong>{{session.institutionsName}}</strong></small></div>
+<div class="row"><small>{{session.department.name}}</small></div>
+
+  <div class="row d-flex text-black-50">
+    <small><fa-icon [icon]="faCalendar" class="col ml-n3"></fa-icon>{{ session.startTime | date:'dd.MM.yyyy'}}</small>
+    <small class="col">Session nr.{{session.id.substr(0,4)}}</small>
+  </div>
+</div>

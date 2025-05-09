@@ -10,10 +10,10 @@ import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
       [contentTemplate]="content">
     </app-accordion>
     <ng-template #header let-item="item">
-     {{item.navn}}
+     {{item.name}}
     </ng-template>
     <ng-template #content let-item="item">
-     {{item.nummer}}
+     {{item.number}}
     </ng-template>
 
  */

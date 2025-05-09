@@ -1,0 +1,13 @@
+<div class="mb-2 {{isMobileMenu() && mobileCssClass}}">
+  <button class="btn fhi-btn-shortcut-link" (click)="linkClicked.emit($event)">
+    <i class="icon-arrow-left icon-red"></i>
+    <span class="btn__link">
+      <ng-content></ng-content>
+    </span>
+  </button>
+</div>
+
+
+
+
+

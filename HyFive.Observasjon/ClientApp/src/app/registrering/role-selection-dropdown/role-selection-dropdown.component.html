@@ -1,0 +1,11 @@
+<div class="form-group pe-3">
+  <select [disabled]="isReadonly"
+          id="{{id}}"
+          class="form-control form-control--rounded form-control--smaller form-control--arrow"
+          [ngClass]="{'form-control--no-border': isReadonly}"
+          [(ngModel)]="selectedRoleId"
+          (ngModelChange)="selectedRoleChanged()"
+          [style]="{ 'background-color': getColor() }">
+    <option *ngFor="let role of roleSelectedI" [value]="role.id+''" >{{role.name}}</option>
+  </select>
+</div>

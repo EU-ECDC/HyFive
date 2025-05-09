@@ -2,18 +2,18 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { InstitusjonRapport } from './InstitusjonRapport';
+import { InstitutionReport } from './InstitutionReport';
 
 export interface KoordinatorForHelseforetak
 {
-	opprettettidspunkt: any;
-	fornavn: string;
-	etternavn: string;
-	epost: string;
-	identPseudonym: string;
-	erDeaktivert: boolean;
-	hprNummer: string;
-	institusjoner: InstitusjonRapport[];
+	createdTime: any;
+	firstName: string;
+	lastName: string;
+	email: string;
+	identityPseudonym: string;
+	isDisabled: boolean;
+	hprNumber: string;
+	institutions: InstitutionReport[];
 	endretIdentPseudonym?: string;
 	endretHPRNummer?: string;
 }

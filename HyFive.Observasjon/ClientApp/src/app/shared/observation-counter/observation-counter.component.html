@@ -1,0 +1,18 @@
+<div class="hh-observasjonsteller">
+  <a class="hh-observasjonsteller__link"
+     [routerLink]="numberOfObservations() > 0 ? ['/' + url] : []"
+     [queryParams]="{ sessionId: sessionsdata?.id }">
+    <fa-layers [fixedWidth]="true" size="2x">
+      <fa-icon class="hh-observasjonsteller__obs-card" [icon]="faObservationCard"></fa-icon>
+      <fa-icon class="hh-observasjonsteller__circle" [inverse]="false" [icon]="faCircle" transform="shrink-2 down-0 right-9" content="2"></fa-icon>
+      <fa-layers-text class="hh-observasjonsteller__text" content="{{numberOfObservations()}}" transform="shrink-8 down-0.8 right-9"></fa-layers-text>
+    </fa-layers>
+  </a>
+</div>
+<app-help-text *ngIf="numberOfObservations() > 0" [title]="'Tips and Tricks - Editing and Submitting Observations'">
+  <p>
+    At the top left there is an icon - a notebook with a number. The number represents the number of observations you have executed.
+    By clicking on the notebook you will be able to view and edit your observations before submission, as well as submit your observations.
+  </p>
+
+</app-help-text>
