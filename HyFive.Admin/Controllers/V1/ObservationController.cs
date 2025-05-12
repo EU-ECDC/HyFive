@@ -39,7 +39,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Create report for institution(s) <see cref="InstitutionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
-        [HttpGet("institusjonerMedSesjoner")]
+        [HttpGet("institutionsWithSessions")]
         public async Task<ActionResult<IEnumerable<InstitutionOverviewReport>>> GetInstitutionsWithSessions(
             [FromQuery] string institutionid,
             [FromQuery] SessionType? sessionType,
@@ -85,7 +85,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
 
-        [HttpGet("avdeling")]
+        [HttpGet("department")]
         public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> GetSessionsForDepartment(
             [FromQuery] int departmentId,
             [FromQuery] SessionType? sessionType,
@@ -161,7 +161,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Coordinator)]
-        [HttpGet("overfor")]
+        [HttpGet("transfer")]
         public async Task<ActionResult<SessionOverviewReport>> TransferSessionToFhi(
             [FromQuery] int institutionId,
             [FromQuery] Guid sessionId)
