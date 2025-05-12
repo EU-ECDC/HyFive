@@ -56,8 +56,8 @@ namespace HyFive.Services.Reports.FourIndicators
                                                                                       .Include(f => f.IndicationTypes)
                                                                                       .Include(f => f.Role)
                                                                                       .AsNoTracking()
-                                                                                      .Where(f => f.RegistrationTime >= fromDate &&
-                                                                                                  f.RegistrationTime < ToDate &&
+                                                                                      .Where(f => f.RegisteredTime >= fromDate &&
+                                                                                                  f.RegisteredTime < ToDate &&
                                                                                                   f.FourIndicationsSession.Department.Institution.Id == request.InstitutionId);
 
                 if (request.RoleId != null)
@@ -152,7 +152,7 @@ namespace HyFive.Services.Reports.FourIndicators
                     var PeriodFromDate = PeriodToDate;
                     PeriodToDate = CalculateNextPeriodUntilDate(interval, PeriodToDate);
 
-                    var observasjonerIPeriode = observationsInTheCurrentTimePeriod.Where(o => o.RegistrationTime >= PeriodFromDate && o.RegistrationTime < PeriodToDate);
+                    var observasjonerIPeriode = observationsInTheCurrentTimePeriod.Where(o => o.RegisteredTime >= PeriodFromDate && o.RegisteredTime < PeriodToDate);
 
                     var indikasjoner = observasjonerIPeriode.Select(x => x.IndicationTypes);
                     decimal antallIndikasjoner = indikasjoner.Sum(item => item.Count);
@@ -194,7 +194,7 @@ namespace HyFive.Services.Reports.FourIndicators
                     var periodFromDate = periodToDate;
                     periodToDate = CalculateNextPeriodUntilDate(interval, periodToDate);
 
-                    var observationsInPeriod = observationsInRelevantTimePeriod.Where(o => o.RegistrationTime >= periodFromDate && o.RegistrationTime < periodToDate);
+                    var observationsInPeriod = observationsInRelevantTimePeriod.Where(o => o.RegisteredTime >= periodFromDate && o.RegisteredTime < periodToDate);
                     var compliedObservationsInPeriod = observationsInPeriod.Where(o => o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash || o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection);
 
                     decimal numberOfObservationsInPeriod = observationsInPeriod.Count();

@@ -73,7 +73,7 @@ namespace HyFive.Services.Session
                 var fourIndicationsSessions = await _context.FourIndicationsSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
@@ -93,7 +93,7 @@ namespace HyFive.Services.Session
                 var handJewelrySessions = await _context.HandJewelrySession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
                                      .Where(s => s.Department.InstitutionId == request.InstitutionId)
@@ -112,7 +112,7 @@ namespace HyFive.Services.Session
                 var gloveSessions = await _context.GloveSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.GeneralPurposeGloveTypes)
@@ -133,7 +133,7 @@ namespace HyFive.Services.Session
                 var protectiveEquipmentSessions = await _context.ProtectiveEquipmentSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.SettingType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)

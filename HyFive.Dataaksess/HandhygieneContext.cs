@@ -61,16 +61,16 @@ namespace HyFive.DataAccess
 
             mb.Entity<FourIndicationsObservation>().Property(fio => fio.Comment).HasMaxLength(1000);
             mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.CreatedTime);
-            mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.RegistrationTime);
+            mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.RegisteredTime);
 
             mb.Entity<ProtectiveEquipmentObservation>().HasIndex(bo => bo.CreatedTime);
-            mb.Entity<ProtectiveEquipmentObservation>().HasIndex(bo => bo.RegistrationTime);
+            mb.Entity<ProtectiveEquipmentObservation>().HasIndex(bo => bo.RegisteredTime);
 
             mb.Entity<HandJewelryObservation>().HasIndex(ho => ho.CreatedTime);
-            mb.Entity<HandJewelryObservation>().HasIndex(ho => ho.RegistrationTime);
+            mb.Entity<HandJewelryObservation>().HasIndex(ho => ho.RegisteredTime);
 
             mb.Entity<GloveObservation>().HasIndex(ho => ho.CreatedTime);
-            mb.Entity<GloveObservation>().HasIndex(ho => ho.RegistrationTime);
+            mb.Entity<GloveObservation>().HasIndex(ho => ho.RegisteredTime);
 
             mb.Entity<IndicationTypes>().Property(it => it.Code).HasMaxLength(50).IsRequired();
             mb.Entity<IndicationTypes>().HasIndex(it => it.Code).IsUnique();

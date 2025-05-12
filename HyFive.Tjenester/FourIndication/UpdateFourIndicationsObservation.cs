@@ -37,7 +37,7 @@ namespace HyFive.Services.FourIndication
             {
                 var observation = await _context.FourIndicationsObservation
                     .Include(o => o.FourIndicationsSession)
-                    .ThenInclude(s => s.TransmissionStatus)
+                    .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.IndicationTypes)
                     .Include(o => o.Activity)
                     .Include(o => o.Role)
@@ -47,7 +47,7 @@ namespace HyFive.Services.FourIndication
                 {
                     throw new Exception("O-FI-01: Could not find observation with ID: " + request.Observation.Id);
                 }
-                if (observation.FourIndicationsSession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.FourIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
                 }
@@ -65,7 +65,7 @@ namespace HyFive.Services.FourIndication
                     observation.Activity.TimeSpent = request.Observation.Activity.TimeSpent;
                     observation.Activity.TimeRecordingWasDone = request.Observation.Activity.TimeRecordingWasDone;
 
-                    observation.RegistrationTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegistrationTime;
 
                     var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
                     observation.Role = rolleFraRequest;

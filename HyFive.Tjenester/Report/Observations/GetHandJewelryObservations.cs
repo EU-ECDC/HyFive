@@ -48,11 +48,11 @@ namespace HyFive.Services.Rapport.Observations
 
                 if (query.Role == AuthorizedRole.Observer)
                 {
-                    queryable = queryable.Where(p => p.HandJewelrySession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToCoordinator);
+                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToCoordinator);
                 }
                 else if (query.Role == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.HandJewelrySession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 if (query.DepartmentId > 0)
@@ -77,12 +77,12 @@ namespace HyFive.Services.Rapport.Observations
 
                 if (query.FromDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegistrationTime.Date >= query.FromDate.Value.Date);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
                 }
                 
                 if (query.ToTime != null)
                 {
-                    queryable = queryable.Where(o => o.RegistrationTime.Date <= query.ToTime.Value.Date);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToTime.Value.Date);
                 }
 
                 return await queryable

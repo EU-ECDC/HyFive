@@ -90,7 +90,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}/observators", Name = "GetObservators")]
+        [HttpGet("{id}/observers", Name = "GetObservers")]
         public async Task<ActionResult<IEnumerable<User>>> GetObservators(int id)
         {
             if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(id))
@@ -125,7 +125,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpGet("typer")]
+        [HttpGet("types")]
         public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
         {
             var result = await _mediator.Send(new GetInstitutionTypes.Query());

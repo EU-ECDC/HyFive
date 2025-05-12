@@ -37,7 +37,7 @@ namespace HyFive.Services.ProtectiveEquipment
             {
                 var observation = await _context.ProtectiveEquipmentObservation
                     .Include(o => o.ProtectiveEquipmentSession)
-                    .ThenInclude(s => s.TransmissionStatus)
+                    .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.ProtectiveEquipmentList)
                     .ThenInclude(o => o.MisuseTypes)
                     .Include(o => o.ProtectiveEquipmentList)
@@ -51,7 +51,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     throw new Exception("O-BU-01: Could not find observation with ID: " + request.Observation.Id);
                 }
 
-                if (observation.ProtectiveEquipmentSession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-BU-02: The observation has already been transferred to FHI, and cannot be changed");
                 }
@@ -63,7 +63,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 
                 try
                 {
-                    observation.RegistrationTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegistrationTime;
 
                     var equipmentTypes = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                         .ToListAsync(cancellationToken);

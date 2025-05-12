@@ -43,9 +43,9 @@ namespace HyFive.Services.Institution
                     .Include(i => i.Departments)
                     .ThenInclude(a => a.Sessions
                         .Where(s => query.SessionType == null || s.Discriminator == sessionType)
-                        .Where(s => query.FromDate == null || s.CreatedDate.Date >= query.FromDate.Value.Date)
-                        .Where(s => query.ToDate == null || s.CreatedDate.Date <= query.ToDate.Value.Date)
-                        .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(s.TransmissionStatus.Code))
+                        .Where(s => query.FromDate == null || s.CreatedDate >= query.FromDate)
+                        .Where(s => query.ToDate == null || s.CreatedDate <= query.ToDate)
+                        .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(s.TransferStatus.Code))
                     )
                     .Where(x => query.InstitutionId == null || query.InstitutionId == x.Id)
                     .OrderBy(i => i.Name)
@@ -103,9 +103,9 @@ namespace HyFive.Services.Institution
                     .AsNoTracking()
                     .Include(b => b.HandJewelrySession)
                     .Count(bo => bo.HandJewelrySession.Department.Id == departmentId 
-                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.HandJewelrySession.TransmissionStatus.Code)
-                                 && (query.FromDate == null || bo.RegistrationTime.Date >= query.FromDate.Value.Date)
-                                 && (query.ToDate == null || bo.RegistrationTime.Date <= query.ToDate.Value.Date));
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.HandJewelrySession.TransferStatus.Code)
+                                 && (query.FromDate == null || bo.RegisteredTime.Date >= query.FromDate.Value.Date)
+                                 && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
 
             private int GetNumberOfObservationsForGloves(int departmentId, Query query)
@@ -114,9 +114,9 @@ namespace HyFive.Services.Institution
                     .AsNoTracking()
                     .Include(b => b.GloveSession)
                     .Count(bo => bo.GloveSession.Department.Id == departmentId
-                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.GloveSession.TransmissionStatus.Code)
-                                 && (query.FromDate == null || bo.RegistrationTime.Date >= query.FromDate.Value.Date)
-                                 && (query.ToDate == null || bo.RegistrationTime.Date <= query.ToDate.Value.Date));
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.GloveSession.TransferStatus.Code)
+                                 && (query.FromDate == null || bo.RegisteredTime.Date >= query.FromDate.Value.Date)
+                                 && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
 
             private int GetNumberOfObservationsForFourIndications(int departmentId, Query query)
@@ -125,9 +125,9 @@ namespace HyFive.Services.Institution
                     .AsNoTracking()
                     .Include(b => b.FourIndicationsSession)
                     .Count(bo => bo.FourIndicationsSession.Department.Id == departmentId 
-                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.FourIndicationsSession.TransmissionStatus.Code)
-                                 && (query.FromDate == null || bo.RegistrationTime.Date >= query.FromDate.Value.Date)
-                                 && (query.ToDate == null || bo.RegistrationTime.Date <= query.ToDate.Value.Date));
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.FourIndicationsSession.TransferStatus.Code)
+                                 && (query.FromDate == null || bo.RegisteredTime.Date >= query.FromDate.Value.Date)
+                                 && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
 
             private int GetNumberOfObservationsForProtectiveEquipment(int departmentId, Query query)
@@ -136,9 +136,9 @@ namespace HyFive.Services.Institution
                     .AsNoTracking()
                     .Include(b => b.ProtectiveEquipmentSession)
                     .Count(bo => bo.ProtectiveEquipmentSession.Department.Id == departmentId 
-                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.ProtectiveEquipmentSession.TransmissionStatus.Code)
-                                 && (query.FromDate == null || bo.RegistrationTime.Date >= query.FromDate.Value.Date)
-                                 && (query.ToDate == null || bo.RegistrationTime.Date <= query.ToDate.Value.Date));
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.ProtectiveEquipmentSession.TransferStatus.Code)
+                                 && (query.FromDate == null || bo.RegisteredTime.Date >= query.FromDate.Value.Date)
+                                 && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
 
             private static string GetSessionType(SessionType? type)

@@ -36,12 +36,12 @@ namespace HyFive.Services.Session
                 var session = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer)
-                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.TransferStatus)
                     .FirstOrDefaultAsync(x => x.Id == request.SessionId);
 
                 var transferredToFHI = await _context.TransferStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
 
-                session.TransmissionStatus = transferredToFHI;
+                session.TransferStatus = transferredToFHI;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

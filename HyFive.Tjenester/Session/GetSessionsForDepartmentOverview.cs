@@ -74,14 +74,14 @@ namespace HyFive.Services.Session
                 var fourIndicationsSessions = await _context.FourIndicationsSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
                                      .Where(s => s.Department.Id == request.DepartmentId)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransmissionStatus.Code))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var fourIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fourIndicationsSessions);
@@ -94,13 +94,13 @@ namespace HyFive.Services.Session
                 var handJewelrySessions = await _context.HandJewelrySession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
                                      .Where(s => s.Department.Id == request.DepartmentId)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransmissionStatus.Code))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var handJewelrySessionsReport = _mapper.Map<List<Domain.Session.HandJewelrySession>, List<SessionOverviewReport>>(handJewelrySessions);
@@ -113,7 +113,7 @@ namespace HyFive.Services.Session
                 var gloveSessions = await _context.GloveSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.GeneralPurposeGloveTypes)
@@ -121,7 +121,7 @@ namespace HyFive.Services.Session
                                      .Where(s => s.Department.Id == request.DepartmentId)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransmissionStatus.Code))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var gloveSessionsReport = _mapper.Map<List<Domain.Session.GloveSession>, List<SessionOverviewReport>>(gloveSessions);
@@ -134,7 +134,7 @@ namespace HyFive.Services.Session
                 var protectiveEquipmentSessions = await _context.ProtectiveEquipmentSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
-                                     .Include(s => s.TransmissionStatus)
+                                     .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.SettingType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
@@ -142,7 +142,7 @@ namespace HyFive.Services.Session
                                      .Where(s => s.Department.Id == request.DepartmentId)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransmissionStatus.Code))
+                                     .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
                 var protectiveEquipmentSessionsReport = _mapper.Map<List<Domain.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(protectiveEquipmentSessions);

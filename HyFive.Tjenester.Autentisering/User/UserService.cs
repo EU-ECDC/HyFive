@@ -37,7 +37,7 @@ namespace HyFive.Services.Authentication.User
         {
             var user = new LoggedInUser()
             {
-                Name = "Grevling Kvart",
+                Name = "Vits Grønn",
             };
             
             var logInName = user?.Name;
@@ -138,7 +138,7 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            return "4909402";
+            return "";
         }
 
         public bool IsCoordinatorForSession(string sessionId)
@@ -274,7 +274,7 @@ namespace HyFive.Services.Authentication.User
 
         public string GetPseudonym()
         {
-            return "PGzVzvP2JvlXV++OJSJAQG5d99BH8QsikmxpdIAKSZk=";
+            return "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=";
         }
 
         private string GetDiscriminator<T>() where T : class

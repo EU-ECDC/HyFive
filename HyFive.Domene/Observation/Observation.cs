@@ -7,7 +7,7 @@ namespace HyFive.Domain.Observation
         public Guid Id { get; set; }
         public DateTime CreatedTime { get; set; }
         public Role Role { get; set; }
-        public DateTime RegistrationTime { get; set; }
+        public DateTime RegisteredTime { get; set; }
         public string Comment { get; set; }
     }
 }

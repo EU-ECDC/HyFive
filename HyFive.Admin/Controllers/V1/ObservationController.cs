@@ -70,11 +70,19 @@ namespace HyFive.Admin.Controllers.V1
                 return Forbid();
             }
 
+            DateTime? utcFromDate = fromDate.HasValue
+               ? DateTime.SpecifyKind(fromDate.Value, DateTimeKind.Utc)
+               : (DateTime?)null;
+
+            DateTime? utcToDate = toDate.HasValue
+                ? DateTime.SpecifyKind(toDate.Value, DateTimeKind.Utc)
+                : (DateTime?)null;
+
             return await _mediator.Send(new GetInstitutionsWithSessions.Query
             {
                 SessionType = sessionType,
-                FromDate = fromDate,
-                ToDate = toDate,
+                FromDate = utcFromDate,
+                ToDate = utcToDate,
                 InstitutionId = institutionId,
                 TransferStatusType = transferStatusType
             });

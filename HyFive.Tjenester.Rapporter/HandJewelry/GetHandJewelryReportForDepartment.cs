@@ -56,18 +56,18 @@ namespace HyFive.Services.Reports.HandJewelry
             {
                 var sessions = _context.Session.OfType<HandJewelrySession>()
                     .AsNoTracking()
-                    .Include(p => p.TransmissionStatus)
+                    .Include(p => p.TransferStatus)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDateTime.Date)
-                        && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToDateTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToDateTime.Date))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    sessions = sessions.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 var reportForUnit = CreateUnitReport(sessions);
@@ -79,18 +79,18 @@ namespace HyFive.Services.Reports.HandJewelry
             {
                 var sessions = _context.Session.OfType<HandJewelrySession>()
                    .AsNoTracking()
-                   .Include(p => p.TransmissionStatus)
+                   .Include(p => p.TransferStatus)
                    .Include(s => s.Observations).ThenInclude(o => o.Role)
                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
                    .Where(s =>
                        s.Department.InstitutionId == request.InstitutionId
-                       && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDateTime.Date)
-                       && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToDateTime.Date))
+                       && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
+                       && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToDateTime.Date))
                    .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    sessions = sessions.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 var unitReport = CreateUnitReport(sessions);

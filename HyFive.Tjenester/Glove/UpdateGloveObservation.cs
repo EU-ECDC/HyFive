@@ -37,7 +37,7 @@ namespace HyFive.Services.Glove
             {
                 var observation = await _context.GloveObservation
                     .Include(o => o.GloveSession)
-                    .ThenInclude(s => s.TransmissionStatus)
+                    .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.PostGloveHandHygieneType)
                     .Include(o => o.IndicatedGloveTypes)
                     .Include(o => o.GeneralPurposeGloveTypes)
@@ -49,7 +49,7 @@ namespace HyFive.Services.Glove
                     throw new Exception("O-H-01: Could not find observation with ID: " + request.Observation.Id);
                 }
 
-                if (observation.GloveSession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.GloveSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-H-02: The observation has already been transferred to FHI and cannot be modified.");
                 }
@@ -64,7 +64,7 @@ namespace HyFive.Services.Glove
                 
                 try
                 {
-                    observation.RegistrationTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegistrationTime;
 
                     observation.GloveUsed = observationFromRequest.GloveUsed;
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes

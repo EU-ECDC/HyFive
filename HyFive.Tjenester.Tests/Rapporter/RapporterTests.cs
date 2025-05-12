@@ -53,7 +53,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        RegistrationTime = DateTime.UtcNow,
+        //        RegisteredTime = DateTime.UtcNow,
         //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
             
@@ -71,7 +71,7 @@ namespace HyFive.Services.Tests.Rapporter
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        RegistrationTime = DateTime.UtcNow,
+        //        RegisteredTime = DateTime.UtcNow,
         //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
 

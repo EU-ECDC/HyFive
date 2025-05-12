@@ -89,11 +89,11 @@ namespace HyFive.Services.Rapport.Observations
                 if (avdelingId != null)
                     queryable = queryable.Where(p => p.FourIndicationsSession.Department.Id == avdelingId);
 
-                queryable = queryable.Where(p => p.RegistrationTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegistrationTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
 
                 if (rolle == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.FourIndicationsSession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.FourIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }
@@ -106,11 +106,11 @@ namespace HyFive.Services.Rapport.Observations
                 if (avdelingId != null)
                     queryable = queryable.Where(p => p.HandJewelrySession.Department.Id == avdelingId);
 
-                queryable = queryable.Where(p => p.RegistrationTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegistrationTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
 
                 if (rolle == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.HandJewelrySession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }
@@ -123,11 +123,11 @@ namespace HyFive.Services.Rapport.Observations
                 if (avdelingId != null)
                     queryable = queryable.Where(p => p.GloveSession.Department.Id == avdelingId);
 
-                queryable = queryable.Where(p => p.RegistrationTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegistrationTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
 
                 if (rolle == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.GloveSession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }
@@ -140,11 +140,11 @@ namespace HyFive.Services.Rapport.Observations
                 if (avdelingId != null)
                     queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.Id == avdelingId);
 
-                queryable = queryable.Where(p => p.RegistrationTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegistrationTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
 
                 if (rolle == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }

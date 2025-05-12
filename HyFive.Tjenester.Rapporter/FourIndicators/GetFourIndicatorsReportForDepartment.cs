@@ -51,7 +51,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var departmentSessionsWithObservations = _context.Session.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.TransferStatus)
                     .Include(s => s.Observations)
                         .ThenInclude(o => o.Role)
                     .Include(o => o.Observations)
@@ -61,20 +61,20 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    departmentSessionsWithObservations = departmentSessionsWithObservations.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    departmentSessionsWithObservations = departmentSessionsWithObservations.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var session in departmentSessionsWithObservations)
                 {
                     session.Observations = session.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromDate.Date &&
-                            o.RegistrationTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= request.FromDate.Date &&
+                            o.RegisteredTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
 
@@ -99,7 +99,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var SessionsOfComparableDepartments = await _context.Session.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
                         .ThenInclude(s => s.DepartmentType)
                     .Include(s => s.Observations)
@@ -112,21 +112,21 @@ namespace HyFive.Services.Reports.FourIndicators
                     .Where(s =>
                         s.Department.Id != request.DepartmentId
                         && s.Department.DepartmentType.Code == comparedDepartment.DepartmentType.Code
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date)
                         && s.Observations.Any())
                     .ToListAsync();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    SessionsOfComparableDepartments = SessionsOfComparableDepartments.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    SessionsOfComparableDepartments = SessionsOfComparableDepartments.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var session in SessionsOfComparableDepartments)
                 {
                     session.Observations = session.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromDate.Date &&
-                            o.RegistrationTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= request.FromDate.Date &&
+                            o.RegisteredTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
 
@@ -161,7 +161,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var institutionSessionsMinusRequestedDepartment = _context.Session.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
                         .ThenInclude(s => s.DepartmentType)
                     .Include(s => s.Observations)
@@ -173,20 +173,20 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.InstitutionId == institutionId
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    institutionSessionsMinusRequestedDepartment = institutionSessionsMinusRequestedDepartment.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    institutionSessionsMinusRequestedDepartment = institutionSessionsMinusRequestedDepartment.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in institutionSessionsMinusRequestedDepartment)
                 {
                     sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromDate.Date &&
-                            o.RegistrationTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= request.FromDate.Date &&
+                            o.RegisteredTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
 
@@ -227,7 +227,7 @@ namespace HyFive.Services.Reports.FourIndicators
             {
                 var AssociatedClinicSessions = _context.Session.OfType<FourIndicationsSession>()
                     .AsNoTracking()
-                    .Include(s => s.TransmissionStatus)
+                    .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
                         .ThenInclude(a => a.DepartmentType)
                     .Include(s => s.Department)
@@ -241,20 +241,20 @@ namespace HyFive.Services.Reports.FourIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Clinics.Any(k => k.Id == clinicId)
-                        && s.Observations.Any(o => o.RegistrationTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegistrationTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
                 foreach (var sesjon in AssociatedClinicSessions)
                 {
                     sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegistrationTime.Date >= request.FromDate.Date &&
-                            o.RegistrationTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= request.FromDate.Date &&
+                            o.RegisteredTime.Date <= request.ToTime.Date)
                         .ToList();
                 }
 

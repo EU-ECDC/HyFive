@@ -33,7 +33,7 @@ namespace HyFive.Services.Session
                 var sessionAndType = await _databaseContext.Session
                     .AsNoTracking()
                     .Include(s => s.Department).ThenInclude(a => a.Institution)
-                    .Select(s => new {s.Id, s.Discriminator, TransferStatusCode = s.TransmissionStatus.Code, InstitutionId = s.Department.Institution.Id})
+                    .Select(s => new {s.Id, s.Discriminator, TransferStatusCode = s.TransferStatus.Code, InstitutionId = s.Department.Institution.Id})
                     .FirstOrDefaultAsync(s => 
                         s.Id == request.SessionId
                         && s.TransferStatusCode == request.TransferStatusCode

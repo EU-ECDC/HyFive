@@ -43,7 +43,7 @@ namespace HyFive.Services.Rapport.Observations
                 var queryable = _context.FourIndicationsObservation
                     .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
-                    .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.TransmissionStatus)
+                    .Include(fo => fo.FourIndicationsSession).ThenInclude(fo => fo.TransferStatus)
                     .Include(fo => fo.Activity)
                     .Include(fo => fo.IndicationTypes)
                     .Include(fo => fo.Role)
@@ -51,7 +51,7 @@ namespace HyFive.Services.Rapport.Observations
 
                 if (query.Role == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.FourIndicationsSession.TransmissionStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.FourIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 if (query.DepartmentId > 0)
@@ -74,12 +74,12 @@ namespace HyFive.Services.Rapport.Observations
                 }
                 if (query.FromDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegistrationTime.Date >= query.FromDate.Value.Date);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
                 }
                 
                 if (query.ToTime != null)
                 {
-                    queryable = queryable.Where(o => o.RegistrationTime.Date <= query.ToTime.Value.Date);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToTime.Value.Date);
                 }
                 return await queryable
                                       .OrderBy(o => o.FourIndicationsSession.Id)

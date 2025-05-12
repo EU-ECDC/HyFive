@@ -37,7 +37,7 @@ namespace HyFive.Services.HandJewelry
             {
                 var observation = await _context.HandJewelryObservation
                     .Include(o => o.HandJewelrySession)
-                    .ThenInclude(s => s.TransmissionStatus)
+                    .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.HandJewelry)
                     .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observation.Id), cancellationToken);
@@ -47,7 +47,7 @@ namespace HyFive.Services.HandJewelry
                     throw new Exception("O-HS-01: Could not find observation with ID " + request.Observation.Id);
                 }
                 
-                if (observation.HandJewelrySession.TransmissionStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.HandJewelrySession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-HS-02: The observation has already been transferred to FHI and cannot be changed");
                 }
@@ -75,7 +75,7 @@ namespace HyFive.Services.HandJewelry
                     
                     observation.HandJewelry = handJewelryFromDatabase;
                     
-                    observation.RegistrationTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegistrationTime;
 
                     var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
                     observation.Role = roleFromRequest;
