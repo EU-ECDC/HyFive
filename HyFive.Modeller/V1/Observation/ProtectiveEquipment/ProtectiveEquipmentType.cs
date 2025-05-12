@@ -11,6 +11,6 @@ namespace HyFive.Models.V1.Observation.ProtectiveEquipment
         public string Name { get; set; }
         public bool IsDefault { get; set; }
         public bool IsRequired { get; set; }
-        public List<MisuseType> IncorrectTypes { get; set; }
+        public List<MisuseType> MisuseTypes { get; set; }
     }
 }
