@@ -78,7 +78,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //            .IsRequired, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Gloves)
-        //            .IncorrectTypes.Count, Is.EqualTo(1));
+        //            .MisuseTypes.Count, Is.EqualTo(1));
         //    });
         //}
 
@@ -104,7 +104,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //            .IsRequired, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.InfectionGown)
-        //            .IncorrectTypes.Count, Is.EqualTo(0));
+        //            .MisuseTypes.Count, Is.EqualTo(0));
         //    });
         //}
 
@@ -131,7 +131,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //            .IsRequired, Is.EqualTo(false));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.FaceMask)
-        //            .IncorrectTypes.Count, Is.EqualTo(0));
+        //            .MisuseTypes.Count, Is.EqualTo(0));
         //    });
         //}
 
@@ -158,7 +158,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //            .IsRequired, Is.EqualTo(false));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0]
         //            .ProtectiveEquipmentList.First(x => x.EquipmentType.Code == BeskyttelsesutstyrTypeKonstanter.Hood)
-        //            .IncorrectTypes.Count, Is.EqualTo(2));
+        //            .MisuseTypes.Count, Is.EqualTo(2));
         //    });
         //}
 
@@ -230,14 +230,14 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    // Act
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations
         //        .First(o => o.ProtectiveEquipmentList
-        //            .Any(u => u.IncorrectTypes
+        //            .Any(u => u.MisuseTypes
         //                .Any()));
         //    var utstyrSomSkalEndres =
         //        observasjonSomSkalEndres.ProtectiveEquipmentList
-        //            .First(u => u.IncorrectTypes
+        //            .First(u => u.MisuseTypes
         //                .Any());
-        //    var feilbrukTypeSomSkalFjernes = utstyrSomSkalEndres.IncorrectTypes.First();
-        //    utstyrSomSkalEndres.IncorrectTypes.Remove(feilbrukTypeSomSkalFjernes);
+        //    var feilbrukTypeSomSkalFjernes = utstyrSomSkalEndres.MisuseTypes.First();
+        //    utstyrSomSkalEndres.MisuseTypes.Remove(feilbrukTypeSomSkalFjernes);
             
             
         //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
@@ -255,7 +255,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //        .First(b => b.Id == utstyrSomSkalEndres.Id);
             
         //    // Assert
-        //    Assert.That(oppdatertUtstyr.IncorrectTypes.Select(f => f.Id), Does.Not.Contain(feilbrukTypeSomSkalFjernes.Id));
+        //    Assert.That(oppdatertUtstyr.MisuseTypes.Select(f => f.Id), Does.Not.Contain(feilbrukTypeSomSkalFjernes.Id));
         //}
         
         
@@ -269,12 +269,12 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //    // Act
         //    var observasjonSomSkalEndres = hentetSesjonFraDatabase.Observations
         //        .First(o => o.ProtectiveEquipmentList
-        //            .Any(u => u.IncorrectTypes
+        //            .Any(u => u.MisuseTypes
         //                .Any() == false));
         //    var utstyrSomSkalEndres =
         //        observasjonSomSkalEndres.ProtectiveEquipmentList.First();
         //    var feilbrukTypeSomSkalLeggesTil = Mapper.Map<MisuseType>(DatabaseContext.MisuseType.First());
-        //    utstyrSomSkalEndres.IncorrectTypes.Add(feilbrukTypeSomSkalLeggesTil);
+        //    utstyrSomSkalEndres.MisuseTypes.Add(feilbrukTypeSomSkalLeggesTil);
             
             
         //    var handler = new UpdateProtectiveEquipmentObservation.Handler(DatabaseContext, Mapper, new NullLogger<UpdateProtectiveEquipmentObservation.Handler>());
@@ -293,7 +293,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //        .First(b => b.Id == utstyrSomSkalEndres.Id);
             
         //    // Assert
-        //    Assert.That(oppdatertUtstyr.IncorrectTypes.Select(f => f.Id), Contains.Item(feilbrukTypeSomSkalLeggesTil.Id));
+        //    Assert.That(oppdatertUtstyr.MisuseTypes.Select(f => f.Id), Contains.Item(feilbrukTypeSomSkalLeggesTil.Id));
         //}
 
         protected async Task<ProtectiveEquipmentSession> HentSesjon(Guid sesjonGuidFraRequestGuid)
@@ -354,7 +354,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                     {
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Gloves).Id,
                                     },
-                                    IncorrectTypes = new List<MisuseType>
+                                    MisuseTypes = new List<MisuseType>
                                     {
                                         new MisuseType
                                         {
@@ -406,7 +406,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                                     {
                                         Id = utstyrsTyper.First(x => x.Code == ProtectiveEquipmentTypeConstants.Hood).Id,
                                     },
-                                    IncorrectTypes = new List<MisuseType>
+                                    MisuseTypes = new List<MisuseType>
                                     {
                                         new MisuseType
                                         {

@@ -76,7 +76,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.Code, opt => opt.MapFrom(o => o.ProtectiveEquipmentType.Code))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(o => o.ProtectiveEquipmentType.Id))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(o => o.ProtectiveEquipmentType.Name))
-                .ForMember(dst => dst.IncorrectTypes, opt => opt.MapFrom(o => o.ProtectiveEquipmentType.MisuseTypes));
+                .ForMember(dst => dst.MisuseTypes, opt => opt.MapFrom(o => o.ProtectiveEquipmentType.MisuseTypes));
 
             CreateMap<GloveSession, Models.V1.Session.GloveSession>(MemberList.None)
                 .ForMember(dst => dst.Observations, opt => opt.MapFrom(src => src.Observations))
