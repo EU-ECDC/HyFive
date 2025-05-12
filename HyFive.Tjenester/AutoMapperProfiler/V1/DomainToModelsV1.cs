@@ -85,7 +85,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<GloveObservation, Models.V1.Observation.Gloves.GloveObservation>(MemberList.None);
             CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.IndicatedGloveType>(MemberList
                 .None);
-            CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GeneralPurposeGloveType>(MemberList
+            CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GloveWithoutIndicationType>(MemberList
                 .None);
             CreateMap<HandHygieneAfterGloveUseType, Models.V1.Observation.Gloves.PostGloveHandHygieneType>(
                 MemberList.None);

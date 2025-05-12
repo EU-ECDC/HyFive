@@ -21,11 +21,11 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get GeneralPurposeGloveTypes
+        /// Get GloveWithoutIndicationTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<GeneralPurposeGloveType>> GetGloveWithoutIndicationTypes()
+        public async Task<IEnumerable<GloveWithoutIndicationType>> GetGloveWithoutIndicationTypes()
         {
             var gloveWithoutIndicationTypes = await _mediator.Send(new GetGloveWithoutIndicationTypes.Query());
             return gloveWithoutIndicationTypes;
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("update")]
-        public async Task<GeneralPurposeGloveType> UpdateGloveWithoutIndicationType([FromBody] GeneralPurposeGloveType gloveWithoutIndicationType)
+        public async Task<GloveWithoutIndicationType> UpdateGloveWithoutIndicationType([FromBody] GloveWithoutIndicationType gloveWithoutIndicationType)
         {
             var isUpdated = await _mediator.Send(new UpdateGloveWithoutIndicationType.Command
             {

@@ -78,11 +78,11 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.GloveWithoutIndicationTypeController.GetGloveWithoutIndicationTypes">
             <summary>
-            Get GeneralPurposeGloveTypes
+            Get GloveWithoutIndicationTypes
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.GloveWithoutIndicationTypeController.UpdateGloveWithoutIndicationType(HyFive.Models.V1.Observation.Gloves.GeneralPurposeGloveType)">
+        <member name="M:HyFive.Admin.Controllers.V1.GloveWithoutIndicationTypeController.UpdateGloveWithoutIndicationType(HyFive.Models.V1.Observation.Gloves.GloveWithoutIndicationType)">
             <summary>
             Update GloveWithoutIndicationType
             </summary>

@@ -13,9 +13,9 @@ namespace HyFive.Services.Glove
 {
     public class GetGloveWithoutIndicationTypes
     {
-        public class Query : IRequest<IEnumerable<GeneralPurposeGloveType>> { }
+        public class Query : IRequest<IEnumerable<GloveWithoutIndicationType>> { }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<GeneralPurposeGloveType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<GloveWithoutIndicationType>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,11 +26,11 @@ namespace HyFive.Services.Glove
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<GeneralPurposeGloveType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<GloveWithoutIndicationType>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var gloveWithoutIndicationTypes = await _context.GloveWithoutIndicationType
                     .AsNoTracking()
-                    .ProjectTo<GeneralPurposeGloveType>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GloveWithoutIndicationType>(_mapper.ConfigurationProvider)
                     .OrderBy(h => h.Name)
                     .ToListAsync(cancellationToken);
                 return gloveWithoutIndicationTypes;

@@ -70,7 +70,7 @@ namespace HyFive.Observation.Controllers.V1
         }
 
         [HttpGet("gloveWithoutIndicationType")]
-        public async Task<IEnumerable<GeneralPurposeGloveType>> GetGloveWithoutIndicationTypes()
+        public async Task<IEnumerable<GloveWithoutIndicationType>> GetGloveWithoutIndicationTypes()
         {
             var result = await _mediator.Send(new GetGloveWithoutIndicationTypes.Query());
             return result;

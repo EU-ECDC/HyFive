@@ -60,7 +60,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.RegistrationTime, opt => opt.MapFrom(src => src.RegistrationTime));
             CreateMap<Models.V1.Observation.Gloves.IndicatedGloveType, GloveWithIndicationType>(MemberList
                 .None);
-            CreateMap<Models.V1.Observation.Gloves.GeneralPurposeGloveType, GloveWithoutIndicationType>(MemberList
+            CreateMap<Models.V1.Observation.Gloves.GloveWithoutIndicationType, GloveWithoutIndicationType>(MemberList
                 .None);
             CreateMap<Models.V1.Observation.Gloves.PostGloveHandHygieneType, HandHygieneAfterGloveUseType>(
                 MemberList.None);

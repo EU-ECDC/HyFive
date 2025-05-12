@@ -117,10 +117,10 @@ export class EditGloveObservationsComponent implements OnInit{
 
     if(this.gloveWithIndicationsSelected){
       this.gloveObservationAsChanged.indicatedGloveTypes = this.gloveWithIndicationTypes.filter(h => h.isSelected);
-      this.gloveObservationAsChanged.gloveWithoutIndicationType = [];
+      this.gloveObservationAsChanged.gloveWithoutIndicationTypes = [];
     }
     else {
-      this.gloveObservationAsChanged.gloveWithoutIndicationType = this.gloveWithoutIndicationTypes.filter(h => h.isSelected);
+      this.gloveObservationAsChanged.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(h => h.isSelected);
       this.gloveObservationAsChanged.indicatedGloveTypes = [];
     }
 
