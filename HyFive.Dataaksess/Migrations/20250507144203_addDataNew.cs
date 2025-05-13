@@ -4826,7 +4826,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""GloveWithoutIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'OTHER', N'Other') ON CONFLICT (""Id"") DO NOTHING");
 
 
-            migrationBuilder.Sql(@"INSERT INTO ""HandHygieneAfterGloveUseType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'YES N'Yes') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""HandHygieneAfterGloveUseType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'YES' N'Yes') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandHygieneAfterGloveUseType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'NO', N'No') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandHygieneAfterGloveUseType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'NOT_INDICATED', N'Not Indicated') ON CONFLICT (""Id"") DO NOTHING");
 
