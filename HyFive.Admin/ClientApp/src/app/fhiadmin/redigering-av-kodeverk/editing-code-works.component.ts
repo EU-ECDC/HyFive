@@ -22,14 +22,14 @@ export class EditingCodeworkComponent implements OnInit {
   @ViewChild('codeworkContainer', { static: true, read: ViewContainerRef }) codeworkContainer: ViewContainerRef;
 
   codeworks = [
-    { name: 'Activity  Types', isActive: false, component: EditingActivityTypeComponent },
+    { name: 'Activity Types', isActive: false, component: EditingActivityTypeComponent },
     { name: 'Department Types', isActive: false, component: EditingOfDepartmentTypesComponent },
-    { name: 'Protective Equipmenttypes', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
-    { name: 'Protective Equipmenttypes', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
+    { name: 'Protective Equipment Types', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
+    { name: 'Protective Equipment Types', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
     { name: 'Hand Jewelry Types', isActive: false, component: EditingByHandjewelryTypeComponent },
-    { name: 'Glove with indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
-    { name: 'Glove without indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
-    { name: 'Hand hygiene after wearing gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
+    { name: 'Glove with Indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
+    { name: 'Glove without Indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
+    { name: 'Hand Hygiene after wearing Gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
     { name: 'Indication Types', isActive: false, component: EditingIndicationTypesComponent },
     { name: 'Institution Types', isActive: false, component: EditingInstitutionTypesComponent },
     { name: 'Region', isActive: false, component: EditingRegionComponent },
