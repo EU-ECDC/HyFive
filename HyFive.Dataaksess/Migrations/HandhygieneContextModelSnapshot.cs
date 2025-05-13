@@ -99,13 +99,13 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("HandJewelryObservationHandJewelryType", b =>
                 {
-                    b.Property<int>("HandJewelryId")
+                    b.Property<int>("HandJewelriesId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("HandJewelryId", "ObservationsId");
+                    b.HasKey("HandJewelriesId", "ObservationsId");
 
                     b.HasIndex("ObservationsId");
 
@@ -1225,7 +1225,7 @@ namespace HyFive.DataAccess.Migrations
                 {
                     b.HasOne("HyFive.Domain.Observation.HandJewelryType", null)
                         .WithMany()
-                        .HasForeignKey("HandJewelryId")
+                        .HasForeignKey("HandJewelriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
