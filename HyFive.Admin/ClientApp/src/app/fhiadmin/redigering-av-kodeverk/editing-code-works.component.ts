@@ -26,7 +26,7 @@ export class EditingCodeworkComponent implements OnInit {
     { name: 'Department Types', isActive: false, component: EditingOfDepartmentTypesComponent },
     { name: 'Protective Equipmenttypes', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
     { name: 'Protective Equipmenttypes', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
-    { name: 'hand Jewelry Types', isActive: false, component: EditingByHandjewelryTypeComponent },
+    { name: 'Hand Jewelry Types', isActive: false, component: EditingByHandjewelryTypeComponent },
     { name: 'Glove with indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
     { name: 'Glove without indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
     { name: 'Hand hygiene after wearing gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
