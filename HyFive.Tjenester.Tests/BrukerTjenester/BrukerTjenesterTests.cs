@@ -1,5 +1,5 @@
-using HyFive.Modeller.V1.Bruker;
-using HyFive.Tjenester.BrukerTjenester;
+using HyFive.Models.V1.User;
+using HyFive.Services.UserServices;
 using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
@@ -8,11 +8,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bruker = HyFive.Modeller.V1.Bruker.Bruker;
+using Bruker = HyFive.Models.V1.User.User;
 
-namespace HyFive.Tjenester.Tests.BrukerTjenester
+namespace HyFive.Services.Tests.BrukerTjenester
 {
-    public class BrukerTjenesterTests : TjenesteTests
+    public class BrukerTjenesterTests : ServiceTests
     {
         private readonly string _pseudonym = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("hellohellohellohellohellohellohel"));
         private ICurrentUser _currentUserSubstitute;
@@ -29,8 +29,8 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
             // Arrange
             var fhiAdmin = await OpprettFhiAdmin();
 
-            var hentFhiAdminHandler = new HentFhiAdmin.Handler(DatabaseContext, Mapper);
-            var query = new HentFhiAdmin.Query() { };
+            var hentFhiAdminHandler = new GetFhiAdmin.Handler(DatabaseContext, Mapper);
+            var query = new GetFhiAdmin.Query() { };
             var fhiAdminIdsFraDatabase = DatabaseContext.FhiAdmin.OrderBy(x => x.Id).Select(x => x.Id).ToList();
 
             // Act
@@ -56,9 +56,9 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
             Assert.Multiple(() =>
             {
                 Assert.That(opprettetFhiAdmin.Id, Is.GreaterThan(0));
-                Assert.That(opprettetFhiAdmin.IdentPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentPseudonym));
-                Assert.That(opprettetFhiAdmin.Fornavn, Is.EqualTo(opprettetFhiAdminFraDatabase.Fornavn));
-                Assert.That(opprettetFhiAdmin.Etternavn, Is.EqualTo(opprettetFhiAdminFraDatabase.Etternavn));
+                Assert.That(opprettetFhiAdmin.IdentityPseudonym, Is.EqualTo(opprettetFhiAdminFraDatabase.IdentityPseudonym));
+                Assert.That(opprettetFhiAdmin.FirstName, Is.EqualTo(opprettetFhiAdminFraDatabase.FirstName));
+                Assert.That(opprettetFhiAdmin.LastName, Is.EqualTo(opprettetFhiAdminFraDatabase.LastName));
             });
         }
 
@@ -121,16 +121,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         {
             // Arrange
             var opprettetFhiAdmin = await OpprettFhiAdmin();
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = opprettetFhiAdmin.Id,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")),
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")),
+                    IsDisabled = false
                 }
             };
 
@@ -142,14 +142,14 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
             Assert.Multiple(() =>
             {
                 Assert.That(oppdatertFhiAdmin.Id, Is.EqualTo(opprettetFhiAdmin.Id));
-                Assert.That(oppdatertFhiAdmin.IdentPseudonym, Is.Not.EqualTo(opprettetFhiAdmin.IdentPseudonym));
-                Assert.That(oppdatertFhiAdmin.Fornavn, Is.Not.EqualTo(opprettetFhiAdmin.Fornavn));
-                Assert.That(oppdatertFhiAdmin.Etternavn, Is.Not.EqualTo(opprettetFhiAdmin.Etternavn));
+                Assert.That(oppdatertFhiAdmin.IdentityPseudonym, Is.Not.EqualTo(opprettetFhiAdmin.IdentityPseudonym));
+                Assert.That(oppdatertFhiAdmin.FirstName, Is.Not.EqualTo(opprettetFhiAdmin.FirstName));
+                Assert.That(oppdatertFhiAdmin.LastName, Is.Not.EqualTo(opprettetFhiAdmin.LastName));
 
-                Assert.That(oppdatertFhiAdminFraDatabase.IdentPseudonym, Is.EqualTo(command.Bruker.IdentPseudonym));
-                Assert.That(oppdatertFhiAdminFraDatabase.Fornavn, Is.EqualTo(command.Bruker.Fornavn));
-                Assert.That(oppdatertFhiAdminFraDatabase.Etternavn, Is.EqualTo(command.Bruker.Etternavn));
-                Assert.That(oppdatertFhiAdminFraDatabase.ErDeaktivert, Is.EqualTo(command.Bruker.ErDeaktivert));
+                Assert.That(oppdatertFhiAdminFraDatabase.IdentityPseudonym, Is.EqualTo(command.User.IdentityPseudonym));
+                Assert.That(oppdatertFhiAdminFraDatabase.FirstName, Is.EqualTo(command.User.FirstName));
+                Assert.That(oppdatertFhiAdminFraDatabase.LastName, Is.EqualTo(command.User.LastName));
+                Assert.That(oppdatertFhiAdminFraDatabase.IsDeactivated, Is.EqualTo(command.User.IsDisabled));
             });
         }
 
@@ -157,16 +157,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_IkkeEksisterendeBruker_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = _pseudonym,
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = _pseudonym,
+                    IsDisabled = false
                 }
             };
 
@@ -184,16 +184,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_ManglerPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = null,
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = null,
+                    IsDisabled = false
                 }
             };
 
@@ -211,16 +211,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_IkkeGyldigPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = "1234567890123456789012345678901234567890123@",
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = "1234567890123456789012345678901234567890123@",
+                    IsDisabled = false
                 }
             };
 
@@ -238,16 +238,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         public void OppdaterFhiAdmin_ForKortPseudonym_KasterException()
         {
             // Arrange
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = 1234567890,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = "test",
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = "test",
+                    IsDisabled = false
                 }
             };
 
@@ -268,16 +268,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
             var bruker1 = await OpprettFhiAdmin(_pseudonym);
             var bruker2 = await OpprettFhiAdmin(Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")));
 
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id = bruker2.Id,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = bruker1.IdentPseudonym,
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = bruker1.IdentityPseudonym,
+                    IsDisabled = false
                 }
             };
 
@@ -296,18 +296,18 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
         {
             // Arrange
             var bruker1 = await OpprettFhiAdmin(_pseudonym);
-            _currentUserSubstitute.PidPseudonym.Returns(bruker1.IdentPseudonym);
+            _currentUserSubstitute.PidPseudonym.Returns(bruker1.IdentityPseudonym);
 
-            var oppdaterFhiAdminHandler = new OppdaterFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
-            var command = new OppdaterFhiAdmin.Command()
+            var oppdaterFhiAdminHandler = new UpdateFhiAdmin.Handler(DatabaseContext, Mapper, _currentUserSubstitute);
+            var command = new UpdateFhiAdmin.Command()
             {
-                Bruker = new Modeller.V1.Bruker.Bruker()
+                User = new Models.V1.User.User()
                 {
                     Id =  bruker1.Id,
-                    Fornavn = "Da",
-                    Etternavn = "Vinci",
-                    IdentPseudonym = bruker1.IdentPseudonym,
-                    ErDeaktivert = false
+                    FirstName = "Da",
+                    LastName = "Vinci",
+                    IdentityPseudonym = bruker1.IdentityPseudonym,
+                    IsDisabled = false
                 }
             };
 
@@ -323,16 +323,16 @@ namespace HyFive.Tjenester.Tests.BrukerTjenester
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Bruker.Bruker> OpprettFhiAdmin(string pseudonym = null)
+        private async Task<Models.V1.User.User> OpprettFhiAdmin(string pseudonym = null)
         {
-            var opprettFhiAdminHandler = new OpprettFhiAdmin.Handler(DatabaseContext, Mapper);
-            var command = new OpprettFhiAdmin.Command()
+            var opprettFhiAdminHandler = new CreateFhiAdmin.Handler(DatabaseContext, Mapper);
+            var command = new CreateFhiAdmin.Command()
             {
-                Request = new OpprettFhiAdminRequest()
+                Request = new CreateFhiAdminRequest()
                 {
-                    Fornavn = "Test",
-                    Etternavn = "Testesen",
-                    IdentPseudonym = pseudonym ?? _pseudonym,
+                    FirstName = "Test",
+                    LastName = "Testesen",
+                    IdentityPseudonym = pseudonym ?? _pseudonym,
                 }
             };
 

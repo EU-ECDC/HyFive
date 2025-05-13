@@ -5,5 +5,5 @@
 export interface PredefinertKommentar
 {
 	id: number;
-	kommentar: string;
+	comment: string;
 }

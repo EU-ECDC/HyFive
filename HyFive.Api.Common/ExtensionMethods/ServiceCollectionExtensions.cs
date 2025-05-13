@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using HyFive.Modeller.V1.Institusjon;
+using HyFive.Models.V1.Institution;
 
 namespace HyFive.Api.Common.ExtensionMethods
 {
     public static class ServiceCollectionExtensions
     {
-        public static void LeggTilSwagger(this IServiceCollection services, string apiTittel, Type apiAssemblyType)
+        public static void AddSwagger(this IServiceCollection services, string apiTitle, Type apiAssemblyType)
         {
             services.AddSwaggerGen(setupAction =>
             {
-                setupAction.SwaggerDoc(apiTittel, new OpenApiInfo
+                setupAction.SwaggerDoc(apiTitle, new OpenApiInfo
                 {
-                    Title = apiTittel,
+                    Title = apiTitle,
                     Version = "v1"
                 });
                 setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -51,7 +51,7 @@ namespace HyFive.Api.Common.ExtensionMethods
                 var xmlApiCommentFullPath = Path.Combine(AppContext.BaseDirectory + xmlApiCommentFil);
                 setupAction.IncludeXmlComments(xmlApiCommentFullPath);
 
-                var xmlModellerCommentFil = $"{Assembly.GetAssembly(typeof(Institusjon)).GetName().Name}.xml";
+                var xmlModellerCommentFil = $"{Assembly.GetAssembly(typeof(Institution)).GetName().Name}.xml";
                 var xmlModellerCommentFullPath = Path.Combine(AppContext.BaseDirectory + xmlModellerCommentFil);
                 setupAction.IncludeXmlComments(xmlModellerCommentFullPath);
             });

@@ -4,28 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Tjenester.Sesjon;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Session;
 using NUnit.Framework;
 
-namespace HyFive.Tjenester.Tests.Sesjon
+namespace HyFive.Services.Tests.Sesjon
 {
-    public class SlettSesjonTests : TjenesteTests
+    public class SlettSesjonTests : ServiceTests
     {
         //[Test]
         //public async Task SlettFireIndikasjonerSesjon_SkalFeileHvisOverføringsstatusErFeil()
         //{
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
-        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), DatabaseContext.Avdeling.First(), Seed.SeedObservatorHprNummer);
-        //    var avdeling = DatabaseContext.Avdeling.First();
+        //    var sesjon = await CreateFourIndicatorsSession(sesjonId, Guid.NewGuid(), DatabaseContext.Department.First(), Seed.SeedObservatorHprNummer);
+        //    var avdeling = DatabaseContext.Department.First();
         //    // Act
-        //    var handler = new SlettSesjon.Handler(DatabaseContext);
-        //    var slettRequest = new SlettSesjon.Command()
+        //    var handler = new DeleteSession.Handler(DatabaseContext);
+        //    var slettRequest = new DeleteSession.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilFhi,
-        //        SesjonId = sesjonId,
-        //        InstitusjonId = avdeling.InstitusjonId
+        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToFhi,
+        //        SessionId = sesjonId,
+        //        HealthcareOrganizationId = avdeling.HealthcareOrganizationId
         //    };
             
         //    // Assert
@@ -40,26 +40,26 @@ namespace HyFive.Tjenester.Tests.Sesjon
         //{
         //    // Arrange
         //    var sesjonId = Guid.NewGuid();
-        //    var avdeling = DatabaseContext.Avdeling.First();
-        //    var sesjon = await OpprettFireIndikasjonerSesjon(sesjonId, Guid.NewGuid(), avdeling, Seed.SeedObservatorHprNummer);
+        //    var avdeling = DatabaseContext.Department.First();
+        //    var sesjon = await CreateFourIndicatorsSession(sesjonId, Guid.NewGuid(), avdeling, Seed.SeedObservatorHprNummer);
 
-        //    Assert.That(DatabaseContext.Sesjon.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
+        //    Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Not.Null); 
             
         //    // Act
-        //    var handler = new SlettSesjon.Handler(DatabaseContext);
-        //    var slettRequest = new SlettSesjon.Command()
+        //    var handler = new DeleteSession.Handler(DatabaseContext);
+        //    var slettRequest = new DeleteSession.Command()
         //    {
-        //        OverforingstatusKode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
-        //        SesjonId = sesjonId,
-        //        InstitusjonId = avdeling.InstitusjonId
+        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToCoordinator,
+        //        SessionId = sesjonId,
+        //        HealthcareOrganizationId = avdeling.HealthcareOrganizationId
         //    };
         //    var resultat = await handler.Handle(slettRequest, CancellationToken.None);
 
         //    // Assert
         //    Assert.Multiple(() =>
         //    {
-        //        Assert.That(resultat.Suksess, Is.True);
-        //        Assert.That(DatabaseContext.Sesjon.FirstOrDefault(s => s.Id == sesjon), Is.Null);
+        //        Assert.That(resultat.Success, Is.True);
+        //        Assert.That(DatabaseContext.Session.FirstOrDefault(s => s.Id == sesjon), Is.Null);
         //    });
         //}
 

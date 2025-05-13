@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row">
+        <div class="row align-items-end">
+          
+          <div class="form-group col col-md-3">
+            <label for="observer">Observer</label>
+            <select class="form-select" id="observer" [(ngModel)]="selectedObserver" (ngModelChange)="resetSearchresults()">
+              <option [ngValue]="null">All</option>
+              <option *ngFor="let observer of observers" [ngValue]="observer.id">
+                {{observer.firstName}} {{observer.lastName}}
+                <ng-container *ngIf="observer.isDisabled">(disabled user)</ng-container>
+              </option>
+            </select>
+          </div>
+          <div class="form-group col col-md-2">
+            <label for="sessionType">Module</label>
+            <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
+              <option [ngValue]="null">All</option>
+              <option *ngFor="let option of sessionTypeOptions" [ngValue]="option.value">{{option.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-12 col-md-2">
+            <label style="opacity:0;">-</label>
+            <br />
+            <button class="btn btn-sm fhi-btn-primary me-2" (click)="getSessions()">Search</button>
+            <button class="btn btn-sm fhi-btn-secondary" (click)="reset()">Clear filters</button>
+          </div>
+          
+          <div class="form-group col col-md-2">
+            <label style="opacity:0;">-</label>
+            <button class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="markAllSessions()">Select all sessions</button>
+          </div>
+
+          <div class="form-group col col-md-2">
+            <label style="opacity:0;">-</label>
+            <button class="btn fhi-btn-link" [disabled]="!hasSelectedAtLeastOneSession()" (click)="transferSessions()">Transfer selected sessions</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <app-spinner *ngIf="loading"></app-spinner>
+
+  <div class="container mt-5" *ngIf="!loading && SearchDone && !sessions.length">
+    <div class="row">
+      <div class="col text-center">
+        No sessions found.
+      </div>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="sessions.length">
+
+    <div class="row my-2">
+      <div class="col">
+        <h5>Sessions</h5>
+        <span *ngIf="SearchDone && !sessionsCoordinator.length">
+          No sessions ready for submission.
+        </span>
+      </div>
+    </div>
+
+    <app-overview-sessions-view [session]="sessionsCoordinator"
+                                   [isTransferOverview]="true"
+                                   (transferEvent)="transfer($event)"
+                                   (observationUpdatedEvent)="getSessions()"
+                                   (observationDeletedEvent)="getSessions()">
+    </app-overview-sessions-view>
+
+  </div>
+
+
+  <div class="container" *ngIf="sessionsFHI.length">
+    <div class="row mb-2">
+      <div class="col">
+        <h5>Transferred sessions</h5>
+      </div>
+    </div>
+
+    <app-overview-sessions-view [session]="sesjonerFHI"
+                                   [isTransferOverview]="true">
+    </app-overview-sessions-view>
+  </div>
+  <div class="row" *ngIf="loading">
+    <app-spinner class="col-12">Loading sessions</app-spinner>
+  </div>

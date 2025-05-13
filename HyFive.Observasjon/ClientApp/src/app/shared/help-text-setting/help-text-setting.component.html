@@ -1,0 +1,10 @@
+<div class="row mt-n4" *ngIf="hasSetHelpTexts || HelpTextsWereReset">
+  <div class="col-lg-4 col-12 py-3">
+    <div *ngIf="hasSetHelpTexts && !HelpTextsWereReset">
+      <button class="btn fhi-btn-secondary btn-block" (click)="markHelpTextAsUnseen()"> Show all help texts again </button>
+    </div>
+    <div *ngIf="HelpTextsWereReset">
+      <i> Help texts reset. All help texts will now be displayed again as you use the solution.</i>
+    </div>
+  </div>
+</div>

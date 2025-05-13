@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Aktivitet } from '../../models/api/Aktivitet';
+import { Activity } from '../../models/api/Activity';
 import { faHandsWash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AktivitetService } from '../../services/data/aktivitet.service';
-import { AktivitetTypeKonstanter } from '../../models/api/AktivitetTypeKonstanter';
+import { ActivityService } from '../../services/data/activity.service';
+import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 
 @Component({
   selector: 'app-missed-opportunity',
@@ -16,20 +16,20 @@ export class MissedOpportunityComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   ikonklasse = '';
 
-  aktivitet: Aktivitet = null;
+  activity: Activity = null;
 
-  @Input("hanskebrukSkalRegistreres") hanskebrukSkalRegistreres: boolean;
-  @Input("deaktivert") deaktivert: boolean;
-  @Input("erRegistrert") erRegistrert: boolean;
+  @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
+  @Input("disabled") disabled: boolean;
+  @Input("isRegistered") isRegistered: boolean;
 
-  @Output() aktivitetRegistertEvent = new EventEmitter<Aktivitet>();
+  @Output() activityRegisteredEvent = new EventEmitter<Activity>();
 
-  constructor(private modalService: NgbModal, private aktivitetService: AktivitetService) {
-    this.aktivitetService.getAktivitetTyper().subscribe((aktivitetTyper) => {
-      this.aktivitet = {
-        aktivitetType: aktivitetTyper.find(x => x.kode === AktivitetTypeKonstanter.IkkeUtfort),
-        tidtakingBleUtfort: false,
-        benyttetHanske: null
+  constructor(private modalService: NgbModal, private activityService: ActivityService) {
+    this.activityService.getActivityTypes().subscribe((activityTypes) => {
+      this.activity = {
+        activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotExecuted),
+        timeRecordingWasDone: false,
+        gloveUsed: null
       };
     });
   }
@@ -37,16 +37,16 @@ export class MissedOpportunityComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registrerIkkeUtfortAktivitet(modalName): void {
-    if (this.hanskebrukSkalRegistreres) {
+  registerNotExecutedActivity(modalName): void {
+    if (this.gloveUseMustBeRegistered) {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     } else {
-      this.aktivitetRegistertEvent.emit(this.aktivitet);
+      this.activityRegisteredEvent.emit(this.activity);
     }
   }
 
-  registrerAktivitet(bleHanskerBrukt: boolean) {
-    this.aktivitet.benyttetHanske = bleHanskerBrukt;
-    this.aktivitetRegistertEvent.emit(this.aktivitet);
+  registerActivity(bleHanskerBrukt: boolean) {
+    this.activity.gloveUsed = bleHanskerBrukt;
+    this.activityRegisteredEvent.emit(this.activity);
   }
 }

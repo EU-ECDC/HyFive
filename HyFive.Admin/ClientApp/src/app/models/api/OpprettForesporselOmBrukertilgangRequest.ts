@@ -4,9 +4,9 @@
 
 export interface OpprettForesporselOmBrukertilgangRequest
 {
-	institusjonId?: number;
-	brukerFornavn: string;
-	brukerEtternavn: string;
-	identPseudonym: string;
-	hprNummer: string;
+	institutionId?: number;
+	userFirstName: string;
+	userLastName: string;
+	identityPseudonym: string;
+	hprNumber: string;
 }

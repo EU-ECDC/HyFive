@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HyFive.Dataaksess;
-using HyFive.Domene.Bruker;
-using HyFive.Domene.Observasjon;
-using HyFive.Domene.Observasjon.Beskyttelsesutstyr;
-using HyFive.Domene.Observasjon.Hansker;
-using HyFive.Domene.Sesjon;
-using HyFive.Domene.Sted;
-using HyFive.Modeller.V1.Konstanter;
+using HyFive.DataAccess;
+using HyFive.Domain.User;
+using HyFive.Domain.Observation;
+using HyFive.Domain.Observation.ProtectiveEquipment;
+using HyFive.Domain.Observation.Gloves;
+using HyFive.Domain.Session;
+using HyFive.Domain.Place;
+using HyFive.Models.V1.Constants;
 
-namespace HyFive.Tjenester.Tests
+namespace HyFive.Services.Tests
 {
     public class Seed
     {
-        private readonly HandhygieneContext _context;
+        private readonly HandHygieneContext _context;
 
         //Test-person (meldt ønsket statisk i PREG) LINE DANSER, ident 13116900216, HPR-nummer 9383840
         public const string SeedObservatorHprNummer = "9383840";
@@ -30,7 +30,7 @@ namespace HyFive.Tjenester.Tests
         public const string SeedFhiAdminFornavn = "FELIX";
         public const string SeedFhiAdminEtternavn = "MØRK";
 
-        public Seed(HandhygieneContext context)
+        public Seed(HandHygieneContext context)
         {
             _context = context;
         }
@@ -55,23 +55,23 @@ namespace HyFive.Tjenester.Tests
 
         private void SeedRegioner()
         {
-            var regioner = new List<Domene.Sted.Region>
+            var regioner = new List<Domain.Place.Region>
                 {
-                    new Domene.Sted.Region {Kode = "HELSE_SOR_OST", Navn = "Helse Sør-Øst"},
-                    new Domene.Sted.Region {Kode = "HELSE_VEST", Navn = "Helse Vest"},
-                    new Domene.Sted.Region {Kode = "HELSE_MIDT_NORGE", Navn = "Helse Midt-Norge"},
-                    new Domene.Sted.Region {Kode = "HELSE_NORD", Navn = "Helse Nord"},
-                    new Domene.Sted.Region {Kode = "AGDER", Navn = "Agder"},
-                    new Domene.Sted.Region {Kode = "INNLANDET", Navn = "Innlandet"},
-                    new Domene.Sted.Region {Kode = "MORE_OG_ROMSDAL", Navn = "Møre og Romsdal"},
-                    new Domene.Sted.Region {Kode = "NORDLAND", Navn = "Nordland"},
-                    new Domene.Sted.Region {Kode = "OSLO", Navn = "Oslo"},
-                    new Domene.Sted.Region {Kode = "ROGALAND", Navn = "Rogaland"},
-                    new Domene.Sted.Region {Kode = "VEST_OG_TELEMARK", Navn = "Vestfold og Telemark"},
-                    new Domene.Sted.Region {Kode = "TROMS_OG_FINNMARK", Navn = "Troms og Finnmark"},
-                    new Domene.Sted.Region {Kode = "TRONDELAG", Navn = "Trøndelag"},
-                    new Domene.Sted.Region {Kode = "VESTLAND", Navn = "Vestland"},
-                    new Domene.Sted.Region {Kode = "VIKEN", Navn = "Viken"},
+                    new Domain.Place.Region {Code = "HELSE_SOR_OST", Name = "Helse Sør-Øst"},
+                    new Domain.Place.Region {Code = "HELSE_VEST", Name = "Helse Vest"},
+                    new Domain.Place.Region {Code = "HELSE_MIDT_NORGE", Name = "Helse Midt-Norge"},
+                    new Domain.Place.Region {Code = "HELSE_NORD", Name = "Helse Nord"},
+                    new Domain.Place.Region {Code = "AGDER", Name = "Agder"},
+                    new Domain.Place.Region {Code = "INNLANDET", Name = "Innlandet"},
+                    new Domain.Place.Region {Code = "MORE_OG_ROMSDAL", Name = "Møre og Romsdal"},
+                    new Domain.Place.Region {Code = "NORDLAND", Name = "Nordland"},
+                    new Domain.Place.Region {Code = "OSLO", Name = "Oslo"},
+                    new Domain.Place.Region {Code = "ROGALAND", Name = "Rogaland"},
+                    new Domain.Place.Region {Code = "VEST_OG_TELEMARK", Name = "Vestfold og Telemark"},
+                    new Domain.Place.Region {Code = "TROMS_OG_FINNMARK", Name = "Troms og Finnmark"},
+                    new Domain.Place.Region {Code = "TRONDELAG", Name = "Trøndelag"},
+                    new Domain.Place.Region {Code = "VESTLAND", Name = "Vestland"},
+                    new Domain.Place.Region {Code = "VIKEN", Name = "Viken"},
                 };
 
             _context.Region.AddRange(regioner);
@@ -80,27 +80,27 @@ namespace HyFive.Tjenester.Tests
 
         private void SeedHandhygieneEtterHanskebrukType()
         {
-            var handhygieneEtterHanskebrukTyper = new List<HandhygieneEtterHanskebrukType>
+            var handhygieneEtterHanskebrukTyper = new List<HandHygieneAfterGloveUseType>
                 {
-                    new HandhygieneEtterHanskebrukType {Kode = "IKKE_INDIKERT", Navn = "Ikke Indikert"},
-                    new HandhygieneEtterHanskebrukType {Kode = "NEI", Navn = "Nei"},
-                    new HandhygieneEtterHanskebrukType {Kode = "JA", Navn = "Ja"},
+                    new HandHygieneAfterGloveUseType {Code = "IKKE_INDIKERT", Name = "Ikke Indikert"},
+                    new HandHygieneAfterGloveUseType {Code = "NEI", Name = "Nei"},
+                    new HandHygieneAfterGloveUseType {Code = "JA", Name = "Ja"},
                 };
 
-            _context.HandhygieneEtterHanskebrukType.AddRange(handhygieneEtterHanskebrukTyper);
+            _context.HandHygieneAfterGloveUseType.AddRange(handhygieneEtterHanskebrukTyper);
             _context.SaveChanges();
         }
 
         private void SeedHanskeUtenIndikasjonTyper()
         {
-            var hanskerUtenIndikasjonTyper = new List<HanskeUtenIndikasjonType>
+            var hanskerUtenIndikasjonTyper = new List<GloveWithoutIndicationType>
                 {
-                    new HanskeUtenIndikasjonType {Kode = "ANNET", Navn = "Annet"},
-                    new HanskeUtenIndikasjonType {Kode = "MAT", Navn = "Mat"},
-                    new HanskeUtenIndikasjonType {Kode = "STELL_UTEN_KROPPVAESKER", Navn = "Stell uten kroppvæsker"},
+                    new GloveWithoutIndicationType {Code = "ANNET", Name = "Annet"},
+                    new GloveWithoutIndicationType {Code = "MAT", Name = "Mat"},
+                    new GloveWithoutIndicationType {Code = "STELL_UTEN_KROPPVAESKER", Name = "Stell uten kroppvæsker"},
                 };
 
-            _context.HanskeUtenIndikasjonType.AddRange(hanskerUtenIndikasjonTyper);
+            _context.GloveWithoutIndicationType.AddRange(hanskerUtenIndikasjonTyper);
             _context.SaveChanges();
         }
 
@@ -108,73 +108,73 @@ namespace HyFive.Tjenester.Tests
         {
             var overforingsstatuser = new[]
             {
-                    new OverforingstatusType()
+                    new TransferStatusType()
                     {
-                        Kode = OverforingstatusTypeKonstanter.OverfortTilKoordinator,
-                        Navn = "Overført til Koordinator"
+                        Code = TransferStatusTypeConstants.TransferredToCoordinator,
+                        Name = "Overført til Coordinator"
                     },
-                    new OverforingstatusType()
+                    new TransferStatusType()
                     {
-                        Kode = OverforingstatusTypeKonstanter.OverfortTilFhi,
-                        Navn = "Overført til FHI"
+                        Code = TransferStatusTypeConstants.TransferredToFhi,
+                        Name = "Overført til FHI"
                     }
                 };
-            _context.OverforingstatusType.AddRange(overforingsstatuser);
+            _context.TransferStatusType.AddRange(overforingsstatuser);
             _context.SaveChanges();
         }
 
         private void SeedHanskeMedIndikasjonTyper()
         {
-            var hanskerMedIndikasjonTyper = new List<HanskeMedIndikasjonType>
+            var hanskerMedIndikasjonTyper = new List<GloveWithIndicationType>
                 {
-                    new HanskeMedIndikasjonType {Kode = "ANNET", Navn = "Annet"},
-                    new HanskeMedIndikasjonType {Kode = "SMITTE", Navn = "Smitte"},
-                    new HanskeMedIndikasjonType {Kode = "KROPPVAESKER", Navn = "Kroppvæsker"},
+                    new GloveWithIndicationType {Code = "ANNET", Name = "Annet"},
+                    new GloveWithIndicationType {Code = "SMITTE", Name = "Smitte"},
+                    new GloveWithIndicationType {Code = "KROPPVAESKER", Name = "Kroppvæsker"},
                 };
 
-            _context.HanskeMedIndikasjonType.AddRange(hanskerMedIndikasjonTyper);
+            _context.GloveWithIndicationType.AddRange(hanskerMedIndikasjonTyper);
             _context.SaveChanges();
         }
 
         private void SeedBrukere()
         {
-            _context.Observator.Add(new Observator()
+            _context.Observer.Add(new Observer()
             {
-                Etternavn = SeedObservatorEtternavn,
-                Fornavn = SeedObservatorFornavn,
-                HPRNummer = SeedObservatorHprNummer,
-                Institusjon = _context.Institusjon.FirstOrDefault()
+                LastName = SeedObservatorEtternavn,
+                FirstName = SeedObservatorFornavn,
+                HPRNumber = SeedObservatorHprNummer,
+                Institution = _context.Institution.FirstOrDefault()
             });
 
-            _context.Observator.Add(new Observator()
+            _context.Observer.Add(new Observer()
             {
-                Etternavn = SeedObservatorEtternavn,
-                Fornavn = SeedObservatorFornavn,
-                HPRNummer = SeedObservatorHprNummer,
-                Institusjon = _context.Institusjon.FirstOrDefault(i => i.HERId == "93917")
+                LastName = SeedObservatorEtternavn,
+                FirstName = SeedObservatorFornavn,
+                HPRNumber = SeedObservatorHprNummer,
+                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
-            _context.Koordinator.Add(new Koordinator()
+            _context.Coordinator.Add(new Coordinator()
             {
-                Etternavn = SeedKoordinatorEtternavn,
-                Fornavn = SeedKoordinatorFornavn,
-                HPRNummer = SeedKoordinatorHprNummer,
-                Institusjon = _context.Institusjon.FirstOrDefault()
+                LastName = SeedKoordinatorEtternavn,
+                FirstName = SeedKoordinatorFornavn,
+                HPRNumber = SeedKoordinatorHprNummer,
+                Institution = _context.Institution.FirstOrDefault()
             });
 
-            _context.Koordinator.Add(new Koordinator()
+            _context.Coordinator.Add(new Coordinator()
             {
-                Etternavn = SeedKoordinatorEtternavn,
-                Fornavn = SeedKoordinatorFornavn,
-                HPRNummer = SeedKoordinatorHprNummer,
-                Institusjon = _context.Institusjon.FirstOrDefault(i => i.HERId == "93917")
+                LastName = SeedKoordinatorEtternavn,
+                FirstName = SeedKoordinatorFornavn,
+                HPRNumber = SeedKoordinatorHprNummer,
+                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
             _context.FhiAdmin.Add(new FhiAdmin()
             {
-                Fornavn = SeedFhiAdminFornavn,
-                Etternavn = SeedFhiAdminEtternavn,
-                IdentPseudonym = SeedFhiAdminIdentPseudonym
+                FirstName = SeedFhiAdminFornavn,
+                LastName = SeedFhiAdminEtternavn,
+                IdentityPseudonym = SeedFhiAdminIdentPseudonym
             });
 
             _context.SaveChanges();
@@ -182,385 +182,385 @@ namespace HyFive.Tjenester.Tests
 
         private void SeedIndikasjoner()
         {
-            var indikasjoner = new IndikasjonType[]
+            var indikasjoner = new IndicationTypes[]
             {
-                    new IndikasjonType {Kode = "FOER_PASIENT", Navn = "Før pasient", Nummer = "1"},
-                    new IndikasjonType {Kode = "ASEPTISKE_PROSEDYRER", Navn = "Aseptisk", Nummer = "2"},
-                    new IndikasjonType {Kode = "KROPPSVESKE", Navn = "Kroppsvæske", Nummer = "3"},
-                    new IndikasjonType {Kode = "ETTER_PASIENT", Navn = "Etter pasient", Nummer = "4"}
+                    new IndicationTypes {Code = "FOER_PASIENT", Name = "Før pasient", Number = "1"},
+                    new IndicationTypes {Code = "ASEPTISKE_PROSEDYRER", Name = "Aseptisk", Number = "2"},
+                    new IndicationTypes {Code = "KROPPSVESKE", Name = "Kroppsvæske", Number = "3"},
+                    new IndicationTypes {Code = "ETTER_PASIENT", Name = "Etter pasient", Number = "4"}
             };
-            _context.Indikasjon.AddRange(indikasjoner);
+            _context.IndicationTypes.AddRange(indikasjoner);
             _context.SaveChanges();
         }
 
         private void SeedAktivitetTyper()
         {
-            var aktivitettyper = new AktivitetType[]
+            var aktivitettyper = new ActivityType[]
             {
-                    new AktivitetType {Kode = "DESINFEKSJON", Navn = "Desinfeksjon"},
-                    new AktivitetType {Kode = "HANDVASK", Navn = "Håndvask"},
-                    new AktivitetType {Kode = "IKKE_UTFORT", Navn = "Ikke utført"},
-                    new AktivitetType {Kode = "IKKE_REGISTRERT", Navn = "Ikke registrert"}
+                    new ActivityType {Code = "DESINFEKSJON", Name = "Desinfeksjon"},
+                    new ActivityType {Code = "HANDVASK", Name = "Håndvask"},
+                    new ActivityType {Code = "IKKE_UTFORT", Name = "Ikke utført"},
+                    new ActivityType {Code = "IKKE_REGISTRERT", Name = "Ikke registrert"}
             };
-            _context.AktivitetType.AddRange(aktivitettyper);
+            _context.ActivityType.AddRange(aktivitettyper);
             _context.SaveChanges();
         }
 
         private void SeedHandsmykkeTyper()
         {
-            var handsmykketyper = new HandsmykkeType[]
+            var handsmykketyper = new HandJewelryType[]
             {
-                    new HandsmykkeType {Kode = "ALT_OK", Navn = "Alt er ok", Rekkefolge = 99, ErAktiv = true},
-                    new HandsmykkeType {Kode = "RING", Navn = "Ring", Rekkefolge = 4 , ErAktiv = true},
-                    new HandsmykkeType {Kode = "KLOKKE_ARMBAND", Navn = "Klokke Armbånd", Rekkefolge = 3, ErAktiv = true},
-                    new HandsmykkeType {Kode = "LANG_NEGL", Navn = "Lang negl", Rekkefolge = 2, ErAktiv = true},
-                    new HandsmykkeType {Kode = "KUNSTIG_NEGL_SHELLAC", Navn = "Kunstig negl Shellack", Rekkefolge = 1, ErAktiv = true},
-                    new HandsmykkeType {Kode = "KORTERMET", Navn = "Kortermet", Rekkefolge = 5, ErAktiv = false},
-                    new HandsmykkeType {Kode = "LANGERMET", Navn = "Langermet", Rekkefolge = 5, ErAktiv = true}
+                    new HandJewelryType {Code = "ALT_OK", Name = "Alt er ok", Order = 99, IsActive = true},
+                    new HandJewelryType {Code = "RING", Name = "Ring", Order = 4 , IsActive = true},
+                    new HandJewelryType {Code = "KLOKKE_ARMBAND", Name = "Klokke Armbånd", Order = 3, IsActive = true},
+                    new HandJewelryType {Code = "LANG_NEGL", Name = "Lang negl", Order = 2, IsActive = true},
+                    new HandJewelryType {Code = "KUNSTIG_NEGL_SHELLAC", Name = "Kunstig negl Shellack", Order = 1, IsActive = true},
+                    new HandJewelryType {Code = "KORTERMET", Name = "Kortermet", Order = 5, IsActive = false},
+                    new HandJewelryType {Code = "LANGERMET", Name = "Langermet", Order = 5, IsActive = true}
             };
 
-            _context.HandsmykkeType.AddRange(handsmykketyper);
+            _context.HandJewelryType.AddRange(handsmykketyper);
             _context.SaveChanges();
         }
 
         private void SeedInstitusjonTyper()
         {
-            var institusjontyper = new InstitusjonType[]
+            var institusjontyper = new InstitutionType[]
             {
-                    new InstitusjonType {Kode = "SYKEHUS", Navn = "Sykehus"},
-                    new InstitusjonType {Kode = "SYKEHJEM", Navn = "Sykehjem"}
+                    new InstitutionType {Code = "SYKEHUS", Name = "Sykehus"},
+                    new InstitutionType {Code = "SYKEHJEM", Name = "Sykehjem"}
             };
-            _context.InstitusjonType.AddRange(institusjontyper);
+            _context.InstitutionType.AddRange(institusjontyper);
             _context.SaveChanges();
         }
 
 
         private void SeedAvdelingTyper()
         {
-            var avdelingstyper = new AvdelingType[]
+            var avdelingstyper = new DepartmentType[]
             {
-                    new AvdelingType {Kode ="KIRURGI", Navn = "Kirurgi"},
-                    new AvdelingType {Kode ="INDREMEDISIN", Navn = "Indremedisin"},
-                    new AvdelingType {Kode ="FODSELSHJELP_OG_KVINNESYKDOMMER", Navn = "Fødselshjelp og kvinnesykdommer"},
-                    new AvdelingType {Kode ="HUD_OG_VENERISKE_SYKDOMMER", Navn = "Hud- og veneriske sykdommer"},
-                    new AvdelingType {Kode ="BARNESYKDOMMER", Navn = "Barnesykdommer"},
-                    new AvdelingType {Kode ="NEVROLOGI", Navn = "Nevrologi"},
-                    new AvdelingType {Kode ="ORE_NESE_HALS", Navn = "Øre-nese-hals"},
-                    new AvdelingType {Kode ="OYESYKDOMMER", Navn = "Øyesykdommer"},
-                    new AvdelingType {Kode ="ONKOLOGI", Navn = "Onkologi"},
-                    new AvdelingType {Kode ="REVMATOLOGI", Navn = "Revmatologi"},
-                    new AvdelingType {Kode ="FYSIKALSK_MEDISIN_REHABILITERING", Navn = "Fysikalsk medisin/rehabilitering"},
-                    new AvdelingType {Kode ="OBSERVASJONSENHET_AKUTTMOTTAK", Navn = "Observasjonsenhet / akuttmottak"},
-                    new AvdelingType {Kode ="KIRURGISK_INTENSIV_OVERVAKNING", Navn = "Kirurgisk intensiv/overvåking"},
-                    new AvdelingType {Kode ="MEDISINSK_INTENSIV_OVERVAKNING", Navn = "Medisinsk intensiv/overvåking"},
-                    new AvdelingType {Kode ="INTERMEDIARENHET", Navn = "Intermediærenhet"},
-                    new AvdelingType {Kode ="SKJERMET_ENHET", Navn = "Skjermet enhet (demens)"},
-                    new AvdelingType {Kode ="REHABILITERINGSENHET", Navn = "Rehabiliteringsenhet"},
-                    new AvdelingType {Kode ="KORTTIDSAVDELING", Navn = "Korttidsavdeling"},
-                    new AvdelingType {Kode ="LANGTIDSAVDELING", Navn = "Langtidsavdeling"},
-                    new AvdelingType {Kode ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Navn = "	Kombinert kort- og langtidsavdeling"}
+                    new DepartmentType {Code ="KIRURGI", Name = "Kirurgi"},
+                    new DepartmentType {Code ="INDREMEDISIN", Name = "Indremedisin"},
+                    new DepartmentType {Code ="FODSELSHJELP_OG_KVINNESYKDOMMER", Name = "Fødselshjelp og kvinnesykdommer"},
+                    new DepartmentType {Code ="HUD_OG_VENERISKE_SYKDOMMER", Name = "Hud- og veneriske sykdommer"},
+                    new DepartmentType {Code ="BARNESYKDOMMER", Name = "Barnesykdommer"},
+                    new DepartmentType {Code ="NEVROLOGI", Name = "Nevrologi"},
+                    new DepartmentType {Code ="ORE_NESE_HALS", Name = "Øre-nese-hals"},
+                    new DepartmentType {Code ="OYESYKDOMMER", Name = "Øyesykdommer"},
+                    new DepartmentType {Code ="ONKOLOGI", Name = "Onkologi"},
+                    new DepartmentType {Code ="REVMATOLOGI", Name = "Revmatologi"},
+                    new DepartmentType {Code ="FYSIKALSK_MEDISIN_REHABILITERING", Name = "Fysikalsk medisin/rehabilitering"},
+                    new DepartmentType {Code ="OBSERVASJONSENHET_AKUTTMOTTAK", Name = "Observasjonsenhet / akuttmottak"},
+                    new DepartmentType {Code ="KIRURGISK_INTENSIV_OVERVAKNING", Name = "Kirurgisk intensiv/overvåking"},
+                    new DepartmentType {Code ="MEDISINSK_INTENSIV_OVERVAKNING", Name = "Medisinsk intensiv/overvåking"},
+                    new DepartmentType {Code ="INTERMEDIARENHET", Name = "Intermediærenhet"},
+                    new DepartmentType {Code ="SKJERMET_ENHET", Name = "Skjermet enhet (demens)"},
+                    new DepartmentType {Code ="REHABILITERINGSENHET", Name = "Rehabiliteringsenhet"},
+                    new DepartmentType {Code ="KORTTIDSAVDELING", Name = "Korttidsavdeling"},
+                    new DepartmentType {Code ="LANGTIDSAVDELING", Name = "Langtidsavdeling"},
+                    new DepartmentType {Code ="KOMBINERT_KORT_OG_LANGTIDSAVDELING", Name = "	Kombinert kort- og langtidsavdeling"}
             };
-            _context.AvdelingType.AddRange(avdelingstyper);
+            _context.DepartmentType.AddRange(avdelingstyper);
             _context.SaveChanges();
         }
 
         private void SeedInstitusjoner()
         {
-            var roller = new List<Domene.Observasjon.Rolle>()
+            var roller = new List<Domain.Observation.Role>()
                 {
-                    new Domene.Observasjon.Rolle("Sykepleier"),
-                    new Domene.Observasjon.Rolle("Lege"),
-                    new Domene.Observasjon.Rolle("Pleiepersonell"),
-                    new Domene.Observasjon.Rolle("Jordmor"),
-                    new Domene.Observasjon.Rolle("Fysioterapeut"),
-                    new Domene.Observasjon.Rolle("Bioingeniør"),
-                    new Domene.Observasjon.Rolle("Annet")
+                    new Domain.Observation.Role("Sykepleier"),
+                    new Domain.Observation.Role("Lege"),
+                    new Domain.Observation.Role("Pleiepersonell"),
+                    new Domain.Observation.Role("Jordmor"),
+                    new Domain.Observation.Role("Fysioterapeut"),
+                    new Domain.Observation.Role("Bioingeniør"),
+                    new Domain.Observation.Role("Annet")
                 };
-            _context.Rolle.AddRange(roller);
+            _context.Role.AddRange(roller);
 
-            var institusjontyper = _context.InstitusjonType;
-            var avdelingtyper = _context.AvdelingType;
+            var institusjontyper = _context.InstitutionType;
+            var avdelingtyper = _context.DepartmentType;
 
             var institusjoner = new[]
             {
-                    new Domene.Sted.Institusjon()
+                    new Domain.Place.Institution()
                     {
                         Region = _context.Region.First(),
                         HERId = "87711",
-                        Navn = "Oslo universitetssykehus HF",
-                        Forkortelse = "OUS",
-                        Institusjontype = institusjontyper.First(),
-                        Avdelinger = new List<Domene.Sted.Avdeling>()
+                        Name = "Oslo universitetssykehus HF",
+                        Abbreviation = "OUS",
+                        InstitutionType = institusjontyper.First(),
+                        Departments = new List<Domain.Place.Department>()
                         {
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Nevrokirurgisk",
-                                Roller = new List<Domene.Observasjon.Rolle>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Nevrokirurgisk",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Allergi og lungeseksjonen",
-                                Roller = new List<Domene.Observasjon.Rolle>()
+                                Name = "Allergi og lungeseksjonen",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[0],
                                     roller[1],
                                     roller[2],
                                     roller[3],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(1).First()
+                                DepartmentType = avdelingtyper.Skip(1).First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Avdeling for mikrobiologi",
-                                Roller = new List<Domene.Observasjon.Rolle>()
+                                Name = "Department for mikrobiologi",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[5],
                                     roller[6],
                                     roller[1],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(2).First()
+                                DepartmentType = avdelingtyper.Skip(2).First()
                             }
                         },
-                        PredefinerteKommmentarer = new List<PredefinertKommentar>()
+                        PredefinedComment = new List<PredefinedComment>()
                         {
-                            new PredefinertKommentar { Kommentar = "Hansker i stedet for håndhygiene", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Hansker ikke byttet", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Dårlig teknikk hånddesinfeksjon", SesjonType = SesjonType.Beskyttelsesutstyr }
+                            new PredefinedComment { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     },
-                    new Domene.Sted.Institusjon()
+                    new Domain.Place.Institution()
                     {
                         HERId = "93917",
                         Region = _context.Region.First(),
-                        Navn = "Lillehammer sykehus",
-                        Forkortelse = "LS",
-                        Institusjontype = institusjontyper.First(),
-                        Avdelinger = new List<Domene.Sted.Avdeling>()
+                        Name = "Lillehammer sykehus",
+                        Abbreviation = "LS",
+                        InstitutionType = institusjontyper.First(),
+                        Departments = new List<Domain.Place.Department>()
                         {
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Akutt",
-                                Roller = new List<Domene.Observasjon.Rolle>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Akutt",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Medisin",
-                                Roller = new List<Domene.Observasjon.Rolle>(roller),
-                                Avdelingtype = avdelingtyper.First()
+                                Name = "Medisin",
+                                Roles = new List<Domain.Observation.Role>(roller),
+                                DepartmentType = avdelingtyper.First()
                             },
-                            new Domene.Sted.Avdeling
+                            new Domain.Place.Department
                             {
-                                Navn = "Kirurgisk",
-                                Roller = new List<Domene.Observasjon.Rolle>()
+                                Name = "Kirurgisk",
+                                Roles = new List<Domain.Observation.Role>()
                                 {
                                     roller[0],
                                     roller[1],
                                     roller[2],
                                     roller[3],
                                 },
-                                Avdelingtype = avdelingtyper.Skip(1).First()
+                                DepartmentType = avdelingtyper.Skip(1).First()
                             }
                         },
-                        PredefinerteKommmentarer = new List<PredefinertKommentar>()
+                        PredefinedComment = new List<PredefinedComment>()
                         {
-                            new PredefinertKommentar { Kommentar = "Hansker i stedet for håndhygiene", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Hansker ikke byttet", SesjonType = SesjonType.Beskyttelsesutstyr },
-                            new PredefinertKommentar { Kommentar = "Dårlig teknikk hånddesinfeksjon", SesjonType = SesjonType.Beskyttelsesutstyr }
+                            new PredefinedComment { Comment = "Hansker i stedet for håndhygiene", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Hansker ikke byttet", SessionType = SessionType.ProtectiveEquipment },
+                            new PredefinedComment { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     }
                 };
-            _context.Institusjon.AddRange(institusjoner);
+            _context.Institution.AddRange(institusjoner);
             _context.SaveChanges();
         }
 
 
         private void SeedBeskyttelsesutstyrTyper()
         {
-            if (_context.BeskyttelsesutstyrType.Any() == false)
+            if (_context.ProtectiveEquipmentType.Any() == false)
             {
                 var beskyttelsesutstyrtyper = LagBeskyttelsesutstyrTyper();
-                _context.BeskyttelsesutstyrType.AddRange(beskyttelsesutstyrtyper);
+                _context.ProtectiveEquipmentType.AddRange(beskyttelsesutstyrtyper);
                 _context.SaveChanges();
             }
         }
 
         private void SeedBeskyttelsesutstyrsettingTyper()
         {
-            if (_context.BeskyttelsesutstyrsettingType.Any() == false)
+            if (_context.ProtectiveEquipmentSettingType.Any() == false)
             {
-                var beskyttelsesutstyrtyper = _context.BeskyttelsesutstyrType.ToList();
+                var beskyttelsesutstyrtyper = _context.ProtectiveEquipmentType.ToList();
                 var settingtyper = LagSeedForBeskyttelsesutstyrsettingTyper(beskyttelsesutstyrtyper);
-                _context.BeskyttelsesutstyrsettingType.AddRange(settingtyper);
+                _context.ProtectiveEquipmentSettingType.AddRange(settingtyper);
                 _context.SaveChanges();
             }
         }
 
-        private List<BeskyttelsesutstyrType> LagBeskyttelsesutstyrTyper()
+        private List<ProtectiveEquipmentType> LagBeskyttelsesutstyrTyper()
         {
-            return new List<BeskyttelsesutstyrType>
+            return new List<ProtectiveEquipmentType>
                 {
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Hette,
-                        Navn = "Hette",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.Hood,
+                        Name = "Hette",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
-                        Navn = "Øyebeskyttelse",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.EyeProtection,
+                        Name = "Øyebeskyttelse",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Andedrettsvern,
-                        Navn = "Åndedrettsvern",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.RespiratoryProtection,
+                        Name = "Åndedrettsvern",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke tilpasset/utført fit-sjekk"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Ikke tilpasset/utført fit-sjekk"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Munnbind,
-                        Navn = "Munnbind",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.FaceMask,
+                        Name = "Munnbind",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Løst festet rundt nese/munn"},
-                            new FeilbrukType {Navn = "Ikke festet over nese"},
-                            new FeilbrukType {Navn = "Ikke trukket under hake"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Løst festet rundt nese/munn"},
+                            new MisuseType {Name = "Ikke festet over nese"},
+                            new MisuseType {Name = "Ikke trukket under hake"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
-                        Navn = "Smittefrakk",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.InfectionGown,
+                        Name = "Smittefrakk",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     }
                     ,
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Stellefrakk,
-                        Navn = "Stellefrakk",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.CareGown,
+                        Name = "Stellefrakk",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Plastforkle,
-                        Navn = "Plastforkle",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.PlasticApron,
+                        Name = "Plastforkle",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil bruk ved påtagelse"},
-                            new FeilbrukType {Navn = "Ikke lukket skikkelig"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"}
+                            new MisuseType {Name = "Feil bruk ved påtagelse"},
+                            new MisuseType {Name = "Ikke lukket skikkelig"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"}
                         }
                     },
-                    new BeskyttelsesutstyrType
+                    new ProtectiveEquipmentType
                     {
-                        Kode = BeskyttelsesutstyrTypeKonstanter.Hansker,
-                        Navn = "Hansker",
-                        Feilbruktyper = new List<FeilbrukType>
+                        Code = ProtectiveEquipmentTypeConstants.Gloves,
+                        Name = "Hansker",
+                        MisuseTypes = new List<MisuseType>
                         {
-                            new FeilbrukType {Navn = "Feil teknikk ved påtagelse"},
-                            new FeilbrukType {Navn = "Feil teknikk ved avtagelse"},
-                            new FeilbrukType {Navn = "Ikke festet over mansjett"}
+                            new MisuseType {Name = "Feil teknikk ved påtagelse"},
+                            new MisuseType {Name = "Feil teknikk ved avtagelse"},
+                            new MisuseType {Name = "Ikke festet over mansjett"}
                         }
                     }
                 };
         }
 
-        public List<BeskyttelsesutstyrsettingType> LagSeedForBeskyttelsesutstyrsettingTyper(List<BeskyttelsesutstyrType> typer)
+        public List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType> LagSeedForBeskyttelsesutstyrsettingTyper(List<ProtectiveEquipmentType> typer)
         {
-            var settingtyper = new List<BeskyttelsesutstyrsettingType>
+            var settingtyper = new List<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType>
                 {
-                    new BeskyttelsesutstyrsettingType
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte,
-                        Navn = "Luftsmitte",
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.AirborneTransmission,
+                        Name = "Luftsmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte,
-                        Navn = "Dråpesmitte",
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.DropletTransmission,
+                        Name = "Dråpesmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte,
-                        Navn = "Kontaktsmitte",
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.ContactTransmission,
+                        Name = "Kontaktsmitte",
                     },
-                    new BeskyttelsesutstyrsettingType
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Kode = BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner,
-                        Navn = "Basale smittevernrutiner",
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines,
+                        Name = "Basale smittevernrutiner",
                     }
                 };
 
             foreach (var settingtype in settingtyper)
             {
-                if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Luftsmitte)
+                if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.AirborneTransmission)
                 {
-                    settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                            BeskyttelsesutstyrTypeKonstanter.Andedrettsvern,
-                            BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse,
-                            BeskyttelsesutstyrTypeKonstanter.Hansker,
-                            BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
+                    settingtype.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                            ProtectiveEquipmentTypeConstants.RespiratoryProtection,
+                            ProtectiveEquipmentTypeConstants.EyeProtection,
+                            ProtectiveEquipmentTypeConstants.Gloves,
+                            ProtectiveEquipmentTypeConstants.InfectionGown);
                 }
-                else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Drapesmitte)
+                else if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.DropletTransmission)
                 {
-                    settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                            BeskyttelsesutstyrTypeKonstanter.Hansker,
-                            BeskyttelsesutstyrTypeKonstanter.Smittefrakk,
-                            BeskyttelsesutstyrTypeKonstanter.Munnbind,
-                            BeskyttelsesutstyrTypeKonstanter.Oyebeskyttelse);
+                    settingtype.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                            ProtectiveEquipmentTypeConstants.Gloves,
+                            ProtectiveEquipmentTypeConstants.InfectionGown,
+                            ProtectiveEquipmentTypeConstants.FaceMask,
+                            ProtectiveEquipmentTypeConstants.EyeProtection);
                 }
-                else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.Kontaktsmitte)
+                else if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.ContactTransmission)
                 {
-                    settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
-                            BeskyttelsesutstyrTypeKonstanter.Hansker,
-                            BeskyttelsesutstyrTypeKonstanter.Smittefrakk);
+                    settingtype.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer,
+                            ProtectiveEquipmentTypeConstants.Gloves,
+                            ProtectiveEquipmentTypeConstants.InfectionGown);
                 }
-                else if (settingtype.Kode == BeskyttelsesutstyrsettingTypeKonstanter.BasaleSmittevernrutiner)
+                else if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines)
                 {
-                    settingtype.BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
+                    settingtype.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
                 }
             }
 
             return settingtyper;
         }
 
-        private List<BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType> HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(BeskyttelsesutstyrsettingType settingType,
-                List<BeskyttelsesutstyrType> utstyrstyper, params string[] defaultKoder)
+        private List<ProtectiveEquipmentSettingTypeProtectiveEquipmentType> HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType settingType,
+                List<ProtectiveEquipmentType> utstyrstyper, params string[] defaultKoder)
         {
             var settingutstyrkoblinger = utstyrstyper.Select(u =>
-                new BeskyttelsesutstyrsettingTypeBeskyttelsesutstyrType()
+                new ProtectiveEquipmentSettingTypeProtectiveEquipmentType()
                 {
-                    BeskyttelsesutstyrType = u,
-                    ErDefaultIndikert = defaultKoder.Contains(u.Kode),
-                    BeskyttelsesutstyrsettingType = settingType
+                    ProtectiveEquipmentType = u,
+                    IsDefault = defaultKoder.Contains(u.Code),
+                    ProtectiveEquipmentSettingType = settingType
                 }).ToList();
             return settingutstyrkoblinger;
         }

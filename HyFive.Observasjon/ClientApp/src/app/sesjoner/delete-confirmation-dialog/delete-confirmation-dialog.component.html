@@ -1,0 +1,25 @@
+<button [ngClass]="isBlackColor ? 'btn fhi-btn-secondary' : 'btn fhi-btn-icon'" (click)="showDeleteModal(modal)">
+  <ng-content></ng-content>
+</button>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close')">
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          {{ dialogMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn fhi-btn-secondary me-3" (click)="modal.dismiss('No')">No</button>
+      <button type="button" class="btn fhi-btn-primary" (click)="modal.close('Yes'); delete()">Yes</button>
+    </div>
+  </div>
+</ng-template>

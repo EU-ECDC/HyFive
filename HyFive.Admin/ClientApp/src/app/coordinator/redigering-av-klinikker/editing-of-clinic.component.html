@@ -1,0 +1,51 @@
+<div class="container">
+  <ng-container *ngIf="!clinicAsEdited">
+    <div class="row">
+      <h3>Maintenance of clinics</h3>
+    </div>
+    <app-create-clinic (clinicCreatedEvent)="getClinics()" [institutionId]="institutionId" *ngIf="institutionId > 0 && clinicId == 0"></app-create-clinic>
+    <div class="row mb-5 mt-5">
+      <ng-container>
+        <div class="table-responsive">
+          <table class="table" sortable-table (sorted)="sort($event)">
+            <thead>
+              <tr>
+                <td sortable-column="Name"></td>
+                <td scope="col">Departments</td>
+                <td class="text-end" scope="col">Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let clinic of clinics">
+                <td>{{clinic.name}}</td>
+                <td>{{getDepartmentName(clinic)}}</td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="navigateToClinic(clinic.id)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit clinic</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      
+    </div>
+  </ng-container>
+  <ng-container *ngIf="clinicAsEdited">
+    <app-edit-a-clinic [clinic]="clinicAsEdited"></app-edit-a-clinic>
+  </ng-container>
+  <div class="row" *ngIf="!loading && clinics?.length == 0">
+    <div class="col-12">
+      <p>There are no clinics registered at this institution.</p>
+    </div>
+  </div>
+  <div class="row" *ngIf="loading">
+    <app-spinner class="col-12">Loading clinics</app-spinner>
+  </div>
+</div>
+
+
+
+
+

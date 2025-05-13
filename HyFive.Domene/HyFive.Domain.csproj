@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Observation\Views\**" />
+    <EmbeddedResource Remove="Observation\Views\**" />
+    <None Remove="Observation\Views\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+<div class="container hh-observasjoner-under-arbeid mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex align-items-center">
+        <div class="hh-observasjoner-under-arbeid__overskrift">
+          <h1 class="h3">
+            {{header}}
+          </h1>
+          <p>
+             <i class="icon-clipboard2 icon-lg me-1"></i>
+            <span *ngIf="sessionIsSentToServer === false">(During work)</span>
+          </p>
+          
+          <div *ngIf="session" class="hh-observasjoner-under-arbeid__tidspunkt row d-flex">
+            <div class="col-auto"><i class="icon-clock icon-sm me-1"></i> {{ session.startTime | date:'HH:mm' }} </div>
+            <div class="col"><i class="icon-calendar icon-sm me-1"></i> {{ session.startTime | date:'dd.MM.yyyy' }} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

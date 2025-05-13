@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Api.Common\HyFive.Api.Common.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester.Rapporter\HyFive.Tjenester.Rapporter.csproj" />
+    <ProjectReference Include="..\HyFive.Tjenester.Rapporter\HyFive.Services.Reports.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="HyFive.Admin.xml">

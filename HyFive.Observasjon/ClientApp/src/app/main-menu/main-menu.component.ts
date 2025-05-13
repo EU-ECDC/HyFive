@@ -2,17 +2,17 @@ import { Component, HostListener, Input } from "@angular/core";
 import { faBars, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { MainMenuItem } from "./main-menu-item.model";
-import { Urls } from "../konstanter/urls";
+import { Urls } from "../constants/urls";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { MainMenuEventService } from "../services/events/main-menu-event.service";
-import { MenuParameters } from "../konstanter/menu-parameters";
+import { MenuParameters } from "../constants/menu-parameters";
 
 @Component({
   selector: "app-main-menu",
   templateUrl: "./main-menu.component.html",
 })
 export class MainMenuComponent {
-  @Input() prosjektnavn: string;
+  @Input() projectName: string;
 
   faBars = faBars;
   faTimes = faTimes;
@@ -25,7 +25,7 @@ export class MainMenuComponent {
 
   constructor(private mainMenuEventService: MainMenuEventService)
   {
-    this.lagMenyValg();
+    this.loadMenuOptions();
   }
 
   mainMenuClose(): void {
@@ -48,29 +48,29 @@ export class MainMenuComponent {
     return this.isMobileMenu() == false;
   }
 
-  private lagMenyValg(): void {
+  private loadMenuOptions(): void {
     this.mainMenuItems = [
       {
-        name: "Start observasjon",
-        routerLink: `/${Urls.StartsideForObservasjonUrl}`,
+        name: "Start observation",
+        routerLink: `/${Urls.HomePageForObservationUrl}`,
         exactRouteMatch: true,
         icon: faHospital
       },
       {
-        name: "Ikke sendte sesjoner",
-        routerLink: `/${Urls.IkkeSendteSesjonerUrl}`,
+        name: "Not send sessions",
+        routerLink: `/${Urls.NotSentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faClipboard
       },
       {
-        name: "Sendte sesjoner",
-        routerLink: `/${Urls.SendteSesjonerUrl}`,
+        name: "Send sessions",
+        routerLink: `/${Urls.SentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faInbox
       },
       {
-        name: "Profil",
-        routerLink: `/${Urls.ProfilUrl}`,
+        name: "Profile",
+        routerLink: `/${Urls.ProfileUrl}`,
         exactRouteMatch: true,
         icon: faUser
       },

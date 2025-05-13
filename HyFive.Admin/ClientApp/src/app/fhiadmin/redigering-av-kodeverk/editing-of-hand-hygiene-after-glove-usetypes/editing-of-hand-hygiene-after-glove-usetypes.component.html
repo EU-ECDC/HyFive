@@ -1,0 +1,52 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <h5>Hand hygiene after glove use Types</h5>
+    </div>
+  </div>
+
+  <div class="col-12 m-3">
+    <ng-container>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th class="text-end" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let handHygieneAfterGloveUseType of handHygieneAfterGloveUseTypes">
+              <ng-container *ngIf="handHygieneAfterGloveUseTypeWhichChanges?.id !== handHygieneAfterGloveUseType.id">
+                <td>{{handHygieneAfterGloveUseType.code}}</td>
+                <td>{{handHygieneAfterGloveUseType.name}}</td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="selectedHandHygieneAfterGloveUseType(handHygieneAfterGloveUseType)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="handHygieneAfterGloveUseTypeWhichChanges?.id === handHygieneAfterGloveUseType.id">
+                <td>{{handHygieneAfterGloveUseTypeWhichChanges.code}}</td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="handHygieneAfterGloveUseTypeWhichChanges.name">
+                </td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="updateHandHygieneAfterGloveUseType(handHygieneAfterGloveUseTypeWhichChanges)">
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                  </button>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                  </button>
+                </td>
+              </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="row">
+  <app-spinner class="col-12" *ngIf="handHygieneAfterGloveUseTypes?.length == 0">Loading glove indication types</app-spinner>
+</div>

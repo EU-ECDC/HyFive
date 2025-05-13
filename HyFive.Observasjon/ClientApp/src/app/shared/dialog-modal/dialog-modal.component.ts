@@ -11,7 +11,7 @@ export const DialogModalComponentConfig = {
 })
 export class DialogModalComponent implements OnInit {
 
-  @Input() melding: string;
+  @Input() message: string;
 
   constructor(private activeModal: NgbActiveModal) {
   }

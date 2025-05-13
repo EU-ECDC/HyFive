@@ -1,0 +1,102 @@
+<div class="hh-card-slider">
+
+  <app-save-shadow [show]="showSaveShadow"></app-save-shadow>
+
+  <div [id]="card.id"
+       class="hh-card-slider__card"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
+       [style.transform]="transform"
+       [@swipeLeftRight]="animation"
+       (panmove)="onPanMove($event)"
+       (panend)="onPanEnd($event)"
+       (click)="cardIsSelected()"
+       [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
+
+    <div class="row">
+      <div class="col-12">
+        <app-role-selection-dropdown *ngIf="roleSelected" [roleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
+      </div>
+    </div>
+    <div class="hh-horizontal-separator"></div>
+    <div class="row"
+         cdkDropList (cdkDropListDropped)="handleSelectDragDrop($event, true)"
+         #listIndikert="cdkDropList"
+         [cdkDropListConnectedTo]="[listIkkeIndikert]">
+      <div class="col-12">
+        <h2 class="h5 mb-3">Required</h2>
+        <div class="row text-break">
+          <div class="col-4 col-md-3 text-center mb-3 px-1"
+               *ngFor="let select of protectiveEquipmentRequired(); let i = index;"
+               cdkDrag [cdkDragData]="select"
+               (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
+            <label [htmlFor]="'required'+card.id.substr(4)+ProtectiveEquipmentSelection.indexOf(select)">
+              <input type="checkbox"
+                     [(ngModel)]="select.wasUsed"
+                     (change)="changed($event, select)"
+                     [id]="'required'+card.id.substr(4)+ProtectiveEquipmentSelection.indexOf(select)"
+                     class="hh-round-checkbox-list__input">
+              <fa-stack class="hh-round-checkbox-list__iconstack">
+                <fa-icon [icon]="faCircle"
+                         stackItemSize="2x"
+                         class="hh-round-checkbox-list__circle"
+                         [ngClass]="{'hh-round-checkbox-list__circle--chosen': select.wasUsed, 'hh-round-checkbox-list__circle--active': card.isActive}">
+                </fa-icon>
+                <fa-icon [icon]="iconTypeMap.get(select.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!select.wasUsed"></fa-icon>
+                <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': select.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="select.wasUsed"></fa-icon>
+              </fa-stack>
+              <br />
+              <span style="font-size: 17px;"><strong>{{ select.equipmentType.name }}</strong></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto mx-auto">
+        <div class="fhi-form-check-tile">
+          <button class="btn fhi-btn-icon btn-lg mt-3" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>All equipment correctly used</strong></button>
+        </div>
+      </div>
+    </div>
+    <div class="hh-card-slider__stripe"
+         cdkDropList (cdkDropListDropped)="handleSelectDragDrop($event, false)"
+         #listIkkeIndikert="cdkDropList"
+         [cdkDropListConnectedTo]="[listIndikert]" >
+      <h2 class="h5 mb-3">Not required</h2>
+      <div class="custom-control custom-checkbox hh-stadium-checkbox"
+           [ngClass]="{'hh-stadium-checkbox--checked':select.wasUsed}"
+           *ngFor="let select of protectiveEquipmentNotRequired(); let i = index;"
+           cdkDrag [cdkDragData]="select"
+           (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">
+
+        <div class="btn-group btn-group-toggle">
+          <label ngbButtonLabel>
+            <input type="checkbox" class="visually-hidden" ngbButton [(ngModel)]="select.wasUsed" (change)="changed($event, select)">
+            <fa-icon class="me-2" *ngIf="select.wasUsed" [styles]="{ 'color': select.wasUsedCorrectly ? 'green' : 'red' }" [icon]="faCheck"></fa-icon>
+            <span style="font-size: 17px;"><strong>{{ select.equipmentType.name }}</strong></span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class=" d-flex flex-row mt-2 justify-content-around">
+          <app-register-comment [commentInput]="comment"
+                                   [institutionid]="institutionid"
+                                   [sessiontype]="protectiveEquipmentSessionType"
+                                   (commentRegisteredEvent)="registerComment($event)">
+          </app-register-comment>
+          <button type="button" class="hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
+            <span class="d-flex align-items-center"><fa-icon class="me-1" [icon]="faEraser"></fa-icon>Empty card</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <app-delete-shadow [show]="showDeleteShadow"></app-delete-shadow>
+
+  <app-info-modal [modalText]="observationMissingText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
+
+</div>

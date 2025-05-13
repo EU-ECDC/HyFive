@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UrlPaths } from './_felles/konstanter/url-paths';
-import { ForsideForAdministrasjonComponent } from './forside-for-administrasjon/forside-for-administrasjon.component';
-import { RedigeringAvInstitusjonerComponent } from './fhiadmin/redigering-av-institusjoner/redigering-av-institusjoner.component';
-import { RedigeringAvKodeverkComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-kodeverk.component';
-import { OversiktObservasjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-observasjoner.component';
-import { RedigeringAvAvdelingerComponent } from './_felles/redigering-av-avdelinger/redigering-av-avdelinger.component';
-import { OversiktAvdelingSesjonerComponent } from './fhiadmin/oversikt-observasjoner/oversikt-avdeling-sesjoner/oversikt-avdeling-sesjoner.component';
-import { RedigeringAvObservatorerComponent } from "./koordinator/redigering-av-observatorer/redigering-av-observatorer.component";
-import { ProfilsideComponent } from "./profilside/profilside.component";
-import { OverforSesjonerComponent } from './koordinator/overfor-sesjoner/overfor-sesjoner.component';
-import { RedigeringAvPredefinertKommentarerComponent } from './koordinator/redigering-av-predefinert-kommentarer/redigering-av-predefinert-kommentarer.component';
-import { RedigeringAvKlinikkerComponent } from "./koordinator/redigering-av-klinikker/redigering-av-klinikker.component";
-import { OversiktFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/oversikt-fhiadmin.component';
-import { ForesporselComponent } from './koordinator/foresporsel/foresporsel.component';
-import { HelseforetakComponent } from './fhiadmin/helseforetak/helseforetak.component';
-import { RedigeringAvKoordinatorerComponent } from './koordinator/redigering-av-koordinatorer/redigering-av-koordinatorer.component';
-import { EpostComponent } from './fhiadmin/epost/epost.component';
-import { RapporterComponent } from './koordinator/rapporter/rapporter.component';
-import { EtterlevelseComponent } from './koordinator/rapporter/fireIndikasjoner/etterlevelse/etterlevelse.component';
-import { NedlastingExcelComponent } from './koordinator/rapporter/nedlasting/nedlasting-excel.component';
-import { EtterlevelseFireIndikasjonerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-fire-indikasjoner-pdf.component';
-import { EtterlevelseHandsmykkerPdfComponent } from './koordinator/rapporter/predefinerte/etterlevelse-handsmykker-pdf.component';
+import { UrlPaths } from './_common/konstanter/url-paths';
+import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
+import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-institutions.component';
+import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
+import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
+import { EditingDepartmentsComponent } from './_common/redigering-av-avdelinger/editing-of-departments.component';
+import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/overview-department-sessions/overview-department-sessions.component';
+import { EditingOfObserversComponent } from "./coordinator/editing-observers/editing-of-observers.component";
+import { ProfilsideComponent } from "./profile-page/profile-page.component";
+import { TransferSessionsComponent } from './coordinator/transfer-sessions/transfer-sessions.component';
+import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefined-comments/edit-predefined-comments.component';
+import { EditingClinicsComponent } from "./coordinator/redigering-av-klinikker/editing-of-clinic.component";
+import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
+import { RequestComponent } from './coordinator/request/request.component';
+import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
+import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
+import { EmailComponent } from './fhiadmin/email/email.component';
+import { ReportComponent } from './coordinator/rapporter/report.component';
+import { ComplianceComponent } from './coordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
+import { DownloadExcelComponent } from './coordinator/rapporter/download/download-excel.component';
+import { ComplianceFourIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './coordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 
-const defaultPath = `/${UrlPaths.forside}`;
+const defaultPath = `/${UrlPaths.homePage}`;
 
 const routes: Routes = [
   {
@@ -33,93 +33,93 @@ const routes: Routes = [
     redirectTo: defaultPath
   },
   {
-    path: UrlPaths.forside,
-    component: ForsideForAdministrasjonComponent
+    path: UrlPaths.homePage,
+    component: HomePageForAdministrationComponent
   },
   {
-    path: UrlPaths.observasjoner,
-    component: OversiktObservasjonerComponent
+    path: UrlPaths.observations,
+    component: OverviewObservationsComponent
   },
   {
-    path: UrlPaths.observasjonerAvdeling,
-    component: OversiktAvdelingSesjonerComponent
+    path: UrlPaths.observationsDepartment,
+    component: OverviewDepartmentSessionsComponent
   },
   {
-    path: UrlPaths.overforSesjoner,
-    component: OverforSesjonerComponent
+    path: UrlPaths.transferSessions,
+    component: TransferSessionsComponent
   },
   {
-    path: UrlPaths.redigeringAvInstitusjoner,
-    component: RedigeringAvInstitusjonerComponent
+    path: UrlPaths.editingByInstitutions,
+    component: EditingOfInstitutionsComponent
   },
   {
-    path: UrlPaths.redigeringAvKodeverk,
-    component: RedigeringAvKodeverkComponent
+    path: UrlPaths.editingByCodeworks,
+    component: EditingCodeworkComponent
   },
   {
-    path: UrlPaths.redigeringAvAvdelinger,
-    component: RedigeringAvAvdelingerComponent
+    path: UrlPaths.editingOfDepartments,
+    component: EditingDepartmentsComponent
   },
   {
-    path: UrlPaths.redigeringAvKlinikker,
-    component: RedigeringAvKlinikkerComponent
+    path: UrlPaths.editingByClinics,
+    component: EditingClinicsComponent
   },
   {
-    path: UrlPaths.redigeringAvKoordinatorer,
-    component: RedigeringAvKoordinatorerComponent
+    path: UrlPaths.editingByCoordinators,
+    component: EditingCoordinatorsComponent
   },
   {
-    path: UrlPaths.redigeringAvObservatorer,
-    component: RedigeringAvObservatorerComponent
+    path: UrlPaths.editingByObservers,
+    component: EditingOfObserversComponent
   },
   {
-    path: UrlPaths.redigeringAvPredefinertkommentarer,
-    component: RedigeringAvPredefinertKommentarerComponent
+    path: UrlPaths.editingPredefinedComments,
+    component: EditingPredefinedCommentsComponent
   },
   {
-    path: UrlPaths.profil,
+    path: UrlPaths.profile,
     component: ProfilsideComponent
   },
   {
-    path: UrlPaths.institusjoner,
-    component: RedigeringAvInstitusjonerComponent
+    path: UrlPaths.institutions,
+    component: EditingOfInstitutionsComponent
   },
   {
-    path: UrlPaths.fhiAdminOversikt,
-    component: OversiktFhiAdminComponent
+    path: UrlPaths.fhiAdminOverview,
+    component: OverviewFhiAdminComponent
   },
   {
-    path: UrlPaths.foresporsel,
-    component: ForesporselComponent
+    path: UrlPaths.request,
+    component: RequestComponent
   },
   {
-    path: UrlPaths.helseforetak,
-    component: HelseforetakComponent
+    path: UrlPaths.healthcareOrganization,
+    component: HealthEnterpriseComponent
   },
   {
-    path: UrlPaths.epost,
-    component: EpostComponent
+    path: UrlPaths.email,
+    component: EmailComponent
   },
   {
-    path: UrlPaths.rapporter,
-    component: RapporterComponent,
+    path: UrlPaths.reports,
+    component: ReportComponent,
     children: [
       {
-        path: UrlPaths.fireindikasjonerEtterlevelse, component: EtterlevelseComponent
+        path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fireindikasjonerEtterlevelsePdf, component: EtterlevelseFireIndikasjonerPdfComponent
+        path: UrlPaths.fourindicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
       },
       {
-        path: UrlPaths.handsmykkerEtterlevelsePdf, component: EtterlevelseHandsmykkerPdfComponent
+        path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
       },
       {
-        path: UrlPaths.nedlastingExcel, component: NedlastingExcelComponent
+        path: UrlPaths.downloadExcel, component: DownloadExcelComponent
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fireindikasjonerEtterlevelsePdf
+        redirectTo: UrlPaths.fourindicationsCompliancePdf
       }
     ]
   },

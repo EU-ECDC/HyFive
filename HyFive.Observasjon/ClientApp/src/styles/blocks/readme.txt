@@ -10,10 +10,10 @@ https://github.com/folkehelseinstituttet/Fhi.Frontend.Style/tree/main/scss/fhi-f
 
  Breakdown:
  hh = "Håndhygiene"
- blokknavn: Navn på blokken du lager
+ blokknavn: Name på blokken du lager
  block: suffix for å indikere at det er en blokk
 
- Legg gjerne med eksempel-HTML øverst i fila som viser hvordan blokken kan brukes.
+ Legg gjerne with eksempel-HTML øverst i fila som viser hvordan blokken kan brukes.
 
 
 NB: Husk på å importer blokken din i styles.scss

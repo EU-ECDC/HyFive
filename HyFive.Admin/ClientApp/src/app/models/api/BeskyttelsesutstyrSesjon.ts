@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { BeskyttelsesutstyrObservasjon } from './BeskyttelsesutstyrObservasjon';
+import { ProtectiveEquipmentObservation } from './ProtectiveEquipmentObservation';
 import { Sesjon } from './Sesjon';
 
-export interface BeskyttelsesutstyrSesjon extends Sesjon<BeskyttelsesutstyrObservasjon>
+export interface BeskyttelsesutstyrSesjon extends Sesjon<ProtectiveEquipmentObservation>
 {
 }

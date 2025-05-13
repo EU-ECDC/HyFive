@@ -1,89 +1,89 @@
-using HyFive.Modeller.V1.Konstanter;
-using HyFive.Modeller.V1.Observasjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Avdeling;
-using HyFive.Tjenester.FireIndikasjoner;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Department;
+using HyFive.Services.FourIndication;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Tjenester.Rapporter.FireIndikasjoner;
+using HyFive.Services.Reports.FourIndicators;
 using Moq;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Tjenester.Tests.Rapporter
+namespace HyFive.Services.Tests.Rapporter
 {
-    public class RapporterTests : TjenesteTests
+    public class RapporterTests : ServiceTests
     {
         //[Test]
         //public async Task LagAvdelingsrapportTest()
         //{
         //    // Arrange
-        //    var logger = new Mock<ILogger<LagreSesjon.Handler>>();
+        //    var logger = new Mock<ILogger<SaveSession.Handler>>();
         //    var rolleSomTestes = "Lege";
         //    var hentAvdelingHandler =
-        //        new HentAvdelingerForInstitusjon.Handler(DatabaseContext, Mapper);
-        //    var enAvdeling = (await hentAvdelingHandler.Handle(new HentAvdelingerForInstitusjon.Query(){InstitusjonId = 1}, CancellationToken.None)).First();
+        //        new GetDepartmentsForInstitution.Handler(DatabaseContext, Mapper);
+        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForInstitution.Query(){HealthcareOrganizationId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
-        //        new HentAktivitetTyper.Handler(DatabaseContext, Mapper);
+        //        new GetActivityTypes.Handler(DatabaseContext, Mapper);
         //    var aktivitettyper =
-        //        await hentAktivitettyperHandler.Handle(new HentAktivitetTyper.Query(), CancellationToken.None);
+        //        await hentAktivitettyperHandler.Handle(new GetActivityTypes.Query(), CancellationToken.None);
 
         //    var hentIndikasjonstyperHandler =
-        //        new HentIndikasjonstyper.Handler(DatabaseContext, Mapper);
+        //        new GetIndicationTypes.Handler(DatabaseContext, Mapper);
         //    var indikasjonstyper =
-        //        await hentIndikasjonstyperHandler.Handle(new HentIndikasjonstyper.Query(), CancellationToken.None);
+        //        await hentIndikasjonstyperHandler.Handle(new GetIndicationTypes.Query(), CancellationToken.None);
 
-        //    var lagreSesjonHandler = new LagreSesjon.Handler(DatabaseContext, Mapper, logger.Object, BrukerService);
+        //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
 
-        //    var etterlevdObservasjonKombinasjonA = new FireIndikasjonerObservasjon()
+        //    var etterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
-        //        Aktivitet = new Aktivitet()
+        //        Activity = new Activity()
         //        {
-        //            AktivitetType = aktivitettyper.First(a => a.Kode == AktivitetTypeKonstanter.Desinfeksjon),
-        //            BenyttetHanske = false,
-        //            SekunderBrukt = 4,
-        //            TidtakingBleUtfort = false
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Disinfection),
+        //            GloveUsed = false,
+        //            TimeSpent = 4,
+        //            TimeRecordingWasDone = false
         //        },
-        //        Indikasjonstyper = new List<IndikasjonType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        Registrerttidspunkt = DateTime.UtcNow,
-        //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
+        //        RegisteredTime = DateTime.UtcNow,
+        //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
             
-        //    var ikkeEtterlevdObservasjonKombinasjonA = new FireIndikasjonerObservasjon()
+        //    var ikkeEtterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
         //    {
-        //        Aktivitet = new Aktivitet()
+        //        Activity = new Activity()
         //        {
-        //            AktivitetType = aktivitettyper.First(a => a.Kode == AktivitetTypeKonstanter.IkkeUtfort),
-        //            BenyttetHanske = false,
-        //            SekunderBrukt = 4,
-        //            TidtakingBleUtfort = false
+        //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.NotCompleted),
+        //            GloveUsed = false,
+        //            TimeSpent = 4,
+        //            TimeRecordingWasDone = false
         //        },
-        //        Indikasjonstyper = new List<IndikasjonType>()
+        //        IndicationTypes = new List<IndicationTypes>()
         //        {
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.FoerPasient),
-        //            indikasjonstyper.First(i => i.Kode == IndikasjonTypeKonstanter.AseptiskeProsedyrer)
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.PrePatient),
+        //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
-        //        Registrerttidspunkt = DateTime.UtcNow,
-        //        Rolle = enAvdeling.Roller.First(r => r.Navn == rolleSomTestes),
+        //        RegisteredTime = DateTime.UtcNow,
+        //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
 
 
-        //    var lagreSesjonQuery = new LagreSesjon.Command()
+        //    var lagreSesjonQuery = new SaveSession.Command()
         //    {
-        //        HPRNummer = Seed.SeedObservatorHprNummer,
-        //        Sesjon = new FireIndikasjonerSesjon()
+        //        HPRNumber = Seed.SeedObservatorHprNummer,
+        //        Session = new FourIndicationsSession()
         //        {
-        //            Avdeling = enAvdeling,
-        //            Starttidspunkt = DateTime.UtcNow,
-        //            Observasjoner = new List<FireIndikasjonerObservasjon>()
+        //            Department = enAvdeling,
+        //            StartDate = DateTime.UtcNow,
+        //            Observations = new List<FourIndicationsObservation>()
         //            {
         //                etterlevdObservasjonKombinasjonA,
         //                etterlevdObservasjonKombinasjonA, 
@@ -96,29 +96,29 @@ namespace HyFive.Tjenester.Tests.Rapporter
         //    // Act
         //    await lagreSesjonHandler.Handle(lagreSesjonQuery, CancellationToken.None);
             
-        //    var rapportHandler = new HentFireIndikasjonerRapportForAvdeling.Handler(DatabaseContext);
-        //    var lagRapportQuery = new HentFireIndikasjonerRapportForAvdeling.Query()
+        //    var rapportHandler = new GetFourIndicatorsReportForDepartment.Handler(DatabaseContext);
+        //    var lagRapportQuery = new GetFourIndicatorsReportForDepartment.Query()
         //    {
-        //        AvdelingId = enAvdeling.Id, 
-        //        FraTidspunkt = DateTime.UtcNow.AddDays(-1),
-        //        TilTidspunkt = DateTime.UtcNow.AddDays(1),
-        //        Rolle = AuthorizedRole.Koordinator,
+        //        DepartmentId = enAvdeling.Id, 
+        //        FromDate = DateTime.UtcNow.AddDays(-1),
+        //        ToTime = DateTime.UtcNow.AddDays(1),
+        //        Roles = AuthorizedRole.Coordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());
 
         //    var kombinasjonArapport = rapport
-        //        .Avdeling
-        //        .Roller
-        //        .First(r => r.Navn == rolleSomTestes)
-        //        .Kombinasjoner
-        //        .First(k => k.Navn == "A");
+        //        .Department
+        //        .Roles
+        //        .First(r => r.Name == rolleSomTestes)
+        //        .Combinations
+        //        .First(k => k.Name == "A");
             
         //    // Assert
         //    Assert.Multiple(() =>
         //    {
-        //        Assert.That(kombinasjonArapport.AntallObservasjoner, Is.EqualTo(3));
-        //        Assert.That(Math.Round(kombinasjonArapport.ProsentIkkeEtterlevd), Is.EqualTo(33));
-        //        Assert.That(Math.Round(kombinasjonArapport.ProsentEtterlevd), Is.EqualTo(67));
+        //        Assert.That(kombinasjonArapport.NumberOfObservations, Is.EqualTo(3));
+        //        Assert.That(Math.Round(kombinasjonArapport.PercentNotComplied), Is.EqualTo(33));
+        //        Assert.That(Math.Round(kombinasjonArapport.PercentComplied), Is.EqualTo(67));
         //    });
         //}
     }

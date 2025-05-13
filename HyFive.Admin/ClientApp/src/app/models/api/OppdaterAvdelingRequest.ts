@@ -2,12 +2,12 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Rolle } from './Rolle';
+import { Role } from './Role';
 
 export interface OppdaterAvdelingRequest
 {
 	id: number;
-	navn: string;
-	avdelingTypeId: number;
-	roller: Rolle[];
+	name: string;
+	departmentTypeId: number;
+	roles: Role[];
 }

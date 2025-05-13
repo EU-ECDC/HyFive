@@ -1,0 +1,132 @@
+
+<div class="hh-card-slider">
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-between" *ngIf="isReadonly == false">
+      <div class="mb-3">
+        <button *ngIf="!isEditMode" class="btn fhi-btn-icon" (click)="isEditMode = true">
+          <i class="icon-pencil"></i>
+          Edit
+        </button>
+        <button *ngIf="isEditMode" class="btn fhi-btn-icon" (click)="saveObservation()">
+          <i class="icon-check-circle"></i>
+          Save
+        </button>
+      </div>
+
+      <div class="mb-3">
+        <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
+                                      [dialogMessage]="dialogueTexts.ObservationDeleteConfirmation">
+          <i class="icon-trash3"></i> Delete
+        </app-delete-confirmation-dialog>
+      </div>
+    </div>
+    <div class="hh-card-slider__card"
+         [ngClass]="{ 'hh-card-slider__card--active': isEditMode || isReadonly }"
+         [ngStyle]="(isEditMode || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation?.role?.name)}">
+      <div class="d-flex flex-row pt-3">
+        <div class="flex-column justify-content-start">
+          <ng-container *ngIf="isEditMode">
+            <app-role-selection-dropdown [roleId]="observation.role.id"
+                                     [isReadonly]="isReadonly"
+                                     [roleSelectedI]="department.roles"
+                                     (roleSelectedEvent)="observation.role = $event">
+            </app-role-selection-dropdown>
+          </ng-container>
+          <app-indication-selection [selectedIndications]="observation.indicationTypes"
+                               (indicationSelectionChangedEvent)="indicationSelectionChanged($event)"
+                               [isReadonly]="!isEditMode"
+                               [isActive]="isEditMode"
+                               [parentId]="observation.id">
+          </app-indication-selection>
+        </div>
+        <div class="flex-column justify-content-end">
+          <div class="d-flex justify-content-around">
+            <div class="hh-vertical-stadium-buttons">
+              <div class="hh-vertical-stadium-buttons__button">
+                <app-register-activity class="hh-card-slider__aktivitet"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Disinfection) }"
+                                         [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
+                                         [isRegistered]="isActivitySelected(ActivityTypeConstants.Disinfection)"
+                                         [timekeeping]="false"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Disinfection) ? observation.activity?.timeSpent : 0"
+                                         [disabled]="!isEditMode"
+                                         [icon]="faHandHoldingWater"
+                                         (activityRegisteredEvent)="registerActivity($event)">
+                  <!-- <fa-icon [icon]="faHandHoldingWater" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Alcohol</strong></small></span> -->
+                </app-register-activity>
+              </div>
+              <div class="hh-vertical-stadium-buttons__button">
+                <app-register-activity class="hh-card-slider__aktivitet"
+                                         [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Handwash) }"
+                                         [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
+                                         [isRegistered]="isActivitySelected(ActivityTypeConstants.Handwash)"
+                                         [timekeeping]="false"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Handwash) ? observation.activity?.timeSpent : 0"
+                                         [disabled]="!isEditMode"
+                                         [icon]="faHandsWash"
+                                         (activityRegisteredEvent)="registerActivity($event)">
+                  <!-- <fa-icon [icon]="faHandsWash" class="hh-vertical-stadium-buttons__icon"></fa-icon><span class="mt-n4"><small><strong>Wash</strong></small></span> -->
+                </app-register-activity>
+              </div>
+              <div class="hh-vertical-stadium-buttons__button">
+                <app-missed-opportunity class="hh-card-slider__aktivitet"
+                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.NotExecuted) }"
+                                        [isRegistered]="isActivitySelected(ActivityTypeConstants.NotExecuted)"
+                                        (activityRegisteredEvent)="registerActivity($event)"
+                                        [disabled]="!isEditMode">
+                </app-missed-opportunity>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-n3" *ngIf="isEditMode && observation.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
+        <div class="col-12 text-center mb-2">
+          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.timeSpent = 0">
+            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
+          </button>
+        </div>
+      </div>
+      <ng-container *ngIf="isReadonly == false">
+        <div *ngIf="gloveUseMustBeRegistered && showActivityTypeNotExecuted" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
+          <label class="ml-2" [htmlFor]="'gloveUse-'+id"><small>Observation of gloves:</small></label>
+          <select [disabled]="!isEditMode"
+                  [id]="'gloveUse-'+id"
+                  class="form-control form-control--rounded form-control--smaller form-control--arrow bg-secondary"
+                  [ngClass]="{'form-control--no-border': !isEditMode}"
+                  [(ngModel)]="selectedActivityTypeNotExecutedSelectionId"
+                  (ngModelChange)="selectedActivityTypeNotExecutedChanged($event)">
+            <option *ngFor="let actTypeNotExctdSelection of activityTypeNotExecutedSelection" [value]="actTypeNotExctdSelection.id+''">{{actTypeNotExctdSelection.name}}</option>
+          </select>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isReadonly && gloveUseText">
+        <div class="row">
+          <div class="col">
+            <label>
+              <small>
+                Observation of gloves:
+                <strong>{{gloveUseText}}</strong>
+              </small>
+            </label>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row">
+        <div class="col">
+          <div class="d-flex flex-row justify-content-around">
+            <ng-container *ngIf="isEditMode">
+              <app-register-comment [disabled]="isReadonly"
+                                       [commentInput]="observation.comment"
+                                       (commentRegisteredEvent)="registerComment($event)">
+              </app-register-comment>
+            </ng-container>
+            <ng-container *ngIf="!isEditMode && observation.comment">
+              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

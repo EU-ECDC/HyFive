@@ -76,7 +76,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RtAdditionalAssembly Include="HyFive.Modeller" />
+    <RtAdditionalAssembly Include="HyFive.Models" />
   </ItemGroup>
   <!--
     If you want Reinforced.Typings to lookup for attributed classes not only current

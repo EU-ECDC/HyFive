@@ -1,6 +1,6 @@
-using HyFive.Modeller.V1.Institusjon;
-using HyFive.Modeller.V1.Sesjon;
-using HyFive.Tjenester.Institusjon;
+using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Institution;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -8,17 +8,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Tjenester.Tests.Institusjon
+namespace HyFive.Services.Tests.Institution
 {
-    public class InstitusjonTests : TjenesteTests
+    public class InstitusjonTests : ServiceTests
     {
         [Test]
         public async Task OpprettOgHentInstitusjonTest()
         {
             // Arrange
-            var institusjon = (await OpprettInstitusjon()).Item1;
-            var hentInstitusjonHandler = new HentInstitusjon.Handler(DatabaseContext, Mapper);
-            var query = new HentInstitusjon.Query() { InstitusjonId = institusjon.Id };
+            var institusjon = (await CreateInstitution()).Item1;
+            var hentInstitusjonHandler = new GetInstitution.Handler(DatabaseContext, Mapper);
+            var query = new GetInstitution.Query() { InstitutionId = institusjon.Id };
 
             // Act
             var res = await hentInstitusjonHandler.Handle(query, new System.Threading.CancellationToken());
@@ -26,8 +26,8 @@ namespace HyFive.Tjenester.Tests.Institusjon
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(res.Forkortelse, Is.EqualTo(institusjon.Forkortelse));
-                Assert.That(res.Navn, Is.EqualTo(institusjon.Navn));
+                Assert.That(res.Abbreviation, Is.EqualTo(institusjon.Abbreviation));
+                Assert.That(res.Name, Is.EqualTo(institusjon.Name));
                 Assert.That(res.HERId, Is.EqualTo(institusjon.HERId));
             });
         }
@@ -36,10 +36,10 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task HentInstitusjonerTest()
         {
             // Arrange
-            var institusjon = (await OpprettInstitusjon()).Item1;
+            var institusjon = (await CreateInstitution()).Item1;
 
-            var hentInstitusjonerHandler = new HentInstitusjoner.Handler(DatabaseContext, Mapper);
-            var query = new HentInstitusjoner.Query() { };
+            var hentInstitusjonerHandler = new GetInstitutions.Handler(DatabaseContext, Mapper);
+            var query = new GetInstitutions.Query() { };
 
             // Act
             var res = await hentInstitusjonerHandler.Handle(query, new System.Threading.CancellationToken());
@@ -48,7 +48,7 @@ namespace HyFive.Tjenester.Tests.Institusjon
             Assert.Multiple(() =>
             {
                 Assert.That(res.Select(r => r.Id).ToList(), Contains.Item(institusjon.Id));
-                Assert.That(res.Count(), Is.EqualTo(DatabaseContext.Institusjon.ToList().Count));
+                Assert.That(res.Count(), Is.EqualTo(DatabaseContext.Institution.ToList().Count));
             });
         }
 
@@ -57,13 +57,13 @@ namespace HyFive.Tjenester.Tests.Institusjon
         {
             // Arrange
             var hentInstitusjonerForKoordinatorHandler =
-                new HentInstitusjonerForKoordinator.Handler(DatabaseContext, Mapper);
+                new GetInstitutionsForCoordinator.Handler(DatabaseContext, Mapper);
 
             // Act
             var institusjoner = await hentInstitusjonerForKoordinatorHandler.Handle(
-                new HentInstitusjonerForKoordinator.Query()
+                new GetInstitutionsForCoordinator.Query()
                 {
-                    KoordinatorHprNummer = Seed.SeedKoordinatorHprNummer
+                    CoordinatorHprNumber = Seed.SeedKoordinatorHprNummer
                 }, CancellationToken.None);
 
 
@@ -76,30 +76,30 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task HentInstitusjonstyperTest()
         {
             // Arrange
-            var handler = new HentInstitusjonstyper.Handler(DatabaseContext, Mapper);
-            var eksisterendeTypeKoder = DatabaseContext.InstitusjonType.Select(i => i.Kode).ToList();
+            var handler = new GetInstitutionTypes.Handler(DatabaseContext, Mapper);
+            var eksisterendeTypeKoder = DatabaseContext.InstitutionType.Select(i => i.Code).ToList();
 
             // Act
-            var typer = await handler.Handle(new HentInstitusjonstyper.Query(), CancellationToken.None);
+            var typer = await handler.Handle(new GetInstitutionTypes.Query(), CancellationToken.None);
 
             // Assert
-            Assert.That(eksisterendeTypeKoder.OrderBy(x => x).SequenceEqual(typer.OrderBy(x => x.Kode).Select(t => t.Kode)));
+            Assert.That(eksisterendeTypeKoder.OrderBy(x => x).SequenceEqual(typer.OrderBy(x => x.Code).Select(t => t.Code)));
         }
 
         [Test]
         public async Task HentKoordinatorerForInstitusjonTest()
         {
             // Arrange
-            (var institusjon, _) = await OpprettInstitusjon();
-            var handler = new HentKoordinatorerForInstitusjon.Handler(DatabaseContext, Mapper);
+            (var institusjon, _) = await CreateInstitution();
+            var handler = new GetCoordinatorsForInstitution.Handler(DatabaseContext, Mapper);
             var antallKoordinatorerTilknyttetInstitusjon =
-                DatabaseContext.Koordinator
-                    .Include(k => k.Institusjon)
-                    .Count(k => k.Institusjon.Id == institusjon.Id);
+                DatabaseContext.Coordinator
+                    .Include(k => k.Institution)
+                    .Count(k => k.Institution.Id == institusjon.Id);
 
             // Act
             var koordinatorer =
-                await handler.Handle(new HentKoordinatorerForInstitusjon.Query() { InstitusjonId = institusjon.Id },
+                await handler.Handle(new GetCoordinatorsForInstitution.Query() { InstitutionId = institusjon.Id },
                     CancellationToken.None);
 
             // Assert
@@ -111,16 +111,16 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task HentObservatorerForInstitusjonTest()
         {
             // Arrange
-            (var institusjon, var observator) = await OpprettInstitusjon();
-            var handler = new HentObservatorerForInstitusjon.Handler(DatabaseContext, Mapper);
+            (var institusjon, var observator) = await CreateInstitution();
+            var handler = new GetObserversForInstitution.Handler(DatabaseContext, Mapper);
             var antallObservatorerTilknyttetInstitusjon =
-                DatabaseContext.Observator
-                    .Include(k => k.Institusjon)
-                    .Count(k => k.Institusjon.Id == institusjon.Id);
+                DatabaseContext.Observer
+                    .Include(k => k.Institution)
+                    .Count(k => k.Institution.Id == institusjon.Id);
 
             // Act
             var observatorer =
-                await handler.Handle(new HentObservatorerForInstitusjon.Query() { InstitusjonId = institusjon.Id },
+                await handler.Handle(new GetObserversForInstitution.Query() { InstitutionId = institusjon.Id },
                     CancellationToken.None);
 
             // Assert
@@ -135,27 +135,27 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task OpprettOgHentPredefinerteKommentarerTest()
         {
             // Arrange
-            var hentKommentarerHandler = new HentPredefinerteKommentarer.Handler(DatabaseContext);
-            var institusjon = (await new HentInstitusjonerForKoordinator.Handler(DatabaseContext, Mapper).Handle(
-                new HentInstitusjonerForKoordinator.Query()
-                { KoordinatorHprNummer = Seed.SeedKoordinatorHprNummer }, CancellationToken.None)).First();
+            var hentKommentarerHandler = new GetPredefinedComments.Handler(DatabaseContext);
+            var institusjon = (await new GetInstitutionsForCoordinator.Handler(DatabaseContext, Mapper).Handle(
+                new GetInstitutionsForCoordinator.Query()
+                { CoordinatorHprNumber = Seed.SeedKoordinatorHprNummer }, CancellationToken.None)).First();
 
-            var opprettKommentarerHandler = new OpprettPredefinertKommentar.Handler(DatabaseContext);
+            var opprettKommentarerHandler = new CreatePredefinedComment.Handler(DatabaseContext);
 
-            var kommentarRequest = new OpprettPredefinertKommentarRequest()
+            var kommentarRequest = new CreatePredefinedCommentRequest()
             {
-                Kommentar = $"{Guid.NewGuid()}"
+                Comment = $"{Guid.NewGuid()}"
             };
 
             // Act
 
             var kunneOppretteKommentar = await opprettKommentarerHandler.Handle(
-                new OpprettPredefinertKommentar.Command() { NyPredefinertKommentar = kommentarRequest, Institusjonid = institusjon.Id }, CancellationToken.None);
+                new CreatePredefinedComment.Command() { NewPredefinedComment = kommentarRequest, InstitutionId = institusjon.Id }, CancellationToken.None);
 
-            var kommentarer = await hentKommentarerHandler.Handle(new HentPredefinerteKommentarer.Query()
+            var kommentarer = await hentKommentarerHandler.Handle(new GetPredefinedComments.Query()
             {
-                InstitusjonId = institusjon.Id,
-                Sesjontype = SesjonType.Beskyttelsesutstyr
+                InstitutionId = institusjon.Id,
+                SessionType = SessionType.ProtectiveEquipment
             }, CancellationToken.None);
 
             // Assert
@@ -163,7 +163,7 @@ namespace HyFive.Tjenester.Tests.Institusjon
             {
                 Assert.That(kunneOppretteKommentar);
                 Assert.That(kommentarer.Any);
-                Assert.That(kommentarer, Contains.Item(kommentarRequest.Kommentar));
+                Assert.That(kommentarer, Contains.Item(kommentarRequest.Comment));
             });
 
         }
@@ -172,17 +172,17 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task OppdaterInstitusjonTest()
         {
             // Arrange
-            (var institusjon, _) = await OpprettInstitusjon();
-            var oppdaterInstitusjonHandler = new OppdaterInstitusjon.Handler(DatabaseContext, Mapper);
+            (var institusjon, _) = await CreateInstitution();
+            var oppdaterInstitusjonHandler = new UpdateInstitution.Handler(DatabaseContext, Mapper);
             var nyttNavn = $"Et nytt navn og en tilfeldig verdi:{Guid.NewGuid()}";
-            institusjon.Navn = nyttNavn;
+            institusjon.Name = nyttNavn;
 
             // Act
-            await oppdaterInstitusjonHandler.Handle(new OppdaterInstitusjon.Command()
-            { Institusjon = institusjon }, CancellationToken.None);
+            await oppdaterInstitusjonHandler.Handle(new UpdateInstitution.Command()
+            { Institution = institusjon }, CancellationToken.None);
 
             // Assert
-            Assert.That(DatabaseContext.Institusjon.First(i => i.Id == institusjon.Id).Navn, Is.EqualTo(nyttNavn));
+            Assert.That(DatabaseContext.Institution.First(i => i.Id == institusjon.Id).Name, Is.EqualTo(nyttNavn));
 
         }
 
@@ -190,40 +190,40 @@ namespace HyFive.Tjenester.Tests.Institusjon
         public async Task OppdaterInstitusjonstypeTest()
         {
             // Arrange
-            var oppdaterInstitusjonstypeHandler = new OppdaterInstitusjonstype.Handler(DatabaseContext, Mapper);
-            var opprinneligType = DatabaseContext.InstitusjonType.First();
+            var oppdaterInstitusjonstypeHandler = new UpdateInstitutionType.Handler(DatabaseContext, Mapper);
+            var opprinneligType = DatabaseContext.InstitutionType.First();
             var nyttNavn = $"NAVN{Guid.NewGuid()}";
 
             // Act
-            await oppdaterInstitusjonstypeHandler.Handle(new OppdaterInstitusjonstype.Command()
+            await oppdaterInstitusjonstypeHandler.Handle(new UpdateInstitutionType.Command()
             {
-                Institusjonstype = new InstitusjonType()
+                InstitutionType = new InstitutionType()
                 {
                     Id = opprinneligType.Id,
-                    Kode = "KODE",
-                    Navn = nyttNavn
+                    Code = "KODE",
+                    Name = nyttNavn
                 }
             }, CancellationToken.None);
 
             // Assert
-            var typeEtterOppdatering = DatabaseContext.InstitusjonType.First(k => k.Id == opprinneligType.Id);
-            Assert.That(typeEtterOppdatering.Navn, Is.EqualTo(nyttNavn));
-            Assert.That(typeEtterOppdatering.Kode, Is.EqualTo(opprinneligType.Kode));
+            var typeEtterOppdatering = DatabaseContext.InstitutionType.First(k => k.Id == opprinneligType.Id);
+            Assert.That(typeEtterOppdatering.Name, Is.EqualTo(nyttNavn));
+            Assert.That(typeEtterOppdatering.Code, Is.EqualTo(opprinneligType.Code));
         }
 
         [Test]
         public async Task OpprettInstitusjonTest()
         {
             // Arrange and Act
-            (var opprettetInstitusjon, _) = await OpprettInstitusjon();
-            var opprettetInstitusjonFraDatabase = DatabaseContext.Institusjon.Include(i => i.Avdelinger).FirstOrDefault(i => i.Id == opprettetInstitusjon.Id);
+            (var opprettetInstitusjon, _) = await CreateInstitution();
+            var opprettetInstitusjonFraDatabase = DatabaseContext.Institution.Include(i => i.Departments).FirstOrDefault(i => i.Id == opprettetInstitusjon.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(opprettetInstitusjonFraDatabase, Is.Not.Null);
-                Assert.That(opprettetInstitusjonFraDatabase.Navn, Is.EqualTo(opprettetInstitusjon.Navn));
-                Assert.That(opprettetInstitusjonFraDatabase.Forkortelse, Is.EqualTo(opprettetInstitusjon.Forkortelse));
+                Assert.That(opprettetInstitusjonFraDatabase.Name, Is.EqualTo(opprettetInstitusjon.Name));
+                Assert.That(opprettetInstitusjonFraDatabase.Abbreviation, Is.EqualTo(opprettetInstitusjon.Abbreviation));
             });
 
         }
@@ -233,13 +233,13 @@ namespace HyFive.Tjenester.Tests.Institusjon
         {
             // Arrange and Act
             var opprettetType = await OpprettInstitusjonType();
-            var opprettetTypeFraDatabase = DatabaseContext.InstitusjonType.First(i => i.Id == opprettetType.Id);
+            var opprettetTypeFraDatabase = DatabaseContext.InstitutionType.First(i => i.Id == opprettetType.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(opprettetTypeFraDatabase.Navn == opprettetType.Navn);
-                Assert.That(opprettetTypeFraDatabase.Kode == opprettetType.Kode);
+                Assert.That(opprettetTypeFraDatabase.Name == opprettetType.Name);
+                Assert.That(opprettetTypeFraDatabase.Code == opprettetType.Code);
             });
         }
 
@@ -258,15 +258,15 @@ namespace HyFive.Tjenester.Tests.Institusjon
 
         #region Helper-methods
 
-        private async Task<Modeller.V1.Institusjon.InstitusjonType> OpprettInstitusjonType(string kode = null)
+        private async Task<Models.V1.Institution.InstitutionType> OpprettInstitusjonType(string kode = null)
         {
-            var opprettInstitusjonTypeHandler = new OpprettInstitusjonstype.Handler(DatabaseContext, Mapper);
-            var opprettCommand = new OpprettInstitusjonstype.Command()
+            var opprettInstitusjonTypeHandler = new CreateInstitutionType.Handler(DatabaseContext, Mapper);
+            var opprettCommand = new CreateInstitutionType.Command()
             {
-                Institusjonstype = new OpprettInstitusjonstypeRequest()
+                InstitutionType = new CreateInstitutionTypeRequest()
                 {
-                    Kode = kode ?? "TEST",
-                    Navn = "Test"
+                    Code = kode ?? "TEST",
+                    Name = "Test"
                 }
             };
 

@@ -1,4 +1,4 @@
-﻿namespace HyFive.Tjenester.Rapporter.Pdf
+﻿namespace HyFive.Services.Reports.Pdf
 {
     public class PdfResult
     {

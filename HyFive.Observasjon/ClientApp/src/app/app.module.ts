@@ -5,72 +5,72 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
-import { StartsideForObservasjonComponent } from './startside/startside-for-observasjon.component';
+import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { RegistrereFireIndikasjonerComponent } from "./registrering/registrere-fire-indikasjoner/registrere-fire-indikasjoner.component";
-import { FireIndikasjonerSesjonService } from './services/data/fire-indikasjoner-sesjon.service';
-import { RegistrerAktivitetComponent } from './registrering/registrer-aktivitet/registrer-aktivitet.component';
+import { RegisterFourIndicationsComponent } from "./registrering/register-four-indications/register-four-indications.component";
+import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
+import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
-import { FireIndikasjonerObservasjonskortComponent } from './registrering/fire-indikasjoner-observasjonskort/fire-indikasjoner-observasjonskort.component';
-import { IndikasjonsValgComponent } from './registrering/indikasjonsvalg/indikasjonsvalg.component';
+import { FourIndicationsObservationCardComponent } from './registrering/four-indications-observation-card/four-indications-observation-card.component';
+import { IndicationSelectionComponent } from './registrering/indication-selection/indication-selection.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
-import { RegistrerKommentarComponent } from './registrering/registrer-kommentar/registrer-kommentar.component';
+import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { IkkeSendteSesjonerComponent } from './sesjoner/ikke-sendte-sesjoner/ikke-sendte-sesjoner.component';
-import { RedigerFireIndikasjonerObservasjonComponent } from './sesjoner/rediger-fire-indikasjoner-observasjon/rediger-fire-indikasjoner-observasjon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FireIndikasjonerComponent } from './sesjoner/fire-indikasjoner/fire-indikasjoner.component';
-import { SlettBekrefelsesdialogComponent } from './sesjoner/slett-bekreftelsesdialog/slett-bekreftelsesdialog.component';
-import { RegistrereHandsmykkerComponent } from './registrering/registrere-handsmykker/registrere-handsmykker.component';
-import { LagreSkyggeComponent } from './registrering/lagre-skygge/lagre-skygge.component';
-import { SlettSkyggeComponent } from './registrering/slett-skygge/slett-skygge.component';
-import { HandsmykkeSesjonService } from './services/data/handsmykke-sesjon.service';
-import { HandsmykkerObservasjonskortComponent } from './registrering/handsmykker-observasjonskort/handsmykker-observasjonskort.component';
-import { HandsmykkerComponent } from './sesjoner/handsmykker/handsmykker.component';
-import { RedigerHandsmykkerObservasjonComponent } from './sesjoner/rediger-handsmykker-observasjon/rediger-handsmykker-observasjon.component';
-import { RolleValgDropdownComponent } from './registrering/rolle-valg-dropdown/rolle-valg-dropdown.component';
-import { SendteSesjonerComponent } from './sesjoner/sendte-sesjoner/sendte-sesjoner.component';
-import { SesjonsoversiktComponent } from './sesjoner/sesjonsoversikt/sesjonsoversikt.component';
+import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
+import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
+import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shadow.component';
+import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
+import { HandJewelryObservationCardComponent } from './registrering/handjewelry-observation-card/handjewelry-observation-card.component';
+import { RoleSelectDropdownComponent } from './registrering/role-selection-dropdown/role-selection-dropdown.component';
 //import { FhiAccordionModule } from '@folkehelseinstituttet/ng-components';
-import { RegistrereBeskyttelsesutstyrComponent } from './registrering/registrere-beskyttelsesutstyr/registrere-beskyttelsesutstyr.component';
-import { BeskyttelsesutstyrObservasjonskortComponent } from './registrering/beskyttelsesutstyr-observasjonskort/beskyttelsesutstyr-observasjonskort.component';
-import { ValgForBeskyttelsesutstyrComponent } from './startside/valg-for-beskyttelsesutstyr/valg-for-beskyttelsesutstyr.component';
-import { NavigasjonslenkeComponent } from './shared/navigasjonslenke/navigasjonslenke.component';
-import { BeskyttelsesutstyrComponent } from './sesjoner/beskyttelsesutstyr/beskyttelsesutstyr.component';
+import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
+import { ProtectiveEquipmentObservationCardComponent } from './registrering/protective equipment-observation-card/protective equipment-observation-card.component';
+import { SelectionForProtectiveEquipmentComponent } from './startside/selection-for-protective-equipment/selection-for-protective-equipment.component';
+import { NavigationLinkComponent } from './shared/navigation-link/navigation-link.component';
 import { AccordionComponent } from './shared/accordion/accordion.component';
-import { SesjonsredigeringOverskriftComponent } from './sesjoner/sesjonsredigering-overskrift/sesjonsredigering-overskrift.component';
 import { ToastrModule } from 'ngx-toastr';
-import { BeskyttelsesutstyrModalComponent } from './registrering/beskyttelsesutstyr-modal/beskyttelsesutstyr-modal.component';
-import { NyttKortModalComponent } from './registrering/nytt-kort-modal/nytt-kort-modal.component';
-import { SendteFireIndikasjonerSesjonComponent } from './sesjoner/sendte-sesjoner/sendte-fire-indikasjoner-sesjon/sendte-fire-indikasjoner-sesjon.component';
-import { RedigerBeskyttelsesutstyrObservasjonComponent } from './sesjoner/rediger-beskyttelsesutstyr-observasjon/rediger-beskyttelsesutstyr-observasjon.component';
-import { SendteSesjonsoversiktComponent } from './sesjoner/sendte-sesjoner/sendte-sesjonsoversikt/sendte-sesjonsoversikt.component';
-import { SendteHandsmykkerSesjonComponent } from './sesjoner/sendte-sesjoner/sendte-handsmykker-sesjon/sendte-handsmykker-sesjon.component';
-import { OfflineMeldingComponent } from './shared/offline-melding/offline-melding.component';
-import { SendteBeskyttelsesutstyrSesjonComponent } from './sesjoner/sendte-sesjoner/sendte-beskyttelsesutstyr-sesjon/sendte-beskyttelsesutstyr-sesjon.component';
-import { SesjonstatistikkComponent } from './sesjoner/fire-indikasjoner/sesjonstatistikk/sesjonstatistikk.component';
-import { ToastrConfig } from './konstanter/toastr-config';
-import { ObservasjonstellerComponent } from './shared/observasjonsteller/observasjonsteller.component';
+import { ProtectiveEquipmentModalComponent } from './registrering/protective-equipment-modal/protective-equipment-modal.component';
+import { NewCardModalComponent } from './registrering/new-card-modal/new-card-modal.component';
+import { OfflineMessageComponent } from './shared/offline-message/offline-message.component';
+import { ToastrConfig } from './constants/toastr-config';
+import { ObservationCounterComponent } from './shared/observation-counter/observation-counter.component';
 import { InfoModalComponent } from './shared/info-modal/info-modal.component';
-import { RegistrereHanskeComponent } from './registrering/registrere-hanske/registrere-hanske.component';
-import { HanskeObservasjonskortComponent } from './registrering/hanske-observasjonskort/hanske-observasjonskort.component';
-import { HanskeComponent } from './sesjoner/hanske/hanske.component';
-import { SendteHanskeSesjonComponent } from './sesjoner/sendte-sesjoner/sendte-hanske-sesjon/sendte-hanske-sesjon.component';
-import { RedigerHanskeObservasjonComponent } from './sesjoner/rediger-hanske-observasjon/rediger-hanske-observasjon.component';
+import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
+import { GloveObservationCardComponent } from './registrering/glove-observation-card/glove-observation-card.component';
 import { DialogModalComponent } from './shared/dialog-modal/dialog-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NyttKortInfoComponent } from './shared/nytt-kort-info/nytt-kort-info.component';
-import { LoginsideComponent } from './loginside/loginside.component';
+import { NewCardInfoComponent } from './shared/new-card-info/new-card-info.component';
+import { LoginPageComponent } from './login-page/loginpage.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import { AuthenticationFailedModalComponent } from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {HjelpetekstComponent} from "./shared/hjelpetekst/hjelpetekst.component";
-import { HjelpetekstInnstillingerComponent } from './shared/hjelpetekst-innstillinger/hjelpetekst-innstillinger.component';
+import {HelpTextComponent} from "./shared/help-text/help-text.component";
+import { HelpTextSettingsComponent } from './shared/help-text-setting/help-text-setting.component';
 import { PseudonymComponent } from './shared/pseudonym-modal/pseudonym.component';
+import { NotSentSessionsComponent } from './sesjoner/not-sent-sessions/not-sent-sessions.component';
+import { EditFourIndicationsObservationComponent } from './sesjoner/edit-four-indications-observation/edit-four-indications-observation.component';
+import { FourIndicationsComponent } from './sesjoner/fire-indikasjoner/four-indications.component';
+import { DeleteConfirmationDialogComponent } from './sesjoner/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { HandJewelryComponent } from './sesjoner/handJewelry/handJewelry.component';
+import { EditHandJewelryObservationComponent } from './sesjoner/edit-hand-jewelry-observation/edit-hand-jewelry-observation.component';
+import { SessionOverviewComponent } from './sesjoner/session-overview/session-overview.component';
+import { SentSessionsComponent } from './sesjoner/sent-sessions/sent-sessions.component';
+import { ProtectiveEquipmentComponent } from './sesjoner/protection-equipment/protection-equipment.component';
+import { SessionEditHeaderComponent } from './sesjoner/session-edit-header/session-edit-header.component';
+import { SentFourIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-four-indications-session/sent-four-indications-session.component';
+import { EditProtectiveEquipmentObservationComponent } from './sesjoner/edit-protective-equipment-observation/edit-protective-equipment-observation.component';
+import { SentSessionOverviewComponent } from './sesjoner/sent-sessions/sent-session-overview/sent-session-overview.component';
+import { SentHandJewelrySessionComponent } from './sesjoner/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
+import { SentProtectiveEquipmentSessionComponent } from './sesjoner/sent-sessions/sent-protective-equipment-session/sent-protective-equipment-session.component';
+import { SessionStatisticsComponent } from './sesjoner/fire-indikasjoner/session-statistics/session-statistics.component';
+import { GloveComponent } from './sesjoner/glove/glove.component';
+import { SentGloveSessionComponent } from './sesjoner/sent-sessions/sent-glove-session/sent-glove-session.component';
+import { EditGloveObservationComponent } from './sesjoner/edit-glove-observation/edit-glove-observation.component';
 
 
 export const httpInterceptorProviders = [
@@ -82,56 +82,56 @@ export const httpInterceptorProviders = [
     declarations: [
         AppComponent,
         MainMenuComponent,
-        StartsideForObservasjonComponent,
-        RegistrereFireIndikasjonerComponent,
-        FireIndikasjonerObservasjonskortComponent,
-        RegistrerAktivitetComponent,
+        HomePageForObservationComponent,
+        RegisterFourIndicationsComponent,
+        FourIndicationsObservationCardComponent,
+        RegisterActivityComponent,
         MissedOpportunityComponent,
-        IndikasjonsValgComponent,
-        RegistrerKommentarComponent,
-        IkkeSendteSesjonerComponent,
-        RedigerFireIndikasjonerObservasjonComponent,
-        FireIndikasjonerComponent,
-        SlettBekrefelsesdialogComponent,
-        RegistrereHandsmykkerComponent,
-        HandsmykkerObservasjonskortComponent,
-        LagreSkyggeComponent,
-        SlettSkyggeComponent,
-        HandsmykkerComponent,
-        RedigerHandsmykkerObservasjonComponent,
-        RolleValgDropdownComponent,
-        SendteSesjonerComponent,
-        SesjonsoversiktComponent,
-        RegistrereBeskyttelsesutstyrComponent,
-        BeskyttelsesutstyrObservasjonskortComponent,
-        ValgForBeskyttelsesutstyrComponent,
-        NavigasjonslenkeComponent,
-        BeskyttelsesutstyrComponent,
+        IndicationSelectionComponent,
+        RegisterCommentComponent,
+        NotSentSessionsComponent,
+        EditFourIndicationsObservationComponent,
+        FourIndicationsComponent,
+        DeleteConfirmationDialogComponent,
+        RegisterHandjewelryComponent,
+        HandJewelryObservationCardComponent,
+        SaveShadowComponent,
+        DeleteShadowComponent,
+        HandJewelryComponent,
+        EditHandJewelryObservationComponent,
+        RoleSelectDropdownComponent,
+        SentSessionsComponent,
+        SessionOverviewComponent,
+        RegisterProtectiveEquipmentComponent,
+        ProtectiveEquipmentObservationCardComponent,
+        SelectionForProtectiveEquipmentComponent,
+        NavigationLinkComponent,
+        ProtectiveEquipmentComponent,
         AccordionComponent,
-        SesjonsredigeringOverskriftComponent,
-        RedigerBeskyttelsesutstyrObservasjonComponent,
-        BeskyttelsesutstyrModalComponent,
-        NyttKortModalComponent,
-        SendteFireIndikasjonerSesjonComponent,
-        SendteSesjonsoversiktComponent,
-        OfflineMeldingComponent,
-        SendteHandsmykkerSesjonComponent,
-        SendteBeskyttelsesutstyrSesjonComponent,
-        SesjonstatistikkComponent,
-        ObservasjonstellerComponent,
+        SessionEditHeaderComponent,
+        EditProtectiveEquipmentObservationComponent,
+        ProtectiveEquipmentModalComponent,
+        NewCardModalComponent,
+        SentFourIndicationsSessionComponent,
+        SentSessionOverviewComponent,
+        OfflineMessageComponent,
+        SentHandJewelrySessionComponent,
+        SentProtectiveEquipmentSessionComponent,
+        SessionStatisticsComponent,
+        ObservationCounterComponent,
         InfoModalComponent,
-        RegistrereHanskeComponent,
-        HanskeObservasjonskortComponent,
-        HanskeComponent,
-        SendteHanskeSesjonComponent,
-        RedigerHanskeObservasjonComponent,
+        RegisterGloveComponent,
+        GloveObservationCardComponent,
+        GloveComponent,
+        SentGloveSessionComponent,
+        EditGloveObservationComponent,
         DialogModalComponent,
-        NyttKortInfoComponent,
-        LoginsideComponent,
+        NewCardInfoComponent,
+        LoginPageComponent,
         SpinnerComponent,
         AuthenticationFailedModalComponent,
-        HjelpetekstComponent,
-        HjelpetekstInnstillingerComponent,
+        HelpTextComponent,
+        HelpTextSettingsComponent,
         PseudonymComponent
     ],
     imports: [
@@ -150,10 +150,10 @@ export const httpInterceptorProviders = [
         DragDropModule
     ],
     bootstrap: [AppComponent],
-    providers: [FireIndikasjonerSesjonService, HandsmykkeSesjonService, HandHygieneHammerJS, httpInterceptorProviders],
+    providers: [FourIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
-        RedigerBeskyttelsesutstyrObservasjonComponent,
-        RegistrerKommentarComponent
+        EditProtectiveEquipmentObservationComponent,
+        RegisterCommentComponent
     ]
 })
 export class AppModule {

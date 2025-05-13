@@ -4,6 +4,6 @@
 
 export interface OpprettHandsmykketypeRequest
 {
-	kode: string;
-	navn: string;
+	code: string;
+	name: string;
 }
