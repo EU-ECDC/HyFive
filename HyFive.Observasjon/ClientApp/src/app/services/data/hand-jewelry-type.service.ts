@@ -12,7 +12,7 @@ export class HandJewelryTypeService {
   }
 
   getHandJewelryTypes(): Observable<HandJewelryType[]> {
-    return this.http.get<HandJewelryType[]>('api/v1/handjewelry/handJewelryTypes').pipe()
+    return this.http.get<HandJewelryType[]>('api/v1/handjewelry/getHandJewelryTypes').pipe()
   }
 
 }

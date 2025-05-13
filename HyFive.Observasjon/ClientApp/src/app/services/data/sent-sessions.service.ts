@@ -24,7 +24,7 @@ export class SentSessionsService {
   getFourIndicationsSession(sessionId : string): Observable<FourIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fourindications`, {params});
+    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fourIndications`, {params});
   }
 
   getHandJewelrySession(sessionId: string): Observable<HandJewelrySession> {
@@ -42,7 +42,7 @@ export class SentSessionsService {
   getProtectiveEquipmentSession(sessionId: string): Observable<ProtectiveEquipmentSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<ProtectiveEquipmentSession>(`${environment.apiBaseUrl}/v1/session/protectiveequipment`, {params});
+    return this.httpClient.get<ProtectiveEquipmentSession>(`${environment.apiBaseUrl}/v1/session/protectiveEquipment`, {params});
   }
 
 
