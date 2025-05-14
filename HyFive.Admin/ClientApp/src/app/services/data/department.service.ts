@@ -36,7 +36,7 @@ export class DepartmentService {
   }
 
   createDepartmentType(departmenttype: DepartmentType): Observable<DepartmentType>{
-    const url = `${environment.apiBaseUrl}/v1/department/departmenttypes/create`;
+    const url = `${environment.apiBaseUrl}/v1/department/departmentType/create`;
     return this.http.post<DepartmentType>(url, departmenttype);
   }
 
