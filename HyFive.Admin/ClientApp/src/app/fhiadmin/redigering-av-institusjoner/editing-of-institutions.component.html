@@ -37,7 +37,7 @@
               <td>{{institution.herId}}</td>
               <td>{{institution.name}}</td>
               <td>{{institution.abbreviation}}</td>
-              <td>{{institution.institutiontype?.name}}</td>
+              <td>{{institution.institutionType?.name}}</td>
               <td>{{ institution.healthcareOrganization?.name || institution.municipality?.name }}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="navigateToInstitution(institution.id)">
