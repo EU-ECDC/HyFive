@@ -66,7 +66,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
-        [HttpPut("oppdater")]
+        [HttpPut("update")]
         public async Task<ActionResult<Department>> UpdateDepartment([FromBody] Department department)
         {
             if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(department.InstitutionId))
@@ -118,7 +118,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="departmentType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPut("avdelingstyper/oppdater")]
+        [HttpPut("departmentTypes/update")]
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
         public async Task<ActionResult<DepartmentType>> UpdateDepartmentType([FromBody] DepartmentType departmentType)
         {
@@ -131,7 +131,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}/roller")]
+        [HttpGet("{id}/roles")]
         [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Role>>> GetRoles(int id)
         {
@@ -145,13 +145,13 @@ namespace HyFive.Admin.Controllers.V1
 
 
         /// <summary>
-        /// Slett department
+        /// Delete department
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
-        [HttpDelete("slett/{id}")]
-        public async Task<bool> SlettAvdeling(int id)
+        [HttpDelete("delete/{id}")]
+        public async Task<bool> DeleteDepartment(int id)
         {
             var result = await _mediator.Send(new DeleteDepartment.Command()
             {
@@ -161,12 +161,12 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Sjekker om department har sessions overført til FHI
+        /// Checking if the department has sessions transferred to FHI.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("harOverfortSesjonTilFHI/{id}")]
-        public async Task<IActionResult> HarOverfortSesjonTilFHI(int id)
+        [HttpGet("hasTransferredSessionToFHI/{id}")]
+        public async Task<IActionResult> HasTransferredSessionToFHI(int id)
         {
 
             var result = await _mediator.Send(new HasTransferredSessionToFHI.Command

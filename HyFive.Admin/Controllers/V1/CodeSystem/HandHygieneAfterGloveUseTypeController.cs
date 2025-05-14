@@ -32,7 +32,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Update  HandHygieneAfterGloveUseType
+        /// Update  PostGloveHandHygieneType
         /// </summary>
         /// <param name="handHygieneAfterGloveUseType"></param>
         /// <returns></returns>

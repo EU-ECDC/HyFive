@@ -21,7 +21,7 @@ namespace HyFive.Services.FourIndication.Helpers
             {
                 throw new FourIndicatorsObservationValidationException("FIO-V-03: ActivityType is missing.");
             }
-            if (observation.Activity.TimeRecordingWasDone && observation.Activity.TimeSpent < 1)
+            if (observation.Activity.TimingWasPerformed && observation.Activity.SecondsUsed < 1)
             {
                 throw new FourIndicatorsObservationValidationException("FIO-V-04: It is recorded that time tracking was performed, but no time was recorded.");
             }

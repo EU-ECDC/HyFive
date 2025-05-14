@@ -8,9 +8,9 @@ namespace HyFive.Models.V1.Observation
         public ActivityType ActivityType { get; set; }
         
         [TsProperty(ForceNullable = true)]
-        public int TimeSpent { get; set; }
+        public int SecondsUsed { get; set; }
 
-        public bool TimeRecordingWasDone { get; set; }
+        public bool TimingWasPerformed { get; set; }
         
         [TsProperty(ForceNullable = true)]
         public bool? GloveUsed { get; set; }

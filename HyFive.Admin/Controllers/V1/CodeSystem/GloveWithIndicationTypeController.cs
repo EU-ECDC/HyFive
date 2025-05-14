@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<IndicatedGloveType>> GetGloveWithIndicationTypes()
+        public async Task<IEnumerable<GloveWithIndicationType>> GetGloveWithIndicationTypes()
         {
             var gloveForIndicationTypes = await _mediator.Send(new GetGloveWithIndicationTypes.Query());
             return gloveForIndicationTypes;
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("update")]
-        public async Task<IndicatedGloveType> UpdateGloveWithIndicationType([FromBody] IndicatedGloveType gloveWithIndicationType)
+        public async Task<GloveWithIndicationType> UpdateGloveWithIndicationType([FromBody] GloveWithIndicationType gloveWithIndicationType)
         {
             var isUpdated = await _mediator.Send(new UpdateGloveWithIndicationType.Command
             {

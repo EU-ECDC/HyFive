@@ -38,7 +38,7 @@ namespace HyFive.Services.HandJewelry
                 var observation = await _context.HandJewelryObservation
                     .Include(o => o.HandJewelrySession)
                     .ThenInclude(s => s.TransferStatus)
-                    .Include(o => o.HandJewelry)
+                    .Include(o => o.HandJewelries)
                     .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observation.Id), cancellationToken);
 
@@ -56,7 +56,7 @@ namespace HyFive.Services.HandJewelry
 
                 try
                 {
-                    var handJewelryTypeIds = request.Observation.HandJewelry.Select(h => h.Id);
+                    var handJewelryTypeIds = request.Observation.HandJewelries.Select(h => h.Id);
                     var handJewelryFromDatabase = _context.HandJewelryType.Where(h => handJewelryTypeIds.Contains(h.Id)).ToList();
 
                     var handJewelryIdsFromRequest = string.Join(',', handJewelryTypeIds);
@@ -65,7 +65,7 @@ namespace HyFive.Services.HandJewelry
                         throw new Exception($"O-HS-03:Could not find any hand jewelry with IDs {handJewelryIdsFromRequest}");
                     }
 
-                    if (handJewelryFromDatabase.Count() != request.Observation.HandJewelry.Count())
+                    if (handJewelryFromDatabase.Count() != request.Observation.HandJewelries.Count())
                     {
                         throw new Exception($"O-HS-04: The number of bracelets in the observation does not match the number of bracelet types found in the database. " +
                                             $"Hand jewelry in the database: {string.Join(',',handJewelryFromDatabase.Select(h => h.Id))} / " + 
@@ -73,7 +73,7 @@ namespace HyFive.Services.HandJewelry
                     }
                     
                     
-                    observation.HandJewelry = handJewelryFromDatabase;
+                    observation.HandJewelries = handJewelryFromDatabase;
                     
                     observation.RegisteredTime = request.Observation.RegistrationTime;
 

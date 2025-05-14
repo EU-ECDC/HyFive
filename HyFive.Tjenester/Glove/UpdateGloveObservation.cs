@@ -40,7 +40,7 @@ namespace HyFive.Services.Glove
                     .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.PostGloveHandHygieneType)
                     .Include(o => o.IndicatedGloveTypes)
-                    .Include(o => o.GeneralPurposeGloveTypes)
+                    .Include(o => o.GloveWithoutIndicationTypes)
                     .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observation.Id), cancellationToken);
 
@@ -70,8 +70,8 @@ namespace HyFive.Services.Glove
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes
                         .Where(hmi => observationFromRequest.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                         .ToList();
-                    observation.GeneralPurposeGloveTypes = gloveWithoutIndicationTypes
-                        .Where(hui => observationFromRequest.GeneralPurposeGloveTypes.Select(ohui => ohui.Id).Contains(hui.Id))
+                    observation.GloveWithoutIndicationTypes = gloveWithoutIndicationTypes
+                        .Where(hui => observationFromRequest.GloveWithoutIndicationTypes.Select(ohui => ohui.Id).Contains(hui.Id))
                         .ToList();
                     observation.PostGloveHandHygieneType = observationFromRequest.PostGloveHandHygieneType != null
                         ? handHygieneAfterGloveUseTypes.FirstOrDefault(he => he.Id == observationFromRequest.PostGloveHandHygieneType.Id)

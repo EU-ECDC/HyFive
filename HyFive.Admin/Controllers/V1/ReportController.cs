@@ -72,7 +72,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Create an Excel report for HandJewelry observations for department
+        /// Create an Excel report for HandJewelries observations for department
         /// </summary>
         /// <param name="institutionId"></param>
         /// <param name="departmentId"></param>

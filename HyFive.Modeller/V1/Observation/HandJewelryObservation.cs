@@ -7,6 +7,6 @@ namespace HyFive.Models.V1.Observation
     public class HandJewelryObservation : Observation
     {
         [TsProperty(ForceNullable = true)]
-        public List<HandJewelryType> HandJewelry { get; set; }
+        public List<HandJewelryType> HandJewelries { get; set; }
     }
 }

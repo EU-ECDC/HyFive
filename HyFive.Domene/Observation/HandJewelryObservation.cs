@@ -7,7 +7,7 @@ namespace HyFive.Domain.Observation
 {
     public class HandJewelryObservation : Observation
     {
-        public ICollection<HandJewelryType> HandJewelry { get; set; }
+        public ICollection<HandJewelryType> HandJewelries { get; set; }
         public HandJewelrySession HandJewelrySession { get; set; }
     }
 }

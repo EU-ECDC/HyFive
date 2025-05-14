@@ -42,7 +42,7 @@ namespace HyFive.Services.Rapport.Observations
                 var queryable = _context.HandJewelryObservation
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
-                    .Include(fo => fo.HandJewelry)
+                    .Include(fo => fo.HandJewelries)
                     .Include(fo => fo.Role)
                     .AsNoTracking();
 

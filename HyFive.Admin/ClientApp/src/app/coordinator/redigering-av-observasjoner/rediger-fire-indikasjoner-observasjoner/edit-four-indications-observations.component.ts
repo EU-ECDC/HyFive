@@ -68,7 +68,7 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   }
 
   changeSecondsUsed(secondsUsed: number) {
-    this.fourIndicationsObservationWhichChanged.activity.timeSpent = secondsUsed;
+    this.fourIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
   }
 
   changeComment(comment: string) {
@@ -78,17 +78,17 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
   updateFourIndicationsObservation() {
     if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotExecuted
       || this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
-      this.fourIndicationsObservationWhichChanged.activity.timeSpent = 0;
-      this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = false;
+      this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+      this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
     }
     else {
       this.fourIndicationsObservationWhichChanged.activity.gloveUsed = null;
-      if (this.fourIndicationsObservationWhichChanged.activity.timeSpent <= 0){
-        this.fourIndicationsObservationWhichChanged.activity.timeSpent = 0;
-        this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = false;
+      if (this.fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
+        this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+        this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
       }
       else {
-        this.fourIndicationsObservationWhichChanged.activity.timeRecordingWasDone = true;
+        this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = true;
       }
     }
 

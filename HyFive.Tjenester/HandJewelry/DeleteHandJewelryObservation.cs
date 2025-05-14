@@ -33,7 +33,7 @@ namespace HyFive.Services.HandJewelry
                 try
                 {
                     var observation = await _context.HandJewelryObservation
-                        .Include(o => o.HandJewelry)
+                        .Include(o => o.HandJewelries)
                         .Include(o => o.Role)
                         .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservationId));
 
@@ -42,8 +42,8 @@ namespace HyFive.Services.HandJewelry
                         throw new Exception("S-HS-03: Could not find observation with ID: " + request.ObservationId);
                     }
 
-                    var handJewelry = _context.HandJewelryType.Where(i => observation.HandJewelry.Select(oi => oi.Id).Contains(i.Id)).ToList();
-                    observation.HandJewelry = handJewelry;
+                    var handJewelry = _context.HandJewelryType.Where(i => observation.HandJewelries.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    observation.HandJewelries = handJewelry;
 
                     var session = _context.HandJewelrySession
                         .Include(s => s.Observations)
