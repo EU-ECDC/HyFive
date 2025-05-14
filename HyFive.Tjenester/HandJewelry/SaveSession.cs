@@ -48,6 +48,7 @@ namespace HyFive.Services.HandJewelry
                 var handJewelryTypes = _context.HandJewelryType.ToList();
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
+                session.StartDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
 
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
@@ -62,6 +63,7 @@ namespace HyFive.Services.HandJewelry
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.UtcNow;
+                    observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.HandJewelry = handJewelryTypes.Where(ht => observation.HandJewelry.Select(oh => oh.Id).Contains(ht.Id)).ToList();
                     observation.Comment = string.IsNullOrEmpty(observation.Comment) ? null : observation.Comment;
