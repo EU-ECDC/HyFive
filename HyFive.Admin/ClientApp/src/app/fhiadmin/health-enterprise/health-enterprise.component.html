@@ -33,7 +33,7 @@
                
                 <ng-container *ngIf="healthcareOrganizationAsChanged?.id != healthcareOrganization.id">
                   <td>{{healthcareOrganization.name}}</td>
-                  <td>{{healthcareOrganization.RegionalHealthcareOrganization?.name}}</td>
+                  <td>{{healthcareOrganization.regionalHealthcareOrganization?.name}}</td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="selectedHealthcareOrganizationAsChanged(healthcareOrganization)">
                       <i class="icon-pencil"></i><span class="btn__text">Edit</span>
