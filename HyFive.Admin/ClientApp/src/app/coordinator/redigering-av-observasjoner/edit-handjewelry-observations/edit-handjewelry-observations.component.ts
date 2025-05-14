@@ -62,7 +62,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     this.handjewelryObservationAsChanged = {
       id: observation.id,
       sessionId:  this.sessionId,
-      handJewelry: observation.handJewelryTypes,
+      handJewelries: observation.handJewelryTypes,
       comment: observation.comment,
       role: observation.role,
       registrationTime: observation.registeredTime
@@ -75,7 +75,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
 
   updateHandJewelryObservation() {
     var types = this.handJewelrySelection.filter(h => h.isSelected).map(hsv => hsv.type)
-    this.handjewelryObservationAsChanged.handJewelry = this.handJewelryTypes.filter(h => types.indexOf(h.code) !== -1)
+    this.handjewelryObservationAsChanged.handJewelries = this.handJewelryTypes.filter(h => types.indexOf(h.code) !== -1)
     this.observationService.updateHandJewelryObservation(this.handjewelryObservationAsChanged).subscribe(
       (isUpdated) => {
         this.handjewelryObservationAsChanged = null;

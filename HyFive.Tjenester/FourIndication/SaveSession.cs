@@ -12,6 +12,8 @@ using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.FourIndication.Helpers;
 using Microsoft.Extensions.Logging;
+using HyFive.Domain.Observation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HyFive.Services.FourIndication
 {
@@ -52,7 +54,7 @@ namespace HyFive.Services.FourIndication
 
                 var session = _mapper.Map<Domain.Session.FourIndicationsSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
-                session.CreatedDate = DateTime.UtcNow;
+                session.StartDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
 
                 // This is how we want to handle errors if we try to save a session with a department that no longer exists
@@ -67,6 +69,7 @@ namespace HyFive.Services.FourIndication
                 {
                     FourIndicatorsObservationValidator.ValidateObservation(observation);
                     observation.CreatedTime = DateTime.UtcNow;
+                    observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicationTypes = indicationTypes
                         .Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();

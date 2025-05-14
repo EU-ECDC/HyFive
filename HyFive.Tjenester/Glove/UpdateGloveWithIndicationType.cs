@@ -11,12 +11,12 @@ namespace HyFive.Services.Glove
 {
     public class UpdateGloveWithIndicationType
     {
-        public class Command : IRequest<IndicatedGloveType>
+        public class Command : IRequest<GloveWithIndicationType>
         {
-            public IndicatedGloveType GloveWithIndicationType { get; set; }
+            public GloveWithIndicationType GloveWithIndicationType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, IndicatedGloveType>
+        public class Handler : IRequestHandler<Command, GloveWithIndicationType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace HyFive.Services.Glove
                 _mapper = mapper;
             }
 
-            public async Task<IndicatedGloveType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<GloveWithIndicationType> Handle(Command request, CancellationToken cancellationToken)
             {
                 var gloveWithIndicationType = await _context.GloveWithIndicationType
                     .FirstOrDefaultAsync(x => x.Id == request.GloveWithIndicationType.Id);
@@ -39,7 +39,7 @@ namespace HyFive.Services.Glove
                 _context.Update(gloveWithIndicationType);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<IndicatedGloveType>(gloveWithIndicationType);
+                var mapped = _mapper.Map<GloveWithIndicationType>(gloveWithIndicationType);
                 return mapped;
             }
         }

@@ -38,39 +38,39 @@ namespace HyFive.Observation.Controllers.V1
         }
 
         [HttpGet("fourIndications", Name = "GetFourIndicationsSession")]
-        public async Task<FourIndicationsSession> GetFourIndicationsSession([FromQuery] Guid sesjonId)
+        public async Task<FourIndicationsSession> GetFourIndicationsSession([FromQuery] Guid sessionId)
         {
-            var sesion = await _mediator.Send(new GetFourIndicationsSession.Query()
+            var session = await _mediator.Send(new GetFourIndicationsSession.Query()
             {
                 HPRNumber = _userService.GetHprNumber(),  
                 Pseudonym =  _userService.GetPseudonym(), 
-                SessionId = sesjonId
+                SessionId = sessionId
             });
-            return sesion;
+            return session;
         }
 
         [HttpGet("handJewelry", Name = "GetHandJewelrySession")]
         public async Task<HandJewelrySession> GetHandJewelrySession([FromQuery] Guid sessionId)
         {
-            var sesjon = await _mediator.Send(new GetHandJewelrySession.Query()
+            var session = await _mediator.Send(new GetHandJewelrySession.Query()
             {
                 HPRNumber = _userService.GetHprNumber(), 
                 Pseudonym = _userService.GetPseudonym(),
                 SessionId = sessionId
             });
-            return sesjon;
+            return session;
         }
 
         [HttpGet("protectiveEquipment", Name = "GetProtectiveEquipmentSession")]
-        public async Task<ProtectiveEquipmentSession> GetProtectiveEquipmentSession([FromQuery] Guid sesjonId)
+        public async Task<ProtectiveEquipmentSession> GetProtectiveEquipmentSession([FromQuery] Guid sessionId)
         {
-            var sesjon = await _mediator.Send(new GetProtectiveEquipmentSession.Query()
+            var session = await _mediator.Send(new GetProtectiveEquipmentSession.Query()
             {
                 HPRNumber = _userService.GetHprNumber(),
                 Pseudonym = _userService.GetPseudonym(),
-                SessionId = sesjonId
+                SessionId = sessionId
             });
-            return sesjon;
+            return session;
         }
 
         [HttpGet("glove", Name = "GetGloveSession")]

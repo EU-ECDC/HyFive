@@ -62,8 +62,8 @@ namespace HyFive.Services.FourIndication
                     var activityTypeFromRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observation.Activity.ActivityType.Code);
                     observation.Activity.ActivityType = activityTypeFromRequest;
                     observation.Activity.GloveUsed = request.Observation.Activity.GloveUsed;
-                    observation.Activity.TimeSpent = request.Observation.Activity.TimeSpent;
-                    observation.Activity.TimeRecordingWasDone = request.Observation.Activity.TimeRecordingWasDone;
+                    observation.Activity.SecondsUsed = request.Observation.Activity.SecondsUsed;
+                    observation.Activity.TimingWasPerformed = request.Observation.Activity.TimingWasPerformed;
 
                     observation.RegisteredTime = request.Observation.RegistrationTime;
 

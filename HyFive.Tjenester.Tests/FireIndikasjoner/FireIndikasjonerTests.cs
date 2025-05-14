@@ -106,7 +106,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //                aktivitet: new Activity()
         //                {
         //                    ActivityType = Mapper.Map<Models.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
-        //                    TimeRecordingWasDone = true
+        //                    TimingWasPerformed = true
         //                }, brukDefaultAktivitet: false);
         //        }
         //    );
@@ -287,7 +287,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
         //    oppdatertObservasjon.Activity = new Activity()
         //    {
         //        ActivityType = Mapper.Map<Models.V1.Observation.ActivityType>(DatabaseContext.ActivityType.AsNoTracking().First()),
-        //        TimeRecordingWasDone = true
+        //        TimingWasPerformed = true
         //    };
         //    var command = new UpdateFourIndicationsObservation.Command() { Observation = oppdatertObservasjon };
 

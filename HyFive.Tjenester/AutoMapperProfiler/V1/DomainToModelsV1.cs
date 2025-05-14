@@ -83,7 +83,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<GloveObservation, Models.V1.Observation.Gloves.GloveObservation>(MemberList.None);
-            CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.IndicatedGloveType>(MemberList
+            CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.GloveWithIndicationType>(MemberList
                 .None);
             CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GloveWithoutIndicationType>(MemberList
                 .None);
@@ -109,14 +109,14 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<FourIndicationsObservation, ObservationOverviewReport>(MemberList.None);
 
-            // HandJewelry
+            // HandJewelries
             CreateMap<HandJewelrySession, SessionOverviewReport>(MemberList.None)
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => SessionHelper.GetSessionType(src.Discriminator)))
                 .ForMember(dest => dest.ObserverName, opt => opt.MapFrom(src => GetObserverName(src.Observer)));
 
             CreateMap<HandJewelryObservation, ObservationOverviewReport>(MemberList.None)
                 .ForMember(dest => dest.HandJewelryTypes,
-                    opt => opt.MapFrom(src => src.HandJewelry));
+                    opt => opt.MapFrom(src => src.HandJewelries));
 
             // ProtectiveEquipment
             CreateMap<ProtectiveEquipmentSession, SessionOverviewReport>(MemberList.None)
@@ -172,8 +172,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.SessionComment, opt => opt.MapFrom(o => o.FourIndicationsSession.Comment))
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(o => o.Activity.ActivityType.Name))
                 .ForMember(dest => dest.Indications, opt => opt.MapFrom(o => string.Join(',', o.IndicationTypes.Select(i => i.Name))))
-                .ForMember(dest => dest.SecondsUsed, opt => opt.MapFrom(o => o.Activity.TimeSpent))
-                .ForMember(dest => dest.TimingWasPerformed, opt => opt.MapFrom(o => o.Activity.TimeRecordingWasDone))
+                .ForMember(dest => dest.SecondsUsed, opt => opt.MapFrom(o => o.Activity.SecondsUsed))
+                .ForMember(dest => dest.TimingWasPerformed, opt => opt.MapFrom(o => o.Activity.TimingWasPerformed))
                 .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GloveUsed))
                 .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.Name))
                 .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.FourIndicationsSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
@@ -200,14 +200,14 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.ObservationComment, opt => opt.MapFrom(o => o.Comment))
                 .ForMember(dest => dest.SessionComment, opt => opt.MapFrom(o => o.GloveSession.Comment))
                 .ForMember(dest => dest.HandHygieneAfterGloveUseCode, opt => opt.MapFrom(o => o.PostGloveHandHygieneType.Code))
-                .ForMember(dest => dest.GlovesWithoutIndicationCode, opt => opt.MapFrom(o => string.Join(',',o.GeneralPurposeGloveTypes.Select(h => h.Code))))
+                .ForMember(dest => dest.GlovesWithoutIndicationCode, opt => opt.MapFrom(o => string.Join(',',o.GloveWithoutIndicationTypes.Select(h => h.Code))))
                 .ForMember(dest => dest.GlovesWithIndicationCode, opt => opt.MapFrom(o => string.Join(',', o.IndicatedGloveTypes.Select(h => h.Code))))
                 .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.Name))
                 .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.Municipality.Number))
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.Municipality.Name));
 
-            // HandJewelry-rapport
+            // HandJewelries-rapport
 
             CreateMap<HandJewelryObservation, HandJewelryObservationReport>()
                .ForMember(dest => dest.ObservationId, opt => opt.MapFrom(src => src.Id))
@@ -225,8 +225,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                .ForMember(dest => dest.TransferStatus, opt => opt.MapFrom(o => o.HandJewelrySession.TransferStatus.Code))
                .ForMember(dest => dest.ObservationComment, opt => opt.MapFrom(o => o.Comment))
                .ForMember(dest => dest.SessionComment, opt => opt.MapFrom(o => o.HandJewelrySession.Comment))
-               .ForMember(dest => dest.HandJewelryTypeCodes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelry.Select(h => h.Code))))
-               .ForMember(dest => dest.HandJewelryTypes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelry.Select(h => h.Name))))
+               .ForMember(dest => dest.HandJewelryTypeCodes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelries.Select(h => h.Code))))
+               .ForMember(dest => dest.HandJewelryTypes, opt => opt.MapFrom(o => string.Join(',', o.HandJewelries.Select(h => h.Name))))
                .ForMember(dest => dest.HealthOrganization, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.Name))
                .ForMember(dest => dest.RegionalHealthOrganization, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.HandJewelrySession.Department.Institution.Municipality.Number))

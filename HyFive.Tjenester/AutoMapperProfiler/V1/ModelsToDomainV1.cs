@@ -58,7 +58,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
             CreateMap<Models.V1.Observation.Gloves.GloveObservation, GloveObservation>(MemberList.None)
                 .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));
-            CreateMap<Models.V1.Observation.Gloves.IndicatedGloveType, GloveWithIndicationType>(MemberList
+            CreateMap<Models.V1.Observation.Gloves.GloveWithIndicationType, GloveWithIndicationType>(MemberList
                 .None);
             CreateMap<Models.V1.Observation.Gloves.GloveWithoutIndicationType, GloveWithoutIndicationType>(MemberList
                 .None);

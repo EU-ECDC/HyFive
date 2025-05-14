@@ -9,7 +9,7 @@
             Seeds all necessary static code lists required for the application to run:
             OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
             BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
-            IndicatedGloveTypes, GloveWithoutIndicationType, HandHygieneAfterGloveUseType.
+            IndicatedGloveTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
             In addition, an FHI Admin is seeded: Felix Mørk.
             To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
             </summary>
@@ -69,7 +69,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.GloveWithIndicationTypeController.UpdateGloveWithIndicationType(HyFive.Models.V1.Observation.Gloves.IndicatedGloveType)">
+        <member name="M:HyFive.Admin.Controllers.V1.GloveWithIndicationTypeController.UpdateGloveWithIndicationType(HyFive.Models.V1.Observation.Gloves.GloveWithIndicationType)">
             <summary>
             Update GloveForIndicationType
             </summary>
@@ -97,7 +97,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.HandHygieneAfterGloveUseTypeController.UpdateHandHygieneAfterGloveUseType(HyFive.Models.V1.Observation.Gloves.PostGloveHandHygieneType)">
             <summary>
-            Update  HandHygieneAfterGloveUseType
+            Update  PostGloveHandHygieneType
             </summary>
             <param name="handHygieneAfterGloveUseType"></param>
             <returns></returns>
@@ -406,7 +406,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
             <summary>
-            Create an Excel report for HandJewelry observations for department
+            Create an Excel report for HandJewelries observations for department
             </summary>
             <param name="institutionId"></param>
             <param name="departmentId"></param>

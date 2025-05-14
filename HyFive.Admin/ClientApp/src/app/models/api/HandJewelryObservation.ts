@@ -7,5 +7,5 @@ import { HandJewelryType } from './HandJewelryType';
 
 export interface HandJewelryObservation extends Observation
 {
-	handJewelry?: HandJewelryType[];
+	handJewelries?: HandJewelryType[];
 }

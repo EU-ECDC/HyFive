@@ -45,8 +45,8 @@ namespace HyFive.Services.Tests.Rapporter
         //        {
         //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Disinfection),
         //            GloveUsed = false,
-        //            TimeSpent = 4,
-        //            TimeRecordingWasDone = false
+        //            SecondsUsed = 4,
+        //            TimingWasPerformed = false
         //        },
         //        IndicationTypes = new List<IndicationTypes>()
         //        {
@@ -63,8 +63,8 @@ namespace HyFive.Services.Tests.Rapporter
         //        {
         //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.NotCompleted),
         //            GloveUsed = false,
-        //            TimeSpent = 4,
-        //            TimeRecordingWasDone = false
+        //            SecondsUsed = 4,
+        //            TimingWasPerformed = false
         //        },
         //        IndicationTypes = new List<IndicationTypes>()
         //        {
