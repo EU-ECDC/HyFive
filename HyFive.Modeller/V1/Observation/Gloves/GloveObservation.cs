@@ -7,7 +7,7 @@ namespace HyFive.Models.V1.Observation.Gloves
     public class GloveObservation : Observation
     {
         [TsProperty(ForceNullable = true)] 
-        public List<IndicatedGloveType> IndicatedGloveTypes { get; set; }
+        public List<GloveWithIndicationType> IndicatedGloveTypes { get; set; }
 
         [TsProperty(ForceNullable = true)]
         public List<GloveWithoutIndicationType> GloveWithoutIndicationTypes { get; set; }

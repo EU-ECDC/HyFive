@@ -3,7 +3,7 @@
 namespace HyFive.Models.V1.Observation.Gloves
 {
     [TsInterface(IncludeNamespace = false, AutoI = false)]
-    public class IndicatedGloveType
+    public class GloveWithIndicationType
     {
         public int Id { get; set; }
         public string Code { get; set; }

@@ -38,7 +38,7 @@ namespace HyFive.Services.Session
                     .AsNoTracking()
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
-                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
+                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 

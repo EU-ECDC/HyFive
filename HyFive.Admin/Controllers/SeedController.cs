@@ -18,7 +18,7 @@ namespace HyFive.Admin.Controllers
         /// Seeds all necessary static code lists required for the application to run:
         /// OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
         /// BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
-        /// IndicatedGloveTypes, GloveWithoutIndicationType, HandHygieneAfterGloveUseType.
+        /// IndicatedGloveTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
         /// In addition, an FHI Admin is seeded: Felix Mørk.
         /// To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
         /// </summary>

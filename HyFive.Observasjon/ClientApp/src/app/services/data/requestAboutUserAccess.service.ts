@@ -13,17 +13,17 @@ export class RequestAboutUserAccessService {
   constructor(private readonly httpClient: HttpClient){  }
 
   getInstitutions(): Observable<Institution[]> {
-    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/institutions`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/institutions`;
     return this.httpClient.get<Institution[]>(url);
   }
 
   sendRequestAboutUserAccess(newRequestAboutUserAccess: CreateUserAccessRequest): Observable<boolean>{
-    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/send`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/send`;
     return this.httpClient.post<boolean>(url, newRequestAboutUserAccess);
   }
 
   fetchRequestSentAlready(): Observable<UserAccessRequest> {
-    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest`;
     return this.httpClient.get<UserAccessRequest>(url);
   }
 

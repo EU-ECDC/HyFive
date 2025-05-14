@@ -52,6 +52,7 @@ namespace HyFive.Services.Glove
 
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
+                session.StartDate = DateTime.UtcNow;
                 session.Department = await HentAvdeling(request, cancellationToken);
                 session.Observer = observator;
 
@@ -65,12 +66,13 @@ namespace HyFive.Services.Glove
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.UtcNow;
+                    observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes
                                                             .Where(hmi => observation.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                                                             .ToList();
-                    observation.GeneralPurposeGloveTypes = gloveWithoutIndicationTypes
-                                                            .Where(hui => observation.GeneralPurposeGloveTypes.Select(ohui => ohui.Id).Contains(hui.Id))
+                    observation.GloveWithoutIndicationTypes = gloveWithoutIndicationTypes
+                                                            .Where(hui => observation.GloveWithoutIndicationTypes.Select(ohui => ohui.Id).Contains(hui.Id))
                                                             .ToList();
                     observation.PostGloveHandHygieneType = observation.PostGloveHandHygieneType != null
                                                                 ? handHygieneAfterGloveUseTypes.FirstOrDefault(he => he.Id == observation.PostGloveHandHygieneType.Id)

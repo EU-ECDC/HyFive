@@ -58,7 +58,7 @@ namespace HyFive.Services.Reports.HandJewelry
                     .AsNoTracking()
                     .Include(p => p.TransferStatus)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
-                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
+                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
                         && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
@@ -81,7 +81,7 @@ namespace HyFive.Services.Reports.HandJewelry
                    .AsNoTracking()
                    .Include(p => p.TransferStatus)
                    .Include(s => s.Observations).ThenInclude(o => o.Role)
-                   .Include(s => s.Observations).ThenInclude(o => o.HandJewelry)
+                   .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                    .Where(s =>
                        s.Department.InstitutionId == request.InstitutionId
                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
@@ -105,7 +105,7 @@ namespace HyFive.Services.Reports.HandJewelry
                 var jewelryTypeAndRoleList = new List<JewelryTypeAndRole>();
                 foreach (var observation in observations)
                 {
-                    foreach (var jewelryType in observation.HandJewelry)
+                    foreach (var jewelryType in observation.HandJewelries)
                     {
                         jewelryTypeAndRoleList.Add(new JewelryTypeAndRole
                         {

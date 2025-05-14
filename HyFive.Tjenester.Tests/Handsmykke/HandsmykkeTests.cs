@@ -50,7 +50,7 @@ namespace HyFive.Services.Tests.Handsmykke
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].HandJewelry.Count, Is.EqualTo(1));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].HandJewelries.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(department.Roles.First().Name));
         //    });
         //}
@@ -93,7 +93,7 @@ namespace HyFive.Services.Tests.Handsmykke
                             RegistrationTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
-                            HandJewelry = new List<HandJewelryType>()
+                            HandJewelries = new List<HandJewelryType>()
                             {
                                 new HandJewelryType()
                                 {

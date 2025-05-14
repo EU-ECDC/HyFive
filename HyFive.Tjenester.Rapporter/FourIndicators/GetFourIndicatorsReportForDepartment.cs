@@ -309,12 +309,12 @@ namespace HyFive.Services.Reports.FourIndicators
                     var observations = observationsRole.ToList();
                     handwashingTimes.AddRange(
                         observations
-                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash)
-                            .Select(o => o.Activity.TimeSpent));
+                            .Where(o => o.Activity.TimingWasPerformed && o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash)
+                            .Select(o => o.Activity.SecondsUsed));
                     disinfectionTimes.AddRange(
                         observations
-                            .Where(o => o.Activity.TimeRecordingWasDone && o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
-                            .Select(o => o.Activity.TimeSpent));
+                            .Where(o => o.Activity.TimingWasPerformed && o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
+                            .Select(o => o.Activity.SecondsUsed));
 
                     dto.Combinations.Add(CreateCombinationA(observations));
                     dto.Combinations.Add(CreateCombinationB(observations));
