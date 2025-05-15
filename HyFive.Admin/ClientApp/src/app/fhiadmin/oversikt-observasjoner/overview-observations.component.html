@@ -15,8 +15,8 @@
         <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" />
       </div>
       <div class="col-md-2">
-        <label for="til">To date</label>
-        <input id="til" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
+        <label for="to">To date</label>
+        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
       </div>
       <div *ngIf="canSelectInstitution" class="col-md-3">
         <label for="institutions">Institutions</label>
