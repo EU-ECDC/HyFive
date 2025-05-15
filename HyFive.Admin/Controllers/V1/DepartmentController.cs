@@ -11,6 +11,7 @@ using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Roles;
 using System;
+using CsvHelper.Configuration.Attributes;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -32,7 +33,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetDepartment")]
         [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
         public async Task<ActionResult<Department>> GetDepartment(int id)
         {

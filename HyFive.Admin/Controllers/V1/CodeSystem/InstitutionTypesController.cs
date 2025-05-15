@@ -29,7 +29,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Get InstitutionTypes
         /// </summary>
         /// <returns></returns>
-        [HttpGet(Name = "GetInstitutionTypes")]
+        [HttpGet]
         public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
         {
             var institutionTypes = await _mediator.Send(new GetInstitutionTypes.Query());
