@@ -57,6 +57,6 @@
 
 </div>
 <ng-container *ngIf="institutionId > 0">
-  <app-rediger-en-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-rediger-en-institution>
+  <app-edit-an-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
 </ng-container>
 
