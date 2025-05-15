@@ -268,16 +268,16 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.SlettAvdeling(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.DeleteDepartment(System.Int32)">
             <summary>
-            Slett department
+            Delete department
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.HarOverfortSesjonTilFHI(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.HasTransferredSessionToFHI(System.Int32)">
             <summary>
-            Sjekker om department har sessions overført til FHI
+            Checking if the department has sessions transferred to FHI.
             </summary>
             <param name="id"></param>
             <returns></returns>
