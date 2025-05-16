@@ -95,6 +95,9 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
       this.SearchDone = true;
       this.sessions = results;
       this.updateLists();
+    },
+    (error) => {
+      this.loading = false;
     })
   }
 
