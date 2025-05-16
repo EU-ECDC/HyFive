@@ -79,7 +79,7 @@ namespace HyFive.Services.HealthcareOrganization
                 var newCoordinator = new Coordinator
                 {
                     FirstName = coordinator.FirstName,
-                    LastName = coordinator.Surname,
+                    LastName = coordinator.LastName,
                     Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
@@ -95,7 +95,7 @@ namespace HyFive.Services.HealthcareOrganization
                 var observator = new Observer
                 {
                     FirstName = coordinator.FirstName,
-                    LastName = coordinator.Surname,
+                    LastName = coordinator.LastName,
                     Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
@@ -125,7 +125,7 @@ namespace HyFive.Services.HealthcareOrganization
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(coordinator.Surname))
+                if (string.IsNullOrWhiteSpace(coordinator.LastName))
                 {
                     errorMessage = "Last name must be filled in";
                     return false;

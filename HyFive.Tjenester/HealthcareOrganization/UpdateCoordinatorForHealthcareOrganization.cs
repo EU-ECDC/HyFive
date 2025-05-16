@@ -65,7 +65,7 @@ namespace HyFive.Services.HealthcareOrganization
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(coordinator.Surname))
+                if (string.IsNullOrWhiteSpace(coordinator.LastName))
                 {
                     errorMessage = "Last name must be filled in";
                     return false;
@@ -114,7 +114,7 @@ namespace HyFive.Services.HealthcareOrganization
                 foreach (var coordinator in coordinators)
                 {
                     coordinator.FirstName = coordinatorForHealthcareOrganization.FirstName;
-                    coordinator.LastName = coordinatorForHealthcareOrganization.Surname;
+                    coordinator.LastName = coordinatorForHealthcareOrganization.LastName;
                     coordinator.Email = coordinatorForHealthcareOrganization.Email;
                     coordinator.HPRNumber = coordinatorForHealthcareOrganization.ModifiedHPRNumber;
                     coordinator.IdentityPseudonym = coordinatorForHealthcareOrganization.ModifiedPseudonym;
@@ -137,7 +137,7 @@ namespace HyFive.Services.HealthcareOrganization
                 var newCoordinator = new Coordinator
                 {
                     FirstName = coordinator.FirstName,
-                    LastName = coordinator.Surname,
+                    LastName = coordinator.LastName,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
                     Institution = institution
