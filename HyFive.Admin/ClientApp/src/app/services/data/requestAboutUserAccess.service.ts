@@ -9,11 +9,11 @@ import { RequestStatus } from 'src/app/models/api/RequestStatus';
   providedIn: 'root'
 })
 export class RequestAboutUserAccessService {
-
+  
   constructor(private readonly http: HttpClient) { }
 
   getAllRequests(institutionId: number): Observable<RequestAboutUserAccess[]> {
-    const url = `${environment.apiBaseUrl}/v1/requestuseraccess/allrequests`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/allrequests`;
 
     let params = new HttpParams();
     params = params.append("institutionId", institutionId.toString());
@@ -22,7 +22,7 @@ export class RequestAboutUserAccessService {
   }
 
   getRequestsAwaitingApproval(institutionId: number): Observable<RequestAboutUserAccess[]> {
-    const url = `${environment.apiBaseUrl}/v1/requestuseraccess/requestsawaitingapproval`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/pendingApprovalRequests`;
 
     let params = new HttpParams();
     params = params.append("institutionId", institutionId.toString());
@@ -31,7 +31,7 @@ export class RequestAboutUserAccessService {
   }
 
   approveRequest(requestId: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/requestuseraccess/approverequest`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/approveRequest`;
 
     let params = new HttpParams();
     params = params.append("requestId", requestId.toString());
@@ -40,7 +40,7 @@ export class RequestAboutUserAccessService {
   }
 
   rejectRequest(requestId: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/requestuseraccess/rejectionrequest`;
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/rejectRequest`;
 
     let params = new HttpParams();
     params = params.append("requestId", requestId.toString());
