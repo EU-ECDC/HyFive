@@ -80,7 +80,7 @@ namespace HyFive.Services.HealthcareOrganization
                 var koordinatorForHelseforetak = new HealthcareOrganizationCoordinator
                 {
                     FirstName = coordinator.FirstName,
-                    Surname = coordinator.LastName,
+                    LastName = coordinator.LastName,
                     Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
