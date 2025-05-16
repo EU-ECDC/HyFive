@@ -41,7 +41,7 @@ export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.predefinedComments = predefinedComments
       },
-      (error) => this.toastrService.error('Det oppstod en feil under innlasting av predefinerte kommentarer: ' + error?.message , '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading predefined comments: ' + error?.message , '', { disableTimeOut: true}),
     );
   }
 
