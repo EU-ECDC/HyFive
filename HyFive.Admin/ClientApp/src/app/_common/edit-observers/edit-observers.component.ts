@@ -4,7 +4,7 @@ import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/api/User';
 import { KeyEventService } from '../../services/events/key-event.service';
-import { LoggedInUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../_common/services/authorization.service';
-import { LoggedInUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionService } from '../../services/data/institution.service';
 import { InstitutionReport } from '../../models/api/InstitutionReport';

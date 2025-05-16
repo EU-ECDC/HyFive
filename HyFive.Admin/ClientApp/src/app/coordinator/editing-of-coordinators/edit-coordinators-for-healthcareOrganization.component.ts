@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { LoggedInUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareOrganization } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { UserService } from '../../services/data/user.service';
