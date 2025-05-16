@@ -9,7 +9,7 @@
       <div class="row mb-5 mt-5">
         <div class="col-md-3">
             <h5>Search for institution</h5>
-            <input type="text" placeholder="Name, institutiontype" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keyword" (ngModelChange)="filterInstitutions()">
+            <input type="text" placeholder="institution type" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keyword" (ngModelChange)="filterInstitutions()">
         </div>
         <div class="col-md-3">
             <h5>Search for institution on person</h5>
@@ -26,9 +26,9 @@
               <td>HER-id</td>
               <td sortable-column="Name"></td>
               <td>Abbreviation</td>
-              <td sortable-column="Institutiontype"></td>
-              <td>Healthcare Enterprise/Municipality</td>
-              <td class="text-end" scope="col">Action</td>
+              <td sortable-column="Institution Type"></td>
+              <td>HealthCare Organization / Municipality</td>
+              <td class="text-center" scope="col">Action</td>
             </tr>
     
           </thead>
@@ -37,7 +37,7 @@
               <td>{{institution.herId}}</td>
               <td>{{institution.name}}</td>
               <td>{{institution.abbreviation}}</td>
-              <td>{{institution.institutiontype?.name}}</td>
+              <td>{{institution.institutionType?.name}}</td>
               <td>{{ institution.healthcareOrganization?.name || institution.municipality?.name }}</td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="navigateToInstitution(institution.id)">
@@ -57,6 +57,6 @@
 
 </div>
 <ng-container *ngIf="institutionId > 0">
-  <app-rediger-en-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-rediger-en-institution>
+  <app-edit-an-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
 </ng-container>
 

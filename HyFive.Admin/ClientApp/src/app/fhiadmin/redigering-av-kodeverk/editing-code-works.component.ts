@@ -21,17 +21,17 @@ export class EditingCodeworkComponent implements OnInit {
 
   @ViewChild('codeworkContainer', { static: true, read: ViewContainerRef }) codeworkContainer: ViewContainerRef;
 
-  codework = [
-    { name: 'Activitytypes', isActive: false, component: EditingActivityTypeComponent },
-    { name: 'Departmenttypes', isActive: false, component: EditingOfDepartmentTypesComponent },
-    { name: 'Protectiveequipmenttypes', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
-    { name: 'Protectiveequipmenttypes', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
-    { name: 'handjewelrytypes', isActive: false, component: EditingByHandjewelryTypeComponent },
-    { name: '\'Glove with indication\'-types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
-    { name: '\'Glove without indication\'-types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
-    { name: '\'Hand hygiene after wearing gloves\'-types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
-    { name: 'Indicationtypes', isActive: false, component: EditingIndicationTypesComponent },
-    { name: 'Institutiontypes', isActive: false, component: EditingInstitutionTypesComponent },
+  codeworks = [
+    { name: 'Activity Types', isActive: false, component: EditingActivityTypeComponent },
+    { name: 'Department Types', isActive: false, component: EditingOfDepartmentTypesComponent },
+    { name: 'Protective Equipment Types', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
+    { name: 'Protective Equipment Setting Types', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
+    { name: 'Hand Jewelry Types', isActive: false, component: EditingByHandjewelryTypeComponent },
+    { name: 'Glove with Indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
+    { name: 'Glove without Indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
+    { name: 'Hand Hygiene after wearing Gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
+    { name: 'Indication Types', isActive: false, component: EditingIndicationTypesComponent },
+    { name: 'Institution Types', isActive: false, component: EditingInstitutionTypesComponent },
     { name: 'Region', isActive: false, component: EditingRegionComponent },
     { name: 'Roles', isActive: false, component: EditingOfRolesComponent }
   ] as CodeworksSidemenuModel[];
@@ -48,7 +48,7 @@ export class EditingCodeworkComponent implements OnInit {
     this.codeworkSelected = true;
     this.codeworkContainer.clear();
 
-    this.codework = this.codework.map(x => { x.isActive = (x.name === codework.name) ? true : false; return x; });
+    this.codeworks = this.codeworks.map(x => { x.isActive = (x.name === codework.name) ? true : false; return x; });
 
     const factory = this.resolver.resolveComponentFactory(codework.component);
     const componentRef = this.codeworkContainer.createComponent(factory);

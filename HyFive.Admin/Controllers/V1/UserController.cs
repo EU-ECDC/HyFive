@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost("observer/creat")]
+        [HttpPost("observer/create")]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateObserver([FromBody] User user)
         {

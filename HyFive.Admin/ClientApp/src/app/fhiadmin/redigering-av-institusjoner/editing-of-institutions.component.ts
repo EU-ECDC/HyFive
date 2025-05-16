@@ -110,7 +110,7 @@ export class EditingOfInstitutionsComponent implements OnInit {
       case "Name":
         propertyOf = (x: Institution) => x.name;
         break;
-        case "Institutiontype":
+        case "Institution Type":
           propertyOf = (x: Institution) => x.institutionType.name;
         break;
       default:

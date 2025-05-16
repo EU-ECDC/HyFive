@@ -4,7 +4,7 @@
   <div class="row">
     <div class="row align-items-end mb-4">
       <div class="col-md-2">
-        <label for="sessionType">Module</label>
+        <label for="sessionType">Session Type</label>
         <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
           <option value="null">All</option>
           <option *ngFor="let sessiontype of sessiontypes" [ngValue]="sessiontype.value">{{sessiontype.name}}</option>
@@ -15,8 +15,8 @@
         <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" />
       </div>
       <div class="col-md-2">
-        <label for="til">To date</label>
-        <input id="til" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
+        <label for="to">To date</label>
+        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
       </div>
       <div *ngIf="canSelectInstitution" class="col-md-3">
         <label for="institutions">Institutions</label>
@@ -27,7 +27,7 @@
           </option>
         </select>
       </div>
-      <div class="form-group col-12 col-md-3">
+      <div style="display: flex;" class="form-group col-12 col-md-3">
         <label style="opacity:0;">-</label>
         <br />
         <button class="btn btn-sm fhi-btn-primary me-2" (click)="getInstitutionsWithSessions()">Search</button>

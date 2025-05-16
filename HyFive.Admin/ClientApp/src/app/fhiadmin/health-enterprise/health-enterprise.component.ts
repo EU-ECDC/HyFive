@@ -120,7 +120,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
       case "Name":
         propertyOf = (x: HealthcareOrganization) => x.name.toLowerCase();
         break;
-      case "Regional healthcareOrganization":
+      case "Regional HealthCare Organization":
         propertyOf = (x: HealthcareOrganization) => x.regionalHealthcareOrganization?.name;
         break;
       default:

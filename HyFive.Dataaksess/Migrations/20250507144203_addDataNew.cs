@@ -804,9 +804,9 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""HealthcareOrganization"" (""Id"", ""Name"", ""RegionalHealthcareOrganizationId"") VALUES (6, N'Helse Finnmark HF', 1) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HealthcareOrganization"" (""Id"", ""Name"", ""RegionalHealthcareOrganizationId"") VALUES (7, N'Helse Førde HF', 1) ON CONFLICT (""Id"") DO NOTHING");
 
-            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'SYKEHUS', N'Sykehus') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'SYKEHJEM', N'Sykehjem') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (5, N'BARNEHJEM', N'Barnehjem') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'HOSPITAL', N'Hospital') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'NURSING_HOME', N'Nursing_home') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""InstitutionType"" (""Id"", ""Code"", ""Name"") VALUES (5, N'ORPHANAGE', N'Orphanage') ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""Institution"" (""Id"", ""Name"", ""Abbreviation"", ""HERId"", ""InstitutionTypeId"", ""CreatedTime"", ""RegionId"", ""HealthcareOrganizationId"", ""MunicipalityId"") VALUES (1, N'Oslo universitetssykehus HF', N'OUS', N'87711', 1, TIMESTAMP '2021-08-05T07:12:20.2726001', NULL, 1, NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Institution"" (""Id"", ""Name"", ""Abbreviation"", ""HERId"", ""InstitutionTypeId"", ""CreatedTime"", ""RegionId"", ""HealthcareOrganizationId"", ""MunicipalityId"") VALUES (2, N'St. Olavs hospital HF', N'STOHF', N'3145415', 1, TIMESTAMP '2021-09-03T11:14:43.3759191', NULL, 5, NULL) ON CONFLICT (""Id"") DO NOTHING");
