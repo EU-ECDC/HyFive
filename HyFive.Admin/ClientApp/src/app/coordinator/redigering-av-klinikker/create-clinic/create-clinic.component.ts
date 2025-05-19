@@ -44,9 +44,9 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
       .filter(r => r.isSelected)
       .map((r) => ({ id: r.department.id, departmentTypeId: 0, roles: null, institutionId: this.institutionId, name: null, departmentType: null }));
 
-    this.clinicService.createClinic(this.newClinic).subscribe((klinikk) => {
-      this.toastrService.success('Clinic created', `Clinic with ID: ${klinikk.id} created`);
-      this.clinicCreatedEvent.emit(klinikk);
+    this.clinicService.createClinic(this.newClinic).subscribe((clinic) => {
+      this.toastrService.success('Clinic created', `Clinic with ID: ${clinic.id} created`);
+      this.clinicCreatedEvent.emit(clinic);
 
       this.loadDepartments();
     },
