@@ -8,7 +8,7 @@ export interface HealthcareOrganizationCoordinator
 {
 	createdTime: any;
 	firstName: string;
-	surname: string;
+	lastName: string;
 	email: string;
 	identityPseudonym: string;
 	isDisabled: boolean;
