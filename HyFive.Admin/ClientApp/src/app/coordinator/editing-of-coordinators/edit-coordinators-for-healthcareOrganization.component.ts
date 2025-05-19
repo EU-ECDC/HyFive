@@ -131,8 +131,8 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       me.selectedInstitutions.push(institution);
     });
 
-    coordinator.changedHPRNumber = coordinator.hprNumber;
-    coordinator.changedIdentityPseudonym = coordinator.identityPseudonym
+    coordinator.modifiedHPRNumber = coordinator.hprNumber;
+    coordinator.modifiedPseudonym = coordinator.identityPseudonym
 
     this.coordinatorAsChanged = JSON.parse(JSON.stringify(coordinator));
   }
@@ -224,7 +224,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   identityPseudonymChanged(coordinator: CoordinatorForHealthcareOrganization, identityPseudonym: string) {
-    coordinator.changedIdentityPseudonym = identityPseudonym;
+    coordinator.modifiedPseudonym = identityPseudonym;
   }
 
   filterCoordinators(): void {

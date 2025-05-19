@@ -31,8 +31,8 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService
   ) { }
 
-  identityPseudonymChanged(changedIdentityPseudonym: string) {
-    this.observerAsChanged.identityPseudonym = changedIdentityPseudonym;
+  identityPseudonymChanged(modifiedPseudonym: string) {
+    this.observerAsChanged.identityPseudonym = modifiedPseudonym;
   }
 
   ngOnInit(): void {
