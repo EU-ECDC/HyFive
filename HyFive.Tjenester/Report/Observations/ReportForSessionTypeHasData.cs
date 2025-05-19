@@ -82,17 +82,20 @@ namespace HyFive.Services.Rapport.Observations
             }
 
             private static IQueryable<FourIndicationsObservation> AddSearchParameters(IQueryable<FourIndicationsObservation> queryable, int institutionId, int? avdelingId, 
-                DateTime fraDato, DateTime tilDato, AuthorizedRole rolle)
+                DateTime fraDato, DateTime tilDato, AuthorizedRole role)
             {
 
                 queryable = queryable.Where(p => p.FourIndicationsSession.Department.InstitutionId == institutionId);
                 if (avdelingId != null)
                     queryable = queryable.Where(p => p.FourIndicationsSession.Department.Id == avdelingId);
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
+                var fromDateUtc = DateTime.SpecifyKind(fraDato.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(tilDato.Date, DateTimeKind.Utc);
 
-                if (rolle == AuthorizedRole.Administrator)
+                queryable = queryable.Where(p => p.RegisteredTime >= fromDateUtc);
+                queryable = queryable.Where(p => p.RegisteredTime <= toDateUtc);
+
+                if (role == AuthorizedRole.Administrator)
                     queryable = queryable.Where(p => p.FourIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
