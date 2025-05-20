@@ -18,7 +18,7 @@ RUN apt-get -y install nodejs
 FROM with-node AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HyFive.Observasjon/Directory.Build.props", "HyFive.Observasjon/"]
+COPY ["HyFive.Observasjon/Directory.Build.props", "HyFive.Observation/"]
 COPY ["HyFive.Observasjon/HyFive.Observation.csproj", "HyFive.Observation/"]
 COPY ["HyFive.Api.Common/HyFive.Api.Common.csproj", "HyFive.Api.Common/"]
 COPY ["HyFive.Modeller/HyFive.Models.csproj", "HyFive.Models/"]
