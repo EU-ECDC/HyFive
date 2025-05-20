@@ -7,7 +7,7 @@ namespace HyFive.Services.ProtectiveEquipment.Helpers
 {
     public class ProtectiveEquipmentObservationValidator
     {
-        public static bool ValidateObservasjon(ProtectiveEquipmentObservation observation)
+        public static bool ValidateObservation(ProtectiveEquipmentObservation observation)
         {
             if (observation.ProtectiveEquipmentList?.Any(b => b.IsRequired || b.WasUsed) == false)
             {

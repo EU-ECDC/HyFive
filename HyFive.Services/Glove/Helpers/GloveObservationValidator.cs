@@ -6,7 +6,7 @@ namespace HyFive.Services.Glove.Helpers
 {
     public class GloveObservationValidator
     {
-        public static bool ValidateObservasjon(GloveObservation observation)
+        public static bool ValidateObservation(GloveObservation observation)
         {
             if (observation.GloveUsed == false && observation.PostGloveHandHygieneType != null)
             {

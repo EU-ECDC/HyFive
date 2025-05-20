@@ -7,7 +7,7 @@ namespace HyFive.Models.V1.Session
 {
 
     [TsInterface(IncludeNamespace = false, AutoI = false)]
-    public abstract class Session<TObservasjon>
+    public abstract class Session<TObservation>
     {
         public string Id { get; set; }
         public Department Department { get; set; }
@@ -15,7 +15,7 @@ namespace HyFive.Models.V1.Session
         public DateTime StartTime { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public List<TObservasjon> Observations { get; set; }
+        public List<TObservation> Observations { get; set; }
 
         [TsProperty(ForceNullable = true)]
         public string InstitutionsName { get; set; }

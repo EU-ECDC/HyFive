@@ -14,7 +14,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   projectAdmin: 'HyFive.Admin'
-  projectObservasjon: 'HyFive.Observasjon'
+  projectObservasjon: 'HyFive.Observation'
 
 steps:
 - task: NuGetToolInstaller@1

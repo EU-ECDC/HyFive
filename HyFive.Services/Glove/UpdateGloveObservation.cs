@@ -56,7 +56,7 @@ namespace HyFive.Services.Glove
 
                 var observationFromRequest =
                     _mapper.Map<Domain.Observation.Gloves.GloveObservation>(request.Observation);
-                GloveObservationValidator.ValidateObservasjon(observationFromRequest);
+                GloveObservationValidator.ValidateObservation(observationFromRequest);
 
                 var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
                 var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();

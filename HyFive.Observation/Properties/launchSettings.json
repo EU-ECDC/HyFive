@@ -7,7 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "HyFive.Observasjon": {
+    "HyFive.Observation": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

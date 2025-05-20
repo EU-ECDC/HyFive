@@ -152,12 +152,12 @@ namespace HyFive.Services.Reports.FourIndicators
                     var PeriodFromDate = PeriodToDate;
                     PeriodToDate = CalculateNextPeriodUntilDate(interval, PeriodToDate);
 
-                    var observasjonerIPeriode = observationsInTheCurrentTimePeriod.Where(o => o.RegisteredTime >= PeriodFromDate && o.RegisteredTime < PeriodToDate);
+                    var observationsPeriod = observationsInTheCurrentTimePeriod.Where(o => o.RegisteredTime >= PeriodFromDate && o.RegisteredTime < PeriodToDate);
 
-                    var indikasjoner = observasjonerIPeriode.Select(x => x.IndicationTypes);
-                    decimal antallIndikasjoner = indikasjoner.Sum(item => item.Count);
+                    var indications = observationsPeriod.Select(x => x.IndicationTypes);
+                    decimal antallIndikasjoner = indications.Sum(item => item.Count);
 
-                    var etterlevdeIndikasjoner = observasjonerIPeriode.Where(o => o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash ||
+                    var etterlevdeIndikasjoner = observationsPeriod.Where(o => o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash ||
                                                                                                         o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
                                                                                             .Select(o => o.IndicationTypes);
 

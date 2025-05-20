@@ -80,7 +80,7 @@ namespace HyFive.Services.ProtectiveEquipment
                         }
                     }
 
-                    ProtectiveEquipmentObservationValidator.ValidateObservasjon(observation);
+                    ProtectiveEquipmentObservationValidator.ValidateObservation(observation);
                 }
 
                 var transferStatuses = _context.TransferStatusType.ToList();

@@ -77,7 +77,7 @@ namespace HyFive.Services.Glove
                     observation.PostGloveHandHygieneType = observation.PostGloveHandHygieneType != null
                                                                 ? handHygieneAfterGloveUseTypes.FirstOrDefault(he => he.Id == observation.PostGloveHandHygieneType.Id)
                                                                 : null;
-                    GloveObservationValidator.ValidateObservasjon(observation);
+                    GloveObservationValidator.ValidateObservation(observation);
                 }
 
                 var transferStatuses = _context.TransferStatusType.ToList();

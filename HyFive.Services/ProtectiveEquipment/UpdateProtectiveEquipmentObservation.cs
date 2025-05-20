@@ -59,7 +59,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var observationFromRequest =
                     _mapper.Map<Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(request.Observation);
 
-                ProtectiveEquipmentObservationValidator.ValidateObservasjon(observationFromRequest);
+                ProtectiveEquipmentObservationValidator.ValidateObservation(observationFromRequest);
                 
                 try
                 {
