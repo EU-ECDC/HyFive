@@ -17,7 +17,7 @@
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Services.csproj" />
+    <ProjectReference Include="..\HyFive.Models\HyFive.Models.csproj" />
+    <ProjectReference Include="..\HyFive.Services\HyFive.Services.csproj" />
   </ItemGroup>
 </Project>
