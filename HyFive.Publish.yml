@@ -67,25 +67,25 @@ steps:
 
 - task: OctopusPack@4
   inputs:
-    PackageId: '$(projectObservasjon)'
+    PackageId: '$(projectObservation)'
     PackageFormat: 'NuPkg'
-    SourcePath: '$(Build.ArtifactStagingDirectory)/$(projectObservasjon)'
-    OutputPath: '$(Build.ArtifactStagingDirectory)/QA/$(projectObservasjon).Octopack'
+    SourcePath: '$(Build.ArtifactStagingDirectory)/$(projectObservation)'
+    OutputPath: '$(Build.ArtifactStagingDirectory)/QA/$(projectObservation).Octopack'
     NuGetAuthor: 'FHI'
-    NuGetTitle: '$(projectObservasjon)'
+    NuGetTitle: '$(projectObservation)'
     NuGetDescription: 'Håndhygiene: Observasjon-grensesnitt'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/$(projectObservasjon)'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/$(projectObservation)'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Test/$(projectObservasjon).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Test/$(projectObservation).zip'
     replaceExistingArchive: true
 
 - task: DeleteFiles@1
   inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)/$(projectObservasjon)'
+    SourceFolder: '$(Build.ArtifactStagingDirectory)/$(projectObservation)'
     Contents: '**/*'
     RemoveSourceFolder: true
 
