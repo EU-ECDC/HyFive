@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Observation", "HyFive.Observasjon\HyFive.Observation.csproj", "{3C856E79-4309-4932-B286-5E08FA2F1762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Observation", "HyFive.Observation\HyFive.Observation.csproj", "{3C856E79-4309-4932-B286-5E08FA2F1762}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Admin", "HyFive.Admin\HyFive.Admin.csproj", "{7871E8AC-DC8A-4041-ADDB-C611F74FBCC5}"
 EndProject
