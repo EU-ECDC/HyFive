@@ -9,9 +9,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
-    <ProjectReference Include="..\HyFive.Domene\HyFive.Domain.csproj" />
-    <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj" />
+    <ProjectReference Include="..\HyFive.Domain\HyFive.Domain.csproj" />
+    <ProjectReference Include="..\HyFive.Models\HyFive.Models.csproj" />
+    <ProjectReference Include="..\HyFive.Services.Authentication\HyFive.Services.Authentication.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Overforingsstatus\" />
