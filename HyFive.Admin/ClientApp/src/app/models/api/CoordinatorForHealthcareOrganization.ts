@@ -14,6 +14,6 @@ export interface CoordinatorForHealthcareOrganization
 	isDisabled: boolean;
 	hprNumber: string;
 	institutions: InstitutionReport[];
-	changedIdentityPseudonym?: string;
-	changedHPRNumber?: string;
+	modifiedPseudonym?: string;
+	modifiedHPRNumber?: string;
 }

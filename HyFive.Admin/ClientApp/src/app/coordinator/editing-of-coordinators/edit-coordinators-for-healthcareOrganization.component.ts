@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { LoggedInUser } from '../../models/api/LoggedinUser';
+import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { CoordinatorForHealthcareOrganization } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { UserService } from '../../services/data/user.service';
@@ -131,8 +131,8 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       me.selectedInstitutions.push(institution);
     });
 
-    coordinator.changedHPRNumber = coordinator.hprNumber;
-    coordinator.changedIdentityPseudonym = coordinator.identityPseudonym
+    coordinator.modifiedHPRNumber = coordinator.hprNumber;
+    coordinator.modifiedPseudonym = coordinator.identityPseudonym
 
     this.coordinatorAsChanged = JSON.parse(JSON.stringify(coordinator));
   }
@@ -224,7 +224,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   identityPseudonymChanged(coordinator: CoordinatorForHealthcareOrganization, identityPseudonym: string) {
-    coordinator.changedIdentityPseudonym = identityPseudonym;
+    coordinator.modifiedPseudonym = identityPseudonym;
   }
 
   filterCoordinators(): void {

@@ -60,7 +60,7 @@
                 <td>{{coordinator.email}}</td>
                 <td>{{coordinator.hprNumber}}</td>
                 <td>
-                  <app-pseudonym-dialog [text]="'Vis'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
+                  <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
                 </td>
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
@@ -80,13 +80,13 @@
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.email" name="email" placeholder="Email"></td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.endretHPRNummer" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
+                  <input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.modifiedHPRNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
                   <app-search-hprnumber-link></app-search-hprnumber-link>
                 </td>
                 <td>
                   <app-pseudonym-dialog [text]="'Change'"
                                         [editable]="true"
-                                        [identityPseudonym]="coordinator.changedIdentityPseudonym"
+                                        [identityPseudonym]="coordinator.modifiedPseudonym"
                                         (identityPseudonymChanged)="identityPseudonymChanged(coordinatorAsChanged, $event)">
                   </app-pseudonym-dialog>
                 </td>

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../_common/services/authorization.service';
-import { LoggedInUser } from '../models/api/LoggedinUser';
+import { LoggedInUser } from '../models/api/LoggedInUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';

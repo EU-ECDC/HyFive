@@ -6,7 +6,7 @@ import { debounceTime, filter } from 'rxjs/operators';
 import { BrowserViewportService } from './_common/services/browser-viewport.service';
 import { UrlService } from './_common/services/url.service';
 import { AuthorizationService } from './_common/services/authorization.service';
-import { LoggedInUser } from './models/api/LoggedinUser';
+import { LoggedInUser } from './models/api/LoggedInUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
 import { UrlPaths } from './_common/konstanter/url-paths';
 import { InstitutionService } from './services/data/institution.service';
