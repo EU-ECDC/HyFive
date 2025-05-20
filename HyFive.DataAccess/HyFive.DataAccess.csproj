@@ -14,6 +14,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HyFive.Domene\HyFive.Domain.csproj" />
+    <ProjectReference Include="..\HyFive.Domain\HyFive.Domain.csproj" />
   </ItemGroup>
 </Project>
