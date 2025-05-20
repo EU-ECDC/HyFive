@@ -15,23 +15,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Models", "HyFive.Modeller\HyFive.Models.csproj", "{B6E60D4A-3436-4C02-9E46-F2C718717DC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Models", "HyFive.Models\HyFive.Models.csproj", "{B6E60D4A-3436-4C02-9E46-F2C718717DC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Api.Common", "HyFive.Api.Common\HyFive.Api.Common.csproj", "{6977A133-4AAF-4769-A5A2-CEE64456EA36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Domain", "HyFive.Domene\HyFive.Domain.csproj", "{63B2914B-7F15-44F7-95FE-33D8D57F3E40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Domain", "HyFive.Domain\HyFive.Domain.csproj", "{63B2914B-7F15-44F7-95FE-33D8D57F3E40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.DataAccess", "HyFive.Dataaksess\HyFive.DataAccess.csproj", "{D39EEA6F-7909-4C7B-95D6-DB8104EB5B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.DataAccess", "HyFive.DataAccess\HyFive.DataAccess.csproj", "{D39EEA6F-7909-4C7B-95D6-DB8104EB5B7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services", "HyFive.Tjenester\HyFive.Services.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services", "HyFive.Services\HyFive.Services.csproj", "{F1B185D7-229E-4503-B6E3-B3E6DD363A4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Authentication", "HyFive.Tjenester.Autentisering\HyFive.Services.Authentication.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Authentication", "HyFive.Services.Authentication\HyFive.Services.Authentication.csproj", "{86FAE2A5-2AD6-4279-9906-A5D794C38B80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Reports", "HyFive.Tjenester.Rapporter\HyFive.Services.Reports.csproj", "{14316A36-61B8-4EAC-9865-F1B53285E0A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Reports", "HyFive.Services.Reports\HyFive.Services.Reports.csproj", "{14316A36-61B8-4EAC-9865-F1B53285E0A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ED483D3F-D407-43A5-935E-74CDB9B0B033}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Tests", "HyFive.Tjenester.Tests\HyFive.Services.Tests.csproj", "{8F294A6A-81C5-4E1E-98D8-5E931472B1D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Services.Tests", "HyFive.Services.Tests\HyFive.Services.Tests.csproj", "{8F294A6A-81C5-4E1E-98D8-5E931472B1D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{193E35B5-9733-4AB4-B833-13303FC9D0E2}"
 	ProjectSection(SolutionItems) = preProject
