@@ -12,7 +12,7 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
   </PropertyGroup>
   <PropertyGroup>
-    <DocumentationFile>HyFive.Observasjon.xml</DocumentationFile>
+    <DocumentationFile>HyFive.Observation.xml</DocumentationFile>
     <UserSecretsId>28a906cc-ce22-476c-a088-2621f1507c14</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup>
@@ -53,9 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Api.Common\HyFive.Api.Common.csproj" />
-    <ProjectReference Include="..\HyFive.Dataaksess\HyFive.DataAccess.csproj" />
-    <ProjectReference Include="..\HyFive.Modeller\HyFive.Models.csproj" />
-    <ProjectReference Include="..\HyFive.Tjenester\HyFive.Services.csproj" />
+    <ProjectReference Include="..\HyFive.DataAccess\HyFive.DataAccess.csproj" />
+    <ProjectReference Include="..\HyFive.Models\HyFive.Models.csproj" />
+    <ProjectReference Include="..\HyFive.Services\HyFive.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="HyFive.Observation.xml">
