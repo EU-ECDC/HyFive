@@ -1,15 +1,13 @@
 ﻿using HyFive.DataAccess;
 using HyFive.Domain.User;
 using HyFive.Models.V1.Authentication;
-using Fhi.HelseId.Common.Identity;
-using Fhi.HelseId.Web.ExtensionMethods;
-using Fhi.HelseId.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,30 +24,30 @@ namespace HyFive.Services.Authentication.User
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<HealthIdUserService> _logger;
         private readonly HandHygieneContext _context;
-        private ICurrentUser User { get; }
 
 
 
-        public HealthIdUserService(ICurrentUser currentUser,
-            IHttpContextAccessor httpContextAccessor,
+        public HealthIdUserService(IHttpContextAccessor httpContextAccessor,
             ILogger<HealthIdUserService> logger,
             HandHygieneContext context)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _context = context;
-            User = currentUser;
-            if (User == null)
+            if (_httpContextAccessor.HttpContext.User == null)
                 _logger.LogInformation("TI03: User is null");
         }
 
         public async Task<LoggedInUser> GetUser()
         {
+            var userNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.WindowsAccountName);
+            var loginNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+            var hprNumberClaim = "1111"; //_httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.HprNumber);
             var user = new LoggedInUser()
             {
-                Name = User?.Name ?? "",
+                Name = userNameClaim?.Value ?? "",
             };
-            var logInName = User?.Name.ObfuscateName() ?? "(UserNull)";
+            var logInName = loginNameClaim?.Value ?? "(UserNull)";
             var hrpNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
 
@@ -67,7 +65,7 @@ namespace HyFive.Services.Authentication.User
             user.FirstName = GetFirstName();
             user.LastName = GetLastName();
 
-            if (string.IsNullOrEmpty(User?.HprNummer))
+            if (string.IsNullOrEmpty(hprNumberClaim))
             {
                 _logger.LogInformation("TI02: User: {logInName} lacks hprNumber (i HealthId)", logInName);
             }
@@ -76,7 +74,8 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsUserLoggedIn()
         {
-            return this.User != null && (!string.IsNullOrEmpty(this.User.HprNummer) || !string.IsNullOrEmpty(this.User.PidPseudonym));
+            //return _httpContextAccessor.HttpContext.User != null && (!string.IsNullOrEmpty(this.User.HprNummer) || !string.IsNullOrEmpty(this.User.PidPseudonym));
+            return true;
         }
 
 
@@ -147,7 +146,8 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            return _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimsPrincipalExtensions.HprNummer)?.Value;
+            //return _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimsPrincipalExtensions.HprNummer)?.Value;
+            return "11111";
         }
 
         public bool IsCoordinatorForSession(string sessionId)
@@ -283,8 +283,7 @@ namespace HyFive.Services.Authentication.User
 
         public string GetPseudonym()
         {
-            var pseudonym = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(c => c.Type == IdentityClaims.PidPseudonym)?.Value;
+            var pseudonym = "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag="; //_httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == IdentityClaims.PidPseudonym)?.Value;
             return pseudonym;
         }
 

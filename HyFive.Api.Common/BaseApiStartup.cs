@@ -5,8 +5,6 @@ using HyFive.DataAccess;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Configuration;
 using HyFive.Services.Authentication.Requirements;
-using Fhi.HelseId.Web;
-using Fhi.HelseId.Web.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +20,13 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using DocumentFormat.OpenXml.Packaging;
+using HyFive.Api.Common.Infrastructure.Helpers;
+using System.Threading.Tasks;
 
 namespace HyFive.Api.Common
 {
@@ -32,23 +37,22 @@ namespace HyFive.Api.Common
         private const string HandHygieneConnection = "HandHygieneConnection";
         public const string AppInsightsConnectionStringVariable = "APPLICATIONINSIGHTS_CONNECTION_STRING";
 
-        protected readonly IConfigurationSection _healthIdConfigurationSection;
-        protected readonly IConfigurationSection _redirectPagesConfigurationSection;
+        protected readonly IConfigurationSection _handHygieneConfigSection;
+        protected readonly IConfigurationSection _redirectPagesSettingsSection;
         protected readonly IConfigurationSection _dataProtectionConfigSection;
-        protected readonly HandhygieneHelseIdKonfigurasjon _handHygieneHealthIdConfiguration;
-        protected readonly RedirectPagesKonfigurasjon _redirectPagesConfiguration;
+        protected readonly HandhygieneConfiguration _handHygieneConfiguration;
+        protected readonly RedirectPagesSettings _redirectPagesSettings;
 
         public BaseApiStartup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;           
+           
 
-            var webConfig = Configuration.GetSection(nameof(HelseIdWebKonfigurasjon)).Get<HelseIdWebKonfigurasjon>() ?? throw new Exception(nameof(HelseIdWebKonfigurasjon));
+            _handHygieneConfigSection = Configuration.GetSection(nameof(HandhygieneConfiguration));
+            _handHygieneConfiguration = _handHygieneConfigSection.Get<HandhygieneConfiguration>();
 
-            _healthIdConfigurationSection = Configuration.GetSection(nameof(HandhygieneHelseIdKonfigurasjon));
-            _handHygieneHealthIdConfiguration = _healthIdConfigurationSection.Get<HandhygieneHelseIdKonfigurasjon>();
-
-            _redirectPagesConfigurationSection = Configuration.GetSection(nameof(RedirectPagesKonfigurasjon));
-            _redirectPagesConfiguration = _redirectPagesConfigurationSection.Get<RedirectPagesKonfigurasjon>();
+            _redirectPagesSettingsSection = Configuration.GetSection(nameof(RedirectPagesSettings));
+            _redirectPagesSettings = _redirectPagesSettingsSection.Get<RedirectPagesSettings>();
 
             TestDatabaseConnection();
         }
@@ -66,9 +70,12 @@ namespace HyFive.Api.Common
                 services.AddApplicationInsightsTelemetry(Configuration);
             }
 
+            // Retrieve application settings to use in configuring services
+            var securitySettings = Configuration.Get<SecuritySettings>();
+
             services.AddHttpContextAccessor();
-            services.Configure<HandhygieneHelseIdKonfigurasjon>(_healthIdConfigurationSection);
-            services.Configure<RedirectPagesKonfigurasjon>(_redirectPagesConfigurationSection);
+            services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
+            services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPages"));
             services.AddCors();
             services.AddServices(Configuration, ApiTitle, ApiType);
 
@@ -80,7 +87,55 @@ namespace HyFive.Api.Common
                     });
             });
 
-            services.AddHelseIdWebAuthentication(Configuration).Build();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+                    options.AccessDeniedPath = "/Forbidden";
+
+                })
+               .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+               {
+                   options.CorrelationCookie.SameSite = SameSiteMode.None;
+                   options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                   options.NonceCookie.SameSite = SameSiteMode.None;
+                   options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+                   options.Authority = securitySettings.OpenIdConnect.Authority;
+                   options.ClientId = securitySettings.OpenIdConnect.ClientId;
+                   options.ClientSecret = securitySettings.OpenIdConnect.ClientSecret;
+                   options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
+                   };
+                   options.Events = new OpenIdConnectEvents()
+                   {
+                       OnRedirectToIdentityProvider = context =>
+                       {
+                           if ((context.Request != null) && Helper.IsAjaxRequest(context.Request))
+                           {
+                               context.HttpContext.Response.StatusCode = 401;
+                               context.Response.ContentType = "application/json";
+                               context.HttpContext.Response.WriteAsync("{data:'access denied - ajax call' }");
+                               context.HandleResponse();
+                           }
+                           
+                           return Task.CompletedTask;
+                       }
+                   };
+               });
+               /*.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+               {
+                   options.Authority = portalSettings.Security.OpenIdConnect.Authority;
+                   options.Audience = portalSettings.JwtBearerAudience;
+                   options.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidIssuer = portalSettings.Security.JwtBearerValidIssuer,
+                       RoleClaimType = portalSettings.Security.ClaimTypes.RoleClaimType
+                   };
+               });*/
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();
@@ -98,8 +153,6 @@ namespace HyFive.Api.Common
                 });
 
             });
-
-            AddHealthChecks(services);
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -128,7 +181,7 @@ namespace HyFive.Api.Common
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
             provider.Mappings[".webmanifest"] = "application/manifest+json";
             var staticFileOptions = new StaticFileOptions() { ContentTypeProvider = provider };
-            if (_handHygieneHealthIdConfiguration.CacheStaticAssets == false)
+            if (_handHygieneConfiguration.CacheStaticAssets == false)
             {
                 staticFileOptions.OnPrepareResponse = (context) =>
                 {
@@ -161,12 +214,7 @@ namespace HyFive.Api.Common
                 .AllowAnyMethod()
             );
 
-            app.UseAuthentication();
-
-            if (env.ApplicationName.Contains("admin", StringComparison.InvariantCultureIgnoreCase))
-            {
-                app.UseHelseIdProtectedPaths(new List<PathString> { "/signin-callback", "/signout-callback", "/api/User/Logout" });
-            }
+            app.UseAuthentication();            
 
             app.UseAuthorization();
 
@@ -230,13 +278,6 @@ namespace HyFive.Api.Common
                 }
                 connectionAttempts++;
             }
-        }
-
-        private void AddHealthChecks(IServiceCollection services)
-        {
-            services.AddHealthChecks()
-                .AddTypeActivatedCheck<HttpServiceHealthCheck>("HealthIdAuthorityServer", HealthStatus.Unhealthy,
-                    new[] { "healthid", "authority" }, this._handHygieneHealthIdConfiguration.Authority);
         }
     }
 }

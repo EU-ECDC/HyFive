@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.User;
-using Fhi.HelseId.Common.Identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HyFive.Services.Authentication.Requirements
