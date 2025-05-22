@@ -108,7 +108,8 @@ namespace HyFive.Api.Common
                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
-                       RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
+                       NameClaimType = "name",
+                       RoleClaimType = "role"
                    };
                    options.Events = new OpenIdConnectEvents()
                    {

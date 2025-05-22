@@ -40,14 +40,15 @@ namespace HyFive.Services.Authentication.User
 
         public async Task<LoggedInUser> GetUser()
         {
-            var userNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.WindowsAccountName);
-            var loginNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+            var userClaim = _httpContextAccessor.HttpContext?.User;
+            //var userNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.WindowsAccountName);
+            //var loginNameClaim = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
             var hprNumberClaim = "1111"; //_httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.HprNumber);
             var user = new LoggedInUser()
             {
-                Name = userNameClaim?.Value ?? "",
+                Name = userClaim?.FindFirst("sub")?.Value ?? "",
             };
-            var logInName = loginNameClaim?.Value ?? "(UserNull)";
+            var logInName = userClaim.Identity?.Name ?? "(UserNull)";
             var hrpNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
 
