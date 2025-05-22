@@ -138,7 +138,7 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            return "";
+            return "4909402";
         }
 
         public bool IsCoordinatorForSession(string sessionId)

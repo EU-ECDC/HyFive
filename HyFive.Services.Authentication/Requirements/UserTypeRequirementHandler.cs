@@ -21,7 +21,7 @@ namespace HyFive.Services.Authentication.Requirements
             //var hprNumber = context.User.Claims.FirstOrDefault(x => x.Type == ClaimsPrincipalExtensions.HprNummer)?.Value;
             //var pseudonym = context.User.Claims.FirstOrDefault(x => x.Type == IdentityClaims.PidPseudonym)?.Value;
 
-            var hprnummer = "";
+            var hprnummer = "4909402";
             var pseudonym = "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=";
             
             if (userType == UserType.Coordinator)
