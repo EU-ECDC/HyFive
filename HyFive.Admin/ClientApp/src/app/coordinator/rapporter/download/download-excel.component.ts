@@ -109,7 +109,9 @@ export class DownloadExcelComponent {
                 this.toastrService.error(error?.message ? error.message : error, 'An error occurred during download', { disableTimeOut: true });
               });
           } else {
-            this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
+            // this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
+            this.toastrService.info('There are no observations for selected values', '');
+
           }
         })
   }

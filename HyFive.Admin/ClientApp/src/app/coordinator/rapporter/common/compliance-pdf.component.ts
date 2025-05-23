@@ -93,7 +93,8 @@ export class CompliancePdfComponent {
                 this.toastrService.error(error?.message ? error.message : error, 'Error while downloading report', { disableTimeOut: true });
               });
           } else {
-            this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
+            // this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
+            this.toastrService.info('There are no observations for selected values', '');
           }
         })
   }
