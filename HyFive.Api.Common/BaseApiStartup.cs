@@ -73,6 +73,7 @@ namespace HyFive.Api.Common
             // Retrieve application settings to use in configuring services
             var securitySettings = Configuration.Get<SecuritySettings>();
 
+            services.AddControllers();
             services.AddHttpContextAccessor();
             services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
             services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPages"));
@@ -221,7 +222,7 @@ namespace HyFive.Api.Common
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/health");
+                //endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
 

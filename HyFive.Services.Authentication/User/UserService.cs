@@ -67,7 +67,7 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsUserLoggedIn()
         {
-            return true;
+            return false;
         }
 
 
