@@ -105,25 +105,39 @@ namespace HyFive.Api.Common
                    options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
                    options.Authority = securitySettings.OpenIdConnect.Authority;
                    options.ClientId = securitySettings.OpenIdConnect.ClientId;
-                   options.ClientSecret = securitySettings.OpenIdConnect.ClientSecret;
+                   var clientSecret = Configuration["OpenIdConnect:ClientSecret"];
+
+                   
                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
-                       NameClaimType = "name",
-                       RoleClaimType = "role"
+                       RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
+
                    };
-                   options.Events = new OpenIdConnectEvents()
+                   options.Events = new OpenIdConnectEvents
                    {
+                       OnAuthorizationCodeReceived = async context =>
+                       {
+                           var request = context.TokenEndpointRequest;
+                           request.ClientSecret = null;
+
+                           var clientSecret = Configuration["OpenIdConnect:ClientSecret"];
+                           var creds = Convert.ToBase64String(
+                               System.Text.Encoding.ASCII.GetBytes($"{context.Options.ClientId}:{clientSecret}"));
+
+                           context.Backchannel.DefaultRequestHeaders.Authorization =
+                               new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", creds);
+                       },
+
                        OnRedirectToIdentityProvider = context =>
                        {
-                           if ((context.Request != null) && Helper.IsAjaxRequest(context.Request))
+                           if (context.Request != null && Helper.IsAjaxRequest(context.Request))
                            {
                                context.HttpContext.Response.StatusCode = 401;
                                context.Response.ContentType = "application/json";
                                context.HttpContext.Response.WriteAsync("{data:'access denied - ajax call' }");
                                context.HandleResponse();
                            }
-                           
                            return Task.CompletedTask;
                        }
                    };

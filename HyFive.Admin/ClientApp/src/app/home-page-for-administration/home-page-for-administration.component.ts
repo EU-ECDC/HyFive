@@ -36,4 +36,9 @@ export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
     this.clipboardService.copy(this.user?.identityPseudonym);
     this.toastrService.success('Pseudonym copied to the clipboard and can be pasted elsewhere using Paste (CTRL+V)');
   }
+
+  logout() {
+    localStorage.clear();
+    window.location.href = '/account/logout';
+  }
 }

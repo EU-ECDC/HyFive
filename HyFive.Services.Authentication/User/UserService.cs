@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,9 +36,21 @@ namespace HyFive.Services.Authentication.User
 
         public async Task<LoggedInUser> GetUser()
         {
+            var email = _httpContextAccessor.HttpContext?.User
+            ?.FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var dbUser = _context.User
+                .FirstOrDefault(u => u.Email == email);
+
+            if (dbUser == null)
+                return null;
+
             var user = new LoggedInUser()
             {
-                Name = "Vits Grønn",
+                Name = $"{dbUser.FirstName} {dbUser.LastName}"
             };
             
             var logInName = user?.Name;
@@ -67,7 +80,8 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsUserLoggedIn()
         {
-            return false;
+            var user = _httpContextAccessor.HttpContext?.User;
+            return user?.Identity?.IsAuthenticated == true;
         }
 
 
@@ -138,7 +152,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            return "";
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.HPRNumber;
         }
 
         public bool IsCoordinatorForSession(string sessionId)
@@ -274,7 +296,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetPseudonym()
         {
-            return "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=";
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.IdentityPseudonym;
         }
 
         private string GetDiscriminator<T>() where T : class

@@ -75,8 +75,8 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsUserLoggedIn()
         {
-            //return _httpContextAccessor.HttpContext.User != null && (!string.IsNullOrEmpty(this.User.HprNummer) || !string.IsNullOrEmpty(this.User.PidPseudonym));
-            return true;
+            var user = _httpContextAccessor.HttpContext?.User;
+            return user?.Identity?.IsAuthenticated == true;
         }
 
 
@@ -147,8 +147,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            //return _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimsPrincipalExtensions.HprNummer)?.Value;
-            return "11111";
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.HPRNumber;
         }
 
         public bool IsCoordinatorForSession(string sessionId)
@@ -284,8 +291,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetPseudonym()
         {
-            var pseudonym = "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag="; //_httpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == IdentityClaims.PidPseudonym)?.Value;
-            return pseudonym;
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.IdentityPseudonym;
         }
 
         private string GetDiscriminator<T>() where T : class
@@ -329,14 +343,14 @@ namespace HyFive.Services.Authentication.User
 
         public string GetFirstName()
         {
-            var fornavn = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == FirstNameInClaims)?.Value;
-            return fornavn;
+            var firstName = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == FirstNameInClaims)?.Value;
+            return firstName;
         }
 
         public string GetLastName()
         {
-            var fornavn = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == LastNameInClaims)?.Value;
-            return fornavn;
+            var lastName = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == LastNameInClaims)?.Value;
+            return lastName;
         }
     }
 }
