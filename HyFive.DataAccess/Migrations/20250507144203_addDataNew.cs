@@ -4974,13 +4974,26 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""PredefinedComment"" (""Id"", ""Comment"", ""InstitutionId"", ""SessionType"") VALUES (16, N'øisteins predefinerte', 1, 5) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""PredefinedComment"" (""Id"", ""Comment"", ""InstitutionId"", ""SessionType"") VALUES (17, N'Comment', 28, 5) ON CONFLICT (""Id"") DO NOTHING");
 
-           
 
-            
+            // Sequence fixes after inserts
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""ActivityType""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""ActivityType"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Activity""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Activity"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Municipality""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Municipality"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Region""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Region"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""RegionalHealthcareOrganization""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""RegionalHealthcareOrganization"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""HealthcareOrganization""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""HealthcareOrganization"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""InstitutionType""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""InstitutionType"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Institution""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Institution"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""DepartmentType""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""DepartmentType"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Department""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Department"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Clinic""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Clinic"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Role""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Role"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""User""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""User"";");
 
-     
 
-            
+
+
+
         }
 
         /// <inheritdoc />
