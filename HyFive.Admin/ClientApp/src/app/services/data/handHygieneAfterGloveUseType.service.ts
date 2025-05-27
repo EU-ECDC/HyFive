@@ -12,12 +12,12 @@ export class HandHygieneAfterGloveUseTypeService {
   constructor(private httpClient: HttpClient) { }
 
   getHandHygieneAfterGloveUseTypes(): Observable<HandHygieneAfterGloveUseType[]> {
-    const url = `${environment.apiBaseUrl}/v1/handhygieneaftergloveusetype`;
+    const url = `${environment.apiBaseUrl}/v1/handHygieneAfterGloveUseTypes`;
     return this.httpClient.get<HandHygieneAfterGloveUseType[]>(url);
   }
 
   updateHandHygieneAfterGloveUseType(handHygieneAfterGloveuseType: HandHygieneAfterGloveUseType): Observable<HandHygieneAfterGloveUseType> {
-    const url = `${environment.apiBaseUrl}/v1/handhygieneaftergloveusetype/update`;
+    const url = `${environment.apiBaseUrl}/v1/handHygieneAfterGloveUseTypes/update`;
     return this.httpClient.put<HandHygieneAfterGloveUseType>(url, handHygieneAfterGloveuseType);
   }
 }

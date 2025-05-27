@@ -13,12 +13,12 @@ export class GloveWithIndicationTypeService
   constructor(private httpClient: HttpClient) { }
 
   getGloveWithIndicationTypes(): Observable<GloveWithIndicationType[]> {
-    const url = `${environment.apiBaseUrl}/v1/gloveindicationtype`;
+    const url = `${environment.apiBaseUrl}/v1/gloveWithIndicationType`;
     return this.httpClient.get<GloveWithIndicationType[]>(url);
   }
 
   updateGloveWithIndicationType(gloveWithIndicationType: GloveWithIndicationType): Observable<GloveWithIndicationType> {
-    const url = `${environment.apiBaseUrl}/v1/gloveindicationtype/update`;
+    const url = `${environment.apiBaseUrl}/v1/gloveWithIndicationType/update`;
     return this.httpClient.put<GloveWithIndicationType>(url, gloveWithIndicationType);
   }
 }
