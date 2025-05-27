@@ -225,6 +225,18 @@ namespace HyFive.Api.Common
 
             app.UseRouting();
 
+            app.Use(async (context, next) =>
+            {
+                // If redirected from PingOne logout to root, redirect to /profile
+                if (context.Request.Path == "/" && !context.User.Identity.IsAuthenticated)
+                {
+                    context.Response.Redirect("/profile");
+                    return;
+                }
+
+                await next();
+            });
+
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
