@@ -49,24 +49,24 @@ namespace HyFive.Services.Authentication.User
                 Name = userClaim?.FindFirst("sub")?.Value ?? "",
             };
             var logInName = userClaim.Identity?.Name ?? "(UserNull)";
-            var hrpNumber = GetHprNumber();
+            var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
 
             user.Id = CreateHash(pseudonym + user.Name + HashSalt);
-            user.IsObserver = IsObserver(hrpNumber, pseudonym);
-            user.IsCoordinator = IsCoordinator(hrpNumber, pseudonym);
-            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hrpNumber);
-            user.HPRNumber = hrpNumber;
+            user.IsObserver = IsObserver(hprNumber, pseudonym);
+            user.IsCoordinator = IsCoordinator(hprNumber, pseudonym);
+            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hprNumber);
+            user.HPRNumber = hprNumber;
             user.IdentityPseudonym = pseudonym;
             user.InstitutionIds = await _context.User.AsNoTracking().Include(k => k.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hrpNumber, pseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hprNumber, pseudonym))
                 .Where(k => k.Institution != null)
                 .Select(k => k.Institution.Id)
                 .ToListAsync();
             user.FirstName = GetFirstName();
             user.LastName = GetLastName();
 
-            if (string.IsNullOrEmpty(hprNumberClaim))
+            if (string.IsNullOrEmpty(hprNumber))
             {
                 _logger.LogInformation("TI02: User: {logInName} lacks hprNumber (i HealthId)", logInName);
             }
@@ -80,14 +80,14 @@ namespace HyFive.Services.Authentication.User
         }
 
 
-        public bool IsCoordinator(string hrpNumber, string pseudonym)
-            => IsRole<Coordinator>(hrpNumber, pseudonym);
+        public bool IsCoordinator(string hprNumber, string pseudonym)
+            => IsRole<Coordinator>(hprNumber, pseudonym);
 
-        public bool IsObserver(string hrpNumber, string identPseudonym)
-            => IsRole<Coordinator>(hrpNumber, identPseudonym);
+        public bool IsObserver(string hprNumber, string identPseudonym)
+            => IsRole<Coordinator>(hprNumber, identPseudonym);
 
-        public bool IsCoordinatorForInstitution(int institutionId, string identPseudonym, string hrpNumber)
-            => IsRoleForInstitution<Coordinator>(hrpNumber, identPseudonym, institutionId);
+        public bool IsCoordinatorForInstitution(int institutionId, string identPseudonym, string hprNumber)
+            => IsRoleForInstitution<Coordinator>(hprNumber, identPseudonym, institutionId);
 
         public bool IsCoordinatorForInstitution(int institutionId)
             => IsRoleForInstitution<Coordinator>(GetHprNumber(), GetPseudonym(), institutionId);
@@ -104,21 +104,21 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForUser(int userId)
             => IsRoleForUser<Coordinator>(GetHprNumber(), GetPseudonym(), userId);
 
-        public bool IsObserverForInstitution(string hrpNumber, string identPseudonym, int institutionId)
-            => IsRoleForInstitution<Observer>(hrpNumber, identPseudonym, institutionId);
+        public bool IsObserverForInstitution(string hprNumber, string identPseudonym, int institutionId)
+            => IsRoleForInstitution<Observer>(hprNumber, identPseudonym, institutionId);
 
-        public bool IsFhiAdminOrCoordinator(string pseudonym, string hrpNumber)
+        public bool IsFhiAdminOrCoordinator(string pseudonym, string hprNumber)
         {
-            return IsFhiAdmin(pseudonym, hrpNumber) || IsCoordinator(hrpNumber, pseudonym);
+            return IsFhiAdmin(pseudonym, hprNumber) || IsCoordinator(hprNumber, pseudonym);
         }
 
-        public bool IsFhiAdmin(string identPseudonym, string hrpNumber)
+        public bool IsFhiAdmin(string identPseudonym, string hprNumber)
         {
-            if (string.IsNullOrEmpty(hrpNumber) && string.IsNullOrEmpty(identPseudonym))
+            if (string.IsNullOrEmpty(hprNumber) && string.IsNullOrEmpty(identPseudonym))
                 return false;
 
             bool erFhiAdmin = _context.User.AsNoTracking().OfType<FhiAdmin>().AsNoTracking()
-                    .Where(HasHprOrPseudonymAndIsActive<FhiAdmin>(hrpNumber, identPseudonym)).Any();
+                    .Where(HasHprOrPseudonymAndIsActive<FhiAdmin>(hprNumber, identPseudonym)).Any();
             return erFhiAdmin;
         }
 
@@ -179,57 +179,57 @@ namespace HyFive.Services.Authentication.User
 
         public int GetObserverIdForInstitution(int institutionId)
         {
-            var hrpNumber = GetHprNumber();
+            var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
             return _context.User.AsNoTracking()
                 .OfType<Observer>()
                 .Include(o => o.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<Domain.User.Observer>(hrpNumber, pseudonym)).First(o => o.Institution.Id == institutionId)?.Id ?? 0;
+                .Where(HasHprOrPseudonymAndIsActive<Domain.User.Observer>(hprNumber, pseudonym)).First(o => o.Institution.Id == institutionId)?.Id ?? 0;
         }
 
-        public Expression<Func<TUser, bool>> HasHprOrPseudonymAndIsActive<TUser>(string hrpNumber, string identPseudonym) where TUser : Domain.User.User
+        public Expression<Func<TUser, bool>> HasHprOrPseudonymAndIsActive<TUser>(string hprNumber, string identPseudonym) where TUser : Domain.User.User
         {
-            return b => ((!string.IsNullOrEmpty(hrpNumber) && b.HPRNumber == hrpNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) &&  b.IdentityPseudonym == identPseudonym)) && b.IsDeactivated == false;
+            return b => ((!string.IsNullOrEmpty(hprNumber) && b.HPRNumber == hprNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) &&  b.IdentityPseudonym == identPseudonym)) && b.IsDeactivated == false;
         }
 
-        private bool IsRole<TRole>(string hrpNumber, string pseudonym) where TRole : Domain.User.User
+        private bool IsRole<TRole>(string hprNumber, string pseudonym) where TRole : Domain.User.User
         {
             var erRolle = _context.User.AsNoTracking().OfType<TRole>()
                 .Include(r => r.Institution)
-                .Any(HasHprOrPseudonymAndIsActive<TRole>(hrpNumber, pseudonym));
+                .Any(HasHprOrPseudonymAndIsActive<TRole>(hprNumber, pseudonym));
 
             if (erRolle)
             {
                 // Update all users with an IdentityPseudonym if they don't have one.
-                UpdateUserWithPseudonym<TRole>(hrpNumber).GetAwaiter().GetResult();
+                UpdateUserWithPseudonym<TRole>(hprNumber).GetAwaiter().GetResult();
             }
             return erRolle;
         }
 
-        private bool IsRoleForInstitution<TRole>(string hrpNumber, string identPseudonym, int institutionId) where TRole : Domain.User.User
+        private bool IsRoleForInstitution<TRole>(string hprNumber, string identPseudonym, int institutionId) where TRole : Domain.User.User
         {
             return _context.User.OfType<TRole>().AsNoTracking().Include(b => b.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<TRole>(hrpNumber, identPseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<TRole>(hprNumber, identPseudonym))
                 .Any(b => b.Institution.Id == institutionId && b.Discriminator == GetDiscriminator<TRole>());
         }
 
-        private bool IsCoordinatorForHealthcareProvider(string hrpNumber, string identPseudonym, int healthcareOrganization)
+        private bool IsCoordinatorForHealthcareProvider(string hprNumber, string identPseudonym, int healthcareOrganization)
         {
             return _context.User.OfType<Coordinator>().AsNoTracking().Include(b => b.Institution).ThenInclude(i=>i.HealthcareOrganization)
-                .Where(HasHprOrPseudonymAndIsActive<Coordinator>(hrpNumber, identPseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<Coordinator>(hprNumber, identPseudonym))
                 .Any(b => b.Institution.HealthcareOrganization.Id == healthcareOrganization);
         }
 
         private bool IsRoleForInstitutions<TRole>(int[] institutionIds) where TRole : Domain.User.User
         {
-            var hrpNumber = GetHprNumber();
+            var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
             var CoordinatorForInstitutionIds = _context
                 .User
                 .OfType<TRole>()
                 .AsNoTracking()
                 .Include(k => k.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<TRole>(hrpNumber, pseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<TRole>(hprNumber, pseudonym))
                 .Where(k => k.Discriminator == GetDiscriminator<TRole>())
                 .Select(k => k.Institution.Id).ToList();
 
@@ -241,7 +241,7 @@ namespace HyFive.Services.Authentication.User
             return CoordinatorForInstitutionIds.Any() && institutionIds.ToList().TrueForAll(iid => CoordinatorForInstitutionIds.Contains(iid));
         }
 
-        private bool IsRoleForUser<TRole>(string hrpNumber, string pseudonym, int userId) where TRole : Domain.User.User
+        private bool IsRoleForUser<TRole>(string hprNumber, string pseudonym, int userId) where TRole : Domain.User.User
         {
             var institutionId = _context
                 .User
@@ -249,10 +249,10 @@ namespace HyFive.Services.Authentication.User
                 .Include(b => b.Institution)
                 .Where(b => b.Id == userId)
                 .Select(b => b.Institution.Id).First();
-            return IsRoleForInstitution<TRole>(hrpNumber, pseudonym, institutionId);
+            return IsRoleForInstitution<TRole>(hprNumber, pseudonym, institutionId);
         }
 
-        private bool IsRoleForSession<TRole>(string hrpNumber, string pseudonym, Guid sesjonId) where TRole : Domain.User.User
+        private bool IsRoleForSession<TRole>(string hprNumber, string pseudonym, Guid sesjonId) where TRole : Domain.User.User
         {
             var institutionId = _context.Session
                 .AsNoTracking()
@@ -260,7 +260,7 @@ namespace HyFive.Services.Authentication.User
                 .ThenInclude(a => a.Institution)
                 .Where(s => s.Id == sesjonId)
                 .Select(b => b.Department.Institution.Id).First();
-            return IsRoleForInstitution<TRole>(hrpNumber, pseudonym, institutionId);
+            return IsRoleForInstitution<TRole>(hprNumber, pseudonym, institutionId);
         }
 
         private bool IsRoleForDepartment<TRole>(int departmentId) where TRole : Domain.User.User
@@ -305,10 +305,10 @@ namespace HyFive.Services.Authentication.User
         private string GetDiscriminator<T>() where T : class
             => typeof(T).Name;
 
-        private static Expression<Func<Domain.User.User, bool>> UserWithHprNumberWithoutIdentityPseudonym(string hrpNumber)
-            => b => (b.IdentityPseudonym == null || b.IdentityPseudonym == "") && b.HPRNumber == hrpNumber;
+        private static Expression<Func<Domain.User.User, bool>> UserWithHprNumberWithoutIdentityPseudonym(string hprNumber)
+            => b => (b.IdentityPseudonym == null || b.IdentityPseudonym == "") && b.HPRNumber == hprNumber;
 
-        private async Task UpdateUserWithPseudonym<TRole>(string hrpNumber) where TRole : Domain.User.User
+        private async Task UpdateUserWithPseudonym<TRole>(string hprNumber) where TRole : Domain.User.User
         {
             try
             {
@@ -316,7 +316,7 @@ namespace HyFive.Services.Authentication.User
                     .User
                     .OfType<TRole>()
                     .AsNoTracking()
-                    .Where(UserWithHprNumberWithoutIdentityPseudonym(hrpNumber))
+                    .Where(UserWithHprNumberWithoutIdentityPseudonym(hprNumber))
                     .ToList();
 
                 if (userIdsToBeUpdated.Any())

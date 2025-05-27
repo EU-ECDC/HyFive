@@ -54,17 +54,17 @@ namespace HyFive.Services.Authentication.User
             };
             
             var logInName = user?.Name;
-            var hrpNumber = GetHprNumber();
+            var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
 
             user.Id = CreateHash(pseudonym + user.Name + HashSalt);
-            user.IsObserver = IsObserver(hrpNumber, pseudonym);
-            user.IsCoordinator = IsCoordinator(hrpNumber, pseudonym);
-            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hrpNumber);
-            user.HPRNumber = hrpNumber;
+            user.IsObserver = IsObserver(hprNumber, pseudonym);
+            user.IsCoordinator = IsCoordinator(hprNumber, pseudonym);
+            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hprNumber);
+            user.HPRNumber = hprNumber;
             user.IdentityPseudonym = pseudonym;
             user.InstitutionIds = await _context.User.AsNoTracking().Include(k => k.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hrpNumber, pseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hprNumber, pseudonym))
                 .Where(k => k.Institution != null)
                 .Select(k => k.Institution.Id)
                 .ToListAsync();
