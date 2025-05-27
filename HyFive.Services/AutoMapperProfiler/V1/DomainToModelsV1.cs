@@ -263,7 +263,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.Municipality.Name));
 
             CreateMap<Domain.Place.HealthcareOrganization, Models.V1.Institution.HealthcareOrganization>()
-                .ForMember(dest => dest.RegionaltHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionalHealthcareOrganization != null ? src.RegionalHealthcareOrganization.Id : 0));
+                .ForMember(dest => dest.RegionalHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionalHealthcareOrganization != null ? src.RegionalHealthcareOrganization.Id : 0));
 
             CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalHealthcareOrganization>(MemberList.None);
 
