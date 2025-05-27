@@ -76,7 +76,7 @@ namespace HyFive.Api.Common
             services.AddControllers();
             services.AddHttpContextAccessor();
             services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
-            services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPages"));
+            services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPagesSettings"));
             services.AddCors();
             services.AddServices(Configuration, ApiTitle, ApiType);
 
@@ -109,6 +109,7 @@ namespace HyFive.Api.Common
 
                    
                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                   options.SignedOutCallbackPath = new PathString(_redirectPagesSettings.LoggedOut);
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
