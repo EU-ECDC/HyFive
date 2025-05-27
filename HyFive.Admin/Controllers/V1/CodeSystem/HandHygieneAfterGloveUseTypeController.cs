@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="handHygieneAfterGloveUseType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPut("update ")]
+        [HttpPut("update")]
         public async Task<PostGloveHandHygieneType> UpdateHandHygieneAfterGloveUseType([FromBody] PostGloveHandHygieneType handHygieneAfterGloveUseType)
         {
             var IsUpdated = await _mediator.Send(new UpdateHandHygieneAfterGloveUseType.Command

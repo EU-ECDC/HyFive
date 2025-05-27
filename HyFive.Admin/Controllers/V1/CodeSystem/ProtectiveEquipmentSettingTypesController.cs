@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="settingType"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.FhiAdmin)]
-        [HttpPut("oppdater")]
+        [HttpPut("update")]
         public async Task<ProtectiveEquipmentSettingType> UpdateProtectionEquipmentSettingType([FromBody] ProtectiveEquipmentSettingType settingType)
         {
             return await _mediator.Send(new UpdateProtectiveEquipmentSettingType.Command

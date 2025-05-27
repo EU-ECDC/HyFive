@@ -6,5 +6,5 @@ export interface Role
 {
 	id: number;
 	name: string;
-	beskrivelse: string;
+	description: string;
 }
