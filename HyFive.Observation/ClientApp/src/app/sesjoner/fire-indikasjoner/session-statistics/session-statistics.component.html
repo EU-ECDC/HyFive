@@ -1,0 +1,25 @@
+<div class="mb-5" *ngIf="session">
+  <div class="container">
+    <table class="table table-sm w-100">
+      <thead>
+        <tr>
+          <td class="w-75"></td>
+          <th class="text-end">Number</th>
+          <th class="text-end">Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Occasions observed</th>
+          <td class="text-end">{{ calculateOccasionsComplied() }}</td>
+          <td class="text-end">{{ calculateOccasionsCompliedPercent().toFixed(2)  }}</td>
+        </tr>
+        <tr>
+          <th>Occasions omitted</th>
+          <td class="text-end">{{ calculateOccasionsOmitted() }}</td>
+          <td class="text-end">{{ calculateOccasionsOmittedPercent().toFixed(2) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

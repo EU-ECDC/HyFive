@@ -1,4 +1,4 @@
-import { AuthorizedRole } from '../../_felles/authorization/authorized-role';
+import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 
 export interface MainMenuItem {
   name: string;

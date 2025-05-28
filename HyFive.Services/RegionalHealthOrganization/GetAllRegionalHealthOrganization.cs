@@ -1,0 +1,40 @@
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using HyFive.DataAccess;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace HyFive.Services.RegionalHealthOrganization
+{
+    public class GetAllRegionalHealthOrganization
+    {
+        public class Query : IRequest<List<Models.V1.Institution.RegionalHealthcareOrganization>>
+        {
+
+        }
+
+        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.RegionalHealthcareOrganization>>
+        {
+            private readonly HandHygieneContext _context;
+            private readonly IMapper _mapper;
+
+            public Handler(HandHygieneContext context, IMapper mapper)
+            {
+                _context = context;
+                _mapper = mapper;
+            }
+            public Task<List<Models.V1.Institution.RegionalHealthcareOrganization>> Handle(Query request, CancellationToken cancellationToken)
+            {
+                var regionaltHealthcareOrganization = _context.RegionalHealthcareOrganization
+                                                    .AsNoTracking()
+                                                    .ProjectTo<Models.V1.Institution.RegionalHealthcareOrganization>(_mapper.ConfigurationProvider)
+                                                    .ToListAsync(cancellationToken);
+
+                return regionaltHealthcareOrganization;
+            }
+        }
+    }
+}

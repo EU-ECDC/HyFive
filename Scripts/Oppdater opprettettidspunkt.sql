@@ -1,5 +1,5 @@
 --På prod var serveren satt opp med UTC-tid.  Den skal være satt opp med norsk tid
---Dette scriptet juster tid på sesjoner og observasjoner så allerede sesjoner/observasjoner får norsk opprettidspunkt
+--Dette scriptet juster tid på sessions og observasjoner så allerede sessions/observasjoner får norsk opprettidspunkt
  
  --SESJON
  --vintertid 2022/2023 - problemet startet 1.november

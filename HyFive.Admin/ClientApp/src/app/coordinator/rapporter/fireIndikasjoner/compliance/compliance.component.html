@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <div class="row align-items-end mb-4">
+
+      <div class="col-md-2">
+        <label for="sessionType">Intervall</label>
+        <select class="form-select" id="role" [(ngModel)]="intervall">
+          <option value="month">Month</option>
+          <option value="tertial">Tertial</option>
+          <option value="week">Week</option>
+        </select>
+      </div>
+
+      <div class="col-md-2" *ngIf="intervall=='week'">
+        <label for="fra">From month</label>
+        <select class="form-select" id="month" [(ngModel)]="fromMonth">
+          <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label for="fra">From year</label>
+        <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
+      </div>
+
+      <div class="col-md-2" *ngIf="intervall=='week'">
+        <label for="fra">To month</label>
+        <select class="form-select" id="month" [(ngModel)]="toMonth">
+          <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label for="til">To year</label>
+        <input class="form-control" id="toYear" type="number" [(ngModel)]="toYear" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row align-items-end mb-4">
+
+      <div class="col-md-2">
+        <label for="sessionType">Role</label>
+        <select class="form-select" id="role" [(ngModel)]="role">
+          <option value="null">All</option>
+          <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label for="sessionType">Department</label>
+        <select class="form-select" id="department" [(ngModel)]="department">
+          <option value="null">All</option>
+          <option *ngFor="let department of departments" [ngValue]="department">{{department.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-12 col-md-3">
+        <label style="opacity:0;">-</label>
+        <br />
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getComplianceForFourIndications()">Show graph</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="showGraph">
+    <div class="col-8">
+      <fhi-angular-highcharts [diagramOptions]="percentageDiagramOptions"></fhi-angular-highcharts>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="showGraph">
+    <div class="col-8">
+      <fhi-angular-highcharts [diagramOptions]="numberDiagramOptions"></fhi-angular-highcharts>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/",
+  "navigationRequestStrategy": "freshness",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "lazy",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js",
+          "/*.svg"
+
+        ]
+      },
+      "updateMode": "lazy"
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "institution",
+      "urls": [
+        "api/v1/institution"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxAge": "1d",
+        "maxSize": 10
+      }
+    },
+    {
+      "name": "kodeverk",
+      "urls": [
+        "api/v1/fourindications/activitytypes",
+        "api/v1/fourindications/indicationTypes",
+        "api/v1/handjewelry/handJewelryTypes",
+        "api/v1/protectiveEquipment",
+        "api/v1/glove/gloveindicationtype",
+        "api/v1/glove/glovewithoutindicationtype",
+        "api/v1/glove/handhygieneaftergloveusetype"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxAge": "1d",
+        "maxSize": 10
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using HyFive.Api.Common;
-using HyFive.Dataaksess;
+using HyFive.DataAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

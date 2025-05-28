@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { FireIndikasjonerObservasjon } from './FireIndikasjonerObservasjon';
+import { FourIndicationsObservation } from './FourIndicationsObservation';
 import { Sesjon } from './Sesjon';
 
-export interface FireIndikasjonerSesjon extends Sesjon<FireIndikasjonerObservasjon>
+export interface FireIndikasjonerSesjon extends Sesjon<FourIndicationsObservation>
 {
 }

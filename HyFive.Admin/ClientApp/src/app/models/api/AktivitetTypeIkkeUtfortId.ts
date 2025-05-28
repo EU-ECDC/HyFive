@@ -3,7 +3,7 @@
 //     the code is regenerated.
 
 export enum AktivitetTypeIkkeUtfortId {
-	IkkeUtfort = 1,
+	NotRequired = 1,
 	HanskeBleBenyttet = 2,
 	HanskeIkkeBleBenyttet = 3
 }

@@ -1,0 +1,77 @@
+<div class="hh-modal">
+  <ng-container *ngIf="selectedEquipment">
+
+    <div class="modal-header pt-6">
+      <h4 class="d-flex align-items-center">
+        <fa-stack>
+          <fa-icon [icon]="faCircle" stackItemSize="2x" [styles]="{ 'color': '#DBE6EC' }"></fa-icon>
+          <fa-icon [icon]="iconTypeMap.get(selectedEquipment.equipmentTypeq.code)" [inverse]="true" [styles]="{ 'color': '#000000' }" stackItemSize="1x"></fa-icon>
+        </fa-stack>
+        <span class="modal-title" id="modal-basic-title">
+          {{selectedEquipment.equipmentTypeq.name}}
+        </span>
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body px-7 py-1">
+      <div class="custom-control custom-checkbox pb-2">
+        <input type="checkbox" class="custom-control-input" id="isIndicated" [(ngModel)]="selectedEquipment.isIndicated" [disabled]="displayMode">
+        <label class="custom-control-label" for="isIndicated">
+          Is indicated
+        </label>
+      </div>
+      <div class="custom-control custom-radio pb-2">
+        <input type="radio" id="correctuse" name="correctuse" class="custom-control-input" [value]="true" [(ngModel)]="selectedEquipment.wasUsedCorrectly" (click)="resetErrorAndMarkerUsed(true)" [disabled]="displayMode">
+        <label class="custom-control-label" for="correctuse">Correct use</label>
+      </div>
+      <div class="custom-control custom-radio pb-2">
+        <input type="radio" id="misuse" name="misuse" class="custom-control-input" [value]="false" [(ngModel)]="selectedEquipment.wasUsedCorrectly" (click)="resetErrorAndMarkerUsed(false)" [disabled]="displayMode">
+        <label class="custom-control-label" for="misuse">Incorrect use</label>
+      </div>
+      <div class="mt-2" *ngIf="selectedEquipment.wasUsedCorrectly === false">
+        <ng-container *ngIf="!displayMode">
+          <label class="text-info"><small><strong><em>Select at least one of the options below, or fill in a comment</em></strong></small></label>
+          <ng-container *ngFor="let fb of selectedEquipment.equipmentTypeq.misuseTypes">
+            <div class="custom-control custom-checkbox pb-2">
+              <input type="checkbox" class="custom-control-input" [id]="fb.name" [(ngModel)]="fb.erValgt" (click)="enableBackToCardOnError(fb)" [disabled]="displayMode">
+              <label class="custom-control-label" [for]="fb.name">
+                {{fb.name}}
+              </label>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="displayMode">
+          <ng-container *ngFor="let fb of selectedEquipment.misuseTypes">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [id]="fb.name" [disabled]="true" [checked]="true">
+              <label class="custom-control-label" [for]="fb.name">
+                {{fb.name}}
+              </label>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="form-group mt-n3" *ngIf="displayMode == false">
+          <label for="FormInput"></label>
+          <input type="text" id="FormInput" class="form-control" placeholder="Add comment..." [(ngModel)]="selectedEquipment.comment" (input)="enableBackToCardOnError()">
+        </div>
+        <div class="mt-3" *ngIf="displayMode && selectedEquipment.comment">
+          <span>Comment: <i>{{selectedEquipment.comment}}</i></span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <div class="col">
+        <button type="button" *ngIf="showEquipmentDeleteButton && selectedEquipment.wasUsed" class="btn btn-sm fhi-btn-primary flex-grow p-1" (click)="dismiss()">Delete the equipment</button>
+      </div>
+      <div class="col">
+        <button type="button" class="btn fhi-btn-secondary p-2" (click)="close()" [disabled]="!canSave()">
+          <span *ngIf="!displayMode">Save answer</span>
+          <span *ngIf="displayMode">Back to card</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

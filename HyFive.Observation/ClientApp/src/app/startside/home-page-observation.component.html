@@ -1,0 +1,238 @@
+<div class="container" *ngIf="showHomePage">
+  <div class="row mb-5">
+    <div class="col-12 mb-2">
+      <div class="d-flex">
+        <div
+          class="d-flex flex-column justify-content-between"
+          *ngIf="institution"
+        >
+          <i class="icon-hospital icon-lg mt-1 me-3"></i>
+        </div>
+        <div>
+          <p>
+            <ng-container *ngIf="institution">
+              <strong style="word-break: break-word">{{
+                institution.name
+              }}</strong>
+              <br />
+            </ng-container>
+            <strong>Observer:</strong> {{ user?.name }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <h2 class="h5">Institution</h2>
+      <div class="form-group">
+        <select
+          class="form-select"
+          name="institution"
+          id="institutions"
+          [(ngModel)]="selectedInstitutionOptionId"
+          (ngModelChange)="selectedInstitutionChanged()"
+        >
+          <option [ngValue]="null">Select institution</option>
+          <option
+            *ngFor="let institutionOption of institutionOptions"
+            [ngValue]="institutionOption.id"
+          >
+            {{ institutionOption.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-6" *ngIf="institution">
+      <h2 class="h5">Department</h2>
+      <div class="fhi-ng-select-wrapper fhi-autosuggest">
+        <ng-select
+        class="hh-avdeling-dropdown"
+        [items]="institution?.departments"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select department"
+          clearAllText="Delete"
+          notFoundText="No results"
+          [(ngModel)]="selectedDepartmentId"
+          (ngModelChange)="selectedDepartmentChanged()"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="institution">
+    <div class="row mb-5">
+      <div class="col">
+        <h2 class="h5">Type observation</h2>
+        
+        <div class="row">
+          <div class="col-md-6 col-xl-3">
+            <div class="fhi-form-check-tile">
+              <input
+                class="fhi-form-check-tile__input form-check-input"
+                type="radio"
+                name="observationTypes"
+                [id]="SessionType.FourIndications" 
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.FourIndications"
+                [value]="SessionType.FourIndications"
+              >
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FourIndications">
+                <span class="fhi-form-check-tile__label-text">4 indications</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-xl-3">
+            <div class="fhi-form-check-tile">
+              <input
+                class="fhi-form-check-tile__input form-check-input"
+                type="radio"
+                name="observationTypes"
+                [id]="SessionType.HandJewelry"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.HandJewelry"
+                [value]="SessionType.HandJewelry"
+              >
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandJewelry">
+                <span class="fhi-form-check-tile__label-text">Jewelry, watches and nails</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-xl-3">
+            <div class="fhi-form-check-tile">
+              <input
+                class="fhi-form-check-tile__input form-check-input"
+                type="radio"
+                name="observationTypes"
+                [id]="SessionType.Gloves"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.Gloves"
+                [value]="SessionType.Gloves"
+              >
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Gloves">
+                <span class="fhi-form-check-tile__label-text">Gloves</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="col-md-6 col-xl-3">
+            <div class="fhi-form-check-tile">
+              <input
+                class="fhi-form-check-tile__input form-check-input"
+                type="radio"
+                name="observationTypes"
+                [id]="SessionType.ProtectiveEquipment"
+                [(ngModel)]="selectedSessionType"
+                [checked]="selectedSessionType == SessionType.ProtectiveEquipment"
+                [value]="SessionType.ProtectiveEquipment"
+              >
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.ProtectiveEquipment">
+                <span class="fhi-form-check-tile__label-text">Protective equipment</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container
+      *ngIf="
+        selectedSessionType === SessionType.InOut ||
+        selectedSessionType === SessionType.FourIndications ||
+        selectedSessionType === SessionType.Gloves
+      "
+    >
+      <div class="d-flex mt-n2 mb-5">
+        <div class="d-flex mx-auto">
+          <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
+            <h2 class="h5 text-center">Timekeeping</h2>
+            <div class="d-flex">
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Of</span>
+              <label class="hh-switch">
+                <input type="checkbox" checked [(ngModel)]="timekeeping" />
+                <span class="hh-switch__slider hh-switch__slider--round"></span>
+              </label>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': timekeeping ? 'bold' : '' }">On</span>
+            </div>
+          </div>
+
+          <div>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FourIndications ? "GloveUse" : "Handhygiene" }}</h2>
+            <div class="d-flex">
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Of</span>
+              <label class="hh-switch">
+                <input type="checkbox" checked [(ngModel)]="gloveUse" />
+                <span class="hh-switch__slider hh-switch__slider--round"></span>
+              </label>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">On</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="roleSelected?.length">
+      <div class="row mb-5">
+        <div class="col">
+          <h2 class="h5">Select profession(s)</h2>
+          <div class="row">
+            <div class="col-4 col-md-3 text-center mb-3" *ngFor="let selection of roleSelected; let i = index;">
+              <label [htmlFor]="'profession'+roleSelected.indexOf(selection)">
+                <input type="checkbox" [(ngModel)]="selection.isSelected" [id]="'profession'+roleSelected.indexOf(selection)"
+                        class="hh-round-checkbox-list__input">
+                <fa-stack size="lg">
+                  <fa-icon [icon]="faCircle" stackItemSize="2x" [ngStyle]="{'color': selection.isSelected ? 'green' : colors.getFhiColorHexFromText(selection.role.name), 'transition': 'all 600ms'}"></fa-icon>
+                  <fa-icon [icon]="faUserNurse" stackItemSize="1x" *ngIf="!selection.isSelected"></fa-icon>
+                  <fa-icon [icon]="faCheck" stackItemSize="1x" *ngIf="selection.isSelected"></fa-icon>
+                </fa-stack>
+                <br />
+                <span style="font-size: 14px; word-break: break-all;">
+                  {{ selection.role.name }}
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="row mb-5">
+      <div class="col text-center">
+        <button
+          class="btn fhi-btn-primary"
+          style="height: unset; padding: 0.575rem 1.2rem"
+          (click)="startObservation()"
+          [disabled]="canNotStartObservation()"
+        >
+          Start observation
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="showProtectiveEquipment">
+  <app-selection-for-protective-equipment
+    [roles]="roleSelected"
+    [department]="getSelectedDepartment()"
+  ></app-selection-for-protective-equipment>
+</ng-container>
+
+<app-help-text [title]="'Tips and trciks - start observation'">
+  <p>
+    Hello, and welcome to the observation module. To start observation, you need to
+    do the following:
+  </p>
+  <ol>
+    <li>Select institution</li>
+    <li>Select department</li>
+    <li>Select type observation</li>
+    <li>Choose which professions you want to observe</li>
+  </ol>
+    When you are ready to start observing, you can click to
+    <b>Start observation</b>.
+</app-help-text>

@@ -1,0 +1,90 @@
+<div class="container">
+
+  <!-- Filtre -->
+  <div class="row">
+    <div class="row align-items-end mb-4">
+      <div class="col-md-2">
+        <label for="sessionType">Session Type</label>
+        <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
+          <option value="null">All</option>
+          <option *ngFor="let sessiontype of sessiontypes" [ngValue]="sessiontype.value">{{sessiontype.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="fra">From date</label>
+        <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" />
+      </div>
+      <div class="col-md-2">
+        <label for="to">To date</label>
+        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
+      </div>
+      <div *ngIf="canSelectInstitution" class="col-md-3">
+        <label for="institutions">Institutions</label>
+        <select id="institutions" class="form-select" [(ngModel)]="selectedInstitutionId" (ngModelChange)="resetSearchresults()">
+          <option value="null">All</option>
+          <option *ngFor="let institution of institutions" [ngValue]="institution.id.toString()">
+            {{institution.name}}
+          </option>
+        </select>
+      </div>
+      <div style="display: flex;" class="form-group col-12 col-md-3">
+        <label style="opacity:0;">-</label>
+        <br />
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getInstitutionsWithSessions()">Search</button>
+        <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="searching">
+    <app-spinner class="col-12">Searching...</app-spinner>
+  </div>
+
+  <!-- Search result -->
+  <div class="row mb-5" *ngIf="institutionOverviewReportList.length">
+    <app-accordion class="col-12"
+                   [items]="institutionOverviewReportList"
+                   [headerTemplate]="headerInstitutionOverviewReport"
+                   [contentTemplate]="contentInstitutionOverviewReport"
+                   (shownEvent)="findId($event)">
+    </app-accordion>
+
+    <ng-template #headerInstitutionOverviewReport let-item="item">
+      {{item.name}}. Sessions: {{item.numberOfSessions}}. Observations: {{item.numberOfObservations}}.
+    </ng-template>
+
+    <ng-template #contentInstitutionOverviewReport let-item="item">
+      <h5>Departments</h5>
+      <ng-container>
+        <div class="table-responsive">
+          <table class="table" sortable-table (sorted)="sort($event)">
+            <thead>
+              <tr>
+                <th sortable-column="Name"></th>
+                <th>Number of sessions</th>
+                <th>Number of observations</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let department of item.departments">
+                <td>{{department.name}}</td>
+                <td>{{department.numberOfSessions}}</td>
+                <td>{{department.numberOfObservations}}</td>
+                <td class="py-2">
+                  <button class="btn fhi-btn-icon"
+                          (click)="navigateToObservationsForTheDepartment(department)"
+                          [disabled]="department.numberOfSessions === 0">
+                    View sessions
+                    <fa-icon [icon]="faArrowRight"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </ng-template>
+
+  </div>
+</div>

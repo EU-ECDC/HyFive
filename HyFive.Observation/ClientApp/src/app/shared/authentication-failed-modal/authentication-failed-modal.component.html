@@ -1,0 +1,12 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">You have been logged out </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+      You have been logged out of the solution. Click the button below to log in again.</div>
+  <div class="modal-footer">
+    <a class="btn btn-outline-dark" href="/account/login">Log in again</a>
+  </div>
+</ng-template>
+

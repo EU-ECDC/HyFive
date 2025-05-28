@@ -1,0 +1,10 @@
+
+<fhi-modal
+            [actionButtons]="[{name: 'Yes'}]"
+            (modalAction)="confirm()"
+            [openModalButtonClass]="buttonClass">
+  <ng-container fhi-modal.button><i *ngIf="shouldUseIcon" class="icon-trash3"></i><span class="btn__text">{{buttonText}}</span></ng-container>
+  <ng-container fhi-modal.body>
+    {{ dialogMessage }}
+  </ng-container>
+</fhi-modal>

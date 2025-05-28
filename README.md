@@ -9,19 +9,19 @@ Et grensesnitt hvor observat�rer (Observat�r) kan logge inn med HelseId og ,
 "Observat�r" kan:
 - Se sine tilknyttede institusjoner
 - Foreta ulike typer observasjoner (Fire indikasjoner, Hanskebruk, H�ndsmykke, Beskyttelsesutstyr) p� sine institusjoner avdelinger 
-- Sende inn observasjonene iform av Sesjoner til "Koordinator" for institusjon
+- Sende inn observasjonene iform av Sesjoner til "Coordinator" for institusjon
 
 
 ## Admin
-Et administrativt grensesnitt hvor FHI (FHI Admin) og ulike helseforetak/institusjoners koordinatorer (Koordinator) kan logge inn.
+Et administrativt grensesnitt hvor FHI (FHI Admin) og ulike helseforetak/institusjoners koordinatorer (Coordinator) kan logge inn.
 
 "FHI Admin" kan:
 - Redigere kodeverk
 - Se alle observasjonsdata
 - Redigere institusjoner 
-- Opprette/redigere "Koordinator"-brukere og "Observasjon"-brukere for institusjoner. 
+- Opprette/redigere "Coordinator"-brukere og "Observasjon"-brukere for institusjoner. 
 
-"Koordinator" kan:
+"Coordinator" kan:
 - Se sin(e) institusjon(er)s observasjoner
 - Sende observasjonssesjoner videre til FHI
 - Opprette Observat�rer og Koordinatorer for sin(e) institusjon(er)
@@ -43,9 +43,9 @@ Korriger view'et og f�lg deretter punkt 1-2 over.
 Autentisering foretas ved bruk av HelseId gjennom komponenten Fhi.HelseId (https://github.com/folkehelseinstituttet/fhi.helseid). 
 
 ## Autorisering
-Autorisering foretas ved bruk av informasjon utstedt i et HelseId-token (HPR-nummer og PidPseudonym) sammen med data lagret i en brukertabell (Bruker) med diskriminerte brukertyper for "FHI Admin", "Koordinator" og "Observat�r".
+Autorisering foretas ved bruk av informasjon utstedt i et HelseId-token (HPR-nummer og PidPseudonym) sammen med data lagret i en brukertabell (Bruker) med diskriminerte brukertyper for "FHI Admin", "Coordinator" og "Observat�r".
 Hvert API-endepunkt sikres ved bruk av en policy.
-Der det er n�dvendig gj�res ytterligere tilgangskontroll ved � inspisere API-requesten og nekte tilgang basert p� query-parametere, f eks. hvis en Koordinator fors�ker � sp�rre om data fra en institusjon den ikke er Koordinator for.
+Der det er n�dvendig gj�res ytterligere tilgangskontroll ved � inspisere API-requesten og nekte tilgang basert p� query-parametere, f eks. hvis en Coordinator fors�ker � sp�rre om data fra en institusjon den ikke er Coordinator for.
 
 ## Seeding av applikasjon
 Ved f�rste gangs oppsett av applikasjonen m� den seedes med data.
@@ -55,7 +55,7 @@ Dette gj�res ved et kall til Seed-metoden i API'et i HyFive.Observasjon l�sn
 3. Bla deg ned til 'Seed' metoden og kj�r denne.
 
 ## Testbrukere inkludert i 'Seed' dataene
-N�r du seed'er applikasjonen s� opprettes det brukere for FHI Admin, Koordinator og Observat�r som du kan logge inn med via HelseId.
+N�r du seed'er applikasjonen s� opprettes det brukere for FHI Admin, Coordinator og Observat�r som du kan logge inn med via HelseId.
 Under f�lger en oversikt.
 
 Ved innlogging i b�de Admin-grensesnitt og Observasjon-grensesnitt s� kan du velge "Test IDP" og legge inn "F�dselsnummer" for rollen du �nsker � logge inn med. 
@@ -64,24 +64,24 @@ Ved innlogging i b�de Admin-grensesnitt og Observasjon-grensesnitt s� kan du
 
 ### Admin-grensesnitt
 Adresse: https://test-admin-handhygiene.azurewebsites.net
-Logg p� som FHI Admin eller Koordinator. Se innloggingsopplysninger for FHI Admin og Koordinator under.
+Logg p� som FHI Admin eller Coordinator. Se innloggingsopplysninger for FHI Admin og Coordinator under.
 
 ### Observasjon-grensesnitt
 Adresse: https://test-handhygiene.azurewebsites.net
 Logg p� som Observat�r. Se innloggingsopplysninger for Observat�r under.
 
 ### FHI Admin
-Navn: FELIX M�RK  
+Name: FELIX M�RK  
 F�dselsnummer: 22127113177  
 HPR-nummer: 0  
 
-### Koordinator
-Navn: ANNE MARKUSSEN  
+### Coordinator
+Name: ANNE MARKUSSEN  
 F�dselsnummer: 15037104229  
 HPR-nummer: 4909402  
 
 ### Observat�r
-Navn: LINE DANSER  
+Name: LINE DANSER  
 F�dselsnummer: 13116900216  
 HPR-nummer: 9383840  
 

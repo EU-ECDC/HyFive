@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HyFive.Modeller</name>
+    </assembly>
+    <members>
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettAvdelingRequest">
+            <summary>
+            Interface brukt for å opprette institusjoner fra Admin-grensesnittet
+            </summary>
+        </member>
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettInstitusjonRequest">
+            <summary>
+            Interface brukt for å opprette institusjoner fra Admin-grensesnittet
+            </summary>
+        </member>
+        <member name="T:HyFive.Modeller.V1.Institution.OpprettInstitusjonstypeRequest">
+            <summary>
+            Interface brukt for å opprette institusjoner fra Admin-grensesnittet
+            </summary>
+        </member>
+        <member name="T:HyFive.Modeller.V1.Observasjon.OppdaterRolleRequest">
+            <summary>
+            Interface brukt for å oppdatere roller fra Admin-grensesnittet
+            </summary>
+        </member>
+        <member name="T:HyFive.Modeller.V1.Observasjon.OpprettRolleRequest">
+            <summary>
+            Interface brukt for å opprette roller fra Admin-grensesnittet
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -12,18 +12,18 @@ export class RegionService {
 
   constructor(private httpClient: HttpClient) { }
 
-  hentRegioner(): Observable<Region[]> {
-    const url = `${environment.apiBaseUrl}/v1/regioner`;
+  getRegions(): Observable<Region[]> {
+    const url = `${environment.apiBaseUrl}/v1/regions`;
     return this.httpClient.get<Region[]>(url);
   }
 
-  opprettRegion(region: Region): Observable<Region> {
-    const url = `${environment.apiBaseUrl}/v1/regioner/opprett`;
+  createRegion(region: Region): Observable<Region> {
+    const url = `${environment.apiBaseUrl}/v1/regions/create`;
     return this.httpClient.post<Region>(url, region);
   }
 
-  oppdaterRegion(region: Region): Observable<Region> {
-    const url = `${environment.apiBaseUrl}/v1/regioner/oppdater`;
+  updateRegion(region: Region): Observable<Region> {
+    const url = `${environment.apiBaseUrl}/v1/regions/update`;
     return this.httpClient.put<Region>(url, region);
   }
 }

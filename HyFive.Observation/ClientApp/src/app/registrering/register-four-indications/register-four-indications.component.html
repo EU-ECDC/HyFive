@@ -1,0 +1,41 @@
+<div class="container">
+  <app-observation-counter [url]="Urls.FourIndicationsSessionUrl" [sessionsdata]="sessionsdata"></app-observation-counter>
+  <h1 class="h3 mt-n4 mt-xl-0">Four Indications</h1>
+</div>
+
+<div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
+  <ng-container *ngFor="let card of sessionView.card">
+    <app-four-indications-observation-card (observationRegister)="registerObservation($event)"
+                                            (sessionViewUpdate)="updateSessionView($event)"
+                                            (cardIsSelectedEvent)="cardIsSelected($event)"
+                                            [card]="card"
+                                            [sessionView]="sessionView"
+                                            [roleSelected]="sessionView.department.roles">
+    </app-four-indications-observation-card>
+  </ng-container>
+</div>
+
+<app-new-card-info [showEmptyForShortText]="showEmptyForShortText"></app-new-card-info>
+<app-new-card-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
+</app-new-card-modal>
+
+<app-help-text
+  [title]="'Tips and tricks - observe four indications'">
+  <p>
+    You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
+
+    You record indications and activities by clicking on the icons in the card.
+
+  </p>
+  <p>
+    The following requirements meet a valid observation:  </p>
+  <ol>
+    <li>At least 1 indication</li>
+    <li><i>Only</i> 1 activity</li>
+  </ol>
+  <p>
+    When you are finished, you can drag the card to the right to save the observation.
+    If you have registered an error, you must press "Empty card" - then the card will reset itself.
+    If you want to remove a card from the list, you can drag the card to the left.
+  </p>
+</app-help-text>

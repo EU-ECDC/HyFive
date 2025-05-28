@@ -1,0 +1,15 @@
+
+ // Setter z-order på back-drop (utgråing av siden under) lavere enn pop-ups (modal) slik at pop-ups kommer over back-drop.
+  // Dersom pop up'en blir liggende under utgråingen lar den seg ikke lukke.
+  // Vi oppdaget problemet på varsel i "Prioriterte varsler" på forsiden og Unntak i Administrasjon - Unntak.
+  // Vi valgte å bruke 2000 siden bootstrap user 1000 serien
+
+  //https://github.com/ng-bootstrap/ng-bootstrap/issues/2686
+
+.modal {
+    z-index: 2001!important;
+  }
+  
+  .modal-backdrop {
+    z-index: 2000!important;
+  } 

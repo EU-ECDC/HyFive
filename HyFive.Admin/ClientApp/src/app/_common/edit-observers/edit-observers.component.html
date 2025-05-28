@@ -1,0 +1,114 @@
+  <div class="row">
+    <div class="col-12">
+      <button class="btn fhi-btn-primary mb-5 mt-3" (click)="createEmptyObserver()">Create observer</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="observers">
+    <input type="text" *ngIf="observers.length > 0" placeholder="Search for...(First name/Last name/HPR number)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
+    <label class="col-12" *ngIf="observers.length === 0 && !newObserver">No observers found at this institution</label>
+    
+    <ng-container>
+      <div class="table-responsive">
+        <table class="table" *ngIf="observers.length > 0 || newObserver" sortable-table (sorted)="sort($event)">
+          <thead>
+            <tr>
+              <td sortable-column="Firstname"></td>
+              <td sortable-column="Lastname"></td>
+              <td scope="col">Email</td>
+              <td scope="col">HPR-number</td>
+              <td scope="col">Pseudonym</td>
+              <td scope="col">Disabled</td>
+              <td class="text-end" scope="col">Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="newObserver != null">
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" placeholder="Firstname"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" placeholder="Lastname"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.email" name="email" placeholder="Email"></td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="newObserver.hprNumber" name="hprNumber" placeholder="HPR-number">
+                <app-search-hprnumber-link></app-search-hprnumber-link>
+              </td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.identityPseudonym" name="pseudonym" placeholder="Pseudonym"></td>
+              <td></td>
+              <td>
+                <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createObserver()">
+                  <i class="icon-plus"></i><span class="btn__text">Create</span>
+                </button>
+                <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                </button>
+              </td>
+            </tr>
+      
+            <tr *ngFor="let observer of filteredObservers">
+              
+              <ng-container *ngIf="observerAsChanged?.id != observer.id">
+                <td>{{observer.firstName}}</td>
+                <td>{{observer.lastName}} </td>
+                <td>{{observer.email}}</td>
+                <td>{{observer.hprNumber}}</td>
+                <td>
+                  <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="observer.identityPseudonym"></app-pseudonym-dialog>
+                </td>
+                <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observer.isDisabled" name="isDisabled" disabled="disabled"></td>
+              
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="setObserverAsChanged(observer)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  </button>
+                </td>
+              </ng-container>
+              
+              <ng-container *ngIf="observerAsChanged?.id == observer.id">
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.email" name="email" placeholder="Email"></td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNumber" name="hprNumber" placeholder="HPR-number">
+                  <app-search-hprnumber-link></app-search-hprnumber-link>
+                </td>
+                <td>
+                  <app-pseudonym-dialog 
+                                        [text]="'Change'"
+                                        [editable]="true"
+                                        [identityPseudonym]="observer.identityPseudonym"
+                                        (identityPseudonymChanged)="identityPseudonymChanged($event)">
+                  </app-pseudonym-dialog> 
+                </td>
+                <td>
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="observerAsChanged.isDisabled" name="isDisabled">
+                </td>
+              
+                <td>
+                  <ng-container *ngIf="observer.id == observerAsChanged?.id">
+                    <button class="btn fhi-btn-icon mr-2 w-100"
+                            (click)="updateObserver(observerAsChanged)"
+                            [disabled]="canChange(observerAsChanged) == false">
+                      <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    </button>
+                    <div *ngIf="user.isFhiAdmin">
+                      <app-confirmation-dialog 
+                                                    [buttonText]="'Delete'"
+                                                    (confirmEvent)="deleteObserver(observer.id)"
+                                                    [dialogMessage]="'Are you sure you want to delete the observer ' + observer.firstName + ' ' +  observer.lastName +  ' from the system?'"
+                                                    [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
+                                                    [shouldUseIcon]=true>
+                      </app-confirmation-dialog>
+                    </div>
+                    <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">
+                      <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    </button>
+                  </ng-container>
+                </td>
+  
+              </ng-container>
+  
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+

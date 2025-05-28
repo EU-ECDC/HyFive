@@ -1,0 +1,110 @@
+<div class="hh-card-slider">
+
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-between" *ngIf="isReadonly == false">
+      <div class="mb-3">
+        <button *ngIf="!isEditMode" class="btn fhi-btn-icon" style="background-color: white;" (click)="isEditMode = true">
+          <fa-icon [icon]="faPencil"></fa-icon> Edit
+        </button>
+        <button *ngIf="isEditMode" class="btn fhi-btn-icon" style="background-color: white;" (click)="saveObservation()">
+          <fa-icon [icon]="faSave"></fa-icon> Save
+        </button>
+
+      </div>
+      <div class="mb-3">
+        <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
+                                      [dialogMessage]="dialogueTexts.ObservationDeleteConfirmation">
+          <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
+        </app-delete-confirmation-dialog>
+      </div>
+    </div>
+    <div class="hh-card-slider__card"
+         [ngClass]="{ 'hh-card-slider__card--active': isEditMode || isReadonly }"
+         [ngStyle]=" (isEditMode || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation.role.name)}">
+      <ng-container *ngIf="isEditMode">
+        <div class="row">
+          <div class="col-12">
+            <app-role-selection-dropdown [roleId]="observation.role.id"
+                                     [isReadonly]="isReadonly"
+                                     [roleSelectedI]="department.roles"
+                                     (roleSelectedEvent)="observation.role = $event">
+            </app-role-selection-dropdown>
+          </div>
+        </div>
+        <div class="hh-horizontal-separator"></div>
+      </ng-container>
+      <div class="row">
+        <div class="col-12" *ngIf="protectiveEquipmentRequired().length > 0">
+          <h2 class="h5 mb-3">Required</h2>
+          <div class="row text-break" *ngIf="protectiveEquipment?.length">
+            <div class="col-6 col-sm-4 col-md-3 text-center px-0 mb-3" *ngFor="let selection of protectiveEquipmentRequired(); let i = index;" (click)="showDisplayModeModal($event, selection)">
+              <label [htmlFor]="'required'+observation.id.substr(4)+i">
+                <input type="checkbox"
+                       class="hh-round-checkbox-list__input"
+                       [disabled]="isReadonly || !isEditMode"
+                       [(ngModel)]="selection.wasUsed"
+                       (change)="changed($event, selection)"
+                       [id]="'required'+observation.id.substr(4)+i">
+
+                <fa-stack class="hh-round-checkbox-list__iconstack">
+                  <fa-icon [icon]="faCircle" stackItemSize="2x"
+                           class="hh-round-checkbox-list__circle"
+                           [ngClass]="{ 'hh-round-checkbox-list__circle--chosen': selection.wasUsed, 'hh-round-checkbox-list__circle--active': isEditMode }"></fa-icon>
+                  <fa-icon [icon]="iconTypeMap.get(selection.equipmentType.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!selection.wasUsed"></fa-icon>
+                  <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': selection.wasUsedCorrectly ? 'green' : 'red' }" stackItemSize="1x" *ngIf="selection.wasUsed"></fa-icon>
+                </fa-stack>
+                <br />
+                <span>{{ selection.equipmentType.name }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto mx-auto" *ngIf="isEditMode">
+          <div class="fhi-form-check-tile">
+            <button class="btn fhi-btn-icon btn-lg mt-3" [disabled]="isReadonly || displayMode" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>All equipment correctly used</strong></button>
+            <!-- <input class="fhi-form-check-tile__input form-check-input" type="checkbox" [disabled]="isReadonly || displayMode" id="allTypesOfEquipmentCorrectlyUsedDisabled" (click)="setAllEquipmentToProperUsed($event)">
+          
+            <label class="fhi-form-check-tile__label form-check-label" for="allTypesOfEquipmentCorrectlyUsedDisabled">
+              <span class="fhi-form-check-tile__label-text">All equipment correctly used</span>
+            </label> -->
+          </div>
+        </div>
+      </div>
+      <div class="hh-card-slider__stripe" *ngIf="protectiveEquipmentNotRequired().length > 0">
+        <h2 class="h5 mb-3">Not required</h2>
+        <div class="custom-control custom-checkbox hh-stadium-checkbox"
+             *ngFor="let selection of protectiveEquipmentNotRequired(); let i = index;"
+             [ngClass]="{ 'hh-stadium-checkbox--checked':selection.wasUsed }"
+             (click)="showDisplayModeModal($event, selection)">
+
+          <div class="btn-group btn-group-toggle">
+            <label ngbButtonLabel>
+              <input class="visually-hidden" type="checkbox" ngbButton [disabled]="isReadonly || !isEditMode" [(ngModel)]="selection.wasUsed" (change)="changed($event, selection)">
+              <div class="d-flex">
+                <i class="icon-check ms-n2" *ngIf="selection.wasUsed" [ngClass]="selection.wasUsedCorrectly ? 'icon-green' : 'icon-red'"></i>
+                <strong>{{ selection.equipmentType.name }}</strong>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="d-flex flex-row justify-content-around" [ngClass]="{'mt-2' : !isEditMode}">
+            <ng-container *ngIf="isEditMode">
+              <app-register-comment [disabled]="isReadonly"
+                                       [commentInput]="observation.comment"
+                                       [institutionid]="institutionid"
+                                       [sessiontype]="protectiveEquipmentSessionType"
+                                       (commentRegisteredEvent)="registerComment($event)">
+              </app-register-comment>
+            </ng-container>
+            <ng-container *ngIf="!isEditMode && observation.comment">
+              <label><small>Comment: <strong>{{observation.comment}}</strong></small></label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

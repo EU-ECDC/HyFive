@@ -4,7 +4,7 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "fhi.handhygiene.observasjon": "StartDebugging"
+        "fhi.handhygiene.observation": "StartDebugging"
       }
     }
   }

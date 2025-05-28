@@ -1,0 +1,27 @@
+.hh-offlinemessage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border: 1px solid $fhi-core-red-2;
+  background-color: rgba(199, 78, 71, 0.5);
+  margin-bottom: $fhi-core-space-5;
+  padding: $fhi-core-space-3 $fhi-core-space-6 $fhi-core-space-3 $fhi-core-space-4;
+
+  &--darkMode {
+    p { color:white; }
+  }
+
+  &__icon {
+      color: $fhi-core-red-2;
+      font-size: $fhi-core-font-size-7;
+      line-height: $fhi-core-px * 43;
+      padding-right: $fhi-core-space-3;
+  }
+  &__btn-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: $fhi-core-px * 44;
+      width: $fhi-core-px * 44;
+  }
+}

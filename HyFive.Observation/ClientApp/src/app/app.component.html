@@ -1,0 +1,36 @@
+<div class="fhi-app fhi-admin-view hh-app" id="top">
+  <header class="fhi-header">
+    <div class="fhi-header__brand pb-5">
+      <div
+        class="container fhi-header__brand-container d-flex"
+        [ngClass]="{ 'pb-3': !mainMenuToBeDisplayed() }"
+      >
+        <div class="fhi-header__brand-content" [ngClass]="{'d-xl-flex': !shouldShowAppBrand()}">
+          <a class="fhi-header__logo" routerLink="/">
+            <i class="icon-fhi-logo fhi-header__logo-icon"></i>
+          </a>
+          <div class="fhi-header__project">
+            <span class="fhi-header__project-name flex-md-row">
+              <span class="me-md-1 text-nowrap"
+                >ECDC <span class="d-none d-md-inline">-</span></span
+              >
+              <small
+                class="d-none d-md-inline d-lg-flex flex-column justify-content-center"
+                >National tool for observation of infection prevention measures in the health service</small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fhi-app__main-menu" *ngIf="mainMenuToBeDisplayed()">
+      <div class="fhi-app__main-menu-container">
+        <app-main-menu></app-main-menu>
+      </div>
+    </div>
+  </header>
+
+  <main class="fhi-app__main-content">
+    <router-outlet></router-outlet>
+  </main>
+  <!-- <app-authentication-failed-modal></app-authentication-failed-modal> -->
+</div>
