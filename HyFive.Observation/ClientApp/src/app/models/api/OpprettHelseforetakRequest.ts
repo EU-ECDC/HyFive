@@ -5,5 +5,5 @@
 export interface OpprettHelseforetakRequest
 {
 	name: string;
-	regionaltHealthcareOrganizationId: number;
+	regionalHealthcareOrganizationId: number;
 }
