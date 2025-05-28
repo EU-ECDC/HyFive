@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-12" *ngIf="user?.name && isOnline">
-      <p class="mb-2">Hei, {{user.name}}. </p>
+      <p class="mb-2">Hello, {{user.name}}. </p>
       <p *ngIf="user?.isObserver">Welcome to the National Tool for Observation of Infection Prevention Measures in the Health Service (ECDC).</p>
     </div>
   </div>
@@ -67,7 +67,7 @@
     <ng-container *ngIf="isOnline && isLoggedIn && user?.isObserver">
       <div class="row">
         <div class="col-lg-8">
-          <a [routerLink]="'/registrering'" class="btn fhi-btn-primary w-100">
+          <a [routerLink]="'/register'" class="btn fhi-btn-primary w-100">
             Start observation
           </a>
         </div>
