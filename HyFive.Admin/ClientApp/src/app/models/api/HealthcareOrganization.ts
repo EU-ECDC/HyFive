@@ -8,6 +8,6 @@ export interface HealthcareOrganization
 {
 	id: number;
 	name: string;
-	regionaltHealthcareOrganizationId: number;
+	regionalHealthcareOrganizationId: number;
 	regionalHealthcareOrganization: RegionalHealthcareOrganization;
 }
