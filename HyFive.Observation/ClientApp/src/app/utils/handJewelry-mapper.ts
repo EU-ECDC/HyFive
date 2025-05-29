@@ -10,13 +10,13 @@ export class HandJewelryMapper {
 
   public static getIconTypeMap(): Map<HandJewelryTypeConstants, IconProp> {
     var iconmap = new Map<HandJewelryTypeConstants, IconProp>();
-    iconmap.set(HandJewelryTypeConstants.AllClear, faThumbsUp);
+    iconmap.set(HandJewelryTypeConstants.AllOk, faThumbsUp);
     iconmap.set(HandJewelryTypeConstants.Ring, faRing);
     iconmap.set(HandJewelryTypeConstants.WatchBracelet, faKlokke);
-    iconmap.set(HandJewelryTypeConstants.LongNails, faLangNegl);
-    iconmap.set(HandJewelryTypeConstants.ArtificialNailsShellac, faKunstigNegl);
-    iconmap.set(HandJewelryTypeConstants.ShortSleeved, faTshirt);
-    iconmap.set(HandJewelryTypeConstants.LongSleeved, faLangermet);
+    iconmap.set(HandJewelryTypeConstants.LongNail, faLangNegl);
+    iconmap.set(HandJewelryTypeConstants.ArtificialNailShellac, faKunstigNegl);
+    iconmap.set(HandJewelryTypeConstants.ShortSleeves, faTshirt);
+    iconmap.set(HandJewelryTypeConstants.LongSleeves, faLangermet);
     return iconmap;
   }
 
