@@ -57,10 +57,10 @@ export class EditHandJewelryObservationComponent implements OnInit {
   }
 
   changed(selection: HandJewelrySelection) {
-    if (selection.isSelected && selection.type == HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
-    else if (selection.isSelected && selection.type != HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
+    if (selection.isSelected && selection.type == HandJewelryTypeConstants.AllOk)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+    else if (selection.isSelected && selection.type != HandJewelryTypeConstants.AllOk)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
     else if (this.numberOfHandJewelrySelected () < 1)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }

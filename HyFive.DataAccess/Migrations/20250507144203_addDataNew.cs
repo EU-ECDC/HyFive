@@ -891,18 +891,18 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""InstitutionId"") VALUES (13, N'Øisteins klinikk', 1) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""InstitutionId"") VALUES (14, N'Kirurgisk klinikk', 1) ON CONFLICT (""Id"") DO NOTHING");
 
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (1, N'Lege', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (2, N'Sykepleier', N'Sykepleiere og sykepleiere med spesialutdannelse') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (3, N'Pleiepersonell', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (4, N'Jordmor', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (5, N'Fysioterapeut', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (6, N'Bioingeniør', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (7, N'Helsepersonell', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (8, N'Jordmor 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (9, N'Skyepleier 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (10, N'Lege', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (1, N'Doctor', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (2, N'Nurse', N'Nurses and nurses with special education') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (3, N'Nursing staff', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (4, N'Midwife', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (5, N'Physiotherapist', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (6, N'Bio engineer', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (7, N'Health personnel', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (8, N'Midwife 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (9, N'Nurse 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (10, N'Doctor', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (11, N'SuperRole', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (12, N'Hypokonder', N'Feiler noe hele tiden') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (12, N'Hypochondriac', N'Something is wrong all the time') ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""ClinicDepartment"" (""DepartmentsId"", ""ClinicsId"") VALUES (1, 1)");
             migrationBuilder.Sql(@"INSERT INTO ""ClinicDepartment"" (""DepartmentsId"", ""ClinicsId"") VALUES (2, 1)");
@@ -1524,10 +1524,10 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Session"" (""Id"", ""CreatedDate"", ""StartDate"", ""DepartmentId"", ""ObserverId"", ""Comment"", ""Discriminator"", ""TransferStatusId"") VALUES (N'a3f9af84-da4b-460a-bd5d-fe6734547cdc'::uuid, TIMESTAMP '2024-10-15T13:36:11.3246803', TIMESTAMP '2023-04-27T09:30:16', 2, 3, NULL, N'FourIndicationsSession', 2) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Session"" (""Id"", ""CreatedDate"", ""StartDate"", ""DepartmentId"", ""ObserverId"", ""Comment"", ""Discriminator"", ""TransferStatusId"") VALUES (N'a194209a-14c2-483b-b603-ff7e47d8a32d'::uuid, TIMESTAMP '2021-11-22T14:31:46.3384218', TIMESTAMP '2021-11-22T14:30:37.484', 2, 3, NULL, N'ProtectiveEquipmentSession', 1) ON CONFLICT (""Id"") DO NOTHING");
 
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'BASALE_SMITTEVERNRUTINER', N'Basale smittevernrutiner') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'KONTAKTSMITTE', N'Kontaktsmitte') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'DRAPESMITTE', N'Dråpesmitte') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'LUFTSMITTE', N'Luftsmitte') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'BASIC_INFECTION_CONTROL_ROUTINES', N'Basic infection control routines') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'CONTACT_INFECTION', N'Contact infection') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'DROPLET_INFECTION', N'Droplet infection') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'AIR_INFECTION', N'Air infection') ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentObservation"" (""Id"", ""SettingTypeId"", ""ProtectiveEquipmentSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES ('360c7456-9ce4-47de-ad35-06c9c37986c0'::uuid, 1, 'a350c90c-23dc-4509-bc84-1630fe1b0ab2'::uuid, TIMESTAMP '2022-08-08T10:35:09.0570700', 4, TIMESTAMP '2022-08-08T10:34:28.5740000', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentObservation"" (""Id"", ""SettingTypeId"", ""ProtectiveEquipmentSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES ('e077ba55-3bda-439e-a206-0780562e257c'::uuid, 3, 'd8b41190-3d56-417b-a379-3bd1d26ac0c5'::uuid, TIMESTAMP '2022-08-08T10:37:24.4336726', 4, TIMESTAMP '2022-08-08T10:37:08.0700000', NULL) ON CONFLICT (""Id"") DO NOTHING");
@@ -3092,10 +3092,10 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""FourIndicationsObservation"" (""Id"", ""ActivityId"", ""FourIndicationsSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'49fb38e1-62cd-434b-a3c2-fe10b05ff0f8'::uuid, 11, N'676374ba-6e20-4446-9b47-6acb75461a97'::uuid, TIMESTAMP '2021-08-06T17:52:15.6226946', 1, TIMESTAMP '2021-08-06T17:51:57.746', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""FourIndicationsObservation"" (""Id"", ""ActivityId"", ""FourIndicationsSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'039cdfc9-183a-4376-acec-ff156aeb33ac'::uuid, 68, N'195a33c2-c13d-418a-bc80-3068c56ea328'::uuid, TIMESTAMP '2021-09-15T10:28:17.3113171', 1, TIMESTAMP '2021-09-15T10:28:15.216', NULL) ON CONFLICT (""Id"") DO NOTHING");
 
-            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (1, N'Etter pasient', N'ETTER_PASIENT', N'4') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (2, N'Kroppsvæske', N'KROPPSVESKE', N'3') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (3, N'Aseptisk', N'ASEPTISKE_PROSEDYRER', N'2') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (4, N'Før pasient', N'FOER_PASIENT', N'1') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (1, N'After patient', N'AFTER_PATIENT', N'4') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (2, N'Body fluid', N'BODY_FLUID', N'3') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (3, N'Aseptic', N'ASEPTIC_PROCEDURES', N'2') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (4, N'Before patient', N'BEFORE_PATIENT', N'1') ON CONFLICT (""Id"") DO NOTHING");
 
 
             migrationBuilder.Sql(@"INSERT INTO ""FourIndicationsObservationIndicationTypes"" (""IndicationTypesId"", ""ObservationsId"") VALUES (4, N'3361204c-f1de-431c-a416-00a4a331ebd1'::uuid) ON CONFLICT  DO NOTHING");
