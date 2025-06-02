@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBaseUrl = void 0;
+exports.getBaseUrl = getBaseUrl;
 /***************************************************************************************************
  * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
  */
@@ -12,7 +12,6 @@ var environment_1 = require("./environments/environment");
 function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
 }
-exports.getBaseUrl = getBaseUrl;
 var providers = [
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
 ];

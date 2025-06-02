@@ -5,5 +5,5 @@
 export interface OpprettRolleRequest
 {
 	name: string;
-	beskrivelse: string;
+	description: string;
 }

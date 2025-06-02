@@ -32,7 +32,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.Departments, opt => opt.MapFrom(i => i.Departments.ToList()));
             CreateMap<Domain.Place.InstitutionType, Models.V1.Institution.InstitutionType>(MemberList.None);
             CreateMap<Domain.User.User, Models.V1.User.User>(MemberList.None)
-                .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(b => b.Institution != null ? b.Institution.Id : 0));
+                .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(b => b.Institution != null ? b.Institution.Id : 0))
+                .ForMember(dst => dst.IsDisabled, opt => opt.MapFrom(src => src.IsDeactivated));
             CreateMap<Domain.User.UserAccessRequest, Models.V1.UserAccessRequest.UserAccessRequest>(MemberList.None);
             CreateMap<Domain.Place.Department, Models.V1.Institution.Department>(MemberList.None)
                 .ForMember(dst => dst.DepartmentTypeId, opt => opt.MapFrom(o => o.DepartmentType != null ? o.DepartmentType.Id : 0))
@@ -263,7 +264,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Institution.Municipality.Name));
 
             CreateMap<Domain.Place.HealthcareOrganization, Models.V1.Institution.HealthcareOrganization>()
-                .ForMember(dest => dest.RegionaltHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionalHealthcareOrganization != null ? src.RegionalHealthcareOrganization.Id : 0));
+                .ForMember(dest => dest.RegionalHealthcareOrganizationId, opt => opt.MapFrom(src => src.RegionalHealthcareOrganization != null ? src.RegionalHealthcareOrganization.Id : 0));
 
             CreateMap<Domain.Place.RegionaltHealthcareOrganization, Models.V1.Institution.RegionalHealthcareOrganization>(MemberList.None);
 

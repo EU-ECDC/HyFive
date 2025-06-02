@@ -54,7 +54,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
   createEmptyHealthcareOrganization() {
     return {
       name: '',
-      regionaltHealthcareOrganizationId: 0
+      regionalHealthcareOrganizationId: 0
     } as CreateHealthcareOrganizationRequest;
   }
 

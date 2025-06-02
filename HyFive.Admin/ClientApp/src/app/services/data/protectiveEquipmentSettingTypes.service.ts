@@ -12,12 +12,12 @@ export class ProtectiveEquipmentSettingTypesService {
   constructor(private httpClient: HttpClient) { }
 
   getProtectiveEquipmentSettingTypes(): Observable<ProtectiveEquipmentSettingType[]> {
-    const url = `${environment.apiBaseUrl}/v1/protectiveequipmentsettingtypes`;
+    const url = `${environment.apiBaseUrl}/v1/protectiveEquipmentSettingTypes`;
     return this.httpClient.get<ProtectiveEquipmentSettingType[]>(url);
   }
 
   updateProtectiveEquipmentSettingType(settingType: ProtectiveEquipmentSettingType): Observable<ProtectiveEquipmentSettingType> {
-    const url = `${environment.apiBaseUrl}/v1/protectiveequipmentsettingtypes/update`;
+    const url = `${environment.apiBaseUrl}/v1/protectiveEquipmentSettingTypes/update`;
     return this.httpClient.put<ProtectiveEquipmentSettingType>(url, settingType);
   }
 }

@@ -23,7 +23,7 @@
   </div>
 
   <app-new-card-info [showEmptyForShortText]="showEmptyForShortText"></app-new-card-info>
-  <app-new-card-modal [roles="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
+  <app-new-card-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
   </app-new-card-modal>
 
 </ng-container>

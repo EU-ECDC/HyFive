@@ -6,6 +6,6 @@ namespace HyFive.Models.V1.Institution
     public class CreateHealthcareOrganizationRequest
     {
         public string Name { get; set; }
-        public int RegionaltHealthcareOrganizationId { get; set; }
+        public int RegionalHealthcareOrganizationId { get; set; }
     }
 }
