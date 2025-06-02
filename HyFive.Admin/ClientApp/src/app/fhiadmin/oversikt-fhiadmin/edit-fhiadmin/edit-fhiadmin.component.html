@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5" (click)="createTomFhiAdmin()">Create FhiAdmin</button>
+    <button class="btn fhi-btn-primary mb-5" (click)="createTomFhiAdmin()">Create Admin</button>
   </div>
 </div>
 <div class="row" *ngIf="users">
-  <h5 class="col-12">FhiAdmin</h5>
-  <label class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">Did not find any FhiAdmin-users</label>
+  <h5 class="col-12">Admin</h5>
+  <label class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">Did not find any Admin-users</label>
   
   <ng-container>
     <div class="table-responsive">
