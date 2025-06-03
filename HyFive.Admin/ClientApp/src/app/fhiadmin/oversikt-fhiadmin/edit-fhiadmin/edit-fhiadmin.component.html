@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5" (click)="createTomFhiAdmin()">Create Admin</button>
+    <button class="btn fhi-btn-primary mb-5" (click)="createToAdmin()">Create Admin</button>
   </div>
 </div>
 <div class="row" *ngIf="users">
@@ -30,7 +30,7 @@
             <td></td>
 
             <td class="text-end py-0 align-middle">
-              <button class="btn fhi-btn-icon" type="button" [disabled]="canCreate() == false" (click)="createFhiAdmin()">
+              <button class="btn fhi-btn-icon" type="button" [disabled]="canCreate() == false" (click)="createAdmin()">
                 <i class="icon-plus"></i><span class="btn__text">Create</span>
               </button>
               <button class="btn fhi-btn-icon" type="button" (click)="cancelEdit($event)">
