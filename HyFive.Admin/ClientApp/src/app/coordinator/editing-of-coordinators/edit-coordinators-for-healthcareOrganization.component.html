@@ -31,7 +31,7 @@
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                <app-search-hprnumber-link></app-search-hprnumber-link>
+                <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
               </td>
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
               <td></td>
@@ -81,7 +81,7 @@
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.email" name="email" placeholder="Email"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.modifiedHPRNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                  <app-search-hprnumber-link></app-search-hprnumber-link>
+                  <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
                 </td>
                 <td>
                   <app-pseudonym-dialog [text]="'Change'"

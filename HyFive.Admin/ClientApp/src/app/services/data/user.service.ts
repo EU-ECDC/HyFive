@@ -59,7 +59,7 @@ export class UserService {
     return this.http.get<User[]>(url);
   }
 
-  createFhiAdmin(user: CreateFhiAdminRequest): Observable<User> {
+  createAdmin(user: CreateFhiAdminRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.post<User>(url, user);
   }

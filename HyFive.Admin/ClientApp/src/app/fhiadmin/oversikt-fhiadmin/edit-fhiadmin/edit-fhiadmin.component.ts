@@ -25,21 +25,21 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
       this.cancelEdit();
     });
-    this.loadFhiAdmin();
+    this.loadAdmin();
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();  
   }
 
-  loadFhiAdmin() {
+  loadAdmin() {
     this.userService.getFhiAdmin().subscribe(
       (fhiAdmins) => this.users = fhiAdmins,
-      (error) => this.toastrService.error('An error occurred while loading FhiAdmin: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading Admin: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  createTomFhiAdmin() {
+  createToAdmin() {
     this.cancelEdit();
     this.newFhiAdmin = {
       lastName: '',
@@ -48,11 +48,11 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     } as CreateFhiAdminRequest;
   }
 
-  createFhiAdmin() {
-    this.userService.createFhiAdmin(this.newFhiAdmin).subscribe(
-      () => this.toastrService.success('FhiAdmin create'),
-      error => this.toastrService.error('An error occurred while creating FhiAdmin: ' + error?.error, '', { disableTimeOut: true}),
-      () => { this.newFhiAdmin = null; this.loadFhiAdmin(); }
+  createAdmin() {
+    this.userService.createAdmin(this.newFhiAdmin).subscribe(
+      () => this.toastrService.success('Admin create'),
+      error => this.toastrService.error('An error occurred while creating Admin: ' + error?.error, '', { disableTimeOut: true}),
+      () => { this.newFhiAdmin = null; this.loadAdmin(); }
     );
   }
 
@@ -65,10 +65,10 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   updateFhiAdmin(fhiAdmin: User) {
     this.userService.updateFhiAdmin(fhiAdmin).subscribe(
       (updatedUser) => {
-        this.toastrService.success('FhiAdmin updated');
-        this.loadFhiAdmin();
+        this.toastrService.success('Admin updated');
+        this.loadAdmin();
       },
-      error => this.toastrService.error('An error occurred while updating FhiAdmin: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating Admin: ' + error?.error, '', { disableTimeOut: true}),
       () => this.fhiAdminAsChanged = null
     );
   }
