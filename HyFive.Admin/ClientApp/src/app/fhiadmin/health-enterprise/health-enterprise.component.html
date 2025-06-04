@@ -2,7 +2,7 @@
   <div class="row" *ngIf="!loading">
     <div class="col-4">
       <h5>HealthCare Organization</h5>
-      <input type="text" class="form-control" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
+      <input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
     </div>
     <div class="col-4">
       <h5>Regional HealthCare Organization</h5>
@@ -12,7 +12,7 @@
       </select>
     </div>
     <div class="col-4">
-      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="newHealthcareOrganization.name.trim().length < 1">Create</button>
+      <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="!canCreateHealthcareOrganization()">Create</button>
     </div>
     <div class="col-12 m-3">
       <label *ngIf="!listOfHealthcareOrganizations">No HealthcareOrganization found</label>
@@ -43,7 +43,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="healthcareOrganizationAsChanged?.id == healthcareOrganization.id">
-                  <td class="col-4"><input type="text" class="form-control" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
+                  <td class="col-4"><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
                     <select class="form-select" [(ngModel)]="healthcareOrganizationAsChanged.regionalHealthcareOrganizationId">
                       <option value="0">Not selected</option>
@@ -51,7 +51,7 @@
                     </select>
                   </td>
                   <td class="text-end py-2 align-middle">
-                    <button class="btn fhi-btn-icon" (click)="updateHealthcareOrganization(healthcareOrganizationAsChanged)">
+                    <button class="btn fhi-btn-icon" [disabled]="!canUpdateHealthcareOrganization()" (click)="updateHealthcareOrganization(healthcareOrganizationAsChanged)">
                       <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
                     <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
