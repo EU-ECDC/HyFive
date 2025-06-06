@@ -44,9 +44,9 @@ namespace HyFive.Services.UserServices
                 //    throw new Exception("Pseudonym is not valid.");
                 //}
 
-                var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
-                if (existingPseudonym)
-                    throw new Exception("User cannot be created. The pseudonym is already in use.");
+                //var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
+                //if (existingPseudonym)
+                //    throw new Exception("User cannot be created. The pseudonym is already in use.");
 
                 var fhiAdmin = new FhiAdmin()
                 {
