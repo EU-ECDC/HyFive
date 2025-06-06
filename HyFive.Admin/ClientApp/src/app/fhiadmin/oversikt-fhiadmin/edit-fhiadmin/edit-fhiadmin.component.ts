@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../../models/api/User';
 import { CreateFhiAdminRequest } from '../../../models/api/CreateFhiAdminRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
   selector: 'app-edit-fhiadmin',
@@ -14,6 +15,7 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   users: User[];
   fhiAdminAsChanged: User = null;
   newFhiAdmin: CreateFhiAdminRequest = null;
+  filteredAdmins: User[] = [];
 
   constructor(
     private userService: UserService,
@@ -34,7 +36,10 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
 
   loadAdmin() {
     this.userService.getFhiAdmin().subscribe(
-      (fhiAdmins) => this.users = fhiAdmins,
+      (fhiAdmins) => {
+        this.users = fhiAdmins;
+        this.filteredAdmins = this.users;
+      },
       (error) => this.toastrService.error('An error occurred while loading Admin: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
@@ -93,4 +98,27 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     this.newFhiAdmin = null;
     this.fhiAdminAsChanged = null;
   }
+
+    sort($event: IColumnSortedEvent) {
+      let propertyOf: (x: User) => any;
+      switch ($event.columnName) {
+        case "Firstname":
+          propertyOf = (x: User) => x.firstName;
+          break;
+          case "Lastname":
+            propertyOf = (x: User) => x.lastName;
+          break;
+        default:
+          throw new Error("Invalid sort column");
+      }
+  
+      const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
+  
+      const sortFunc = (a: User, b: User) => {
+        const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
+        return result * sortOrder;
+      };
+  
+      this.filteredAdmins.sort(sortFunc);
+    }
 }
