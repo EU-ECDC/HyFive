@@ -9,15 +9,15 @@
   
   <ng-container>
     <div class="table-responsive">
-      <table class="table" *ngIf="users.length > 0 || newFhiAdmin">
+      <table class="table" *ngIf="users.length > 0 || newFhiAdmin" sortable-table (sorted)="sort($event)">
         <thead>
           <tr>
-            <th scope="col">Firstname</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Identity Pseudonym</th>
-            <th scope="col">Disabled</th>
-            <th scope="col">Created time</th>
-            <th class="text-end" scope="col">Action</th>
+            <td sortable-column="Firstname" scope="col"></td>
+            <td sortable-column="Lastname" scope="col"></td>
+            <td scope="col">Identity Pseudonym</td>
+            <td scope="col">Disabled</td>
+            <td scope="col">Created time</td>
+            <td class="text-end" scope="col">Action</td>
           </tr>
         </thead>
   
@@ -39,7 +39,7 @@
             </td>
           </tr>
 
-          <tr *ngFor="let fhiAdmin of users; index as i">
+          <tr *ngFor="let fhiAdmin of filteredAdmins; index as i">
             <ng-container *ngIf="fhiAdminAsChanged?.id != fhiAdmin.id">
               <td>{{ fhiAdmin.firstName }}</td>
               <td>{{ fhiAdmin.lastName }}</td>

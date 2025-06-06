@@ -78,6 +78,6 @@ export class UserService {
   }
 
   isValidPseudonym(pseudonym: string): boolean{
-    return pseudonym?.length === 44;
+    return (!pseudonym?.length || pseudonym?.length === 44);
   }
 }
