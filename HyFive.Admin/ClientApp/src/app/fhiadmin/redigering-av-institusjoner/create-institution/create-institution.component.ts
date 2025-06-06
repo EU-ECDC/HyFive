@@ -95,7 +95,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
 
   canCreateInstitution(): boolean{
     return this.newInstitution?.institutionName?.length > 0
-      && this.newInstitution?.coordinatorHPRNumber?.length > 0
+      // && this.newInstitution?.coordinatorHPRNumber?.length > 0
       && this.newInstitution?.coordinatorFirstName?.length > 0
       && this.newInstitution?.coordinatorLastName?.length > 0;
   }

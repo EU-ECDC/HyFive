@@ -80,6 +80,10 @@ export class EditInstitutionComponent implements OnInit {
   }
 
   institutionTypeChanged() {
+    this.institution.healthcareOrganization = null;
+    this.institution.municipality = null;
+    this.healthcareOrganizationId = 0;
+    this.municipalityId = 0;
     this.institution.institutionType = this.institutionTypes.find(i => i.id === this.institutiontypeId);
     this.showMunicipality = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.NursingHome;
      this.showHealthcareOrganization = this.institutionTypes.length > 0 && this.institution.institutionType.code == InstitutionTypeConstants.Hospital;
@@ -87,6 +91,8 @@ export class EditInstitutionComponent implements OnInit {
 
   municipalityChanged() {
     if (this.municipalityId) {
+      this.healthcareOrganizationId = 0;
+      this.institution.healthcareOrganization = null;
       this.institution.municipality = this.municipalities.find(r => r.id === this.municipalityId);
     }
   }
@@ -102,6 +108,8 @@ export class EditInstitutionComponent implements OnInit {
 
   healthEnterpriseChanged() {
     if (this.healthcareOrganizationId) {
+      this.municipalityId = 0;
+      this.institution.municipality = null;
       this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthcareOrganizationId);
     }
   }
