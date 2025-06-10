@@ -36,6 +36,7 @@ export class EditInstitutionComponent implements OnInit {
 
 
   @Input() institutionId: number;
+  @Input() institutions: Institution[] = [];
   @Output() institutionDeletedEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() institutionUpdatedEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
@@ -115,10 +116,19 @@ export class EditInstitutionComponent implements OnInit {
   }
 
   canNotSaveInstitution(): boolean {
-    if (this.institution.institutionType.id > 0 && this.institution.name?.length > 0)
+    if (this.institution.institutionType.id > 0 
+      && this.institution.name?.length > 0
+      && this.institutions.filter(i => i.id !== this.institution.id).find(i => i.name === this.institution.name) == undefined
+    )
       return false;
     else
       return true;
+  }
+
+  omitSpecialChar(event){   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 }
 

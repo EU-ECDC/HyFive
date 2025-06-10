@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, OnDestroy, Input} from '@angular/core';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { CreateInstitutionRequest } from '../../../models/api/CreateInstitutionRequest';
 import { InstitutionService } from '../../../services/data/institution.service';
@@ -23,6 +23,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   showHealthcareOrganization: boolean = false;
   showMunicipality: boolean = false;
 
+  @Input() institutions: Institution[] = [];
   @Output() institutionCreatedEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   constructor(private institutionService: InstitutionService,
@@ -97,7 +98,8 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
     return this.newInstitution?.institutionName?.length > 0
       // && this.newInstitution?.coordinatorHPRNumber?.length > 0
       && this.newInstitution?.coordinatorFirstName?.length > 0
-      && this.newInstitution?.coordinatorLastName?.length > 0;
+      && this.newInstitution?.coordinatorLastName?.length > 0
+      && this.institutions.find(i => i.name === this.newInstitution.institutionName) == undefined;
   }
 
   showHealthcareOrRegion(institutionTypeId: number) {
@@ -117,5 +119,11 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       this.showHealthcareOrganization = false;
       this.showMunicipality = false;
     }
+  }
+
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 }
