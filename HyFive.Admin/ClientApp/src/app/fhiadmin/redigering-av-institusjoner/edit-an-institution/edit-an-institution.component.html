@@ -17,11 +17,11 @@
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="institutionname">Name</label>
-                <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" [(ngModel)]="institution.name">
+                <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="institution.name">
               </div>
               <div class="col-md-2">
-                <label for="abbreviation">Shortname</label>
-                <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" [(ngModel)]="institution.abbreviation">
+                <label for="abbreviation">Short Name</label>
+                <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="institution.abbreviation">
               </div>
             </div>
             <div class="row mb-3">
@@ -48,10 +48,10 @@
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <button (click)="saveInstitution()" class="btn fhi-btn-primary" [disabled]="canNotSaveInstitution()">Update institution</button>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <app-confirmation-dialog
                 [buttonClass]="'btn fhi-btn-secondary'"
                 [buttonText]="'Delete institution'"

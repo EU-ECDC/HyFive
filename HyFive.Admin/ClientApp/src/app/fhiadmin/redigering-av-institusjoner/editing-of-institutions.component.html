@@ -2,7 +2,7 @@
   <div class="row">
     <h3>Maintenance of institutions</h3>
   </div>
-  <app-create-institution (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
+  <app-create-institution [institutions]="filteredInstitutions" (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
 
   <div class="row">
     <div class="col-12">
@@ -23,18 +23,18 @@
         <table class="table mt-3" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <td>HER-id</td>
+              <!-- <td>HER-id</td> -->
               <td sortable-column="Name"></td>
-              <td>Abbreviation</td>
-              <td sortable-column="Institution Type"></td>
-              <td>HealthCare Organization / Municipality</td>
+              <td>Short Name</td>
+              <td>Institution Type</td>
+              <td sortable-column="HealthCare Organization / Municipality"></td>
               <td class="text-center" scope="col">Action</td>
             </tr>
     
           </thead>
           <tbody>
             <tr *ngFor="let institution of filteredInstitutions">
-              <td>{{institution.herId}}</td>
+              <!-- <td>{{institution.herId}}</td> -->
               <td>{{institution.name}}</td>
               <td>{{institution.abbreviation}}</td>
               <td>{{institution.institutionType?.name}}</td>
@@ -57,6 +57,6 @@
 
 </div>
 <ng-container *ngIf="institutionId > 0">
-  <app-edit-an-institution [institutionId]="institutionId" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
+  <app-edit-an-institution [institutionId]="institutionId" [institutions]="filteredInstitutions" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
 </ng-container>
 

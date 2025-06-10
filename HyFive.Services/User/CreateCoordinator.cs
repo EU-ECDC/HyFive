@@ -40,7 +40,7 @@ namespace HyFive.Services.User
                 {
                     throw new ArgumentException("Coordinator must have first name, last name, and either HPR number or pseudonym");
                 }
-                
+
                 var coordinator = new Coordinator()
                 {
                     FirstName = command.USer.FirstName,

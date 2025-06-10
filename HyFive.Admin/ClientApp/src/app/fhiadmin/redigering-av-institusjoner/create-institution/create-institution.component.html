@@ -3,11 +3,11 @@
     <div class="row mb-1">
       <div class="col-md-6">
         <label for="institutionname" class="mb-1">Name</label>
-        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" [(ngModel)]="newInstitution.institutionName">
+        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.institutionName">
       </div>
       <div class="col-md-2">
-        <label for="abbreviation" class="mb-1">Shortname</label>
-        <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" [(ngModel)]="newInstitution.abbreviation">
+        <label for="abbreviation" class="mb-1">Short Name</label>
+        <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.abbreviation">
       </div>
     </div>
     <div class="row mb-3">
@@ -36,11 +36,11 @@
       <h5 class="col-12">Coordinator</h5>
       <div class="col-md-3">
         <label for="coordinatorfirstname" class="mb-1">First Name</label>
-        <input type="text" id="coordinatorfirstname" class="form-control" [(ngModel)]="newInstitution.coordinatorFirstName">
+        <input type="text" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorFirstName">
       </div>
       <div class="col-md-3">
         <label for="coordinatorLastname" class="mb-1">Last Name</label>
-        <input type="text" id="coordinatorlastname" class="form-control" [(ngModel)]="newInstitution.coordinatorLastName">
+        <input type="text" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorLastName">
       </div>
       <div class="col-md-4">
         <label for="coordinatorEmail" class="mb-1">Email</label>
