@@ -175,7 +175,10 @@ export class EditingDepartmentsComponent implements OnInit {
   }
 
   canBeSaved(): boolean {
-    if(this.departmentAsChanged?.name.length > 0 && this.departmentAsChanged?.departmentTypeId > 0 && this.selectedRoles?.length > 0)
+    if(this.departmentAsChanged?.name.length > 0
+      && this.filteredDepartments.filter(dep => dep.id !== this.departmentAsChanged.id).find(dep => dep.name == this.departmentAsChanged.name) == undefined 
+      && this.departmentAsChanged?.departmentTypeId > 0 
+      && this.selectedRoles?.length > 0)
       return true;
     else
       return false;
@@ -208,6 +211,12 @@ export class EditingDepartmentsComponent implements OnInit {
     };
 
     this.filteredDepartments = this.filteredDepartments.sort(sortFunc);
+  }
+
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
 }

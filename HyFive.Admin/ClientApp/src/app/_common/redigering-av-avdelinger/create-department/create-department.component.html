@@ -11,7 +11,7 @@
       </div>
       <div class="form-group col-12 mb-3">
         <label for="institutionname">Name</label>
-        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Neurological Department" [(ngModel)]="newDepartment.name">
+        <input type="text" id="institutionname" class="form-control" (keypress)="omitSpecialChar($event)" placeholder="e.g. Neurological Department" [(ngModel)]="newDepartment.name">
       </div>
       <div class="form-group col-12 mb-4" >
         Roles that must be observable

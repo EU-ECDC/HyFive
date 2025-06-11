@@ -20,6 +20,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   roles: Role[] = [];
 
   @Input() institutionId: number;
+  @Input() departments: Department[] = [];
   @Output() departmentCreatedEvent: EventEmitter<Department> = new EventEmitter<Department>();
 
 
@@ -79,7 +80,15 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
     return this.newDepartment.institutionId > 0
       && this.newDepartment.departmentTypeId > 0
       && this.roleSelected?.filter(r => r.isSelected)?.length > 0
-      && this.newDepartment.name?.length > 0;
+      && this.newDepartment.name?.length > 0
+      && this.departments.find(dep => dep.name == this.newDepartment.name) == undefined;
   }
+
+  omitSpecialChar(event)
+    {   
+      var k;  
+      k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+      return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    }
 
 }
