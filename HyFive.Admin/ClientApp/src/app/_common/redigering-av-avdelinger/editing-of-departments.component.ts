@@ -196,7 +196,7 @@ export class EditingDepartmentsComponent implements OnInit {
       case "Name":
         propertyOf = (x: Department) => x.name;
         break;
-      case "Departmenttype":
+      case "Department Type":
         propertyOf = (x: Department) => x.departmentType.name;
         break;
       default:
