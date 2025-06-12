@@ -51,6 +51,13 @@ namespace HyFive.Services.Department
                     throw new Exception("Could not find department type with ID " + command.Request.DepartmentTypeId);
                 }
 
+                bool nameExists = await _context.Department
+                    .AnyAsync(d => d.Name == command.Request.Name && d.InstitutionId == command.Request.InstitutionId);
+                if(nameExists)
+                {
+                    throw new Exception($"A department with the name '{command.Request.Name}' already exists in this institution.");
+                }
+
                 var department = new Domain.Place.Department()
                 {
                     InstitutionId = institution.Id,
