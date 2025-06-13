@@ -120,12 +120,18 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canBeCreated() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
+      && this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      && this.newCoordinator.email?.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(this.newCoordinator);
   }
 
   canbeChanged(coordinator: User) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
+      && this.filteredCoordinators
+                                  .filter(fc => fc.id !== coordinator.id)
+                                  .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
+      && coordinator.email?.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(coordinator);
   }
 
@@ -152,10 +158,10 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   sorting($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "firstName":
+      case "First name":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "lastName":
+      case "Last name":
         propertyOf = (x: User) => x.lastName;
         break;
       default:

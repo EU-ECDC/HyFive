@@ -12,8 +12,8 @@
       <table class="table" *ngIf="coordinators.length > 0 || newCoordinator" sortable-table (sorted)="sorting($event)">
         <thead>
           <tr>
-            <th sortable-column="Firstname"></th>
-            <th sortable-column="Lastname"></th>
+            <th sortable-column="First name"></th>
+            <th sortable-column="Last name"></th>
             <th>Email</th>
             <th>HPR-number</th>
             <th>Pseudonym</th>
@@ -23,8 +23,8 @@
         </thead>
         <tbody>
           <tr *ngIf="newCoordinator != null">
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Firstname"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Lastname"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="First name"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Last name"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
             <td>
               <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
@@ -66,10 +66,10 @@
             </ng-container>
             <ng-container *ngIf="coordinatorIsChanged?.id == coordinator.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" name="firstName" placeholder="Firstname">
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" name="firstName" placeholder="First name">
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" name="lastName" placeholder="Lastname">
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" name="lastName" placeholder="Last name">
               </td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" placeholder="Email">
