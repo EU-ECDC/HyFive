@@ -25,7 +25,7 @@
           <tr *ngIf="newCoordinator != null">
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="First name"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Last name"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email"></td>
             <td>
               <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
               <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
@@ -72,7 +72,7 @@
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" name="lastName" placeholder="Last name">
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" placeholder="Email">
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email">
               </td>
               
               <td>

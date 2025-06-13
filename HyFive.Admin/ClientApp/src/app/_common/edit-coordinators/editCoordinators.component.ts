@@ -135,6 +135,15 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       && this.userService.hasValidHprnumberOrPseudonym(coordinator);
   }
 
+  ValidateMailCharacters(event: KeyboardEvent) {
+    const allowedPattern = /^[a-zA-Z0-9@]$/;
+    const key = event.key;
+
+    if (!allowedPattern.test(key)) {
+      event.preventDefault();
+    }
+  }
+
   identityPseudonymChanged(coordinator: User, identityPseudonym: string) {
     coordinator.identityPseudonym = identityPseudonym;
   }
