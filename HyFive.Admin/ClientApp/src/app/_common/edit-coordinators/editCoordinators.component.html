@@ -23,8 +23,8 @@
         </thead>
         <tbody>
           <tr *ngIf="newCoordinator != null">
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="First name"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Last name"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email"></td>
             <td>
               <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
@@ -66,10 +66,10 @@
             </ng-container>
             <ng-container *ngIf="coordinatorIsChanged?.id == coordinator.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" name="firstName" placeholder="First name">
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name">
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" name="lastName" placeholder="Last name">
+                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name">
               </td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email">
