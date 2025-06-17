@@ -123,7 +123,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       //&& this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
       && this.filteredCoordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
       && this.newCoordinator.email?.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(this.newCoordinator);
+      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
   }
 
   canbeChanged(coordinator: User) {
@@ -136,7 +136,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
                               .filter(fc => fc.id !== coordinator.id)
                               .find(fc => fc.email == coordinator?.email) == undefined
       && coordinator.email?.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(coordinator);
+      && this.userService.isValidPseudonym(coordinator.identityPseudonym);
   }
 
   ValidateMailCharacters(event: KeyboardEvent) {
