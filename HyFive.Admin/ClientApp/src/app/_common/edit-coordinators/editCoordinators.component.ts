@@ -120,7 +120,8 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canBeCreated() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
-      && this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      //&& this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      && this.filteredCoordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
       && this.newCoordinator.email?.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(this.newCoordinator);
   }
@@ -128,9 +129,12 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canbeChanged(coordinator: User) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
+     // && this.filteredCoordinators
+     //                             .filter(fc => fc.id !== coordinator.id)
+     //                             .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
       && this.filteredCoordinators
-                                  .filter(fc => fc.id !== coordinator.id)
-                                  .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
+                              .filter(fc => fc.id !== coordinator.id)
+                              .find(fc => fc.email == coordinator?.email) == undefined
       && coordinator.email?.length > 0
       && this.userService.hasValidHprnumberOrPseudonym(coordinator);
   }
