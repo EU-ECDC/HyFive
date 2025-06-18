@@ -9,6 +9,7 @@ import { HealthcareOrganizationService } from 'src/app/services/data/healthcareO
 import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
+import { User } from 'src/app/models/api/User';
 
 @Component({
   selector: 'app-create-institution',
@@ -24,6 +25,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   showMunicipality: boolean = false;
 
   @Input() institutions: Institution[] = [];
+  @Input() coordinators: User[] = [];
   @Output() institutionCreatedEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   constructor(private institutionService: InstitutionService,
@@ -99,6 +101,8 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       // && this.newInstitution?.coordinatorHPRNumber?.length > 0
       && this.newInstitution?.coordinatorFirstName?.length > 0
       && this.newInstitution?.coordinatorLastName?.length > 0
+      && this.coordinators.find(fc => fc.email == this.newInstitution?.coordinatorEmail) == undefined
+      && this.newInstitution?.coordinatorEmail?.length > 0
       && this.institutions.find(i => i.name === this.newInstitution.institutionName) == undefined;
   }
 
