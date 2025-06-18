@@ -77,7 +77,7 @@ namespace HyFive.Services.HealthcareOrganization
 
             private static HealthcareOrganizationCoordinator CreateCoordinatorForHealthcareOrganization(List<HealthcareOrganizationCoordinator> coordinatorForHealthcareOrganizationList, Coordinator coordinator)
             {
-                var koordinatorForHelseforetak = new HealthcareOrganizationCoordinator
+                var coordinatorForHealthcareOrganization = new HealthcareOrganizationCoordinator
                 {
                     FirstName = coordinator.FirstName,
                     LastName = coordinator.LastName,
@@ -87,8 +87,8 @@ namespace HyFive.Services.HealthcareOrganization
                     CreatedTime = coordinator.CreatedTime,
                     Institutions = new List<InstitutionReport>()
                 };
-                coordinatorForHealthcareOrganizationList.Add(koordinatorForHelseforetak);
-                return koordinatorForHelseforetak;
+                coordinatorForHealthcareOrganizationList.Add(coordinatorForHealthcareOrganization);
+                return coordinatorForHealthcareOrganization;
             }
 
             private List<Coordinator> GetCoordinatorsForInstitutionsInHealthcareOrganization(int healthcareOrganizationId)

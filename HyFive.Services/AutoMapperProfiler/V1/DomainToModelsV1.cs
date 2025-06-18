@@ -126,8 +126,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<ProtectiveEquipmentObservation, ObservationOverviewReport>(MemberList.None)
                 .ForMember(dest => dest.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes, opt => opt.MapFrom(src => src.SettingType.Name))
-                .ForMember(dest => dest.ProtectiveEquipment, opt => opt.MapFrom(src => src.ProtectiveEquipmentList))
-                .ForMember(dest => dest.ProtectiveEquipmentObservation, opt => opt.MapFrom(src => src));
+                .ForMember(dest => dest.ProtectiveEquipment, opt => opt.MapFrom(src => src.ProtectiveEquipmentList));
+                //.ForMember(dest => dest.ProtectiveEquipmentObservation, opt => opt.MapFrom(src => src));
             
 
             CreateMap<Domain.Observation.ProtectiveEquipment.ProtectiveEquipment, ProtectiveEquipmentOverviewReport>(MemberList.None)
