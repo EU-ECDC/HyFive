@@ -9,7 +9,7 @@
   </ng-container>
 </fhi-modal> -->
 
-<button class="btn fhi-btn-primary" (click)="showModal()">{{buttonText}}</button>
+<button class="btn" [class.delete-button]="shouldUseIcon" [class.fhi-btn-primary]="!shouldUseIcon" (click)="showModal()"><i *ngIf="shouldUseIcon" class="icon-trash3"></i> {{buttonText}}</button>
 
 <ng-container *ngIf="showModalDialog">
     <div class="ps-modal">

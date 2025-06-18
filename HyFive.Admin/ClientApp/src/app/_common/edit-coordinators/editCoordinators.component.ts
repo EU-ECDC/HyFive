@@ -120,13 +120,38 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canBeCreated() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(this.newCoordinator);
+      //&& this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      && this.filteredCoordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
+      && this.newCoordinator.email?.length > 0
+      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
   }
 
   canbeChanged(coordinator: User) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(coordinator);
+     // && this.filteredCoordinators
+     //                             .filter(fc => fc.id !== coordinator.id)
+     //                             .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
+      && this.filteredCoordinators
+                              .filter(fc => fc.id !== coordinator.id)
+                              .find(fc => fc.email == coordinator?.email) == undefined
+      && coordinator.email?.length > 0
+      && this.userService.isValidPseudonym(coordinator.identityPseudonym);
+  }
+
+  ValidateMailCharacters(event: KeyboardEvent) {
+    const allowedPattern = /^[a-zA-Z0-9@]$/;
+    const key = event.key;
+
+    if (!allowedPattern.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+    omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   identityPseudonymChanged(coordinator: User, identityPseudonym: string) {
@@ -152,10 +177,10 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   sorting($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "firstName":
+      case "First name":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "lastName":
+      case "Last name":
         propertyOf = (x: User) => x.lastName;
         break;
       default:
