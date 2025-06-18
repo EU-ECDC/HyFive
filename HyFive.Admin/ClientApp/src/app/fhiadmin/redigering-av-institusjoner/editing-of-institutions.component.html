@@ -2,7 +2,7 @@
   <div class="row">
     <h3>Maintenance of institutions</h3>
   </div>
-  <app-create-institution [institutions]="filteredInstitutions" (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
+  <app-create-institution [institutions]="filteredInstitutions" [coordinators]="users" (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
 
   <div class="row">
     <div class="col-12">
@@ -50,7 +50,7 @@
       </div>
     </ng-container>
 
-  
+
   <div class="row">
     <app-spinner class="col-12" *ngIf="institutions?.length == 0">Loading institutions</app-spinner>
   </div>
