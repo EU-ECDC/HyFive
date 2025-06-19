@@ -110,8 +110,8 @@ export class EditingOfInstitutionsComponent implements OnInit {
       case "Name":
         propertyOf = (x: Institution) => x.name;
         break;
-        case "Institution Type":
-          propertyOf = (x: Institution) => x.institutionType.name;
+        case "HealthCare Organization / Municipality":
+          propertyOf = (x: Institution) => x.healthcareOrganization?.name || x.municipality?.name;
         break;
       default:
         throw new Error("Invalid sort column");

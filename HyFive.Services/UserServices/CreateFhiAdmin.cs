@@ -35,18 +35,18 @@ namespace HyFive.Services.UserServices
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrWhiteSpace(command.Request.IdentityPseudonym))
-                {
-                    throw new Exception("Missing pseudonym.");
-                }
-                if (!UserValidator.IsValidIdentityPseudonym(command.Request.IdentityPseudonym))
-                {
-                    throw new Exception("Pseudonym is not valid.");
-                }
+                //if (string.IsNullOrWhiteSpace(command.Request.IdentityPseudonym))
+                //{
+                //    throw new Exception("Missing pseudonym.");
+                //}
+                //if (!UserValidator.IsValidIdentityPseudonym(command.Request.IdentityPseudonym))
+                //{
+                //    throw new Exception("Pseudonym is not valid.");
+                //}
 
-                var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
-                if (existingPseudonym)
-                    throw new Exception("User cannot be created. The pseudonym is already in use.");
+                //var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
+                //if (existingPseudonym)
+                //    throw new Exception("User cannot be created. The pseudonym is already in use.");
 
                 var fhiAdmin = new FhiAdmin()
                 {

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../../models/api/User';
 import { CreateFhiAdminRequest } from '../../../models/api/CreateFhiAdminRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
   selector: 'app-edit-fhiadmin',
@@ -14,6 +15,7 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   users: User[];
   fhiAdminAsChanged: User = null;
   newFhiAdmin: CreateFhiAdminRequest = null;
+  filteredAdmins: User[] = [];
 
   constructor(
     private userService: UserService,
@@ -25,21 +27,24 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
       this.cancelEdit();
     });
-    this.loadFhiAdmin();
+    this.loadAdmin();
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();  
   }
 
-  loadFhiAdmin() {
+  loadAdmin() {
     this.userService.getFhiAdmin().subscribe(
-      (fhiAdmins) => this.users = fhiAdmins,
-      (error) => this.toastrService.error('An error occurred while loading FhiAdmin: ' + error?.message, '', { disableTimeOut: true}),
+      (fhiAdmins) => {
+        this.users = fhiAdmins;
+        this.filteredAdmins = this.users;
+      },
+      (error) => this.toastrService.error('An error occurred while loading Admin: ' + error?.message, '', { disableTimeOut: true}),
     );
   }
 
-  createTomFhiAdmin() {
+  createToAdmin() {
     this.cancelEdit();
     this.newFhiAdmin = {
       lastName: '',
@@ -48,11 +53,11 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     } as CreateFhiAdminRequest;
   }
 
-  createFhiAdmin() {
-    this.userService.createFhiAdmin(this.newFhiAdmin).subscribe(
-      () => this.toastrService.success('FhiAdmin create'),
-      error => this.toastrService.error('An error occurred while creating FhiAdmin: ' + error?.error, '', { disableTimeOut: true}),
-      () => { this.newFhiAdmin = null; this.loadFhiAdmin(); }
+  createAdmin() {
+    this.userService.createAdmin(this.newFhiAdmin).subscribe(
+      () => this.toastrService.success('Admin create'),
+      error => this.toastrService.error('An error occurred while creating Admin: ' + error?.error, '', { disableTimeOut: true}),
+      () => { this.newFhiAdmin = null; this.loadAdmin(); }
     );
   }
 
@@ -65,10 +70,10 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   updateFhiAdmin(fhiAdmin: User) {
     this.userService.updateFhiAdmin(fhiAdmin).subscribe(
       (updatedUser) => {
-        this.toastrService.success('FhiAdmin updated');
-        this.loadFhiAdmin();
+        this.toastrService.success('Admin updated');
+        this.loadAdmin();
       },
-      error => this.toastrService.error('An error occurred while updating FhiAdmin: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating Admin: ' + error?.error, '', { disableTimeOut: true}),
       () => this.fhiAdminAsChanged = null
     );
   }
@@ -93,4 +98,27 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     this.newFhiAdmin = null;
     this.fhiAdminAsChanged = null;
   }
+
+    sort($event: IColumnSortedEvent) {
+      let propertyOf: (x: User) => any;
+      switch ($event.columnName) {
+        case "Firstname":
+          propertyOf = (x: User) => x.firstName;
+          break;
+          case "Lastname":
+            propertyOf = (x: User) => x.lastName;
+          break;
+        default:
+          throw new Error("Invalid sort column");
+      }
+  
+      const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
+  
+      const sortFunc = (a: User, b: User) => {
+        const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
+        return result * sortOrder;
+      };
+  
+      this.filteredAdmins.sort(sortFunc);
+    }
 }

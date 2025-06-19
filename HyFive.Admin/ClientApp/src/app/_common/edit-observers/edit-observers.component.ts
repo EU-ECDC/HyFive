@@ -133,13 +133,49 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   canCreate() {
     return this.newObserver.firstName.length > 0
       && this.newObserver.lastName.length > 0
+      && this.newObserver.email.length > 0
+      && this.validateMail(this.newObserver.email)
+      && this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
       && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
   }
 
   canChange(observer: User) {
     return observer.firstName.length > 0
       && observer.lastName.length > 0
+      && observer.email.length > 0
+      && this.validateMail(observer.email)
+      && this.filteredObservers
+                              .filter(fc => fc.id !== observer.id)
+                              .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
       && this.userService.hasValidHprnumberOrPseudonym(observer);
+  }
+
+  ValidateMailCharacters(event: KeyboardEvent) {
+    const allowedPattern = /^[a-zA-Z0-9@.]$/;
+    const key = event.key;
+
+    if (!allowedPattern.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  validateMail(mail) {
+    if (mail.length == 0) {
+      return false;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/;
+    if (emailPattern.test(mail)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+    omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   cancelEdit($event: Event = null) {
@@ -162,10 +198,10 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   sort($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "Firstname":
+      case "First name":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "Lastname":
+      case "Last name":
         propertyOf = (x: User) => x.lastName;
         break;
       default:

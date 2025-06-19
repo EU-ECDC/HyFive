@@ -76,6 +76,23 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     );
   }
 
+    canCreateHealthcareOrganization() {
+    return this.newHealthcareOrganization.name.trim().length > 0
+      && this.newHealthcareOrganization.regionalHealthcareOrganizationId > 0
+      && this.checkCreate()
+    }
+
+    checkCreate() {
+      if (this.listOfHealthcareOrganizations.length > 0)
+      {
+          //return this.listOfHealthcareOrganizations.find(x => x.name === this.newHealthcareOrganization.name && x.regionalHealthcareOrganizationId == this.newHealthcareOrganization.regionalHealthcareOrganizationId && this.newHealthcareOrganization.regionalHealthcareOrganizationId == x.regionalHealthcareOrganizationId) == undefined;
+          return this.listOfHealthcareOrganizations.find(x => x.name === this.newHealthcareOrganization.name) == undefined;
+        } else
+      {
+          return true;
+      }
+    }
+
   loadAllHealthcareOrganizations() {
     this.HealthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
       (allHealthcateEnterprises) => {
@@ -104,6 +121,23 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     );
   }
 
+  canUpdateHealthcareOrganization() {
+    return this.healthcareOrganizationAsChanged.name.length > 0
+      && this.healthcareOrganizationAsChanged.regionalHealthcareOrganizationId > 0
+      && this.checkUpdate()
+  }
+
+  checkUpdate() {
+    if (this.listOfHealthcareOrganizations.length > 0)
+    {
+        //return this.listOfHealthcareOrganizations.filter(x => x.id !== this.healthcareOrganizationAsChanged.id && this.healthcareOrganizationAsChanged.regionalHealthcareOrganizationId !== x.regionalHealthcareOrganizationId).find(x => x.name === this.healthcareOrganizationAsChanged.name && this.healthcareOrganizationAsChanged.regionalHealthcareOrganizationId !== x.regionalHealthcareOrganizationId) == undefined;
+        return this.listOfHealthcareOrganizations.filter(x => x.id !== this.healthcareOrganizationAsChanged.id).find(x => x.name === this.healthcareOrganizationAsChanged.name) == undefined;
+      } else
+    {
+        return true;
+    }
+  }
+
   canChange(healthcareOrganization: HealthcareOrganization) {
     return healthcareOrganization.name.length > 0;
   }
@@ -113,6 +147,13 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
     $event.preventDefault();
     this.healthcareOrganizationAsChanged = null;
   }
+
+  omitSpecialChar(event)
+{   
+   var k;  
+   k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+   return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+}
 
   sort($event: IColumnSortedEvent) {
     let propertyOf: (x: HealthcareOrganization) => any;
