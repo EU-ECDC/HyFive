@@ -24,20 +24,17 @@ export class InstitutionService {
 
 
     getInstitutionsPaginated(offset, limit): Observable<InstitutionReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/institution/`;
+    const url = `${environment.apiBaseUrl}/v1/institution/getInstitutionsPaginated`;
 
     let params = new HttpParams();
-    if (offset) {
-      params.append("offset", offset?.toString());
+    if (offset !== null) {
+      params = params.append("offset", offset);
     }
-    if (limit) {
-      params.append("limit", limit?.toString());
+    if (limit !== null) {
+      params = params.append("limit", limit);
     }
 
-    console.log("offset", offset, "limit", limit);
-
-    return this.http.get<Institution[]>(url);
-    // return this.http.get<Institution[]>(url, { params });
+    return this.http.get<Institution[]>(url, { params: params });
   }
 
   getInstitutionsForCoordinator(): Observable<InstitutionReport[]> {
