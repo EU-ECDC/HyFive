@@ -103,8 +103,31 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       && this.newInstitution?.coordinatorLastName?.length > 0
       && this.coordinators.find(fc => fc.email == this.newInstitution?.coordinatorEmail) == undefined
       && this.newInstitution?.coordinatorEmail?.length > 0
+      && this.validateMail(this.newInstitution?.coordinatorEmail)
       && this.institutions.find(i => i.name === this.newInstitution.institutionName) == undefined;
   }
+
+      validateMail(mail) {
+        if (mail.length == 0) {
+          return false;
+        }
+
+        const emailPattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/;
+        if (emailPattern.test(mail)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      ValidateMailCharacters(event: KeyboardEvent) {
+        const allowedPattern = /^[a-zA-Z0-9@.]$/;
+        const key = event.key;
+
+        if (!allowedPattern.test(key)) {
+          event.preventDefault();
+        }
+      }
 
   showHealthcareOrRegion(institutionTypeId: number) {
     var selectedInstitutiontype = this.institutionTypes.find(i => i.id === institutionTypeId);

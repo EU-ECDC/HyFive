@@ -12,8 +12,8 @@
         <table class="table" *ngIf="observers.length > 0 || newObserver" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <td sortable-column="Firstname"></td>
-              <td sortable-column="Lastname"></td>
+              <td sortable-column="First name"></td>
+              <td sortable-column="Last name"></td>
               <td scope="col">Email</td>
               <td scope="col">HPR-number</td>
               <td scope="col">Pseudonym</td>
@@ -23,9 +23,9 @@
           </thead>
           <tbody>
             <tr *ngIf="newObserver != null">
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" placeholder="Firstname"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" placeholder="Lastname"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.email" name="email" placeholder="Email"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" placeholder="First name"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" placeholder="Last name"></td>
+              <td><input type="email" class="form-control" [(ngModel)]="newObserver.email" (keypress)="ValidateMailCharacters($event)" name="email" placeholder="Email"></td>
               <td>
                 <input type="text" class="form-control" [(ngModel)]="newObserver.hprNumber" name="hprNumber" placeholder="HPR-number">
                 <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
@@ -62,9 +62,9 @@
               </ng-container>
               
               <ng-container *ngIf="observerAsChanged?.id == observer.id">
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.email" name="email" placeholder="Email"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" name="firstName" placeholder="First name"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" name="lastName" placeholder="Last name"></td>
+                <td><input type="email" class="form-control" [(ngModel)]="observerAsChanged.email" (keypress)="ValidateMailCharacters($event)" name="email" placeholder="Email"></td>
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNumber" name="hprNumber" placeholder="HPR-number">
                   <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
