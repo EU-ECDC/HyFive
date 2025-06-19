@@ -25,10 +25,9 @@
           <tr *ngIf="newCoordinator != null">
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email"></td>
+            <td><input type="email" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email"></td>
             <td>
               <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-              <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
             </td>
             <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
             <td></td>
@@ -72,12 +71,11 @@
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name">
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email">
+                <input type="email" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="ValidateMailCharacters($event)" placeholder="Email">
               </td>
               
               <td>
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
               </td>
               
               <td>
