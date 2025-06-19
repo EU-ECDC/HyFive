@@ -17,6 +17,52 @@
 @import "styles/blocks/hh-modal.block";
 @import "styles/blocks/hh-round-checkbox-list.block";
 @import "styles/blocks/hh-stadium-checkbox.block";
+@import '~typeface-roboto/index.css';
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+    color: #4f841a;
+}
+
+a:hover {
+    color: #3b6015;
+}
+
+.fhi-btn-primary {
+    color: #fff;
+    background-color: #4f841a;
+    border-color: #4f841a;
+}
+
+.fhi-btn-primary:hover {
+    color: #fff;
+    background-color: #3b6015 !important;
+    border-color: #3b6015 !important;
+}
+
+.fhi-btn-secondary {
+    color: #333333;
+    background-color:  #ffffff;
+    border:  2px solid #4f841a;
+    border-radius: 5px;
+}
+
+.fhi-btn-secondary:hover {
+    color: #fff;
+    background-color: #3b6015 !important;
+    border-color: #3b6015 !important;
+}
+
+.table > :not(caption) > * > * {
+background-color: transparent;
+}
+
+tr:nth-child(even) {
+    background-color: #fafafa !important;
+}
 
 .fhi-btn-flat,.fhi-btn-link {
     box-shadow: none;
@@ -34,6 +80,29 @@
 .table  {
     width: 100% !important;
 }
+
+table {
+    thead {
+        td {
+            background-color: #e1efd3 !important;
+            font-size: 16px;
+            font-weight: bold !important;
+        }
+        th {
+            background-color: #e1efd3 !important;
+            font-size: 16px;
+            font-weight: bold !important;
+        }
+    }
+
+    tbody {
+        td {
+            border: solid 1px #dddddd !important;
+        }
+    }
+}
+
+
   
 .form-check-input:checked {
     background-color: #4996cc;
@@ -42,3 +111,5 @@
 .fa-icon-warning {
     color: #FFD700; 
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -76,6 +77,7 @@ import { DownloadExcelComponent } from './coordinator/rapporter/download/downloa
 import { ComplianceFourIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-four-indications-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './coordinator/rapporter/common/compliance-pdf.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationFailedErrorInterceptor, multi: true },
@@ -155,9 +157,10 @@ export const httpInterceptorProviders = [
     NgbModule,
     NgMultiSelectDropDownModule.forRoot(),
     FhiAngularComponentsModule,
-    FhiAngularHighchartsModule
+    FhiAngularHighchartsModule,
+    MatPaginatorModule
   ],
   bootstrap: [AppComponent],
-  providers: [DatePipe, httpInterceptorProviders, SortService]
+  providers: [DatePipe, httpInterceptorProviders, SortService, provideAnimationsAsync()]
 })
 export class AppModule { }
