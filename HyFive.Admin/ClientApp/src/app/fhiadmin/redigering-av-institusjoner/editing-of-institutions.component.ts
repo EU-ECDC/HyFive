@@ -42,7 +42,10 @@ export class EditingOfInstitutionsComponent implements OnInit {
       }
     );
 
+    //for total number, and total institutions due to validations on mail (create/update coord)
     this.getInstitutions();
+    //first population of table with default offset, limit
+    this.getInstitutionsPaginated(this.offset, this.pageSize);
   }
 
   //I NEED THAT CALL IN NG ON INIT, TO GET ALL INSTITUIONS FOR VALIDATING NAME IN CREATE/UPDATE COMPONENTS AND TOTAL
@@ -50,14 +53,14 @@ export class EditingOfInstitutionsComponent implements OnInit {
   //this.totalInstitutions, this.totalItems
   getInstitutions() {
     this.institutionService.getInstitutions().subscribe((result) => {
-      this.institutions = result;
+      // this.institutions = result;
+      // this.filteredInstitutions = result;
       this.totalInstitutions = result;
-      this.filteredInstitutions = result;
-      this.totalItems = this.filteredInstitutions.length;
+      this.totalItems = this.totalInstitutions.length;
       
-      this.institutions.forEach(i => {
-        this.getUsers(i.id);
-      });
+      // this.institutions.forEach(i => {
+      //   this.getUsers(i.id);
+      // });
     });
   }
 
