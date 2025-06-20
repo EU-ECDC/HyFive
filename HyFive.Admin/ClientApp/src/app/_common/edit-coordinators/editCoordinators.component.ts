@@ -120,8 +120,8 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canBeCreated() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
-      //&& this.filteredCoordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
-      && this.filteredCoordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
+      //&& this.coordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      && this.coordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
       && this.newCoordinator.email?.length > 0
       && this.validateMail(this.newCoordinator.email)
       && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
@@ -130,10 +130,10 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canbeChanged(coordinator: User) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
-     // && this.filteredCoordinators
+     // && this.coordinators
      //                             .filter(fc => fc.id !== coordinator.id)
      //                             .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
-      && this.filteredCoordinators
+      && this.coordinators
                               .filter(fc => fc.id !== coordinator.id)
                               .find(fc => fc.email == coordinator?.email) == undefined
       && coordinator.email?.length > 0
