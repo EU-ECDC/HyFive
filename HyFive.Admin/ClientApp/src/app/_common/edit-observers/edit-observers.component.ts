@@ -135,8 +135,9 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && this.newObserver.lastName.length > 0
       && this.newObserver.email.length > 0
       && this.validateMail(this.newObserver.email)
-      && this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
-      && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
+      && this.observers.find(obs => obs?.email == this.newObserver?.email) == undefined
+      //&& this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
+      && this.userService.isValidPseudonym(this.newObserver.identityPseudonym);
   }
 
   canChange(observer: User) {
@@ -144,10 +145,13 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && observer.lastName.length > 0
       && observer.email.length > 0
       && this.validateMail(observer.email)
-      && this.filteredObservers
-                              .filter(fc => fc.id !== observer.id)
-                              .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
-      && this.userService.hasValidHprnumberOrPseudonym(observer);
+      && this.observers
+                      .filter(obs => obs.id !== observer.id)
+                      .find(obs => obs?.email == this.newObserver?.email) == undefined
+      //&& this.filteredObservers
+      //                        .filter(fc => fc.id !== observer.id)
+      ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
+      && this.userService.isValidPseudonym(observer.identityPseudonym);
   }
 
   ValidateMailCharacters(event: KeyboardEvent) {
