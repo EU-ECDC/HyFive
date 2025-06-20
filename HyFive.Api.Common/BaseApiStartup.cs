@@ -139,6 +139,10 @@ namespace HyFive.Api.Common
                                context.HttpContext.Response.WriteAsync("{data:'access denied - ajax call' }");
                                context.HandleResponse();
                            }
+                           else
+                           {
+                               context.ProtocolMessage.RedirectUri = "https://hyfive-admin-dev.ecdc.azure/signin-oidc";
+                           }
                            return Task.CompletedTask;
                        }
                    };
