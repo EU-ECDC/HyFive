@@ -50,7 +50,7 @@ namespace HyFive.Services.Authentication.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("IsLoggedIn")]
-        public ActionResult<bool> IsUserLoeggedIn()
+        public ActionResult<bool> IsUserLoggedIn()
         {
             return Ok(userService.IsUserLoggedIn());
         }

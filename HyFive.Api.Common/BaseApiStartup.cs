@@ -141,7 +141,9 @@ namespace HyFive.Api.Common
                            }
                            else
                            {
-                               context.ProtocolMessage.RedirectUri = "https://hyfive-admin-dev.ecdc.azure/signin-oidc";
+                               var request = context.Request;
+                               var redirectUri = $"{request.Scheme}://{request.Host}/signin-oidc";
+                               context.ProtocolMessage.RedirectUri = redirectUri;
                            }
                            return Task.CompletedTask;
                        }
