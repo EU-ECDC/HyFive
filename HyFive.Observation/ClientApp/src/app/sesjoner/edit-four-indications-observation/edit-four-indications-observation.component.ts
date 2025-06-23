@@ -13,7 +13,7 @@ import { ActivityService } from '../../services/data/activity.service';
 import { ActivityTypeNotExecuted } from '../../models/api/ActivityTypeNotExecuted';
 import { ActivityTypeNotExecutedMapper } from '../../utils/ActivityTypeNotExecutedMapper';
 import { Uuid } from '../../utils/uuid';
-import { ActivityTypeNotExecutedId } from '../../models/api/ActivityTypeNotExecutedId';
+import { ActivityTypeNotPerformedId } from '../../models/api/ActivityTypeNotPerformedId';
 import { Activities } from '../../constants/Activities';
 
 @Component({
@@ -34,7 +34,7 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   id: string = Uuid.generateUUID().substr(4);
   showActivityTypeNotExecuted: boolean = false;
   gloveUseText: string;
-  notExecutedActivity: Activity;
+  notPerformedActivity: Activity;
   alcohol: string = Activities.Alcohol;
   wash: string = Activities.Wash;
 
@@ -59,16 +59,16 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
 
   ngOnInit(): void {
-    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.showActivityTypeNotExecuted = true;
-      this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotExecutedId(this.observation.activity);
+      this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotPerformedId(this.observation.activity);
     }
 
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activityTypes = activityTypes;
     });
 
-    if (this.isReadonly && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (this.isReadonly && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       if (this.observation.activity.gloveUsed === null)
         this.gloveUseText = this.activityTypeNotExecutedSelection[0].name;
       else if (this.observation.activity.gloveUsed === true)
@@ -78,33 +78,33 @@ export class EditFourIndicationsObservationComponent implements OnInit {
     }
   }
 
-  getSelectedActivityTypeNotExecutedId(activity: Activity): string {
-    if (activity.gloveUsed === null && activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      return ActivityTypeNotExecutedId.NotExecuted.toString();
+  getSelectedActivityTypeNotPerformedId(activity: Activity): string {
+    if (activity.gloveUsed === null && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+      return ActivityTypeNotPerformedId.NotPerformed.toString();
     }
-    else if (activity.gloveUsed === true && activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      return ActivityTypeNotExecutedId.GloveWasUsed.toString();
+    else if (activity.gloveUsed === true && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+      return ActivityTypeNotPerformedId.GloveWasUsed.toString();
     }
-    else if (activity.gloveUsed === false && activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      return ActivityTypeNotExecutedId.GloveWasNotUsed.toString();
+    else if (activity.gloveUsed === false && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+      return ActivityTypeNotPerformedId.GloveWasNotUsed.toString();
     }
   }
 
   registerActivity(activity: Activity) {
-    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
-      this.notExecutedActivity = this.observation.activity;
+    if (this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+      this.notPerformedActivity = this.observation.activity;
     }
-    if (activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.showActivityTypeNotExecuted = true;
-      if (this.notExecutedActivity) {
-        this.selectedActivityTypeNotExecutedSelectionId = this.selectedActivityTypeNotExecuted(this.notExecutedActivity?.gloveUsed);
+      if (this.notPerformedActivity) {
+        this.selectedActivityTypeNotExecutedSelectionId = this.selectedActivityTypeNotExecuted(this.notPerformedActivity?.gloveUsed);
       }
       else {
-        this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotExecutedId.NotExecuted.toString();
+        this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotPerformedId.NotPerformed.toString();
       }
       activity.timeSpent = this.observation.activity.timeSpent;
-      this.observation.activity = !this.notExecutedActivity ? activity : this.notExecutedActivity;
-      this.notExecutedActivity = null;
+      this.observation.activity = !this.notPerformedActivity ? activity : this.notPerformedActivity;
+      this.notPerformedActivity = null;
     }
     else {
       this.showActivityTypeNotExecuted = false;
@@ -124,13 +124,13 @@ export class EditFourIndicationsObservationComponent implements OnInit {
 
   selectedActivityTypeNotExecuted(gloveUsed: boolean): string {
     if (gloveUsed === true) {
-      return ActivityTypeNotExecutedId.GloveWasUsed.toString();
+      return ActivityTypeNotPerformedId.GloveWasUsed.toString();
     }
     else if (gloveUsed === false) {
-      return ActivityTypeNotExecutedId.GloveWasNotUsed.toString();
+      return ActivityTypeNotPerformedId.GloveWasNotUsed.toString();
     }
     else if (gloveUsed || gloveUsed === null) {
-      return ActivityTypeNotExecutedId.NotExecuted.toString();
+      return ActivityTypeNotPerformedId.NotPerformed.toString();
     }
   }
 
@@ -139,15 +139,15 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   }
 
   saveObservation() {
-    if (this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    if (this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.observation = this.registerActivityTypeNotExecuted(this.observation);
     }
-    else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotExecuted) {
+    else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.observation.activity.timeSpent = 0;
     }
     this.sessionService.changeObservation(this.observation);
     this.isEditMode = false;
-    this.notExecutedActivity = null;
+    this.notPerformedActivity = null;
   }
 
   deleteObservation() {
@@ -168,13 +168,13 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   }
 
   private registerActivityTypeNotExecuted(observation: FourIndicationsObservation): FourIndicationsObservation {
-    if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.NotExecuted.toString())) {
+    if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.NotPerformed.toString())) {
       observation.activity.gloveUsed = null;
     }
-    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.GloveWasUsed.toString()) {
+    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasUsed.toString()) {
       observation.activity.gloveUsed = true;
     }
-    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotExecutedId.GloveWasNotUsed.toString()) {
+    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasNotUsed.toString()) {
       observation.activity.gloveUsed = false;
     }
     observation.activity.timeRecordingWasDone = false;

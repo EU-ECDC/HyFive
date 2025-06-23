@@ -65,10 +65,10 @@
               </app-register-activity>
             </div>
             <div class="hh-vertical-stadium-buttons__button pt-0">
-              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.NotExecuted)"
-                                      [isRegistered]="isRegistered(ActivityTypeConstants.NotExecuted)"
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.NotPerformed)"
+                                      [isRegistered]="isRegistered(ActivityTypeConstants.NotPerformed)"
                                       [parentId]="card.id"
-                                      [activityType]="getActivityType(ActivityTypeConstants.NotExecuted)"
+                                      [activityType]="getActivityType(ActivityTypeConstants.NotPerformed)"
                                       [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
                                       [icon]="faTimesCircle"
                                       (activityRegisteredEvent)="registerActivity($event)">

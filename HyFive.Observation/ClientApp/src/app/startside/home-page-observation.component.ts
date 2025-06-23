@@ -70,9 +70,9 @@ export class HomePageForObservationComponent implements OnInit {
       .getInstitutions()
       .subscribe((institutions: Institution[]) => {
         this.institutionOptions = institutions;
-        let enesteInstitusjon: Institution = null;
+        let onlyInstitution: Institution = null;
         if (this.institutionOptions?.length == 1) {
-          enesteInstitusjon = this.institutionOptions[0];
+          onlyInstitution = this.institutionOptions[0];
         }
 
         this.institutionService
@@ -81,10 +81,10 @@ export class HomePageForObservationComponent implements OnInit {
             if (selectedInstitution) {
               this.institution = selectedInstitution;
             }
-            if (!selectedInstitution && enesteInstitusjon) {
-              this.institution = enesteInstitusjon;
+            if (!selectedInstitution && onlyInstitution) {
+              this.institution = onlyInstitution;
               this.institutionService.updateSelectedInstitutionId(
-                enesteInstitusjon.id
+                onlyInstitution.id
               );
             }
             this.selectedInstitutionOptionId = this.institution
@@ -181,6 +181,7 @@ export class HomePageForObservationComponent implements OnInit {
       (x) => x.id === this.selectedInstitutionOptionId
     );
     this.selectedDepartmentId = null;
+    this.selectedSessionType = SessionType.NotSelected;
     this.selectedDepartmentChanged();
   }
 
@@ -191,7 +192,7 @@ export class HomePageForObservationComponent implements OnInit {
   }
 
   selectedDepartmentChanged() {
-    this.roleSelected = this.institution.departments
+    this.roleSelected = this.institution?.departments
       .find((x) => x.id === parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;

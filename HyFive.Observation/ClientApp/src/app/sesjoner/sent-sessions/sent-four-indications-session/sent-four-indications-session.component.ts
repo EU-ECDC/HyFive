@@ -68,7 +68,7 @@ export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
   calculateOccasionsComplied(session: FourIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
-    return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotPerformed).length
   }
 
   calculateOccasionsCompliedPercent(session: FourIndicationsSession): number {
@@ -80,7 +80,7 @@ export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
   calculateOccasionsOmitted(session: FourIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
-    return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotPerformed).length
   }
 
   calculateOccasionsOmittedPercent(session: FourIndicationsSession) : number{

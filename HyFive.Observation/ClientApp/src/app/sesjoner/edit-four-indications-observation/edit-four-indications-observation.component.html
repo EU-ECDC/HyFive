@@ -70,8 +70,8 @@
               </div>
               <div class="hh-vertical-stadium-buttons__button">
                 <app-missed-opportunity class="hh-card-slider__aktivitet"
-                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.NotExecuted) }"
-                                        [isRegistered]="isActivitySelected(ActivityTypeConstants.NotExecuted)"
+                                        [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.NotPerformed) }"
+                                        [isRegistered]="isActivitySelected(ActivityTypeConstants.NotPerformed)"
                                         (activityRegisteredEvent)="registerActivity($event)"
                                         [disabled]="!isEditMode">
                 </app-missed-opportunity>

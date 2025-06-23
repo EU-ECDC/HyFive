@@ -18,7 +18,7 @@ export class SessionStatisticsComponent implements OnInit {
   calculateOccasionsComplied() : number{
     if(this.session.observations.length == 0)
       return 0;
-    return this.session.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotExecuted).length
+    return this.session.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotPerformed).length
   }
 
   calculateOccasionsCompliedPercent(): number {
@@ -30,7 +30,7 @@ export class SessionStatisticsComponent implements OnInit {
   calculateOccasionsOmitted() : number{
     if(this.session.observations.length == 0)
       return 0;
-    return this.session.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotExecuted).length
+    return this.session.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotPerformed).length
   }
 
   calculateOccasionsOmittedPercent() : number{
