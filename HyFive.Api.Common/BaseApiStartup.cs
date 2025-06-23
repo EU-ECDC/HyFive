@@ -142,7 +142,7 @@ namespace HyFive.Api.Common
                            else
                            {
                                var request = context.Request;
-                               var redirectUri = "https://hyfive-admin-dev.ecdc.azure/signin-oidc";
+                               var redirectUri = $"{request.Scheme}://{request.Host}/signin-oidc";
                                context.ProtocolMessage.RedirectUri = redirectUri;
                            }
                            return Task.CompletedTask;
@@ -182,15 +182,15 @@ namespace HyFive.Api.Common
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
-                                            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+            //services.Configure<ForwardedHeadersOptions>(options =>
+            //{
+            //    options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+            //                                Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
 
-                // Optional: Clear default restrictions (recommended in Azure)
-                options.KnownNetworks.Clear(); // Remove the default loopback network restriction
-                options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
-            });
+            //    // Optional: Clear default restrictions (recommended in Azure)
+            //    options.KnownNetworks.Clear(); // Remove the default loopback network restriction
+            //    options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -208,7 +208,7 @@ namespace HyFive.Api.Common
             }
 
             InitializeDatabase(app);
-            app.UseForwardedHeaders();
+            //app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
