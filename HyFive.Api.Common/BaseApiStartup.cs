@@ -145,9 +145,19 @@ namespace HyFive.Api.Common
                                var request = context.Request;
                                //var scheme = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? context.Request.Scheme;
                                //var host = context.Request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? context.Request.Host.ToString();
-                               var redirectUri = _redirectPagesSettings.RedirectUri;
+                               var redirectUri = _redirectPagesSettings.RedirectLogInUri;
                                context.ProtocolMessage.RedirectUri = redirectUri;
                            }
+                           return Task.CompletedTask;
+                       },
+
+                       OnRedirectToIdentityProviderForSignOut = context =>
+                       {
+                           var request = context.Request;
+                           var postLogoutRedirectUri = _redirectPagesSettings.RedirectLogOutUri;
+
+                           context.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectUri;
+
                            return Task.CompletedTask;
                        }
                    };
