@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IndicationTypeConstants } from '../models/api/IndicationTypeConstants';
 import { IndicationType } from '../models/api/IndicationType';
 import { IndicationTypeSelection } from '../models/registration/indicationType-selection.model';
-import { faFour, faOne, faThree, faTwo } from './customIconer';
+import { faFive, faFour, faOne, faThree, faTwo } from './customIconer';
 
 export class IndicationTypeMapper {
 
@@ -12,6 +12,7 @@ export class IndicationTypeMapper {
     iconmap.set(IndicationTypeConstants.AsepticProcedures, faTwo);
     iconmap.set(IndicationTypeConstants.BodyFluid, faThree);
     iconmap.set(IndicationTypeConstants.AfterPatient, faFour);
+    iconmap.set(IndicationTypeConstants.PatientsSurroundings, faFive);
     return iconmap;
   }
 

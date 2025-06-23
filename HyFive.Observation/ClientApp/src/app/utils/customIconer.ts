@@ -135,6 +135,18 @@ export const faFour: IconDefinition = {
   ]
 };
 
+export const faFive: IconDefinition = {
+  prefix: 'fal',
+  iconName: 'four',
+  icon: [
+    1300,
+    1600,
+    [],
+    '#000000',
+    'M33 1090V967L791 31q12-12 30-12h76q16 0 27.5 11T936 58v905h166q17 0 28 11t11 26v86q0 16-11 27.5t-28 11.5H936l2 270q0 15-12 27t-27 12H778q-15 0-27-12t-12-27v-266H72q-17 0-28-11.5T33 1090zm221-131h494V357z'
+  ]
+};
+
 export const faNewCardArrow: IconDefinition = {
   prefix: 'fal',
   iconName: 'nyttkortpil',

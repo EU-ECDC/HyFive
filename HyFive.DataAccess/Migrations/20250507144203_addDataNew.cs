@@ -3100,6 +3100,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (2, N'Body fluid', N'BODY_FLUID', N'3') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (3, N'Aseptic', N'ASEPTIC_PROCEDURES', N'2') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (4, N'Before patient', N'BEFORE_PATIENT', N'1') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""IndicationType"" (""Id"", ""Name"", ""Code"", ""Number"") VALUES (5, N'Patient`s Surroundings', N'PATIENTS_SURROUNDINGS', N'5') ON CONFLICT (""Id"") DO NOTHING");
 
 
             migrationBuilder.Sql(@"INSERT INTO ""FourIndicationsObservationIndicationTypes"" (""IndicationTypesId"", ""ObservationsId"") VALUES (4, N'3361204c-f1de-431c-a416-00a4a331ebd1'::uuid) ON CONFLICT  DO NOTHING");

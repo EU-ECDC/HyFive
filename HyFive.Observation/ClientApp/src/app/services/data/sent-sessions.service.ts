@@ -53,7 +53,7 @@ export class SentSessionsService {
 
   public downloadFourIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
     const url = `${environment.apiBaseUrl}/v1/fourindications/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
-    return this.downloadSessionAsExcelNew(url, "FourIndications");
+    return this.downloadSessionAsExcelNew(url, "FiveIndications");
   }
 
   public downloadHandJewelrySessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {

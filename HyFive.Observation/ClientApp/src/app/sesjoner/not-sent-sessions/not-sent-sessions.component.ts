@@ -51,7 +51,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   loadSessions() {
     this.sessions = this.fourIndicationsSessionService
       .getSessions()
-      .map((f) => this.createSessionView(f, SessionType.FourIndications))
+      .map((f) => this.createSessionView(f, SessionType.FiveIndications))
       .concat(
         this.handJewelrySessionService
           .getSessions()
@@ -110,7 +110,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
 
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
-      case SessionType.FourIndications:
+      case SessionType.FiveIndications:
         return Urls.FourIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.HandJewelrySessionUrl;
@@ -130,7 +130,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
       if (s.isSelected) {
         let observable;
         switch (s.type) {
-          case SessionType.FourIndications:
+          case SessionType.FiveIndications:
             observable = this.fourIndicationsSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {

@@ -112,7 +112,7 @@ export class HomePageForObservationComponent implements OnInit {
       case SessionType.NotSelected:
         alert("Select the sessionType you want to start");
         break;
-      case SessionType.FourIndications:
+      case SessionType.FiveIndications:
         this.startFourIndicationsSession();
         break;
       case SessionType.HandJewelry:
