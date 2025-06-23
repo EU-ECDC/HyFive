@@ -211,7 +211,7 @@ namespace HyFive.Api.Common
             }
 
             InitializeDatabase(app);
-            //app.UseForwardedHeaders();
+            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
