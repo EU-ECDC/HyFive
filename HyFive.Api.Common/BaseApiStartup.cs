@@ -143,9 +143,9 @@ namespace HyFive.Api.Common
                            else
                            {
                                var request = context.Request;
-                               var scheme = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? context.Request.Scheme;
-                               var host = context.Request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? context.Request.Host.ToString();
-                               var redirectUri = $"{request.Scheme}://{request.Host}/signin-oidc";
+                               //var scheme = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? context.Request.Scheme;
+                               //var host = context.Request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? context.Request.Host.ToString();
+                               var redirectUri = _redirectPagesSettings.RedirectUri;
                                context.ProtocolMessage.RedirectUri = redirectUri;
                            }
                            return Task.CompletedTask;
