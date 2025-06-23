@@ -27,6 +27,7 @@ using Microsoft.IdentityModel.Tokens;
 using DocumentFormat.OpenXml.Packaging;
 using HyFive.Api.Common.Infrastructure.Helpers;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace HyFive.Api.Common
 {
@@ -142,6 +143,8 @@ namespace HyFive.Api.Common
                            else
                            {
                                var request = context.Request;
+                               var scheme = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? context.Request.Scheme;
+                               var host = context.Request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? context.Request.Host.ToString();
                                var redirectUri = $"{request.Scheme}://{request.Host}/signin-oidc";
                                context.ProtocolMessage.RedirectUri = redirectUri;
                            }
@@ -182,15 +185,15 @@ namespace HyFive.Api.Common
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.Configure<ForwardedHeadersOptions>(options =>
-            //{
-            //    options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
-            //                                Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                                            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
 
-            //    // Optional: Clear default restrictions (recommended in Azure)
-            //    options.KnownNetworks.Clear(); // Remove the default loopback network restriction
-            //    options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
-            //});
+                // Optional: Clear default restrictions (recommended in Azure)
+                options.KnownNetworks.Clear(); // Remove the default loopback network restriction
+                options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
