@@ -181,6 +181,16 @@ namespace HyFive.Api.Common
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                                            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+
+                // Optional: Clear default restrictions (recommended in Azure)
+                options.KnownNetworks.Clear(); // Remove the default loopback network restriction
+                options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -198,7 +208,7 @@ namespace HyFive.Api.Common
             }
 
             InitializeDatabase(app);
-
+            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
