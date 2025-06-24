@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HyFive.Services.Reports.FourIndicators
+namespace HyFive.Services.Reports.FiveIndicators
 {
-    public class FourIndicatorsReportForDepartment
+    public class FiveIndicatorsReportForDepartment
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public FourIndicatorsReport Department { get; set; } = new FourIndicatorsReport();
-        public FourIndicatorsReport Institution { get; set; } = new FourIndicatorsReport();
-        public FourIndicatorsReport ComparableDepartments { get; set; } = new FourIndicatorsReport();
-        public List<FourIndicatorsReport> Clinics { get; set; } = new List<FourIndicatorsReport>();
+        public FiveIndicatorsReport Department { get; set; } = new FiveIndicatorsReport();
+        public FiveIndicatorsReport Institution { get; set; } = new FiveIndicatorsReport();
+        public FiveIndicatorsReport ComparableDepartments { get; set; } = new FiveIndicatorsReport();
+        public List<FiveIndicatorsReport> Clinics { get; set; } = new List<FiveIndicatorsReport>();
 
         public void SetDisplayTimestamps(DateTime startTime, DateTime endTime)
         {
@@ -32,7 +32,7 @@ namespace HyFive.Services.Reports.FourIndicators
     
 
 
-    public class FourIndicatorsReport
+    public class FiveIndicatorsReport
     {
         public string Unit { get; set; }
         public string Name { get; set; }

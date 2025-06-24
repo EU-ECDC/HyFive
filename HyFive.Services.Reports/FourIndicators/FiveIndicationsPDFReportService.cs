@@ -9,12 +9,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Reports.FourIndicators
+namespace HyFive.Services.Reports.FiveIndicators
 {
     /// <summary>
     /// A service that generates PDFs with bar charts based on input data.
     /// </summary>
-    public class FourIndicationsPDFReportService
+    public class FiveIndicationsPDFReportService
     {
         const int STARTPOSITION_WITH_HEADER = 470;
         const int STARTPOSITION_WITHOUT_HEADER = 550;
@@ -26,7 +26,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
         private const int PixelWidth = 300;
 
-        public async Task<PdfResult> CreateDepartmentReport(FourIndicatorsReportForDepartment departmentReport)
+        public async Task<PdfResult> CreateDepartmentReport(FiveIndicatorsReportForDepartment departmentReport)
         {
             foreach (var role in departmentReport.Department.Roles)
             {
@@ -117,7 +117,7 @@ namespace HyFive.Services.Reports.FourIndicators
             return chartconfig;
         }
 
-        private static PdfResult CreateDepartmentPdf(FourIndicatorsReportForDepartment reportForDepartment)
+        private static PdfResult CreateDepartmentPdf(FiveIndicatorsReportForDepartment reportForDepartment)
         {
             var reportsToBeCombined = new List<PdfResult>();
             var departmentReport = CreatePdfReport(reportForDepartment.Department);
@@ -168,7 +168,7 @@ namespace HyFive.Services.Reports.FourIndicators
             };
 
         }
-        private static PdfResult CreatePdfReport(FourIndicatorsReport report)
+        private static PdfResult CreatePdfReport(FiveIndicatorsReport report)
         {
             var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Tjenester.Rapporter.Assets.FHI-fire-indikasjoner-rapport-template.pdf");
             using var pdfMemoryStream = new MemoryStream();

@@ -10,6 +10,6 @@ namespace HyFive.Domain.Observation
         public string Code { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
-        public ICollection<FourIndicationsObservation> Observations { get; set; }
+        public ICollection<FiveIndicationsObservation> Observations { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using HyFive.Models.V1.Observation;
 using System;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
     public class UpdateIndicationType
     {

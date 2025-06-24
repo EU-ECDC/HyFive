@@ -20,10 +20,10 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Observation.Role, Domain.Observation.Role>(MemberList.None);
             CreateMap<Models.V1.UserAccessRequest.UserAccessRequest, Domain.User.UserAccessRequest>(MemberList.None);
 
-            CreateMap<Models.V1.Session.FourIndicationsSession, FourIndicationsSession>(MemberList.None)
+            CreateMap<Models.V1.Session.FiveIndicationsSession, FiveIndicationsSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
             .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
-            CreateMap<Models.V1.Observation.FourIndicatorsObservation, FourIndicationsObservation>(MemberList
+            CreateMap<Models.V1.Observation.FiveIndicatorsObservation, FiveIndicationsObservation>(MemberList
                 .None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
                 .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Reports.FourIndicators
+namespace HyFive.Services.Reports.FiveIndicators
 {
     public class Compliance
     {
@@ -52,13 +52,13 @@ namespace HyFive.Services.Reports.FourIndicators
                     ToDate = ToDate.AddYears(1);
                 }
 
-                var observationsInCurrentTimePeriodQuery = _context.FourIndicationsObservation.Include(f => f.Activity.ActivityType)
+                var observationsInCurrentTimePeriodQuery = _context.FiveIndicationsObservation.Include(f => f.Activity.ActivityType)
                                                                                       .Include(f => f.IndicationTypes)
                                                                                       .Include(f => f.Role)
                                                                                       .AsNoTracking()
                                                                                       .Where(f => f.RegisteredTime >= fromDate &&
                                                                                                   f.RegisteredTime < ToDate &&
-                                                                                                  f.FourIndicationsSession.Department.Institution.Id == request.InstitutionId);
+                                                                                                  f.FiveIndicationsSession.Department.Institution.Id == request.InstitutionId);
 
                 if (request.RoleId != null)
                 {
@@ -67,7 +67,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 if (request.DepartmentId != null)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FourIndicationsSession.Department.Id == request.DepartmentId);
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.Department.Id == request.DepartmentId);
                 }
 
                 var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();
@@ -120,7 +120,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return graphDataDtoList;
             }
 
-            private static List<ComplianceGraphData> CreateComplianceGraphData(List<FourIndicationsObservation> observationsInCurrentPeriod, string interval, DateTime fromDate, DateTime toDate)
+            private static List<ComplianceGraphData> CreateComplianceGraphData(List<FiveIndicationsObservation> observationsInCurrentPeriod, string interval, DateTime fromDate, DateTime toDate)
             {
                 var complianceAllIndicators = CreateComplianceForAllIndications(interval, observationsInCurrentPeriod, fromDate, toDate);
                 var complianceBeforePatient = CreateComplianceGraphDataForIndicator(interval, observationsInCurrentPeriod, "Before patient", IndicationTypeConstants.BeforePatient, fromDate, toDate);
@@ -138,7 +138,7 @@ namespace HyFive.Services.Reports.FourIndicators
                         };
             }
 
-            private static ComplianceGraphData CreateComplianceForAllIndications(string interval, List<FourIndicationsObservation> observationsInTheCurrentTimePeriod, DateTime fromDate, DateTime toDate)
+            private static ComplianceGraphData CreateComplianceForAllIndications(string interval, List<FiveIndicationsObservation> observationsInTheCurrentTimePeriod, DateTime fromDate, DateTime toDate)
             {
                 var complianceForAllIndications = new ComplianceGraphData
                 {
@@ -173,7 +173,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return complianceForAllIndications;
             }
 
-            private static ComplianceGraphData CreateComplianceGraphDataForIndicator(string interval, List<FourIndicationsObservation> observationsInCurrentPeriod, string title, string indicationType, DateTime fromDate, DateTime ToDate)
+            private static ComplianceGraphData CreateComplianceGraphDataForIndicator(string interval, List<FiveIndicationsObservation> observationsInCurrentPeriod, string title, string indicationType, DateTime fromDate, DateTime ToDate)
             {
                 var compliance = new ComplianceGraphData
                 {
@@ -185,7 +185,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 return compliance;
             }
 
-            private static List<CompliancePoint> CreateGraphDataForIndication(List<FourIndicationsObservation> observationsInRelevantTimePeriod, string interval, DateTime fromDate, DateTime ToDate)
+            private static List<CompliancePoint> CreateGraphDataForIndication(List<FiveIndicationsObservation> observationsInRelevantTimePeriod, string interval, DateTime fromDate, DateTime ToDate)
             {
                 var periodToDate = fromDate;
                 var pointList = new List<CompliancePoint>();

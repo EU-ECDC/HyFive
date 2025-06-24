@@ -11,16 +11,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HyFive.Services.Session
 {
-    public class GetFourIndicationsSession
+    public class GetFiveIndicationsSession
     {
-        public class Query : IRequest<FourIndicationsSession>
+        public class Query : IRequest<FiveIndicationsSession>
         {
             public string HPRNumber { get; set; }
             public string Pseudonym { get; set; }
             public Guid SessionId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, FourIndicationsSession>
+        public class Handler : IRequestHandler<Query, FiveIndicationsSession>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -32,9 +32,9 @@ namespace HyFive.Services.Session
                 _mapper = mapper;
                 _userService = userService;
             }
-            public async Task<FourIndicationsSession> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<FiveIndicationsSession> Handle(Query request, CancellationToken cancellationToken)
             {
-                var session = await _context.FourIndicationsSession
+                var session = await _context.FiveIndicationsSession
                     .AsNoTracking()
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
@@ -47,8 +47,8 @@ namespace HyFive.Services.Session
                     throw new Exception(
                         $"The session with ID {request.SessionId} is not associated with the logged-in user's pseudonym or HPR number. {request.HPRNumber}");
 
-                var fourIndicationsSession = _mapper.Map<Domain.Session.FourIndicationsSession, FourIndicationsSession>(session);
-                return fourIndicationsSession;
+                var fiveIndicationsSession = _mapper.Map<Domain.Session.FiveIndicationsSession, FiveIndicationsSession>(session);
+                return fiveIndicationsSession;
             }
         }
     }

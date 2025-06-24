@@ -5,7 +5,7 @@ using Reinforced.Typings.Attributes;
 namespace HyFive.Models.V1.Session
 {
     [TsInterface(IncludeNamespace = false, AutoI = false)]
-    public class FourIndicationsSession : Session<FourIndicatorsObservation>
+    public class FiveIndicationsSession : Session<FiveIndicatorsObservation>
     {
     }
 }

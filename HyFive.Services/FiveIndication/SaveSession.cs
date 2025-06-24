@@ -7,21 +7,21 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FourIndicationsSession = HyFive.Models.V1.Session.FourIndicationsSession;
+using FiveIndicationsSession = HyFive.Models.V1.Session.FiveIndicationsSession;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
-using HyFive.Services.FourIndication.Helpers;
+using HyFive.Services.FiveIndication.Helpers;
 using Microsoft.Extensions.Logging;
 using HyFive.Domain.Observation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
     public class SaveSession
     {
         public class Command : IRequest<Guid>
         {
-            public FourIndicationsSession Session { get; set; }
+            public FiveIndicationsSession Session { get; set; }
             public string HprNumber { get; set; }
             public string Pseudonym { get; set; }
         }
@@ -52,7 +52,7 @@ namespace HyFive.Services.FourIndication
                 var indicationTypes = _context.IndicationTypes.ToList();
                 var activityTypes = _context.ActivityType.ToList();
 
-                var session = _mapper.Map<Domain.Session.FourIndicationsSession>(request.Session);
+                var session = _mapper.Map<Domain.Session.FiveIndicationsSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
@@ -67,7 +67,7 @@ namespace HyFive.Services.FourIndication
                 session.Observer = observer;
                 foreach (var observation in session.Observations)
                 {
-                    FourIndicatorsObservationValidator.ValidateObservation(observation);
+                    FiveIndicatorsObservationValidator.ValidateObservation(observation);
                     observation.CreatedTime = DateTime.UtcNow;
                     observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);

@@ -9,13 +9,13 @@ using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
-using FourIndicationsSession = HyFive.Domain.Session.FourIndicationsSession;
+using FiveIndicationsSession = HyFive.Domain.Session.FiveIndicationsSession;
 
-namespace HyFive.Services.Reports.FourIndicators
+namespace HyFive.Services.Reports.FiveIndicators
 {
-    public class GetFourIndicatorsReportForDepartment
+    public class GetFiveIndicatorsReportForDepartment
     {
-        public class Query : IRequest<FourIndicatorsReportForDepartment>
+        public class Query : IRequest<FiveIndicatorsReportForDepartment>
         {
             public int DepartmentId { get; set; }
             public DateTime FromDate { get; set; }
@@ -23,7 +23,7 @@ namespace HyFive.Services.Reports.FourIndicators
             public AuthorizedRole Role { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, FourIndicatorsReportForDepartment>
+        public class Handler : IRequestHandler<Query, FiveIndicatorsReportForDepartment>
         {
             private readonly HandHygieneContext _context;
 
@@ -33,9 +33,9 @@ namespace HyFive.Services.Reports.FourIndicators
                 _context = context;
             }
 
-            public async Task<FourIndicatorsReportForDepartment> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<FiveIndicatorsReportForDepartment> Handle(Query request, CancellationToken cancellationToken)
             {
-                var reportDto = new FourIndicatorsReportForDepartment();
+                var reportDto = new FiveIndicatorsReportForDepartment();
 
                 reportDto.Department = GetDepartmentData(request);
                 reportDto.Clinics = GetReportsForClinics(request);
@@ -45,11 +45,11 @@ namespace HyFive.Services.Reports.FourIndicators
                 return reportDto;
             }
 
-            private FourIndicatorsReport GetDepartmentData(Query request)
+            private FiveIndicatorsReport GetDepartmentData(Query request)
             {
                 var department = _context.Department.AsNoTracking().First(a => a.Id == request.DepartmentId);
 
-                var departmentSessionsWithObservations = _context.Session.OfType<FourIndicationsSession>()
+                var departmentSessionsWithObservations = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
                     .Include(s => s.Observations)
@@ -80,7 +80,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var numberOfObservations = departmentSessionsWithObservations.SelectMany(o => o.Observations).Count();
 
-                return new FourIndicatorsReport()
+                return new FiveIndicatorsReport()
                 {
                     Name = department.Name,
                     FromDate = request.FromDate,
@@ -93,11 +93,11 @@ namespace HyFive.Services.Reports.FourIndicators
                 };
             }
 
-            private async Task<FourIndicatorsReport> GetComparableDepartmentData(Query request)
+            private async Task<FiveIndicatorsReport> GetComparableDepartmentData(Query request)
             {
                 var comparedDepartment = _context.Department.AsNoTracking().Include(a => a.DepartmentType).First(a => a.Id == request.DepartmentId);
 
-                var SessionsOfComparableDepartments = await _context.Session.OfType<FourIndicationsSession>()
+                var SessionsOfComparableDepartments = await _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
@@ -132,7 +132,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var observationsNumber = SessionsOfComparableDepartments.SelectMany(o => o.Observations).Count();
 
-                return new FourIndicatorsReport()
+                return new FiveIndicatorsReport()
                 {
                     Name = $"Comparable departments for {comparedDepartment.Name}",
                     FromDate = request.FromDate,
@@ -145,7 +145,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 };
             }
 
-            private FourIndicatorsReport GetInstitutionData(Query request)
+            private FiveIndicatorsReport GetInstitutionData(Query request)
             {
                 var institutionId = _context.Department
                     .AsNoTracking()
@@ -159,7 +159,7 @@ namespace HyFive.Services.Reports.FourIndicators
                     .Select(i => new { i.Name, i.Id, InstitutionType = i.InstitutionType.Name })
                     .First(i => i.Id == institutionId);
 
-                var institutionSessionsMinusRequestedDepartment = _context.Session.OfType<FourIndicationsSession>()
+                var institutionSessionsMinusRequestedDepartment = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
@@ -192,7 +192,7 @@ namespace HyFive.Services.Reports.FourIndicators
 
                 var observationsNumber = institutionSessionsMinusRequestedDepartment.SelectMany(o => o.Observations).Count();
 
-                return new FourIndicatorsReport()
+                return new FiveIndicatorsReport()
                 {
                     Name = $"{institution.InstitutionType}: {institution.Name} ",
                     FromDate = request.FromDate,
@@ -205,9 +205,9 @@ namespace HyFive.Services.Reports.FourIndicators
                 };
             }
 
-            private List<FourIndicatorsReport> GetReportsForClinics(Query request)
+            private List<FiveIndicatorsReport> GetReportsForClinics(Query request)
             {
-                var clinicReports = new List<FourIndicatorsReport>();
+                var clinicReports = new List<FiveIndicatorsReport>();
 
                 var departmentClinicIds = _context.Department
                     .AsNoTracking()
@@ -223,9 +223,9 @@ namespace HyFive.Services.Reports.FourIndicators
                 return clinicReports;
             }
 
-            private FourIndicatorsReport GetClinicReport(int clinicId, Query request)
+            private FiveIndicatorsReport GetClinicReport(int clinicId, Query request)
             {
-                var AssociatedClinicSessions = _context.Session.OfType<FourIndicationsSession>()
+                var AssociatedClinicSessions = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
@@ -261,7 +261,7 @@ namespace HyFive.Services.Reports.FourIndicators
                 var observationsNumber = AssociatedClinicSessions.SelectMany(o => o.Observations).Count();
                 var clinicName = _context.Clinic.FirstOrDefault(k => k.Id == clinicId)?.Name ?? "Without a name";
 
-                var report = new FourIndicatorsReport()
+                var report = new FiveIndicatorsReport()
                 {
                     Name = $"Clinic: {clinicName}",
                     FromDate = request.FromDate,
@@ -293,7 +293,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="sessions"></param>
             /// <returns></returns>
-            private List<RoleWithCombinationsReport> GetRoleWithCombinationsReportList(List<FourIndicationsSession> sessions)
+            private List<RoleWithCombinationsReport> GetRoleWithCombinationsReportList(List<FiveIndicationsSession> sessions)
             {
                 var dtoList = new List<RoleWithCombinationsReport>();
                 var groupedByRoles = sessions.SelectMany(s => s.Observations).GroupBy(o => new { o.Role.Name });
@@ -345,7 +345,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination CreateCombinationA(List<FourIndicationsObservation> observations)
+            private Combination CreateCombinationA(List<FiveIndicationsObservation> observations)
             {
                 //var name = "A (For patient)";
                 var name = "A";
@@ -366,7 +366,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination CreateCombinationB(List<FourIndicationsObservation> observations)
+            private Combination CreateCombinationB(List<FiveIndicationsObservation> observations)
             {
                 //var name = "B (before aseptic – inside the zone)";
                 var name = "B";
@@ -387,7 +387,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination CreateCombinationC(List<FourIndicationsObservation> observations)
+            private Combination CreateCombinationC(List<FiveIndicationsObservation> observations)
             {
                 //var name = "C (after body fluid – primarily inside the zone)";
                 var name = "C";
@@ -408,7 +408,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonD(List<FourIndicationsObservation> observations)
+            private Combination LagKombinasjonD(List<FiveIndicationsObservation> observations)
             {
                 //var name = "D (etter pasient)";
                 var name = "D";
@@ -430,7 +430,7 @@ namespace HyFive.Services.Reports.FourIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonE(List<FourIndicationsObservation> observations)
+            private Combination LagKombinasjonE(List<FiveIndicationsObservation> observations)
             {
                 //var name = "E (overgang mellom pasienter)";
                 var name = "E";
@@ -449,7 +449,7 @@ namespace HyFive.Services.Reports.FourIndicators
             }
 
 
-            private Combination CreateCombination(List<FourIndicationsObservation> observations, string combinationName, params IndicationCombination[] combinationsOfIndication)
+            private Combination CreateCombination(List<FiveIndicationsObservation> observations, string combinationName, params IndicationCombination[] combinationsOfIndication)
             {
                 var relevantObservations = observations
                     .Where(o => MeetsTheCombinationCriteria(o.IndicationTypes.Select(i => i.Code), combinationsOfIndication)).ToList();
@@ -500,7 +500,7 @@ namespace HyFive.Services.Reports.FourIndicators
             }
             #endregion
 
-            private string DebugObservation(FourIndicationsObservation o)
+            private string DebugObservation(FiveIndicationsObservation o)
             {
                 return
                     $"{o.Id}, rolle: {o.Role.Name} (id:{o.Role.Id} {o.Activity.ActivityType.Code} {string.Join(',', o.IndicationTypes.Select(i => i.Code))}";

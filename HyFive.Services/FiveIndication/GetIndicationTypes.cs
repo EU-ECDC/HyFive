@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
     public class GetIndicationTypes
     {

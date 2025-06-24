@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace HyFive.Models.V1.Report.FourIndications
+namespace HyFive.Models.V1.Report.FiveIndications
 {
-    public class FourIndicationsObservationReport
+    public class FiveIndicationsObservationReport
     {
         public Guid SessionId { get; set; }
         public Guid ObservationId { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HyFive.Services.Reports.FourIndicators
+namespace HyFive.Services.Reports.FiveIndicators
 {
     public class ComplianceGraphData
     {

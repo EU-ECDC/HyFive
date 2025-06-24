@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
     public class UpdateActivityType
     {

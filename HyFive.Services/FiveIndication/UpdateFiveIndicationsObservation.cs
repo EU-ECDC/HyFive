@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Models.V1.Constants;
-using HyFive.Services.FourIndication.Helpers;
+using HyFive.Services.FiveIndication.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using FourIndicatorsObservation = HyFive.Models.V1.Observation.FourIndicatorsObservation;
+using FiveIndicatorsObservation = HyFive.Models.V1.Observation.FiveIndicatorsObservation;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
-    public class UpdateFourIndicationsObservation
+    public class UpdateFiveIndicationsObservation
     {
         public class Command : IRequest<bool>
         {
-            public FourIndicatorsObservation Observation { get; set; }
+            public FiveIndicatorsObservation Observation { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -35,8 +35,8 @@ namespace HyFive.Services.FourIndication
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observation = await _context.FourIndicationsObservation
-                    .Include(o => o.FourIndicationsSession)
+                var observation = await _context.FiveIndicationsObservation
+                    .Include(o => o.FiveIndicationsSession)
                     .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.IndicationTypes)
                     .Include(o => o.Activity)
@@ -47,12 +47,12 @@ namespace HyFive.Services.FourIndication
                 {
                     throw new Exception("O-FI-01: Could not find observation with ID: " + request.Observation.Id);
                 }
-                if (observation.FourIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.FiveIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
                 {
                     throw new Exception("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
                 }
 
-                FourIndicatorsObservationValidator.ValidateObservation(_mapper.Map<Domain.Observation.FourIndicationsObservation>(request.Observation));
+                FiveIndicatorsObservationValidator.ValidateObservation(_mapper.Map<Domain.Observation.FiveIndicationsObservation>(request.Observation));
 
                 try
                 {
@@ -67,8 +67,8 @@ namespace HyFive.Services.FourIndication
 
                     observation.RegisteredTime = request.Observation.RegistrationTime;
 
-                    var rolleFraRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
-                    observation.Role = rolleFraRequest;
+                    var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
+                    observation.Role = roleFromRequest;
 
                     observation.Comment = request.Observation.Comment;
 
@@ -78,7 +78,7 @@ namespace HyFive.Services.FourIndication
                 }
                 catch (Exception e)
                 {   
-                    _logger.LogError(e, "O-FI-03: Error while updating Four Indication observation.");
+                    _logger.LogError(e, "O-FI-03: Error while updating Five Indication observation.");
                     throw;
                 }
 

@@ -3,7 +3,7 @@ using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.FourIndication;
+using HyFive.Services.FiveIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,34 +13,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
-using HyFive.Models.V1.Report.FourIndications;
+using HyFive.Models.V1.Report.FiveIndications;
 using HyFive.Services;
 using HyFive.Services.Rapport.Observations;
 
 namespace HyFive.Observation.Controllers.V1
 {
 
-    [Route("api/v1/fourIndications")]
-    public class FourIndicationsController : ControllerBase
+    [Route("api/v1/fiveIndications")]
+    public class FiveIndicationsController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IUserService _userService;
 
-        public FourIndicationsController(IMediator mediator, IUserService userService)
+        public FiveIndicationsController(IMediator mediator, IUserService userService)
         {
             _mediator = mediator;
             _userService = userService;
         }
 
         /// <summary>
-        /// Save a Four Indications session
+        /// Save a Five Indications session
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Observer)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Guid>> SaveSession([FromBody] FourIndicationsSession session)
+        public async Task<ActionResult<Guid>> SaveSession([FromBody] FiveIndicationsSession session)
         {
             if (!session.Observations.Any())
             {
@@ -57,7 +57,7 @@ namespace HyFive.Observation.Controllers.V1
                     Session = session
                 });
 
-                return CreatedAtRoute("GetFourIndicationsSession", new { sessionId = session.Id }, result);
+                return CreatedAtRoute("GetFiveIndicationsSession", new { sessionId = session.Id }, result);
             }
 
             return Unauthorized();
@@ -78,12 +78,12 @@ namespace HyFive.Observation.Controllers.V1
         }
 
         [HttpGet("myObservations")]
-        public async Task<IEnumerable<FourIndicationsObservationReport>> GetMyObservations(int institutionId, Guid? sessionId = null)
+        public async Task<IEnumerable<FiveIndicationsObservationReport>> GetMyObservations(int institutionId, Guid? sessionId = null)
         {
             var observerIdForInstitution = _userService.GetObserverIdForInstitution(institutionId);
             if (observerIdForInstitution > 0)
             {
-                var query = new GetFourIndicationsObservations.Query()
+                var query = new GetFiveIndicationsObservations.Query()
                 {
                     ObserverId = observerIdForInstitution,
                     InstitutionId = institutionId,

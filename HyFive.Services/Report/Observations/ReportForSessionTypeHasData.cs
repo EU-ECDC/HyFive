@@ -37,10 +37,10 @@ namespace HyFive.Services.Rapport.Observations
             public async Task<bool> Handle(Query query, CancellationToken cancellationToken)
             {
                 var hasData = false;
-                if (query.SessionType == (int)SessionType.FourIndications)
+                if (query.SessionType == (int)SessionType.FiveIndications)
                 {
-                    var queryable = _context.FourIndicationsObservation
-                        .Include(p => p.FourIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Institution)
+                    var queryable = _context.FiveIndicationsObservation
+                        .Include(p => p.FiveIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Institution)
                         .AsNoTracking();
 
                     queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, query.FromDate, query.ToDate, query.Role);
@@ -81,13 +81,13 @@ namespace HyFive.Services.Rapport.Observations
                 return hasData;
             }
 
-            private static IQueryable<FourIndicationsObservation> AddSearchParameters(IQueryable<FourIndicationsObservation> queryable, int institutionId, int? avdelingId, 
+            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, int institutionId, int? avdelingId, 
                 DateTime fraDato, DateTime tilDato, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.FourIndicationsSession.Department.InstitutionId == institutionId);
+                queryable = queryable.Where(p => p.FiveIndicationsSession.Department.InstitutionId == institutionId);
                 if (avdelingId != null)
-                    queryable = queryable.Where(p => p.FourIndicationsSession.Department.Id == avdelingId);
+                    queryable = queryable.Where(p => p.FiveIndicationsSession.Department.Id == avdelingId);
 
                 var fromDateUtc = DateTime.SpecifyKind(fraDato.Date, DateTimeKind.Utc);
                 var toDateUtc = DateTime.SpecifyKind(tilDato.Date, DateTimeKind.Utc);
@@ -96,7 +96,7 @@ namespace HyFive.Services.Rapport.Observations
                 queryable = queryable.Where(p => p.RegisteredTime <= toDateUtc);
 
                 if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.FourIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }

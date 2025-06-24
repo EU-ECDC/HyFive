@@ -38,10 +38,10 @@ namespace HyFive.Services.Session
             {
                 var sessionOverviewReport = new List<SessionOverviewReport>();
                 
-                if (request.SessionType == null || request.SessionType.Value == SessionType.FourIndications)
+                if (request.SessionType == null || request.SessionType.Value == SessionType.FiveIndications)
                 {
-                    var fourIndicationsSessionsReport= await CreateFourIndicationsSessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(fourIndicationsSessionsReport); 
+                    var fiveIndicationsSessionsReport= await CreateFiveIndicationsSessionsReport(request, cancellationToken);
+                    sessionOverviewReport.AddRange(fiveIndicationsSessionsReport); 
                 }
                 if (request.SessionType == null || request.SessionType.Value == SessionType.HandJewelry)
                 {
@@ -68,9 +68,9 @@ namespace HyFive.Services.Session
                 return sessionOverviewReport;
             }
 
-            private async Task<List<SessionOverviewReport>> CreateFourIndicationsSessionsReport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> CreateFiveIndicationsSessionsReport(Query request, CancellationToken cancellationToken)
             {
-                var fourIndicationsSessions = await _context.FourIndicationsSession
+                var fiveIndicationsSessions = await _context.FiveIndicationsSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
                                      .Include(s => s.TransferStatus)
@@ -83,9 +83,9 @@ namespace HyFive.Services.Session
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var fourIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fourIndicationsSessions);
+                var fiveIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FiveIndicationsSession>, List<SessionOverviewReport>>(fiveIndicationsSessions);
 
-                return fourIndicationsSessionsReport;
+                return fiveIndicationsSessionsReport;
             }
 
             private async Task<List<SessionOverviewReport>> CreateHandJewelrySessionsReport(Query request, CancellationToken cancellationToken)

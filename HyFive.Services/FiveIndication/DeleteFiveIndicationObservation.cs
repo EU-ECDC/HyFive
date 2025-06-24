@@ -7,9 +7,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HyFive.Services.FourIndication
+namespace HyFive.Services.FiveIndication
 {
-    public class DeleteFourIndicationObservation
+    public class DeleteFiveIndicationObservation
     {
         public class Command : IRequest<bool>
         {
@@ -32,7 +32,7 @@ namespace HyFive.Services.FourIndication
             {
                 try
                 {
-                    var observation = await _context.FourIndicationsObservation
+                    var observation = await _context.FiveIndicationsObservation
                         .Include(o => o.IndicationTypes)
                         .Include(o => o.Activity)
                         .Include(o => o.Role)
@@ -49,7 +49,7 @@ namespace HyFive.Services.FourIndication
                     var activity = _context.Activity.FirstOrDefault(a => a.Id == observation.Activity.Id);
                     observation.Activity = activity;
 
-                    var session = _context.FourIndicationsSession
+                    var session = _context.FiveIndicationsSession
                         .Include(s => s.Observations)
                         .FirstOrDefault(s => s.Id == new Guid(request.SessionId));
 
@@ -68,7 +68,7 @@ namespace HyFive.Services.FourIndication
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-FIO-02: Error while deleting four indication observations with ID: {request.ObservationId}");
+                    _logger.LogError(e, $"S-FIO-02: Error while deleting five indication observations with ID: {request.ObservationId}");
                     throw;
                 }
 

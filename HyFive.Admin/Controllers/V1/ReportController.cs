@@ -3,7 +3,7 @@ using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Rapport.Observations;
-using HyFive.Services.Reports.FourIndicators;
+using HyFive.Services.Reports.FiveIndicators;
 using HyFive.Services.Reports.HandJewelry;
 using HyFive.Services.Reports.Pdf;
 using MediatR;
@@ -19,18 +19,18 @@ namespace HyFive.Admin.Controllers.V1
     [Route("api/v1/report")]
     public class ReportController : ControllerBase
     {
-        private readonly FourIndicationsPDFReportService _fourIndicationsPDFReportService;
+        private readonly FiveIndicationsPDFReportService _fiveIndicationsPDFReportService;
         private readonly IUserService _userService;
         private readonly IMediator _mediator;
         private readonly HandJewelryPdfReportService _handJewelryPdfReportService;
 
         public ReportController(
-            FourIndicationsPDFReportService fourIndicationsPdfReportService,
+            FiveIndicationsPDFReportService fiveIndicationsPdfReportService,
             IUserService userService,
             IMediator mediator,
             HandJewelryPdfReportService handJewelryPdfReportService)
         {
-            _fourIndicationsPDFReportService = fourIndicationsPdfReportService;
+            _fiveIndicationsPDFReportService = fiveIndicationsPdfReportService;
             _userService = userService;
             _mediator = mediator;
             _handJewelryPdfReportService = handJewelryPdfReportService;
@@ -45,7 +45,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="toDate"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        [HttpGet("department/hansker/excel")]
+        [HttpGet("department/gloves/excel")]
         public async Task<IActionResult> CreateGloveReportAsExcel(
             [FromQuery] int institutionId,
             [FromQuery] int departmentId,
@@ -151,8 +151,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="role"></param>
         /// <param name="sessionId"></param>
         /// <returns></returns>
-        [HttpGet("department/fourIndications/excel")]
-        public async Task<IActionResult> CreateFourIndicationsReportAsExcel(
+        [HttpGet("department/fiveIndications/excel")]
+        public async Task<IActionResult> CreateFiveIndicationsReportAsExcel(
             [FromQuery] int institutionId,
             [FromQuery] int departmentId,
             [FromQuery] DateTime fromDate,
@@ -162,7 +162,7 @@ namespace HyFive.Admin.Controllers.V1
             if (!UserIsAuthorized(institutionId))
                 return Unauthorized();
 
-            var query = new GetFourIndicationsObservations.Query
+            var query = new GetFiveIndicationsObservations.Query
             {
                 DepartmentId = departmentId,
                 InstitutionId = institutionId,
@@ -172,13 +172,13 @@ namespace HyFive.Admin.Controllers.V1
             };
 
             var reportData = await _mediator.Send(query);
-            var file = await this.ExcelFileContentResult(reportData, "FourIndicationsObservations");
+            var file = await this.ExcelFileContentResult(reportData, "FiveIndicationsObservations");
 
             return file;
         }
 
         /// <summary>
-        /// Create four indications report for department in PDF format
+        /// Create five indications report for department in PDF format
         /// </summary>
         /// <param name="departmentId"></param>
         /// <param name="institutionId"></param>
@@ -186,8 +186,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="toDate"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        [HttpGet("fourIndications/department/pdf")]
-        public async Task<IActionResult> CreateFourIndicationsReportForDepartmentPdf(
+        [HttpGet("fiveIndications/department/pdf")]
+        public async Task<IActionResult> CreateFiveIndicationsReportForDepartmentPdf(
             [FromQuery] int departmentId,
             [FromQuery] int institutionId,
             [FromQuery] DateTime fromDate,
@@ -197,7 +197,7 @@ namespace HyFive.Admin.Controllers.V1
             if (!UserIsAuthorized(institutionId))
                 return Unauthorized();
 
-            var query = new GetFourIndicatorsReportForDepartment.Query
+            var query = new GetFiveIndicatorsReportForDepartment.Query
             {
                 FromDate = fromDate,
                 ToTime = toDate,
@@ -206,7 +206,7 @@ namespace HyFive.Admin.Controllers.V1
             };
 
             var reportData = await _mediator.Send(query);
-            var pdf = await _fourIndicationsPDFReportService.CreateDepartmentReport(reportData);
+            var pdf = await _fiveIndicationsPDFReportService.CreateDepartmentReport(reportData);
             var file = CreateFile(pdf);
 
             return file;
@@ -275,8 +275,8 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(hasData);
         }
 
-        [HttpGet("fourΙndications/compliance")]
-        public async Task<IActionResult> FourIndicationsCompliance([FromQuery] int institutionId, [FromQuery] string interval, [FromQuery] int fromMonth, [FromQuery] int fromYear, [FromQuery] int ToMonth, [FromQuery] int toYear, [FromQuery] int? roleId, [FromQuery] int? departmentId)
+        [HttpGet("fiveΙndications/compliance")]
+        public async Task<IActionResult> FiveIndicationsCompliance([FromQuery] int institutionId, [FromQuery] string interval, [FromQuery] int fromMonth, [FromQuery] int fromYear, [FromQuery] int ToMonth, [FromQuery] int toYear, [FromQuery] int? roleId, [FromQuery] int? departmentId)
         {
             if (!UserIsAuthorized(institutionId))
                 return Unauthorized();

@@ -2,14 +2,14 @@ using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Department;
-using HyFive.Services.FourIndication;
+using HyFive.Services.FiveIndication;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Services.Reports.FourIndicators;
+using HyFive.Services.Reports.FiveIndicators;
 using Moq;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +39,7 @@ namespace HyFive.Services.Tests.Rapporter
 
         //    var lagreSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
 
-        //    var etterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
+        //    var etterlevdObservasjonKombinasjonA = new FiveIndicationsObservation()
         //    {
         //        Activity = new Activity()
         //        {
@@ -57,7 +57,7 @@ namespace HyFive.Services.Tests.Rapporter
         //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
         //    };
             
-        //    var ikkeEtterlevdObservasjonKombinasjonA = new FourIndicationsObservation()
+        //    var ikkeEtterlevdObservasjonKombinasjonA = new FiveIndicationsObservation()
         //    {
         //        Activity = new Activity()
         //        {
@@ -79,11 +79,11 @@ namespace HyFive.Services.Tests.Rapporter
         //    var lagreSesjonQuery = new SaveSession.Command()
         //    {
         //        HPRNumber = Seed.SeedObservatorHprNummer,
-        //        Session = new FourIndicationsSession()
+        //        Session = new FiveIndicationsSession()
         //        {
         //            Department = enAvdeling,
         //            StartDate = DateTime.UtcNow,
-        //            Observations = new List<FourIndicationsObservation>()
+        //            Observations = new List<FiveIndicationsObservation>()
         //            {
         //                etterlevdObservasjonKombinasjonA,
         //                etterlevdObservasjonKombinasjonA, 
@@ -96,8 +96,8 @@ namespace HyFive.Services.Tests.Rapporter
         //    // Act
         //    await lagreSesjonHandler.Handle(lagreSesjonQuery, CancellationToken.None);
             
-        //    var rapportHandler = new GetFourIndicatorsReportForDepartment.Handler(DatabaseContext);
-        //    var lagRapportQuery = new GetFourIndicatorsReportForDepartment.Query()
+        //    var rapportHandler = new GetFiveIndicatorsReportForDepartment.Handler(DatabaseContext);
+        //    var lagRapportQuery = new GetFiveIndicatorsReportForDepartment.Query()
         //    {
         //        DepartmentId = enAvdeling.Id, 
         //        FromDate = DateTime.UtcNow.AddDays(-1),
