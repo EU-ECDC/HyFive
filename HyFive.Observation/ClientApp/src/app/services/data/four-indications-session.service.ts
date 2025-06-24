@@ -31,7 +31,7 @@ export class FourIndicationsSessionService extends BaseSessionService<FourIndica
     var sessions = this.getSessions();
     var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
     var sessionToSend = sessions[sessionIndex];
-    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fourindications`, sessionToSend)
+    return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fiveindications`, sessionToSend)
   }
 
   public createSessionView(

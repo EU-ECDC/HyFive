@@ -12,7 +12,7 @@ export class ActivityService {
   }
 
   getActivityTypes(): Observable<ActivityType[]> {
-    return this.http.get<ActivityType[]>('api/v1/fourindications/activitytypes').pipe()
+    return this.http.get<ActivityType[]>('api/v1/fiveindications/activitytypes').pipe()
   }
 
 }
