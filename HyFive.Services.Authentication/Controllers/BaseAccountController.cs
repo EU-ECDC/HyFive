@@ -2,30 +2,29 @@
 using HyFive.Models.V1.Authentication;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Configuration;
-using Fhi.HelseId.Common.Identity;
-using Fhi.HelseId.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace HyFive.Services.Authentication.Controllers
 {
     [AllowAnonymous]
     public abstract class BaseAccountController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private RedirectPagesKonfigurasjon _redirectConfiguration{ get; }
-        private HandhygieneHelseIdKonfigurasjon healthIdConfiguration { get; }
+        private readonly IUserService userService;
+        private RedirectPagesSettings redirectConfiguration { get; }
+        private HandhygieneConfiguration handHygieneConfiguration { get; }
 
-        protected BaseAccountController(IUserService userService, 
-            IOptions<HandhygieneHelseIdKonfigurasjon> HandHygieneConfiguration, 
-            IOptions<RedirectPagesKonfigurasjon> redirectConfiguration)
+        protected BaseAccountController(IUserService _userService, 
+            IOptions<HandhygieneConfiguration> _handHygieneConfiguration, 
+            IOptions<RedirectPagesSettings> _redirectConfiguration)
         {
-            _userService = userService;
-            _redirectConfiguration = redirectConfiguration.Value;
-            healthIdConfiguration = HandHygieneConfiguration.Value;
+            userService = _userService;
+            redirectConfiguration = _redirectConfiguration.Value;
+            handHygieneConfiguration = _handHygieneConfiguration.Value;
         }
 
         /// <summary>
@@ -36,9 +35,9 @@ namespace HyFive.Services.Authentication.Controllers
         [HttpGet]
         public async Task<ActionResult<LoggedInUser>> Get()
         {
-            if (_userService.IsUserLoggedIn())
+            if (userService.IsUserLoggedIn())
             {
-                return Ok(await _userService.GetUser());
+                return Ok(await userService.GetUser());
             }
 
             return Unauthorized();
@@ -51,41 +50,35 @@ namespace HyFive.Services.Authentication.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("IsLoggedIn")]
-        public ActionResult<bool> IsUserLoeggedIn()
+        public ActionResult<bool> IsUserLoggedIn()
         {
-            return Ok(_userService.IsUserLoggedIn());
+            return Ok(userService.IsUserLoggedIn());
         }
 
 
         [HttpGet("Login")]
-        public async Task Login()
+        public IActionResult Login()
         {
-            if (healthIdConfiguration.AuthUse)
+            return Challenge(new AuthenticationProperties
             {
-                await HttpContext.ChallengeAsync(
-                    HelseIdContext.Scheme,
-                    new AuthenticationProperties
-                    {
-                        RedirectUri = "/"
-                    });
-            }
-            else
-            {
-                HttpContext.Response.Redirect("/index.html");
-            }
+                RedirectUri = redirectConfiguration.LoggedIn
+            }, 
+            OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         [HttpGet("Logout")]
-        public async Task Logout()
+        public IActionResult Logout()
+
         {
-            if (healthIdConfiguration.AuthUse)
+
+            return SignOut(
+            new AuthenticationProperties
             {
-                await HttpContext.SignOutAsync(HelseIdContext.Scheme, new AuthenticationProperties
-                {
-                    RedirectUri = _redirectConfiguration.LoggedOut,
-                });
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            }
+                RedirectUri = redirectConfiguration.LoggedOut,
+            },
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme);
+            
         }
     }
 }
