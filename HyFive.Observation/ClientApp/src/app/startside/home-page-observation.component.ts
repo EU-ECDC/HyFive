@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { FourIndicationsSessionService } from "../services/data/four-indications-session.service";
+import { FiveIndicationsSessionService } from "../services/data/five-indications-session.service";
 import { InstitutionService } from "../services/data/InstitutionService";
 import { Institution } from "../models/api/Institution";
 import { RoleSelected } from "../models/registration/roleSelected.model";
@@ -39,7 +39,7 @@ export class HomePageForObservationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private institutionService: InstitutionService,
@@ -136,7 +136,7 @@ export class HomePageForObservationComponent implements OnInit {
   }
 
   startFiveIndicationsSession() {
-    let sessionId = this.fourIndicationsSessionService.createSessionView(
+    let sessionId = this.fiveIndicationsSessionService.createSessionView(
       this.gloveUse,
       this.timekeeping,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),

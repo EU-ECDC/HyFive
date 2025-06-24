@@ -127,8 +127,8 @@ var AppModule = function () {
                 indication_selection_component_1.IndicationSelectionComponent,
                 register_comment_component_1.RegisterCommentComponent,
                 not_sent_sessions_component_1.NotSentSessionsComponent,
-                edit_four_indications_observation_component_1.EditFourIndicationsObservationComponent,
-                four_indications_component_1.FourIndicationsComponent,
+                edit_four_indications_observation_component_1.EditFiveIndicationsObservationComponent,
+                four_indications_component_1.FiveIndicationsComponent,
                 delete_confirmation_dialog_component_1.DeleteConfirmationDialogComponent,
                 register_hand_jewelry_component_1.RegisterHandjewelryComponent,
                 handjewelry_observation_card_component_1.HandJewelryObservationCardComponent,
@@ -149,7 +149,7 @@ var AppModule = function () {
                 edit_protective_equipment_observation_component_1.EditProtectiveEquipmentObservationComponent,
                 protective_equipment_modal_component_1.ProtectiveEquipmentModalComponent,
                 new_card_modal_component_1.NewCardModalComponent,
-                sent_four_indications_session_component_1.SentFourIndicationsSessionComponent,
+                sent_four_indications_session_component_1.SentFiveIndicationsSessionComponent,
                 sent_session_overview_component_1.SentSessionOverviewComponent,
                 offline_message_component_1.OfflineMessageComponent,
                 sent_hand_jewelry_session_component_1.SentHandJewelrySessionComponent,
@@ -187,7 +187,7 @@ var AppModule = function () {
                 drag_drop_1.DragDropModule
             ],
             bootstrap: [app_component_1.AppComponent],
-            providers: [four_indications_session_service_1.FourIndicationsSessionService, hand_Jewelry_session_service_1.HandJewelrySessionService, hammerjsConfig_1.HandHygieneHammerJS, exports.httpInterceptorProviders],
+            providers: [four_indications_session_service_1.FiveIndicationsSessionService, hand_Jewelry_session_service_1.HandJewelrySessionService, hammerjsConfig_1.HandHygieneHammerJS, exports.httpInterceptorProviders],
             exports: [
                 edit_protective_equipment_observation_component_1.EditProtectiveEquipmentObservationComponent,
                 register_comment_component_1.RegisterCommentComponent

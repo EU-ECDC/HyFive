@@ -70,7 +70,7 @@ export class SentSessionsComponent {
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
       case SessionType.FiveIndications:
-        return Urls.SentFourIndicationsSessionUrl;
+        return Urls.SentFiveIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.SentHandJewelrySessionUrl;
       case SessionType.ProtectiveEquipment:

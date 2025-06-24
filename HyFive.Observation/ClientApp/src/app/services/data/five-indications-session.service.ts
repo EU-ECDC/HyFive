@@ -16,7 +16,7 @@ import { InstitutionService } from './InstitutionService';
 @Injectable({
   providedIn: 'root'
 })
-export class FourIndicationsSessionService extends BaseSessionService<FiveIndicationsSessionView, FiveIndicationsSession, FiveIndicationsObservation> {
+export class FiveIndicationsSessionService extends BaseSessionService<FiveIndicationsSessionView, FiveIndicationsSession, FiveIndicationsObservation> {
 
   sessionLocalStoragePath = Localstoragepaths.FourIndicationsSessions;
   sessionShowLocalStoragePath = Localstoragepaths.FiveIndicationsSessionView;

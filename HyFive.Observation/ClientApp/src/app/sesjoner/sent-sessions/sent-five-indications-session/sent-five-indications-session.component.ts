@@ -13,10 +13,10 @@ import {FiveIndicationsSession} from '../../../models/api/FiveIndicationsSession
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
-  selector: 'app-sent-four-indications-session',
-  templateUrl: './sent-four-indications-session.component.html',
+  selector: 'app-sent-five-indications-session',
+  templateUrl: './sent-five-indications-session.component.html',
 })
-export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
+export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
 
   session: FiveIndicationsSession;
   sessionIsSentToServer = false;

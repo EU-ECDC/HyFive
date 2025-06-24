@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FourIndicationsSessionService } from "../../services/data/four-indications-session.service";
+import { FiveIndicationsSessionService } from "../../services/data/five-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
 import { Session } from "../../models/api/Session";
@@ -31,7 +31,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   faCalendar = faCalendar;
 
   constructor(
-    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
@@ -49,7 +49,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   }
 
   loadSessions() {
-    this.sessions = this.fourIndicationsSessionService
+    this.sessions = this.fiveIndicationsSessionService
       .getSessions()
       .map((f) => this.createSessionView(f, SessionType.FiveIndications))
       .concat(
@@ -111,7 +111,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
       case SessionType.FiveIndications:
-        return Urls.FourIndicationsSessionUrl;
+        return Urls.FiveIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.HandJewelrySessionUrl;
       case SessionType.Gloves:
@@ -131,14 +131,14 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
         let observable;
         switch (s.type) {
           case SessionType.FiveIndications:
-            observable = this.fourIndicationsSessionService
+            observable = this.fiveIndicationsSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.fourIndicationsSessionService.deleteSession(s.id);
+                  this.fiveIndicationsSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error in session:', error);

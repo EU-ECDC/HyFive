@@ -10,10 +10,10 @@ import { RegisterProtectiveEquipmentComponent } from './registrering/register-pr
 import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
 import { NotSentSessionsComponent } from './sesjoner/not-sent-sessions/not-sent-sessions.component';
 import { SentSessionsComponent } from './sesjoner/sent-sessions/sent-sessions.component';
-import { FourIndicationsComponent } from './sesjoner/fire-indikasjoner/four-indications.component';
+import { FiveIndicationsComponent } from './sesjoner/fire-indikasjoner/five-indications.component';
 import { HandJewelryComponent } from './sesjoner/handJewelry/handJewelry.component';
 import { ProtectiveEquipmentComponent } from './sesjoner/protection-equipment/protection-equipment.component';
-import { SentFourIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-four-indications-session/sent-four-indications-session.component';
+import { SentFiveIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-five-indications-session/sent-five-indications-session.component';
 import { SentHandJewelrySessionComponent } from './sesjoner/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
 import { SentProtectiveEquipmentSessionComponent } from './sesjoner/sent-sessions/sent-protective-equipment-session/sent-protective-equipment-session.component';
 import { GloveComponent } from './sesjoner/glove/glove.component';
@@ -36,12 +36,12 @@ const routes: Routes = [
   { path: Urls.RegisterFiveIndicationsUrl, component: RegisterFiveIndicationsComponent },
   { path: Urls.NotSentSessionsUrl, component: NotSentSessionsComponent },
   { path: Urls.SentSessionsUrl, component: SentSessionsComponent },
-  { path: Urls.FourIndicationsSessionUrl, component: FourIndicationsComponent },
+  { path: Urls.FiveIndicationsSessionUrl, component: FiveIndicationsComponent },
   { path: Urls.RegisterHandJewelryUrl, component: RegisterHandjewelryComponent },
   { path: Urls.HandJewelrySessionUrl, component: HandJewelryComponent },
   { path: Urls.RegisterProtectiveEquipmentUrl, component: RegisterProtectiveEquipmentComponent },
   { path: Urls.ProtectiveEquipmentSessionUrl, component: ProtectiveEquipmentComponent },
-  { path: Urls.SentFourIndicationsSessionUrl, component: SentFourIndicationsSessionComponent },
+  { path: Urls.SentFiveIndicationsSessionUrl, component: SentFiveIndicationsSessionComponent },
   { path: Urls.SentHandJewelrySessionUrl, component: SentHandJewelrySessionComponent },
   { path: Urls.SendProtectiveEquipmentSessionUrl, component: SentProtectiveEquipmentSessionComponent },
   { path: Urls.RegisterGloveUrl, component: RegisterGloveComponent },

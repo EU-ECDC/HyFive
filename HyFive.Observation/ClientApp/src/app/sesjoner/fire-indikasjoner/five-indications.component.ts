@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
+import { FiveIndicationsSessionService } from '../../services/data/five-indications-session.service';
 import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,10 +13,10 @@ import { ActivityType } from '../../models/api/ActivityType';
 import { FiveIndicationsSessionView } from 'src/app/models/registration/FiveIndications-session-view.model';
 
 @Component({
-  selector: 'app-four-indications',
-  templateUrl: './four-indications.component.html',
+  selector: 'app-five-indications',
+  templateUrl: './five-indications.component.html',
 })
-export class FourIndicationsComponent implements OnInit {
+export class FiveIndicationsComponent implements OnInit {
 
   session: FiveIndicationsSession;
   sessionView: FiveIndicationsSessionView;
@@ -31,7 +31,7 @@ export class FourIndicationsComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sessionService: FourIndicationsSessionService,
+    private sessionService: FiveIndicationsSessionService,
     private activityService: ActivityService,
     private router: Router,
     private route: ActivatedRoute,
@@ -89,6 +89,6 @@ export class FourIndicationsComponent implements OnInit {
   };
 
   navigateToSentSession() {
-    this.router.navigate(['/'+Urls.SentFourIndicationsSessionUrl], { queryParams: {sessionId: this.session.id}})
+    this.router.navigate(['/'+Urls.SentFiveIndicationsSessionUrl], { queryParams: {sessionId: this.session.id}})
   }
 }

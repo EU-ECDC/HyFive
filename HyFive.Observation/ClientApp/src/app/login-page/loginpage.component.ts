@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorizationService } from '../services/data/authorization.service';
 import { LoggedInUser } from '../models/api/LoggedInUser';
 import { Urls } from '../constants/urls';
-import {FourIndicationsSessionService} from '../services/data/four-indications-session.service';
+import {FiveIndicationsSessionService} from '../services/data/five-indications-session.service';
 import {GloveSessionService} from '../services/data/glove-session.service';
 import {ProtectiveEquipmentSessionService} from '../services/data/protectiveEquipment-session.service';
 import {HandJewelrySessionService} from '../services/data/hand-Jewelry-session.service';
@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
@@ -105,7 +105,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   hasLocalSessionsLying(): boolean {
     var hasGloveSessions = this.gloveSessionService.numberOfSessions() > 0;
     var hasProtectiveEquipmentSessions = this.protectiveEquipmentSessionService.numberOfSessions() > 0;
-    var hasFourIndicationsSessions = this.fourIndicationsSessionService.numberOfSessions() > 0;
+    var hasFourIndicationsSessions = this.fiveIndicationsSessionService.numberOfSessions() > 0;
     var hasHandJewelrySessions = this.handJewelrySessionService.numberOfSessions() > 0;
     return hasGloveSessions || hasProtectiveEquipmentSessions || hasFourIndicationsSessions || hasHandJewelrySessions;
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
+import { FiveIndicationsSessionService } from '../../services/data/five-indications-session.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FiveIndicationsSessionView } from '../../models/registration/FiveIndications-session-view.model';
 import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
@@ -30,7 +30,7 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sessionService: FourIndicationsSessionService,
+    private sessionService: FiveIndicationsSessionService,
     private router: Router,
     private route: ActivatedRoute,
     private institutionService: InstitutionService,

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { Department } from '../../models/api/Department';
 import { Activity } from '../../models/api/Activity';
-import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
+import { FiveIndicationsSessionService } from '../../services/data/five-indications-session.service';
 import { faHandHoldingWater, faSave, faHandsWash, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Colors } from '../../utils/colors';
 import { DialogueTexts } from '../../constants/dialogueTexts';
@@ -17,10 +17,10 @@ import { ActivityTypeNotPerformedId } from '../../models/api/ActivityTypeNotPerf
 import { Activities } from '../../constants/Activities';
 
 @Component({
-  selector: 'app-edit-four-indications-observation',
-  templateUrl: './edit-four-indications-observation.component.html'
+  selector: 'app-edit-five-indications-observation',
+  templateUrl: './edit-five-indications-observation.component.html'
 })
-export class EditFourIndicationsObservationComponent implements OnInit {
+export class EditFiveIndicationsObservationComponent implements OnInit {
 
   isEditMode: boolean = false;
   ActivityTypeConstants = ActivityTypeConstants;
@@ -45,7 +45,7 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   faTimesCircle = faTimesCircle;
 
   constructor(
-    private sessionService: FourIndicationsSessionService,
+    private sessionService: FiveIndicationsSessionService,
     private activityService: ActivityService
   ) {
     this.activityTypeNotExecutedSelection = ActivityTypeNotExecutedMapper.getNameMap();

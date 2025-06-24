@@ -17,13 +17,13 @@
       </div>
     </ng-template>
     <ng-template #content let-item="item">
-      <app-edit-four-indications-observation class="mb-2"
+      <app-edit-five-indications-observation class="mb-2"
                                                  [observation]="item"
                                                  [department]="session.department"
                                                  [gloveUseMustBeRegistered]="sessionView.gloveUseMustBeRegistered"
                                                  [timeShouldBeRegistred]="sessionView.timeShouldBeRegistred"
                                                  (observationDeletedEvent)="observationDeletedEventHandler($event)">
-      </app-edit-four-indications-observation>
+      </app-edit-five-indications-observation>
     </ng-template>
   </div>
 
