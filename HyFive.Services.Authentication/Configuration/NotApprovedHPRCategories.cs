@@ -1,8 +1,6 @@
-﻿using Fhi.HelseId.Web.Hpr;
-
-namespace HyFive.Services.Authentication.Configuration
+﻿namespace HyFive.Services.Authentication.Configuration
 {
-    public class NotApprovedHPRCategories : GodkjenteHprKategoriListe
+    public class NotApprovedHPRCategories
     {
     }
 }
