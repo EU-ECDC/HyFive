@@ -1,17 +1,17 @@
 export class Urls {
   static LoginPageUrl = '';
   static HomePageForObservationUrl = 'register';
-  static RegisterFourndicationsUrl = 'register/four-indications';
+  static RegisterFiveIndicationsUrl = 'register/five-indications';
   static RegisterHandJewelryUrl = 'register/handJewelry';
   static RegisterGloveUrl = 'register/glove';
   static RegisterProtectiveEquipmentUrl = 'register/protectiveEquipment';
   static NotSentSessionsUrl = 'sessions/not-send';
   static SentSessionsUrl = 'sessions/send';
-  static FourIndicationsSessionUrl = 'sessions/four-indications';
+  static FourIndicationsSessionUrl = 'sessions/five-indications';
   static HandJewelrySessionUrl = 'sessions/handJewelry';
   static GloveSessionUrl = 'sessions/glove';
   static ProtectiveEquipmentSessionUrl = 'sessions/protectiveEquipment';
-  static SentFourIndicationsSessionUrl = 'sessions/send/four-indications';
+  static SentFourIndicationsSessionUrl = 'sessions/send/five-indications';
   static SentHandJewelrySessionUrl = 'sessions/send/handJewelry';
   static SentGloveSessionUrl = 'sessions/send/glove';
   static SendProtectiveEquipmentSessionUrl = 'sessions/send/protectiveEquipment';

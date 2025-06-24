@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
-import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
+import { FiveIndicationsSessionView } from '../../models/registration/FiveIndications-session-view.model';
 import { Activity } from '../../models/api/Activity';
 import { Uuid } from '../../utils/uuid';
 import { ActivityUnderRegistration, ObservationEventService } from '../../services/events/observation-event.service';
@@ -22,13 +22,13 @@ import { Activities } from '../../constants/Activities';
 
 
 @Component({
-  selector: 'app-four-indications-observation-card',
-  templateUrl: './four-indications-observation-card.component.html',
+  selector: 'app-five-indications-observation-card',
+  templateUrl: './five-indications-observation-card.component.html',
   animations: [
     Animations.swipeLeftRight
   ]
 })
-export class FourIndicationsObservationCardComponent extends BaseCardSwipe implements OnInit {
+export class FiveIndicationsObservationCardComponent extends BaseCardSwipe implements OnInit {
 
   ActivityTypeConstants = ActivityTypeConstants;
   comment: string;
@@ -54,7 +54,7 @@ export class FourIndicationsObservationCardComponent extends BaseCardSwipe imple
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[]
-  @Input("sessionView") sessionView: FourIndicationsSessionView
+  @Input("sessionView") sessionView: FiveIndicationsSessionView
 
   @Output() observationRegister = new EventEmitter();
   @Output() observationUpdate = new EventEmitter();
@@ -114,7 +114,7 @@ export class FourIndicationsObservationCardComponent extends BaseCardSwipe imple
   }
 
   registerObservation() {
-    let observation: FourIndicationsObservation = {
+    let observation: FiveIndicationsObservation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
       comment: this.comment,

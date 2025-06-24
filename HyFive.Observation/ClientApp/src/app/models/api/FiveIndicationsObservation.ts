@@ -6,7 +6,7 @@ import { Observation } from './Observation';
 import { IndicationType } from './IndicationType';
 import { Activity } from './Activity';
 
-export interface FourIndicationsObservation extends Observation
+export interface FiveIndicationsObservation extends Observation
 {
 	indicationTypes?: IndicationType[];
 	activity?: Activity;

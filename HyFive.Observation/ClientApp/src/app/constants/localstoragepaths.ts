@@ -2,7 +2,7 @@
 export class Localstoragepaths {
 
   public static FourIndicationsSessions = "fourIndicationsSessions";
-  public static FourIndicationsSessionView = "fourIndicationsSessionView";
+  public static FiveIndicationsSessionView = "fiveIndicationsSessionView";
 
   public static HandJewelrySessions = "handJewelrySessions";
   public static HandJewelrySessionViews = "handJewelrySessionView";

@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { FourIndicationsSession } from '../../../models/api/FourIndicationsSession';
+import { FiveIndicationsSession } from '../../../models/api/FiveIndicationsSession';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -10,5 +10,5 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 export class SentSessionOverviewComponent {
 
   faCalendar = faCalendar;
-  @Input("session") session: FourIndicationsSession;
+  @Input("session") session: FiveIndicationsSession;
 }

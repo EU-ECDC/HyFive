@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { Department } from '../../models/api/Department';
 import { Activity } from '../../models/api/Activity';
 import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
@@ -52,11 +52,11 @@ export class EditFourIndicationsObservationComponent implements OnInit {
   }
 
   @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observation") observation: FourIndicationsObservation;
+  @Input("observation") observation: FiveIndicationsObservation;
   @Input("department") department: Department;
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
   @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
-  @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FourIndicationsObservation> = new EventEmitter<FourIndicationsObservation>();
+  @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FiveIndicationsObservation> = new EventEmitter<FiveIndicationsObservation>();
 
   ngOnInit(): void {
     if (this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
@@ -167,7 +167,7 @@ export class EditFourIndicationsObservationComponent implements OnInit {
     this.selectedActivityTypeNotExecutedSelectionId = selectedId;
   }
 
-  private registerActivityTypeNotExecuted(observation: FourIndicationsObservation): FourIndicationsObservation {
+  private registerActivityTypeNotExecuted(observation: FiveIndicationsObservation): FiveIndicationsObservation {
     if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.NotPerformed.toString())) {
       observation.activity.gloveUsed = null;
     }

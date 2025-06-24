@@ -2,9 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { FourIndicationsObservation } from './FourIndicationsObservation';
+import { FiveIndicationsObservation } from './FiveIndicationsObservation';
 import { Session } from './Session';
 
-export interface FourIndicationsSession extends Session<FourIndicationsObservation>
+export interface FiveIndicationsSession extends Session<FiveIndicationsObservation>
 {
 }

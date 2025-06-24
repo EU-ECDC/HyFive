@@ -1,17 +1,17 @@
 <div class="container">
   <app-observation-counter [url]="Urls.FourIndicationsSessionUrl" [sessionsdata]="sessionsdata"></app-observation-counter>
-  <h1 class="h3 mt-n4 mt-xl-0">Four Indications</h1>
+  <h1 class="h3 mt-n4 mt-xl-0">Five Indications</h1>
 </div>
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
   <ng-container *ngFor="let card of sessionView.card">
-    <app-four-indications-observation-card (observationRegister)="registerObservation($event)"
+    <app-five-indications-observation-card (observationRegister)="registerObservation($event)"
                                             (sessionViewUpdate)="updateSessionView($event)"
                                             (cardIsSelectedEvent)="cardIsSelected($event)"
                                             [card]="card"
                                             [sessionView]="sessionView"
                                             [roleSelected]="sessionView.department.roles">
-    </app-four-indications-observation-card>
+    </app-five-indications-observation-card>
   </ng-container>
 </div>
 

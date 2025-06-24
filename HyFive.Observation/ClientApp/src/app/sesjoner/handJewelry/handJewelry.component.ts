@@ -5,7 +5,7 @@ import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../constants/urls';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
@@ -67,7 +67,7 @@ export class HandJewelryComponent implements OnInit {
     this.router.navigate([Urls.RegisterHandJewelryUrl], { queryParams: { sessionId: sessionId } });
   }
 
-  observationDeletedEventHandler($event: FourIndicationsObservation) {
+  observationDeletedEventHandler($event: FiveIndicationsObservation) {
     this.session = this.sessionService.getSession(this.session.id);
   }
 

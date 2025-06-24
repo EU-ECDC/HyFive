@@ -1,9 +1,9 @@
 import { Uuid } from '../../utils/uuid';
-import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
+import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
-import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
+import { FiveIndicationsSessionView } from '../../models/registration/FiveIndications-session-view.model';
 import { Role } from '../../models/api/Role';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { Card } from '../../models/registration/card.model';
 import { Department } from '../../models/api/Department';
 import { BaseSessionService } from './base-session.service';
@@ -16,10 +16,10 @@ import { InstitutionService } from './InstitutionService';
 @Injectable({
   providedIn: 'root'
 })
-export class FourIndicationsSessionService extends BaseSessionService<FourIndicationsSessionView, FourIndicationsSession, FourIndicationsObservation> {
+export class FourIndicationsSessionService extends BaseSessionService<FiveIndicationsSessionView, FiveIndicationsSession, FiveIndicationsObservation> {
 
   sessionLocalStoragePath = Localstoragepaths.FourIndicationsSessions;
-  sessionShowLocalStoragePath = Localstoragepaths.FourIndicationsSessionView;
+  sessionShowLocalStoragePath = Localstoragepaths.FiveIndicationsSessionView;
 
   constructor(
     public institutionService: InstitutionService,
@@ -42,7 +42,7 @@ export class FourIndicationsSessionService extends BaseSessionService<FourIndica
   ): string {
     let id = Uuid.generateUUID();
 
-    let fourIndicationsSessionView: FourIndicationsSessionView = {
+    let fiveIndicationsSessionView: FiveIndicationsSessionView = {
       sessionId: id,
       department: department,
       gloveUseMustBeRegistered: gloveUseMustBeRegistered,
@@ -50,7 +50,7 @@ export class FourIndicationsSessionService extends BaseSessionService<FourIndica
       card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
     var sessionViews = this.getSessionViews()
-    sessionViews.push(fourIndicationsSessionView);
+    sessionViews.push(fiveIndicationsSessionView);
     this.saveSessionViews(sessionViews);
 
     return id;

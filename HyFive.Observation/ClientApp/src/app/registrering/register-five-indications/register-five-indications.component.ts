@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FourIndicationsSessionView } from '../../models/registration/FourIndications-session-view.model';
-import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
+import { FiveIndicationsSessionView } from '../../models/registration/FiveIndications-session-view.model';
+import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { Queryparameters } from '../../constants/queryparameters';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { InstitutionService } from '../../services/data/InstitutionService';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
@@ -14,14 +14,14 @@ import { Urls } from '../../constants/urls';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-register-four-indications',
-  templateUrl: './register-four-indications.component.html',
+  selector: 'app-register-five-indications',
+  templateUrl: './register-five-indications.component.html',
 })
-export class RegisterFourIndicationsComponent implements OnInit, OnDestroy {
+export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
 
   Urls = Urls;
-  sessionView: FourIndicationsSessionView;
-  sessionsdata: FourIndicationsSession = null;
+  sessionView: FiveIndicationsSessionView;
+  sessionsdata: FiveIndicationsSession = null;
   roles: Role[];
   showRoleList: boolean = false;
   showEmptyForShortText: boolean = false;
@@ -58,7 +58,7 @@ export class RegisterFourIndicationsComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  async registerObservation(observation: FourIndicationsObservation) {
+  async registerObservation(observation: FiveIndicationsObservation) {
     await this.sessionService.registerObservation(observation);
     this.toastrService.success("Observation was saved");
     this.loadSessionData();
@@ -79,7 +79,7 @@ export class RegisterFourIndicationsComponent implements OnInit, OnDestroy {
     this.toggleRoleList();
   }
 
-  updateSessionView(sessionView: FourIndicationsSessionView) {
+  updateSessionView(sessionView: FiveIndicationsSessionView) {
     this.sessionView = this.sessionService.updateSessionViewForSession(sessionView);
     if(this.sessionView.card?.length === 0)
       this.showEmptyForShortText = true;

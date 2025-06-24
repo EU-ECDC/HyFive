@@ -4,12 +4,12 @@ import { faTrashAlt, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icon
 import { DialogueTexts } from '../../../constants/dialogueTexts';
 import { Queryparameters } from '../../../constants/queryparameters';
 import { Urls } from '../../../constants/urls';
-import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
+import { FiveIndicationsObservation } from '../../../models/api/FiveIndicationsObservation';
 import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityService } from '../../../services/data/activity.service';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { SentSessionsService } from '../../../services/data/sent-sessions.service';
-import {FourIndicationsSession} from '../../../models/api/FourIndicationsSession';
+import {FiveIndicationsSession} from '../../../models/api/FiveIndicationsSession';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -18,7 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
 
-  session: FourIndicationsSession;
+  session: FiveIndicationsSession;
   sessionIsSentToServer = false;
   activityTypes: ActivityType[];
   isOnline: boolean = true;
@@ -65,31 +65,31 @@ export class SentFourIndicationsSessionComponent implements OnInit, OnDestroy {
     this.router.navigate([Urls.SentSessionsUrl])
   }
 
-  calculateOccasionsComplied(session: FourIndicationsSession) : number{
+  calculateOccasionsComplied(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsCompliedPercent(session: FourIndicationsSession): number {
+  calculateOccasionsCompliedPercent(session: FiveIndicationsSession): number {
     if (session?.observations?.length == 0)
       return 0;
     return (this.calculateOccasionsComplied(session) / session?.observations?.length) * 100;
   }
 
-  calculateOccasionsOmitted(session: FourIndicationsSession) : number{
+  calculateOccasionsOmitted(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsOmittedPercent(session: FourIndicationsSession) : number{
+  calculateOccasionsOmittedPercent(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return (this.calculateOccasionsOmitted(session) / session?.observations?.length)*100
   }
 
-  getIngress(observation: FourIndicationsObservation) {
+  getIngress(observation: FiveIndicationsObservation) {
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 

@@ -8,11 +8,11 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { RegisterFourIndicationsComponent } from "./registrering/register-four-indications/register-four-indications.component";
+import { RegisterFiveIndicationsComponent } from "./registrering/register-five-indications/register-five-indications.component";
 import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
 import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
-import { FourIndicationsObservationCardComponent } from './registrering/four-indications-observation-card/four-indications-observation-card.component';
+import { FiveIndicationsObservationCardComponent } from './registrering/five-indications-observation-card/five-indications-observation-card.component';
 import { IndicationSelectionComponent } from './registrering/indication-selection/indication-selection.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
@@ -83,8 +83,8 @@ export const httpInterceptorProviders = [
         AppComponent,
         MainMenuComponent,
         HomePageForObservationComponent,
-        RegisterFourIndicationsComponent,
-        FourIndicationsObservationCardComponent,
+        RegisterFiveIndicationsComponent,
+        FiveIndicationsObservationCardComponent,
         RegisterActivityComponent,
         MissedOpportunityComponent,
         IndicationSelectionComponent,

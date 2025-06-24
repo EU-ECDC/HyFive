@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FourIndicationsSessionService } from '../../services/data/four-indications-session.service';
-import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
+import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
+import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Urls } from '../../constants/urls';
 import { Queryparameters } from '../../constants/queryparameters';
@@ -10,7 +10,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { ToastrService } from 'ngx-toastr';
 import { ActivityService } from '../../services/data/activity.service';
 import { ActivityType } from '../../models/api/ActivityType';
-import { FourIndicationsSessionView } from 'src/app/models/registration/FourIndications-session-view.model';
+import { FiveIndicationsSessionView } from 'src/app/models/registration/FiveIndications-session-view.model';
 
 @Component({
   selector: 'app-four-indications',
@@ -18,8 +18,8 @@ import { FourIndicationsSessionView } from 'src/app/models/registration/FourIndi
 })
 export class FourIndicationsComponent implements OnInit {
 
-  session: FourIndicationsSession;
-  sessionView: FourIndicationsSessionView;
+  session: FiveIndicationsSession;
+  sessionView: FiveIndicationsSessionView;
   sessionIsSentToServer = false;
   sessionSentToServer = false;
   activityTypes: ActivityType[];
@@ -61,15 +61,15 @@ export class FourIndicationsComponent implements OnInit {
   }
 
   navigateToRegistrationPageForFourIndications(sessionId: string){
-    this.router.navigate([Urls.RegisterFourndicationsUrl], {queryParams: { sessionId: sessionId}})
+    this.router.navigate([Urls.RegisterFiveIndicationsUrl], {queryParams: { sessionId: sessionId}})
   }
 
-  observationDeletedEventHandler($event: FourIndicationsObservation) {
+  observationDeletedEventHandler($event: FiveIndicationsObservation) {
     // Mulig TODO: pop observasjonen rett fra lista istedet for å laste på nytt fra LocalStorage
     this.session = this.sessionService.getSession(this.session.id);
   }
 
-  getIngress(observation: FourIndicationsObservation) {
+  getIngress(observation: FiveIndicationsObservation) {
     return this.activityTypes?.find(x => x.code === observation.activity.activityType?.code)?.name + ' - ' + observation.indicationTypes.map(i => i.name).join(', ');
   }
 

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Urls } from './constants/urls';
 import { LoginPageComponent } from './login-page/loginpage.component';
 import { HomePageForObservationComponent } from './startside/home-page-observation.component';
-import { RegisterFourIndicationsComponent } from './registrering/register-four-indications/register-four-indications.component';
+import { RegisterFiveIndicationsComponent } from './registrering/register-five-indications/register-five-indications.component';
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
 import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
     component: HomePageForObservationComponent,
     runGuardsAndResolvers: 'always',
   },
-  { path: Urls.RegisterFourndicationsUrl, component: RegisterFourIndicationsComponent },
+  { path: Urls.RegisterFiveIndicationsUrl, component: RegisterFiveIndicationsComponent },
   { path: Urls.NotSentSessionsUrl, component: NotSentSessionsComponent },
   { path: Urls.SentSessionsUrl, component: SentSessionsComponent },
   { path: Urls.FourIndicationsSessionUrl, component: FourIndicationsComponent },

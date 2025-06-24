@@ -113,7 +113,7 @@ export class HomePageForObservationComponent implements OnInit {
         alert("Select the sessionType you want to start");
         break;
       case SessionType.FiveIndications:
-        this.startFourIndicationsSession();
+        this.startFiveIndicationsSession();
         break;
       case SessionType.HandJewelry:
         this.startHandJewelrySession();
@@ -135,7 +135,7 @@ export class HomePageForObservationComponent implements OnInit {
     }
   }
 
-  startFourIndicationsSession() {
+  startFiveIndicationsSession() {
     let sessionId = this.fourIndicationsSessionService.createSessionView(
       this.gloveUse,
       this.timekeeping,
@@ -143,7 +143,7 @@ export class HomePageForObservationComponent implements OnInit {
       this.getSelectedDepartment()
     );
 
-    this.router.navigate([Urls.RegisterFourndicationsUrl], {
+    this.router.navigate([Urls.RegisterFiveIndicationsUrl], {
       queryParams: { sessionId: sessionId },
     });
   }

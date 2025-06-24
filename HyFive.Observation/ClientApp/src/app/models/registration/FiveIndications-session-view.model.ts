@@ -3,7 +3,7 @@ import { Card } from './card.model';
 import {Department} from '../api/Department';
 import {BaseSessionView} from './base-sessionView.model';
 
-export interface FourIndicationsSessionView extends BaseSessionView
+export interface FiveIndicationsSessionView extends BaseSessionView
 {
   card?: Card[];
   gloveUseMustBeRegistered: boolean;
