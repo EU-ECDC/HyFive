@@ -232,3 +232,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/HyFive.Observasjon
+/HyFive.Observasjon/ClientApp/node_modules
