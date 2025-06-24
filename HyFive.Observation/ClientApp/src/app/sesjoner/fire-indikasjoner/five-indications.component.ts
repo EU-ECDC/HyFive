@@ -60,7 +60,7 @@ export class FiveIndicationsComponent implements OnInit {
     this.router.navigate([Urls.NotSentSessionsUrl]);
   }
 
-  navigateToRegistrationPageForFourIndications(sessionId: string){
+  navigateToRegistrationPageForFiveIndications(sessionId: string){
     this.router.navigate([Urls.RegisterFiveIndicationsUrl], {queryParams: { sessionId: sessionId}})
   }
 

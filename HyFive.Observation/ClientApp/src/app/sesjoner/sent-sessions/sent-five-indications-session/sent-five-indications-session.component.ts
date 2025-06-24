@@ -44,7 +44,7 @@ export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         if(sessionId === 0) this.router.navigate(['']);
-        this.sessionService.getFourIndicationsSession(sessionId).subscribe(
+        this.sessionService.getFiveIndicationsSession(sessionId).subscribe(
           (session) => {
             this.session = session;
             if (!this.session) this.router.navigate(['']);
@@ -102,7 +102,7 @@ export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
 
   downloadAsExcelFnct() {
     this.downloadAsExcel = true;
-    this.sessionService.downloadFourIndicationsSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
+    this.sessionService.downloadFiveIndicationsSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.downloadAsExcel = false)

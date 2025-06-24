@@ -1,6 +1,6 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigateToRegistrationPageForFourIndications(session.id)">Back to observation </app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: Four indications'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">Back to observation </app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Session: Five indications'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <app-session-statistics [session]="session"></app-session-statistics>
 <div *ngIf="sessionIsSentToServer == false" class="container">
@@ -64,7 +64,7 @@
   </div>
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToRegistrationPageForFourIndications(session.id)">Back to observation </app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">Back to observation </app-navigation-link>
     </div>
   </div>
 </div>

@@ -105,9 +105,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   hasLocalSessionsLying(): boolean {
     var hasGloveSessions = this.gloveSessionService.numberOfSessions() > 0;
     var hasProtectiveEquipmentSessions = this.protectiveEquipmentSessionService.numberOfSessions() > 0;
-    var hasFourIndicationsSessions = this.fiveIndicationsSessionService.numberOfSessions() > 0;
+    var hasFiveIndicationsSessions = this.fiveIndicationsSessionService.numberOfSessions() > 0;
     var hasHandJewelrySessions = this.handJewelrySessionService.numberOfSessions() > 0;
-    return hasGloveSessions || hasProtectiveEquipmentSessions || hasFourIndicationsSessions || hasHandJewelrySessions;
+    return hasGloveSessions || hasProtectiveEquipmentSessions || hasFiveIndicationsSessions || hasHandJewelrySessions;
   }
 
   receivedInternetStatus(isOnline: boolean) {

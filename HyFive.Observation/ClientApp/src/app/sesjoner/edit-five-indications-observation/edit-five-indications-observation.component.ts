@@ -25,7 +25,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   isEditMode: boolean = false;
   ActivityTypeConstants = ActivityTypeConstants;
   activity: Activity;
-  fourIndications: IndicationType[];
+  fiveindications: IndicationType[];
   activityTypes: ActivityType[];
   Colors = Colors;
   dialogueTexts = DialogueTexts;

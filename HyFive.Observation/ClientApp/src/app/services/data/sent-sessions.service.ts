@@ -21,7 +21,7 @@ export class SentSessionsService {
     return this.httpClient.get<SessionReport[]>(url);
   }
 
-  getFourIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
+  getFiveIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
     return this.httpClient.get<FiveIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fiveIndications`, {params});
@@ -51,7 +51,7 @@ export class SentSessionsService {
     return this.downloadSessionAsExcelNew(url, "Glove");
   }
 
-  public downloadFourIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
+  public downloadFiveIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
     const url = `${environment.apiBaseUrl}/v1/fiveindications/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "FiveIndications");
   }

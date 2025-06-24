@@ -18,7 +18,7 @@ import { InstitutionService } from './InstitutionService';
 })
 export class FiveIndicationsSessionService extends BaseSessionService<FiveIndicationsSessionView, FiveIndicationsSession, FiveIndicationsObservation> {
 
-  sessionLocalStoragePath = Localstoragepaths.FourIndicationsSessions;
+  sessionLocalStoragePath = Localstoragepaths.FiveIndicationsSessions;
   sessionShowLocalStoragePath = Localstoragepaths.FiveIndicationsSessionView;
 
   constructor(

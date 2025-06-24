@@ -1,11 +1,11 @@
 <div class="row pe-1">
   <div class="col-6 p-2 text-center" *ngFor="let indication of indicationTypeSelection">
-    <label [htmlFor]="'fourindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
+    <label [htmlFor]="'fiveindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
       <input type="checkbox"
              [(ngModel)]="indication.isSelected"
              (ngModelChange)="changed(indication)"
              [disabled]="isReadonly"
-             [id]="'fourindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)"
+             [id]="'fiveindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)"
              class="hh-round-checkbox-list__input">
       <fa-stack class="hh-round-checkbox-list__iconstack">
         <fa-icon [icon]="faCircle" stackItemSize="2x"
