@@ -143,8 +143,6 @@ namespace HyFive.Api.Common
                            else
                            {
                                var request = context.Request;
-                               //var scheme = context.Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? context.Request.Scheme;
-                               //var host = context.Request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? context.Request.Host.ToString();
                                var redirectUri = _redirectPagesSettings.RedirectLogInUri;
                                context.ProtocolMessage.RedirectUri = redirectUri;
                            }
@@ -154,9 +152,9 @@ namespace HyFive.Api.Common
                        OnRedirectToIdentityProviderForSignOut = context =>
                        {
                            var request = context.Request;
-                           var postLogoutRedirectUri = _redirectPagesSettings.RedirectLogOutUri;
+                           var postLogoutRedirectLogOutUri = _redirectPagesSettings.RedirectLogOutUri;
 
-                           context.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectUri;
+                           context.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectLogOutUri;
 
                            return Task.CompletedTask;
                        }
@@ -194,16 +192,6 @@ namespace HyFive.Api.Common
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
-                                            Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
-
-                // Optional: Clear default restrictions (recommended in Azure)
-                options.KnownNetworks.Clear(); // Remove the default loopback network restriction
-                options.KnownProxies.Clear();  // Remove the default loopback proxy restriction
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -221,7 +209,6 @@ namespace HyFive.Api.Common
             }
 
             InitializeDatabase(app);
-            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
