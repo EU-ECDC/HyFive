@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 
-namespace HyFive.Services.Rapport.Observations
+namespace HyFive.Services.Report.Observations
 {
     public class GetHandJewelryObservations
     {

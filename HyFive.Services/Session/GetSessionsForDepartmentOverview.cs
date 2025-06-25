@@ -60,7 +60,7 @@ namespace HyFive.Services.Session
                     sessionOverviewReport.AddRange(protectiveEquipmentSessionsReport);
                 }
 
-                sessionOverviewReport = sessionOverviewReport.OrderByDescending(s => s.CreatedTime).ToList();
+                sessionOverviewReport = sessionOverviewReport.OrderByDescending(s => s.CreatedDate).ToList();
                 sessionOverviewReport.ForEach(s =>
                 {
                     s.Observations = s.Observations.OrderByDescending(o => o.RegisteredTime).ToList();

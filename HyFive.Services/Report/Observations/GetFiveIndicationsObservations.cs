@@ -11,7 +11,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TransferStatusTypeConstants = HyFive.Models.V1.Constants.TransferStatusTypeConstants;
 
-namespace HyFive.Services.Rapport.Observations
+namespace HyFive.Services.Report.Observations
 {
     public class GetFiveIndicationsObservations
     {

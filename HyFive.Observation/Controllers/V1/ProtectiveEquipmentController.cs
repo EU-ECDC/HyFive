@@ -6,7 +6,7 @@ using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.ProtectiveEquipment;
-using HyFive.Services.Rapport.Observations;
+using HyFive.Services.Report.Observations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

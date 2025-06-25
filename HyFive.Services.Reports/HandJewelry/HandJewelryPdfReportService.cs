@@ -252,7 +252,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
         private static PdfResult CreatePdf(byte[] graphForDepartment, byte[] graphForInstitution, JewelryReportForJewelryTypeAndRole report)
         {
-            var copyOfTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Tjenester.Rapporter.Assets.Rapport-template.pdf");
+            var copyOfTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.Report-template.pdf");
             using var pdfMemoryStream = new MemoryStream();
             var pdfStamper = new PdfStamper(copyOfTemplate, pdfMemoryStream);
 

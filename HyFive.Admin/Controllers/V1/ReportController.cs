@@ -2,7 +2,7 @@
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Authentication.User;
-using HyFive.Services.Rapport.Observations;
+using HyFive.Services.Report.Observations;
 using HyFive.Services.Reports.FiveIndicators;
 using HyFive.Services.Reports.HandJewelry;
 using HyFive.Services.Reports.Pdf;

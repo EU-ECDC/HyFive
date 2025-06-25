@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Models.V1.Report.FiveIndications;
 using HyFive.Services;
-using HyFive.Services.Rapport.Observations;
+using HyFive.Services.Report.Observations;
 
 namespace HyFive.Observation.Controllers.V1
 {

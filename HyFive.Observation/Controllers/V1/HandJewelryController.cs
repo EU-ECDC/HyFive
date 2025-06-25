@@ -12,7 +12,7 @@ using HyFive.Services.Authentication.Requirements;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using HyFive.Services.HandJewelry;
-using HyFive.Services.Rapport.Observations;
+using HyFive.Services.Report.Observations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 

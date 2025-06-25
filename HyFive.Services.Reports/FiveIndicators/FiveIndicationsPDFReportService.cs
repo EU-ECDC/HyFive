@@ -136,12 +136,12 @@ namespace HyFive.Services.Reports.FiveIndicators
                 reportsToBeCombined.Add(sammenlignbareAvdelingerRapport);
             }
 
-            foreach (var klinikk in reportForDepartment.Clinics)
+            foreach (var clinic in reportForDepartment.Clinics)
             {
-                if (klinikk.NumberOfObservations > 0)
+                if (clinic.NumberOfObservations > 0)
                 {
-                    var klinikkRapport = CreatePdfReport(klinikk);
-                    reportsToBeCombined.Add(klinikkRapport);
+                    var clinicReport = CreatePdfReport(clinic);
+                    reportsToBeCombined.Add(clinicReport);
                 }
             }
 
@@ -153,10 +153,10 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             foreach (var rapport in reportsToBeCombined)
             {
-                var rapportReader = new PdfReader(rapport.Content);
-                for (int pageIndex = 1; pageIndex <= rapportReader.NumberOfPages; pageIndex++)
+                var reportReader = new PdfReader(rapport.Content);
+                for (int pageIndex = 1; pageIndex <= reportReader.NumberOfPages; pageIndex++)
                 {
-                    copy.AddPage(copy.GetImportedPage(rapportReader, pageIndex));
+                    copy.AddPage(copy.GetImportedPage(reportReader, pageIndex));
                 }
             }
             document.Close();
@@ -170,7 +170,7 @@ namespace HyFive.Services.Reports.FiveIndicators
         }
         private static PdfResult CreatePdfReport(FiveIndicatorsReport report)
         {
-            var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Tjenester.Rapporter.Assets.FHI-fire-indikasjoner-rapport-template.pdf");
+            var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.FHI-five-indications-report-template.pdf");
             using var pdfMemoryStream = new MemoryStream();
 
             var pdfStamper = new PdfStamper(copyOfDepartmentTemplate, pdfMemoryStream);

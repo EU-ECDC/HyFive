@@ -11,7 +11,7 @@ using HyFive.Models.V1.Session;
 using Microsoft.EntityFrameworkCore;
 using HyFive.Models.V1.Constants;
 
-namespace HyFive.Services.Rapport.Observations
+namespace HyFive.Services.Report.Observations
 {
     public class ReportForSessionTypeHasData
     {
