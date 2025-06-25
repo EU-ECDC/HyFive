@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TransferStatusTypeConstants } from '../../../models/api/TransferStatusTypeConstants';
 import { SessionType } from '../../../models/api/SessionType';
-import { FourIndicationsObservation } from '../../../models/api/FourIndicationsObservation';
 import { Role } from '../../../models/api/Role';
 import { IndicationType } from '../../../models/api/IndicationType';
 import { ActivityType } from '../../../models/api/ActivityType';
@@ -11,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import {HandJewelryObservation} from "../../../models/api/HandJewelryObservation";
 import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
+import { FiveIndicatorsObservation } from 'src/app/models/api/FiveIndicatorsObservation';
 
 @Component({
   selector: 'app-edit-four-indications-observations',
@@ -18,14 +18,14 @@ import {KeyEventService} from "../../../services/events/key-event.service";
 })
 export class EditFourIndicationsObservationsComponent implements OnInit {
 
-  @Input() observations: FourIndicationsObservation[]
+  @Input() observations: FiveIndicatorsObservation[]
   @Input() sessionId: string;
   @Input() department: Department;
   @Input() canEdit = false;
   @Output() observationUpdatedEvent = new EventEmitter();
   @Output() observationDeletedEvent = new EventEmitter();
 
-  fourIndicationsObservationWhichChanged: FourIndicationsObservation = null;
+  fiveIndicationsObservationWhichChanged: FiveIndicatorsObservation = null;
   handJewelryObservationAsChanged: HandJewelryObservation = null;
 
   secondsUsed: number;
@@ -41,61 +41,61 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
-      if (this.fourIndicationsObservationWhichChanged)
-        this.fourIndicationsObservationWhichChanged= null;
+      if (this.fiveIndicationsObservationWhichChanged)
+        this.fiveIndicationsObservationWhichChanged= null;
     });
   }
 
-  selectObservation(observation: FourIndicationsObservation) {
+  selectObservation(observation: FiveIndicatorsObservation) {
     if(!this.canEdit){
       return;
     }
 
-    this.fourIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observation));
-    this.fourIndicationsObservationWhichChanged.sessionId = this.sessionId;
+    this.fiveIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observation));
+    this.fiveIndicationsObservationWhichChanged.sessionId = this.sessionId;
   }
 
   selectRole(role: Role) {
-    this.fourIndicationsObservationWhichChanged.role = role;
+    this.fiveIndicationsObservationWhichChanged.role = role;
   }
 
   indicationOptionChanged(selectedIndications: IndicationType[]) {
-    this.fourIndicationsObservationWhichChanged.indicationTypes = selectedIndications;
+    this.fiveIndicationsObservationWhichChanged.indicationTypes = selectedIndications;
   }
 
   selectActivity(ActivityType: ActivityType) {
-    this.fourIndicationsObservationWhichChanged.activity.activityType = ActivityType;
+    this.fiveIndicationsObservationWhichChanged.activity.activityType = ActivityType;
   }
 
   changeSecondsUsed(secondsUsed: number) {
-    this.fourIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
+    this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
   }
 
   changeComment(comment: string) {
-    this.fourIndicationsObservationWhichChanged.comment = comment;
+    this.fiveIndicationsObservationWhichChanged.comment = comment;
   }
 
-  updateFourIndicationsObservation() {
-    if (this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotExecuted
-      || this.fourIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
-      this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-      this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
+  updateFiveIndicationsObservation() {
+    if (this.fiveIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotExecuted
+      || this.fiveIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
+      this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+      this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
     }
     else {
-      this.fourIndicationsObservationWhichChanged.activity.gloveUsed = null;
-      if (this.fourIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
-        this.fourIndicationsObservationWhichChanged.activity.secondsUsed = 0;
-        this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
+      this.fiveIndicationsObservationWhichChanged.activity.gloveUsed = null;
+      if (this.fiveIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
+        this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+        this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
       }
       else {
-        this.fourIndicationsObservationWhichChanged.activity.timingWasPerformed = true;
+        this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = true;
       }
     }
 
     if (this.canBeStored) {
-      this.observationService.updateFourIndicationsObservation(this.fourIndicationsObservationWhichChanged).subscribe(
+      this.observationService.updateFiveIndicationsObservation(this.fiveIndicationsObservationWhichChanged).subscribe(
         (isUpdated) => {
-          this.fourIndicationsObservationWhichChanged = null;
+          this.fiveIndicationsObservationWhichChanged = null;
           this.toastrService.success('The observation was updated');
           this.observationUpdatedEvent.emit();
         },
@@ -106,10 +106,10 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
     }
   }
 
-  deleteFourIndicationsObservation() {
-    this.observationService.deleteFourIndicationsObservation(this.fourIndicationsObservationWhichChanged.id, this.sessionId).subscribe(
+  deleteFiveIndicationsObservation() {
+    this.observationService.deleteFiveIndicationsObservation(this.fiveIndicationsObservationWhichChanged.id, this.sessionId).subscribe(
       () => {
-        this.fourIndicationsObservationWhichChanged = null;
+        this.fiveIndicationsObservationWhichChanged = null;
         this.toastrService.success('The observation was deleted');
         this.observationDeletedEvent.emit();
       },
@@ -120,6 +120,6 @@ export class EditFourIndicationsObservationsComponent implements OnInit {
 
   cancelEditOfObservation(event) {
     event.stopPropagation();
-    this.fourIndicationsObservationWhichChanged = null;
+    this.fiveIndicationsObservationWhichChanged = null;
   }
 }

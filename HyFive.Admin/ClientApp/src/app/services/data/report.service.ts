@@ -11,8 +11,8 @@ import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
 export class ReportService {
   constructor(private httpClient: HttpClient) { }
 
-  getComplianceForFourIndications(institutionId: number, intervall: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
-    const url = `${environment.apiBaseUrl}/v1/report/fourindications/compliance`;
+  getComplianceForFiveIndications(institutionId: number, intervall: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
+    const url = `${environment.apiBaseUrl}/v1/report/fiveindications/compliance`;
 
     let params = new HttpParams();
     params = params.append("institutionId", institutionId.toString());

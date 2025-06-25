@@ -103,7 +103,7 @@ export class CompliancePdfComponent {
     let url = '/api/v1/report/';
 
     if (this.sessionType == SessionType.FiveIndications) {
-      url += 'fourindications';
+      url += 'fiveindications';
     } else if (this.sessionType == SessionType.HandJewelry) {
       url += 'handjewelry';
     }
