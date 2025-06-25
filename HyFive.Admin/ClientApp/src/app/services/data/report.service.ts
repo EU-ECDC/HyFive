@@ -29,10 +29,10 @@ export class ReportService {
 
   reportForSessionTypeHasData(sessionType: SessionType, institutionId: number, departmentId: number,
     fromDate: Date, toDate: Date, roleId: AuthorizedRole): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/report/reportforsessiontypehasdata`;
+    const url = `${environment.apiBaseUrl}/v1/report/reportForSessionTypeHasData`;
 
     let params = new HttpParams();
-    params = params.append("sesionType", sessionType);
+    params = params.append("sessionType", sessionType);
     params = params.append("institutionId", institutionId.toString());
     if (departmentId != null)
       params = params.append("departmentId", departmentId);
