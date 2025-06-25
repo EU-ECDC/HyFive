@@ -102,7 +102,7 @@ export class CompliancePdfComponent {
   private downloadPdf(): Observable<any> {
     let url = '/api/v1/report/';
 
-    if (this.sessionType == SessionType.FourIndications) {
+    if (this.sessionType == SessionType.FiveIndications) {
       url += 'fourindications';
     } else if (this.sessionType == SessionType.HandJewelry) {
       url += 'handjewelry';

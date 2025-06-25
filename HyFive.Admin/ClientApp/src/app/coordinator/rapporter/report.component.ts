@@ -20,7 +20,7 @@ export class ReportComponent implements OnInit {
   private getTreeviewNavigationItems(): FhiTreeViewNavigationItem[] {
     return [
       // {
-      //   name: 'Four indications',
+      //   name: 'five indications',
       //   children: [
       //     {
       //       name: 'Etterlevelse',
@@ -33,8 +33,8 @@ export class ReportComponent implements OnInit {
         isExpanded: true,
         children: [
           {
-            name: 'Compliance four indications',
-            routerLink: UrlPaths.fourindicationsCompliancePdf
+            name: 'Compliance five indications',
+            routerLink: UrlPaths.fiveIndicationsCompliancePdf
           },
           {
             name: 'Compliance handjewelry',

@@ -9,5 +9,5 @@ export class ComplianceFourIndicationsPdfComponent {
   constructor(
     ) { }
 
-  sessionType = SessionType.FourIndications;
+  sessionType = SessionType.FiveIndications;
 }

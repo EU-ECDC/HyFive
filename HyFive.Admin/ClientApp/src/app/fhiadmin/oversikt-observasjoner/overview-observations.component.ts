@@ -29,7 +29,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   sessiontypes = [
     { name: 'ProtectiveEquipment', value: SessionType.ProtectiveEquipment },
-    { name: 'Four indications', value: SessionType.FourIndications },
+    { name: 'Five indications', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
     { name: 'HandJewelry', value: SessionType.HandJewelry }
   ];
@@ -121,7 +121,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
       this.toDate,
       this.selectedRole
     ).subscribe((results) => {
-      if(this.selectedSessiontype !== SessionType.FourIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
+      if(this.selectedSessiontype !== SessionType.FiveIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
         this.selectedSessiontype !== SessionType.Gloves && this.selectedSessiontype !== SessionType.ProtectiveEquipment)
         this.selectedSessiontype = null;
       this.institutionOverviewReportList = results;
@@ -166,8 +166,8 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   loadSelectedSessionTypeText(): string {
     if (this.selectedSessiontype == SessionType.ProtectiveEquipment)
       return "ProtectiveEquipment";
-    if (this.selectedSessiontype == SessionType.FourIndications)
-      return "FourIndications";
+    if (this.selectedSessiontype == SessionType.FiveIndications)
+      return "FiveIndications";
     if (this.selectedSessiontype == SessionType.HandJewelry)
       return "HandJewelry";
     if (this.selectedSessiontype == SessionType.Gloves)

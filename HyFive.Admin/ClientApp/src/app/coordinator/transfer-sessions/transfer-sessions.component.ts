@@ -23,7 +23,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   sessionTypeOptions = [
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
-    { name: "FourIndications", value: SessionType.FourIndications, type: SessionType[SessionType.FourIndications] },
+    { name: "FiveIndications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
     { name: "HandJewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
   ];
