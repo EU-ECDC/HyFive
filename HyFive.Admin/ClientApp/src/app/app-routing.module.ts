@@ -105,10 +105,10 @@ const routes: Routes = [
     component: ReportComponent,
     children: [
       {
-        path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
+        path: UrlPaths.fiveIndicationsCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fourindicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
+        path: UrlPaths.fiveIndicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
       },
       {
         path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
@@ -119,7 +119,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fourindicationsCompliancePdf
+        redirectTo: UrlPaths.fiveIndicationsCompliancePdf
       }
     ]
   },
