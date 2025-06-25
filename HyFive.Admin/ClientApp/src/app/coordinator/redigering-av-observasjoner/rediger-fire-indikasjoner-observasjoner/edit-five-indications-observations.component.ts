@@ -13,10 +13,10 @@ import {KeyEventService} from "../../../services/events/key-event.service";
 import { FiveIndicatorsObservation } from 'src/app/models/api/FiveIndicatorsObservation';
 
 @Component({
-  selector: 'app-edit-four-indications-observations',
-  templateUrl: './edit-four-indications-observations.component.html'
+  selector: 'app-edit-five-indications-observations',
+  templateUrl: './edit-five-indications-observations.component.html'
 })
-export class EditFourIndicationsObservationsComponent implements OnInit {
+export class EditFiveIndicationsObservationsComponent implements OnInit {
 
   @Input() observations: FiveIndicatorsObservation[]
   @Input() sessionId: string;

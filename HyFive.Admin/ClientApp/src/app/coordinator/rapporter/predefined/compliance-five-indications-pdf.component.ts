@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { SessionType } from 'src/app/models/api/SessionType';
 @Component({
-  selector: 'app-compliance-four-indications-pdf',
-  templateUrl: './compliance-four-indications-pdf.component.html'
+  selector: 'app-compliance-five-indications-pdf',
+  templateUrl: './compliance-five-indications-pdf.component.html'
 })
 
-export class ComplianceFourIndicationsPdfComponent {
+export class ComplianceFiveIndicationsPdfComponent {
   constructor(
     ) { }
 

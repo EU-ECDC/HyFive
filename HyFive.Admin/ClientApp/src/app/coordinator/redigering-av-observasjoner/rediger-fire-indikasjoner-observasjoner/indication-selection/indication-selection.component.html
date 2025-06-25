@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-12" *ngFor="let indication of indicationTypeChoice">
-    <label [htmlFor]="'fourindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
+    <label [htmlFor]="'fiveindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
       <input type="checkbox" class="form-check-input my-2"
              [(ngModel)]="indication.isSelected"
              (ngModelChange)="changed(indication)"
-             [id]="'fourindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)">
-      <label class="form-check-label ps-1 my-2" [for]="'fourindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)">
+             [id]="'fiveindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)">
+      <label class="form-check-label ps-1 my-2" [for]="'fiveindications'+parentId.substr(4)+indicationTypeChoice.indexOf(indication)">
         {{ indication.number }}. {{ indication.name }}
       </label>
     </label>

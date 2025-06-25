@@ -90,12 +90,12 @@
     <h3 class="text-dark mb-3"><strong>Observations</strong></h3>
     <!-- Fireindikasjoner -->
     <ng-container *ngIf="item.type === SessionType[SessionType.FiveIndications]">
-      <app-edit-four-indications-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+      <app-edit-five-indications-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                                    (observationUpdatedEvent)="observationUpdatedEvent.emit(true)"
                                                    (observationDeletedEvent)="observationDeletedEvent.emit(true)"
                                                    [department]="item.department"
                                                    [observations]="item.observations"
-                                                   [sessionId]="item.id"></app-edit-four-indications-observations>
+                                                   [sessionId]="item.id"></app-edit-five-indications-observations>
     </ng-container>
     <!-- HandJewelry -->
     <ng-container *ngIf="item.type === SessionType[SessionType.HandJewelry]">
