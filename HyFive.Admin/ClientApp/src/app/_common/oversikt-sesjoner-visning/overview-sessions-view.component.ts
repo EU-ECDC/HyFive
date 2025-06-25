@@ -74,7 +74,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   getDeleteMessage(sessionOverviewReport: SessionOverviewReport) {
     return `You are about to delete session registered by ${sessionOverviewReport.observerName},
-    created ${this.datePipe.transform(sessionOverviewReport.createdTime, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
+    created ${this.datePipe.transform(sessionOverviewReport.createdDate, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
     Are you sure you want to delete this session?`;
   }
 }
