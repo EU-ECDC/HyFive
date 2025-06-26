@@ -37,7 +37,7 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService) {
     this.institutionService
       .getSelectedInstitution()
-      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView?.department?.id)?.roles);
+      .subscribe(i => this.roles = i?.departments.find(a => a.id === this.sessionView?.department?.id)?.roles);
   }
 
   ngOnInit(): void {
