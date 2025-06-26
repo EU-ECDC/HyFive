@@ -1,20 +1,22 @@
 <div class="row pe-1">
-  <div class="col-6 p-2 text-center" *ngFor="let indication of indicationTypeSelection">
-    <label [htmlFor]="'fiveindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
+  <div class="col-6 p-2 text-center" *ngFor="let indication of indicationTypeSelection; let i = index">
+    <label class="labelStyle" [htmlFor]="'fiveindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)" [ngStyle]="{ 'opacity': indication.disabled ? '0.5' : '1' }">
       <input type="checkbox"
              [(ngModel)]="indication.isSelected"
              (ngModelChange)="changed(indication)"
              [disabled]="isReadonly"
              [id]="'fiveindications'+parentId.substr(4)+indicationTypeSelection.indexOf(indication)"
              class="hh-round-checkbox-list__input">
-      <fa-stack class="hh-round-checkbox-list__iconstack">
+      <div class="icon-wrapper">
+        <div *ngIf="!indication.isSelected" class="circle">{{i + 1}}</div>
+        <fa-stack *ngIf="indication.isSelected" class="hh-round-checkbox-list__iconstack">
         <fa-icon [icon]="faCircle" stackItemSize="2x"
                  class="hh-round-checkbox-list__circle"
                  [ngClass]="{'hh-round-checkbox-list__circle--chosen': indication.isSelected, 'hh-round-checkbox-list__circle--active': isActive}">
         </fa-icon>
-        <fa-icon [icon]="iconTypeMap.get(indication.code)" [styles]="{ 'color': 'black' }" [inverse]="true" stackItemSize="1x" *ngIf="!indication.isSelected"><span [ngStyle]="{'display': (isSelected) ? 'none' : 'block'}" *ngIf="!indication.isSelected">{{indication.number}}</span></fa-icon>
         <fa-icon [icon]="faCheck" [inverse]="true" [styles]="{ 'color': '#333841' }" stackItemSize="1x" *ngIf="indication.isSelected"></fa-icon>
       </fa-stack>
+      </div>
       <br />
       <div class="text-center"><small><strong>{{ indication.name }}</strong></small></div>
     </label>

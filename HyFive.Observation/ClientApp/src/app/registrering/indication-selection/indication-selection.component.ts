@@ -10,7 +10,8 @@ import { IndicationTypeConstants } from '../../models/api/IndicationTypeConstant
 
 @Component({
   selector: 'app-indication-selection',
-  templateUrl: './indication-selection.component.html'
+  templateUrl: './indication-selection.component.html',
+  styleUrls: ['./indication-selection.component.scss']
 })
 export class IndicationSelectionComponent implements OnInit {
 
