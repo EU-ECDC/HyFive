@@ -142,7 +142,7 @@ namespace HyFive.Services.Tests.Hanske
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow
                 },
                 HPRNumber = hprnummer
             }, CancellationToken.None);
@@ -199,7 +199,7 @@ namespace HyFive.Services.Tests.Hanske
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow
                 },
                 HPRNumber = hprnummer
             }, CancellationToken.None);

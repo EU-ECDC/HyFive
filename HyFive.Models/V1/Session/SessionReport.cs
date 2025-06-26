@@ -9,7 +9,7 @@ namespace HyFive.Models.Session
     {
         public string Id { get; set; }
         public string DepartmentName { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime StartDate { get; set; }
         public SessionType Type { get; set; }
         public string InstitutionName { get; set; }
         [TsProperty(ForceNullable = true)]

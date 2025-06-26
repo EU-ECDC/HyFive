@@ -103,7 +103,7 @@ namespace HyFive.Services.Tests.Handsmykke
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow
                 },
                 HprNumber = hprnummer
             }, CancellationToken.None);

@@ -328,7 +328,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                     InstitutionsName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow,
+                    CreatedDate = DateTime.UtcNow,
                     Observations = new List<ProtectiveEquipmentObservation>()
                     {
                         new ProtectiveEquipmentObservation()
