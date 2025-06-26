@@ -109,7 +109,7 @@ export class CompliancePdfComponent {
     }
 
     url += '/department/pdf/';
-    url += `?fromTime=${this.fromDate}&toTime=${this.toDate}`;
+    url += `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
     url += `&role=${this.selectedRole}`;
     url += `&institutionId=${this.selectedInstitutionId}&departmentId=${this.selectedDepartmentId}`;
 ''

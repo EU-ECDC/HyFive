@@ -1,15 +1,15 @@
 ﻿using HyFive.DataAccess;
+using HyFive.Domain.Observation;
+using HyFive.Domain.Observation.Gloves;
+using HyFive.Domain.Observation.ProtectiveEquipment;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Session;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Domain.Observation;
-using HyFive.Domain.Observation.ProtectiveEquipment;
-using HyFive.Domain.Observation.Gloves;
-using HyFive.Models.V1.Session;
-using Microsoft.EntityFrameworkCore;
-using HyFive.Models.V1.Constants;
 
 namespace HyFive.Services.Report.Observations
 {
@@ -37,13 +37,17 @@ namespace HyFive.Services.Report.Observations
             public async Task<bool> Handle(Query query, CancellationToken cancellationToken)
             {
                 var hasData = false;
+
+                var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(query.ToDate.Date, DateTimeKind.Utc);
+
                 if (query.SessionType == (int)SessionType.FiveIndications)
                 {
                     var queryable = _context.FiveIndicationsObservation
                         .Include(p => p.FiveIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Institution)
                         .AsNoTracking();
 
-                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, query.FromDate, query.ToDate, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -53,7 +57,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.HandJewelrySession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = LeggTilSøkeParametere(queryable, query.InstitutionId, query.DepartmentId, query.FromDate, query.ToDate, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -63,7 +67,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.GloveSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = LeggTilSøkeParametere(queryable, query.InstitutionId, query.DepartmentId, query.FromDate, query.ToDate, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -73,7 +77,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.ProtectiveEquipmentSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = LeggTilSøkeParametere(queryable, query.InstitutionId, query.DepartmentId, query.FromDate, query.ToDate, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -81,19 +85,16 @@ namespace HyFive.Services.Report.Observations
                 return hasData;
             }
 
-            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, int institutionId, int? avdelingId, 
-                DateTime fraDato, DateTime tilDato, AuthorizedRole role)
+            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, int institutionId, int? departmentId, 
+                DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
                 queryable = queryable.Where(p => p.FiveIndicationsSession.Department.InstitutionId == institutionId);
-                if (avdelingId != null)
-                    queryable = queryable.Where(p => p.FiveIndicationsSession.Department.Id == avdelingId);
+                if (departmentId != null)
+                    queryable = queryable.Where(p => p.FiveIndicationsSession.Department.Id == departmentId);
 
-                var fromDateUtc = DateTime.SpecifyKind(fraDato.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(tilDato.Date, DateTimeKind.Utc);
-
-                queryable = queryable.Where(p => p.RegisteredTime >= fromDateUtc);
-                queryable = queryable.Where(p => p.RegisteredTime <= toDateUtc);
+                queryable = queryable.Where(p => p.RegisteredTime >= fromDate);
+                queryable = queryable.Where(p => p.RegisteredTime <= toDate);
 
                 if (role == AuthorizedRole.Administrator)
                     queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
@@ -101,52 +102,52 @@ namespace HyFive.Services.Report.Observations
                 return queryable;
             }
 
-            private static IQueryable<HandJewelryObservation> LeggTilSøkeParametere(IQueryable<HandJewelryObservation> queryable, int institusjonId, int? avdelingId, 
-                DateTime fraDato, DateTime tilDato, AuthorizedRole rolle)
+            private static IQueryable<HandJewelryObservation> AddSearchParameters(IQueryable<HandJewelryObservation> queryable, int institutionId, int? departmentId, 
+                DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.HandJewelrySession.Department.InstitutionId == institusjonId);
-                if (avdelingId != null)
-                    queryable = queryable.Where(p => p.HandJewelrySession.Department.Id == avdelingId);
+                queryable = queryable.Where(p => p.HandJewelrySession.Department.InstitutionId == institutionId);
+                if (departmentId != null)
+                    queryable = queryable.Where(p => p.HandJewelrySession.Department.Id == departmentId);
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
-                if (rolle == AuthorizedRole.Administrator)
+                if (role == AuthorizedRole.Administrator)
                     queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }
 
-            private static IQueryable<GloveObservation> LeggTilSøkeParametere(IQueryable<GloveObservation> queryable, int institusjonId, int? avdelingId, 
-                DateTime fraDato, DateTime tilDato, AuthorizedRole rolle)
+            private static IQueryable<GloveObservation> AddSearchParameters(IQueryable<GloveObservation> queryable, int institutionId, int? departmentId, 
+                DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.GloveSession.Department.InstitutionId == institusjonId);
-                if (avdelingId != null)
-                    queryable = queryable.Where(p => p.GloveSession.Department.Id == avdelingId);
+                queryable = queryable.Where(p => p.GloveSession.Department.InstitutionId == institutionId);
+                if (departmentId != null)
+                    queryable = queryable.Where(p => p.GloveSession.Department.Id == departmentId);
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
-                if (rolle == AuthorizedRole.Administrator)
+                if (role == AuthorizedRole.Administrator)
                     queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;
             }
 
-            private static IQueryable<ProtectiveEquipmentObservation> LeggTilSøkeParametere(IQueryable<ProtectiveEquipmentObservation> queryable, int institusjonId, int? avdelingId, 
-                DateTime fraDato, DateTime tilDato, AuthorizedRole rolle)
+            private static IQueryable<ProtectiveEquipmentObservation> AddSearchParameters(IQueryable<ProtectiveEquipmentObservation> queryable, int institutionId, int? departmentId, 
+                DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.InstitutionId == institusjonId);
-                if (avdelingId != null)
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.Id == avdelingId);
+                queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.InstitutionId == institutionId);
+                if (departmentId != null)
+                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.Id == departmentId);
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fraDato.Date);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= tilDato.Date);
+                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
+                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
-                if (rolle == AuthorizedRole.Administrator)
+                if (role == AuthorizedRole.Administrator)
                     queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
 
                 return queryable;

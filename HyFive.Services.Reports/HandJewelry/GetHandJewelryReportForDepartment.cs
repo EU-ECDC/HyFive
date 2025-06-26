@@ -54,6 +54,9 @@ namespace HyFive.Services.Reports.HandJewelry
 
             private ReportForUnit CreateDepartmentReport(Query request)
             {
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
+
                 var sessions = _context.Session.OfType<HandJewelrySession>()
                     .AsNoTracking()
                     .Include(p => p.TransferStatus)
@@ -61,8 +64,8 @@ namespace HyFive.Services.Reports.HandJewelry
                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToDateTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
@@ -77,6 +80,9 @@ namespace HyFive.Services.Reports.HandJewelry
 
             private ReportForUnit CreateInstitutionReport(Query request)
             {
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
+
                 var sessions = _context.Session.OfType<HandJewelrySession>()
                    .AsNoTracking()
                    .Include(p => p.TransferStatus)
@@ -84,8 +90,8 @@ namespace HyFive.Services.Reports.HandJewelry
                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                    .Where(s =>
                        s.Department.InstitutionId == request.InstitutionId
-                       && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDateTime.Date)
-                       && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToDateTime.Date))
+                       && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                       && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                    .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
