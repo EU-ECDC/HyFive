@@ -68,9 +68,9 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     );
   }
 
-  getComplianceForFourIndications() {
+  getComplianceForFiveIndications() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.graphService.getComplianceForFourIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
+    this.graphService.getComplianceForFiveIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
       (grafer) => {
 
         let percentageGraph = grafer[0];

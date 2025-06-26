@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { FourIndicationsSessionService } from "../services/data/four-indications-session.service";
+import { FiveIndicationsSessionService } from "../services/data/five-indications-session.service";
 import { InstitutionService } from "../services/data/InstitutionService";
 import { Institution } from "../models/api/Institution";
 import { RoleSelected } from "../models/registration/roleSelected.model";
@@ -39,7 +39,7 @@ export class HomePageForObservationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private institutionService: InstitutionService,
@@ -70,9 +70,9 @@ export class HomePageForObservationComponent implements OnInit {
       .getInstitutions()
       .subscribe((institutions: Institution[]) => {
         this.institutionOptions = institutions;
-        let enesteInstitusjon: Institution = null;
+        let onlyInstitution: Institution = null;
         if (this.institutionOptions?.length == 1) {
-          enesteInstitusjon = this.institutionOptions[0];
+          onlyInstitution = this.institutionOptions[0];
         }
 
         this.institutionService
@@ -81,10 +81,10 @@ export class HomePageForObservationComponent implements OnInit {
             if (selectedInstitution) {
               this.institution = selectedInstitution;
             }
-            if (!selectedInstitution && enesteInstitusjon) {
-              this.institution = enesteInstitusjon;
+            if (!selectedInstitution && onlyInstitution) {
+              this.institution = onlyInstitution;
               this.institutionService.updateSelectedInstitutionId(
-                enesteInstitusjon.id
+                onlyInstitution.id
               );
             }
             this.selectedInstitutionOptionId = this.institution
@@ -112,8 +112,8 @@ export class HomePageForObservationComponent implements OnInit {
       case SessionType.NotSelected:
         alert("Select the sessionType you want to start");
         break;
-      case SessionType.FourIndications:
-        this.startFourIndicationsSession();
+      case SessionType.FiveIndications:
+        this.startFiveIndicationsSession();
         break;
       case SessionType.HandJewelry:
         this.startHandJewelrySession();
@@ -135,15 +135,15 @@ export class HomePageForObservationComponent implements OnInit {
     }
   }
 
-  startFourIndicationsSession() {
-    let sessionId = this.fourIndicationsSessionService.createSessionView(
+  startFiveIndicationsSession() {
+    let sessionId = this.fiveIndicationsSessionService.createSessionView(
       this.gloveUse,
       this.timekeeping,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.getSelectedDepartment()
     );
 
-    this.router.navigate([Urls.RegisterFourndicationsUrl], {
+    this.router.navigate([Urls.RegisterFiveIndicationsUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
@@ -181,6 +181,7 @@ export class HomePageForObservationComponent implements OnInit {
       (x) => x.id === this.selectedInstitutionOptionId
     );
     this.selectedDepartmentId = null;
+    this.selectedSessionType = SessionType.NotSelected;
     this.selectedDepartmentChanged();
   }
 
@@ -191,7 +192,7 @@ export class HomePageForObservationComponent implements OnInit {
   }
 
   selectedDepartmentChanged() {
-    this.roleSelected = this.institution.departments
+    this.roleSelected = this.institution?.departments
       .find((x) => x.id === parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;

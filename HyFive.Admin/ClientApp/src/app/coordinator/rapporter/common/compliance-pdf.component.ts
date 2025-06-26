@@ -102,14 +102,14 @@ export class CompliancePdfComponent {
   private downloadPdf(): Observable<any> {
     let url = '/api/v1/report/';
 
-    if (this.sessionType == SessionType.FourIndications) {
-      url += 'fourindications';
+    if (this.sessionType == SessionType.FiveIndications) {
+      url += 'fiveindications';
     } else if (this.sessionType == SessionType.HandJewelry) {
       url += 'handjewelry';
     }
 
     url += '/department/pdf/';
-    url += `?fromTime=${this.fromDate}&toTime=${this.toDate}`;
+    url += `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
     url += `&role=${this.selectedRole}`;
     url += `&institutionId=${this.selectedInstitutionId}&departmentId=${this.selectedDepartmentId}`;
 ''

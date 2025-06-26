@@ -1,0 +1,39 @@
+<app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
+<div class="container" *ngIf='isOnline'>
+  <app-navigation-link (linkClicked)="navigateToSentSessions()">Back</app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Sendt session - Five indications'"></app-session-edit-header>
+</div>
+<app-session-statistics *ngIf='isOnline' [session]="session"> </app-session-statistics>
+
+<div class="container" *ngIf="isOnline">
+  <div class="accordion-compact mb-4">
+    <app-accordion
+      [items]="session?.observations"
+      [headerTemplate]="header"
+      [contentTemplate]="content"
+    ></app-accordion>
+    <ng-template #header let-item="item">
+      <div>
+        <p class="mb-1"><strong>{{item.role.name}} - {{ item.registrationTime | date:'HH:mm' }}</strong></p>
+        <p class="mb-0 lh-1"><small>{{ getIngress(item)}}</small></p>
+      </div>
+    </ng-template>
+    <ng-template #content let-item="item">
+      <app-edit-five-indications-observation
+        [observation]="item"
+        [department]="session.department"
+        [isReadonly]="true">
+      </app-edit-five-indications-observation>
+    </ng-template>
+  </div>
+  
+  <p *ngIf="session?.comment">Comment: <small><strong data-hj-suppress>{{session.comment}}</strong></small></p>
+
+  <div class="text-end" *ngIf="session?.observations?.length > 0">
+    <button  class="btn fhi-btn-icon" (click)="downloadAsExcelFnct()" >
+      <i class="icon-download"></i>
+      {{ DialogueTexts.DownloadDataAsExcel }}
+    </button>
+      <app-spinner *ngIf="downloadAsExcel"></app-spinner>
+  </div>
+</div>

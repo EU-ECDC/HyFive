@@ -69,8 +69,8 @@ export class SentSessionsComponent {
 
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
-      case SessionType.FourIndications:
-        return Urls.SentFourIndicationsSessionUrl;
+      case SessionType.FiveIndications:
+        return Urls.SentFiveIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.SentHandJewelrySessionUrl;
       case SessionType.ProtectiveEquipment:

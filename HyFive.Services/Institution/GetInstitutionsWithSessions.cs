@@ -77,8 +77,8 @@ namespace HyFive.Services.Institution
                 {
                     case SessionType.ProtectiveEquipment:
                         return GetNumberOfObservationsForProtectiveEquipment(departmentId, query);
-                    case SessionType.FourIndications:
-                        return GetNumberOfObservationsForFourIndications(departmentId, query);
+                    case SessionType.FiveIndications:
+                        return GetNumberOfObservationsForFiveIndications(departmentId, query);
                     case SessionType.Gloves:
                         return GetNumberOfObservationsForGloves(departmentId, query);
                     case SessionType.HandJewelry:
@@ -92,7 +92,7 @@ namespace HyFive.Services.Institution
             {
                 return 
                     GetNumberOfObservationsForProtectiveEquipment(avdelingId, query)
-                    + GetNumberOfObservationsForFourIndications(avdelingId, query)
+                    + GetNumberOfObservationsForFiveIndications(avdelingId, query)
                     + GetNumberOfObservationsForGloves(avdelingId, query)
                     + GetNumberOfObservationsForHandJewelry(avdelingId, query);
             }
@@ -119,13 +119,13 @@ namespace HyFive.Services.Institution
                                  && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
 
-            private int GetNumberOfObservationsForFourIndications(int departmentId, Query query)
+            private int GetNumberOfObservationsForFiveIndications(int departmentId, Query query)
             {
-                return _context.FourIndicationsObservation
+                return _context.FiveIndicationsObservation
                     .AsNoTracking()
-                    .Include(b => b.FourIndicationsSession)
-                    .Count(bo => bo.FourIndicationsSession.Department.Id == departmentId 
-                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.FourIndicationsSession.TransferStatus.Code)
+                    .Include(b => b.FiveIndicationsSession)
+                    .Count(bo => bo.FiveIndicationsSession.Department.Id == departmentId 
+                                 && TransferStatusTypeConstants.GetTransferStatusTypes(query.TransferStatusType).Contains(bo.FiveIndicationsSession.TransferStatus.Code)
                                  && (query.FromDate == null || bo.RegisteredTime.Date >= query.FromDate.Value.Date)
                                  && (query.ToDate == null || bo.RegisteredTime.Date <= query.ToDate.Value.Date));
             }
@@ -145,8 +145,8 @@ namespace HyFive.Services.Institution
             {
                 switch (type)
                 {
-                    case SessionType.FourIndications:
-                        return nameof(Domain.Session.FourIndicationsSession);
+                    case SessionType.FiveIndications:
+                        return nameof(Domain.Session.FiveIndicationsSession);
                     case SessionType.HandJewelry:
                         return nameof(Domain.Session.HandJewelrySession);
                     case SessionType.ProtectiveEquipment:

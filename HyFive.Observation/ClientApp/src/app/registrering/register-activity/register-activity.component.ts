@@ -49,11 +49,11 @@ export class RegisterActivityComponent implements OnInit {
 
   getActivityText() {
     if (this.activityType?.code === ActivityTypeConstants.Disinfection)
-      return 'Alcohol';
+      return 'Spirit';
     if (this.activityType?.code === ActivityTypeConstants.Handwash)
       return 'Wash';
-    if(this.activityType?.code === ActivityTypeConstants.NotExecuted)
-      return 'Not executed';
+    if(this.activityType?.code === ActivityTypeConstants.NotPerformed)
+      return 'Not Done';
   }
 
   registerActivity(modalName) {

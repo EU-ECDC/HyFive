@@ -86,7 +86,7 @@ var authentication_failed_modal_component_1 = require("./shared/authentication-f
 var http_1 = require("@angular/common/http");
 var authentication_failed_error_interceptor_1 = require("./http-interceptors/authentication-failed-error.interceptor");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var edit_four_indications_observations_component_1 = require("./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-four-indications-observations.component");
+var edit_five_indications_observations_component_1 = require("./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-five-indications-observations.component");
 var edit_handjewelry_observations_component_1 = require("./coordinator/redigering-av-observasjoner/edit-handjewelry-observations/edit-handjewelry-observations.component");
 var edit_glove_observations_component_1 = require("./coordinator/redigering-av-observasjoner/edit-glove-observations/edit-glove-observations.component");
 var indication_selection_component_1 = require("./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indication-selection/indication-selection.component");
@@ -112,7 +112,7 @@ var sortable_column_component_1 = require("./shared/sorting/sortable-column.comp
 var sortable_table_directive_1 = require("./shared/sorting/sortable-table.directive");
 var sort_service_1 = require("./shared/sorting/sort.service");
 var download_excel_component_1 = require("./coordinator/rapporter/download/download-excel.component");
-var compliance_four_indications_pdf_component_1 = require("./coordinator/rapporter/predefined/compliance-four-indications-pdf.component");
+var compliance_five_indications_pdf_component_1 = require("./coordinator/rapporter/predefined/compliance-five-indications-pdf.component");
 var compliance_handJewelry_pdf_component_1 = require("./coordinator/rapporter/predefined/compliance-handJewelry-pdf.component");
 var compliance_pdf_component_1 = require("./coordinator/rapporter/common/compliance-pdf.component");
 exports.httpInterceptorProviders = [
@@ -161,7 +161,7 @@ var AppModule = function () {
                 overview_fhiadmin_component_1.OverviewFhiAdminComponent,
                 edit_fhiadmin_component_1.EditFhiAdminComponent,
                 authentication_failed_modal_component_1.AuthenticationFailedModalComponent,
-                edit_four_indications_observations_component_1.EditFourIndicationsObservationsComponent,
+                edit_five_indications_observations_component_1.EditFiveIndicationsObservationsComponent,
                 edit_handjewelry_observations_component_1.EditHandjewelryObservationsComponent,
                 edit_glove_observations_component_1.EditGloveObservationsComponent,
                 edit_protective_equipment_observations_component_1.EditProtectiveEquipmentObservationsComponent,
@@ -180,7 +180,7 @@ var AppModule = function () {
                 sortable_column_component_1.SortableColumnComponent,
                 sortable_table_directive_1.SortableTableDirective,
                 download_excel_component_1.DownloadExcelComponent,
-                compliance_four_indications_pdf_component_1.ComplianceFourIndicationsPdfComponent,
+                compliance_five_indications_pdf_component_1.ComplianceFiveIndicationsPdfComponent,
                 compliance_handJewelry_pdf_component_1.ComplianceHandJewelryPdfComponent,
                 compliance_pdf_component_1.CompliancePdfComponent
             ],

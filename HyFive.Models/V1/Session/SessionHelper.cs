@@ -10,8 +10,8 @@ namespace HyFive.Models.V1.Session
         {
             switch (discriminator)
             {
-                case nameof(FourIndicationsSession):
-                    return SessionType.FourIndications;
+                case nameof(FiveIndicationsSession):
+                    return SessionType.FiveIndications;
                 case nameof(HandJewelrySession):
                     return SessionType.HandJewelry;
                 case nameof(ProtectiveEquipmentSession):

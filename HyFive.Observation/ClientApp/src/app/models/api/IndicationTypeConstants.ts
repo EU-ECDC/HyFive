@@ -8,4 +8,5 @@ export abstract class IndicationTypeConstants
 	public static AsepticProcedures: string = `ASEPTIC_PROCEDURES`;
 	public static BodyFluid: string = `BODY_FLUID`;
 	public static AfterPatient: string = `AFTER_PATIENT`;
+	public static PatientsSurroundings = `PATIENTS_SURROUNDINGS`;
 }

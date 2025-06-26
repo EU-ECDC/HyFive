@@ -1,4 +1,4 @@
-﻿using HyFive.Services.Reports.FourIndicators;
+﻿using HyFive.Services.Reports.FiveIndicators;
 using HyFive.Services.Reports.QuickChart;
 using iTextSharp.text.pdf;
 using System;
@@ -16,7 +16,7 @@ namespace HyFive.Services.Reports
 
         public static PdfReader ReadCopyOfPdfTemplateFromFile(string resourceName)
         {
-            var departmentTemplateStream = typeof(FourIndicationsPDFReportService).Assembly.GetManifestResourceStream(resourceName);
+            var departmentTemplateStream = typeof(FiveIndicationsPDFReportService).Assembly.GetManifestResourceStream(resourceName);
             var originalPdfReader = new PdfReader(departmentTemplateStream);
             var independentDuplicateReader = new PdfReader(originalPdfReader);
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using HyFive.Models.V1.Session;
-using HyFive.Services.FourIndication;
-using HyFive.Services.Reports.FourIndicators;
+using HyFive.Services.FiveIndication;
+using HyFive.Services.Reports.FiveIndicators;
 using HyFive.Services.Reports.HandJewelry;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ namespace HyFive.Api.Common.ExtensionMethods
             services.AddSwagger(apiTitle, apiType);
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(GetMediatRAssemblies()));
             services.AddAutoMapper(GetAutomapperAssemblies());
-            services.AddScoped<FourIndicationsPDFReportService>();
+            services.AddScoped<FiveIndicationsPDFReportService>();
             services.AddScoped<HandJewelryPdfReportService>();
 
             return services;
@@ -29,8 +29,8 @@ namespace HyFive.Api.Common.ExtensionMethods
             return new[]
             {
                 Assembly.GetAssembly(typeof(SaveSession)), // HyFive.Services
-                Assembly.GetAssembly(typeof(FourIndicationsSession)), // HyFive.Domain
-                Assembly.GetAssembly(typeof(Models.V1.Session.FourIndicationsSession)), // HyFive.Models
+                Assembly.GetAssembly(typeof(FiveIndicationsSession)), // HyFive.Domain
+                Assembly.GetAssembly(typeof(Models.V1.Session.FiveIndicationsSession)), // HyFive.Models
             };
         }
 

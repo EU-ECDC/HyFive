@@ -135,6 +135,18 @@ export const faFour: IconDefinition = {
   ]
 };
 
+export const faFive: IconDefinition = {
+  prefix: 'fal',
+  iconName: 'five',
+  icon: [
+    1024,
+    1600,
+    [],
+    '#000000',
+    'M128 1180q-11-26 7-45l86-84q20-20 45-2 40 30 102 52.5T512 1124q99 0 160.5-53t61.5-141q0-82-70.5-131.5T429 750H320q-38 0-38-42v-85q0-21 10.5-32t30.5-11h109q126 0 198.5-52t72.5-139q0-83-61.5-134.5T512 203q-123 0-224 102-10 12-25 13.5T232 307l-73-65q-13-11-12-28t14-27q60-59 156.5-104.5T512 64q160 0 266 92.5T884 326q0 93-55.5 163T672 616v6q69 24 127 76t92 114.5T889 999q0 138-107.5 222.5T512 1306q-117 0-205.5-34.5T138 1222q-8-10-10-22z'
+  ]
+};
+
 export const faNewCardArrow: IconDefinition = {
   prefix: 'fal',
   iconName: 'nyttkortpil',

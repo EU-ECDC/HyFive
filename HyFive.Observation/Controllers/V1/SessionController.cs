@@ -37,10 +37,10 @@ namespace HyFive.Observation.Controllers.V1
             return result;
         }
 
-        [HttpGet("fourIndications", Name = "GetFourIndicationsSession")]
-        public async Task<FourIndicationsSession> GetFourIndicationsSession([FromQuery] Guid sessionId)
+        [HttpGet("fiveIndications", Name = "GetFiveIndicationsSession")]
+        public async Task<FiveIndicationsSession> GetFiveIndicationsSession([FromQuery] Guid sessionId)
         {
-            var session = await _mediator.Send(new GetFourIndicationsSession.Query()
+            var session = await _mediator.Send(new GetFiveIndicationsSession.Query()
             {
                 HPRNumber = _userService.GetHprNumber(),  
                 Pseudonym =  _userService.GetPseudonym(), 

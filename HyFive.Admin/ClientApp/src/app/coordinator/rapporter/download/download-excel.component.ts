@@ -99,7 +99,7 @@ export class DownloadExcelComponent {
             this.storedReport = true;
 
             let baseUrl = SessionTypeReportUrlMapper.getReportUrlMap().get(this.selectedSessiontype);
-            let url = `${baseUrl}?fromTime=${this.fromDate}&toTime=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&role=${this.selectedRole}`;
+            let url = `${baseUrl}?fromDate=${this.fromDate}&toDate=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&role=${this.selectedRole}`;
         
             this.downloadExcel(url).subscribe(() => {
               this.storedReport = false;

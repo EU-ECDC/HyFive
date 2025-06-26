@@ -113,7 +113,7 @@ namespace HyFive.Services.User
 
             private void DeleteFourIndicatorsSessionsAndObservations(int userId)
             {
-                var sessions = _context.Session.OfType<FourIndicationsSession>()
+                var sessions = _context.Session.OfType<FiveIndicationsSession>()
                     .Include(s => s.Observer)
                     .Include(s => s.Observations)
                     .ThenInclude(o => o.Activity)
@@ -125,7 +125,7 @@ namespace HyFive.Services.User
                         session.Observations.Select(o => o.Activity).ToList();
 
                     _context.Activity.RemoveRange(activities);
-                    _context.FourIndicationsObservation.RemoveRange(session.Observations);
+                    _context.FiveIndicationsObservation.RemoveRange(session.Observations);
 
                     _context.Session.Remove(session);
                 }

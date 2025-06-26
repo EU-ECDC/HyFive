@@ -91,7 +91,7 @@ export class EditGloveObservationsComponent implements OnInit{
     });
 
     this.selectedHygieneAfterGloveuseCode = this.gloveObservationAsChanged.postGloveHandHygieneType?.code;
-    this.gloveWithIndicationsSelected = this.gloveWithIndicationTypes.filter(h => h.isSelected).length > 0;
+    this.gloveWithIndicationsSelected = this.gloveWithIndicationTypes?.filter(h => h.isSelected).length > 0;
     if(this.gloveWithIndicationsSelected){
       this.gloveObservationAsChanged.indicatedGloveTypes = [];
     }
