@@ -49,6 +49,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             {
                 var department = _context.Department.AsNoTracking().First(a => a.Id == request.DepartmentId);
 
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+
                 var departmentSessionsWithObservations = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
@@ -61,8 +64,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Id == request.DepartmentId
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
@@ -97,6 +100,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             {
                 var comparedDepartment = _context.Department.AsNoTracking().Include(a => a.DepartmentType).First(a => a.Id == request.DepartmentId);
 
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+
                 var SessionsOfComparableDepartments = await _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
@@ -112,8 +118,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                     .Where(s =>
                         s.Department.Id != request.DepartmentId
                         && s.Department.DepartmentType.Code == comparedDepartment.DepartmentType.Code
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date)
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc)
                         && s.Observations.Any())
                     .ToListAsync();
 
@@ -125,8 +131,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                 foreach (var session in SessionsOfComparableDepartments)
                 {
                     session.Observations = session.Observations.Where(o =>
-                            o.RegisteredTime.Date >= request.FromDate.Date &&
-                            o.RegisteredTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= fromDateUtc &&
+                            o.RegisteredTime.Date <= toDateUtc)
                         .ToList();
                 }
 
@@ -147,6 +153,9 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private FiveIndicatorsReport GetInstitutionData(Query request)
             {
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+
                 var institutionId = _context.Department
                     .AsNoTracking()
                     .Select(a => new { DepartmentId = a.Id, a.InstitutionId })
@@ -173,8 +182,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.InstitutionId == institutionId
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
@@ -185,8 +194,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                 foreach (var sesjon in institutionSessionsMinusRequestedDepartment)
                 {
                     sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegisteredTime.Date >= request.FromDate.Date &&
-                            o.RegisteredTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date >= fromDateUtc &&
+                            o.RegisteredTime.Date <= toDateUtc)
                         .ToList();
                 }
 
@@ -225,6 +234,9 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private FiveIndicatorsReport GetClinicReport(int clinicId, Query request)
             {
+                var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+
                 var AssociatedClinicSessions = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
@@ -241,8 +253,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
                         s.Department.Clinics.Any(k => k.Id == clinicId)
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= request.FromDate.Date)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= request.ToTime.Date))
+                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
+                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
@@ -250,11 +262,11 @@ namespace HyFive.Services.Reports.FiveIndicators
                     AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
-                foreach (var sesjon in AssociatedClinicSessions)
+                foreach (var session in AssociatedClinicSessions)
                 {
-                    sesjon.Observations = sesjon.Observations.Where(o =>
-                            o.RegisteredTime.Date >= request.FromDate.Date &&
-                            o.RegisteredTime.Date <= request.ToTime.Date)
+                    session.Observations = session.Observations.Where(o =>
+                            o.RegisteredTime.Date >= fromDateUtc &&
+                            o.RegisteredTime.Date <= toDateUtc)
                         .ToList();
                 }
 

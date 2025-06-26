@@ -23,9 +23,9 @@ namespace HyFive.Services.Reports.HandJewelry
         {
             CreateRoleToColorMap(report);
 
-            var grafForAvdeling = CreateGraph(report.ReportForDepartment, "Report for department");
-            var grafForInstitusjon = CreateGraph(report.ReportForInstitution, "Report for institution");
-            var pdf = CreatePdf(grafForAvdeling, grafForInstitusjon, report);
+            var grafForDepartment = CreateGraph(report.ReportForDepartment, "Report for department");
+            var graphForInstitution = CreateGraph(report.ReportForInstitution, "Report for institution");
+            var pdf = CreatePdf(grafForDepartment, graphForInstitution, report);
 
             return pdf;
         }
