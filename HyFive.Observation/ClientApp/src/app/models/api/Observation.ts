@@ -8,7 +8,7 @@ export interface Observation
 {
 	id: string;
 	role: Role;
-	registrationTime?: Date;
+	registeredTime?: Date;
 	sessionId: string;
 	comment?: string;
 }

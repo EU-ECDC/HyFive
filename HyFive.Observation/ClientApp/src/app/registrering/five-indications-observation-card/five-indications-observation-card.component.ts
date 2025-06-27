@@ -121,7 +121,7 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
       role: this.card.role,
       activity: this.activity,
       indicationTypes: this.selectedIndications,
-      registrationTime: new Date(Date.now())
+      registeredTime: new Date(Date.now())
     }
 
     this.observationRegister.emit(observation);

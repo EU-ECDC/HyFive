@@ -47,7 +47,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
   ngOnInit(): void {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
-      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelry.map(x => x?.code));
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelry?.map(x => x?.code));
       this.handJewelrySelection.forEach(x => this.changed(x));
     });
   }
@@ -58,11 +58,11 @@ export class EditHandJewelryObservationComponent implements OnInit {
 
   changed(selection: HandJewelrySelection) {
     if (selection.isSelected && selection.type == HandJewelryTypeConstants.AllOk)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
+      this.handJewelrySelection = this.handJewelrySelection?.map(x => { if (x.type !== HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable all
     else if (selection.isSelected && selection.type != HandJewelryTypeConstants.AllOk)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
+      this.handJewelrySelection = this.handJewelrySelection?.map(x => { if (x.type === HandJewelryTypeConstants.AllOk) { x.disabled = true; x.isSelected = false; } return x; }) // disable anyway
     else if (this.numberOfHandJewelrySelected () < 1)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
+      this.handJewelrySelection = this.handJewelrySelection?.map(x => { x.disabled = false; return x; }) // enable all
   }
 
   saveObservation() {
