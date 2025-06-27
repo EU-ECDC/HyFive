@@ -90,7 +90,7 @@ namespace HyFive.Services.Tests.Handsmykke
                         {
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
-                            RegistrationTime = DateTime.UtcNow,
+                            RegisteredTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             HandJewelries = new List<HandJewelryType>()

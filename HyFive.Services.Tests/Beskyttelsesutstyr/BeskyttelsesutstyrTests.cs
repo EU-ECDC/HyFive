@@ -336,7 +336,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                             Id = observasjonId.ToString(),
                             SessionId = sesjonId.ToString(),
                             Comment = "Observasjon kommentar",
-                            RegistrationTime = DateTime.UtcNow,
+                            RegisteredTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SettingType = new Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType()
                             {
