@@ -28,7 +28,7 @@ export class MissedOpportunityComponent implements OnInit {
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activity = {
         activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotPerformed),
-        timeRecordingWasDone: false,
+        TimingWasPerformed: false,
         gloveUsed: null
       };
     });

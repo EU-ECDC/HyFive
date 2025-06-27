@@ -48,7 +48,7 @@
                                          [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
                                          [isRegistered]="isActivitySelected(ActivityTypeConstants.Disinfection)"
                                          [timekeeping]="false"
-                                         [seconds]="isActivitySelected(ActivityTypeConstants.Disinfection) ? observation.activity?.timeSpent : 0"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Disinfection) ? observation.activity?.secondsUsed : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandHoldingWater"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -61,7 +61,7 @@
                                          [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
                                          [isRegistered]="isActivitySelected(ActivityTypeConstants.Handwash)"
                                          [timekeeping]="false"
-                                         [seconds]="isActivitySelected(ActivityTypeConstants.Handwash) ? observation.activity?.timeSpent : 0"
+                                         [seconds]="isActivitySelected(ActivityTypeConstants.Handwash) ? observation.activity?.secondsUsed : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandsWash"
                                          (activityRegisteredEvent)="registerActivity($event)">
@@ -80,9 +80,9 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="isEditMode && observation.activity.timeSpent > 0 && !showActivityTypeNotExecuted">
+      <div class="row mt-n3" *ngIf="isEditMode && observation.activity.secondsUsed > 0 && !showActivityTypeNotExecuted">
         <div class="col-12 text-center mb-2">
-          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.timeSpent = 0">
+          <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.secondsUsed = 0">
             <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
           </button>
         </div>

@@ -21,7 +21,7 @@
                              [parentId]="card.id">
         </app-indication-selection>
 
-        <div class="row mt-n3" *ngIf="activity?.timeSpent > 0">
+        <div class="row mt-n3" *ngIf="activity?.secondsUsed > 0">
           <div class="col-12 text-center mb-2 mt-4">
             <button class="btn hh-transparent-button hh-transparent-button--small" (click)="removeTimeRegistration()">
               <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
@@ -44,7 +44,7 @@
               <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Disinfection)"
                                        [isRegistered]="isRegistered(ActivityTypeConstants.Disinfection)"
                                        [parentId]="card.id"
-                                       [seconds]="activity?.timeSpent"
+                                       [seconds]="activity?.secondsUsed"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
                                        [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
@@ -56,7 +56,7 @@
               <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Handwash)"
                                        [isRegistered]="isRegistered(ActivityTypeConstants.Handwash)"
                                        [parentId]="card.id"
-                                       [seconds]="activity?.timeSpent"
+                                       [seconds]="activity?.secondsUsed"
                                        [timekeeping]="sessionView.timeShouldBeRegistred"
                                        [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
                                        [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"

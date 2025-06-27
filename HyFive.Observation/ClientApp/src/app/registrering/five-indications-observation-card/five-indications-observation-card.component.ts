@@ -136,8 +136,8 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   }
 
   removeTimeRegistration(){
-    this.activity.timeSpent = 0;
-    this.activity.timeRecordingWasDone = false;
+    this.activity.secondsUsed = 0;
+    this.activity.TimingWasPerformed = false;
   }
   indicationSelectionChanged(selectedIndications: IndicationType[]) {
     this.selectedIndications = selectedIndications;
