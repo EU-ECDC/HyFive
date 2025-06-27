@@ -43,6 +43,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<FiveIndicationsSession, Models.V1.Session.FiveIndicationsSession>(MemberList.None)
                 .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
+                .ForMember(dst => dst.CreatedDate, opt => opt.MapFrom(src => src.Observer.Institution.CreatedTime))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<FiveIndicationsObservation, Models.V1.Observation.FiveIndicatorsObservation>(MemberList
                 .None);

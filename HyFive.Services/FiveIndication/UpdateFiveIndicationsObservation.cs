@@ -65,7 +65,7 @@ namespace HyFive.Services.FiveIndication
                     observation.Activity.SecondsUsed = request.Observation.Activity.SecondsUsed;
                     observation.Activity.TimingWasPerformed = request.Observation.Activity.TimingWasPerformed;
 
-                    observation.RegisteredTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
                     observation.Role = roleFromRequest;

@@ -102,14 +102,14 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
       else {
         this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotPerformedId.NotPerformed.toString();
       }
-      activity.timeSpent = this.observation.activity.timeSpent;
+      activity.secondsUsed = this.observation.activity.secondsUsed;
       this.observation.activity = !this.notPerformedActivity ? activity : this.notPerformedActivity;
       this.notPerformedActivity = null;
     }
     else {
       this.showActivityTypeNotExecuted = false;
-      activity.timeSpent = !this.observation.activity.timeSpent ? 0 : this.observation.activity.timeSpent;
-      activity.timeRecordingWasDone = activity.timeSpent > 0;
+      activity.secondsUsed = !this.observation.activity.secondsUsed ? 0 : this.observation.activity.secondsUsed;
+      activity.TimingWasPerformed = activity.secondsUsed > 0;
       this.observation.activity = activity;
       if (this.observation.activity.activityType.code === ActivityTypeConstants.Handwash) {
         this.wash = '';
@@ -143,7 +143,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
       this.observation = this.registerActivityTypeNotExecuted(this.observation);
     }
     else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
-      this.observation.activity.timeSpent = 0;
+      this.observation.activity.secondsUsed = 0;
     }
     this.sessionService.changeObservation(this.observation);
     this.isEditMode = false;
@@ -177,8 +177,8 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasNotUsed.toString()) {
       observation.activity.gloveUsed = false;
     }
-    observation.activity.timeRecordingWasDone = false;
-    observation.activity.timeSpent = 0;
+    observation.activity.TimingWasPerformed = false;
+    observation.activity.secondsUsed = 0;
     return observation;
   }
 

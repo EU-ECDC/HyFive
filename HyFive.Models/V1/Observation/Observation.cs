@@ -10,7 +10,7 @@ namespace HyFive.Models.V1.Observation
         public Role Role { get; set; }
 
         [TsProperty(Type = "Date", ForceNullable = true)]
-        public DateTime RegistrationTime { get; set; }
+        public DateTime RegisteredTime { get; set; }
         public string SessionId { get; set; }
 
         [TsProperty(ForceNullable = true)]

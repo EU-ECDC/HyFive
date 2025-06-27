@@ -23,7 +23,7 @@ export class HandJewelryMapper {
   public static getHandjewelrySelection(handjewelryChoices: HandJewelryType[], handjewelrySelection: string[]): HandJewelrySelection[] {
     return handjewelryChoices.reduce((acc, item) => {
       acc.push({
-        isSelected: handjewelrySelection.indexOf(item.code) != -1,
+        isSelected: handjewelrySelection?.indexOf(item.code) != -1,
         name: item.name,
         type: item.code,
         disabled: false

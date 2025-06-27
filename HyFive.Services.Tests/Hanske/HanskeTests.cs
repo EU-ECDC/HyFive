@@ -118,7 +118,7 @@ namespace HyFive.Services.Tests.Hanske
                         {
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
-                            RegistrationTime = DateTime.UtcNow,
+                            RegisteredTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             IndicatedGloveTypes = new List<GloveWithIndicationType>()
@@ -142,7 +142,7 @@ namespace HyFive.Services.Tests.Hanske
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow
                 },
                 HPRNumber = hprnummer
             }, CancellationToken.None);
@@ -175,7 +175,7 @@ namespace HyFive.Services.Tests.Hanske
                         {
                             Id = observasjonId.ToString(),
                             Comment = "Observasjon kommentar",
-                            RegistrationTime = DateTime.UtcNow,
+                            RegisteredTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
                             GloveWithoutIndicationTypes = new List<GloveWithoutIndicationType>()
@@ -199,7 +199,7 @@ namespace HyFive.Services.Tests.Hanske
                         }
                     },
                     Comment = "Sesjon kommentar",
-                    StartTime = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow
                 },
                 HPRNumber = hprnummer
             }, CancellationToken.None);

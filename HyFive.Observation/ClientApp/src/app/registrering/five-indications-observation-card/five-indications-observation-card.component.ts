@@ -121,7 +121,7 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
       role: this.card.role,
       activity: this.activity,
       indicationTypes: this.selectedIndications,
-      registrationTime: new Date(Date.now())
+      registeredTime: new Date(Date.now())
     }
 
     this.observationRegister.emit(observation);
@@ -136,8 +136,8 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   }
 
   removeTimeRegistration(){
-    this.activity.timeSpent = 0;
-    this.activity.timeRecordingWasDone = false;
+    this.activity.secondsUsed = 0;
+    this.activity.TimingWasPerformed = false;
   }
   indicationSelectionChanged(selectedIndications: IndicationType[]) {
     this.selectedIndications = selectedIndications;
