@@ -35,10 +35,10 @@ export class SentSessionsComponent {
     this.hasLoadedSessions = false;
     this.sentSessionsService.getSessions().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
-        if (a.startTime > b.startTime) {
+        if (a.startDate > b.startDate) {
           return -1;
         }
-        if (a.startTime < b.startTime) {
+        if (a.startDate < b.startDate) {
           return 1;
         }
         return 0;

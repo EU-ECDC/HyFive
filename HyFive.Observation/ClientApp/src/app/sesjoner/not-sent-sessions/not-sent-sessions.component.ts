@@ -68,10 +68,10 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
           .map((b) => this.createSessionView(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
-        if (a.startTime > b.startTime) {
+        if (a.startDate > b.startDate) {
           return -1;
         }
-        if (a.startTime < b.startTime) {
+        if (a.startDate < b.startDate) {
           return 1;
         }
         return 0;
@@ -101,7 +101,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   ): SessionReport {
     return {
       departmentName: session.department?.name,
-      startTime: session.startTime,
+      startDate: session.createdDate,
       type: sessionType,
       id: session.id,
       institutionsName: session.institutionsName,
