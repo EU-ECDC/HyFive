@@ -95,11 +95,11 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   canChange(fhiAdmin: User) {
     return fhiAdmin.firstName.length > 0
       && fhiAdmin.lastName.length > 0
-      && fhiAdmin.email?.length > 0
-            && this.users
-                        .filter(fc => fc.id !== fhiAdmin.id)
-                        .find(fc => fc.email == fhiAdmin?.email) == undefined
-      && this.mailValidatorHelper.validateMail(fhiAdmin?.email)
+      // && fhiAdmin.email?.length > 0
+      //       && this.users
+      //                   .filter(fc => fc.id !== fhiAdmin.id)
+      //                   .find(fc => fc.email == fhiAdmin?.email) == undefined
+      // && this.mailValidatorHelper.validateMail(fhiAdmin?.email)
       && this.userService.isValidPseudonym(fhiAdmin?.identityPseudonym);
   }
 
