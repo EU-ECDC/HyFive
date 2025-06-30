@@ -17,8 +17,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-overview-observations',
-  templateUrl: './overview-observations.component.html',
-  styleUrls: ['./overview-observations.component.scss']
+  templateUrl: './overview-observations.component.html'
 })
 export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
@@ -40,7 +39,6 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   fromDate: Date = null;
   toDate: Date = null;
-  fromDateBiggerThanToDate: boolean = false;
   institutions: InstitutionReport[] = [];
   selectedInstitutionId: string = null;
   departmentIdForReportAsDownloaded = 0;
@@ -153,7 +151,6 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     this.selectedSessiontype = null;
     this.fromDate = null;
     this.toDate = null;
-    this.fromDateBiggerThanToDate = false;
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
       this.selectedInstitutionId = null;
@@ -164,11 +161,6 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   resetSearchresults() {
     this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
-    if (this.fromDate && this.toDate && this.fromDate > this.toDate) {
-      this.fromDateBiggerThanToDate = true;
-    } else {
-      this.fromDateBiggerThanToDate = false;
-    }
   }
 
   loadSelectedSessionTypeText(): string {
