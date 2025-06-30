@@ -17,7 +17,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-overview-observations',
-  templateUrl: './overview-observations.component.html'
+  templateUrl: './overview-observations.component.html',
+  styleUrls: ['./overview-observations.component.scss']
 })
 export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
@@ -28,10 +29,10 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   faFilePdf = faFilePdf;
 
   sessiontypes = [
-    { name: 'ProtectiveEquipment', value: SessionType.ProtectiveEquipment },
-    { name: 'Five indications', value: SessionType.FiveIndications },
+    { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
+    { name: 'Five Indications', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
-    { name: 'HandJewelry', value: SessionType.HandJewelry }
+    { name: 'Hand Jewelry', value: SessionType.HandJewelry }
   ];
 
   selectedSessiontype: SessionType = null;
@@ -39,6 +40,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   fromDate: Date = null;
   toDate: Date = null;
+  fromDateBiggerThanToDate: boolean = false;
   institutions: InstitutionReport[] = [];
   selectedInstitutionId: string = null;
   departmentIdForReportAsDownloaded = 0;
@@ -151,6 +153,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     this.selectedSessiontype = null;
     this.fromDate = null;
     this.toDate = null;
+    this.fromDateBiggerThanToDate = false;
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
       this.selectedInstitutionId = null;
@@ -161,15 +164,20 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   resetSearchresults() {
     this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
+    if (this.fromDate && this.toDate && this.fromDate > this.toDate) {
+      this.fromDateBiggerThanToDate = true;
+    } else {
+      this.fromDateBiggerThanToDate = false;
+    }
   }
 
   loadSelectedSessionTypeText(): string {
     if (this.selectedSessiontype == SessionType.ProtectiveEquipment)
-      return "ProtectiveEquipment";
+      return "Protective Equipment";
     if (this.selectedSessiontype == SessionType.FiveIndications)
-      return "FiveIndications";
+      return "Five Indications";
     if (this.selectedSessiontype == SessionType.HandJewelry)
-      return "HandJewelry";
+      return "Hand Jewelry";
     if (this.selectedSessiontype == SessionType.Gloves)
       return "Gloves";
 
