@@ -51,19 +51,19 @@ export class MainMenuComponent {
   private loadMenuOptions(): void {
     this.mainMenuItems = [
       {
-        name: "Start observation",
+        name: "Start Observation",
         routerLink: `/${Urls.HomePageForObservationUrl}`,
         exactRouteMatch: true,
         icon: faHospital
       },
       {
-        name: "Not send sessions",
+        name: "Unsent Sessions",
         routerLink: `/${Urls.NotSentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faClipboard
       },
       {
-        name: "Send sessions",
+        name: "Sent Sessions",
         routerLink: `/${Urls.SentSessionsUrl}`,
         exactRouteMatch: false,
         icon: faInbox
