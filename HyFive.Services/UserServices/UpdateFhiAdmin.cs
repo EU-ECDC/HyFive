@@ -52,8 +52,8 @@ namespace HyFive.Services.UserServices
                 //    throw new Exception($"User cannot change themselves.");
                 if (user.IdentityPseudonym != command.User.IdentityPseudonym)
                 {
-                    var eksisterendePseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
-                    if (eksisterendePseudonym)
+                    var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
+                    if (existingPseudonym)
                         throw new Exception("User cannot be updated. The pseudonym is already in use.");
                 }
 
