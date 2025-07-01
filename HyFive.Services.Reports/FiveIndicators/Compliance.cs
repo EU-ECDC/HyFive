@@ -51,13 +51,14 @@ namespace HyFive.Services.Reports.FiveIndicators
                 {
                     ToDate = ToDate.AddYears(1);
                 }
-
+                var fromDateUtc = DateTime.SpecifyKind(fromDate, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(ToDate, DateTimeKind.Utc);
                 var observationsInCurrentTimePeriodQuery = _context.FiveIndicationsObservation.Include(f => f.Activity.ActivityType)
                                                                                       .Include(f => f.IndicationTypes)
                                                                                       .Include(f => f.Role)
                                                                                       .AsNoTracking()
-                                                                                      .Where(f => f.RegisteredTime >= fromDate &&
-                                                                                                  f.RegisteredTime < ToDate &&
+                                                                                      .Where(f => f.RegisteredTime >= fromDateUtc &&
+                                                                                                  f.RegisteredTime < toDateUtc &&
                                                                                                   f.FiveIndicationsSession.Department.Institution.Id == request.InstitutionId);
 
                 if (request.RoleId != null)
@@ -71,7 +72,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 }
 
                 var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();
-                var complianceGraphData = CreateComplianceGraphData(observationsInCurrentTimePeriod, request.Interval, fromDate, ToDate);
+                var complianceGraphData = CreateComplianceGraphData(observationsInCurrentTimePeriod, request.Interval, fromDateUtc, toDateUtc);
 
                 RemoveElementsWithNoRegistrationsAtTheBeginningOfTheSearchPeriod(complianceGraphData);
                 RemoveElementsWithNoRecordsAtEndOfSearchPeriod(complianceGraphData);
