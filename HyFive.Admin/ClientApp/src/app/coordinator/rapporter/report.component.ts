@@ -20,10 +20,10 @@ export class ReportComponent implements OnInit {
   private getTreeviewNavigationItems(): FhiTreeViewNavigationItem[] {
     return [
       {
-        name: 'five indications',
+        name: 'Five Indications',
         children: [
           {
-            name: 'Etterlevelse',
+            name: 'Compliance',
             routerLink: UrlPaths.fiveIndicationsCompliance
           }
         ]
