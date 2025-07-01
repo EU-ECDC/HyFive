@@ -9,5 +9,6 @@ namespace HyFive.Models.V1.User
         public string IdentityPseudonym { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }
