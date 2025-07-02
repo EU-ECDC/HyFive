@@ -12,14 +12,14 @@
       </div>
       <div class="col-md-2">
         <label for="fra">From date</label>
-        <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" />
+        <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" [max]="toDate || null" />
       </div>
       <div class="col-md-2">
         <label for="to">To date</label>
-        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" />
+        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" [min]="fromDate || null" />
       </div>
       <div *ngIf="canSelectInstitution" class="col-md-3">
-        <label for="institutions">Institutions</label>
+        <label for="institutions">Institution</label>
         <select id="institutions" class="form-select" [(ngModel)]="selectedInstitutionId" (ngModelChange)="resetSearchresults()">
           <option value="null">All</option>
           <option *ngFor="let institution of institutions" [ngValue]="institution.id.toString()">
