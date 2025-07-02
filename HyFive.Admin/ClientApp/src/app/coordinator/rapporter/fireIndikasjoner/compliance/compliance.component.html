@@ -74,4 +74,10 @@
       <fhi-angular-highcharts [diagramOptions]="numberDiagramOptions"></fhi-angular-highcharts>
     </div>
   </div>
+
+  <div class="row showGraphErrorStyle" *ngIf="showGraphError">
+    <p>
+      The chart type cannot be displayed with this filter selection. Choose a different chart type or modify the filter selection.
+    </p>
+  </div>
 </div>
