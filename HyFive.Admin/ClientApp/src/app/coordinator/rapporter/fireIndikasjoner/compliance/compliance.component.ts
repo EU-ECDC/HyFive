@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
 import { Department} from '../../../../models/api/Department';
@@ -9,9 +9,10 @@ import { RoleService } from '../../../../services/data/role.service';
 
 @Component({
   selector: 'app-compliance',
-  templateUrl: './compliance.component.html'
+  templateUrl: './compliance.component.html',
+  styleUrls: ['./showGraphErrorStyle.scss']
 })
-export class ComplianceComponent implements OnInit, OnDestroy {
+export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked  {
 
   fromYear: number = 2024;
   toYear: number = 2024;
@@ -23,6 +24,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
   months: any [];
 
   showGraph = false;
+  showGraphError = false;
   roles: Role[];
   departments: Department[];
 
@@ -41,13 +43,24 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     private graphService: ReportService,
     private institutionService: InstitutionService,
     private roleService: RoleService,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService,
+    private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
     this.months = this.initMonths();
     this.loadRoles();
     this.loadDepartments();
+  }
+
+    ngAfterViewChecked() {
+    const alert = document.querySelector('.alert.alert-warning');
+    if (alert) {
+      // (alert as HTMLElement).style.visibility = 'hidden';
+      this.showGraph = false;
+      this.showGraphError = true;
+      this.cdref.detectChanges();
+    }
   }
 
   ngOnDestroy(): void {
@@ -70,12 +83,13 @@ export class ComplianceComponent implements OnInit, OnDestroy {
 
   getComplianceForFiveIndications() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
+    this.showGraphError = false;
     this.graphService.getComplianceForFiveIndications(institutionId, this.interval, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
-      (grafer) => {
+      (graphs) => {
 
-        let percentageGraph = grafer[0];
+        let percentageGraph = graphs[0];
         this.savePercentageChartOptions(percentageGraph);
-        let antallGraf = grafer[1];
+        let antallGraf = graphs[1];
         this.saveNumberDiagramOptions(antallGraf);
         this.showGraph = true;
       },
