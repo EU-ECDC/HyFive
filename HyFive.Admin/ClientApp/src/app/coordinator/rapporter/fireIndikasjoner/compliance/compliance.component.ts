@@ -19,7 +19,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
   toMonth: number = 1;
   role: Role = null;
   department: Department= null;
-  intervall: string = 'month';
+  interval: string = 'month';
   months: any [];
 
   showGraph = false;
@@ -70,7 +70,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
 
   getComplianceForFiveIndications() {
     var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.graphService.getComplianceForFiveIndications(institutionId, this.intervall, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
+    this.graphService.getComplianceForFiveIndications(institutionId, this.interval, this.fromMonth, this.fromYear, this.toMonth, this.toYear, this.role?.id, this.department?.id).subscribe(
       (grafer) => {
 
         let percentageGraph = grafer[0];
