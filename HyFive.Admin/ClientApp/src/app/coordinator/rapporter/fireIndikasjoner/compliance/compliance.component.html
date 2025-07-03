@@ -3,15 +3,15 @@
     <div class="row align-items-end mb-4">
 
       <div class="col-md-2">
-        <label for="sessionType">Intervall</label>
-        <select class="form-select" id="role" [(ngModel)]="intervall">
+        <label for="sessionType">Interval</label>
+        <select class="form-select" id="role" [(ngModel)]="interval">
+          <option value="year">Year</option>
           <option value="month">Month</option>
-          <option value="tertial">Tertial</option>
           <option value="week">Week</option>
         </select>
       </div>
 
-      <div class="col-md-2" *ngIf="intervall=='week'">
+      <div class="col-md-2" *ngIf="interval=='week'">
         <label for="fra">From month</label>
         <select class="form-select" id="month" [(ngModel)]="fromMonth">
           <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
@@ -23,7 +23,7 @@
         <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
       </div>
 
-      <div class="col-md-2" *ngIf="intervall=='week'">
+      <div class="col-md-2" *ngIf="interval=='week'">
         <label for="fra">To month</label>
         <select class="form-select" id="month" [(ngModel)]="toMonth">
           <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
@@ -73,5 +73,11 @@
     <div class="col-8">
       <fhi-angular-highcharts [diagramOptions]="numberDiagramOptions"></fhi-angular-highcharts>
     </div>
+  </div>
+
+  <div class="row showGraphErrorStyle" *ngIf="showGraphError">
+    <p>
+      The chart type cannot be displayed with this filter selection. Choose a different chart type or modify the filter selection.
+    </p>
   </div>
 </div>

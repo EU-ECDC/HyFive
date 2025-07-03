@@ -5,6 +5,7 @@ import { User } from '../../../models/api/User';
 import { CreateFhiAdminRequest } from '../../../models/api/CreateFhiAdminRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-edit-fhiadmin',
@@ -16,12 +17,15 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   fhiAdminAsChanged: User = null;
   newFhiAdmin: CreateFhiAdminRequest = null;
   filteredAdmins: User[] = [];
+  mailValidatorHelper;
 
   constructor(
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -49,6 +53,7 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
     this.newFhiAdmin = {
       lastName: '',
       firstName: '',
+      email: '',
       identityPseudonym: null,
     } as CreateFhiAdminRequest;
   }
@@ -81,12 +86,20 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
   canCreate() {
     return this.newFhiAdmin.firstName?.length > 0
       && this.newFhiAdmin.lastName?.length > 0
+      && this.users.find(fc => fc.email == this.newFhiAdmin?.email) == undefined
+      && this.newFhiAdmin.email?.length > 0
+      && this.mailValidatorHelper.validateMail(this.newFhiAdmin?.email)
       && this.userService.isValidPseudonym(this.newFhiAdmin?.identityPseudonym);
   }
 
   canChange(fhiAdmin: User) {
     return fhiAdmin.firstName.length > 0
       && fhiAdmin.lastName.length > 0
+      // && fhiAdmin.email?.length > 0
+      //       && this.users
+      //                   .filter(fc => fc.id !== fhiAdmin.id)
+      //                   .find(fc => fc.email == fhiAdmin?.email) == undefined
+      // && this.mailValidatorHelper.validateMail(fhiAdmin?.email)
       && this.userService.isValidPseudonym(fhiAdmin?.identityPseudonym);
   }
 
