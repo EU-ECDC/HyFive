@@ -14,7 +14,7 @@ using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.User;
-using HyFive.Services.FourIndication;
+using HyFive.Services.FiveIndication;
 using HyFive.Services.Institution;
 using Moq;
 using Microsoft.Extensions.Logging;
@@ -126,7 +126,7 @@ namespace HyFive.Services.Tests
             var indicationTypesList = DatabaseContext.IndicationTypes.ToList();
 
             var SaveFourIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var observation = new FourIndicatorsObservation()
+            var observation = new FiveIndicatorsObservation()
             {
                 Activity = useDefaultActivity
                     ? new Activity()
@@ -156,13 +156,13 @@ namespace HyFive.Services.Tests
 
             var fourIndicatorsSessionGuid = await SaveFourIndicatorsSessionHandler.Handle(new SaveSession.Command()
             {
-                Session = new FourIndicationsSession
+                Session = new FiveIndicationsSession
                 {
                     Id = sessionId.ToString(),
                     Department = departmentModel,
                     InstitutionsName = institution.Name,
                     InstitutionId = institution.Id,
-                    Observations = new List<FourIndicatorsObservation>()
+                    Observations = new List<FiveIndicatorsObservation>()
                     {
                         observation
                     },

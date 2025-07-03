@@ -63,7 +63,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 
                 try
                 {
-                    observation.RegisteredTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     var equipmentTypes = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                         .ToListAsync(cancellationToken);

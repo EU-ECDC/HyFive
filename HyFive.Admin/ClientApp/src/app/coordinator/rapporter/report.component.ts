@@ -19,22 +19,22 @@ export class ReportComponent implements OnInit {
 
   private getTreeviewNavigationItems(): FhiTreeViewNavigationItem[] {
     return [
-      // {
-      //   name: 'Four indications',
-      //   children: [
-      //     {
-      //       name: 'Etterlevelse',
-      //       routerLink: UrlPaths.fireindikasjonerEtterlevelse
-      //     }
-      //   ]
-      // },
+      {
+        name: 'Five Indications',
+        children: [
+          {
+            name: 'Compliance',
+            routerLink: UrlPaths.fiveIndicationsCompliance
+          }
+        ]
+      },
       {
         name: 'Predifined (PDF)',
         isExpanded: true,
         children: [
           {
-            name: 'Compliance four indications',
-            routerLink: UrlPaths.fourindicationsCompliancePdf
+            name: 'Compliance five indications',
+            routerLink: UrlPaths.fiveIndicationsCompliancePdf
           },
           {
             name: 'Compliance handjewelry',

@@ -64,7 +64,7 @@ namespace HyFive.Services.Glove
                 
                 try
                 {
-                    observation.RegisteredTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     observation.GloveUsed = observationFromRequest.GloveUsed;
                     observation.IndicatedGloveTypes = gloveWithIndicationTypes

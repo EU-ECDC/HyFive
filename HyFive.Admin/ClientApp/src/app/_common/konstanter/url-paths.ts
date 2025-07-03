@@ -19,8 +19,8 @@ export class UrlPaths {
   static healthcareOrganization = 'fhiadmin/healthcareOrganization';
   static email = 'fhiadmin/email';
   static reports = 'coordinator/reports';
-  static fourindicationsCompliance = 'fourindications/compliance';
-  static fourindicationsCompliancePdf = 'fourindications/compliance-four-indications-pdf';
+  static fiveIndicationsCompliance = 'fiveindications/compliance';
+  static fiveIndicationsCompliancePdf = 'fiveindications/compliance-five-indications-pdf';
   static handjewelryCompliancePdf = 'handjewelry/compliance-handjewelry-pdf';
   static downloadExcel = 'regular-reports/departmentalreport';
 }

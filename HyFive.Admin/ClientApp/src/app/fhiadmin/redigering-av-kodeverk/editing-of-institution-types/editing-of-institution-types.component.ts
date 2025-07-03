@@ -73,7 +73,7 @@ export class EditingInstitutionTypesComponent implements OnInit, OnDestroy {
 
   deleteInstitutionType(institutiontypeId: number) {
     this.institutionTypesService.deleteInstitutionType(institutiontypeId).subscribe(
-      (erSlettet) => {
+      (isDeleted) => {
         this.toastrService.success("Institutiontype was deleted");
         this.institutiontypeAsChanged = null;
         this.loadtInstitutionTypes();

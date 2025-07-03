@@ -1,0 +1,37 @@
+.circle {
+  width: 35%;                /* or any % */
+  aspect-ratio: 1 / 1;       /* makes height = width */
+  margin: 1px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: x-large;
+  color: black;
+}
+
+.labelStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 20px;
+    margin-bottom: 3px;
+}
+
+.icon-wrapper {
+  width: 100%;                /* or any % */
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: 420px) {
+    .labelStyle {
+        margin-bottom: 8%;
+    }
+}

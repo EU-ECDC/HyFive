@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.FourIndication;
+using HyFive.Services.FiveIndication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

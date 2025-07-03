@@ -8,7 +8,7 @@ export interface Session<TObservation>
 {
 	id: string;
 	department: Department;
-	startTime: Date;
+	createdDate: Date;
 	observations?: TObservation[];
 	institutionsName?: string;
 	institutionId?: number;

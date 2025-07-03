@@ -11,7 +11,7 @@ export class IndicationService {
   constructor(private http: HttpClient) {
   }
   getIndicationTypes(): Observable<IndicationType[]> {
-    return this.http.get<IndicationType[]>('api/v1/fourindications/indicationTypes').pipe()
+    return this.http.get<IndicationType[]>('api/v1/fiveindications/indicationTypes').pipe()
   }
 
 }

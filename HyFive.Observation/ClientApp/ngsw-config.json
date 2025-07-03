@@ -46,8 +46,8 @@
     {
       "name": "codeWork",
       "urls": [
-        "api/v1/fourindications/activitytypes",
-        "api/v1/fourindications/indicationTypes",
+        "api/v1/fiveindications/activitytypes",
+        "api/v1/fiveindications/indicationTypes",
         "api/v1/handjewelry/handJewelryTypes",
         "api/v1/protectiveEquipment",
         "api/v1/glove/gloveWithIndicationType",

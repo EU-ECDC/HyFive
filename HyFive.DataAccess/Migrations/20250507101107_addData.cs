@@ -43,7 +43,7 @@ namespace HyFive.DataAccess.Migrations
                 name: "DepartmentClinic");
 
             migrationBuilder.DropTable(
-                name: "FourIndicationsObservationIndicationType");
+                name: "FiveIndicationsObservationIndicationType");
 
             migrationBuilder.DropTable(
                 name: "GloveWithIndicationTypeGloveObservation");
@@ -126,7 +126,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FourIndicationsObservationIndicationTypes",
+                name: "FiveIndicationsObservationIndicationTypes",
                 columns: table => new
                 {
                     IndicationTypesId = table.Column<int>(type: "integer", nullable: false),
@@ -134,15 +134,15 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FourIndicationsObservationIndicationTypes", x => new { x.IndicationTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_FiveIndicationsObservationIndicationTypes", x => new { x.IndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_FourIndicationsObservationIndicationTypes_FourIndicationsOb~",
+                        name: "FK_FiveIndicationsObservationIndicationTypes_FiveIndicationsOb~",
                         column: x => x.ObservationsId,
-                        principalTable: "FourIndicationsObservation",
+                        principalTable: "FiveIndicationsObservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FourIndicationsObservationIndicationTypes_IndicationType_In~",
+                        name: "FK_FiveIndicationsObservationIndicationTypes_IndicationType_In~",
                         column: x => x.IndicationTypesId,
                         principalTable: "IndicationType",
                         principalColumn: "Id",
@@ -227,8 +227,8 @@ namespace HyFive.DataAccess.Migrations
                 column: "DepartmentsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FourIndicationsObservationIndicationTypes_ObservationsId",
-                table: "FourIndicationsObservationIndicationTypes",
+                name: "IX_FiveIndicationsObservationIndicationTypes_ObservationsId",
+                table: "FiveIndicationsObservationIndicationTypes",
                 column: "ObservationsId");
 
             migrationBuilder.CreateIndex(
@@ -334,7 +334,7 @@ namespace HyFive.DataAccess.Migrations
                 name: "ClinicDepartment");
 
             migrationBuilder.DropTable(
-                name: "FourIndicationsObservationIndicationTypes");
+                name: "FiveIndicationsObservationIndicationTypes");
 
             migrationBuilder.DropTable(
                 name: "GloveObservationGloveWithIndicationType");
@@ -450,7 +450,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FourIndicationsObservationIndicationType",
+                name: "FiveIndicationsObservationIndicationType",
                 columns: table => new
                 {
                     IndicationTypesId = table.Column<int>(type: "integer", nullable: false),
@@ -458,15 +458,15 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FourIndicationsObservationIndicationType", x => new { x.IndicationTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_FiveIndicationsObservationIndicationType", x => new { x.IndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_FourIndicationsObservationIndicationType_FourIndicationsObs~",
+                        name: "FK_FiveIndicationsObservationIndicationType_FiveIndicationsObs~",
                         column: x => x.ObservationsId,
-                        principalTable: "FourIndicationsObservation",
+                        principalTable: "FiveIndicationsObservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FourIndicationsObservationIndicationType_IndicationType_Ind~",
+                        name: "FK_FiveIndicationsObservationIndicationType_IndicationType_Ind~",
                         column: x => x.IndicationTypesId,
                         principalTable: "IndicationType",
                         principalColumn: "Id",
@@ -551,8 +551,8 @@ namespace HyFive.DataAccess.Migrations
                 column: "ClinicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FourIndicationsObservationIndicationType_ObservationsId",
-                table: "FourIndicationsObservationIndicationType",
+                name: "IX_FiveIndicationsObservationIndicationType_ObservationsId",
+                table: "FiveIndicationsObservationIndicationType",
                 column: "ObservationsId");
 
             migrationBuilder.CreateIndex(

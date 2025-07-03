@@ -8,7 +8,7 @@ export interface SessionReport
 {
 	id: string;
 	departmentName: string;
-	startTime: any;
+	startDate: any;
 	type: SessionType;
 	institutionName: string;
 	isSelected?: boolean;

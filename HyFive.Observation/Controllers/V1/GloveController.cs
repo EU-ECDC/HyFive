@@ -11,7 +11,7 @@ using HyFive.Services;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Glove;
-using HyFive.Services.Rapport.Observations;
+using HyFive.Services.Report.Observations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

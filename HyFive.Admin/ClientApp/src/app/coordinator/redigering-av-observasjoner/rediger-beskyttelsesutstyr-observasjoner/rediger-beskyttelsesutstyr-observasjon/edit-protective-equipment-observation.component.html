@@ -2,7 +2,7 @@
   <div class="col-12 pb-2">
     <h4>[ Edit mode active ]</h4>
     <i>Observation: {{observationId}}</i><br/>
-    <i>Registered: {{observation.registrationTime | date:'dd.MM.yyyy HH:mm' }}</i>
+    <i>Registered: {{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</i>
     <app-spinner *ngIf="observationLoading"></app-spinner>
   </div>
 </div>

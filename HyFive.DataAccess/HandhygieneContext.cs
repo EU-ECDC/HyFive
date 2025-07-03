@@ -15,7 +15,7 @@ namespace HyFive.DataAccess
         }
 
         public DbSet<Session> Session { get; set; }
-        public DbSet<FourIndicationsSession> FourIndicationsSession { get; set; }
+        public DbSet<FiveIndicationsSession> FiveIndicationsSession { get; set; }
         public DbSet<HandJewelrySession> HandJewelrySession { get; set; }
         public DbSet<ProtectiveEquipmentSession> ProtectiveEquipmentSession { get; set; }
         public DbSet<GloveSession> GloveSession { get; set; }
@@ -41,7 +41,7 @@ namespace HyFive.DataAccess
         public DbSet<HandHygieneAfterGloveUseType> HandHygieneAfterGloveUseType { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<Region> Region { get; set; }
-        public DbSet<FourIndicationsObservation> FourIndicationsObservation { get; set; }
+        public DbSet<FiveIndicationsObservation> FiveIndicationsObservation { get; set; }
         public DbSet<GloveObservation> GloveObservation { get; set; }
         public DbSet<HandJewelryObservation> HandJewelryObservation { get; set; }
         public DbSet<ProtectiveEquipmentObservation> ProtectiveEquipmentObservation { get; set; }
@@ -59,9 +59,9 @@ namespace HyFive.DataAccess
             mb.Entity<Session>().HasIndex(s => s.CreatedDate);
             mb.Entity<Session>().HasIndex(s => s.StartDate);
 
-            mb.Entity<FourIndicationsObservation>().Property(fio => fio.Comment).HasMaxLength(1000);
-            mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.CreatedTime);
-            mb.Entity<FourIndicationsObservation>().HasIndex(fio => fio.RegisteredTime);
+            mb.Entity<FiveIndicationsObservation>().Property(fio => fio.Comment).HasMaxLength(1000);
+            mb.Entity<FiveIndicationsObservation>().HasIndex(fio => fio.CreatedTime);
+            mb.Entity<FiveIndicationsObservation>().HasIndex(fio => fio.RegisteredTime);
 
             mb.Entity<ProtectiveEquipmentObservation>().HasIndex(bo => bo.CreatedTime);
             mb.Entity<ProtectiveEquipmentObservation>().HasIndex(bo => bo.RegisteredTime);

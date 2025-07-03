@@ -11,12 +11,12 @@ import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
 export class ReportService {
   constructor(private httpClient: HttpClient) { }
 
-  getComplianceForFourIndications(institutionId: number, intervall: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
-    const url = `${environment.apiBaseUrl}/v1/report/fourindications/compliance`;
+  getComplianceForFiveIndications(institutionId: number, interval: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
+    const url = `${environment.apiBaseUrl}/v1/report/fiveΙndications/compliance`;
 
     let params = new HttpParams();
     params = params.append("institutionId", institutionId.toString());
-    params = params.append("intervall", intervall);
+    params = params.append("interval", interval);
     params = params.append("fromMonth", fromMonth);
     params = params.append("fromYear", fromYear);
     params = params.append("toMonth", toMonth);
@@ -29,10 +29,10 @@ export class ReportService {
 
   reportForSessionTypeHasData(sessionType: SessionType, institutionId: number, departmentId: number,
     fromDate: Date, toDate: Date, roleId: AuthorizedRole): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/report/reportforsessiontypehasdata`;
+    const url = `${environment.apiBaseUrl}/v1/report/reportForSessionTypeHasData`;
 
     let params = new HttpParams();
-    params = params.append("sesionType", sessionType);
+    params = params.append("sessionType", sessionType);
     params = params.append("institutionId", institutionId.toString());
     if (departmentId != null)
       params = params.append("departmentId", departmentId);

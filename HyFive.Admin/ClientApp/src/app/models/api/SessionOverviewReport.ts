@@ -11,8 +11,8 @@ export interface SessionOverviewReport
 	type: string;
 	observerName: string;
 	department: Department;
-	startTime: any;
-	createdTime: any;
+	startDate: any;
+	createdDate: any;
 	comment: string;
 	transferStatus: any;
 	observations: ObservationOverviewReport[];
