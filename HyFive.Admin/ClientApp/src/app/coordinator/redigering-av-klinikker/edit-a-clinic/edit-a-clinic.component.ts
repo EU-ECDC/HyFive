@@ -15,6 +15,7 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 export class EditAClinicComponent implements OnInit, OnDestroy {
 
   @Input() clinic: Clinic;
+  @Input() clinics: Clinic[] = [];
   clinicCopy: Clinic;
   departmentsSelection: DepartmentSelection[];
   UrlPaths = UrlPaths;
@@ -71,7 +72,16 @@ export class EditAClinicComponent implements OnInit, OnDestroy {
   canSaveClinic(): boolean {
     return this.clinicCopy.institutionId > 0
       && this.clinicCopy.name?.length > 0
+      && this.clinics
+                    .filter(cl => cl.id !== this.clinicCopy.id)
+                    .find(cl => cl.name == this.clinicCopy.name) == undefined
       && this.departmentsSelection?.filter(r => r.isSelected)?.length > 0;
+  }
+
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   saveClinic() {
