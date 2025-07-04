@@ -8,6 +8,7 @@ import { AuthorizationService } from '../services/authorization.service';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-edit-coordinators',
@@ -23,6 +24,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canDelete = false;
   searchWord: string = '';
   filteredCoordinators: User[];
+  mailValidatorHelper;
 
   constructor(
     private institutionService: InstitutionService,
@@ -30,7 +32,9 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -123,7 +127,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       //&& this.coordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
       && this.coordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
       && this.newCoordinator.email?.length > 0
-      && this.validateMail(this.newCoordinator.email)
+      && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
       && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
   }
 
@@ -137,30 +141,8 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
                               .filter(fc => fc.id !== coordinator.id)
                               .find(fc => fc.email == coordinator?.email) == undefined
       && coordinator.email?.length > 0
-      && this.validateMail(coordinator.email)
+      && this.mailValidatorHelper.validateMail(coordinator.email)
       && this.userService.isValidPseudonym(coordinator.identityPseudonym);
-  }
-
-  ValidateMailCharacters(event: KeyboardEvent) {
-    const allowedPattern = /^[a-zA-Z0-9@.]$/;
-    const key = event.key;
-
-    if (!allowedPattern.test(key)) {
-      event.preventDefault();
-    }
-  }
-
-    validateMail(mail) {
-    if (mail.length == 0) {
-      return false;
-    }
-
-    const emailPattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/;
-    if (emailPattern.test(mail)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
     omitSpecialChar(event) {   

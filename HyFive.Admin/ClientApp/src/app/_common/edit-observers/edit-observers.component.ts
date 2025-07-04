@@ -8,6 +8,7 @@ import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-edit-observers',
@@ -23,13 +24,16 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   user: LoggedInUser = null;
   keyword: string = '';
   filteredObservers: User[];
+  mailValidatorHelper;
 
   constructor(private institutionService: InstitutionService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   identityPseudonymChanged(modifiedPseudonym: string) {
     this.observerAsChanged.identityPseudonym = modifiedPseudonym;
@@ -134,7 +138,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     return this.newObserver.firstName.length > 0
       && this.newObserver.lastName.length > 0
       && this.newObserver.email.length > 0
-      && this.validateMail(this.newObserver.email)
+      && this.mailValidatorHelper.validateMail(this.newObserver.email)
       && this.observers.find(obs => obs?.email == this.newObserver?.email) == undefined
       //&& this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
       && this.userService.isValidPseudonym(this.newObserver.identityPseudonym);
@@ -144,7 +148,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     return observer.firstName.length > 0
       && observer.lastName.length > 0
       && observer.email.length > 0
-      && this.validateMail(observer.email)
+      && this.mailValidatorHelper.validateMail(observer.email)
       && this.observers
                       .filter(obs => obs.id !== observer.id)
                       .find(obs => obs?.email == this.newObserver?.email) == undefined
@@ -152,28 +156,6 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       //                        .filter(fc => fc.id !== observer.id)
       ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
       && this.userService.isValidPseudonym(observer.identityPseudonym);
-  }
-
-  ValidateMailCharacters(event: KeyboardEvent) {
-    const allowedPattern = /^[a-zA-Z0-9@.]$/;
-    const key = event.key;
-
-    if (!allowedPattern.test(key)) {
-      event.preventDefault();
-    }
-  }
-
-  validateMail(mail) {
-    if (mail.length == 0) {
-      return false;
-    }
-
-    const emailPattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/;
-    if (emailPattern.test(mail)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
     omitSpecialChar(event) {   
