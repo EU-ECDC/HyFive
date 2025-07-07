@@ -92,7 +92,13 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
   canCreateClinic(): boolean {
     return this.newClinic.institutionId > 0
       && this.departmentsSelection?.filter(r => r.isSelected)?.length > 0
+      && this.clinicsList.find(cl => cl.name == this.newClinic.name) == undefined
       && this.newClinic.name?.length > 0;
   }
 
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+  }
 }
