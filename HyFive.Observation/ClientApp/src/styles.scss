@@ -65,13 +65,45 @@ app-delete-shadow {
   box-shadow: none !important;
 }
 
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked .ng-option.ng-option-marked {
+    color: #333;
+    background-color: #edf2e8 !important;
+}
+
+.hh-avdeling-dropdown .ng-select-searchable .ng-select-clearable .ng-select .ng-select-single .ng-pristine .ng-valid .ng-touched .ng-select-opened .ng-select-bottom .ng-option .ng-option-marked {
+      background-color: #edf2e8 !important;
+}
+
+.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:last-child {
+  background-color: #edf2e8 !important;
+}
+
 select.form-select {
-  border-color: #4f841a;
+  border: 1px solid #4f841a;
 }
 
 select.form-select:focus {
-  border-color: #4f841a !important;
+  border: 1px solid #4f841a !important;
   box-shadow: none !important;
+}
+
+select option {
+  background-color: #edf2e8 !important;
+  color: #000;
+}
+
+// select option:checked {
+//   background-color: #4f841a !important;
+//   color: white !important;
+// }
+
+// select[multiselect] option:checked {
+//   background-color: #4f841a !important;
+// }
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: #edf2e8 !important;
+  color: #000;
 }
 
 .ng-select.ng-select-focused .ng-select-container {
@@ -116,4 +148,23 @@ select.form-select:focus {
 
 a {
   color: #4f841a;
+}
+
+a:hover {
+    color: #4f841a;
+}
+
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+    color: #fff;
+    background-color: #4f841a;
+    border-color: #4f841a;
+}
+
+.fhi-btn-primary:hover:not(:disabled) {
+    background-color: #4f841a;
+}
+
+.fhi-btn-secondary:active, .fhi-btn-secondary:hover {
+    border-color: #4f841a;
+    color: #4f841a;
 }
