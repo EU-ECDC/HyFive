@@ -238,7 +238,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 {
                     return $"{periodFromDate:MMMM yy}";
                 }
-                else if (interval == IntervalYear)
+                else if (interval == Interval4Month)
                 {
                     return $"{periodFromDate:MMM yy} - {periodToDate.AddMonths(-1):MMM yy}";
                 }
