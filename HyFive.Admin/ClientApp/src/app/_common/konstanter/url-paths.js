@@ -24,7 +24,7 @@ var UrlPaths = /** @class */ (function () {
     UrlPaths.healthcareOrganization = 'fhiadmin/healthcareOrganization';
     UrlPaths.email = 'fhiadmin/email';
     UrlPaths.reports = 'coordinator/reports';
-    UrlPaths.fourindicationsCompliance = 'fourindications/compliance';
+    UrlPaths.fiveindicationsCompliance = 'fiveindications/compliance';
     return UrlPaths;
 }());
 exports.UrlPaths = UrlPaths;

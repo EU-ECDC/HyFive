@@ -48,7 +48,7 @@ import {AuthenticationFailedModalComponent} from './shared/authentication-failed
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {EditFourIndicationsObservationsComponent} from "./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-four-indications-observations.component";
+import {EditFiveIndicationsObservationsComponent} from "./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/edit-five-indications-observations.component";
 import {EditHandjewelryObservationsComponent} from "./coordinator/redigering-av-observasjoner/edit-handjewelry-observations/edit-handjewelry-observations.component";
 import {EditGloveObservationsComponent} from "./coordinator/redigering-av-observasjoner/edit-glove-observations/edit-glove-observations.component";
 import {IndicationSelectionComponent} from "./coordinator/redigering-av-observasjoner/rediger-fire-indikasjoner-observasjoner/indication-selection/indication-selection.component";
@@ -74,7 +74,7 @@ import { SortableColumnComponent } from './shared/sorting/sortable-column.compon
 import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
 import { SortService } from './shared/sorting/sort.service';
 import { DownloadExcelComponent } from './coordinator/rapporter/download/download-excel.component';
-import { ComplianceFourIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceFiveIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-five-indications-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './coordinator/rapporter/common/compliance-pdf.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -125,7 +125,7 @@ export const httpInterceptorProviders = [
     OverviewFhiAdminComponent,
     EditFhiAdminComponent,
     AuthenticationFailedModalComponent,
-    EditFourIndicationsObservationsComponent,
+    EditFiveIndicationsObservationsComponent,
     EditHandjewelryObservationsComponent,
     EditGloveObservationsComponent,
     EditProtectiveEquipmentObservationsComponent,
@@ -144,7 +144,7 @@ export const httpInterceptorProviders = [
     SortableColumnComponent,
     SortableTableDirective,
     DownloadExcelComponent,
-    ComplianceFourIndicationsPdfComponent,
+    ComplianceFiveIndicationsPdfComponent,
     ComplianceHandJewelryPdfComponent,
     CompliancePdfComponent
   ],

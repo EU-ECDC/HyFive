@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FourIndicationsSessionService } from "../../services/data/four-indications-session.service";
+import { FiveIndicationsSessionService } from "../../services/data/five-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
 import { Session } from "../../models/api/Session";
@@ -31,7 +31,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   faCalendar = faCalendar;
 
   constructor(
-    private fourIndicationsSessionService: FourIndicationsSessionService,
+    private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
@@ -49,9 +49,9 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   }
 
   loadSessions() {
-    this.sessions = this.fourIndicationsSessionService
+    this.sessions = this.fiveIndicationsSessionService
       .getSessions()
-      .map((f) => this.createSessionView(f, SessionType.FourIndications))
+      .map((f) => this.createSessionView(f, SessionType.FiveIndications))
       .concat(
         this.handJewelrySessionService
           .getSessions()
@@ -68,10 +68,10 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
           .map((b) => this.createSessionView(b, SessionType.ProtectiveEquipment))
       )
       .sort((a, b) => {
-        if (a.startTime > b.startTime) {
+        if (a.startDate > b.startDate) {
           return -1;
         }
-        if (a.startTime < b.startTime) {
+        if (a.startDate < b.startDate) {
           return 1;
         }
         return 0;
@@ -101,7 +101,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   ): SessionReport {
     return {
       departmentName: session.department?.name,
-      startTime: session.startTime,
+      startDate: session.createdDate,
       type: sessionType,
       id: session.id,
       institutionsName: session.institutionsName,
@@ -110,8 +110,8 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
 
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
-      case SessionType.FourIndications:
-        return Urls.FourIndicationsSessionUrl;
+      case SessionType.FiveIndications:
+        return Urls.FiveIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.HandJewelrySessionUrl;
       case SessionType.Gloves:
@@ -130,15 +130,15 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
       if (s.isSelected) {
         let observable;
         switch (s.type) {
-          case SessionType.FourIndications:
-            observable = this.fourIndicationsSessionService
+          case SessionType.FiveIndications:
+            observable = this.fiveIndicationsSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.fourIndicationsSessionService.deleteSession(s.id);
+                  this.fiveIndicationsSessionService.deleteSession(s.id);
                 }),
                 catchError(error => {
                   console.error('Error in session:', error);

@@ -1,5 +1,5 @@
 import { IndicationType } from '../models/api/IndicationType';
-import { IndicationTypeChoice } from '../models/four-indications/IndicationTypeChoice.model';
+import { IndicationTypeChoice } from '../models/five-indications/IndicationTypeChoice.model';
 
 export class IndicationTypeMapper {
 

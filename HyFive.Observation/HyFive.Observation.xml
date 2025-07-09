@@ -4,9 +4,9 @@
         <name>HyFive.Observation</name>
     </assembly>
     <members>
-        <member name="M:HyFive.Observation.Controllers.V1.FourIndicationsController.SaveSession(HyFive.Models.V1.Session.FourIndicationsSession)">
+        <member name="M:HyFive.Observation.Controllers.V1.FiveIndicationsController.SaveSession(HyFive.Models.V1.Session.FiveIndicationsSession)">
             <summary>
-            Save a Four Indications session
+            Save a Five Indications session
             </summary>
             <param name="session"></param>
             <returns></returns>

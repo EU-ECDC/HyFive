@@ -5,7 +5,7 @@
 export abstract class ActivityTypeConstants
 {
 	public static Disinfection: string = `DISINFECTION`;
-	public static Handwash: string = `HANDWASH`;
-	public static NotExecuted: string = `NOT_EXECUTTED`;
+	public static Handwash: string = `HAND_WASH`;
+	public static NotPerformed: string = `NOT_PERFORMED`;
 	public static NotRegistered: string = `NOT_REGISTERED`;
 }

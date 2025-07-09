@@ -20,32 +20,32 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Observation.Role, Domain.Observation.Role>(MemberList.None);
             CreateMap<Models.V1.UserAccessRequest.UserAccessRequest, Domain.User.UserAccessRequest>(MemberList.None);
 
-            CreateMap<Models.V1.Session.FourIndicationsSession, FourIndicationsSession>(MemberList.None)
+            CreateMap<Models.V1.Session.FiveIndicationsSession, FiveIndicationsSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-            .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
-            CreateMap<Models.V1.Observation.FourIndicatorsObservation, FourIndicationsObservation>(MemberList
+            .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
+            CreateMap<Models.V1.Observation.FiveIndicatorsObservation, FiveIndicationsObservation>(MemberList
                 .None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));
+                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<Models.V1.Observation.IndicationType, IndicationTypes>(MemberList.None);
             CreateMap<Models.V1.Observation.Activity, Activity>(MemberList.None);
             CreateMap<Models.V1.Observation.ActivityType, ActivityType>(MemberList.None);
 
             CreateMap<Models.V1.Session.HandJewelrySession, HandJewelrySession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
             CreateMap<Models.V1.Observation.HandJewelryObservation, HandJewelryObservation>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));
+                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<Models.V1.Observation.HandJewelryType, HandJewelryType>(MemberList.None);
 
             CreateMap<Models.V1.Session.ProtectiveEquipmentSession, Domain.Session.ProtectiveEquipmentSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
             CreateMap<
                     Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation, Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));
+                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<
                 Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType, ProtectiveEquipmentSettingType>(MemberList.None);
             CreateMap<
@@ -55,9 +55,9 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Observation.ProtectiveEquipment.MisuseType, MisuseType>(MemberList.None);
 
             CreateMap<Models.V1.Session.GloveSession, GloveSession>(MemberList.None)
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.StartTime));
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
             CreateMap<Models.V1.Observation.Gloves.GloveObservation, GloveObservation>(MemberList.None)
-                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegistrationTime));
+                .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<Models.V1.Observation.Gloves.GloveWithIndicationType, GloveWithIndicationType>(MemberList
                 .None);
             CreateMap<Models.V1.Observation.Gloves.GloveWithoutIndicationType, GloveWithoutIndicationType>(MemberList

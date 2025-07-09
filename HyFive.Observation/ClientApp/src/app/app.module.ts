@@ -8,11 +8,11 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { RegisterFourIndicationsComponent } from "./registrering/register-four-indications/register-four-indications.component";
-import { FourIndicationsSessionService } from './services/data/four-indications-session.service';
+import { RegisterFiveIndicationsComponent } from "./registrering/register-five-indications/register-five-indications.component";
+import { FiveIndicationsSessionService } from './services/data/five-indications-session.service';
 import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
-import { FourIndicationsObservationCardComponent } from './registrering/four-indications-observation-card/four-indications-observation-card.component';
+import { FiveIndicationsObservationCardComponent } from './registrering/five-indications-observation-card/five-indications-observation-card.component';
 import { IndicationSelectionComponent } from './registrering/indication-selection/indication-selection.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
@@ -53,8 +53,8 @@ import {HelpTextComponent} from "./shared/help-text/help-text.component";
 import { HelpTextSettingsComponent } from './shared/help-text-setting/help-text-setting.component';
 import { PseudonymComponent } from './shared/pseudonym-modal/pseudonym.component';
 import { NotSentSessionsComponent } from './sesjoner/not-sent-sessions/not-sent-sessions.component';
-import { EditFourIndicationsObservationComponent } from './sesjoner/edit-four-indications-observation/edit-four-indications-observation.component';
-import { FourIndicationsComponent } from './sesjoner/fire-indikasjoner/four-indications.component';
+import { EditFiveIndicationsObservationComponent } from './sesjoner/edit-five-indications-observation/edit-five-indications-observation.component';
+import { FiveIndicationsComponent } from './sesjoner/fire-indikasjoner/five-indications.component';
 import { DeleteConfirmationDialogComponent } from './sesjoner/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { HandJewelryComponent } from './sesjoner/handJewelry/handJewelry.component';
 import { EditHandJewelryObservationComponent } from './sesjoner/edit-hand-jewelry-observation/edit-hand-jewelry-observation.component';
@@ -62,7 +62,7 @@ import { SessionOverviewComponent } from './sesjoner/session-overview/session-ov
 import { SentSessionsComponent } from './sesjoner/sent-sessions/sent-sessions.component';
 import { ProtectiveEquipmentComponent } from './sesjoner/protection-equipment/protection-equipment.component';
 import { SessionEditHeaderComponent } from './sesjoner/session-edit-header/session-edit-header.component';
-import { SentFourIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-four-indications-session/sent-four-indications-session.component';
+import { SentFiveIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-five-indications-session/sent-five-indications-session.component';
 import { EditProtectiveEquipmentObservationComponent } from './sesjoner/edit-protective-equipment-observation/edit-protective-equipment-observation.component';
 import { SentSessionOverviewComponent } from './sesjoner/sent-sessions/sent-session-overview/sent-session-overview.component';
 import { SentHandJewelrySessionComponent } from './sesjoner/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
@@ -83,15 +83,15 @@ export const httpInterceptorProviders = [
         AppComponent,
         MainMenuComponent,
         HomePageForObservationComponent,
-        RegisterFourIndicationsComponent,
-        FourIndicationsObservationCardComponent,
+        RegisterFiveIndicationsComponent,
+        FiveIndicationsObservationCardComponent,
         RegisterActivityComponent,
         MissedOpportunityComponent,
         IndicationSelectionComponent,
         RegisterCommentComponent,
         NotSentSessionsComponent,
-        EditFourIndicationsObservationComponent,
-        FourIndicationsComponent,
+        EditFiveIndicationsObservationComponent,
+        FiveIndicationsComponent,
         DeleteConfirmationDialogComponent,
         RegisterHandjewelryComponent,
         HandJewelryObservationCardComponent,
@@ -112,7 +112,7 @@ export const httpInterceptorProviders = [
         EditProtectiveEquipmentObservationComponent,
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,
-        SentFourIndicationsSessionComponent,
+        SentFiveIndicationsSessionComponent,
         SentSessionOverviewComponent,
         OfflineMessageComponent,
         SentHandJewelrySessionComponent,
@@ -150,7 +150,7 @@ export const httpInterceptorProviders = [
         DragDropModule
     ],
     bootstrap: [AppComponent],
-    providers: [FourIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
+    providers: [FiveIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
     exports: [
         EditProtectiveEquipmentObservationComponent,
         RegisterCommentComponent

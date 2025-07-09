@@ -12,8 +12,8 @@ namespace HyFive.Models.V1.Overview
         public string Type { get; set; }
         public string ObserverName { get; set; }
         public Department Department { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string Comment { get; set; }
         public TransferStatusType TransferStatus { get; set; }
         public List<ObservationOverviewReport> Observations { get; set; }

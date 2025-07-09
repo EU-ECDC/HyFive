@@ -35,10 +35,10 @@ export class SentSessionsComponent {
     this.hasLoadedSessions = false;
     this.sentSessionsService.getSessions().subscribe((x) => {
       this.sessions = x.sort((a, b) => {
-        if (a.startTime > b.startTime) {
+        if (a.startDate > b.startDate) {
           return -1;
         }
-        if (a.startTime < b.startTime) {
+        if (a.startDate < b.startDate) {
           return 1;
         }
         return 0;
@@ -69,8 +69,8 @@ export class SentSessionsComponent {
 
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
-      case SessionType.FourIndications:
-        return Urls.SentFourIndicationsSessionUrl;
+      case SessionType.FiveIndications:
+        return Urls.SentFiveIndicationsSessionUrl;
       case SessionType.HandJewelry:
         return Urls.SentHandJewelrySessionUrl;
       case SessionType.ProtectiveEquipment:

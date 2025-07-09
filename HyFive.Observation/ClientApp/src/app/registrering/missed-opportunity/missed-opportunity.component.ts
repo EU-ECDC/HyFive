@@ -27,8 +27,8 @@ export class MissedOpportunityComponent implements OnInit {
   constructor(private modalService: NgbModal, private activityService: ActivityService) {
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activity = {
-        activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotExecuted),
-        timeRecordingWasDone: false,
+        activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotPerformed),
+        TimingWasPerformed: false,
         gloveUsed: null
       };
     });

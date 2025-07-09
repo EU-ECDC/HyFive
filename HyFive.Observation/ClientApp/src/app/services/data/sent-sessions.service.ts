@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { SessionReport } from '../../models/api/SessionReport';
-import { FourIndicationsSession } from '../../models/api/FourIndicationsSession';
+import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
 import { GloveSession } from '../../models/api/GloveSession';
@@ -21,10 +21,10 @@ export class SentSessionsService {
     return this.httpClient.get<SessionReport[]>(url);
   }
 
-  getFourIndicationsSession(sessionId : string): Observable<FourIndicationsSession> {
+  getFiveIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<FourIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fourIndications`, {params});
+    return this.httpClient.get<FiveIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fiveIndications`, {params});
   }
 
   getHandJewelrySession(sessionId: string): Observable<HandJewelrySession> {
@@ -51,9 +51,9 @@ export class SentSessionsService {
     return this.downloadSessionAsExcelNew(url, "Glove");
   }
 
-  public downloadFourIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/fourindications/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
-    return this.downloadSessionAsExcelNew(url, "FourIndications");
+  public downloadFiveIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/fiveindications/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
+    return this.downloadSessionAsExcelNew(url, "FiveIndications");
   }
 
   public downloadHandJewelrySessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {

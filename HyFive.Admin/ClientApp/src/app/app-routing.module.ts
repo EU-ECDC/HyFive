@@ -21,7 +21,7 @@ import { EmailComponent } from './fhiadmin/email/email.component';
 import { ReportComponent } from './coordinator/rapporter/report.component';
 import { ComplianceComponent } from './coordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
 import { DownloadExcelComponent } from './coordinator/rapporter/download/download-excel.component';
-import { ComplianceFourIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-four-indications-pdf.component';
+import { ComplianceFiveIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-five-indications-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
 
 const defaultPath = `/${UrlPaths.homePage}`;
@@ -105,10 +105,10 @@ const routes: Routes = [
     component: ReportComponent,
     children: [
       {
-        path: UrlPaths.fourindicationsCompliance, component: ComplianceComponent
+        path: UrlPaths.fiveIndicationsCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fourindicationsCompliancePdf, component: ComplianceFourIndicationsPdfComponent
+        path: UrlPaths.fiveIndicationsCompliancePdf, component: ComplianceFiveIndicationsPdfComponent
       },
       {
         path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
@@ -119,7 +119,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fourindicationsCompliancePdf
+        redirectTo: UrlPaths.fiveIndicationsCompliancePdf
       }
     ]
   },

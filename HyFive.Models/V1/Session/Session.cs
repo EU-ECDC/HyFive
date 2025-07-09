@@ -12,7 +12,7 @@ namespace HyFive.Models.V1.Session
         public string Id { get; set; }
         public Department Department { get; set; }
         [TsProperty(Type = "Date")]
-        public DateTime StartTime { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [TsProperty(ForceNullable = true)]
         public List<TObservation> Observations { get; set; }

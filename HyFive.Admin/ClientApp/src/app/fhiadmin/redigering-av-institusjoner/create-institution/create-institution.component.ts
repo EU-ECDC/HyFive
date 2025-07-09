@@ -10,6 +10,7 @@ import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeCons
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
 import { User } from 'src/app/models/api/User';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-create-institution',
@@ -23,6 +24,7 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   listOfHealthcareOrganizations: HealthcareOrganization[] = [];
   showHealthcareOrganization: boolean = false;
   showMunicipality: boolean = false;
+  mailValidatorHelper;
 
   @Input() institutions: Institution[] = [];
   @Input() coordinators: User[] = [];
@@ -31,7 +33,9 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private municipalityService: MunicipalityService, 
-              private healthcareOrganizationService: HealthcareOrganizationService) { }
+              private healthcareOrganizationService: HealthcareOrganizationService) {
+                this.mailValidatorHelper = MailValidatorHelper;
+               }
 
   ngOnInit(): void {
     this.institutionService.getInstitutionTypes().subscribe((result) => {
@@ -103,31 +107,9 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       && this.newInstitution?.coordinatorLastName?.length > 0
       && this.coordinators.find(fc => fc.email == this.newInstitution?.coordinatorEmail) == undefined
       && this.newInstitution?.coordinatorEmail?.length > 0
-      && this.validateMail(this.newInstitution?.coordinatorEmail)
+      && this.mailValidatorHelper.validateMail(this.newInstitution?.coordinatorEmail)
       && this.institutions.find(i => i.name === this.newInstitution.institutionName) == undefined;
   }
-
-      validateMail(mail) {
-        if (mail.length == 0) {
-          return false;
-        }
-
-        const emailPattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/;
-        if (emailPattern.test(mail)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      ValidateMailCharacters(event: KeyboardEvent) {
-        const allowedPattern = /^[a-zA-Z0-9@.]$/;
-        const key = event.key;
-
-        if (!allowedPattern.test(key)) {
-          event.preventDefault();
-        }
-      }
 
   showHealthcareOrRegion(institutionTypeId: number) {
     var selectedInstitutiontype = this.institutionTypes.find(i => i.id === institutionTypeId);

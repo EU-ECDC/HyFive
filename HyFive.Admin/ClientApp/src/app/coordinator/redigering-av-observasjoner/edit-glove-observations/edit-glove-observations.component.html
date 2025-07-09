@@ -16,11 +16,11 @@
       <ng-container *ngFor="let observation of observations">
         <tr (click)="selectObservation(observation)" *ngIf="gloveObservationAsChanged?.id !== observation.id" >
           <td>{{observation.role.name}}</td>
-          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes.length > 0">Glove with indications</td>
-          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes.length > 0">Glove without indications</td>
-          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes.length <= 0 && observation.gloveObservation.gloveWithIndicationTypes.length <= 0">-</td>
+          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes?.length > 0">Glove with indications</td>
+          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes?.length > 0">Glove without indications</td>
+          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes?.length <= 0 && observation.gloveObservation.gloveWithIndicationTypes?.length <= 0">-</td>
           <td>
-            <ul style="padding-left: 20px;" *ngIf="observation.gloveObservation.gloveWithIndicationTypes.length > 0">
+            <ul style="padding-left: 20px;" *ngIf="observation.gloveObservation.gloveWithIndicationTypes?.length > 0">
               <li *ngFor="let gloveWithIndicationType of observation.gloveObservation.gloveWithIndicationTypes">
                 {{gloveWithIndicationType.name}}
               </li>

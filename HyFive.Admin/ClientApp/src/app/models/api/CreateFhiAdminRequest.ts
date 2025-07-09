@@ -7,4 +7,5 @@ export interface CreateFhiAdminRequest
 	identityPseudonym: string;
 	firstName: string;
 	lastName: string;
+	email: string;
 }

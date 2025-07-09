@@ -152,7 +152,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
     let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
-      registrationTime: new Date(Date.now()),
+      registeredTime: new Date(Date.now()),
       role: this.card.role,
       comment: this.comment,
       gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),

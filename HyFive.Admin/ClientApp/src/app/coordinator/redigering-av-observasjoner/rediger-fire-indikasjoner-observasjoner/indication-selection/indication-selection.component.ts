@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {IndicationTypeChoice} from "../../../../models/four-indications/IndicationTypeChoice.model";
+import {IndicationTypeChoice} from "../../../../models/five-indications/IndicationTypeChoice.model";
 import {IndicationType} from "../../../../models/api/IndicationType";
 import {IndicationTypesService} from "../../../../services/data/indicationTypes.service";
 import {IndicationTypeMapper} from "../../../../utils/indicationtype-mapper";

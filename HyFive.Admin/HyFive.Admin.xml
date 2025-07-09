@@ -432,7 +432,7 @@
             <param name="role"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFourIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
             <summary>
             Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
             </summary>
@@ -444,9 +444,9 @@
             <param name="sessionId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFourIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
             <summary>
-            Create four indications report for department in PDF format
+            Create five indications report for department in PDF format
             </summary>
             <param name="departmentId"></param>
             <param name="institutionId"></param>
