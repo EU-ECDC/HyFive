@@ -31,7 +31,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             private readonly HandHygieneContext _context;
             private const string IntervalWeek = "week";
             private const string IntervalMonth = "month";
-            private const string IntervalYear = "year";
+            private const string Interval4Month = "4-month";
 
             public Handler(HandHygieneContext context)
             {
@@ -256,13 +256,13 @@ namespace HyFive.Services.Reports.FiveIndicators
                 {
                     return periodToDate.AddMonths(1);
                 }
-                else if (interval == IntervalYear)
+                else if (interval == Interval4Month)
                 {
                     return periodToDate.AddMonths(4);
                 }
                 else
                 {
-                    throw new Exception("The interval must be week, month, or quarter.");
+                    throw new Exception("The interval must be week, month, or 4-month.");
                 }
             }
 
