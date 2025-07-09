@@ -115,6 +115,20 @@ app-delete-shadow {
     outline: none;
 }
 
+.fhi-btn-icon {
+  border-color: #4f841a;
+  color: #4f841a;
+}
+
+input {
+  border-color: #4f841a !important;
+
+}
+
+input::placeholder {
+    color: #4f841a !important;
+  }
+
 a {
   color: #4f841a;
 }
@@ -137,3 +151,23 @@ a:hover {
     border-color: #4f841a;
     color: #4f841a;
 }
+
+.table {
+  border-color: #edf2e8;
+}
+
+.table thead th, .table thead td {
+    background-color: #edf2e8;
+    border: 1px solid white;
+}
+
+.table tbody th {
+    background-color: #edf2e8;
+    border: 1px solid white;
+    font-weight: 400;
+}
+
+.accordion {
+    border-bottom: 1px solid #edf2e8;
+    border-top: 1px solid #edf2e8;
+  }
