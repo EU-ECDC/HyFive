@@ -171,3 +171,20 @@ a:hover {
     border-bottom: 1px solid #edf2e8;
     border-top: 1px solid #edf2e8;
   }
+
+  .nav-link.active::before {
+    background-color: #4f841a !important;
+}
+
+.fhi-btn-group__check:checked + .fhi-btn-group__btn {
+    background-color: #3e8064 !important;
+}
+
+.form-check-input:checked {
+    background-color: #3e8064 !important;
+    border-color: #3e8064 !important;
+}
+
+.form-control {
+  border: 1px solid #4f841a;
+}
