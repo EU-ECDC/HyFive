@@ -32,6 +32,7 @@ export class RegisterActivityComponent implements OnInit {
   @Input("icon") icon: string;
 
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
+  activityTypeConstants = ActivityTypeConstants;
 
   constructor(private observationEventService: ObservationEventService, private modalService: NgbModal) {
   }
