@@ -64,7 +64,7 @@ export class HomePageForObservationComponent implements OnInit {
     this.showHomePage = true;
     this.showProtectiveEquipment = false;
     this.institutionOptions = [];
-    this.selectedInstitutionOptionId = 0;
+    this.selectedInstitutionOptionId = null;
     this.institution = null;
     this.institutionService
       .getInstitutions()
@@ -89,7 +89,7 @@ export class HomePageForObservationComponent implements OnInit {
             }
             this.selectedInstitutionOptionId = this.institution
               ? this.institution.id
-              : 0;
+              : null;
           });
       });
     this.authorizationService.getUser().subscribe((user) => {

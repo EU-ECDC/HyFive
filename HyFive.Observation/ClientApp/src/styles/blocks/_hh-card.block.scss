@@ -10,7 +10,7 @@ $card-border-radius: 24px;
   max-width: 520px;
 
   &__save-shadow {
-    background-color: $fhi-core-blue-3;
+    background-color: #3b6015;
     color: white;
     width: 100%;
     margin-right: -100%;
@@ -93,7 +93,7 @@ $card-border-radius: 24px;
   }
 
   &__delete-shadow {
-    background-color: $fhi-core-red-2;
+    background-color: #e0271a;
     color: white;
     z-index: -1;
     width: 100%;
