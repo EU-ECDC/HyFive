@@ -4,11 +4,13 @@
     <div class="fhi-header__brand">
       <div class="container fhi-header__brand-container d-flex">
         <div class="fhi-header__brand-content">
-          <a class="fhi-header__logo" routerLink="/">
-            <i class="icon-fhi-logo fhi-header__logo-icon"></i>
+          <!-- <a class="fhi-header__logo" routerLink="/"> -->
+          <a routerLink="/">
+              <img style="object-fit: cover; width: 70px; height: 70px;" src="../assets/fhi-felles/logos/ecdc.svg" alt="ECDC-Logo">
+            <!-- <i class="icon-fhi-logo fhi-header__logo-icon"></i> -->
           </a>
-          <div class="fhi-header__project">
-            <span class="fhi-header__project-name">{{ projectName }}</span>
+          <div class="fhi-header__project" style="top: 3px; height: 45px;">
+            <span class="fhi-header__project-name" style="justify-content: center;">{{ projectName }}</span>
           </div>
         </div>
 
