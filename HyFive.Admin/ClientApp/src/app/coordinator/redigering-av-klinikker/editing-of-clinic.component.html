@@ -11,7 +11,7 @@
             <thead>
               <tr>
                 <td sortable-column="Name"></td>
-                <td scope="col">Departments</td>
+                <td sortable-column="Departments"></td>
                 <td class="text-end" scope="col">Action</td>
               </tr>
             </thead>
@@ -33,7 +33,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="clinicAsEdited">
-    <app-edit-a-clinic [clinic]="clinicAsEdited"></app-edit-a-clinic>
+    <app-edit-a-clinic [clinic]="clinicAsEdited" [clinics]="clinics"></app-edit-a-clinic>
   </ng-container>
   <div class="row" *ngIf="!loading && clinics?.length == 0">
     <div class="col-12">
