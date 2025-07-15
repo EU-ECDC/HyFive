@@ -111,5 +111,11 @@ table {
 .fa-icon-warning {
     color: #FFD700; 
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.fhi-header__project::before
+ {
+    background-color: #333333;
+ }

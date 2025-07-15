@@ -3,7 +3,7 @@
   <button class="hh-transparent-button hh-transparent-button--large hh-transparent-button--wide" style="z-index: 2; position: relative"
           [disabled]="disabled"
           (click)="registerActivity(modal)">
-    <fa-icon [icon]="icon" class="hh-vertical-stadium-buttons__icon"></fa-icon>
+    <fa-icon [icon]="icon" class="hh-vertical-stadium-buttons__icon" [ngStyle]="{'color': (this.activityType?.code === activityTypeConstants.NotPerformed && isRegistered) ? '#e0271a' : '' }"></fa-icon>
     <span class="form-check-label" style="line-height: 45%" *ngIf="showText || seconds === 0">
       <small><strong>{{getActivityText()}}</strong></small>
     </span>

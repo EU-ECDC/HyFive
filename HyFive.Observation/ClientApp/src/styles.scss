@@ -39,6 +39,10 @@
 
 /* You can add global styles to this file, and also import other style files */
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 app-save-shadow {
   display: contents;
 }
@@ -51,4 +55,156 @@ app-delete-shadow {
 .fhi-app__main-content {
   margin-bottom: 0;
   padding-bottom: 3.5rem;
+}
+
+.fhi-form-check-tile__label {
+  border-color: #4f841a;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.fhi-form-check-tile__input:checked ~ .fhi-form-check-tile__label {
+  background-color: #edf2e8;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: #edf2e8 !important;
+  color: #000;
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: #4f841a!important;
+  box-shadow: none !important;
+}
+
+.ng-select .ng-input input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.btn .fhi-btn-primary {
+  background-color: #4f841a;
+  border-color: #4f841a;
+  color: #fff;
+  outline: none;
+}
+
+// .fhi-btn-primary, .fhi-btn-primary:active, .fhi-btn-primary:focus {
+.fhi-btn-primary {
+    background-color: #4f841a;
+    border-color: #4f841a;
+    color: white;
+    outline: none;
+}
+
+// .fhi-btn-secondary, .fhi-btn-secondary:active, .fhi-btn-secondary:focus {
+.fhi-btn-secondary {
+    background-color: white;
+    border-color: #4f841a;
+    color: #333333;
+    outline: none;
+}
+
+.fhi-btn-icon {
+  border-color: #4f841a;
+  color: #333333;
+}
+
+input {
+  border-color: #4f841a !important;
+
+}
+
+input::placeholder {
+    color: #4f841a !important;
+  }
+
+a {
+  color: #4f841a;
+}
+
+a:hover {
+    color: #4f841a;
+}
+
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+    color: #fff;
+    background-color: #4f841a;
+    border-color: #4f841a;
+}
+
+.btn:disabled, .btn.disabled, fieldset:disabled {
+  background-color: #757575 !important;
+  border-color: #757575 !important;
+  color: #e5e5e5 !important;
+  opacity: 0.5 !important;
+  outline: none !important;
+}
+
+.fhi-btn-primary:hover:not(:disabled) {
+    background-color: #4f841a;
+}
+
+.fhi-btn-secondary:active, .fhi-btn-secondary:hover {
+    border-color: #4f841a;
+    color: #333333;
+}
+
+.table {
+  border-color: #edf2e8;
+}
+
+.table thead th, .table thead td {
+    background-color: #edf2e8;
+    border: 1px solid white;
+}
+
+.table tbody th {
+    background-color: #edf2e8;
+    border: 1px solid white;
+    font-weight: 400;
+}
+
+.accordion {
+    border-bottom: 1px solid #edf2e8;
+    border-top: 1px solid #edf2e8;
+  }
+
+  .nav-link.active::before {
+    background-color: #4f841a !important;
+}
+
+.fhi-btn-group__check:checked + .fhi-btn-group__btn {
+    background-color: #3e8064 !important;
+}
+
+.form-check-input:checked {
+    background-color: #3e8064 !important;
+    border-color: #3e8064 !important;
+}
+
+.form-control {
+  border: 1px solid #4f841a;
+}
+
+.hh-nytt-kort-dropdown__toggle {
+  background-color: #4f841a;
+  border: #4f841a;
+  box-shadow: none;
+  border-radius: 25px;
+}
+
+@media (min-width:768px) and (max-width:991px) {
+  .logo-text {
+    position: relative;
+    top: 8px;
+  }
+}
+
+.fhi-header__project::before {
+  background-color: #333333;
 }
