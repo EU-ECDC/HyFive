@@ -43,17 +43,42 @@ a:hover {
     border-color: #3b6015 !important;
 }
 
+.fhi-btn-primary, .fhi-btn-primary:active, .fhi-btn-primary:focus {
+    background-color: #3b6015 !important;
+    border-color: #3b6015 !important;
+}
+
+.btn:disabled, .btn.disabled {
+    background-color: grey !important;
+    border-color: grey !important;
+}
+
 .fhi-btn-secondary {
-    color: #333333;
+    color: #333333 !important;
     background-color:  #ffffff;
     border:  2px solid #4f841a;
     border-radius: 5px;
 }
 
 .fhi-btn-secondary:hover {
-    color: #fff;
-    background-color: #3b6015 !important;
+    background-color: #ffffff !important;
     border-color: #3b6015 !important;
+}
+
+.fhi-btn-secondary, .fhi-btn-secondary:active, .fhi-btn-secondary:focus {
+    color: #333333 !important;
+    background-color: #ffffff !important;
+    border-color: #3b6015 !important;
+}
+
+.form-control, .form-select, .fhi-ng-select-wrapper .ng-select .ng-select-container .ng-value-container .ng-input > input, .fhi-ng-select-wrapper .ng-select .ng-select-container .ng-value-container .ng-input > input:focus {
+    border: 2px solid #4f841a;
+}
+
+.form-control:focus, .form-select:focus {
+    border: 2px solid #4f841a !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
 }
 
 .table > :not(caption) > * > * {
@@ -119,3 +144,8 @@ table {
  {
     background-color: #333333;
  }
+
+ .nav-link.active::before {
+    background-color: #4f841a !important;
+}
+
