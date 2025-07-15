@@ -56,13 +56,14 @@
         </div>
       </div>
     </div>
-    <div class="hh-card-slider__stripe"
+    <div class="hh-card-slider__stripe" style="background-color: white;"
          cdkDropList (cdkDropListDropped)="handleSelectDragDrop($event, false)"
          #listIkkeIndikert="cdkDropList"
          [cdkDropListConnectedTo]="[listIndikert]" >
-      <h2 class="h5 mb-3">Not required</h2>
+      <h2 class="h5 mb-3" style="opacity: 0.4;">Not required</h2>
       <div class="custom-control custom-checkbox hh-stadium-checkbox"
            [ngClass]="{'hh-stadium-checkbox--checked':select.wasUsed}"
+           style="opacity: 0.4;"
            *ngFor="let select of protectiveEquipmentNotRequired(); let i = index;"
            cdkDrag [cdkDragData]="select"
            (cdkDragStarted)="cardLockedInPlace = true" (cdkDragEnded)="cardLockedInPlace = false">

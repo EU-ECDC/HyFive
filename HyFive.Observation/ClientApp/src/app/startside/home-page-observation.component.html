@@ -24,8 +24,8 @@
 
     <div class="col-md-6 mb-3">
       <h2 class="h5">Institution</h2>
-      <div class="form-group">
-        <select
+      <!-- <div class="form-group"> -->
+        <!-- <select
           class="form-select"
           name="institution"
           id="institutions"
@@ -39,7 +39,20 @@
           >
             {{ institutionOption.name }}
           </option>
-        </select>
+        </select> -->
+        <div *ngIf="institutionOptions" class="fhi-ng-select-wrapper fhi-autosuggest">
+          <ng-select
+            class="hh-avdeling-dropdown"
+            [items]="institutionOptions"
+            bindLabel="name"
+            bindValue="id"
+            placeholder="Select Institution"
+            clearAllText="Delete"
+            notFoundText="No results"
+            [(ngModel)]="selectedInstitutionOptionId"
+            (ngModelChange)="selectedInstitutionChanged()"
+            >
+        </ng-select>
       </div>
     </div>
 
