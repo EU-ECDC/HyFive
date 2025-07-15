@@ -197,3 +197,14 @@ a:hover {
   box-shadow: none;
   border-radius: 25px;
 }
+
+@media (min-width:768px) and (max-width:991px) {
+  .logo-text {
+    position: relative;
+    top: 8px;
+  }
+}
+
+.fhi-header__project::before {
+  background-color: #333333;
+}
