@@ -1,34 +1,74 @@
 <div class="container">
   <div class="row">
-    <div class="row align-items-end mb-4">
+    <div class="row align-items-end mb-4" *ngIf="canSelectInstitution">
 
+      <div class="col-md-4">
+        <label for="institutionsTypes">Institution Types</label>
+          <ng-multiselect-dropdown [placeholder]="'Select'"
+                                        [settings]="dropdownSettings"
+                                        [data]="institutionTypes"
+                                        [(ngModel)]="selectedInstitutionTypes">
+              </ng-multiselect-dropdown>
+      </div>   
+      <div class="col-md-4">
+        <label for="institutions">Institutions</label>
+          <ng-select
+            [items]="institutions"
+            bindLabel="name"
+            [multiple]="true"
+            [(ngModel)]="selectedInstitutions"
+            placeholder="Select institutions"
+            (blur)="selectInstitution()">
+          </ng-select>
+    </div>           
+</div>
+<div class = "row">
       <div class="col-md-2">
-        <label for="sessionType">Interval</label>
-        <select class="form-select" id="role" [(ngModel)]="interval">
+        <label for="interval">Interval</label>
+        <select class="form-select" id="interval" [(ngModel)]="interval">
+          <option value="year">Year</option>
+          <option value="quarter">Quarter</option>
           <option value="month">Month</option>
-          <option value="4-month">4-month</option>
-          <option value="week">Week</option>
         </select>
       </div>
 
-      <div class="col-md-2" *ngIf="interval=='week'">
+      <div class="col-md-2" *ngIf="interval=='quarter'">
+        <label for="from">From quarter</label>
+        <select class="form-select" id="quarter" [(ngModel)]="fromQuarter">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+      <div class="col-md-2" *ngIf="interval=='quarter'">
+        <label for="to">To quarter</label>
+        <select class="form-select" id="quarter" [(ngModel)]="toQuarter">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <!-- <div class="col-md-2" *ngIf="interval=='week'">
         <label for="fra">From month</label>
         <select class="form-select" id="month" [(ngModel)]="fromMonth">
           <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="col-md-2">
         <label for="fra">From year</label>
         <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
       </div>
 
-      <div class="col-md-2" *ngIf="interval=='week'">
+      <!-- <div class="col-md-2" *ngIf="interval=='week'">
         <label for="fra">To month</label>
         <select class="form-select" id="month" [(ngModel)]="toMonth">
           <option *ngFor="let month of months" [ngValue]="month.value">{{month.description}}</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="col-md-2">
         <label for="til">To year</label>
@@ -40,19 +80,30 @@
     <div class="row align-items-end mb-4">
 
       <div class="col-md-2">
-        <label for="sessionType">Role</label>
-        <select class="form-select" id="role" [(ngModel)]="role">
-          <option value="null">All</option>
-          <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
-        </select>
+        <label for="role">Role</label>
+        <ng-multiselect-dropdown [placeholder]="'Select'"
+                                    [settings]="dropdownSettings"
+                                    [data]="roles"
+                                    [(ngModel)]="selectedRoles">
+            </ng-multiselect-dropdown>
       </div>
 
       <div class="col-md-2">
-        <label for="sessionType">Department</label>
-        <select class="form-select" id="department" [(ngModel)]="department">
-          <option value="null">All</option>
-          <option *ngFor="let department of departments" [ngValue]="department">{{department.name}}</option>
-        </select>
+        <label for="department">Department</label>
+            <ng-multiselect-dropdown [placeholder]="'Select'"
+                                    [settings]="dropdownSettings"
+                                    [data]="departments"
+                                    [(ngModel)]="selectedDepartments">
+            </ng-multiselect-dropdown>
+      </div>
+
+      <div class="col-md-2" >
+        <label for="departmentType">Department type</label>
+          <ng-multiselect-dropdown [placeholder]="'Select'"
+                                    [settings]="dropdownSettings"
+                                    [data]="departmentTypes"
+                                    [(ngModel)]="selectedDepartmentTypes">
+          </ng-multiselect-dropdown>
       </div>
 
       <div class="form-group col-12 col-md-3">

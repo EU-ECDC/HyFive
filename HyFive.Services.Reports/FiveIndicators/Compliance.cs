@@ -16,22 +16,26 @@ namespace HyFive.Services.Reports.FiveIndicators
     {
         public class Query : IRequest<List<GrafDto>>
         {
-            public int InstitutionId { get; set; }
+            public List<int> InstitutionIds { get; set; } = new();
             public string Interval { get; set; }
             public int FromMonth { get; set; }
             public int FromYear { get; set; }
+            public int FromQuarter { get; set; }
             public int ToMonth { get; set; }
             public int ToYear { get; set; }
-            public int? RoleId { get; set; }
-            public int? DepartmentId { get; set; }
+            public int ToQuarter { get; set; }
+            public List<int> RoleIds { get; set; } = new();
+            public List<int> DepartmentIds { get; set; } = new();
+            public List<int> InstitutionTypeIds { get; set; } = new();       // Optional: add if needed
+            public List<int> DepartmentTypeIds { get; set; } = new();
         }
 
         public class Handler : IRequestHandler<Query, List<GrafDto>>
         {
             private readonly HandHygieneContext _context;
-            private const string IntervalWeek = "week";
+            private const string IntervalYear = "year";
             private const string IntervalMonth = "month";
-            private const string Interval4Month = "4-month";
+            private const string IntervalQuarter = "quarter";
 
             public Handler(HandHygieneContext context)
             {
@@ -40,35 +44,46 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             public async Task<List<GrafDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var fromDate = new DateTime(request.FromYear, 1, 1);
-                var ToDate = new DateTime(request.ToYear, 1, 1);
-                if (request.Interval == IntervalWeek)
+                DateTime fromDate;
+                DateTime toDate;
+
+                if (request.Interval == IntervalMonth)
                 {
-                    fromDate = fromDate.AddMonths(request.FromMonth - 1);
-                    ToDate = ToDate.AddMonths(request.ToMonth);
+                    fromDate = new DateTime(request.FromYear, request.FromMonth, 1);
+                    toDate = new DateTime(request.ToYear, request.ToMonth, 1).AddMonths(1); // exclusive
                 }
-                else
+                else if (request.Interval == IntervalQuarter)
                 {
-                    ToDate = ToDate.AddYears(1);
+                    int fromMonth = ((request.FromQuarter - 1) * 3) + 1; // Q1 = 1, Q2 = 4, Q3 = 7, Q4 = 10
+                    int toMonth = ((request.ToQuarter - 1) * 3) + 1;
+
+                    fromDate = new DateTime(request.FromYear, fromMonth, 1);
+                    toDate = new DateTime(request.ToYear, toMonth, 1).AddMonths(3); // add full quarter (exclusive end)
                 }
+                else // IntervalYear
+                {
+                    fromDate = new DateTime(request.FromYear, 1, 1);
+                    toDate = new DateTime(request.ToYear + 1, 1, 1); // exclusive end
+                }
+
                 var fromDateUtc = DateTime.SpecifyKind(fromDate, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(ToDate, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(toDate, DateTimeKind.Utc);
                 var observationsInCurrentTimePeriodQuery = _context.FiveIndicationsObservation.Include(f => f.Activity.ActivityType)
                                                                                       .Include(f => f.IndicationTypes)
                                                                                       .Include(f => f.Role)
                                                                                       .AsNoTracking()
                                                                                       .Where(f => f.RegisteredTime >= fromDateUtc &&
                                                                                                   f.RegisteredTime < toDateUtc &&
-                                                                                                  f.FiveIndicationsSession.Department.Institution.Id == request.InstitutionId);
+                                                                                                  request.InstitutionIds.Contains(f.FiveIndicationsSession.Department.Institution.Id));
 
-                if (request.RoleId != null)
+                if (request.RoleIds?.Any() == true)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.Role.Id == request.RoleId);
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.RoleIds.Contains(x.Role.Id));
                 }
 
-                if (request.DepartmentId != null)
+                if (request.DepartmentIds?.Any() == true)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.Department.Id == request.DepartmentId);
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.DepartmentIds.Contains(x.FiveIndicationsSession.Department.Id));
                 }
 
                 var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();
@@ -156,16 +171,16 @@ namespace HyFive.Services.Reports.FiveIndicators
                     var observationsPeriod = observationsInTheCurrentTimePeriod.Where(o => o.RegisteredTime >= PeriodFromDate && o.RegisteredTime < PeriodToDate);
 
                     var indications = observationsPeriod.Select(x => x.IndicationTypes);
-                    decimal antallIndikasjoner = indications.Sum(item => item.Count);
+                    decimal numberOfIndicators = indications.Sum(item => item.Count);
 
-                    var etterlevdeIndikasjoner = observationsPeriod.Where(o => o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash ||
+                    var compliedIndications = observationsPeriod.Where(o => o.Activity.ActivityType.Code == ActivityTypeConstants.Handwash ||
                                                                                                         o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
                                                                                             .Select(o => o.IndicationTypes);
 
-                    decimal antallEtterlevdeIndikasjoner = etterlevdeIndikasjoner.Sum(item => item.Count);
+                    decimal numberOfCompliedIndications = compliedIndications.Sum(item => item.Count);
 
                     string periodenavn = CalculatePeriodName(interval, PeriodFromDate, PeriodToDate);
-                    var punkt = CreatePoint(antallIndikasjoner, antallEtterlevdeIndikasjoner, periodenavn);
+                    var punkt = CreatePoint(numberOfIndicators, numberOfCompliedIndications, periodenavn);
                     ListOfPoints.Add(punkt);
                 }
 
@@ -230,17 +245,18 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private static string CalculatePeriodName(string interval, DateTime periodFromDate, DateTime periodToDate)
             {
-                if (interval == IntervalWeek)
+                if (interval == IntervalMonth)
                 {
-                    return $"{periodFromDate:d MMM} - {periodToDate:d MMM yy}";
+                    return $"{periodFromDate:MMMM yyyy}"; // e.g. "January 2024"
                 }
-                else if (interval == IntervalMonth)
+                else if (interval == IntervalQuarter)
                 {
-                    return $"{periodFromDate:MMMM yy}";
+                    int quarter = ((periodFromDate.Month - 1) / 3) + 1; // 1-based quarter
+                    return $"Q{quarter} {periodFromDate.Year}";
                 }
-                else if (interval == Interval4Month)
+                else if (interval == IntervalYear)
                 {
-                    return $"{periodFromDate:MMM yy} - {periodToDate.AddMonths(-1):MMM yy}";
+                    return $"{periodFromDate.Year}";
                 }
 
                 return "";
@@ -248,21 +264,21 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private static DateTime CalculateNextPeriodUntilDate(string interval, DateTime periodToDate)
             {
-                if (interval == IntervalWeek)
-                {
-                    return periodToDate.AddDays(7);
-                }
-                else if (interval == IntervalMonth)
+                if (interval == IntervalMonth)
                 {
                     return periodToDate.AddMonths(1);
                 }
-                else if (interval == Interval4Month)
+                else if (interval == IntervalQuarter)
                 {
-                    return periodToDate.AddMonths(4);
+                    return periodToDate.AddMonths(3);
+                }
+                else if (interval == IntervalYear)
+                {
+                    return periodToDate.AddYears(1);
                 }
                 else
                 {
-                    throw new Exception("The interval must be week, month, or 4-month.");
+                    throw new ArgumentException("The interval must be 'month', 'quarter', or 'year'.", nameof(interval));
                 }
             }
 
