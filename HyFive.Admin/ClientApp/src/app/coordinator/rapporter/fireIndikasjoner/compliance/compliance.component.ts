@@ -33,7 +33,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   fromQuarter: number = 1;
   toQuarter: number = 1;
   selectedRoles: Role[];
-  selectedInstitutionTypes: InstitutionType[];
+  selectedInstitutionTypes: InstitutionType[] = [];
   selectedInstitutionType: number;
   selectedInstitutions: InstitutionReport[];
   selectedInstitutionId: number;
@@ -53,6 +53,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   departmentTypes: DepartmentType[];
   institutionTypes: InstitutionType[];
   institutions: InstitutionReport[];
+  allInstitutions: InstitutionReport[];
 
   percentageDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
@@ -95,20 +96,21 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     this.months = this.initMonths();
     this.loadRoles();
-    this.loadInstitutionsTypes();
-    this.loadDepartmentTypes();
 
     this.selectedRole = this.authorizationService.getSelectedRole();
           
           if (this.selectedRole === AuthorizedRole.Coordinator) {
+            this.loadDepartmentTypes();
             this.canSelectInstitution = false;
             this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-            this.loadInstitution(this.selectedInstitutionId)
+            this.loadCoordinatorInstitutionDepartments(this.selectedInstitutionId)
           }
-          else if (this.selectedRole === AuthorizedRole.Administrator) {            
+          else if (this.selectedRole === AuthorizedRole.Administrator) {  
+            this.loadAdminInstitutionsTypes();          
             this.institutionService.getInstitutions().subscribe(
               (institutions) => {
                 this.institutions = institutions;
+                this.allInstitutions = institutions;
               });
             }
     
@@ -119,7 +121,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.selectedDepartments = null;
     if (this.selectedInstitutions != null) {
       var institutionIds = this.selectedInstitutions.map(inst => inst.id);
-      this.loadInstitutions(institutionIds)
+      this.loadInstitutionsDepartments(institutionIds)
     }
   };
 
@@ -136,14 +138,14 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   ngOnDestroy(): void {
   }
 
-  loadInstitutionsTypes() {
+  loadAdminInstitutionsTypes() {
     this.institutionService.getInstitutionTypes().subscribe((result) => {
       this.institutionTypes = result,
       (error) => this.toastrService.error('An error occurred while loading institution types: ' + error?.message, '', { disableTimeOut: true })
     });
   }
 
-  loadInstitutions(institutionIds: number[]) {
+  loadInstitutionsDepartments(institutionIds: number[]) {
   this.institutionService.getComplianceInstitutions(institutionIds).subscribe(institutions => {
     const allDepartments = institutions.reduce((all, inst) => {
       return all.concat(inst.departments);
@@ -153,11 +155,24 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
       new Map(allDepartments.map(dep => [dep.id, dep])).values()
     );
 
+    const uniqueDepartmentTypes = Array.from(
+      new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
+    );
+
+    this.departmentTypes = uniqueDepartmentTypes;
     this.departments = uniqueDepartments;
   });
 }
 
-  loadInstitution(institutionId: number) {
+    filterInstitutionsByType() {
+        if (this.selectedInstitutionTypes?.length > 0) {
+          this.institutions =  this.institutions.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+        } else {
+          this.institutions = this.allInstitutions;
+        }
+      }
+
+  loadCoordinatorInstitutionDepartments(institutionId: number) {
     this.institutionService.getInstitution(institutionId).subscribe(
       institution => {
         this.departments = institution.departments;

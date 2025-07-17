@@ -7,19 +7,18 @@
           <ng-multiselect-dropdown [placeholder]="'Select'"
                                         [settings]="dropdownSettings"
                                         [data]="institutionTypes"
-                                        [(ngModel)]="selectedInstitutionTypes">
+                                        [(ngModel)]="selectedInstitutionTypes"
+                                        (ngModelChange)="filterInstitutionsByType()">
               </ng-multiselect-dropdown>
       </div>   
       <div class="col-md-4">
         <label for="institutions">Institutions</label>
-          <ng-select
-            [items]="institutions"
-            bindLabel="name"
-            [multiple]="true"
-            [(ngModel)]="selectedInstitutions"
-            placeholder="Select institutions"
-            (blur)="selectInstitution()">
-          </ng-select>
+        <ng-multiselect-dropdown placeholder="Select institutions"
+                                [settings]="dropdownSettings"
+                                [data]="institutions"
+                                [(ngModel)]="selectedInstitutions"
+                                (ngModelChange)="selectInstitution()">
+        </ng-multiselect-dropdown>
     </div>           
 </div>
 <div class = "row">
