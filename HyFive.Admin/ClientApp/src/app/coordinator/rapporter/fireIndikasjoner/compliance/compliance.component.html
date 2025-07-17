@@ -21,7 +21,7 @@
         </ng-multiselect-dropdown>
     </div>           
 </div>
-<div class = "row">
+<div class = "row mb-4">
       <div class="col-md-2">
         <label for="interval">Interval</label>
         <select class="form-select" id="interval" [(ngModel)]="interval">
@@ -59,7 +59,7 @@
 
       <div class="col-md-2">
         <label for="fromYear">From year</label>
-        <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
+        <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" (ngModelChange)="validateIntervalYear()" />
       </div>
 
       <!-- <div class="col-md-2" *ngIf="interval=='week'">
@@ -71,14 +71,15 @@
 
       <div class="col-md-2">
         <label for="toYear">To year</label>
-        <input class="form-control" id="toYear" type="number" [(ngModel)]="toYear" />
+        <input class="form-control" id="toYear" type="number" [(ngModel)]="toYear" (ngModelChange)="validateIntervalYear()" />
       </div>
     </div>
+    <div *ngIf="intervalYearError" style="color: #e0271a; margin: 0;" class="row">From year must be before To year</div>
   </div>
   <div class="row">
     <div class="row align-items-end mb-4">
 
-      <div class="col-md-2">
+      <div class="col-md-4">
         <label for="role">Role</label>
         <ng-multiselect-dropdown [placeholder]="'Select'"
                                     [settings]="dropdownSettings"
@@ -87,7 +88,7 @@
             </ng-multiselect-dropdown>
       </div>
 
-      <div class="col-md-2">
+      <div class="col-md-4">
         <label for="department">Department</label>
             <ng-multiselect-dropdown [placeholder]="'Select'"
                                     [settings]="dropdownSettings"
@@ -96,12 +97,13 @@
             </ng-multiselect-dropdown>
       </div>
 
-      <div class="col-md-2" >
+      <div class="col-md-4" >
         <label for="departmentType">Department type</label>
           <ng-multiselect-dropdown [placeholder]="'Select'"
                                     [settings]="dropdownSettings"
                                     [data]="departmentTypes"
-                                    [(ngModel)]="selectedDepartmentTypes">
+                                    [(ngModel)]="selectedDepartmentTypes"
+                                    (ngModelChange)="filterDepartmentsByType()">
           </ng-multiselect-dropdown>
       </div>
 

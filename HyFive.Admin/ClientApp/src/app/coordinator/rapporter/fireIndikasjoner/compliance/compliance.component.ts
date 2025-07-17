@@ -43,6 +43,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   months: any [];
   transferredTo: number = 1;
   canSelectInstitution = true;
+  intervalYearError: boolean = false;
 
   dropdownSettings: IDropdownSettings;
   
@@ -50,6 +51,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   showGraphError = false;
   roles: Role[];
   departments: Department[];
+  allDepartments: Department[];
   departmentTypes: DepartmentType[];
   institutionTypes: InstitutionType[];
   institutions: InstitutionReport[];
@@ -161,16 +163,34 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 
     this.departmentTypes = uniqueDepartmentTypes;
     this.departments = uniqueDepartments;
+    this.allDepartments = uniqueDepartments;
   });
 }
 
-    filterInstitutionsByType() {
-        if (this.selectedInstitutionTypes?.length > 0) {
-          this.institutions =  this.institutions.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
-        } else {
-          this.institutions = this.allInstitutions;
-        }
-      }
+  filterInstitutionsByType() {
+    if (this.selectedInstitutionTypes?.length > 0) {
+      this.institutions =  this.allInstitutions.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+    } else {
+      this.institutions = this.allInstitutions;
+    }
+  }
+
+  filterDepartmentsByType() {
+    if (this.selectedDepartmentTypes?.length > 0) {
+      console
+      this.departments =  this.allDepartments.filter(item => this.selectedDepartmentTypes.some(sd => sd.id == item.departmentTypeId));
+    } else {
+      this.departments = this.allDepartments;
+    }
+  }
+
+  validateIntervalYear() {
+    if (this.fromYear > this.toYear) {
+      this.intervalYearError = true;
+    } else {
+      this.intervalYearError = false;
+    }
+  }
 
   loadCoordinatorInstitutionDepartments(institutionId: number) {
     this.institutionService.getInstitution(institutionId).subscribe(
