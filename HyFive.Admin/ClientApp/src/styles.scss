@@ -18,6 +18,10 @@
 @import "styles/blocks/hh-round-checkbox-list.block";
 @import "styles/blocks/hh-stadium-checkbox.block";
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .fhi-btn-flat,.fhi-btn-link {
     box-shadow: none;
     text-decoration: unset;
