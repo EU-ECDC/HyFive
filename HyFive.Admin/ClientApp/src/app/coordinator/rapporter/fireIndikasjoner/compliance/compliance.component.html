@@ -33,8 +33,8 @@
       </div>
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
-        <label for="from">From quarter</label>
-        <select class="form-select" id="quarter" [(ngModel)]="fromQuarter">
+        <label for="fromQuarter">From quarter</label>
+        <select class="form-select" id="fromQuarter" [(ngModel)]="fromQuarter">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -43,8 +43,8 @@
       </div>
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
-        <label for="to">To quarter</label>
-        <select class="form-select" id="quarter" [(ngModel)]="toQuarter">
+        <label for="toQuarter">To quarter</label>
+        <select class="form-select" id="toQuarter" [(ngModel)]="toQuarter">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -59,7 +59,7 @@
       </div> -->
 
       <div class="col-md-2">
-        <label for="fra">From year</label>
+        <label for="fromYear">From year</label>
         <input class="form-control" id="fromYear" type="number" [(ngModel)]="fromYear" />
       </div>
 
@@ -71,7 +71,7 @@
       </div> -->
 
       <div class="col-md-2">
-        <label for="til">To year</label>
+        <label for="toYear">To year</label>
         <input class="form-control" id="toYear" type="number" [(ngModel)]="toYear" />
       </div>
     </div>
@@ -104,6 +104,15 @@
                                     [data]="departmentTypes"
                                     [(ngModel)]="selectedDepartmentTypes">
           </ng-multiselect-dropdown>
+      </div>
+
+      <div class="col-md-2" *ngIf="!canSelectInstitution">
+        <label for="transferredTo">Transferred to</label>
+        <select class="form-select" id="transferredTo" [(ngModel)]="transferredTo">
+          <option value="0">All</option>
+          <option value="1">Transferred to Admin</option>
+          <option value="2">Not transferred to Admin</option>
+        </select>
       </div>
 
       <div class="form-group col-12 col-md-3">

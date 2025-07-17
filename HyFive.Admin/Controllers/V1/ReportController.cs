@@ -298,7 +298,8 @@ namespace HyFive.Admin.Controllers.V1
                 RoleIds = request.RoleIds,
                 DepartmentIds = request.DepartmentIds,
                 DepartmentTypeIds = request.DepartmentTypeIds,
-                InstitutionTypeIds = request.InstitutionTypeIds
+                InstitutionTypeIds = request.InstitutionTypeIds,
+                TranferredTo = request.TransferredTo
             };
 
             var graphList = await _mediator.Send(query);

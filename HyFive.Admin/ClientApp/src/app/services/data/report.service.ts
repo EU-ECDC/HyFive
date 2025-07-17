@@ -23,7 +23,8 @@ export class ReportService {
     toQuarter: number;
     roleIds: number[];
     departmentIds: number[];
-    departmentTypeIds: number[];}): Observable<any[]> {
+    departmentTypeIds: number[];
+    transferredTo: number}): Observable<any[]> {
     const url = `${environment.apiBaseUrl}/v1/report/fiveΙndications/compliance`;
 
     return this.httpClient.post<any[]>(url, payload);

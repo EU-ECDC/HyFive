@@ -41,6 +41,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   selectedDepartmentTypes: DepartmentType[];
   interval: string = 'year';
   months: any [];
+  transferredTo: number = 1;
   canSelectInstitution = true;
 
   dropdownSettings: IDropdownSettings;
@@ -212,7 +213,8 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         toQuarter: this.toQuarter,
         roleIds, 
         departmentIds,
-        departmentTypeIds}).subscribe(
+        departmentTypeIds,
+        transferredTo: this.transferredTo}).subscribe(
       (graphs) => {
 
         let percentageGraph = graphs[0];

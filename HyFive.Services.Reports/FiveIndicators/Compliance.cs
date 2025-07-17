@@ -28,6 +28,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             public List<int> DepartmentIds { get; set; } = new();
             public List<int> InstitutionTypeIds { get; set; } = new();       // Optional: add if needed
             public List<int> DepartmentTypeIds { get; set; } = new();
+            public int TranferredTo { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<GrafDto>>
@@ -76,6 +77,11 @@ namespace HyFive.Services.Reports.FiveIndicators
                                                                                                   f.RegisteredTime < toDateUtc &&
                                                                                                   request.InstitutionIds.Contains(f.FiveIndicationsSession.Department.Institution.Id));
 
+                if (request.InstitutionTypeIds?.Any() == true)
+                {
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.InstitutionTypeIds.Contains(x.FiveIndicationsSession.Department.Institution.InstitutionType.Id));
+                }
+
                 if (request.RoleIds?.Any() == true)
                 {
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.RoleIds.Contains(x.Role.Id));
@@ -84,6 +90,20 @@ namespace HyFive.Services.Reports.FiveIndicators
                 if (request.DepartmentIds?.Any() == true)
                 {
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.DepartmentIds.Contains(x.FiveIndicationsSession.Department.Id));
+                }
+
+                if (request.DepartmentTypeIds?.Any() == true)
+                {
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.DepartmentTypeIds.Contains(x.FiveIndicationsSession.Department.DepartmentType.Id));
+                }
+
+                if (request.TranferredTo == 1)
+                {
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                }
+                else if (request.TranferredTo == 2)
+                {
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code != TransferStatusTypeConstants.TransferredToFhi);
                 }
 
                 var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();

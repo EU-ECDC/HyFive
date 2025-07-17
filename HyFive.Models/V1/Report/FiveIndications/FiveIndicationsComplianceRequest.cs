@@ -20,5 +20,6 @@ namespace HyFive.Models.V1.Report.FiveIndications
         public List<int> RoleIds { get; set; }
         public List<int> DepartmentIds { get; set; }
         public List<int> DepartmentTypeIds { get; set; }
+        public int TransferredTo { get; set; }
     }
 }
