@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
 import { Department} from '../../../../models/api/Department';
@@ -22,6 +22,10 @@ import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
   styleUrls: ['./showGraphErrorStyle.scss']
 })
 export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked  {
+
+  @ViewChild('dropdownRef', { static: false }) dropdownRef: ElementRef;
+  isDropdownFocused: boolean = false;
+
 
   user: LoggedInUser = null;
   private selectedRole: AuthorizedRole;
@@ -124,6 +128,26 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.selectedDepartments = [];
     this.selectedDepartmentTypes = [];
     this.selectedRoles = [];
+  }
+
+  resetDepartments() {
+    this.departments = [];
+    this.allDepartments = [];
+    this.departmentTypes = []
+    this.selectedDepartments = [];
+    this.selectedDepartmentTypes = [];
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+  const clickedInside = this.dropdownRef?.nativeElement.contains(event.target);
+  
+  if (clickedInside) {
+    this.isDropdownFocused = true;
+  } else if (this.isDropdownFocused) {
+    this.isDropdownFocused = false;
+    this.selectInstitution();
+  }
   }
 
   selectInstitution(): void {

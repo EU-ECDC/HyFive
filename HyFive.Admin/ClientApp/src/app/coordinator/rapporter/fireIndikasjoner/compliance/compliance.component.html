@@ -13,12 +13,14 @@
       </div>   
       <div class="col-md-4">
         <label for="institutions">Institutions</label>
+        <div #dropdownRef>
         <ng-multiselect-dropdown placeholder="Select institutions"
                                 [settings]="dropdownSettings"
                                 [data]="institutions"
                                 [(ngModel)]="selectedInstitutions"
-                                (ngModelChange)="selectInstitution()">
+                                (ngModelChange)="resetDepartments()">
         </ng-multiselect-dropdown>
+        </div>
     </div>           
 </div>
 <div class = "row mb-4">
