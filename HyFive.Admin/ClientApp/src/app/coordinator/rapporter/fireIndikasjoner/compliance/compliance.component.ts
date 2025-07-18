@@ -32,12 +32,12 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   toMonth: number = 1;
   fromQuarter: number = 1;
   toQuarter: number = 1;
-  selectedRoles: Role[];
+  selectedRoles: Role[] = [];
   selectedInstitutionTypes: InstitutionType[] = [];
   selectedInstitutionType: number;
-  selectedInstitutions: InstitutionReport[];
+  selectedInstitutions: InstitutionReport[] = [];
   selectedInstitutionId: number;
-  selectedDepartments: Department[];
+  selectedDepartments: Department[] = [];
   selectedDepartmentTypes: DepartmentType[];
   interval: string = 'year';
   months: any [];
@@ -118,11 +118,22 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     
   }
 
+  resetDropdownFilters() {
+    this.selectedInstitutionTypes = [];
+    this.selectedInstitutions = [];
+    this.selectedDepartments = [];
+    this.selectedDepartmentTypes = [];
+    this.selectedRoles = [];
+  }
+
   selectInstitution(): void {
-    this.departments = null;
-    this.selectedDepartments = null;
-    if (this.selectedInstitutions != null) {
-      var institutionIds = this.selectedInstitutions.map(inst => inst.id);
+    this.departments = [];
+    this.departmentTypes = [];
+    this.allDepartments = [];
+    this.selectedDepartments = [];
+    this.selectedDepartmentTypes = [];
+    if (this.selectedInstitutions != null && this.selectedInstitutions?.length > 0) {
+      var institutionIds = this.selectedInstitutions?.map(inst => inst.id);
       this.loadInstitutionsDepartments(institutionIds)
     }
   };
@@ -168,14 +179,18 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 }
 
   filterInstitutionsByType() {
+    this.selectedInstitutions = [];
+    this.selectedDepartments = [];
+    this.selectedDepartmentTypes = [];
     if (this.selectedInstitutionTypes?.length > 0) {
-      this.institutions =  this.allInstitutions.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+      this.institutions =  this.allInstitutions?.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
     } else {
       this.institutions = this.allInstitutions;
     }
   }
 
   filterDepartmentsByType() {
+    this.selectedDepartments = [];
     if (this.selectedDepartmentTypes?.length > 0) {
       console
       this.departments =  this.allDepartments.filter(item => this.selectedDepartmentTypes.some(sd => sd.id == item.departmentTypeId));
