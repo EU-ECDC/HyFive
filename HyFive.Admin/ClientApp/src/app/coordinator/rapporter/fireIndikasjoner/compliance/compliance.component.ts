@@ -245,6 +245,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.institutionService.getInstitution(institutionId).subscribe(
       institution => {
         this.departments = institution.departments;
+        this.allDepartments = this.departments;
         this.selectedInstitutionTypes.push(institution.institutionType);
       })
   };
