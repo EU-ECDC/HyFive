@@ -322,7 +322,8 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         decimals: 1,
         label: 'Compliance (%)',
         symbol: '%',
-        position: 'end'
+        position: 'end',
+        yAxis: 100
       }]
     };
   }

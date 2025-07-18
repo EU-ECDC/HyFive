@@ -81,17 +81,8 @@
   <div class="row">
     <div class="row align-items-end mb-4">
 
-      <div class="col-md-3">
-        <label for="department">Department</label>
-            <ng-multiselect-dropdown [placeholder]="'Select'"
-                                    [settings]="dropdownSettings"
-                                    [data]="departments"
-                                    [(ngModel)]="selectedDepartments">
-            </ng-multiselect-dropdown>
-      </div>
-
       <div class="col-md-3" >
-        <label for="departmentType">Department type</label>
+        <label for="departmentType">Department Types</label>
           <ng-multiselect-dropdown [placeholder]="'Select'"
                                     [settings]="dropdownSettings"
                                     [data]="departmentTypes"
@@ -99,6 +90,16 @@
                                     (ngModelChange)="filterDepartmentsByType()">
           </ng-multiselect-dropdown>
       </div>
+
+            <div class="col-md-4">
+        <label for="department">Department</label>
+            <ng-multiselect-dropdown [placeholder]="'Select departments'"
+                                    [settings]="dropdownSettings"
+                                    [data]="departments"
+                                    [(ngModel)]="selectedDepartments">
+            </ng-multiselect-dropdown>
+      </div>
+
     </div>
 
     <div class="row align-items-end mb-4">
