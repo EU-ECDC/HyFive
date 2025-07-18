@@ -122,12 +122,22 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     
   }
 
-  resetDropdownFilters() {
-    this.selectedInstitutionTypes = [];
-    this.selectedInstitutions = [];
-    this.selectedDepartments = [];
-    this.selectedDepartmentTypes = [];
-    this.selectedRoles = [];
+  onChangeModelInstitution() {
+
+    if (this.selectedInstitutions.length > 0) {
+
+      if (this.departmentTypes.length > 0 && this.allDepartments.length > 0) {
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedInstitutions.some(inst => inst.id == dep.institutionId));
+        this.departments = this.allDepartments;
+        this.departmentTypes = Array.from(
+                                new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
+      }
+      this.selectedDepartments = [];
+      this.selectedDepartmentTypes = [];
+
+    } else {
+      this.resetDepartments();
+    }
   }
 
   resetDepartments() {
