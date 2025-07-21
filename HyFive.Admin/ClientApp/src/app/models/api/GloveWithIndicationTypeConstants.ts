@@ -5,6 +5,6 @@
 export class GloveWithIndicationTypeConstants
 {
 	public static BodyFluids: string = `BODY_FLUIDS`;
-	public static Infection: string = `INFECTION`;
+	public static Transmission: string = `TRANSMISSION`;
 	public static Other: string = `OTHER`;
 }

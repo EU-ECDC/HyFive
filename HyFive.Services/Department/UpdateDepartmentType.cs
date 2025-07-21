@@ -41,7 +41,7 @@ namespace HyFive.Services.Department
                     return _mapper.Map<Models.V1.Institution.DepartmentType>(departmentType);
                 }
 
-                throw new ArgumentException($"Could not find department type with ID {request.DepartmentType.Id}");
+                throw new ArgumentException($"Did not find department type with ID {request.DepartmentType.Id}");
             }
         }
     }

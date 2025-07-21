@@ -9,7 +9,7 @@ namespace HyFive.Models.V1.Constants
         public static string Gloves = "GLOVES";
 
         [TsProperty(Constant = true)]
-        public static string InfectionGown = "INFECTION_GOWN";
+        public static string IsolationGown = "ISOLATION_GOWN";
 
         [TsProperty(Constant = true)]
         public static string FaceMask = "FACE_MASK";

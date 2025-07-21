@@ -44,7 +44,7 @@ namespace HyFive.Services.HandJewelry
 
                 if (observation == null)
                 {
-                    throw new Exception("O-HS-01: Could not find observation with ID " + request.Observation.Id);
+                    throw new Exception("O-HS-01: Did not find observation with ID " + request.Observation.Id);
                 }
                 
                 if (observation.HandJewelrySession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
@@ -62,7 +62,7 @@ namespace HyFive.Services.HandJewelry
                     var handJewelryIdsFromRequest = string.Join(',', handJewelryTypeIds);
                     if (handJewelryFromDatabase.Any() == false)
                     {
-                        throw new Exception($"O-HS-03:Could not find any hand jewelry with IDs {handJewelryIdsFromRequest}");
+                        throw new Exception($"O-HS-03:Did not find any hand jewelry with IDs {handJewelryIdsFromRequest}");
                     }
 
                     if (handJewelryFromDatabase.Count() != request.Observation.HandJewelries.Count())

@@ -45,7 +45,7 @@ namespace HyFive.Services.Institution
                 
                 if (institution == null)
                 {
-                    throw new Exception($"Could not find institution with ID: {request.InstitutionId}");
+                    throw new Exception($"Did not find institution with ID: {request.InstitutionId}");
                 }
                 
                 institution.HasObservations = 

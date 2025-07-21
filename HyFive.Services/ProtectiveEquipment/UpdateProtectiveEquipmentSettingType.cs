@@ -32,7 +32,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var settingType = await _context.ProtectiveEquipmentSettingType
                     .FirstOrDefaultAsync(bust => bust.Id == request.SettingType.Id, cancellationToken);
 
-                if (settingType == null) throw new Exception($"Could not find protective equipment setting type with ID: {request.SettingType.Id}");
+                if (settingType == null) throw new Exception($"Did not find protective equipment setting type with ID: {request.SettingType.Id}");
 
                 settingType.Name = request.SettingType.Name;
 

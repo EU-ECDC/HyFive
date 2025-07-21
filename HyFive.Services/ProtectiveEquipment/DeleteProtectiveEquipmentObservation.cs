@@ -38,7 +38,7 @@ namespace HyFive.Services.Glove
 
                     if (observation == null)
                     {
-                        throw new Exception("S-BU-01: Could not find Protective Equipment observation with ID: " + request.ObservationId);
+                        throw new Exception("S-BU-01: Did not find Protective Equipment observation with ID: " + request.ObservationId);
                     }
 
                     var session = _context.ProtectiveEquipmentSession

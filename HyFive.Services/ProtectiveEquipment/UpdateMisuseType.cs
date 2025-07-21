@@ -36,13 +36,13 @@ namespace HyFive.Services.ProtectiveEquipment
                     .FirstOrDefaultAsync(but => but.Id == request.EquipmentTypeId, cancellationToken);
                 if (equipmentType == null)
                 {
-                    throw new Exception("Could not find equipment type with ID: " + request.EquipmentTypeId);
+                    throw new Exception("Did not find equipment type with ID: " + request.EquipmentTypeId);
                 }
 
                 var misuseType = equipmentType.MisuseTypes.FirstOrDefault(fbt => fbt.Id == request.MisuseType.Id);
                 if (misuseType == null)
                 {
-                    throw new Exception("Could not find misuse type with ID: " + request.MisuseType.Id);
+                    throw new Exception("Did not find misuse type with ID: " + request.MisuseType.Id);
                 }
 
                 misuseType.Name = request.MisuseType.Name;
