@@ -47,7 +47,7 @@ namespace HyFive.Services.FiveIndication
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Could not find an observer with HPR number {request.HprNumber} at institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with HPR number {request.HprNumber} at institution with ID {request.Session.Department.InstitutionId}");
 
                 var indicationTypes = _context.IndicationTypes.ToList();
                 var activityTypes = _context.ActivityType.ToList();
@@ -60,7 +60,7 @@ namespace HyFive.Services.FiveIndication
                 // This is how we want to handle errors if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
 
@@ -101,7 +101,7 @@ namespace HyFive.Services.FiveIndication
 
                 if (institution == null)
                     throw new Exception(
-                        $"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution.Users.OfType<Observer>()
                     .Where(_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HprNumber, request.Pseudonym).Compile())

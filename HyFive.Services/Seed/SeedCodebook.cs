@@ -252,7 +252,7 @@ namespace HyFive.Services.Seed
                     },
                     new ProtectiveEquipmentType
                     {
-                        Code = ProtectiveEquipmentTypeConstants.InfectionGown,
+                        Code = ProtectiveEquipmentTypeConstants.IsolationGown,
                         Name = "Smittefrakk",
                         MisuseTypes = new List<MisuseType>
                         {
@@ -319,8 +319,8 @@ namespace HyFive.Services.Seed
                     },
                     new ProtectiveEquipmentSettingType
                     {
-                        Code = ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines,
-                        Name = "Basic infection control routines",
+                        Code = ProtectiveEquipmentSettingTypeConstants.BasicIsolationRoutines,
+                        Name = "Basic isolation routines",
                     }
                 };
 
@@ -332,13 +332,13 @@ namespace HyFive.Services.Seed
                                                 ProtectiveEquipmentTypeConstants.RespiratoryProtection, 
                                                 ProtectiveEquipmentTypeConstants.EyeProtection,
                                                 ProtectiveEquipmentTypeConstants.Gloves, 
-                                                ProtectiveEquipmentTypeConstants.InfectionGown);
+                                                ProtectiveEquipmentTypeConstants.IsolationGown);
                     }
                     else if (settingType.Code == ProtectiveEquipmentSettingTypeConstants.DropletTransmission)
                     {
                         settingType.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = GetProtectionEquipmentSettingTypeProtectionEquipmentTypes(settingType, types,
                                                 ProtectiveEquipmentTypeConstants.Gloves, 
-                                                ProtectiveEquipmentTypeConstants.InfectionGown,
+                                                ProtectiveEquipmentTypeConstants.IsolationGown,
                                                 ProtectiveEquipmentTypeConstants.FaceMask, 
                                                 ProtectiveEquipmentTypeConstants.EyeProtection);
                     }
@@ -346,9 +346,9 @@ namespace HyFive.Services.Seed
                     {
                         settingType.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = GetProtectionEquipmentSettingTypeProtectionEquipmentTypes(settingType, types,
                                                 ProtectiveEquipmentTypeConstants.Gloves, 
-                                                ProtectiveEquipmentTypeConstants.InfectionGown);
+                                                ProtectiveEquipmentTypeConstants.IsolationGown);
                     }
-                    else if (settingType.Code == ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines)
+                    else if (settingType.Code == ProtectiveEquipmentSettingTypeConstants.BasicIsolationRoutines)
                     {
                         settingType.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = GetProtectionEquipmentSettingTypeProtectionEquipmentTypes(settingType, types);
                     }

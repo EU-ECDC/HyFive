@@ -35,7 +35,7 @@ namespace HyFive.Services.Session
                 if (session == null)
                 {
                     throw new ArgumentException(
-                        $"Could not find session with ID:  {request.SessionId}");
+                        $"Did not find session with ID:  {request.SessionId}");
                 }
 
                 if (request.Comment != null)

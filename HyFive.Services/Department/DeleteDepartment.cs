@@ -44,7 +44,7 @@ namespace HyFive.Services.Department
 
                 if (department == null)
                 {
-                    throw new Exception($"Could not find institution with ID {departmentId}");
+                    throw new Exception($"Did not find institution with ID {departmentId}");
                 }
 
                 return department;

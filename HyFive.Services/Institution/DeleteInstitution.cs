@@ -51,7 +51,7 @@ namespace HyFive.Services.Institution
 
                 if (institution == null)
                 {
-                    throw new Exception($"Could Not Find Institution With Id: {institutionId}");
+                    throw new Exception($"Did not find Institution With Id: {institutionId}");
                 }
 
                 return institution;

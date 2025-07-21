@@ -35,7 +35,7 @@ namespace HyFive.Services.Clinic
                     .FirstOrDefaultAsync(i => i.Id == command.Clinic.InstitutionId);
                 if (institution == null)
                 {
-                    throw new Exception("Could not find institution with ID: " + command.Clinic.InstitutionId);
+                    throw new Exception("Did not find institution with ID: " + command.Clinic.InstitutionId);
                 }
                 else if (command.Clinic.Departments.Any(x => x.InstitutionId != institution.Id))
                 {

@@ -1,14 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using HyFive.Domain.Place;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System.Xml.Linq;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace HyFive.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class addDataNew : Migration
+    public partial class addData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +14,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""ActivityType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'NOT_PERFORMED', N'Not performed') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ActivityType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'HAND_WASH', N'Hand wash') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ActivityType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'DISINFECTION', N'Disinfection') ON CONFLICT (""Id"") DO NOTHING");
-            
+
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (1, 4, 1, TRUE, NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (2, 3, 5, TRUE, NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (3, 4, 1, TRUE, NULL) ON CONFLICT (""Id"") DO NOTHING");
@@ -417,7 +414,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (462, 4, 0, FALSE, NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (463, 3, 0, FALSE, NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Activity"" (""Id"", ""ActivityTypeId"", ""SecondsUsed"", ""TimingWasPerformed"", ""GloveUsed"") VALUES (464, 3, 7, TRUE, TRUE) ON CONFLICT (""Id"") DO NOTHING");
-           
+
 
             migrationBuilder.Sql(@"INSERT INTO ""Municipality"" (""Id"", ""Number"", ""Name"") VALUES (1, N'0301', N'Oslo') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Municipality"" (""Id"", ""Number"", ""Name"") VALUES (2, N'1101', N'Eigersund') ON CONFLICT (""Id"") DO NOTHING");
@@ -833,15 +830,15 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (5, N'Intermediate Unit', N'Intermediate Unit') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (6, N'Medical Intensive/Monitoring', N'Medical Intensive/Monitoring') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (7, N'Surgical Intensive/Monitoring', N'Surgical Intensive/Monitoring') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (8, N'Observation Unit / Emergency Admission', N'Observation Unit / Emergency Admission') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (8, N'Observation Unit / Emergency Department', N'Observation Unit / Emergency Department') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (9, N'Physical Medicine / Rehabilitation', N'Physical Medicine / Rehabilitation') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (10, N'Rheumatology', N'Rheumatology') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (11, N'Oncology', N'Oncology') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (12, N'Eye Diseases', N'Eye Diseases') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (13, N'Ear, Nose, and Throat', N'Ear, Nose, and Throat') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (14, N'Neurology', N'Neurology') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (15, N'Pediatrics', N'Pediatrics') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (16, N'Dermatology and Venereal Diseases', N'Dermatology and Venereal Diseases') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (15, N'Pediatric Diseases', N'Pediatric Diseases') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (16, N'Dermatology and  STDs', N'Dermatology and Venereal Diseases') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (17, N'Obstetrics and Gynecology', N'Obstetrics and Gynecology') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (18, N'Internal Medicine', N'Internal Medicine') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentType"" (""Id"", ""Code"", ""Name"") VALUES (19, N'Long-term Department', N'Long-term Department') ON CONFLICT (""Id"") DO NOTHING");
@@ -1110,7 +1107,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentRole"" (""DepartmentsId"", ""RolesId"") VALUES (57, 11) ON CONFLICT DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""DepartmentRole"" (""DepartmentsId"", ""RolesId"") VALUES (62, 11) ON CONFLICT DO NOTHING");
 
-            
+
 
             migrationBuilder.Sql(@"INSERT INTO ""User"" (""Id"", ""InstitutionId"", ""Discriminator"", ""LastName"", ""FirstName"", ""CreatedTime"", ""IsDeactivated"", ""IdentityPseudonym"", ""HPRNumber"", ""Email"") VALUES (1, NULL, N'FhiAdmin', N'Vits', N'Grønn', TIMESTAMP '2021-08-05T07:12:21.6585229', FALSE, N'OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=', NULL, N'epipulse_ecdc_o@ecdc.europa.eu') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""User"" (""Id"", ""InstitutionId"", ""Discriminator"", ""LastName"", ""FirstName"", ""CreatedTime"", ""IsDeactivated"", ""IdentityPseudonym"", ""HPRNumber"", ""Email"") VALUES (2, 1, N'Coordinator', N'Grevling', N'Kvart', TIMESTAMP '2021-08-05T07:12:21.6402513', FALSE, N'PGzVzvP2JvlXV++OJSJAQG5d99BH8QsikmxpdIAKSZk=', N'4909402', N'epipulsetest.ecdc.p@test.ecdc.europa.eu') ON CONFLICT (""Id"") DO NOTHING");
@@ -1529,10 +1526,10 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Session"" (""Id"", ""CreatedDate"", ""StartDate"", ""DepartmentId"", ""ObserverId"", ""Comment"", ""Discriminator"", ""TransferStatusId"") VALUES (N'a3f9af84-da4b-460a-bd5d-fe6734547cdc'::uuid, TIMESTAMP '2024-10-15T13:36:11.3246803', TIMESTAMP '2023-04-27T09:30:16', 2, 3, NULL, N'FiveIndicationsSession', 2) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Session"" (""Id"", ""CreatedDate"", ""StartDate"", ""DepartmentId"", ""ObserverId"", ""Comment"", ""Discriminator"", ""TransferStatusId"") VALUES (N'a194209a-14c2-483b-b603-ff7e47d8a32d'::uuid, TIMESTAMP '2021-11-22T14:31:46.3384218', TIMESTAMP '2021-11-22T14:30:37.484', 2, 3, NULL, N'ProtectiveEquipmentSession', 1) ON CONFLICT (""Id"") DO NOTHING");
 
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'BASIC_INFECTION_CONTROL_ROUTINES', N'Basic infection control routines') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'CONTACT_INFECTION', N'Contact infection') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'DROPLET_INFECTION', N'Droplet infection') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'AIR_INFECTION', N'Air infection') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'STANDARD_PRECAUTIONS', N'Standard Precautions') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'CONTACT_TRANSMISSION', N'Contact transmission') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'DROPLET_TRANSMISSION', N'Droplet ransmission') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'AIRBORNE_TRANSMISSION', N'Airborne Transmission') ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentObservation"" (""Id"", ""SettingTypeId"", ""ProtectiveEquipmentSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES ('360c7456-9ce4-47de-ad35-06c9c37986c0'::uuid, 1, 'a350c90c-23dc-4509-bc84-1630fe1b0ab2'::uuid, TIMESTAMP '2022-08-08T10:35:09.0570700', 4, TIMESTAMP '2022-08-08T10:34:28.5740000', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentObservation"" (""Id"", ""SettingTypeId"", ""ProtectiveEquipmentSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES ('e077ba55-3bda-439e-a206-0780562e257c'::uuid, 3, 'd8b41190-3d56-417b-a379-3bd1d26ac0c5'::uuid, TIMESTAMP '2022-08-08T10:37:24.4336726', 4, TIMESTAMP '2022-08-08T10:37:08.0700000', NULL) ON CONFLICT (""Id"") DO NOTHING");
@@ -1643,7 +1640,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentObservation"" (""Id"", ""SettingTypeId"", ""ProtectiveEquipmentSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES ('190c4cff-d0ae-490b-9b35-fffd504085b2'::uuid, 3, '2823b2e4-688f-43fe-9e4e-bfdc9064e812'::uuid, TIMESTAMP '2021-11-22T14:42:14.9785299', 1, TIMESTAMP '2021-11-22T14:42:09.2700000', NULL) ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'GOWN', N'Gown (Care)') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'INFECTION_CONTROL_GOWN', N'Infection Control Gown') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'TRANSMISSION_CONTROL_GOWN', N'Transmission Control Gown') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'FACE_MASK', N'Face Mask') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (4, N'RESPIRATORY_PROTECTION', N'Respiratory Protection') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentType"" (""Id"", ""Code"", ""Name"") VALUES (5, N'EYE_PROTECTION', N'Eye Protection') ON CONFLICT (""Id"") DO NOTHING");
@@ -2584,8 +2581,8 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""MisuseTypeProtectiveEquipment"" (""ProtectiveEquipmentId"", ""MisuseTypesId"") VALUES (843, 21) ON CONFLICT DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""MisuseTypeProtectiveEquipment"" (""ProtectiveEquipmentId"", ""MisuseTypesId"") VALUES (843, 22) ON CONFLICT DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""MisuseTypeProtectiveEquipment"" (""ProtectiveEquipmentId"", ""MisuseTypesId"") VALUES (817, 23) ON CONFLICT DO NOTHING");
-            
-           
+
+
 
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingTypeProtectiveEquipmentType"" (""ProtectiveEquipmentTypeId"", ""ProtectiveEquipmentSettingTypeId"", ""IsDefault"") VALUES (1, 1, FALSE) ON CONFLICT  DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingTypeProtectiveEquipmentType"" (""ProtectiveEquipmentTypeId"", ""ProtectiveEquipmentSettingTypeId"", ""IsDefault"") VALUES (1, 2, FALSE) ON CONFLICT  DO NOTHING");
@@ -2619,7 +2616,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingTypeProtectiveEquipmentType"" (""ProtectiveEquipmentTypeId"", ""ProtectiveEquipmentSettingTypeId"", ""IsDefault"") VALUES (8, 2, TRUE) ON CONFLICT  DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingTypeProtectiveEquipmentType"" (""ProtectiveEquipmentTypeId"", ""ProtectiveEquipmentSettingTypeId"", ""IsDefault"") VALUES (8, 3, TRUE) ON CONFLICT  DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""ProtectiveEquipmentSettingTypeProtectiveEquipmentType"" (""ProtectiveEquipmentTypeId"", ""ProtectiveEquipmentSettingTypeId"", ""IsDefault"") VALUES (8, 4, TRUE) ON CONFLICT  DO NOTHING");
-           
+
             migrationBuilder.Sql(@"INSERT INTO ""FiveIndicationsObservation"" (""Id"", ""ActivityId"", ""FiveIndicationsSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'3361204c-f1de-431c-a416-00a4a331ebd1'::uuid, 315, N'46d78f59-dd58-4e0b-be71-7933c2a39a10'::uuid, TIMESTAMP '2022-10-10T16:13:05.9263753', 5, TIMESTAMP '2022-10-10T16:12:25.', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""FiveIndicationsObservation"" (""Id"", ""ActivityId"", ""FiveIndicationsSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'918d113a-a059-44a6-8034-019d4882fcb8'::uuid, 32, N'34eb52c5-a789-49e7-9670-cbc06aec8065'::uuid, TIMESTAMP '2021-08-24T07:29:43.4960075', 1, TIMESTAMP '2021-08-24T07:29:41.685', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""FiveIndicationsObservation"" (""Id"", ""ActivityId"", ""FiveIndicationsSessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'2305b1e3-a0ed-4ce5-8c66-01d766e5eba6'::uuid, 88, N'2e12a4cd-dc38-4f5b-9589-5001d5ff3922'::uuid, TIMESTAMP '2021-09-22T11:19:48.1544842', 1, TIMESTAMP '2021-09-22T11:19:39.689', NULL) ON CONFLICT (""Id"") DO NOTHING");
@@ -4734,9 +4731,9 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryObservationHandJewelryType"" (""HandJewelriesId"", ""ObservationsId"") VALUES (2, N'd53df004-a234-4b5d-840f-fdabc4f4b617'::uuid) ON CONFLICT  DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryObservationHandJewelryType"" (""HandJewelriesId"", ""ObservationsId"") VALUES (5, N'9242853f-3bee-4336-af48-fdfeda41d7af'::uuid) ON CONFLICT  DO NOTHING");
 
-           
+
             migrationBuilder.Sql(@"INSERT INTO ""GloveWithIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'OTHER', N'Other') ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""GloveWithIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'INFECTION', N'Infection') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""GloveWithIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'TRANSMISSION', N'Transmission') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""GloveWithIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (3, N'BODY_FLUIDS', N'Body Fluids') ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""GloveWithoutIndicationType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'CARE_WITHOUT_BODY_FLUIDS', N'Care without body fluids') ON CONFLICT (""Id"") DO NOTHING");

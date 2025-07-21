@@ -43,7 +43,7 @@ namespace HyFive.Services.Session
                 if (sessionAndType == null)
                 {
                     throw new ArgumentException(
-                        $"Could not find session with ID {request.SessionId} and transfer status code {request.TransferStatusCode}");
+                        $"Did not find session with ID {request.SessionId} and transfer status code {request.TransferStatusCode}");
                 }
 
                 var sessionType = SessionHelper.GetSessionType(sessionAndType.Discriminator);
