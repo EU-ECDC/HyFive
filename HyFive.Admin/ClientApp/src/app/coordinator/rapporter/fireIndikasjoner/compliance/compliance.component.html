@@ -127,10 +127,34 @@
     </div>
   </div>
 
+  <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
+    <p><strong>Institution:</strong> {{institution.name}}</p>
+    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
+  </div>
+
+  <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
+    <p *ngIf="showSelectedInstitutions.length>0"><strong>Institutions:</strong> <span *ngFor="let inst of showSelectedInstitutions; index as i">{{inst.name}}<span *ngIf="i < showSelectedInstitutions.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
+  </div>
+
   <div class="row" *ngIf="showGraph">
     <div class="col-8">
       <fhi-angular-highcharts [diagramOptions]="percentageDiagramOptions"></fhi-angular-highcharts>
     </div>
+  </div>
+
+  <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
+    <p><strong>Institution:</strong> {{institution.name}}</p>
+    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
+  </div>
+
+  <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
+    <p *ngIf="showSelectedInstitutions.length>0"><strong>Institutions:</strong> <span *ngFor="let inst of showSelectedInstitutions; index as i">{{inst.name}}<span *ngIf="i < showSelectedInstitutions.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
   </div>
 
   <div class="row" *ngIf="showGraph">

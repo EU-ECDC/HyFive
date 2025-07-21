@@ -28,14 +28,23 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 
 
   user: LoggedInUser = null;
-  private selectedRole: AuthorizedRole;
+  public selectedRole: AuthorizedRole;
+  AuthorizedRole = AuthorizedRole;
 
-  fromYear: number = 2024;
-  toYear: number = 2024;
+  d = new Date();
+  fromYear: number = this.d.getFullYear();
+  toYear: number = this.d.getFullYear();
   fromMonth: number = 1;
   toMonth: number = 1;
   fromQuarter: number = 1;
   toQuarter: number = 1;
+  showFromMonth: number = 1;
+  showToMonth: number = 1;
+  showFromYear: number = this.d.getFullYear();
+  showToYear: number = this.d.getFullYear();
+  showFromQuarter: number = 1;
+  showToQuarter: number = 1;
+  showSelectedInstitutions: InstitutionReport[] = [];
   selectedRoles: Role[] = [];
   selectedInstitutionTypes: InstitutionType[] = [];
   selectedInstitutionType: number;
@@ -60,6 +69,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   institutionTypes: InstitutionType[];
   institutions: InstitutionReport[];
   allInstitutions: InstitutionReport[];
+  institution: InstitutionReport;
 
   percentageDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
@@ -109,6 +119,12 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.loadDepartmentTypes();
             this.canSelectInstitution = false;
             this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
+            this.institutionService.getInstitution(this.selectedInstitutionId)
+              .subscribe(
+                (institution) => {
+                  this.institution = institution;
+                }
+              )
             this.loadCoordinatorInstitutionDepartments(this.selectedInstitutionId)
           }
           else if (this.selectedRole === AuthorizedRole.Administrator) {  
@@ -302,6 +318,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         transferredTo: this.transferredTo}).subscribe(
       (graphs) => {
 
+        this.showInstitutionsAndPeriod();
         let percentageGraph = graphs[0];
         this.savePercentageChartOptions(percentageGraph);
         let antallGraf = graphs[1];
@@ -310,6 +327,16 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
       },
       (error) => this.toastrService.error('Error in generating graph data: ' + error?.message, '', { disableTimeOut: true })
     );
+  }
+
+  showInstitutionsAndPeriod() {
+    this.showFromMonth = this.fromMonth;
+    this.showToMonth = this.toMonth;
+    this.showFromYear = this.fromYear;
+    this.showToYear = this.toYear;
+    this.showFromQuarter = this.fromQuarter;
+    this.showToQuarter = this.toQuarter;
+    this.showSelectedInstitutions = this.selectedInstitutions;
   }
 
   savePercentageChartOptions(graph: any) {
