@@ -5,7 +5,7 @@
 export class ProtectiveEquipmentTypeConstants
 {
 	public static Gloves: string = `GLOVES`;
-	public static InfectionGown: string = `INFECTION_GOWN`;
+	public static IsolationGown: string = `ISOLATION_GOWN`;
 	public static FaceMask: string = `FACE_MASK`;
 	public static EyeProtection: string = `EYE_PROTECTION`;
 	public static RespiratoryProtection: string = `RESPIRATORY_PROTECTION`;

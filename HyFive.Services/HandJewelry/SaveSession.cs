@@ -54,7 +54,7 @@ namespace HyFive.Services.HandJewelry
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
                     
@@ -89,7 +89,7 @@ namespace HyFive.Services.HandJewelry
                     .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
 
                 if (institution == null)
-                    throw new Exception($"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                    throw new Exception($"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution
                     .Users

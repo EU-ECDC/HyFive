@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -100,7 +101,7 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForHealthcareProvider(int healthcareProvider)
             => IsCoordinatorForHealthcareProvider(GetHprNumber(), GetPseudonym(), healthcareProvider);
 
-        public bool IsCoordinatorForInstitutions(int[] institutionIds)
+        public bool IsCoordinatorForInstitutions(List<int> institutionIds)
             => IsRoleForInstitutions<Coordinator>(institutionIds);
 
         public bool IsCoordinatorForDepartment(int departmentId)
@@ -143,6 +144,11 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForInstitutionOrFhiAdmin(int institutionId)
         {
             return IsCoordinatorForInstitution(institutionId) || IsFhiAdmin();
+        }
+
+        public bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds)
+        {
+            return IsCoordinatorForInstitutions(institutionIds) || IsFhiAdmin();
         }
 
         public bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProvider)
@@ -225,7 +231,7 @@ namespace HyFive.Services.Authentication.User
                 .Any(b => b.Institution.HealthcareOrganization.Id == healthcareOrganization);
         }
 
-        private bool IsRoleForInstitutions<TRole>(int[] InstitutionIds) where TRole : Domain.User.User
+        private bool IsRoleForInstitutions<TRole>(List<int> InstitutionIds) where TRole : Domain.User.User
         {
             var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();

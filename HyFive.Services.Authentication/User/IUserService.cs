@@ -1,5 +1,6 @@
 ﻿using HyFive.Models.V1.Authentication;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace HyFive.Services.Authentication.User
         bool IsObserver(string hprNumber, string identityPseudonym);
 
         bool IsCoordinatorForInstitution(int institutionId);
+
+        bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds);
 
         bool IsCoordinatorForDepartment(int departmentId);
 

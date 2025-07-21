@@ -6,7 +6,7 @@ namespace HyFive.Models.V1.Constants
     public class ProtectiveEquipmentSettingTypeConstants
     {
         [TsProperty(Constant = true)]
-        public static string BasicInfectionControlRoutines =  "BASIC_INFECTIONcONTROLROUTINES";
+        public static string BasicIsolationRoutines =  "BASIC_ISOLATIONROUTINES";
 
         [TsProperty(Constant = true)]
         public static string ContactTransmission = "CONTACTTRANSMISSION";

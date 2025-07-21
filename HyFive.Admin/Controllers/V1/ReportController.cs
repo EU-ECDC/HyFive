@@ -1,4 +1,5 @@
 ﻿using HyFive.Api.Common.ExtensionMethods;
+using HyFive.Models.V1.Report.FiveIndications;
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Authentication.User;
@@ -275,22 +276,30 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(hasData);
         }
 
-        [HttpGet("fiveΙndications/compliance")]
-        public async Task<IActionResult> FiveIndicationsCompliance([FromQuery] int institutionId, [FromQuery] string interval, [FromQuery] int fromMonth, [FromQuery] int fromYear, [FromQuery] int ToMonth, [FromQuery] int toYear, [FromQuery] int? roleId, [FromQuery] int? departmentId)
+        [HttpPost("fiveΙndications/compliance")]
+        public async Task<IActionResult> FiveIndicationsCompliance([FromBody] FiveIndicationsComplianceRequest request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach(var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
 
             var query = new Compliance.Query
             {
-                InstitutionId = institutionId,
-                Interval = interval,
-                FromMonth = fromMonth,
-                FromYear = fromYear,
-                ToMonth = ToMonth,
-                ToYear = toYear,
-                RoleId = roleId,
-                DepartmentId = departmentId
+                InstitutionIds = request.InstitutionIds,
+                Interval = request.Interval,
+                FromMonth = request.FromMonth,
+                FromYear = request.FromYear,
+                FromQuarter = request.FromQuarter,
+                ToMonth = request.ToMonth,
+                ToYear = request.ToYear,
+                ToQuarter = request.ToQuarter,
+                RoleIds = request.RoleIds,
+                DepartmentIds = request.DepartmentIds,
+                DepartmentTypeIds = request.DepartmentTypeIds,
+                InstitutionTypeIds = request.InstitutionTypeIds,
+                TranferredTo = request.TransferredTo
             };
 
             var graphList = await _mediator.Send(query);

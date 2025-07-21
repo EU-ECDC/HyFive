@@ -9,7 +9,7 @@ namespace HyFive.Models.V1.Constants
         public static string BodyFluids = "BODY_FLUIDS";
 
         [TsProperty(Constant = true)]
-        public static string Infection = "INFECTION";
+        public static string Transmission = "TRANSMISSION";
 
         [TsProperty(Constant = true)]
         public static string Other = "OTHER";

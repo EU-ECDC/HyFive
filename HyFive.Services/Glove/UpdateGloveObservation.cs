@@ -46,7 +46,7 @@ namespace HyFive.Services.Glove
 
                 if (observation == null)
                 {
-                    throw new Exception("O-H-01: Could not find observation with ID: " + request.Observation.Id);
+                    throw new Exception("O-H-01: Did not find observation with ID: " + request.Observation.Id);
                 }
 
                 if (observation.GloveSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)

@@ -45,7 +45,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Could not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
@@ -55,7 +55,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 // This is the way we want to handle errors if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
 
@@ -107,7 +107,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (institution == null)
                     throw new Exception(
-                        $"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution
                     .Users

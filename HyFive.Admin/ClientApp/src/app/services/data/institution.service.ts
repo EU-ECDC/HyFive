@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Institution } from '../../models/api/Institution';
@@ -20,6 +20,16 @@ export class InstitutionService {
   getInstitutions(): Observable<InstitutionReport[]> {
     const url = `${environment.apiBaseUrl}/v1/institution/`;
     return this.http.get<Institution[]>(url);
+  }
+
+   getComplianceInstitutions(institutionIds: number[]): Observable<Institution[]> {
+    const params = new HttpParams({
+    fromObject: {
+      institutionIds: institutionIds.map(id => id.toString()) // repeat the key
+    }
+  });
+    const url = `${environment.apiBaseUrl}/v1/institution/getComplianceInstitutions`;
+    return this.http.get<Institution[]>(url, { params });
   }
 
   getInstitutionsForCoordinator(): Observable<InstitutionReport[]> {
@@ -55,6 +65,12 @@ export class InstitutionService {
   getDepartments(id: number): Observable<Department[]> {
     const url = `${environment.apiBaseUrl}/v1/institution/${id}/departments/`;
     return this.http.get<Department[]>(url);
+  }
+
+  getDepartmentsByInstitutions(ids: number[]): Observable<Department[]> {
+    const params = new HttpParams({ fromObject: { ids: ids.map(String) } });
+    const url = `${environment.apiBaseUrl}/v1/institution/departments`;
+    return this.http.get<Department[]>(url, {params});
   }
 
   getInstitutionTypes(): Observable<InstitutionType[]> {

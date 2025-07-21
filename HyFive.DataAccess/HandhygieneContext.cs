@@ -30,7 +30,6 @@ namespace HyFive.DataAccess
         public DbSet<InstitutionType> InstitutionType { get; set; }
         public DbSet<DepartmentType> DepartmentType { get; set; }
         public DbSet<PredefinedComment> PredefinedComment { get; set; }
-        public DbSet<IndicationTypes> Indication { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<HandJewelryType> HandJewelryType { get; set; }
