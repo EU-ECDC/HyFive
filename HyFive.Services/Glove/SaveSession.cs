@@ -44,7 +44,7 @@ namespace HyFive.Services.Glove
                 var observator = await HentObservator(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
-                        $"Could not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
 
                 var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
                 var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
@@ -59,7 +59,7 @@ namespace HyFive.Services.Glove
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
 
@@ -103,7 +103,7 @@ namespace HyFive.Services.Glove
 
                 if (institution == null)
                     throw new Exception(
-                        $"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution.Users.OfType<Observer>().Where(
                     _userService

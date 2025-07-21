@@ -40,7 +40,7 @@ namespace HyFive.Services.FiveIndication
 
                     if (observation == null)
                     {
-                        throw new Exception("S-FIO-01: Could not find observation with ID: " + request.ObservationId);
+                        throw new Exception("S-FIO-01: Did not find observation with ID: " + request.ObservationId);
                     }
 
                     var indicationTypes = _context.IndicationTypes.Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();

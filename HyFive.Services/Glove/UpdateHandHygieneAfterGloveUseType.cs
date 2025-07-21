@@ -32,7 +32,7 @@ namespace HyFive.Services.Glove
                 var handHygieneAfterGloveUseType = await _context.HandHygieneAfterGloveUseType
                     .FirstOrDefaultAsync(x => x.Id == request.HandHygieneAfterGloveUseType.Id);
 
-                if (handHygieneAfterGloveUseType == null) throw new Exception($"Could not find handHygieneAfterGloveUseType with ID: {request.HandHygieneAfterGloveUseType.Id}");
+                if (handHygieneAfterGloveUseType == null) throw new Exception($"Did not find handHygieneAfterGloveUseType with ID: {request.HandHygieneAfterGloveUseType.Id}");
 
                 handHygieneAfterGloveUseType.Name = request.HandHygieneAfterGloveUseType.Name;
 

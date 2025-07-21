@@ -31,7 +31,7 @@ namespace HyFive.Services.Region
             {
                 var regionType = _context.Region.SingleOrDefault(r => r.Id == request.RegionType.Id);
 
-                if (regionType == null) throw new Exception($"Could not find region with id: {request.RegionType.Id}");
+                if (regionType == null) throw new Exception($"Did not find region with id: {request.RegionType.Id}");
 
                 regionType.Name = request.RegionType.Name;
 

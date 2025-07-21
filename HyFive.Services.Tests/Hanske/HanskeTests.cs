@@ -126,7 +126,7 @@ namespace HyFive.Services.Tests.Hanske
                                 new GloveWithIndicationType()
                                 {
                                     IsSelected = true,
-                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Code == GloveWithIndicationTypeConstants.Infection).Id
+                                    Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Code == GloveWithIndicationTypeConstants.Transmission).Id
                                 },
                                 new GloveWithIndicationType()
                                 {
