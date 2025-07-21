@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HyFive.DataAccess.Migrations
 {
     [DbContext(typeof(HandHygieneContext))]
-    [Migration("20250507101107_addData")]
-    partial class addData
+    [Migration("20250721135523_initialMigrationSQL")]
+    partial class initialMigrationSQL
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("DepartmentRole");
                 });
 
-            modelBuilder.Entity("FourIndicationsObservationIndicationTypes", b =>
+            modelBuilder.Entity("FiveIndicationsObservationIndicationTypes", b =>
                 {
                     b.Property<int>("IndicationTypesId")
                         .HasColumnType("integer");
@@ -67,7 +67,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("ObservationsId");
 
-                    b.ToTable("FourIndicationsObservationIndicationTypes");
+                    b.ToTable("FiveIndicationsObservationIndicationTypes");
                 });
 
             modelBuilder.Entity("GloveObservationGloveWithIndicationType", b =>
@@ -87,13 +87,13 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("GloveObservationGloveWithoutIndicationType", b =>
                 {
-                    b.Property<int>("GeneralPurposeGloveTypesId")
+                    b.Property<int>("GloveWithoutIndicationTypesId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("GeneralPurposeGloveTypesId", "ObservationsId");
+                    b.HasKey("GloveWithoutIndicationTypesId", "ObservationsId");
 
                     b.HasIndex("ObservationsId");
 
@@ -102,13 +102,13 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("HandJewelryObservationHandJewelryType", b =>
                 {
-                    b.Property<int>("HandJewelryId")
+                    b.Property<int>("HandJewelriesId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("HandJewelryId", "ObservationsId");
+                    b.HasKey("HandJewelriesId", "ObservationsId");
 
                     b.HasIndex("ObservationsId");
 
@@ -129,11 +129,11 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<bool?>("GloveUsed")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("TimeRecordingWasDone")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("TimeSpent")
+                    b.Property<int>("SecondsUsed")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("TimingWasPerformed")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -169,7 +169,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("ActivityType");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Observation.FourIndicationsObservation", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.FiveIndicationsObservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,10 +185,10 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("FourIndicationsSessionId")
+                    b.Property<Guid?>("FiveIndicationsSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("RegistrationTime")
+                    b.Property<DateTime>("RegisteredTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RoleId")
@@ -200,13 +200,13 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("CreatedTime");
 
-                    b.HasIndex("FourIndicationsSessionId");
+                    b.HasIndex("FiveIndicationsSessionId");
 
-                    b.HasIndex("RegistrationTime");
+                    b.HasIndex("RegisteredTime");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("FourIndicationsObservation");
+                    b.ToTable("FiveIndicationsObservation");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Observation.Gloves.GloveObservation", b =>
@@ -230,7 +230,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("PostGloveHandHygieneTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("RegistrationTime")
+                    b.Property<DateTime>("RegisteredTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RoleId")
@@ -244,7 +244,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("PostGloveHandHygieneTypeId");
 
-                    b.HasIndex("RegistrationTime");
+                    b.HasIndex("RegisteredTime");
 
                     b.HasIndex("RoleId");
 
@@ -347,7 +347,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<Guid?>("HandJewelrySessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("RegistrationTime")
+                    b.Property<DateTime>("RegisteredTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RoleId")
@@ -359,7 +359,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("HandJewelrySessionId");
 
-                    b.HasIndex("RegistrationTime");
+                    b.HasIndex("RegisteredTime");
 
                     b.HasIndex("RoleId");
 
@@ -503,7 +503,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<Guid?>("ProtectiveEquipmentSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("RegistrationTime")
+                    b.Property<DateTime>("RegisteredTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("RoleId")
@@ -518,7 +518,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("ProtectiveEquipmentSessionId");
 
-                    b.HasIndex("RegistrationTime");
+                    b.HasIndex("RegisteredTime");
 
                     b.HasIndex("RoleId");
 
@@ -923,7 +923,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("TransmissionStatusId")
+                    b.Property<int?>("TransferStatusId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -938,7 +938,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasIndex("StartDate");
 
-                    b.HasIndex("TransmissionStatusId");
+                    b.HasIndex("TransferStatusId");
 
                     b.ToTable("Session");
 
@@ -1100,11 +1100,11 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("MisuseTypeProtectiveEquipment");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Session.FourIndicationsSession", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.FiveIndicationsSession", b =>
                 {
                     b.HasBaseType("HyFive.Domain.Session.Session");
 
-                    b.HasDiscriminator().HasValue("FourIndicationsSession");
+                    b.HasDiscriminator().HasValue("FiveIndicationsSession");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.GloveSession", b =>
@@ -1179,7 +1179,7 @@ namespace HyFive.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FourIndicationsObservationIndicationTypes", b =>
+            modelBuilder.Entity("FiveIndicationsObservationIndicationTypes", b =>
                 {
                     b.HasOne("HyFive.Domain.Observation.IndicationTypes", null)
                         .WithMany()
@@ -1187,7 +1187,7 @@ namespace HyFive.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HyFive.Domain.Observation.FourIndicationsObservation", null)
+                    b.HasOne("HyFive.Domain.Observation.FiveIndicationsObservation", null)
                         .WithMany()
                         .HasForeignKey("ObservationsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1213,7 +1213,7 @@ namespace HyFive.DataAccess.Migrations
                 {
                     b.HasOne("HyFive.Domain.Observation.Gloves.GloveWithoutIndicationType", null)
                         .WithMany()
-                        .HasForeignKey("GeneralPurposeGloveTypesId")
+                        .HasForeignKey("GloveWithoutIndicationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1228,7 +1228,7 @@ namespace HyFive.DataAccess.Migrations
                 {
                     b.HasOne("HyFive.Domain.Observation.HandJewelryType", null)
                         .WithMany()
-                        .HasForeignKey("HandJewelryId")
+                        .HasForeignKey("HandJewelriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1248,15 +1248,15 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("ActivityType");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Observation.FourIndicationsObservation", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.FiveIndicationsObservation", b =>
                 {
                     b.HasOne("HyFive.Domain.Observation.Activity", "Activity")
                         .WithMany()
                         .HasForeignKey("ActivityId");
 
-                    b.HasOne("HyFive.Domain.Session.FourIndicationsSession", "FourIndicationsSession")
+                    b.HasOne("HyFive.Domain.Session.FiveIndicationsSession", "FiveIndicationsSession")
                         .WithMany("Observations")
-                        .HasForeignKey("FourIndicationsSessionId");
+                        .HasForeignKey("FiveIndicationsSessionId");
 
                     b.HasOne("HyFive.Domain.Observation.Role", "Role")
                         .WithMany()
@@ -1264,7 +1264,7 @@ namespace HyFive.DataAccess.Migrations
 
                     b.Navigation("Activity");
 
-                    b.Navigation("FourIndicationsSession");
+                    b.Navigation("FiveIndicationsSession");
 
                     b.Navigation("Role");
                 });
@@ -1451,15 +1451,15 @@ namespace HyFive.DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("ObserverId");
 
-                    b.HasOne("HyFive.Domain.Session.TransferStatusType", "TransmissionStatus")
+                    b.HasOne("HyFive.Domain.Session.TransferStatusType", "TransferStatus")
                         .WithMany("Sessions")
-                        .HasForeignKey("TransmissionStatusId");
+                        .HasForeignKey("TransferStatusId");
 
                     b.Navigation("Department");
 
                     b.Navigation("Observer");
 
-                    b.Navigation("TransmissionStatus");
+                    b.Navigation("TransferStatus");
                 });
 
             modelBuilder.Entity("HyFive.Domain.User.User", b =>
@@ -1524,7 +1524,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Session.FourIndicationsSession", b =>
+            modelBuilder.Entity("HyFive.Domain.Session.FiveIndicationsSession", b =>
                 {
                     b.Navigation("Observations");
                 });
