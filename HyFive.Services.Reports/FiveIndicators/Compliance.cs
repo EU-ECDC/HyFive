@@ -199,9 +199,9 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                     decimal numberOfCompliedIndications = compliedIndications.Sum(item => item.Count);
 
-                    string periodenavn = CalculatePeriodName(interval, PeriodFromDate, PeriodToDate);
-                    var punkt = CreatePoint(numberOfIndicators, numberOfCompliedIndications, periodenavn);
-                    ListOfPoints.Add(punkt);
+                    string periodName = CalculatePeriodName(interval, PeriodFromDate, PeriodToDate);
+                    var point = CreatePoint(numberOfIndicators, numberOfCompliedIndications, periodName);
+                    ListOfPoints.Add(point);
                 }
 
                 complianceForAllIndications.Data = ListOfPoints;
