@@ -245,7 +245,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new UpdateBraceletObservation.Command
+                    var result = await _mediator.Send(new UpdateHandJewelryObservation.Command
                     {
                         Observation = observation
                     });

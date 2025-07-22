@@ -13,7 +13,7 @@ using HandJewelryObservation = HyFive.Models.V1.Observation.HandJewelryObservati
 
 namespace HyFive.Services.HandJewelry
 {
-    public class UpdateBraceletObservation
+    public class UpdateHandJewelryObservation
     {
         public class Command : IRequest<bool>
         {

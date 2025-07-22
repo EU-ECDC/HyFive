@@ -59,7 +59,7 @@ namespace HyFive.Services.HandJewelry
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-HS-02: Error while deleting bracelet observation with ID: {request.ObservationId}");
+                    _logger.LogError(e, $"S-HS-02: Error while deleting jewelry observation with ID: {request.ObservationId}");
                     throw;
                 }
 
