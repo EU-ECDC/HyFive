@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -189,20 +190,23 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [HttpGet("fiveIndications/department/pdf")]
         public async Task<IActionResult> CreateFiveIndicationsReportForDepartmentPdf(
-            [FromQuery] int departmentId,
-            [FromQuery] int institutionId,
+            [FromQuery] List<int> departmentIds,
+            [FromQuery] List<int> institutionIds,
             [FromQuery] DateTime fromDate,
             [FromQuery] DateTime toDate,
             [FromQuery] AuthorizedRole role)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in institutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
 
             var query = new GetFiveIndicatorsReportForDepartment.Query
             {
                 FromDate = fromDate,
                 ToTime = toDate,
-                DepartmentId = departmentId,
+                DepartmentIds = departmentIds,
                 Role = role
             };
 
