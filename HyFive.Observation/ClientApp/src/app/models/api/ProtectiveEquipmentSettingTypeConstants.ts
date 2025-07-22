@@ -4,8 +4,8 @@
 
 export class ProtectiveEquipmentSettingTypeConstants
 {
-	public static BasicInfectionControlRoutines: string = `BASIC_INFECTION_CONTROL_ROUTINES`;
-	public static ContactInfection: string = `CONTACT_INFECTION`;
-	public static DropletInfection: string = `DROPLET_INFECTION`;
-	public static AirInfection: string = `AIR_INFECTION`;
+	public static BasicIsolationRoutines: string = `BASIC_ISOLATION_ROUTINES`;
+	public static ContactTransmission: string = `CONTACT_TRANSMISSION`;
+	public static DropletTransmission: string = `DROPLET_TRANSMISSION`;
+	public static AirborneTransmission: string = `AIRBORNE_TRANSMISSION`;
 }
