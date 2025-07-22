@@ -182,8 +182,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create five indications report for department in PDF format
         /// </summary>
-        /// <param name="departmentId"></param>
-        /// <param name="institutionId"></param>
+        /// <param name="departmentIds"></param>
+        /// <param name="institutionIds"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <param name="role"></param>
@@ -220,27 +220,30 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create hand jewelry report for department in PDF format
         /// </summary>
-        /// <param name="departmentId"></param>
-        /// <param name="institutionId"></param>
+        /// <param name="departmentIds"></param>
+        /// <param name="institutionIds"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpGet("handJewelry/department/pdf")]
         public async Task<IActionResult> CreateHandJewelryReportForDepartmentPdf(
-            [FromQuery] int departmentId,
-            [FromQuery] int institutionId,
+            [FromQuery] List<int> departmentIds,
+            [FromQuery] List<int> institutionIds,
             [FromQuery] DateTime fromDate,
             [FromQuery] DateTime toDate,
             [FromQuery] AuthorizedRole role)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in institutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
 
             var query = new GetHandJewelryReportForDepartment.Query
             {
-                DepartmentId = departmentId,
-                InstitutionId = institutionId,
+                DepartmentIds = departmentIds,
+                InstitutionIds = institutionIds,
                 FromDateTime = fromDate,
                 ToDateTime = toDate,
                 Role = role
