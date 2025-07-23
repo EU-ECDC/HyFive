@@ -1,12 +1,16 @@
 import { map, Observable } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
+import { DownloadExcelModel } from "../models/api/downloadExcelModel";
 
 export class DownloadFileHelper {
-    public static downloadFile(url: string, acceptHeader: string): Observable<any> {
+    public static downloadFile(url: string, acceptHeader: string, payload: DownloadExcelModel): Observable<any> {
         return ajax({
           url,
-          method: 'GET',
+          method: 'POST',
           responseType: 'blob',
+          body: {
+            ...payload
+          },
           headers: {
             'Content-Type': 'application/json',
             Accept: acceptHeader,

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
+import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
 import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { InstitutionService } from 'src/app/services/data/institution.service';
@@ -92,16 +93,32 @@ export class DownloadExcelComponent {
   saveReport() {
     this.toastrService.clear();
     
-    this.reportService.reportForSessionTypeHasData(this.selectedSessiontype, this.selectedInstitutionId, this.selectedDepartmentId,
-      this.fromDate, this.toDate, this.selectedRole).subscribe(
+    this.reportService.reportForSessionTypeHasData(
+      {
+        sessionType: this.selectedSessiontype,
+        // institutionTypeIds: [], 
+        institutionIds: [this.selectedInstitutionId],
+        // departmentTypeIds: [],
+        departmentIds: [this.selectedDepartmentId],
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        roleId: this.selectedRole
+      }).subscribe(
         reportHasData => {
           if (reportHasData) {
             this.storedReport = true;
 
             let baseUrl = SessionTypeReportUrlMapper.getReportUrlMap().get(this.selectedSessiontype);
-            let url = `${baseUrl}?fromDate=${this.fromDate}&toDate=${this.toDate}&departmentId=${this.selectedDepartmentId}&institutionId=${this.selectedInstitutionId}&role=${this.selectedRole}`;
+            let url = `${baseUrl}`;
+                const payload: DownloadExcelModel = {
+                  departmentIds:  [this.selectedDepartmentId],
+                  institutionIds: [this.selectedInstitutionId],
+                  fromDate: this.fromDate,
+                  toDate: this.toDate,
+                  roleId: this.selectedRole
+                } 
         
-            this.downloadExcel(url).subscribe(() => {
+            this.downloadExcel(url, payload).subscribe(() => {
               this.storedReport = false;
             },
               (error) => {
@@ -116,8 +133,8 @@ export class DownloadExcelComponent {
         })
   }
 
-  private downloadExcel(url: string): Observable<any> {
-    return DownloadFileHelper.downloadFile(url, 'application/xlsx, */*')
+  private downloadExcel(url: string, payload: DownloadExcelModel): Observable<any> {
+    return DownloadFileHelper.downloadFile(url, 'application/xlsx, */*', payload)
   }
 
   private getInstitution(institutionId: number) {
