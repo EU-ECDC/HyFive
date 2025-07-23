@@ -21,7 +21,7 @@ extends:
     #Set Build Stage variables
     image_repository: "hyfive-admin" #Azure Container Registry repository path and name
     k8sManifestFolderNamePath: "hyfive/hyfive-admin" #To Alter the name of the folder / path up to overlays folder. ex K8s_Kustomization_File_Path: /K8s_Manifest_UAT/hyfive/hyfive-admin/overlays/uat/kustomization.yaml
-    Dockerfile_location: "$(Build.Repository.Name)/Dockerfile.observation" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
+    Dockerfile_location: "$(Build.Repository.Name)/Dockerfile.admin" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
 
     enable_deployment_to_test_env: "false"
     #enable_deployment_to_uat_env: "false"
