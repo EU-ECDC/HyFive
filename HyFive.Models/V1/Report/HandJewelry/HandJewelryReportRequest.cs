@@ -1,0 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+public class HandJewelryReportRequest
+{
+    public List<int> DepartmentIds { get; set; }
+    public List<int> InstitutionIds { get; set; }
+    public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
+    public int Role { get; set; }
+}

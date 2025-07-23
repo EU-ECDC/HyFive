@@ -445,27 +445,26 @@
             <param name="sessionId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(FiveIndicationsReportRequest)">
             <summary>
             Create five indications report for department in PDF format
             </summary>
-            <param name="departmentId"></param>
-            <param name="institutionId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportForDepartmentPdf(HandJewelryReportRequest)">
             <summary>
             Create hand jewelry report for department in PDF format
             </summary>
-            <param name="departmentId"></param>
-            <param name="institutionId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.ReportForSessionTypeHasData(HyFive.Models.V1.Session.ReportForSessionTypeHasDataRequest)">
+            <summary>
+            Checks if there is report data for a given session type, institutions, and (optionally) departments.
+            </summary>
+            <param name="request">The request body.</param>
+            <returns>True if data exists, otherwise false.</returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.RoleController.GetAllRoles">
             <summary>

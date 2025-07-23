@@ -1,5 +1,6 @@
 ﻿using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Models.V1.Report.FiveIndications;
+using HyFive.Models.V1.Session;
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Authentication.User;
@@ -182,31 +183,24 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create five indications report for department in PDF format
         /// </summary>
-        /// <param name="departmentIds"></param>
-        /// <param name="institutionIds"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("fiveIndications/department/pdf")]
-        public async Task<IActionResult> CreateFiveIndicationsReportForDepartmentPdf(
-            [FromQuery] List<int> departmentIds,
-            [FromQuery] List<int> institutionIds,
-            [FromQuery] DateTime fromDate,
-            [FromQuery] DateTime toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("fiveIndications/department/pdf")]
+        public async Task<IActionResult> CreateFiveIndicationsReportForDepartmentPdf([FromBody] FiveIndicationsReportRequest request)
         {
-            foreach (var institutionId in institutionIds)
+            foreach (var institutionId in request.InstitutionIds)
             {
                 if (!UserIsAuthorized(institutionId))
                     return Unauthorized();
             }
 
+            var role = (AuthorizedRole)request.RoleId;
+
             var query = new GetFiveIndicatorsReportForDepartment.Query
             {
-                FromDate = fromDate,
-                ToTime = toDate,
-                DepartmentIds = departmentIds,
+                FromDate = request.FromDate,
+                ToTime = request.ToDate,
+                DepartmentIds = request.DepartmentIds,
                 Role = role
             };
 
@@ -220,32 +214,25 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create hand jewelry report for department in PDF format
         /// </summary>
-        /// <param name="departmentIds"></param>
-        /// <param name="institutionIds"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("handJewelry/department/pdf")]
-        public async Task<IActionResult> CreateHandJewelryReportForDepartmentPdf(
-            [FromQuery] List<int> departmentIds,
-            [FromQuery] List<int> institutionIds,
-            [FromQuery] DateTime fromDate,
-            [FromQuery] DateTime toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("handJewelry/department/pdf")]
+        public async Task<IActionResult> CreateHandJewelryReportForDepartmentPdf([FromBody] HandJewelryReportRequest request)
         {
-            foreach (var institutionId in institutionIds)
+            foreach (var institutionId in request.InstitutionIds)
             {
                 if (!UserIsAuthorized(institutionId))
                     return Unauthorized();
             }
 
+            var role = (AuthorizedRole)request.Role;
+
             var query = new GetHandJewelryReportForDepartment.Query
             {
-                DepartmentIds = departmentIds,
-                InstitutionIds = institutionIds,
-                FromDateTime = fromDate,
-                ToDateTime = toDate,
+                DepartmentIds = request.DepartmentIds,
+                InstitutionIds = request.InstitutionIds,
+                FromDateTime = request.FromDate,
+                ToDateTime = request.ToDate,
                 Role = role
             };
 
@@ -256,26 +243,30 @@ namespace HyFive.Admin.Controllers.V1
             return file;
         }
 
-        [HttpGet("reportForSessionTypeHasData")]
-        public async Task<IActionResult> ReportForSessionTypeHasData(
-            [FromQuery] int sessionType,
-            [FromQuery] int institutionId,
-            [FromQuery] int? departmentId,
-            [FromQuery] DateTime fromDate,
-            [FromQuery] DateTime toDate,
-            [FromQuery] AuthorizedRole roleId)
+        /// <summary>
+        /// Checks if there is report data for a given session type, institutions, and (optionally) departments.
+        /// </summary>
+        /// <param name="request">The request body.</param>
+        /// <returns>True if data exists, otherwise false.</returns>
+        [HttpPost("reportForSessionTypeHasData")]
+        public async Task<IActionResult> ReportForSessionTypeHasData([FromBody] ReportForSessionTypeHasDataRequest request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
+
+            var role = (AuthorizedRole)request.RoleId;
 
             var query = new ReportForSessionTypeHasData.Query
             {
-                SessionType = sessionType,
-                InstitutionId = institutionId,
-                DepartmentId = departmentId,
-                FromDate = fromDate,
-                ToDate = toDate,
-                Role = roleId
+                SessionType = request.SessionType,
+                InstitutionIds = request.InstitutionIds,
+                DepartmentIds = request.DepartmentIds,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
+                Role = role
             };
 
             var hasData = await _mediator.Send(query);
