@@ -1,5 +1,6 @@
 ﻿using HyFive.Api.Common.ExtensionMethods;
 using HyFive.Models.V1.Report.FiveIndications;
+using HyFive.Models.V1.Report.ProtectiveEquipment;
 using HyFive.Models.V1.Session;
 using HyFive.Services;
 using HyFive.Services.Authentication.Requirements;
@@ -42,29 +43,25 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create an Excel report for Glove observations for department
         /// </summary>
-        /// <param name="institutionId"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("department/gloves/excel")]
-        public async Task<IActionResult> CreateGloveReportAsExcel(
-            [FromQuery] int institutionId,
-            [FromQuery] int departmentId,
-            [FromQuery] DateTime? fromDate,
-            [FromQuery] DateTime? toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("department/gloves/excel")]
+        public async Task<IActionResult> CreateGloveReportAsExcel([FromBody] GloveReportRequest request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
+
+            var role = (AuthorizedRole)request.Role;
 
             var query = new GetGloveObservations.Query
             {
-                DepartmentId = departmentId,
-                InstitutionId = institutionId,
-                FromDate = fromDate,
-                ToTime = toDate,
+                DepartmentIds = request.DepartmentIds,
+                InstitutionIds = request.InstitutionIds,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
                 Role = role
             };
 
@@ -77,29 +74,25 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create an Excel report for HandJewelries observations for department
         /// </summary>
-        /// <param name="institutionId"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("department/handJewelry/excel")]
-        public async Task<IActionResult> CreateHandJewelryReportAsExcel(
-            [FromQuery] int institutionId,
-            [FromQuery] int departmentId,
-            [FromQuery] DateTime? fromDate,
-            [FromQuery] DateTime? toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("department/handJewelry/excel")]
+        public async Task<IActionResult> CreateHandJewelryReportAsExcel([FromBody] HandJewelryReportRequest request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
+
+            var role = (AuthorizedRole)request.Role;
 
             var query = new GetHandJewelryObservations.Query
             {
-                DepartmentId = departmentId,
-                InstitutionId = institutionId,
-                FromDate = fromDate,
-                ToTime = toDate,
+                DepartmentIds = request.DepartmentIds,
+                InstitutionIds = request.InstitutionIds,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
                 Role = role
             };
 
@@ -112,29 +105,25 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create an Excel report for ProtectiveEquipment observations for department
         /// </summary>
-        /// <param name="institutionId"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("department/protectiveEquipment/excel")]
-        public async Task<IActionResult> CreateProtectiveEquipmentReportAsExcel(
-            [FromQuery] int institutionId,
-            [FromQuery] int departmentId,
-            [FromQuery] DateTime? fromDate,
-            [FromQuery] DateTime? toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("department/protectiveEquipment/excel")]
+        public async Task<IActionResult> CreateProtectiveEquipmentReportAsExcel([FromBody] ProtectiveEquipmentReport request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
+
+            var role = (AuthorizedRole)request.Role;
 
             var query = new GetProtectiveEquipmentObservations.Query
             {
-                DepartmentId = departmentId,
-                InstitutionId = institutionId,
-                FromDate = fromDate,
-                ToTime = toDate,
+                DepartmentIds = request.DepartmentIds,
+                InstitutionIds = request.InstitutionIds,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
                 Role = role
             };
 
@@ -147,30 +136,25 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
         /// </summary>
-        /// <param name="institutionId"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <param name="role"></param>
-        /// <param name="sessionId"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("department/fiveIndications/excel")]
-        public async Task<IActionResult> CreateFiveIndicationsReportAsExcel(
-            [FromQuery] int institutionId,
-            [FromQuery] int departmentId,
-            [FromQuery] DateTime fromDate,
-            [FromQuery] DateTime toDate,
-            [FromQuery] AuthorizedRole role)
+        [HttpPost("department/fiveIndications/excel")]
+        public async Task<IActionResult> CreateFiveIndicationsReportAsExcel([FromBody] FiveIndicationsReportRequest request)
         {
-            if (!UserIsAuthorized(institutionId))
-                return Unauthorized();
+            foreach (var institutionId in request.InstitutionIds)
+            {
+                if (!UserIsAuthorized(institutionId))
+                    return Unauthorized();
+            }
+
+            var role = (AuthorizedRole)request.Role;
 
             var query = new GetFiveIndicationsObservations.Query
             {
-                DepartmentId = departmentId,
-                InstitutionId = institutionId,
-                FromDate = fromDate,
-                ToTime = toDate,
+                DepartmentIds = request.DepartmentIds,
+                InstitutionIds = request.InstitutionIds,
+                FromDate = request.FromDate,
+                ToDate = request.ToDate,
                 Role = role
             };
 
@@ -194,7 +178,7 @@ namespace HyFive.Admin.Controllers.V1
                     return Unauthorized();
             }
 
-            var role = (AuthorizedRole)request.RoleId;
+            var role = (AuthorizedRole)request.Role;
 
             var query = new GetFiveIndicatorsReportForDepartment.Query
             {

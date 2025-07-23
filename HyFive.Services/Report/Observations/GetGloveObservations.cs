@@ -17,12 +17,12 @@ namespace HyFive.Services.Report.Observations
     {
         public class Query : IRequest<IEnumerable<GloveObservationReport>>
         {
-            public int DepartmentId { get; set; }
+            public List<int> DepartmentIds { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public int InstitutionId { get; set; }
+            public List<int> InstitutionIds { get; set; }
             public DateTime? FromDate { get; set; }
-            public DateTime? ToTime { get; set; }
+            public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 

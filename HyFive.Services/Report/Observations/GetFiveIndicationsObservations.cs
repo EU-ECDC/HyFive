@@ -17,12 +17,12 @@ namespace HyFive.Services.Report.Observations
     {
         public class Query : IRequest<IEnumerable<FiveIndicationsObservationReport>>
         {
-            public int DepartmentId { get; set; }
+            public List<int> DepartmentIds { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public int InstitutionId { get; set; }
+            public List<int> InstitutionIds { get; set; }
             public DateTime? FromDate { get; set; }
-            public DateTime? ToTime { get; set; }
+            public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 
@@ -54,15 +54,16 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
-                if (query.DepartmentId > 0)
+                if (query.DepartmentIds != null && query.DepartmentIds.Count > 0)
                 {
-                    queryable = queryable.Where(o => o.FiveIndicationsSession.Department.Id == query.DepartmentId);
+                    queryable = queryable.Where(o => query.DepartmentIds.Contains(o.FiveIndicationsSession.Department.Id));
                 }
 
-                if (query.InstitutionId > 0)
+                if (query.InstitutionIds != null && query.InstitutionIds.Count > 0)
                 {
-                    queryable = queryable.Where(o => o.FiveIndicationsSession.Department.InstitutionId == query.InstitutionId);
+                    queryable = queryable.Where(o => query.InstitutionIds.Contains(o.FiveIndicationsSession.Department.InstitutionId));
                 }
+
                 if (query.ObserverId > 0)
                 {
                     queryable = queryable.Where(o => o.FiveIndicationsSession.Observer.Id == query.ObserverId);
@@ -72,15 +73,17 @@ namespace HyFive.Services.Report.Observations
                 {
                     queryable = queryable.Where(o => o.FiveIndicationsSession.Id == query.SessionId);
                 }
+
                 if (query.FromDate != null)
                 {
                     queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
                 }
                 
-                if (query.ToTime != null)
+                if (query.ToDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToTime.Value.Date);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToDate.Value.Date);
                 }
+
                 return await queryable
                                       .OrderBy(o => o.FiveIndicationsSession.Id)
                                       .ThenBy(o => o.Id)
