@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,23 +37,35 @@ namespace HyFive.Services.Authentication.User
 
         public async Task<LoggedInUser> GetUser()
         {
+            var email = _httpContextAccessor.HttpContext?.User
+            ?.FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var dbUser = _context.User
+                .FirstOrDefault(u => u.Email == email);
+
+            if (dbUser == null)
+                return null;
+
             var user = new LoggedInUser()
             {
-                Name = "Vits Grønn",
+                Name = $"{dbUser.FirstName} {dbUser.LastName}"
             };
             
             var logInName = user?.Name;
-            var hrpNumber = GetHprNumber();
+            var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
 
             user.Id = CreateHash(pseudonym + user.Name + HashSalt);
-            user.IsObserver = IsObserver(hrpNumber, pseudonym);
-            user.IsCoordinator = IsCoordinator(hrpNumber, pseudonym);
-            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hrpNumber);
-            user.HPRNumber = hrpNumber;
+            user.IsObserver = IsObserver(hprNumber, pseudonym);
+            user.IsCoordinator = IsCoordinator(hprNumber, pseudonym);
+            user.IsFhiAdmin = IsFhiAdmin(pseudonym, hprNumber);
+            user.HPRNumber = hprNumber;
             user.IdentityPseudonym = pseudonym;
             user.InstitutionIds = await _context.User.AsNoTracking().Include(k => k.Institution)
-                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hrpNumber, pseudonym))
+                .Where(HasHprOrPseudonymAndIsActive<Domain.User.User>(hprNumber, pseudonym))
                 .Where(k => k.Institution != null)
                 .Select(k => k.Institution.Id)
                 .ToListAsync();
@@ -67,7 +81,8 @@ namespace HyFive.Services.Authentication.User
 
         public bool IsUserLoggedIn()
         {
-            return true;
+            var user = _httpContextAccessor.HttpContext?.User;
+            return user?.Identity?.IsAuthenticated == true;
         }
 
 
@@ -86,7 +101,7 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForHealthcareProvider(int healthcareProvider)
             => IsCoordinatorForHealthcareProvider(GetHprNumber(), GetPseudonym(), healthcareProvider);
 
-        public bool IsCoordinatorForInstitutions(int[] institutionIds)
+        public bool IsCoordinatorForInstitutions(List<int> institutionIds)
             => IsRoleForInstitutions<Coordinator>(institutionIds);
 
         public bool IsCoordinatorForDepartment(int departmentId)
@@ -131,6 +146,11 @@ namespace HyFive.Services.Authentication.User
             return IsCoordinatorForInstitution(institutionId) || IsFhiAdmin();
         }
 
+        public bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds)
+        {
+            return IsCoordinatorForInstitutions(institutionIds) || IsFhiAdmin();
+        }
+
         public bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProvider)
         {
             return IsCoordinatorForHealthcareProvider(healthcareProvider) || IsFhiAdmin();
@@ -138,7 +158,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetHprNumber()
         {
-            return "4909402";
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.HPRNumber;
         }
 
         public bool IsCoordinatorForSession(string sessionId)
@@ -203,7 +231,7 @@ namespace HyFive.Services.Authentication.User
                 .Any(b => b.Institution.HealthcareOrganization.Id == healthcareOrganization);
         }
 
-        private bool IsRoleForInstitutions<TRole>(int[] InstitutionIds) where TRole : Domain.User.User
+        private bool IsRoleForInstitutions<TRole>(List<int> InstitutionIds) where TRole : Domain.User.User
         {
             var hprNumber = GetHprNumber();
             var pseudonym = GetPseudonym();
@@ -274,7 +302,15 @@ namespace HyFive.Services.Authentication.User
 
         public string GetPseudonym()
         {
-            return "OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=";
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var user = _context.User.FirstOrDefault(u => u.Email == email);
+
+            return user?.IdentityPseudonym;
         }
 
         private string GetDiscriminator<T>() where T : class

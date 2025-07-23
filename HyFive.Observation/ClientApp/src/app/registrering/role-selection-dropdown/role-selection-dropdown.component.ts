@@ -6,7 +6,8 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-role-selection-dropdown',
-  templateUrl: './role-selection-dropdown.component.html'
+  templateUrl: './role-selection-dropdown.component.html',
+  styleUrls: ['role-selection-dropdown.component.scss']
 })
 export class RoleSelectDropdownComponent implements OnInit{
 
@@ -16,13 +17,13 @@ export class RoleSelectDropdownComponent implements OnInit{
   @Output('roleSelectedEvent') roleSelectedEvent: EventEmitter<Role> = new EventEmitter<Role>();
   selectedRole: Role;
 
-  selectedRoleId: string;
+  selectedRoleId: number;
   colors = Colors;
   id: string = Uuid.generateUUID().substr(4);
   faAngleDown = faAngleDown;
 
   ngOnInit() {
-    this.selectedRoleId = this.roleId+'';
+    this.selectedRoleId = this.roleId;
     this.selectRole();
   }
 
@@ -33,7 +34,7 @@ export class RoleSelectDropdownComponent implements OnInit{
 
   selectRole() {
     if (this.roleSelectedI){
-      this.selectedRole = this.roleSelectedI[this.roleSelectedI.map(r => r.id).indexOf(parseInt(this.selectedRoleId))];
+      this.selectedRole = this.roleSelectedI[this.roleSelectedI.map(r => r.id).indexOf(this.selectedRoleId)];
     }
 
   }

@@ -39,10 +39,10 @@ namespace HyFive.Services.Session
             {
                 var sessionOverviewReport = new List<SessionOverviewReport>();
                 
-                if (request.SessionType == null || request.SessionType.Value == SessionType.FourIndications)
+                if (request.SessionType == null || request.SessionType.Value == SessionType.FiveIndications)
                 {
-                    var fourIndicationsSessionsReport= await CreateFourIndicationsSessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(fourIndicationsSessionsReport); 
+                    var fiveIndicationsSessionsReport= await CreateFiveIndicationsSessionsReport(request, cancellationToken);
+                    sessionOverviewReport.AddRange(fiveIndicationsSessionsReport); 
                 }
                 if (request.SessionType == null || request.SessionType.Value == SessionType.HandJewelry)
                 {
@@ -60,7 +60,7 @@ namespace HyFive.Services.Session
                     sessionOverviewReport.AddRange(protectiveEquipmentSessionsReport);
                 }
 
-                sessionOverviewReport = sessionOverviewReport.OrderByDescending(s => s.CreatedTime).ToList();
+                sessionOverviewReport = sessionOverviewReport.OrderByDescending(s => s.CreatedDate).ToList();
                 sessionOverviewReport.ForEach(s =>
                 {
                     s.Observations = s.Observations.OrderByDescending(o => o.RegisteredTime).ToList();
@@ -69,9 +69,12 @@ namespace HyFive.Services.Session
                 return sessionOverviewReport;
             }
 
-            private async Task<List<SessionOverviewReport>> CreateFourIndicationsSessionsReport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> CreateFiveIndicationsSessionsReport(Query request, CancellationToken cancellationToken)
             {
-                var fourIndicationsSessions = await _context.FourIndicationsSession
+                var fromDateUtc = request.FromDate?.Date.ToUniversalTime();
+                var toDateUtc = request.ToDate?.Date.ToUniversalTime();
+
+                var FiveIndicationsSessions = await _context.FiveIndicationsSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
                                      .Include(s => s.TransferStatus)
@@ -79,18 +82,21 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
                                      .Where(s => s.Department.Id == request.DepartmentId)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
+                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= fromDateUtc)
+                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= toDateUtc)
                                      .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
-                var fourIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FourIndicationsSession>, List<SessionOverviewReport>>(fourIndicationsSessions);
+                var fiveIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FiveIndicationsSession>, List<SessionOverviewReport>>(FiveIndicationsSessions);
 
-                return fourIndicationsSessionsReport;
+                return fiveIndicationsSessionsReport;
             }
 
             private async Task<List<SessionOverviewReport>> CreateHandJewelrySessionsReport(Query request, CancellationToken cancellationToken)
             {
+                var fromDateUtc = request.FromDate?.Date.ToUniversalTime();
+                var toDateUtc = request.ToDate?.Date.ToUniversalTime();
+
                 var handJewelrySessions = await _context.HandJewelrySession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
@@ -98,8 +104,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                                      .Where(s => s.Department.Id == request.DepartmentId)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
+                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= fromDateUtc)
+                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= toDateUtc)
                                      .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
@@ -110,6 +116,9 @@ namespace HyFive.Services.Session
 
             private async Task<List<SessionOverviewReport>> CreateGloveSessionsReport(Query request, CancellationToken cancellationToken)
             {
+                var fromDateUtc = request.FromDate?.Date.ToUniversalTime();
+                var toDateUtc = request.ToDate?.Date.ToUniversalTime();
+
                 var gloveSessions = await _context.GloveSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
@@ -119,8 +128,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
                                      .Where(s => s.Department.Id == request.DepartmentId)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
+                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= fromDateUtc)
+                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= toDateUtc)
                                      .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);
@@ -131,6 +140,9 @@ namespace HyFive.Services.Session
 
             private async Task<List<SessionOverviewReport>> CreateProtectiveEquipmentSessionsReport(Query request, CancellationToken cancellationToken)
             {
+                var fromDateUtc = request.FromDate?.Date.ToUniversalTime();
+                var toDateUtc = request.ToDate?.Date.ToUniversalTime();
+
                 var protectiveEquipmentSessions = await _context.ProtectiveEquipmentSession
                                      .Include(s => s.Department)
                                      .Include(s => s.Observer)
@@ -140,8 +152,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
                                      .Where(s => s.Department.Id == request.DepartmentId)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
+                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= fromDateUtc)
+                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= toDateUtc)
                                      .Where(s => TransferStatusTypeConstants.GetTransferStatusTypes(request.TransferStatusType).Contains(s.TransferStatus.Code))
                                      .AsNoTracking()
                                      .ToListAsync(cancellationToken);

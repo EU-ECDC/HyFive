@@ -37,7 +37,7 @@ namespace HyFive.Services.User
                 var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.User.InstitutionId);
                 if (institution == null)
                 {
-                    throw new Exception("Could not find institution with ID. " + command.User.InstitutionId);
+                    throw new Exception("Did not find institution with ID. " + command.User.InstitutionId);
                 }
 
                 var observer = new Observer()

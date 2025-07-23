@@ -514,7 +514,7 @@ namespace HyFive.Services.Tests
                     },
                     new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
                     {
-                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines,
+                        Code = Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicIsolationRoutines,
                         Name = "Basale smittevernrutiner",
                     }
                 };
@@ -543,7 +543,7 @@ namespace HyFive.Services.Tests
                             ProtectiveEquipmentTypeConstants.Gloves,
                             ProtectiveEquipmentTypeConstants.InfectionGown);
                 }
-                else if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicInfectionControlRoutines)
+                else if (settingtype.Code == Models.V1.Constants.ProtectiveEquipmentSettingTypeConstants.BasicIsolationRoutines)
                 {
                     settingtype.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes = HentBeskyttelsesutstyrsettingTypeBeskyttelsesutstyrTyper(settingtype, typer);
                 }

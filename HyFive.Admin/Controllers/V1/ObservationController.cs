@@ -15,7 +15,7 @@ using HyFive.Models.V1.Observation.Gloves;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.ProtectiveEquipment;
-using HyFive.Services.FourIndication;
+using HyFive.Services.FiveIndication;
 using HyFive.Services.HandJewelry;
 using HyFive.Services.Glove;
 using HyFive.Services;
@@ -187,14 +187,14 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [Authorize(HandhygienePolicy.Coordinator)]
-        [HttpPut("fourIndications/update")]
-        public async Task<ActionResult<bool>> UpdateFourIndicationsObservation([FromBody] FourIndicatorsObservation observation)
+        [HttpPut("fiveIndications/update")]
+        public async Task<ActionResult<bool>> UpdateFiveIndicationsObservation([FromBody] FiveIndicatorsObservation observation)
         {
             if (_userService.IsCoordinatorForSession(observation.SessionId))
             {
                 try
                 {
-                    var result = await _mediator.Send(new UpdateFourIndicationsObservation.Command
+                    var result = await _mediator.Send(new UpdateFiveIndicationsObservation.Command
                     {
                         Observation = observation
                     });
@@ -212,14 +212,14 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [Authorize(HandhygienePolicy.Coordinator)]
-        [HttpDelete("fourIndications/delete")]
-        public async Task<ActionResult<bool>> DeleteFourIndicationsObservation([FromQuery] string observtionId, [FromQuery] string sessionId)
+        [HttpDelete("fiveIndications/delete")]
+        public async Task<ActionResult<bool>> DeleteFiveIndicationsObservation([FromQuery] string observtionId, [FromQuery] string sessionId)
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
                 try
                 {
-                    var result = await _mediator.Send(new DeleteFourIndicationObservation.Command
+                    var result = await _mediator.Send(new DeleteFiveIndicationObservation.Command
                     {
                         ObservationId = observtionId,
                         SessionId = sessionId
@@ -245,7 +245,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 try
                 {
-                    var result = await _mediator.Send(new UpdateBraceletObservation.Command
+                    var result = await _mediator.Send(new UpdateHandJewelryObservation.Command
                     {
                         Observation = observation
                     });

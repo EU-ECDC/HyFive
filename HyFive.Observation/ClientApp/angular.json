@@ -37,6 +37,18 @@
             ]
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": false,
+              "statsJson": false,
+              "progress": true,
+              "vendorChunk": false,
+              "buildOptimizer": false
+            },
             "production": {
               "budgets": [
                 {
@@ -66,7 +78,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "fhi_handhygiene:build"
+            "buildTarget": "fhi_handhygiene:build:development"
           },
           "configurations": {
             "production": {

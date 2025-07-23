@@ -11,28 +11,31 @@ import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
 export class ReportService {
   constructor(private httpClient: HttpClient) { }
 
-  getComplianceForFourIndications(institutionId: number, intervall: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
-    const url = `${environment.apiBaseUrl}/v1/report/fourindications/compliance`;
+  getComplianceForFiveIndications(payload: {
+    institutionIds: number[];
+    institutionTypeIds: number[];
+    interval: string;
+    fromMonth: number;
+    fromYear: number;
+    fromQuarter: number;
+    toMonth: number;
+    toYear: number;
+    toQuarter: number;
+    roleIds: number[];
+    departmentIds: number[];
+    departmentTypeIds: number[];
+    transferredTo: number}): Observable<any[]> {
+    const url = `${environment.apiBaseUrl}/v1/report/fiveΙndications/compliance`;
 
-    let params = new HttpParams();
-    params = params.append("institutionId", institutionId.toString());
-    params = params.append("intervall", intervall);
-    params = params.append("fromMonth", fromMonth);
-    params = params.append("fromYear", fromYear);
-    params = params.append("toMonth", toMonth);
-    params = params.append("toYear", toYear);
-    params = params.append("roleId", roleId);
-    params = params.append("departmentId", departmentId);
-
-    return this.httpClient.get<any[]>(url, { params: params });
+    return this.httpClient.post<any[]>(url, payload);
   }
 
   reportForSessionTypeHasData(sessionType: SessionType, institutionId: number, departmentId: number,
     fromDate: Date, toDate: Date, roleId: AuthorizedRole): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/report/reportforsessiontypehasdata`;
+    const url = `${environment.apiBaseUrl}/v1/report/reportForSessionTypeHasData`;
 
     let params = new HttpParams();
-    params = params.append("sesionType", sessionType);
+    params = params.append("sessionType", sessionType);
     params = params.append("institutionId", institutionId.toString());
     if (departmentId != null)
       params = params.append("departmentId", departmentId);

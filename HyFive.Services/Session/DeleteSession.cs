@@ -43,14 +43,14 @@ namespace HyFive.Services.Session
                 if (sessionAndType == null)
                 {
                     throw new ArgumentException(
-                        $"Could not find session with ID {request.SessionId} and transfer status code {request.TransferStatusCode}");
+                        $"Did not find session with ID {request.SessionId} and transfer status code {request.TransferStatusCode}");
                 }
 
                 var sessionType = SessionHelper.GetSessionType(sessionAndType.Discriminator);
 
                 switch (sessionType)
                 {
-                    case SessionType.FourIndications:
+                    case SessionType.FiveIndications:
                         respons.Success = DeleteSessionFourIndicators(request.SessionId);
                         break;
                     case SessionType.HandJewelry:
@@ -72,7 +72,7 @@ namespace HyFive.Services.Session
 
             private bool DeleteSessionFourIndicators(Guid sessionIdToDelete)
             {
-                var session = _databaseContext.FourIndicationsSession
+                var session = _databaseContext.FiveIndicationsSession
                     .Include(s => s.Observations)
                     .FirstOrDefault(s => s.Id == sessionIdToDelete);
                 _databaseContext.RemoveRange(session.Observations);

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, OnDestroy, Input} from '@angular/core';
 import { InstitutionType } from '../../../models/api/InstitutionType';
 import { CreateInstitutionRequest } from '../../../models/api/CreateInstitutionRequest';
 import { InstitutionService } from '../../../services/data/institution.service';
@@ -9,6 +9,8 @@ import { HealthcareOrganizationService } from 'src/app/services/data/healthcareO
 import { InstitutionTypeConstants } from 'src/app/models/api/InstitutionTypeConstants';
 import { Municipality } from 'src/app/models/api/Municipality';
 import { MunicipalityService } from 'src/app/services/data/municipality.service';
+import { User } from 'src/app/models/api/User';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-create-institution',
@@ -22,13 +24,18 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
   listOfHealthcareOrganizations: HealthcareOrganization[] = [];
   showHealthcareOrganization: boolean = false;
   showMunicipality: boolean = false;
+  mailValidatorHelper;
 
+  @Input() institutions: Institution[] = [];
+  @Input() coordinators: User[] = [];
   @Output() institutionCreatedEvent: EventEmitter<Institution> = new EventEmitter<Institution>();
 
   constructor(private institutionService: InstitutionService,
               private toastrService: ToastrService,
               private municipalityService: MunicipalityService, 
-              private healthcareOrganizationService: HealthcareOrganizationService) { }
+              private healthcareOrganizationService: HealthcareOrganizationService) {
+                this.mailValidatorHelper = MailValidatorHelper;
+               }
 
   ngOnInit(): void {
     this.institutionService.getInstitutionTypes().subscribe((result) => {
@@ -95,9 +102,13 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
 
   canCreateInstitution(): boolean{
     return this.newInstitution?.institutionName?.length > 0
-      && this.newInstitution?.coordinatorHPRNumber?.length > 0
+      // && this.newInstitution?.coordinatorHPRNumber?.length > 0
       && this.newInstitution?.coordinatorFirstName?.length > 0
-      && this.newInstitution?.coordinatorLastName?.length > 0;
+      && this.newInstitution?.coordinatorLastName?.length > 0
+      && this.coordinators.find(fc => fc.email == this.newInstitution?.coordinatorEmail) == undefined
+      && this.newInstitution?.coordinatorEmail?.length > 0
+      && this.mailValidatorHelper.validateMail(this.newInstitution?.coordinatorEmail)
+      && this.institutions.find(i => i.name === this.newInstitution.institutionName) == undefined;
   }
 
   showHealthcareOrRegion(institutionTypeId: number) {
@@ -117,5 +128,11 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
       this.showHealthcareOrganization = false;
       this.showMunicipality = false;
     }
+  }
+
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 }

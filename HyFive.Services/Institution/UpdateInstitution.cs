@@ -51,7 +51,7 @@ namespace HyFive.Services.Institution
                     institution.Municipality = null;
                 }
 
-                if (command.Institution.HealthcareOrganization != null && command.Institution.InstitutionType.Code == InstitutionTypeConstants.NursingHome)
+                if (command.Institution.HealthcareOrganization != null && command.Institution.InstitutionType.Code == InstitutionTypeConstants.Hospital)
                 {
                     var healthcareOrganization = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Institution.HealthcareOrganization.Id);
                     institution.HealthcareOrganization = healthcareOrganization;

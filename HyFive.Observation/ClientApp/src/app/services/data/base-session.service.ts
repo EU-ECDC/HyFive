@@ -36,13 +36,13 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
       sessions = JSON.parse(sessionsString);
     }
     return sessions.sort((s1, s2) => {
-      if (s1.startTime == null && s2.startTime != null)
+      if (s1.createdDate == null && s2.createdDate != null)
         return 1;
-      if (s2.startTime == null && s1.startTime != null)
+      if (s2.createdDate == null && s1.createdDate != null)
         return -1;
-      if (s2.startTime === s1.startTime)
+      if (s2.createdDate === s1.createdDate)
         return 0;
-      return s1.startTime < s2.startTime ? 1 : -1
+      return s1.createdDate < s2.createdDate ? 1 : -1
     });
   }
 
@@ -125,7 +125,7 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
     let newSession = {
       id: observation.sessionId,
       observations: [observation],
-      startTime: new Date(),
+      createdDate: new Date(),
       department: sessionView.department,
       institutionsName: institution.name
     } as TSession;

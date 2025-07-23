@@ -33,14 +33,14 @@ namespace HyFive.Services.User
                 var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.USer.InstitutionId);
                 if (institution == null)
                 {
-                    throw new Exception("Could not find institution with ID: " + command.USer.InstitutionId);
+                    throw new Exception("Did not find institution with ID: " + command.USer.InstitutionId);
                 }
 
                 if (!UserValidator.HasNameAndHprNumberOrValidPseudonym(command.USer))
                 {
                     throw new ArgumentException("Coordinator must have first name, last name, and either HPR number or pseudonym");
                 }
-                
+
                 var coordinator = new Coordinator()
                 {
                     FirstName = command.USer.FirstName,

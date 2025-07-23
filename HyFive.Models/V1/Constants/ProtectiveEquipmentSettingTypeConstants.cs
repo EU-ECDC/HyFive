@@ -6,15 +6,15 @@ namespace HyFive.Models.V1.Constants
     public class ProtectiveEquipmentSettingTypeConstants
     {
         [TsProperty(Constant = true)]
-        public static string BasicInfectionControlRoutines =  "BASIC_INFECTIONcONTROLROUTINES";
+        public static string BasicIsolationRoutines =  "BASIC_ISOLATION_ROUTINES";
 
         [TsProperty(Constant = true)]
-        public static string ContactTransmission = "CONTACTTRANSMISSION";
+        public static string ContactTransmission = "CONTACT_TRANSMISSION";
         
         [TsProperty(Constant = true)]
-        public static string DropletTransmission = "DROPLETTRANSMISSION";
+        public static string DropletTransmission = "DROPLET_TRANSMISSION";
 
         [TsProperty(Constant = true)]
-        public static string AirborneTransmission = "AIRBORNETRANSMISSION";
+        public static string AirborneTransmission = "AIRBORNE_TRANSMISSION";
     }
 }

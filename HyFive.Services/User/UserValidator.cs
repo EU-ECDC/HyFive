@@ -7,8 +7,8 @@ namespace HyFive.Services.User
         public static bool HasNameAndHprNumberOrValidPseudonym(Models.V1.User.User user)
         {
             return !string.IsNullOrEmpty(user.FirstName)
-                   && !string.IsNullOrEmpty(user.LastName)
-                   && (!string.IsNullOrEmpty(user.HPRNumber) || IsValidIdentityPseudonym(user.IdentityPseudonym));
+                   && !string.IsNullOrEmpty(user.LastName);
+                  // && (!string.IsNullOrEmpty(user.HPRNumber))|| IsValidIdentityPseudonym(user.IdentityPseudonym));
         }
 
         public static bool IsValidIdentityPseudonym(string pseudonym)

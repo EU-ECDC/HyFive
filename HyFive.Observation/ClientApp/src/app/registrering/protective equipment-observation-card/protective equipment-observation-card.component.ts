@@ -164,7 +164,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
     let observation: ProtectiveEquipmentObservation = {
       id: Uuid.generateUUID(),
       role: this.card.role,
-      registrationTime: new Date(Date.now()),
+      registeredTime: new Date(Date.now()),
       sessionId: this.sessionView.sessionId,
       comment: this.comment,
       settingtype: this.sessionView.setting,

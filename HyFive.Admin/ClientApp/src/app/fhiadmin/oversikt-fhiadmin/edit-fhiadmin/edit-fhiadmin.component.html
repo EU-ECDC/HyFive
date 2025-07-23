@@ -1,23 +1,24 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5" (click)="createTomFhiAdmin()">Create FhiAdmin</button>
+    <button class="btn fhi-btn-primary mb-5" (click)="createToAdmin()">Create Admin</button>
   </div>
 </div>
 <div class="row" *ngIf="users">
-  <h5 class="col-12">FhiAdmin</h5>
-  <label class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">Did not find any FhiAdmin-users</label>
+  <h5 class="col-12">Administrators</h5>
+  <label class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">Did not find any Admin-users</label>
   
   <ng-container>
     <div class="table-responsive">
-      <table class="table" *ngIf="users.length > 0 || newFhiAdmin">
+      <table class="table" *ngIf="users.length > 0 || newFhiAdmin" sortable-table (sorted)="sort($event)">
         <thead>
           <tr>
-            <th scope="col">Firstname</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Identity Pseudonym</th>
-            <th scope="col">Disabled</th>
-            <th scope="col">Created time</th>
-            <th class="text-end" scope="col">Action</th>
+            <td sortable-column="Firstname" scope="col"></td>
+            <td sortable-column="Lastname" scope="col"></td>
+            <td scope="col">Email</td>
+            <td scope="col">Identity Pseudonym</td>
+            <td scope="col">Disabled</td>
+            <td scope="col">Created time</td>
+            <td class="text-end" scope="col">Action</td>
           </tr>
         </thead>
   
@@ -25,12 +26,13 @@
           <tr *ngIf="newFhiAdmin != null">
             <td><input type="text" class="form-control" [(ngModel)]="newFhiAdmin.firstName" name="firstName" placeholder="Firstname"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newFhiAdmin.lastName" name="lastName" placeholder="Lastname"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="newFhiAdmin.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
             <td><input type="text" class="form-control" [(ngModel)]="newFhiAdmin.identityPseudonym" name="identityPseudonym" placeholder="IdentPseudonym"></td>
             <td></td>
             <td></td>
 
             <td class="text-end py-0 align-middle">
-              <button class="btn fhi-btn-icon" type="button" [disabled]="canCreate() == false" (click)="createFhiAdmin()">
+              <button class="btn fhi-btn-icon" type="button" [disabled]="canCreate() == false" (click)="createAdmin()">
                 <i class="icon-plus"></i><span class="btn__text">Create</span>
               </button>
               <button class="btn fhi-btn-icon" type="button" (click)="cancelEdit($event)">
@@ -39,16 +41,18 @@
             </td>
           </tr>
 
-          <tr *ngFor="let fhiAdmin of users; index as i">
+          <tr *ngFor="let fhiAdmin of filteredAdmins; index as i">
             <ng-container *ngIf="fhiAdminAsChanged?.id != fhiAdmin.id">
               <td>{{ fhiAdmin.firstName }}</td>
               <td>{{ fhiAdmin.lastName }}</td>
+              <td>{{fhiAdmin.email}}</td>
               <td>{{ fhiAdmin.identityPseudonym }}</td>
               <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdmin.isDisabled" name="isDisabled" disabled="disabled"></td>
             </ng-container>
             <ng-container *ngIf="fhiAdminAsChanged?.id == fhiAdmin.id">
               <td><input type="text" class="form-control" [(ngModel)]="fhiAdminAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
               <td><input type="text" class="form-control" [(ngModel)]="fhiAdminAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="fhiAdminAsChanged.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [disabled]="'true'" name="email" placeholder="Email"></td>
               <td><input type="text" class="form-control" [(ngModel)]="fhiAdminAsChanged.identityPseudonym" name="identityPseudonym" placeholder="IdentPseudonym"></td>
               <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminAsChanged.isDisabled" name="isDisabled"></td>
             </ng-container>

@@ -48,7 +48,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (observation == null)
                 {
-                    throw new Exception("O-BU-01: Could not find observation with ID: " + request.Observation.Id);
+                    throw new Exception("O-BU-01: Did not find observation with ID: " + request.Observation.Id);
                 }
 
                 if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
@@ -63,7 +63,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 
                 try
                 {
-                    observation.RegisteredTime = request.Observation.RegistrationTime;
+                    observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     var equipmentTypes = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
                         .ToListAsync(cancellationToken);

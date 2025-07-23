@@ -24,8 +24,8 @@
 
     <div class="col-md-6 mb-3">
       <h2 class="h5">Institution</h2>
-      <div class="form-group">
-        <select
+      <!-- <div class="form-group"> -->
+        <!-- <select
           class="form-select"
           name="institution"
           id="institutions"
@@ -39,7 +39,20 @@
           >
             {{ institutionOption.name }}
           </option>
-        </select>
+        </select> -->
+        <div *ngIf="institutionOptions" class="fhi-ng-select-wrapper fhi-autosuggest">
+          <ng-select
+            class="hh-avdeling-dropdown"
+            [items]="institutionOptions"
+            bindLabel="name"
+            bindValue="id"
+            placeholder="Select Institution"
+            clearAllText="Delete"
+            notFoundText="No results"
+            [(ngModel)]="selectedInstitutionOptionId"
+            (ngModelChange)="selectedInstitutionChanged()"
+            >
+        </ng-select>
       </div>
     </div>
 
@@ -62,7 +75,7 @@
     </div>
   </div>
 
-  <div *ngIf="institution">
+  <div *ngIf="institution && selectedDepartmentId">
     <div class="row mb-5">
       <div class="col">
         <h2 class="h5">Type observation</h2>
@@ -74,13 +87,13 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SessionType.FourIndications" 
+                [id]="SessionType.FiveIndications" 
                 [(ngModel)]="selectedSessionType"
-                [checked]="selectedSessionType == SessionType.FourIndications"
-                [value]="SessionType.FourIndications"
+                [checked]="selectedSessionType == SessionType.FiveIndications"
+                [value]="SessionType.FiveIndications"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FourIndications">
-                <span class="fhi-form-check-tile__label-text">4 indications</span>
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FiveIndications">
+                <span class="fhi-form-check-tile__label-text">5 indications</span>
               </label>
             </div>
           </div>
@@ -142,7 +155,7 @@
     <ng-container
       *ngIf="
         selectedSessionType === SessionType.InOut ||
-        selectedSessionType === SessionType.FourIndications ||
+        selectedSessionType === SessionType.FiveIndications ||
         selectedSessionType === SessionType.Gloves
       "
     >
@@ -151,7 +164,7 @@
           <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
             <h2 class="h5 text-center">Timekeeping</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Of</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="timekeeping" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
@@ -161,9 +174,9 @@
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FourIndications ? "GloveUse" : "Handhygiene" }}</h2>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? "GloveUse" : "Handhygiene" }}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Of</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="gloveUse" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>

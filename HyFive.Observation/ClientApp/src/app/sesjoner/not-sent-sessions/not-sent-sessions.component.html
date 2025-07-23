@@ -30,7 +30,7 @@
             id="search-unsent-items"
             type="search"
             class="form-control"
-            placeholder="Søk etter..."
+            placeholder="Search for..."
             [(ngModel)]="keyword"
             (ngModelChange)="filterSessions()"
           />
@@ -62,7 +62,7 @@
 
           <div class="mb-2 text-muted small">
             <i class="icon-calendar icon-sm align-top"></i>
-            {{ sessionView.startTime | date : "dd.MM.yyyy HH:mm:ss" }}
+            {{ sessionView.startDate | date : "dd.MM.yyyy HH:mm:ss" }}
           </div>
 
           <div class="text-end mt-auto">

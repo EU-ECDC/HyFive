@@ -28,10 +28,10 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   faFilePdf = faFilePdf;
 
   sessiontypes = [
-    { name: 'ProtectiveEquipment', value: SessionType.ProtectiveEquipment },
-    { name: 'Four indications', value: SessionType.FourIndications },
+    { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
+    { name: 'Five Indications', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
-    { name: 'HandJewelry', value: SessionType.HandJewelry }
+    { name: 'Hand Jewelry', value: SessionType.HandJewelry }
   ];
 
   selectedSessiontype: SessionType = null;
@@ -121,7 +121,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
       this.toDate,
       this.selectedRole
     ).subscribe((results) => {
-      if(this.selectedSessiontype !== SessionType.FourIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
+      if(this.selectedSessiontype !== SessionType.FiveIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
         this.selectedSessiontype !== SessionType.Gloves && this.selectedSessiontype !== SessionType.ProtectiveEquipment)
         this.selectedSessiontype = null;
       this.institutionOverviewReportList = results;
@@ -165,11 +165,11 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   loadSelectedSessionTypeText(): string {
     if (this.selectedSessiontype == SessionType.ProtectiveEquipment)
-      return "ProtectiveEquipment";
-    if (this.selectedSessiontype == SessionType.FourIndications)
-      return "FourIndications";
+      return "Protective Equipment";
+    if (this.selectedSessiontype == SessionType.FiveIndications)
+      return "Five Indications";
     if (this.selectedSessiontype == SessionType.HandJewelry)
-      return "HandJewelry";
+      return "Hand Jewelry";
     if (this.selectedSessiontype == SessionType.Gloves)
       return "Gloves";
 

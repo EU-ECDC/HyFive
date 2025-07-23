@@ -23,9 +23,9 @@ namespace HyFive.Services.Reports.HandJewelry
         {
             CreateRoleToColorMap(report);
 
-            var grafForAvdeling = CreateGraph(report.ReportForDepartment, "Report for department");
-            var grafForInstitusjon = CreateGraph(report.ReportForInstitution, "Report for institution");
-            var pdf = CreatePdf(grafForAvdeling, grafForInstitusjon, report);
+            var grafForDepartment = CreateGraph(report.ReportForDepartment, "Report for department");
+            var graphForInstitution = CreateGraph(report.ReportForInstitution, "Report for institution");
+            var pdf = CreatePdf(grafForDepartment, graphForInstitution, report);
 
             return pdf;
         }
@@ -252,7 +252,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
         private static PdfResult CreatePdf(byte[] graphForDepartment, byte[] graphForInstitution, JewelryReportForJewelryTypeAndRole report)
         {
-            var copyOfTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Tjenester.Rapporter.Assets.Rapport-template.pdf");
+            var copyOfTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.Report-template.pdf");
             using var pdfMemoryStream = new MemoryStream();
             var pdfStamper = new PdfStamper(copyOfTemplate, pdfMemoryStream);
 
@@ -283,7 +283,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
         private static void FillOutHeader(JewelryReportForJewelryTypeAndRole report, PdfStamper pdfStamper)
         {
-            pdfStamper.AcroFields.SetField("title", "Report on Observations of Infection Prevention Measures (NOST)");
+            pdfStamper.AcroFields.SetField("title", "Report on Observations of Transmission Prevention Measures (NOST)");
             pdfStamper.AcroFields.SetField("subtitle", "Module 2: Jewelry, Watches, and Nails");
             pdfStamper.AcroFields.SetField("institution", $"Institution: {report.Institution}");
             pdfStamper.AcroFields.SetField("department", $"Department: {report.Department}");

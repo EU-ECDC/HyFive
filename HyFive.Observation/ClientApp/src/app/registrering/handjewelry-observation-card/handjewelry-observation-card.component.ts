@@ -99,10 +99,10 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
   }
 
   changed(select: HandJewelrySelection) {
-    if (select.isSelected && select.type == HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable all
-    else if (select.isSelected && select.type != HandJewelryTypeConstants.AllClear)
-      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllClear) x.disabled = true; return x; }) // disable anyway
+    if (select.isSelected && select.type == HandJewelryTypeConstants.AllOk)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type !== HandJewelryTypeConstants.AllOk) x.disabled = true; return x; }) // disable all
+    else if (select.isSelected && select.type != HandJewelryTypeConstants.AllOk)
+      this.handJewelrySelection = this.handJewelrySelection.map(x => { if (x.type === HandJewelryTypeConstants.AllOk) x.disabled = true; return x; }) // disable anyway
     else if (this.numberOfHandJewelrySelected () < 1)
       this.handJewelrySelection = this.handJewelrySelection.map(x => { x.disabled = false; return x; }) // enable all
   }
@@ -118,7 +118,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
     let observation = {
       id: Uuid.generateUUID(),
       sessionId: this.sessionView.sessionId,
-      registrationTime: new Date(Date.now()),
+      registeredTime: new Date(Date.now()),
       role: this.card.role,
       handJewelry: this.handJewelrySelection.reduce((acc, item) => {
         if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));

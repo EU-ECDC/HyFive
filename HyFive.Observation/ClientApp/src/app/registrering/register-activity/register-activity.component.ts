@@ -32,6 +32,7 @@ export class RegisterActivityComponent implements OnInit {
   @Input("icon") icon: string;
 
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
+  activityTypeConstants = ActivityTypeConstants;
 
   constructor(private observationEventService: ObservationEventService, private modalService: NgbModal) {
   }
@@ -49,11 +50,11 @@ export class RegisterActivityComponent implements OnInit {
 
   getActivityText() {
     if (this.activityType?.code === ActivityTypeConstants.Disinfection)
-      return 'Alcohol';
+      return 'Spirit';
     if (this.activityType?.code === ActivityTypeConstants.Handwash)
       return 'Wash';
-    if(this.activityType?.code === ActivityTypeConstants.NotExecuted)
-      return 'Not executed';
+    if(this.activityType?.code === ActivityTypeConstants.NotPerformed)
+      return 'Not Done';
   }
 
   registerActivity(modalName) {
@@ -67,7 +68,7 @@ export class RegisterActivityComponent implements OnInit {
         this.showText = false;
       }
       else {
-        this.activityRegisteredEvent.emit({ activityType: this.activityType, timeRecordingWasDone: false });
+        this.activityRegisteredEvent.emit({ activityType: this.activityType, TimingWasPerformed: false });
       }
     }
   }
@@ -81,7 +82,7 @@ export class RegisterActivityComponent implements OnInit {
       this.showText = false;
     }
     else {
-      this.activityRegisteredEvent.emit({ activityType: this.activityType, timeRecordingWasDone: false, gloveUsed: wasConfirmed});
+      this.activityRegisteredEvent.emit({ activityType: this.activityType, TimingWasPerformed: false, gloveUsed: wasConfirmed});
     }
     
   }
@@ -95,7 +96,7 @@ export class RegisterActivityComponent implements OnInit {
     else if (this.seconds > 0) {
       this.stoppTimer();
       this.timingExecuted = false;
-      this.activityRegisteredEvent.emit({ activityType: this.activityType, timeSpent: this.seconds, timeRecordingWasDone: true, gloveUsed: this.usedGloves})
+      this.activityRegisteredEvent.emit({ activityType: this.activityType, secondsUsed: this.seconds, TimingWasPerformed: true, gloveUsed: this.usedGloves})
     }
   }
 

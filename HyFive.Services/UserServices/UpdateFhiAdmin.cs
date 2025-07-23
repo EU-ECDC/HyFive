@@ -2,7 +2,6 @@
 using HyFive.DataAccess;
 using HyFive.Domain.User;
 using HyFive.Services.Authentication.User;
-using Fhi.HelseId.Web.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Services.User;
 using Bruker = HyFive.Models.V1.User.User;
+using Microsoft.AspNetCore.Http;
 
 namespace HyFive.Services.UserServices
 {
@@ -25,35 +25,35 @@ namespace HyFive.Services.UserServices
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
-            private readonly ICurrentUser _currentUser;
+            private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ICurrentUser currentUser)
+            public Handler(HandHygieneContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
             {
                 _context = context;
                 _mapper = mapper;
-                _currentUser = currentUser;
+                _httpContextAccessor = httpContextAccessor;
             }
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrWhiteSpace(command.User.IdentityPseudonym))
-                {
-                    throw new Exception("Missing pseudonym.");
-                }
-                if (!UserValidator.IsValidIdentityPseudonym(command.User.IdentityPseudonym))
-                {
-                    throw new Exception("Pseudonym is not valid.");
-                }
+                //if (string.IsNullOrWhiteSpace(command.User.IdentityPseudonym))
+                //{
+                //    throw new Exception("Missing pseudonym.");
+                //}
+                //if (!UserValidator.IsValidIdentityPseudonym(command.User.IdentityPseudonym))
+                //{
+                //    throw new Exception("Pseudonym is not valid.");
+                //}
 
                 var user = await _context.User.OfType<FhiAdmin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
                 if (user == null)
                     throw new Exception($"User with Id not found {command.User.Id}");
-                if (_currentUser.PidPseudonym == user.IdentityPseudonym)
-                    throw new Exception($"User cannot change themselves.");
+                //if (_currentUser.PidPseudonym == user.IdentityPseudonym)
+                //    throw new Exception($"User cannot change themselves.");
                 if (user.IdentityPseudonym != command.User.IdentityPseudonym)
                 {
-                    var eksisterendePseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
-                    if (eksisterendePseudonym)
+                    var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
+                    if (existingPseudonym)
                         throw new Exception("User cannot be updated. The pseudonym is already in use.");
                 }
 

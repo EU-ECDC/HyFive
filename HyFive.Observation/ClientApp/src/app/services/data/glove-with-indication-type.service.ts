@@ -12,7 +12,7 @@ export class GloveWithIndicationTypeService {
   }
 
   getGloveWithIndicationTypes(): Observable<GloveWithIndicationType[]> {
-    return this.http.get<GloveWithIndicationType[]>('api/v1/glove/gloveindicationtype').pipe()
+    return this.http.get<GloveWithIndicationType[]>('api/v1/glove/gloveWithIndicationType').pipe()
   }
 
 }

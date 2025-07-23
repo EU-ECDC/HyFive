@@ -25,7 +25,7 @@ export class AuthenticationFailedModalComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 
-  logIn() {
-    window.location.reload(); // Refresh will trigger re-login
-  }
+  logIn(): void {
+  window.location.href = '/account/login';
+}
 }

@@ -295,6 +295,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetComplianceInstitutions(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Get compliance institutions
+            </summary>
+            <param name="ids">The list of institution IDs to fetch.</param>
+            <returns>Returns a list of matching institutions if authorized; otherwise Unauthorized.</returns>
+        </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetDepartments(System.Int32)">
             <summary>
             Get all departments belonging to the institution
@@ -426,7 +433,7 @@
             <param name="role"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFourIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
             <summary>
             Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
             </summary>
@@ -438,9 +445,9 @@
             <param name="sessionId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFourIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
             <summary>
-            Create four indications report for department in PDF format
+            Create five indications report for department in PDF format
             </summary>
             <param name="departmentId"></param>
             <param name="institutionId"></param>

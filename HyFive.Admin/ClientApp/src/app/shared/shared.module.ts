@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionComponent } from './accordion/accordion.component';
 import { NavigationLinkComponent } from './navigation-link/navigation-bar.component';
 import {ToastrConfig} from '../_common/konstanter/toastr-config';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import {ToastrConfig} from '../_common/konstanter/toastr-config';
     ClipboardModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(ToastrConfig.toastrConfig),
+    NgSelectModule
   ],
     exports: [
         SafePipe,
@@ -47,6 +50,7 @@ import {ToastrConfig} from '../_common/konstanter/toastr-config';
         FontAwesomeModule,
         NgbModule,
         ClipboardModule,
+        NgSelectModule
   ],
 })
 export class SharedModule { }

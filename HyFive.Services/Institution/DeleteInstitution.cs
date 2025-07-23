@@ -51,7 +51,7 @@ namespace HyFive.Services.Institution
 
                 if (institution == null)
                 {
-                    throw new Exception($"Could Not Find Institution With Id: {institutionId}");
+                    throw new Exception($"Did not find Institution With Id: {institutionId}");
                 }
 
                 return institution;
@@ -84,7 +84,7 @@ namespace HyFive.Services.Institution
             {
                 foreach (var department in institution.Departments)
                 {
-                    DeleteFourIndicationsSessionsAndObservations(department.Id);
+                    DeleteFiveIndicationsSessionsAndObservations(department.Id);
                     DeleteHandJewelrySessionsAndObservations(department.Id);
                     DeleteGloveSessionsAndObservations(department.Id);
                     DeleteProtectiveEquipmentSessionsAndObservations(department.Id);
@@ -99,9 +99,9 @@ namespace HyFive.Services.Institution
                 _context.Department.Remove(department);
             }
 
-            private void DeleteFourIndicationsSessionsAndObservations(int departmentId)
+            private void DeleteFiveIndicationsSessionsAndObservations(int departmentId)
             {
-                var sessionsForDepartment = _context.Session.OfType<FourIndicationsSession>()
+                var sessionsForDepartment = _context.Session.OfType<FiveIndicationsSession>()
                     .Include(s => s.Department)
                     .Include(s => s.Observations)
                     .ThenInclude(o=>o.Activity)
@@ -111,7 +111,7 @@ namespace HyFive.Services.Institution
                 {
                     var activities = session.Observations.Select(o => o.Activity).ToList();
                     _context.Activity.RemoveRange(activities);
-                    _context.FourIndicationsObservation.RemoveRange(session.Observations);
+                    _context.FiveIndicationsObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
             }

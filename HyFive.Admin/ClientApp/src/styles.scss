@@ -17,6 +17,13 @@
 @import "styles/blocks/hh-modal.block";
 @import "styles/blocks/hh-round-checkbox-list.block";
 @import "styles/blocks/hh-stadium-checkbox.block";
+@import "node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import '~typeface-roboto/index.css';
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
 
 .fhi-btn-flat,.fhi-btn-link {
     box-shadow: none;
@@ -42,3 +49,8 @@
 .fa-icon-warning {
     color: #FFD700; 
 }
+
+.fhi-header__project::before
+ {
+    background-color: #333333;
+ }

@@ -44,7 +44,7 @@ namespace HyFive.Services.Department
 
                 if (department == null)
                 {
-                    throw new Exception($"Could not find institution with ID {departmentId}");
+                    throw new Exception($"Did not find institution with ID {departmentId}");
                 }
 
                 return department;
@@ -52,7 +52,7 @@ namespace HyFive.Services.Department
         
             private void DeleteDepartmentWithAssociatedData(Domain.Place.Department department)
             {
-                    DeleteFourIndicationsSessionsAndObservations(department.Id);
+                    DeleteFiveIndicationsSessionsAndObservations(department.Id);
                     DeleteHandJewelrySessionsAndObservations(department.Id);
                     DeleteGloveSessionsAndObservations(department.Id);
                     DeleteProtectiveEquipmentSessionsAndObservations(department.Id);
@@ -66,9 +66,9 @@ namespace HyFive.Services.Department
                 _context.Department.Remove(department);
             }
 
-            private void DeleteFourIndicationsSessionsAndObservations(int departmentId)
+            private void DeleteFiveIndicationsSessionsAndObservations(int departmentId)
             {
-                var departmentSessions = _context.Session.OfType<FourIndicationsSession>()
+                var departmentSessions = _context.Session.OfType<FiveIndicationsSession>()
                     .Include(s => s.Department)
                     .Include(s => s.Observations)
                     .ThenInclude(o => o.Activity)
@@ -78,7 +78,7 @@ namespace HyFive.Services.Department
                 {
                     var activities = session.Observations.Select(o => o.Activity).ToList();
                     _context.Activity.RemoveRange(activities);
-                    _context.FourIndicationsObservation.RemoveRange(session.Observations);
+                    _context.FiveIndicationsObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
             }

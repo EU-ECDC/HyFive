@@ -107,7 +107,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
-        name: 'Transfer sessions to FHI',
+        name: 'Transfer sessions',
         routerLink: `/${UrlPaths.transferSessions}`,
         roles: [AuthorizedRole.Coordinator]
       },
@@ -142,7 +142,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'FHI Administrators',
+        name: 'Administrators',
         routerLink: `/${UrlPaths.fhiAdminOverview}`,
         roles: [AuthorizedRole.Administrator]
       },
@@ -157,7 +157,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'HealthCare Organization',
+        name: 'Health Care Organization',
         routerLink: `/${UrlPaths.healthcareOrganization}`,
         roles: [AuthorizedRole.Administrator]
       },

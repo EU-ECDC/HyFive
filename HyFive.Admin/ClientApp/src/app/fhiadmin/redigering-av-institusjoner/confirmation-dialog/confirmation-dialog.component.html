@@ -1,5 +1,5 @@
 
-<fhi-modal
+<!-- <fhi-modal
             [actionButtons]="[{name: 'Yes'}]"
             (modalAction)="confirm()"
             [openModalButtonClass]="buttonClass">
@@ -7,4 +7,20 @@
   <ng-container fhi-modal.body>
     {{ dialogMessage }}
   </ng-container>
-</fhi-modal>
+</fhi-modal> -->
+
+<button class="btn" [class.delete-button]="shouldUseIcon" [class.fhi-btn-primary]="!shouldUseIcon" (click)="showModal()"><i *ngIf="shouldUseIcon" class="icon-trash3"></i> {{buttonText}}</button>
+
+<ng-container *ngIf="showModalDialog">
+    <div class="ps-modal">
+      <div class="ps-modal-content">
+        <button class="close-button" (click)="showModal()">X</button>
+        <p>{{dialogMessage}}</p>
+        <div class="modal-buttons">
+          <button class="cancel" (click)="showModal()">Cancel</button>
+          <button class="save-button" (click)="confirm()">yes</button>
+        </div>
+      </div>
+    </div>
+</ng-container>
+

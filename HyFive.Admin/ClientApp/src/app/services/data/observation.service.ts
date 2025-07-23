@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { InstitutionOverviewReport } from '../../models/api/InstitutionOverviewReport';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
-import { FourIndicationsObservation } from '../../models/api/FourIndicationsObservation';
 import { User } from '../../models/api/User';
 import {HandJewelryObservation} from "../../models/api/HandJewelryObservation";
 import {GloveObservation} from "../../models/api/GloveObservation";
 import {ProtectiveEquipmentObservation} from "../../models/api/ProtectiveEquipmentObservation";
 import { AuthorizedRole } from '../../_common/authorization/authorized-role';
+import { FiveIndicatorsObservation } from 'src/app/models/api/FiveIndicatorsObservation';
 
 @Injectable({
   providedIn: 'root'
@@ -92,13 +92,13 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport>(url, { params: params });
   }
 
-  updateFourIndicationsObservation(observation: FourIndicationsObservation) : Observable<boolean>{
-    const url = `${environment.apiBaseUrl}/v1/observation/fourindications/update`;
+  updateFiveIndicationsObservation(observation: FiveIndicatorsObservation) : Observable<boolean>{
+    const url = `${environment.apiBaseUrl}/v1/observation/fiveindications/update`;
     return this.http.put<boolean>(url, observation);
   }
 
-  deleteFourIndicationsObservation(observationId: string, sessionId: string): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/observation/fourindications/delete?observationId=${observationId}&sessionId=${sessionId}`;
+  deleteFiveIndicationsObservation(observationId: string, sessionId: string): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/observation/fiveindications/delete?observationId=${observationId}&sessionId=${sessionId}`;
     return this.http.delete<boolean>(url);
   }
 

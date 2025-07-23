@@ -5,7 +5,7 @@ export class SessionTypeMapper {
   public static getNameMap(): Map<SessionType, string>{
     var nameMap = new Map<SessionType, string>();
     nameMap.set(SessionType.HandJewelry, 'Handjewelry');
-    nameMap.set(SessionType.FourIndications, 'Four indications');
+    nameMap.set(SessionType.FiveIndications, 'Five indications');
     nameMap.set(SessionType.Gloves, 'Gloves');
     nameMap.set(SessionType.InOut, 'In/Out');
     nameMap.set(SessionType.ProtectiveEquipment, 'Protective equipment');

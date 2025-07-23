@@ -76,15 +76,21 @@ export class EditingClinicsComponent implements OnInit {
       case "Name":
         propertyOf = (x: Clinic) => x.name;
         break;
+      case "Departments":
+        propertyOf = (x: Clinic) => x.departments;
+        break;
       default:
         throw new Error("Invalid sort column");
     }
-
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
     const sortFunc = (a: Clinic, b: Clinic) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+      if(typeof propertyOf(this.clinics[0]) === 'string') {
+        const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
+        return result * sortOrder;
+      } else {
+        const result = (propertyOf(a).map(p => p.name).join() < propertyOf(b).map(p => p.name).join()) ? -1 : (propertyOf(a).map(p => p.name).join() > propertyOf(b).map(p => p.name).join()) ? 1 : 0;
+        return result * sortOrder; 
+      }
     };
 
     this.clinics = this.clinics.sort(sortFunc);

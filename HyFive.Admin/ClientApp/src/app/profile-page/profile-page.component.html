@@ -28,7 +28,7 @@
                id="fhiAdmin"
                [(ngModel)]="selectedRole"
                value="Administrator" />
-        <label class="form-check-label" for="fhiAdmin">FHI Admin</label>
+        <label class="form-check-label" for="fhiAdmin">Administrator</label>
       </div>
       <div class="form-check form-check-inline">
         <input type="radio" class="form-check-input"
@@ -50,7 +50,7 @@
 
   <div class="row mt-4">
     <div class="col-12">
-      <a class="btn fhi-btn-primary">Log out</a>
+      <a class="btn fhi-btn-primary" (click)="logout()">Log out</a>
     </div>
   </div>
 

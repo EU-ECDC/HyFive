@@ -8,6 +8,7 @@ import { AuthorizationService } from '../services/authorization.service';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-edit-coordinators',
@@ -23,6 +24,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canDelete = false;
   searchWord: string = '';
   filteredCoordinators: User[];
+  mailValidatorHelper;
 
   constructor(
     private institutionService: InstitutionService,
@@ -30,7 +32,9 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -120,13 +124,31 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   canBeCreated() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(this.newCoordinator);
+      //&& this.coordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
+      && this.coordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
+      && this.newCoordinator.email?.length > 0
+      && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
+      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
   }
 
   canbeChanged(coordinator: User) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(coordinator);
+     // && this.coordinators
+     //                             .filter(fc => fc.id !== coordinator.id)
+     //                             .find(fc => fc.firstName == coordinator?.firstName && fc.lastName == coordinator?.lastName) == undefined
+      && this.coordinators
+                              .filter(fc => fc.id !== coordinator.id)
+                              .find(fc => fc.email == coordinator?.email) == undefined
+      && coordinator.email?.length > 0
+      && this.mailValidatorHelper.validateMail(coordinator.email)
+      && this.userService.isValidPseudonym(coordinator.identityPseudonym);
+  }
+
+    omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   identityPseudonymChanged(coordinator: User, identityPseudonym: string) {
@@ -152,10 +174,10 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   sorting($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "firstName":
+      case "First name":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "lastName":
+      case "Last name":
         propertyOf = (x: User) => x.lastName;
         break;
       default:

@@ -4,11 +4,11 @@
 
 export abstract class HandJewelryTypeConstants
 {
-	public static AllClear: string = `ALL_CLEAR`;
+	public static AllOk: string = `ALL_OK`;
 	public static Ring: string = `RING`;
 	public static WatchBracelet: string = `WATCH_BRACELET`;
-	public static LongNails: string = `LONG_NAILS`;
-	public static ArtificialNailsShellac: string = `ARTIFICIAL_NAILS_SHELLAC`;
-	public static ShortSleeved: string = `SHORT_SLEEVED`;
-	public static LongSleeved: string = `LONG_SLEEVED`;
+	public static LongNail: string = `LONG_NAIL`;
+	public static ArtificialNailShellac: string = `ARTIFICIAL_NAIL_SHELLAC`;
+	public static ShortSleeves: string = `SHORT_SLEEVES`;
+	public static LongSleeves: string = `LONG_SLEEVES`;
 }

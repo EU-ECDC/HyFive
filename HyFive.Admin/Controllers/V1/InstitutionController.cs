@@ -65,6 +65,22 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
+        /// <summary>
+        /// Get compliance institutions
+        /// </summary>
+        /// <param name="ids">The list of institution IDs to fetch.</param>
+        /// <returns>Returns a list of matching institutions if authorized; otherwise Unauthorized.</returns>
+        [HttpGet("getComplianceInstitutions")]
+        public async Task<IActionResult> GetComplianceInstitutions([FromQuery] List<int> institutionIds)
+        {
+            if (_userService.IsCoordinatorForInstitutionsOrAdmin(institutionIds))
+            {
+                var result = await _mediator.Send(new GetComplianceInstitution.Query() { InstitutionIds = institutionIds });
+                return Ok(result);
+            }
+            return Unauthorized();
+        }
+
 
 
         /// <summary>
@@ -75,13 +91,12 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/departments", Name = "GetDepartments")]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments(int id)
         {
-            if (_userService.IsCoordinatorForInstitution(id))
-            {
+            if (!UserIsAuthorized(id))
+                return Unauthorized();
+            
                 var result = await _mediator.Send(new GetDepartmentsForInstitution.Query() { InstitutionId = id });
                 return Ok(result);
-            }
-
-            return Unauthorized();
+            
         }
 
 
@@ -173,6 +188,17 @@ namespace HyFive.Admin.Controllers.V1
                 InstitutionId = institutionId
             });
             return result;
+        }
+
+        private bool UserIsAuthorized(int institutionId)
+        {
+            if (_userService.IsFhiAdmin())
+                return true;
+
+            if (_userService.IsCoordinatorForInstitution(institutionId))
+                return true;
+
+            return false;
         }
     }
 }

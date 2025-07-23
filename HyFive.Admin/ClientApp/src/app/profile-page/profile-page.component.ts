@@ -57,4 +57,9 @@ export class ProfilsideComponent implements OnInit {
     this.roleEventService.switchRoleEvent.emit(role);
     this.authorizationService.saveSelectedRole(role);
   }
+
+  logout() {
+    localStorage.clear();
+    window.location.href = '/account/logout';
+  }
 }

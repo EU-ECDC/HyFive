@@ -34,6 +34,7 @@
     "ngx-clipboard": "^15.0.1",
     "ngx-toastr": "^16.0.0",
     "rxjs": "~7.5.0",
+    "typeface-roboto": "^1.1.13",
     "what-input": "5.2.10",
     "zone.js": "~0.14.4"
   },

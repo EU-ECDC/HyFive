@@ -8,6 +8,7 @@ import { LoggedInUser } from '../../models/api/LoggedInUser';
 import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 @Component({
   selector: 'app-edit-observers',
@@ -23,13 +24,16 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   user: LoggedInUser = null;
   keyword: string = '';
   filteredObservers: User[];
+  mailValidatorHelper;
 
   constructor(private institutionService: InstitutionService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
     private authorizationService: AuthorizationService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   identityPseudonymChanged(modifiedPseudonym: string) {
     this.observerAsChanged.identityPseudonym = modifiedPseudonym;
@@ -133,13 +137,31 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   canCreate() {
     return this.newObserver.firstName.length > 0
       && this.newObserver.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(this.newObserver);
+      && this.newObserver.email.length > 0
+      && this.mailValidatorHelper.validateMail(this.newObserver.email)
+      && this.observers.find(obs => obs?.email == this.newObserver?.email) == undefined
+      //&& this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
+      && this.userService.isValidPseudonym(this.newObserver.identityPseudonym);
   }
 
   canChange(observer: User) {
     return observer.firstName.length > 0
       && observer.lastName.length > 0
-      && this.userService.hasValidHprnumberOrPseudonym(observer);
+      && observer.email.length > 0
+      && this.mailValidatorHelper.validateMail(observer.email)
+      && this.observers
+                      .filter(obs => obs.id !== observer.id)
+                      .find(obs => obs?.email == this.newObserver?.email) == undefined
+      //&& this.filteredObservers
+      //                        .filter(fc => fc.id !== observer.id)
+      ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
+      && this.userService.isValidPseudonym(observer.identityPseudonym);
+  }
+
+    omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   cancelEdit($event: Event = null) {
@@ -162,10 +184,10 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   sort($event: IColumnSortedEvent) {
     let propertyOf: (x: User) => any;
     switch ($event.columnName) {
-      case "Firstname":
+      case "First name":
         propertyOf = (x: User) => x.firstName;
         break;
-      case "Lastname":
+      case "Last name":
         propertyOf = (x: User) => x.lastName;
         break;
       default:

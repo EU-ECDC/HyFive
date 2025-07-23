@@ -23,7 +23,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [Route("delete/{sessionId}")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteSession(Guid sesjonId, [FromQuery] int institutionId)
+        public async Task<IActionResult> DeleteSession(Guid sessionId, [FromQuery] int institutionId)
         {
             if (_userService.IsCoordinatorForInstitution(institutionId))
             {
@@ -31,7 +31,7 @@ namespace HyFive.Admin.Controllers.V1
                 {
                     InstitutionId = institutionId,
                     TransferStatusCode = TransferStatusTypeConstants.TransferredToCoordinator,
-                    SessionId = sesjonId
+                    SessionId = sessionId
                 });
 
                 return Ok(result.Success);
