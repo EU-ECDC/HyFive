@@ -325,7 +325,9 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.saveNumberDiagramOptions(antallGraf);
         this.showGraph = true;
       },
-      (error) => this.toastrService.error('Error in generating graph data: ' + error?.message, '', { disableTimeOut: true })
+      (error) => {
+        this.showGraphError = true;
+      }
     );
   }
 
@@ -342,7 +344,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   savePercentageChartOptions(graph: any) {
     this.percentageDiagramOptions = {
       title: graph.title,
-      diagramTypeId: 'line',
+      diagramTypeId: 'column',
       series: graph.graphDataList,
       openSource: false,
       units: [{
@@ -364,7 +366,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
       openSource: false,
       units: [{
         id: 'number',
-        label: 'Number',
+        label: 'Indications (N)',
         position: 'end'
       }]
     };
