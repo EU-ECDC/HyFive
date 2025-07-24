@@ -234,7 +234,7 @@ export class CompliancePdfComponent {
       institutionIds: this.selectedInstitutionId ? [this.selectedInstitutionId] : this.selectedInstitutions?.map(t => t.id) ?? [],
       fromDate: this.fromDate,
       toDate: this.toDate,
-      roleId: this.selectedRole
+      role: this.selectedRole
     } 
 
     return DownloadFileHelper.downloadFile(url, 'application/pdf, */*', payload);

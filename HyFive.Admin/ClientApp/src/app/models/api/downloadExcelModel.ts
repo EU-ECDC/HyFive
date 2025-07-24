@@ -3,5 +3,5 @@ export interface DownloadExcelModel {
     institutionIds: number [],
     fromDate: Date,
     toDate: Date,
-    roleId: number
+    role: number
 }
