@@ -23,8 +23,8 @@ namespace HyFive.Services.Report.Observations
             public int ObserverId { get; set; }
             public List<int> InstitutionIds { get; set; }
             public int InstitutionId { get; set; }
-            public DateTime? FromDate { get; set; }
-            public DateTime? ToDate { get; set; }
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 
@@ -42,6 +42,9 @@ namespace HyFive.Services.Report.Observations
 
             public async Task<IEnumerable<PPEObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
+                var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(query.ToDate.Date, DateTimeKind.Utc);
+
                 var queryable = _context.ProtectiveEquipmentObservation
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
@@ -86,15 +89,9 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Id == query.SessionId);
                 }
 
-                if (query.FromDate != null)
-                {                    
-                    queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.RegisteredTime.Date >= query.FromDate.Value.Date);
-                }
-                
-                if (query.ToDate != null)
-                {
-                    queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.RegisteredTime.Date <= query.ToDate.Value.Date);
-                }
+                                    
+                 queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.RegisteredTime.Date >= fromDateUtc);
+                 queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.RegisteredTime.Date <= toDateUtc);
 
                 return await queryable
                                     .OrderBy(o => o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Id)

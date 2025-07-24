@@ -23,8 +23,8 @@ namespace HyFive.Services.Report.Observations
             public int ObserverId { get; set; }
             public List<int> InstitutionIds { get; set; }
             public int? InstitutionId { get; set; }
-            public DateTime? FromDate { get; set; }
-            public DateTime? ToDate { get; set; }
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 
@@ -41,6 +41,9 @@ namespace HyFive.Services.Report.Observations
 
             public async Task<IEnumerable<HandJewelryObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
+                var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(query.ToDate.Date, DateTimeKind.Utc);
+
                 var queryable = _context.HandJewelryObservation
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
@@ -85,21 +88,14 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.HandJewelrySession.Id == query.SessionId);
                 }
 
-                if (query.FromDate != null)
-                {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
-                }
+                queryable = queryable.Where(o => o.RegisteredTime.Date >= fromDateUtc);
+                queryable = queryable.Where(o => o.RegisteredTime.Date <= toDateUtc);
                 
-                if (query.ToDate != null)
-                {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToDate.Value.Date);
-                }
-
                 return await queryable
-                                    .OrderBy(o => o.HandJewelrySession.Id)
-                                    .ThenBy(o => o.Id)
-                                    .ProjectTo<HandJewelryObservationReport>(_mapper.ConfigurationProvider)
-                                    .ToListAsync();
+                            .OrderBy(o => o.HandJewelrySession.Id)
+                            .ThenBy(o => o.Id)
+                            .ProjectTo<HandJewelryObservationReport>(_mapper.ConfigurationProvider)
+                            .ToListAsync();
             }
         }
     }

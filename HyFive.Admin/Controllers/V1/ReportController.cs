@@ -183,7 +183,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetFiveIndicatorsReportForDepartment.Query
             {
                 FromDate = request.FromDate,
-                ToTime = request.ToDate,
+                ToDate = request.ToDate,
                 DepartmentIds = request.DepartmentIds,
                 Role = role
             };
