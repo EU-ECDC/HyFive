@@ -1,0 +1,5 @@
+.dropdown-disabled {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.6; /* Optional: gray it out */
+}

@@ -1,12 +1,25 @@
 <div class="container">
   <h4>Downloading data for an institution or department on Excel-format</h4>
   <div class="row mt-4" *ngIf="canSelectInstitution">
+    <!-- <div class="col-md-4">
+      <label for="institutionsTypes">Institution Types</label>
+        <ng-multiselect-dropdown [placeholder]="'Select'"
+                                [settings]="dropdownSettings"
+                                [data]="institutionTypes"
+                                [(ngModel)]="selectedInstitutionTypes"
+                                (ngModelChange)="filterInstitutionsByType()">
+        </ng-multiselect-dropdown>
+    </div>  -->
     <div class="col-md-5">
       <label for="institution">Institution</label>
-      <select class="form-select" id="institution" [(ngModel)]="selectedInstitutionId" (ngModelChange)="selectInstitution()">
-        <option value=""></option>
-        <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
-      </select>
+      <div #dropdownRef>
+        <ng-multiselect-dropdown placeholder="Select institutions"
+                                [settings]="dropdownSettings"
+                                [data]="institutions"
+                                [(ngModel)]="selectedInstitutions"
+                                (ngModelChange)="onChangeModelInstitution()">
+        </ng-multiselect-dropdown>
+      </div>
     </div>
   </div>
   <div class="row mt-4">
@@ -16,12 +29,23 @@
     </div>
   </div>
   <div class="row mt-4 mb-4">
-    <div class="col-md-5">
+    <!-- <div class="col-md-4" >
+      <label for="departmentType">Department Types</label>
+        <ng-multiselect-dropdown [placeholder]="'Select department types'"
+                                  [settings]="dropdownSettings"
+                                  [data]="departmentTypes"
+                                  [(ngModel)]="selectedDepartmentTypes"
+                                  (ngModelChange)="filterDepartmentsByType()">
+        </ng-multiselect-dropdown>
+    </div> -->
+    <div class="col-md-5" [class.dropdown-disabled]="createInstitutionalReport">
       <label for="department">Department</label>
-      <select class="form-select" id="department" [(ngModel)]="selectedDepartmentId" [disabled]="createInstitutionalReport">
-        <option value=""></option>
-        <option *ngFor="let department of departments" [ngValue]="department.id">{{department.name}}</option>
-      </select>
+      <ng-multiselect-dropdown [placeholder]="'Select departments'"
+                              [disabled]="createInstitutionalReport"
+                              [settings]="dropdownSettings"
+                              [data]="departments"
+                              [(ngModel)]="selectedDepartments">
+      </ng-multiselect-dropdown>
     </div>
     <div class="col-md-2">
       <label for="sessionType">Module</label>
@@ -32,11 +56,11 @@
     </div>
     <div class="col-md-2">
       <label for="fromDate">From date</label>
-      <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" />
+      <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" [max]="toDate || null" />
     </div>
     <div class="col-2">
       <label for="toDate">To date</label>
-      <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" />
+      <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" [min]="fromDate || null" />
     </div>
   </div>
   <div class="row mt-2">

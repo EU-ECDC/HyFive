@@ -342,7 +342,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   savePercentageChartOptions(graph: any) {
     this.percentageDiagramOptions = {
       title: graph.title,
-      diagramTypeId: 'line',
+      diagramTypeId: 'column',
       series: graph.graphDataList,
       openSource: false,
       units: [{
@@ -359,7 +359,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   saveNumberDiagramOptions(graph: any) {
     this.numberDiagramOptions = {
       title: graph.title,
-      diagramTypeId: 'line',
+      diagramTypeId: 'column',
       series: graph.graphDataList,
       openSource: false,
       units: [{
