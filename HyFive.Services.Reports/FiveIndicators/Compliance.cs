@@ -163,6 +163,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 var asepticCompliance = CreateComplianceGraphDataForIndicator(interval, observationsInCurrentPeriod, "Aseptic", IndicationTypeConstants.AsepticProcedures, fromDate, toDate);
                 var bodyFluidCompliance = CreateComplianceGraphDataForIndicator(interval, observationsInCurrentPeriod, "Body fluid", IndicationTypeConstants.BodyFluid, fromDate, toDate);
                 var complianceAfterPatient = CreateComplianceGraphDataForIndicator(interval, observationsInCurrentPeriod, "After patient", IndicationTypeConstants.AfterPatient, fromDate, toDate);
+                var compliancePatientsSurroundings = CreateComplianceGraphDataForIndicator(interval, observationsInCurrentPeriod, "Patient's surroundings", IndicationTypeConstants.PatientsSurroundings, fromDate, toDate);
 
                 return new List<ComplianceGraphData>
                         {
@@ -170,7 +171,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                             complianceBeforePatient,
                             asepticCompliance,
                             bodyFluidCompliance,
-                            complianceAfterPatient
+                            complianceAfterPatient,
+                            compliancePatientsSurroundings
                         };
             }
 
