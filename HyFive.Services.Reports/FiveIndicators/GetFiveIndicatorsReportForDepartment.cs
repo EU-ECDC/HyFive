@@ -331,8 +331,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                     dto.Combinations.Add(CreateCombinationA(observations));
                     dto.Combinations.Add(CreateCombinationB(observations));
                     dto.Combinations.Add(CreateCombinationC(observations));
-                    dto.Combinations.Add(LagKombinasjonD(observations));
-                    dto.Combinations.Add(LagKombinasjonE(observations));
+                    dto.Combinations.Add(CreateCombinationD(observations));
+                    dto.Combinations.Add(CreateCombinationE(observations));
 
                     dtoList.Add(dto);
 
@@ -420,9 +420,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonD(List<FiveIndicationsObservation> observations)
+            private Combination CreateCombinationD(List<FiveIndicationsObservation> observations)
             {
-                //var name = "D (etter pasient)";
+                //var name = "D (after pasient)";
                 var name = "D";
 
                 var combinations = new[]
@@ -442,9 +442,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonE(List<FiveIndicationsObservation> observations)
+            private Combination CreateCombinationE(List<FiveIndicationsObservation> observations)
             {
-                //var name = "E (overgang mellom pasienter)";
+                //var name = "E (transition between patients)";
                 var name = "E";
                 var combinations = new[]
                 {
