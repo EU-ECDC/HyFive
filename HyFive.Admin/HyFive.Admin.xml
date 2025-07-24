@@ -400,49 +400,32 @@
             <param name="regionType"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(GloveReportRequest)">
             <summary>
             Create an Excel report for Glove observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportAsExcel(HandJewelryReportRequest)">
             <summary>
             Create an Excel report for HandJewelries observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateProtectiveEquipmentReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateProtectiveEquipmentReportAsExcel(HyFive.Models.V1.Report.ProtectiveEquipment.ProtectiveEquipmentReport)">
             <summary>
             Create an Excel report for ProtectiveEquipment observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(FiveIndicationsReportRequest)">
             <summary>
             Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
-            <param name="sessionId"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(FiveIndicationsReportRequest)">

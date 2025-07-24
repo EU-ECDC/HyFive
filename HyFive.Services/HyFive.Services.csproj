@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Overforingsstatus\" />
+    <Folder Include="Report\NewFolder\" />
   </ItemGroup>
 </Project>

@@ -18,9 +18,11 @@ namespace HyFive.Services.Report.Observations
         public class Query : IRequest<IEnumerable<HandJewelryObservationReport>>
         {
             public List<int> DepartmentIds { get; set; }
+            public int? DepartmentId { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
             public List<int> InstitutionIds { get; set; }
+            public int? InstitutionId { get; set; }
             public DateTime? FromDate { get; set; }
             public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -59,10 +61,18 @@ namespace HyFive.Services.Report.Observations
                 {
                     queryable = queryable.Where(o => query.DepartmentIds.Contains(o.HandJewelrySession.Department.Id));
                 }
+                else if (query.DepartmentId > 0)
+                {
+                    queryable = queryable.Where(o => o.HandJewelrySession.Department.Id == query.DepartmentId);
+                }
 
                 if (query.InstitutionIds != null && query.InstitutionIds.Count > 0)
                 {
                     queryable = queryable.Where(o => query.InstitutionIds.Contains(o.HandJewelrySession.Department.InstitutionId));
+                }
+                else if (query.InstitutionId > 0)
+                {
+                    queryable = queryable.Where(o => o.HandJewelrySession.Department.InstitutionId == query.InstitutionId);
                 }
 
                 if (query.ObserverId > 0)
