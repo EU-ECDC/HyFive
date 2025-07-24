@@ -16,7 +16,8 @@ import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 @Component({
   selector: 'app-download-excel',
-  templateUrl: './download-excel.component.html'
+  templateUrl: './download-excel.component.html',
+  styleUrls: ['download-excel.component.scss']
 })
 
 export class DownloadExcelComponent {

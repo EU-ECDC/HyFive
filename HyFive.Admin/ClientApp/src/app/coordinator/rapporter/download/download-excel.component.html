@@ -38,7 +38,7 @@
                                   (ngModelChange)="filterDepartmentsByType()">
         </ng-multiselect-dropdown>
     </div> -->
-    <div class="col-md-5">
+    <div class="col-md-5" [class.dropdown-disabled]="createInstitutionalReport">
       <label for="department">Department</label>
       <ng-multiselect-dropdown [placeholder]="'Select departments'"
                               [disabled]="createInstitutionalReport"
