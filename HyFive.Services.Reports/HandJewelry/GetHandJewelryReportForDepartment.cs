@@ -16,8 +16,8 @@ namespace HyFive.Services.Reports.HandJewelry
     {
         public class Query : IRequest<JewelryReportForJewelryTypeAndRole>
         {
-            public int DepartmentId { get; set; }
-            public int InstitutionId { get; set; }
+            public List<int> DepartmentIds { get; set; }
+            public List<int> InstitutionIds { get; set; }
             public DateTime FromDateTime { get; set; }
             public DateTime ToDateTime { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -37,12 +37,16 @@ namespace HyFive.Services.Reports.HandJewelry
                 var departmentReport = CreateDepartmentReport(request);
                 var InstitutionReport = CreateInstitutionReport(request);
 
-                var department = _context.Department.AsNoTracking().First(a => a.Id == request.DepartmentId);
-                var institution = _context.Institution.AsNoTracking().First(a => a.Id == request.InstitutionId);
+                var departments = _context.Department.AsNoTracking().Where(d => request.DepartmentIds.Contains(d.Id)).ToList();
+                var institutions = _context.Institution.AsNoTracking().Where(i => request.InstitutionIds.Contains(i.Id)).ToList();
+
+                var departmentNames = string.Join(", ", departments.Select(d => d.Name));
+                var institutionNames = string.Join(", ", institutions.Select(i => i.Name));
+
                 var report = new JewelryReportForJewelryTypeAndRole
                 {
-                    Department = department.Name,
-                    Institution = institution.Name,
+                    Department = departmentNames,
+                    Institution = institutionNames,
                     FromDate = request.FromDateTime,
                     ToTime = request.ToDateTime,
                     ReportForDepartment = departmentReport,
@@ -63,7 +67,7 @@ namespace HyFive.Services.Reports.HandJewelry
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                     .Where(s =>
-                        s.Department.Id == request.DepartmentId
+                        request.DepartmentIds.Contains(s.Department.Id)
                         && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                         && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
@@ -89,7 +93,7 @@ namespace HyFive.Services.Reports.HandJewelry
                    .Include(s => s.Observations).ThenInclude(o => o.Role)
                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                    .Where(s =>
-                       s.Department.InstitutionId == request.InstitutionId
+                       request.InstitutionIds.Contains(s.Department.InstitutionId)
                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                    .ToList();

@@ -7,6 +7,7 @@ using HyFive.Models.V1.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,8 +19,8 @@ namespace HyFive.Services.Report.Observations
         public class Query : IRequest<bool>
         {
             public int SessionType { get; set; }
-            public int InstitutionId { get; set; }
-            public int? DepartmentId { get; set; }
+            public List<int> InstitutionIds { get; set; }
+            public List<int>? DepartmentIds { get; set; }
             public DateTime FromDate { get; set; }
             public DateTime ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -47,7 +48,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.FiveIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Institution)
                         .AsNoTracking();
 
-                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -57,7 +58,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.HandJewelrySession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -67,7 +68,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.GloveSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -77,7 +78,7 @@ namespace HyFive.Services.Report.Observations
                         .Include(p => p.ProtectiveEquipmentSession).ThenInclude(p => p.Department).ThenInclude(a => a.Institution)
                         .AsNoTracking();
 
-                    queryable = AddSearchParameters(queryable, query.InstitutionId, query.DepartmentId, fromDateUtc, toDateUtc, query.Role);
+                    queryable = AddSearchParameters(queryable, query.InstitutionIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
 
                     hasData = await queryable.AnyAsync(cancellationToken);
                 }
@@ -85,13 +86,14 @@ namespace HyFive.Services.Report.Observations
                 return hasData;
             }
 
-            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, int institutionId, int? departmentId, 
+            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, List<int> institutionIds, List<int>? departmentIds, 
                 DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.FiveIndicationsSession.Department.InstitutionId == institutionId);
-                if (departmentId != null)
-                    queryable = queryable.Where(p => p.FiveIndicationsSession.Department.Id == departmentId);
+                queryable = queryable.Where(p => institutionIds.Contains(p.FiveIndicationsSession.Department.InstitutionId));
+                
+                if (departmentIds != null && departmentIds.Any())
+                    queryable = queryable.Where(p => departmentIds.Contains(p.FiveIndicationsSession.Department.Id));
 
                 queryable = queryable.Where(p => p.RegisteredTime >= fromDate);
                 queryable = queryable.Where(p => p.RegisteredTime <= toDate);
@@ -102,13 +104,14 @@ namespace HyFive.Services.Report.Observations
                 return queryable;
             }
 
-            private static IQueryable<HandJewelryObservation> AddSearchParameters(IQueryable<HandJewelryObservation> queryable, int institutionId, int? departmentId, 
+            private static IQueryable<HandJewelryObservation> AddSearchParameters(IQueryable<HandJewelryObservation> queryable, List<int> institutionIds, List<int>? departmentIds, 
                 DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.HandJewelrySession.Department.InstitutionId == institutionId);
-                if (departmentId != null)
-                    queryable = queryable.Where(p => p.HandJewelrySession.Department.Id == departmentId);
+                queryable = queryable.Where(p => institutionIds.Contains(p.HandJewelrySession.Department.InstitutionId));
+                
+                if (departmentIds != null && departmentIds.Any())
+                    queryable = queryable.Where(p => departmentIds.Contains(p.HandJewelrySession.Department.Id));
 
                 queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
@@ -119,13 +122,14 @@ namespace HyFive.Services.Report.Observations
                 return queryable;
             }
 
-            private static IQueryable<GloveObservation> AddSearchParameters(IQueryable<GloveObservation> queryable, int institutionId, int? departmentId, 
+            private static IQueryable<GloveObservation> AddSearchParameters(IQueryable<GloveObservation> queryable, List<int> institutionIds, List<int>? departmentIds, 
                 DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.GloveSession.Department.InstitutionId == institutionId);
-                if (departmentId != null)
-                    queryable = queryable.Where(p => p.GloveSession.Department.Id == departmentId);
+                queryable = queryable.Where(p => institutionIds.Contains(p.GloveSession.Department.InstitutionId));
+
+                if (departmentIds != null && departmentIds.Any())
+                    queryable = queryable.Where(p => departmentIds.Contains(p.GloveSession.Department.Id));
 
                 queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
@@ -136,13 +140,14 @@ namespace HyFive.Services.Report.Observations
                 return queryable;
             }
 
-            private static IQueryable<ProtectiveEquipmentObservation> AddSearchParameters(IQueryable<ProtectiveEquipmentObservation> queryable, int institutionId, int? departmentId, 
+            private static IQueryable<ProtectiveEquipmentObservation> AddSearchParameters(IQueryable<ProtectiveEquipmentObservation> queryable, List<int> institutionIds, List<int>? departmentIds, 
                 DateTime fromDate, DateTime toDate, AuthorizedRole role)
             {
 
-                queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.InstitutionId == institutionId);
-                if (departmentId != null)
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.Department.Id == departmentId);
+                queryable = queryable.Where(p => institutionIds.Contains(p.ProtectiveEquipmentSession.Department.InstitutionId));
+
+                if (departmentIds != null && departmentIds.Any())
+                    queryable = queryable.Where(p => institutionIds.Contains(p.ProtectiveEquipmentSession.Department.Id));
 
                 queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);

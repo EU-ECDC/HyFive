@@ -17,12 +17,14 @@ namespace HyFive.Services.Report.Observations
     {
         public class Query : IRequest<IEnumerable<HandJewelryObservationReport>>
         {
-            public int DepartmentId { get; set; }
+            public List<int> DepartmentIds { get; set; }
+            public int? DepartmentId { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public int InstitutionId { get; set; }
-            public DateTime? FromDate { get; set; }
-            public DateTime? ToTime { get; set; }
+            public List<int> InstitutionIds { get; set; }
+            public int? InstitutionId { get; set; }
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 
@@ -39,6 +41,9 @@ namespace HyFive.Services.Report.Observations
 
             public async Task<IEnumerable<HandJewelryObservationReport>> Handle(Query query, CancellationToken cancellationToken)
             {
+                var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(query.ToDate.Date, DateTimeKind.Utc);
+
                 var queryable = _context.HandJewelryObservation
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.HandJewelrySession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
@@ -55,12 +60,20 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
                 }
 
-                if (query.DepartmentId > 0)
+                if (query.DepartmentIds != null && query.DepartmentIds.Count > 0)
+                {
+                    queryable = queryable.Where(o => query.DepartmentIds.Contains(o.HandJewelrySession.Department.Id));
+                }
+                else if (query.DepartmentId > 0)
                 {
                     queryable = queryable.Where(o => o.HandJewelrySession.Department.Id == query.DepartmentId);
                 }
 
-                if (query.InstitutionId > 0)
+                if (query.InstitutionIds != null && query.InstitutionIds.Count > 0)
+                {
+                    queryable = queryable.Where(o => query.InstitutionIds.Contains(o.HandJewelrySession.Department.InstitutionId));
+                }
+                else if (query.InstitutionId > 0)
                 {
                     queryable = queryable.Where(o => o.HandJewelrySession.Department.InstitutionId == query.InstitutionId);
                 }
@@ -75,21 +88,14 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.HandJewelrySession.Id == query.SessionId);
                 }
 
-                if (query.FromDate != null)
-                {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
-                }
+                queryable = queryable.Where(o => o.RegisteredTime.Date >= fromDateUtc);
+                queryable = queryable.Where(o => o.RegisteredTime.Date <= toDateUtc);
                 
-                if (query.ToTime != null)
-                {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToTime.Value.Date);
-                }
-
                 return await queryable
-                                    .OrderBy(o => o.HandJewelrySession.Id)
-                                    .ThenBy(o => o.Id)
-                                    .ProjectTo<HandJewelryObservationReport>(_mapper.ConfigurationProvider)
-                                    .ToListAsync();
+                            .OrderBy(o => o.HandJewelrySession.Id)
+                            .ThenBy(o => o.Id)
+                            .ProjectTo<HandJewelryObservationReport>(_mapper.ConfigurationProvider)
+                            .ToListAsync();
             }
         }
     }
