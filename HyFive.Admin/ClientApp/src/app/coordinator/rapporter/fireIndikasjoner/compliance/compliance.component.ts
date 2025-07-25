@@ -54,9 +54,10 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   selectedDepartmentTypes: DepartmentType[];
   interval: string = 'year';
   months: any [];
-  transferredTo: number = 1;
+  transferredTo: number = 0;
   canSelectInstitution = true;
   intervalYearError: boolean = false;
+  showQuarterError: boolean = false;
 
   dropdownSettings: IDropdownSettings;
   
@@ -255,6 +256,27 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     } else {
       this.intervalYearError = false;
     }
+    this.validateQuarters();
+  }
+
+  validateQuarters() {
+    if (this.interval == 'quarter') {
+      if (this.fromYear == this.toYear) {
+        if (this.fromQuarter > this.toQuarter) {
+          this.showQuarterError = true;
+        } else {
+          this.showQuarterError = false;
+        }
+      } else {
+        this.showQuarterError = false;
+      }
+    }
+  }
+
+  onChangeInterval() {
+    this.fromQuarter = 1;
+    this.toQuarter = 1;
+    this.showQuarterError = false;
   }
 
   loadCoordinatorInstitutionDepartments(institutionId: number) {
