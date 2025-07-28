@@ -11,6 +11,7 @@ import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_common/services/authorization.service';
 import { ObservationService } from 'src/app/services/data/observation.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   user: LoggedInUser = null;
   keyword: string = '';
   filteredCoordinators: CoordinatorForHealthcareOrganization[];
+  mailValidatorHelper;
 
   constructor(
     private HealthcareOrganizationService: HealthcareOrganizationService,
@@ -40,7 +42,9 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     private institutionForCoordinatorEventService: InstitutionForCoordinatorEventService,
     private authorizationService: AuthorizationService,
     private observationService: ObservationService
-  ) { }
+  ) {
+    this.mailValidatorHelper = MailValidatorHelper;
+   }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -105,6 +109,9 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   createCoordinator() {
+    if (this.newCoordinator.identityPseudonym == "") {
+        this.newCoordinator.identityPseudonym = null;
+    }
     this.newCoordinator.institutions = this.selectedInstitutions;
     this.HealthcareOrganizationService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
       (status) => {
@@ -138,17 +145,26 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   isCoordinatorAsChanged(coordinator: CoordinatorForHealthcareOrganization) {
-    if (this.coordinatorAsChanged?.hprNumber?.length > 0 &&
-      this.coordinatorAsChanged.hprNumber === coordinator.hprNumber)
-      return true;
-    if (this.coordinatorAsChanged?.identityPseudonym?.length > 0 &&
-      this.coordinatorAsChanged.identityPseudonym === coordinator.identityPseudonym)
-      return true;
+    // if (this.coordinatorAsChanged?.hprNumber?.length > 0 &&
+    //   this.coordinatorAsChanged.hprNumber === coordinator.hprNumber)
+    //   return true;
+    // if (this.coordinatorAsChanged?.identityPseudonym?.length > 0 &&
+    //   this.coordinatorAsChanged.identityPseudonym === coordinator.identityPseudonym)
+    //   return true;
 
+    // return false;
+    if (this.coordinatorAsChanged 
+      // && this.coordinatorAsChanged?.id == coordinator.id
+      ) {
+      return true;
+    } 
     return false;
   }
 
   updateCoordinator(coordinator: CoordinatorForHealthcareOrganization) {
+    if (coordinator.identityPseudonym == "") {
+        coordinator.identityPseudonym = null;
+    }
     coordinator.institutions = this.selectedInstitutions;
     let CurrentInstitutionIsStillSelected = this.selectedInstitutions.some(i => i.id == this.institution.id);
     let isCoordinatorAsChangedLikeLoggedInUser = this.isCoordinatorAsChangedLikeLoggedInUser(coordinator);
@@ -183,25 +199,40 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   isCoordinatorAsChangedLikeLoggedInUser(coordinator: CoordinatorForHealthcareOrganization) {
-    if (this.user.hprNumber && this.user.hprNumber === coordinator.hprNumber)
-      return true;
-    if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
-      return true;
+    // if (this.user.hprNumber && this.user.hprNumber === coordinator.hprNumber)
+    //   return true;
+    // if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
+    //   return true;
 
+    // return false;
+
+    if (this.coordinatorAsChanged
+      // && this.coordinatorAsChanged?.id == coordinator.id
+      ) {
+      return true;
+    } 
     return false;
   }
 
   canCreate() {
     return this.newCoordinator.firstName.length > 0
       && this.newCoordinator.lastName.length > 0
-      && this.userService.hasCoordinatorValidHprnumberOrPseudonym(this.newCoordinator)
+      && this.newCoordinator.email.length > 0
+      && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
+      && this.coordinators.find(coord => coord?.email == this.newCoordinator?.email) == undefined
+      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
   }
 
   canChange(coordinator: CoordinatorForHealthcareOrganization) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
-      && this.userService.hasCoordinatorValidHprnumberOrPseudonym(coordinator)
+      && coordinator.email.length > 0
+      && this.mailValidatorHelper.validateMail(coordinator.email)
+      && this.coordinators
+                      // .filter(coord => coord.id !== coordinator.id)
+                      .find(coord => coord?.email == coordinator?.email) == undefined
+      && this.userService.isValidPseudonym(coordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
   }
 
@@ -233,7 +264,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       this.filteredCoordinators = this.coordinators.filter(k => 
                                     k.firstName?.toLowerCase().includes(this.keyword.toLowerCase()) || 
                                     k.lastName?.toLocaleLowerCase().includes(this.keyword.toLowerCase()) ||
-                                    k.hprNumber?.includes(this.keyword) ||
+                                    // k.hprNumber?.includes(this.keyword) ||
                                     k.institutions?.some(i => i.name.toLowerCase().includes(this.keyword.toLowerCase())));
     }
     else if (this.keyword.length === 0)
