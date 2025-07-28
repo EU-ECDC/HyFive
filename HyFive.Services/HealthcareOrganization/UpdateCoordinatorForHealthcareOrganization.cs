@@ -71,11 +71,11 @@ namespace HyFive.Services.HealthcareOrganization
                     return false;
                 }
 
-                if(string.IsNullOrWhiteSpace(coordinator.ModifiedHPRNumber) && string.IsNullOrWhiteSpace(coordinator.ModifiedPseudonym))
+                /*if(string.IsNullOrWhiteSpace(coordinator.ModifiedHPRNumber) && string.IsNullOrWhiteSpace(coordinator.ModifiedPseudonym))
                 {
                     errorMessage = "HPR number or identity pseudonym must be filled in";
                     return false;
-                }
+                }*/
 
                 if(!string.IsNullOrWhiteSpace(coordinator.ModifiedPseudonym) && !UserValidator.IsValidIdentityPseudonym(coordinator.ModifiedPseudonym))
                 {
