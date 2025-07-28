@@ -6,6 +6,7 @@ import { InstitutionReport } from './InstitutionReport';
 
 export interface HealthcareOrganizationCoordinator
 {
+	id?: number;
 	createdTime: any;
 	firstName: string;
 	lastName: string;

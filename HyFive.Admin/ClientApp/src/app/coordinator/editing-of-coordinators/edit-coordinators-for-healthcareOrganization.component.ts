@@ -109,8 +109,8 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   createCoordinator() {
-    if (this.newCoordinator.identityPseudonym == "") {
-        this.newCoordinator.identityPseudonym = null;
+    if (this.newCoordinator.modifiedPseudonym == "") {
+        this.newCoordinator.modifiedPseudonym = null;
     }
     this.newCoordinator.institutions = this.selectedInstitutions;
     this.HealthcareOrganizationService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
@@ -154,7 +154,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
 
     // return false;
     if (this.coordinatorAsChanged 
-      // && this.coordinatorAsChanged?.id == coordinator.id
+      && this.coordinatorAsChanged?.id == coordinator.id
       ) {
       return true;
     } 
@@ -162,8 +162,8 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   updateCoordinator(coordinator: CoordinatorForHealthcareOrganization) {
-    if (coordinator.identityPseudonym == "") {
-        coordinator.identityPseudonym = null;
+    if (coordinator.modifiedPseudonym == "") {
+        coordinator.modifiedPseudonym = null;
     }
     coordinator.institutions = this.selectedInstitutions;
     let CurrentInstitutionIsStillSelected = this.selectedInstitutions.some(i => i.id == this.institution.id);
@@ -207,7 +207,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     // return false;
 
     if (this.coordinatorAsChanged
-      // && this.coordinatorAsChanged?.id == coordinator.id
+      && this.coordinatorAsChanged?.id == coordinator.id
       ) {
       return true;
     } 
@@ -230,7 +230,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       && coordinator.email.length > 0
       && this.mailValidatorHelper.validateMail(coordinator.email)
       && this.coordinators
-                      // .filter(coord => coord.id !== coordinator.id)
+                      .filter(coord => coord.id !== coordinator.id)
                       .find(coord => coord?.email == coordinator?.email) == undefined
       && this.userService.isValidPseudonym(coordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
