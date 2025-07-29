@@ -43,8 +43,7 @@ namespace HyFive.Services.HealthcareOrganization
 
                 foreach (var coordinator in coordinatorsForInstitutionsInHealthcareOrganization)
                 {
-                    var coordinatorForHealthcareOrganization = coordinatorsListForHealthcareOrganization.FirstOrDefault(k => (!string.IsNullOrEmpty(k.HPRNumber) && k.HPRNumber == coordinator.HPRNumber) ||
-                                                                                                         (!string.IsNullOrEmpty(k.IdentityPseudonym) && k.IdentityPseudonym == coordinator.IdentityPseudonym));
+                    var coordinatorForHealthcareOrganization = coordinatorsListForHealthcareOrganization.FirstOrDefault(k => k.Email == coordinator.Email);
                     if (coordinatorForHealthcareOrganization == null)
                     {
                         coordinatorForHealthcareOrganization = CreateCoordinatorForHealthcareOrganization(coordinatorsListForHealthcareOrganization, coordinator);
