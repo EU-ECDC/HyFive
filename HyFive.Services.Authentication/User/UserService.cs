@@ -200,7 +200,7 @@ namespace HyFive.Services.Authentication.User
 
         public Expression<Func<TUser, bool>> HasHprOrPseudonymAndIsActive<TUser>(string hprNumber, string identityPseudonym) where TUser : Domain.User.User
         {
-            return b => ((!string.IsNullOrEmpty(hprNumber) && b.HPRNumber == hprNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) && b.IdentityPseudonym == identityPseudonym)) && b.IsDeactivated == false;
+            return b => /*((!string.IsNullOrEmpty(hprNumber) && b.HPRNumber == hprNumber) || (!string.IsNullOrEmpty(b.IdentityPseudonym) && b.IdentityPseudonym == identityPseudonym)) &&*/ b.IsDeactivated == false;
         }
 
         private bool IsRole<TRole>(string hprNumber, string pseudonym) where TRole : Domain.User.User
@@ -209,11 +209,11 @@ namespace HyFive.Services.Authentication.User
                 .Include(r => r.Institution)
                 .Any(HasHprOrPseudonymAndIsActive<TRole>(hprNumber, pseudonym));
 
-            if (isRole)
+            /*if (isRole)
             {
                 // Update all users with an IdentityPseudonym if they don't have one.
                 UpdateUserWithPseudonym<TRole>(hprNumber).GetAwaiter().GetResult();
-            }
+            }*/
             return isRole;
         }
 

@@ -94,7 +94,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [HttpPut("{id}/updateCoordinator")]
         [ProducesResponseType(typeof(Status), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Status>> OppdaterKoordinator([FromBody] HealthcareOrganizationCoordinator coordinator, int id)
+        public async Task<ActionResult<Status>> UpdateCoordinator([FromBody] HealthcareOrganizationCoordinator coordinator, int id)
         {
             if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
