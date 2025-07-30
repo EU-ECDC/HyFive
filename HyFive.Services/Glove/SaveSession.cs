@@ -41,7 +41,7 @@ namespace HyFive.Services.Glove
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observator = await HentObservator(request, cancellationToken);
+                var observator = await GetObserver(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
                         $"Did not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
@@ -95,7 +95,7 @@ namespace HyFive.Services.Glove
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<Observer> HentObservator(Command request, CancellationToken cancellationToken)
+            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var institution = await _context.Institution
                     .Include(i => i.Users)

@@ -81,6 +81,9 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   }
 
   createObserver() {
+    if (this.newObserver.identityPseudonym == "") {
+      this.newObserver.identityPseudonym = null;
+    }
     this.userService.createObserver(this.newObserver).subscribe(
       () => this.toastrService.success('Observer created'),
       error => this.toastrService.error('An error occurred while creating observer: ' + error?.message, '', { disableTimeOut: true}),
@@ -95,6 +98,9 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   }
 
   updateObserver(observer: User) {
+    if (observer.identityPseudonym == "") {
+      observer.identityPseudonym = null;
+    }
     this.userService.updateObserver(observer).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success('Observer updated');
