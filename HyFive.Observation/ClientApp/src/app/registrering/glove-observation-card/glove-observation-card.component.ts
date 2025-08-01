@@ -18,6 +18,7 @@ import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicat
 import { HandHygieneAfterGloveUseTypeService } from "../../services/data/hand-hygiene-after-glove-useType-service";
 import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
 import { DialogueTexts } from '../../constants/dialogueTexts';
+import { SessionType } from "src/app/models/api/SessionType";
 
 @Component({
   selector: 'app-glove-observation-card',
@@ -50,6 +51,8 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   activeTab = "with";
   gloveUsed = null;
   selectedHandHygieneAfterGloveUsed = null;
+  glovesSessionType: number = SessionType.Gloves;
+  institutionid: number;
   
   uuid: string;
 
@@ -82,6 +85,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
     this.uuid = Uuid.generateUUID();
+    this.institutionid = this.sessionView.department.institutionId;
   }
 
   deleteCard() {
