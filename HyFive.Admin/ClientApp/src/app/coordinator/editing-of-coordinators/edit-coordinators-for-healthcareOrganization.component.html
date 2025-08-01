@@ -16,7 +16,7 @@
               <th sortable-column="Firstname"></th>
               <th sortable-column="Lastname"></th>
               <th>Email</th>
-              <th>HPR-number</th>
+              <!-- <th>HPR-number</th> -->
               <th>Pseudonym</th>
               <th>Disabled</th>
               <th>Institutions</th>
@@ -29,10 +29,9 @@
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Firstname"></td>
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Lastname"></td>
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
-              <td>
+              <!-- <td>
                 <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
-              </td>
+              </td> -->
               <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
               <td></td>
               <td>
@@ -58,7 +57,7 @@
                 <td>{{coordinator.firstName}}</td>
                 <td>{{coordinator.lastName}} </td>
                 <td>{{coordinator.email}}</td>
-                <td>{{coordinator.hprNumber}}</td>
+                <!-- <td>{{coordinator.hprNumber}}</td> -->
                 <td>
                   <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
                 </td>
@@ -79,10 +78,9 @@
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
                 <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.email" name="email" placeholder="Email"></td>
-                <td>
+                <!-- <td>
                   <input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.modifiedHPRNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                  <!-- <app-search-hprnumber-link></app-search-hprnumber-link> -->
-                </td>
+                </td> -->
                 <td>
                   <app-pseudonym-dialog [text]="'Change'"
                                         [editable]="true"

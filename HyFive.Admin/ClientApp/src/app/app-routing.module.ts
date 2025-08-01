@@ -119,7 +119,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fiveIndicationsCompliancePdf
+        redirectTo: UrlPaths.fiveIndicationsCompliance
       }
     ]
   },

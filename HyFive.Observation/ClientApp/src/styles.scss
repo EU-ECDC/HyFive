@@ -101,6 +101,22 @@ app-delete-shadow {
     outline: none;
 }
 
+.fhi-btn-primary {
+    --bs-btn-active-bg: #4f841a;
+    --bs-btn-active-color: white;
+    --bs-btn-disabled-bg: #4f841a;
+    --bs-btn-disabled-color: white;
+    --bs-btn-disabled-border-color: #4f841a;
+    --bs-btn-hover-color: white;
+    box-shadow: none;
+    text-decoration: unset;
+}
+.fhi-btn-primary, .fhi-btn-primary:active, .fhi-btn-primary:focus {
+    background-color: #4f841a;
+    border-color: #4f841a;
+    color: white;
+}
+
 // .fhi-btn-secondary, .fhi-btn-secondary:active, .fhi-btn-secondary:focus {
 .fhi-btn-secondary {
     background-color: white;

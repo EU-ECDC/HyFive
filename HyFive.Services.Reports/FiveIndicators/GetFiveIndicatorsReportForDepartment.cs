@@ -17,9 +17,9 @@ namespace HyFive.Services.Reports.FiveIndicators
     {
         public class Query : IRequest<FiveIndicatorsReportForDepartment>
         {
-            public int DepartmentId { get; set; }
+            public List<int> DepartmentIds { get; set; }
             public DateTime FromDate { get; set; }
-            public DateTime ToTime { get; set; }
+            public DateTime ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
         }
 
@@ -41,16 +41,16 @@ namespace HyFive.Services.Reports.FiveIndicators
                 reportDto.Clinics = GetReportsForClinics(request);
                 reportDto.Institution = GetInstitutionData(request);
                 reportDto.ComparableDepartments = await GetComparableDepartmentData(request);
-                reportDto.SetDisplayTimestamps(request.FromDate, request.ToTime);
+                reportDto.SetDisplayTimestamps(request.FromDate, request.ToDate);
                 return reportDto;
             }
 
             private FiveIndicatorsReport GetDepartmentData(Query request)
             {
-                var department = _context.Department.AsNoTracking().First(a => a.Id == request.DepartmentId);
+                var departments = _context.Department.AsNoTracking().Where(a => request.DepartmentIds.Contains(a.Id)).ToList();
 
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDate.Date, DateTimeKind.Utc);
 
                 var departmentSessionsWithObservations = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
@@ -63,7 +63,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                     .Include(o => o.Observations)
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
-                        s.Department.Id == request.DepartmentId
+                        request.DepartmentIds.Contains(s.Department.Id)
                         && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                         && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
@@ -77,7 +77,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 {
                     session.Observations = session.Observations.Where(o =>
                             o.RegisteredTime.Date >= request.FromDate.Date &&
-                            o.RegisteredTime.Date <= request.ToTime.Date)
+                            o.RegisteredTime.Date <= request.ToDate.Date)
                         .ToList();
                 }
 
@@ -85,9 +85,9 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 return new FiveIndicatorsReport()
                 {
-                    Name = department.Name,
+                    Name = string.Join(", ", departments.Select(d => d.Name)),
                     FromDate = request.FromDate,
-                    ToDate = request.ToTime,
+                    ToDate = request.ToDate,
                     Roles = GetRoleWithCombinationsReportList(departmentSessionsWithObservations),
                     NumberOfObservations = numberOfObservations,
                     DebugObservationsStringList = departmentSessionsWithObservations.SelectMany(o => o.Observations)
@@ -98,10 +98,15 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private async Task<FiveIndicatorsReport> GetComparableDepartmentData(Query request)
             {
-                var comparedDepartment = _context.Department.AsNoTracking().Include(a => a.DepartmentType).First(a => a.Id == request.DepartmentId);
+                var comparedDepartments = _context.Department.AsNoTracking().Include(a => a.DepartmentType).Where(d => request.DepartmentIds.Contains(d.Id)).ToList();
+
+                var departmentTypeCodes = comparedDepartments
+                    .Select(d => d.DepartmentType.Code)
+                    .Distinct()
+                    .ToList();
 
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDate.Date, DateTimeKind.Utc);
 
                 var SessionsOfComparableDepartments = await _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
@@ -116,8 +121,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                     .Include(o => o.Observations)
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
-                        s.Department.Id != request.DepartmentId
-                        && s.Department.DepartmentType.Code == comparedDepartment.DepartmentType.Code
+                        !request.DepartmentIds.Contains(s.Department.Id)
+                        && departmentTypeCodes.Contains(s.Department.DepartmentType.Code)
                         && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                         && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc)
                         && s.Observations.Any())
@@ -138,11 +143,14 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 var observationsNumber = SessionsOfComparableDepartments.SelectMany(o => o.Observations).Count();
 
+                var departmentNames = string.Join(", ", comparedDepartments.Select(d => d.Name));
+
+
                 return new FiveIndicatorsReport()
                 {
-                    Name = $"Comparable departments for {comparedDepartment.Name}",
+                    Name = $"Comparable departments for {comparedDepartments}",
                     FromDate = request.FromDate,
-                    ToDate = request.ToTime,
+                    ToDate = request.ToDate,
                     Roles = GetRoleWithCombinationsReportList(SessionsOfComparableDepartments),
                     NumberOfObservations = observationsNumber,
                     DebugObservationsStringList = SessionsOfComparableDepartments.SelectMany(o => o.Observations)
@@ -154,19 +162,25 @@ namespace HyFive.Services.Reports.FiveIndicators
             private FiveIndicatorsReport GetInstitutionData(Query request)
             {
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDate.Date, DateTimeKind.Utc);
 
-                var institutionId = _context.Department
+                var institutionIds = _context.Department
                     .AsNoTracking()
-                    .Select(a => new { DepartmentId = a.Id, a.InstitutionId })
-                    .First(a => a.DepartmentId == request.DepartmentId).InstitutionId;
+                    .Where(d => request.DepartmentIds.Contains(d.Id))
+                    .Select(d => d.InstitutionId)
+                    .Distinct()
+                    .ToList();
 
 
-                var institution = _context.Institution
+                var institutionNames = _context.Institution
                     .AsNoTracking()
                     .Include(i => i.InstitutionType)
-                    .Select(i => new { i.Name, i.Id, InstitutionType = i.InstitutionType.Name })
-                    .First(i => i.Id == institutionId);
+                    .Where(i => institutionIds.Contains(i.Id))
+                    .Select(i => new { i.Name, InstitutionTypeName = i.InstitutionType.Name })
+                    .ToList();
+
+                string institutionDisplayName = string.Join(" | ", institutionNames
+                    .Select(i => $"{i.InstitutionTypeName}: {i.Name}"));
 
                 var institutionSessionsMinusRequestedDepartment = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
@@ -181,7 +195,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                     .Include(o => o.Observations)
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
-                        s.Department.InstitutionId == institutionId
+                        institutionIds.Contains(s.Department.InstitutionId)
                         && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                         && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
@@ -191,9 +205,9 @@ namespace HyFive.Services.Reports.FiveIndicators
                     institutionSessionsMinusRequestedDepartment = institutionSessionsMinusRequestedDepartment.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
                 }
 
-                foreach (var sesjon in institutionSessionsMinusRequestedDepartment)
+                foreach (var session in institutionSessionsMinusRequestedDepartment)
                 {
-                    sesjon.Observations = sesjon.Observations.Where(o =>
+                    session.Observations = session.Observations.Where(o =>
                             o.RegisteredTime.Date >= fromDateUtc &&
                             o.RegisteredTime.Date <= toDateUtc)
                         .ToList();
@@ -203,9 +217,9 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 return new FiveIndicatorsReport()
                 {
-                    Name = $"{institution.InstitutionType}: {institution.Name} ",
+                    Name = institutionDisplayName,
                     FromDate = request.FromDate,
-                    ToDate = request.ToTime,
+                    ToDate = request.ToDate,
                     Roles = GetRoleWithCombinationsReportList(institutionSessionsMinusRequestedDepartment),
                     NumberOfObservations = observationsNumber,
                     DebugObservationsStringList = institutionSessionsMinusRequestedDepartment.SelectMany(o => o.Observations)
@@ -220,8 +234,11 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 var departmentClinicIds = _context.Department
                     .AsNoTracking()
-                    .Include(a => a.Clinics)
-                    .First(a => a.Id == request.DepartmentId).Clinics.Select(s => s.Id);
+                    .Where(d => request.DepartmentIds.Contains(d.Id))
+                    .Include(d => d.Clinics)
+                    .SelectMany(d => d.Clinics.Select(c => c.Id))
+                    .Distinct()
+                    .ToList();
 
                 foreach (var clinicId in departmentClinicIds)
                 {
@@ -235,7 +252,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             private FiveIndicatorsReport GetClinicReport(int clinicId, Query request)
             {
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToTime.Date, DateTimeKind.Utc);
+                var toDateUtc = DateTime.SpecifyKind(request.ToDate.Date, DateTimeKind.Utc);
 
                 var AssociatedClinicSessions = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
@@ -277,7 +294,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 {
                     Name = $"Clinic: {clinicName}",
                     FromDate = request.FromDate,
-                    ToDate = request.ToTime,
+                    ToDate = request.ToDate,
                     Roles = GetRoleWithCombinationsReportList(AssociatedClinicSessions),
                     NumberOfObservations = observationsNumber,
                     DebugObservationsStringList = AssociatedClinicSessions.SelectMany(o => o.Observations)
@@ -331,8 +348,8 @@ namespace HyFive.Services.Reports.FiveIndicators
                     dto.Combinations.Add(CreateCombinationA(observations));
                     dto.Combinations.Add(CreateCombinationB(observations));
                     dto.Combinations.Add(CreateCombinationC(observations));
-                    dto.Combinations.Add(LagKombinasjonD(observations));
-                    dto.Combinations.Add(LagKombinasjonE(observations));
+                    dto.Combinations.Add(CreateCombinationD(observations));
+                    dto.Combinations.Add(CreateCombinationE(observations));
 
                     dtoList.Add(dto);
 
@@ -420,9 +437,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonD(List<FiveIndicationsObservation> observations)
+            private Combination CreateCombinationD(List<FiveIndicationsObservation> observations)
             {
-                //var name = "D (etter pasient)";
+                //var name = "D (after pasient)";
                 var name = "D";
 
                 var combinations = new[]
@@ -442,9 +459,9 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination LagKombinasjonE(List<FiveIndicationsObservation> observations)
+            private Combination CreateCombinationE(List<FiveIndicationsObservation> observations)
             {
-                //var name = "E (overgang mellom pasienter)";
+                //var name = "E (transition between patients)";
                 var name = "E";
                 var combinations = new[]
                 {

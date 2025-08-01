@@ -54,9 +54,10 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   selectedDepartmentTypes: DepartmentType[];
   interval: string = 'year';
   months: any [];
-  transferredTo: number = 1;
+  transferredTo: number = 0;
   canSelectInstitution = true;
   intervalYearError: boolean = false;
+  showQuarterError: boolean = false;
 
   dropdownSettings: IDropdownSettings;
   
@@ -255,6 +256,27 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     } else {
       this.intervalYearError = false;
     }
+    this.validateQuarters();
+  }
+
+  validateQuarters() {
+    if (this.interval == 'quarter') {
+      if (this.fromYear == this.toYear) {
+        if (this.fromQuarter > this.toQuarter) {
+          this.showQuarterError = true;
+        } else {
+          this.showQuarterError = false;
+        }
+      } else {
+        this.showQuarterError = false;
+      }
+    }
+  }
+
+  onChangeInterval() {
+    this.fromQuarter = 1;
+    this.toQuarter = 1;
+    this.showQuarterError = false;
   }
 
   loadCoordinatorInstitutionDepartments(institutionId: number) {
@@ -325,7 +347,9 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.saveNumberDiagramOptions(antallGraf);
         this.showGraph = true;
       },
-      (error) => this.toastrService.error('Error in generating graph data: ' + error?.message, '', { disableTimeOut: true })
+      (error) => {
+        this.showGraphError = true;
+      }
     );
   }
 
@@ -342,7 +366,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   savePercentageChartOptions(graph: any) {
     this.percentageDiagramOptions = {
       title: graph.title,
-      diagramTypeId: 'line',
+      diagramTypeId: 'column',
       series: graph.graphDataList,
       openSource: false,
       units: [{
@@ -359,12 +383,12 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   saveNumberDiagramOptions(graph: any) {
     this.numberDiagramOptions = {
       title: graph.title,
-      diagramTypeId: 'line',
+      diagramTypeId: 'column',
       series: graph.graphDataList,
       openSource: false,
       units: [{
         id: 'number',
-        label: 'Number',
+        label: 'Indications (N)',
         position: 'end'
       }]
     };

@@ -13,5 +13,7 @@ namespace HyFive.Models.V1.Constants
         public static string BodyFluid = "BODY_FLUID";
         [TsProperty(Constant = true)]
         public static string AfterPatient = "AFTER_PATIENT";
+        [TsProperty(Constant = true)]
+        public static string PatientsSurroundings = "PATIENTS_SURROUNDINGS";
     }
 }
