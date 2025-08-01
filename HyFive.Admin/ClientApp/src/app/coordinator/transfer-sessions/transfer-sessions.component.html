@@ -13,7 +13,7 @@
             </select>
           </div>
           <div class="form-group col col-md-2">
-            <label for="sessionType">Module</label>
+            <label for="sessionType">Session type</label>
             <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
               <option [ngValue]="null">All</option>
               <option *ngFor="let option of sessionTypeOptions" [ngValue]="option.value">{{option.name}}</option>
