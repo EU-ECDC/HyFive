@@ -9,7 +9,7 @@
             Seeds all necessary static code lists required for the application to run:
             OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
             BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
-            IndicatedGloveTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
+            GloveWithIndicationTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
             In addition, an FHI Admin is seeded: Felix Mørk.
             To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
             </summary>
@@ -65,7 +65,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.GloveWithIndicationTypeController.GetGloveWithIndicationTypes">
             <summary>
-            Get IndicatedGloveTypes
+            Get GloveWithIndicationTypes
             </summary>
             <returns></returns>
         </member>

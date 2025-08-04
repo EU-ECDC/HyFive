@@ -9,7 +9,7 @@ import { PostGloveHandHygieneType } from './PostGloveHandHygieneType';
 
 export interface GloveObservation extends Observation
 {
-	indicatedGloveTypes?: GloveWithIndicationType[];
+	gloveWithIndicationTypes?: GloveWithIndicationType[];
 	gloveWithoutIndicationTypes?: GloveWithoutIndicationType[];
 	gloveUsed: boolean;
 	postGloveHandHygieneType?: PostGloveHandHygieneType;

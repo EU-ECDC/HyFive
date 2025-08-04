@@ -5,15 +5,15 @@ export class Urls {
   static RegisterHandJewelryUrl = 'register/handJewelry';
   static RegisterGloveUrl = 'register/glove';
   static RegisterProtectiveEquipmentUrl = 'register/protectiveEquipment';
-  static NotSentSessionsUrl = 'sessions/not-send';
-  static SentSessionsUrl = 'sessions/send';
+  static NotSentSessionsUrl = 'sessions/not-sent';
+  static SentSessionsUrl = 'sessions/sent';
   static FiveIndicationsSessionUrl = 'sessions/five-indications';
   static HandJewelrySessionUrl = 'sessions/handJewelry';
   static GloveSessionUrl = 'sessions/glove';
   static ProtectiveEquipmentSessionUrl = 'sessions/protectiveEquipment';
-  static SentFiveIndicationsSessionUrl = 'sessions/send/five-indications';
-  static SentHandJewelrySessionUrl = 'sessions/send/handJewelry';
-  static SentGloveSessionUrl = 'sessions/send/glove';
-  static SendProtectiveEquipmentSessionUrl = 'sessions/send/protectiveEquipment';
+  static SentFiveIndicationsSessionUrl = 'sessions/sent/five-indications';
+  static SentHandJewelrySessionUrl = 'sessions/sent/handJewelry';
+  static SentGloveSessionUrl = 'sessions/sent/glove';
+  static SendProtectiveEquipmentSessionUrl = 'sessions/sent/protectiveEquipment';
   static ProfileUrl = 'profile';
 }

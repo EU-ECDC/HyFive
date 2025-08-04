@@ -62,7 +62,7 @@ export class EditGloveObservationComponent implements OnInit {
 
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
-      if (this.observation.gloveWithIndicationTypes.length) {
+      if (this.observation.gloveWithIndicationTypes?.length) {
         this.activeTab = "with";
         this.gloveWithIndicationTypes.forEach(x => {
           if (this.observation.gloveWithIndicationTypes.some(y => y.code === x.code))
