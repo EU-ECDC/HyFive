@@ -160,7 +160,7 @@ namespace HyFive.Services.Tests
                 {
                     Id = sessionId.ToString(),
                     Department = departmentModel,
-                    InstitutionsName = institution.Name,
+                    InstitutionName = institution.Name,
                     InstitutionId = institution.Id,
                     Observations = new List<FiveIndicatorsObservation>()
                     {
