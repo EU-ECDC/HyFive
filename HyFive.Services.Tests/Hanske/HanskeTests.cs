@@ -110,7 +110,7 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {
@@ -167,7 +167,7 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {
