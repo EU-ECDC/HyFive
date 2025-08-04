@@ -694,12 +694,12 @@ namespace HyFive.DataAccess.Migrations
                 name: "GloveObservationGloveWithIndicationType",
                 columns: table => new
                 {
-                    IndicatedGloveTypesId = table.Column<int>(type: "integer", nullable: false),
+                    GloveWithIndicationTypesId = table.Column<int>(type: "integer", nullable: false),
                     ObservationsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GloveObservationGloveWithIndicationType", x => new { x.IndicatedGloveTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_GloveObservationGloveWithIndicationType", x => new { x.GloveWithIndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
                         name: "FK_GloveObservationGloveWithIndicationType_GloveObservation_Ob~",
                         column: x => x.ObservationsId,
@@ -708,7 +708,7 @@ namespace HyFive.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GloveObservationGloveWithIndicationType_GloveWithIndication~",
-                        column: x => x.IndicatedGloveTypesId,
+                        column: x => x.GloveWithIndicationTypesId,
                         principalTable: "GloveWithIndicationType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);

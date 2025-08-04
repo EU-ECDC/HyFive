@@ -47,8 +47,8 @@ export class SentGloveSessionComponent implements OnInit, OnDestroy {
   }
 
   showIndications(item: GloveObservation): string { // TODO Choose between displaying indications/types, or showing whether the observation was with or without indications
-    if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
-    return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
+    if (item.gloveWithIndicationTypes?.length) return item.gloveWithIndicationTypes?.map(x => x.name).join(', ');;
+    return item.gloveWithoutIndicationTypes?.map(x => x.name).join(', ');
   }
 
   navigateToSentSessions() {

@@ -11,7 +11,7 @@ import { SessionReport } from "../../models/api/SessionReport";
 import { ToastrService } from "ngx-toastr";
 import { GloveSessionService } from "../../services/data/glove-session.service";
 import { forkJoin, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -139,10 +139,6 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                     this.sessionsFiltered.splice(index, 1);
                   }
                   this.fiveIndicationsSessionService.deleteSession(s.id);
-                }),
-                catchError(error => {
-                  console.error('Error in session:', error);
-                  return of(null);  // Return a null value so forkJoin still completes
                 })
               );
             break;
@@ -156,10 +152,6 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                     this.sessionsFiltered.splice(index, 1);
                   }
                   this.handJewelrySessionService.deleteSession(s.id);
-                }),
-                catchError(error => {
-                  console.error('Error in session:', error);
-                  return of(null);
                 })
               );
             break;
@@ -173,10 +165,6 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                     this.sessionsFiltered.splice(index, 1);
                   }
                   this.gloveSessionService.deleteSession(s.id);
-                }),
-                catchError(error => {
-                  console.error('Error in session:', error);
-                  return of(null);
                 })
               );
             break;
@@ -190,10 +178,6 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                     this.sessionsFiltered.splice(index, 1);
                   }
                   this.protectiveEquipmentSessionService.deleteSession(s.id);
-                }),
-                catchError(error => {
-                  console.error('Error in session:', error);
-                  return of(null);
                 })
               );
             break;
