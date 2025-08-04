@@ -104,7 +104,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
       startDate: session.createdDate,
       type: sessionType,
       id: session.id,
-      institutionsName: session.institutionsName,
+      institutionName: session.institutionName,
     };
   }
 
