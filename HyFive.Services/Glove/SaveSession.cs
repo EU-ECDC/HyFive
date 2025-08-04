@@ -68,8 +68,8 @@ namespace HyFive.Services.Glove
                     observation.CreatedTime = DateTime.UtcNow;
                     observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
-                    observation.IndicatedGloveTypes = gloveWithIndicationTypes
-                                                            .Where(hmi => observation.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
+                    observation.GloveWithIndicationTypes = gloveWithIndicationTypes
+                                                            .Where(hmi => observation.GloveWithIndicationTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                                                             .ToList();
                     observation.GloveWithoutIndicationTypes = gloveWithoutIndicationTypes
                                                             .Where(hui => observation.GloveWithoutIndicationTypes.Select(ohui => ohui.Id).Contains(hui.Id))
