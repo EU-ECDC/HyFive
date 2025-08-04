@@ -51,8 +51,8 @@ namespace HyFive.Services.Tests.Hanske
         //    {
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicatedGloveTypes, Is.Not.Null);
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].IndicatedGloveTypes.Count, Is.EqualTo(2));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithIndicationTypes, Is.Not.Null);
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithIndicationTypes.Count, Is.EqualTo(2));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygieneType.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Ja));
@@ -110,7 +110,7 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {
@@ -121,7 +121,7 @@ namespace HyFive.Services.Tests.Hanske
                             RegisteredTime = DateTime.UtcNow,
                             Role = avdelingModell.Roles.First(),
                             SessionId = sesjonId.ToString(),
-                            IndicatedGloveTypes = new List<GloveWithIndicationType>()
+                            GloveWithIndicationTypes = new List<GloveWithIndicationType>()
                             {
                                 new GloveWithIndicationType()
                                 {
@@ -167,7 +167,7 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {

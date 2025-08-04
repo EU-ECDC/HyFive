@@ -49,6 +49,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
+                session.StartDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observer;
 
@@ -66,6 +67,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.UtcNow;
+                    observation.RegisteredTime = DateTime.UtcNow;
                     observation.SettingType = settingTypes.First(s => s.Id == observation.SettingType.Id);
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     foreach (var equipment in observation.ProtectiveEquipmentList)
@@ -85,8 +87,6 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 var transferStatuses = _context.TransferStatusType.ToList();
                 session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
-
-                
                 _context.Add(session);
                 _context.SaveChanges();
                 return session.Id;
