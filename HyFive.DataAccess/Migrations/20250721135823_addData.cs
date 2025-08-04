@@ -899,7 +899,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (4, N'Midwife', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (5, N'Physiotherapist', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (6, N'Bio engineer', NULL) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (7, N'Health personnel', NULL) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (7, N'Health staff', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (8, N'Midwife 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (9, N'Nurse 1', NULL) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (10, N'Doctor', NULL) ON CONFLICT (""Id"") DO NOTHING");

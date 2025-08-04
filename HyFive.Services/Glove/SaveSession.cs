@@ -53,7 +53,7 @@ namespace HyFive.Services.Glove
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
-                session.Department = await HentAvdeling(request, cancellationToken);
+                session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observator;
 
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
@@ -89,7 +89,7 @@ namespace HyFive.Services.Glove
                 return session.Id;
             }
 
-            private async Task<Domain.Place.Department> HentAvdeling(Command request, CancellationToken cancellationToken)
+            private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
             {
                 return await _context.Department.Include(a => a.Roles)
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
