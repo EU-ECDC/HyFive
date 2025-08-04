@@ -34,7 +34,7 @@
       <div class="row text-break">
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
-            <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes.length">
+            <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes?.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Gloves with indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
@@ -79,7 +79,7 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes.length">
+            <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes?.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Glove without indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
