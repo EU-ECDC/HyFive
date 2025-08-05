@@ -14,6 +14,7 @@ import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicat
 import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { Uuid } from 'src/app/utils/uuid';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 @Component({
   selector: 'app-edit-glove-observation',
@@ -51,9 +52,11 @@ export class EditGloveObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: GloveObservation;
   @Input() department: Department;
+  @Input("institutionid") institutionid: number;
   @Output() observationDeletedEvent = new EventEmitter();
   showInfoModal = false;
   observationMissingText: any;
+  gloveSessionType: SessionType = SessionType.Gloves;
 
 
   ngOnInit(): void {

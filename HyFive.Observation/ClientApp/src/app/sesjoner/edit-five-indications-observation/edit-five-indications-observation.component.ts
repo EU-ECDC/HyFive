@@ -15,6 +15,7 @@ import { ActivityTypeNotExecutedMapper } from '../../utils/ActivityTypeNotExecut
 import { Uuid } from '../../utils/uuid';
 import { ActivityTypeNotPerformedId } from '../../models/api/ActivityTypeNotPerformedId';
 import { Activities } from '../../constants/Activities';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 @Component({
   selector: 'app-edit-five-indications-observation',
@@ -37,6 +38,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   notPerformedActivity: Activity;
   alcohol: string = Activities.Alcohol;
   wash: string = Activities.Wash;
+  fiveIndicationsSessionType: SessionType = SessionType.FiveIndications; 
 
   faHandHoldingWater = faHandHoldingWater;
   faHandsWash = faHandsWash;
@@ -54,6 +56,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observation") observation: FiveIndicationsObservation;
   @Input("department") department: Department;
+  @Input("institutionid") institutionid: number;
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
   @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
   @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FiveIndicationsObservation> = new EventEmitter<FiveIndicationsObservation>();
