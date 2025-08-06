@@ -136,6 +136,7 @@ namespace HyFive.Services.HealthcareOrganization
                 {
                     FirstName = coordinator.FirstName,
                     LastName = coordinator.LastName,
+                    Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
                     Institution = institution
