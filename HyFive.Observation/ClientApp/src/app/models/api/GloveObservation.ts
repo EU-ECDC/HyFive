@@ -11,6 +11,6 @@ export interface GloveObservation extends Observation
 {
 	gloveWithIndicationTypes?: GloveWithIndicationType[];
 	gloveWithoutIndicationTypes?: GloveWithoutIndicationType[];
-	gloveUsed: boolean;
+	glovesUsed: boolean;
 	handHygieneAfterGloveUseType?: HandHygieneAfterGloveUseType;
 }

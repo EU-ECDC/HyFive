@@ -72,23 +72,23 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     });
 
     if (this.isReadonly && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
-      if (this.observation.activity.gloveUsed === null)
+      if (this.observation.activity.glovesUsed === null)
         this.gloveUseText = this.activityTypeNotExecutedSelection[0].name;
-      else if (this.observation.activity.gloveUsed === true)
+      else if (this.observation.activity.glovesUsed === true)
         this.gloveUseText = this.activityTypeNotExecutedSelection[1].name;
-      else if (this.observation.activity.gloveUsed === false)
+      else if (this.observation.activity.glovesUsed === false)
         this.gloveUseText = this.activityTypeNotExecutedSelection[2].name;
     }
   }
 
   getSelectedActivityTypeNotPerformedId(activity: Activity): string {
-    if (activity.gloveUsed === null && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+    if (activity.glovesUsed === null && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       return ActivityTypeNotPerformedId.NotPerformed.toString();
     }
-    else if (activity.gloveUsed === true && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+    else if (activity.glovesUsed === true && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       return ActivityTypeNotPerformedId.GloveWasUsed.toString();
     }
-    else if (activity.gloveUsed === false && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
+    else if (activity.glovesUsed === false && activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       return ActivityTypeNotPerformedId.GloveWasNotUsed.toString();
     }
   }
@@ -100,7 +100,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     if (activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.showActivityTypeNotExecuted = true;
       if (this.notPerformedActivity) {
-        this.selectedActivityTypeNotExecutedSelectionId = this.selectedActivityTypeNotExecuted(this.notPerformedActivity?.gloveUsed);
+        this.selectedActivityTypeNotExecutedSelectionId = this.selectedActivityTypeNotExecuted(this.notPerformedActivity?.glovesUsed);
       }
       else {
         this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotPerformedId.NotPerformed.toString();
@@ -125,14 +125,14 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     }
   }
 
-  selectedActivityTypeNotExecuted(gloveUsed: boolean): string {
-    if (gloveUsed === true) {
+  selectedActivityTypeNotExecuted(glovesUsed: boolean): string {
+    if (glovesUsed === true) {
       return ActivityTypeNotPerformedId.GloveWasUsed.toString();
     }
-    else if (gloveUsed === false) {
+    else if (glovesUsed === false) {
       return ActivityTypeNotPerformedId.GloveWasNotUsed.toString();
     }
-    else if (gloveUsed || gloveUsed === null) {
+    else if (glovesUsed || glovesUsed === null) {
       return ActivityTypeNotPerformedId.NotPerformed.toString();
     }
   }
@@ -172,13 +172,13 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
 
   private registerActivityTypeNotExecuted(observation: FiveIndicationsObservation): FiveIndicationsObservation {
     if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.NotPerformed.toString())) {
-      observation.activity.gloveUsed = null;
+      observation.activity.glovesUsed = null;
     }
     else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasUsed.toString()) {
-      observation.activity.gloveUsed = true;
+      observation.activity.glovesUsed = true;
     }
     else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasNotUsed.toString()) {
-      observation.activity.gloveUsed = false;
+      observation.activity.glovesUsed = false;
     }
     observation.activity.TimingWasPerformed = false;
     observation.activity.secondsUsed = 0;

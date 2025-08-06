@@ -82,7 +82,7 @@ export class RegisterActivityComponent implements OnInit {
       this.showText = false;
     }
     else {
-      this.activityRegisteredEvent.emit({ activityType: this.activityType, TimingWasPerformed: false, gloveUsed: wasConfirmed});
+      this.activityRegisteredEvent.emit({ activityType: this.activityType, TimingWasPerformed: false, glovesUsed: wasConfirmed});
     }
     
   }
@@ -96,7 +96,7 @@ export class RegisterActivityComponent implements OnInit {
     else if (this.seconds > 0) {
       this.stoppTimer();
       this.timingExecuted = false;
-      this.activityRegisteredEvent.emit({ activityType: this.activityType, secondsUsed: this.seconds, TimingWasPerformed: true, gloveUsed: this.usedGloves})
+      this.activityRegisteredEvent.emit({ activityType: this.activityType, secondsUsed: this.seconds, TimingWasPerformed: true, glovesUsed: this.usedGloves})
     }
   }
 

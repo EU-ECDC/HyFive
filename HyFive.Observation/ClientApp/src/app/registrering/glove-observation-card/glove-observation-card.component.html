@@ -47,10 +47,10 @@
 
                       <div class="ms-auto">
                         <div class="btn-group fhi-btn-group" role="group">
-                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-ja-{{uuid}}"  [value]="true" [(ngModel)]="gloveUsed" />
+                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-ja-{{uuid}}"  [value]="true" [(ngModel)]="glovesUsed" />
                           <label class="btn fhi-btn-group__btn" for="btn-ja-{{uuid}}">Yes</label>
                           
-                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-nei-{{uuid}}" [value]="false"[(ngModel)]="gloveUsed" />
+                          <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-nei-{{uuid}}" [value]="false"[(ngModel)]="glovesUsed" />
                           <label class="btn fhi-btn-group__btn" for="btn-nei-{{uuid}}">No</label>
                         </div>
                       </div>
@@ -82,12 +82,12 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
 
-          <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && gloveUsed">
+          <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && glovesUsed">
             <h3 class="h5 text-center">Hand hygiene after using gloves?</h3>
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
                 <ng-container *ngFor="let type of handHygieneAfterGloveUseTypes">
-                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="gloveUse-name-{{uuid}}" [value]="type.code" [(ngModel)]="selectedHandHygieneAfterGloveUsed" />
+                  <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="gloveUse-name-{{uuid}}" [value]="type.code" [(ngModel)]="selectedHandHygieneAfterGlovesUsed" />
                   <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}-{{uuid}}">{{type.name}}</label>
                 </ng-container>
               </div>

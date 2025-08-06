@@ -64,10 +64,10 @@
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="gloveUsed"/>
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="glovesUsed"/>
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
                                 
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="gloveUsed" />
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="glovesUsed" />
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
                               </div>
                             </div>
@@ -109,7 +109,7 @@
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
-          <div class="w-100" *ngIf="gloveUsed">
+          <div class="w-100" *ngIf="glovesUsed">
             <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
