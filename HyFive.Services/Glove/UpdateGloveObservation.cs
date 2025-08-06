@@ -66,7 +66,7 @@ namespace HyFive.Services.Glove
                 {
                     observation.RegisteredTime = request.Observation.RegisteredTime;
 
-                    observation.GloveUsed = observationFromRequest.GloveUsed;
+                    observation.GlovesUsed = observationFromRequest.GlovesUsed;
                     observation.GloveWithIndicationTypes = gloveWithIndicationTypes
                         .Where(hmi => observationFromRequest.GloveWithIndicationTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                         .ToList();

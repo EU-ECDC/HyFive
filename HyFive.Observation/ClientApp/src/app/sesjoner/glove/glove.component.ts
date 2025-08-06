@@ -21,6 +21,7 @@ export class GloveComponent implements OnInit {
   sessionSentToServer = false;
   comment: string;
   isOnline: boolean = true;
+  institutionid: number;
 
   faCalendar = faCalendar;
   faAngleLeft = faAngleLeft;
@@ -46,6 +47,7 @@ export class GloveComponent implements OnInit {
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.session = this.sessionService.getSession(sessionId);
+        this.institutionid = this.session.department.institutionId;
         if (!this.session) this.router.navigate(['']);
       });
   }

@@ -19,6 +19,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activities } from '../../constants/Activities';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 
 @Component({
@@ -41,6 +42,8 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   dialogueTexts = DialogueTexts;
   alcohol: string = Activities.Alcohol;
   wash: string = Activities.Wash;
+  fiveIndicationsSessionType: number = SessionType.FiveIndications;
+  institutionid: number;
 
   faEraser = faEraser;
   faSave = faSave;
@@ -78,6 +81,7 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
         this.activityUnderRegistration = activity;
       }
     })
+    this.institutionid = this.sessionView.department.institutionId;
   }
 
   deleteCard() {

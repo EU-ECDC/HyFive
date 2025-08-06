@@ -18,6 +18,7 @@ import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicat
 import { HandHygieneAfterGloveUseTypeService } from "../../services/data/hand-hygiene-after-glove-useType-service";
 import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
 import { DialogueTexts } from '../../constants/dialogueTexts';
+import { SessionType } from "src/app/models/api/SessionType";
 
 @Component({
   selector: 'app-glove-observation-card',
@@ -48,8 +49,10 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
   activeTab = "with";
-  gloveUsed = null;
-  selectedHandHygieneAfterGloveUsed = null;
+  glovesUsed = null;
+  selectedHandHygieneAfterGlovesUsed = null;
+  glovesSessionType: number = SessionType.Gloves;
+  institutionid: number;
   
   uuid: string;
 
@@ -82,6 +85,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
     this.uuid = Uuid.generateUUID();
+    this.institutionid = this.sessionView.department.institutionId;
   }
 
   deleteCard() {
@@ -93,8 +97,8 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   resetTab() {
     this.gloveWithIndicationTypes.forEach(x => x.isSelected = false);
     this.gloveWithoutIndicationTypes.forEach(x => x.isSelected = false);
-    this.gloveUsed = this.activeTab === "with" ? null : true;
-    this.selectedHandHygieneAfterGloveUsed = null;
+    this.glovesUsed = this.activeTab === "with" ? null : true;
+    this.selectedHandHygieneAfterGlovesUsed = null;
   }
 
   gloveWithIndicationsChanged(code, event) {
@@ -126,8 +130,8 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
         this.showInfoModal = true;
         return true;
       }
-      else if (this.gloveUsed === null) {
-        this.observationMissingText = "\"Glove used?\" must be answered";
+      else if (this.glovesUsed === null) {
+        this.observationMissingText = "\"Gloves used?\" must be answered";
         this.showInfoModal = true;
         return true;
       }
@@ -157,8 +161,8 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       comment: this.comment,
       gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),
       gloveWithoutIndicationTypes: this.gloveWithoutIndicationTypes.filter(x => x.isSelected),
-      gloveUsed: this.gloveUsed,
-      handHygieneAfterGloveUseType: this.gloveUsed ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHandHygieneAfterGloveUsed) : null,
+      glovesUsed: this.glovesUsed,
+      handHygieneAfterGloveUseType: this.glovesUsed ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHandHygieneAfterGlovesUsed) : null,
     } as GloveObservation;
 
     this.observationRegister.emit(observation);

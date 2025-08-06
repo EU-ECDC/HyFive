@@ -254,7 +254,7 @@ namespace HyFive.DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SecondsUsed = table.Column<int>(type: "integer", nullable: false),
                     TimingWasPerformed = table.Column<bool>(type: "boolean", nullable: false),
-                    GloveUsed = table.Column<bool>(type: "boolean", nullable: true),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: true),
                     ActivityTypeId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -580,7 +580,7 @@ namespace HyFive.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    GloveUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: false),
                     PostGloveHandHygieneTypeId = table.Column<int>(type: "integer", nullable: true),
                     GloveSessionId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

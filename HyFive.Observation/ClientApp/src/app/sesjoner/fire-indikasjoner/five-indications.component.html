@@ -20,6 +20,7 @@
       <app-edit-five-indications-observation class="mb-2"
                                                  [observation]="item"
                                                  [department]="session.department"
+                                                 [institutionid]="institutionid"
                                                  [gloveUseMustBeRegistered]="sessionView.gloveUseMustBeRegistered"
                                                  [timeShouldBeRegistred]="sessionView.timeShouldBeRegistred"
                                                  (observationDeletedEvent)="observationDeletedEventHandler($event)">

@@ -53,7 +53,7 @@ namespace HyFive.Services.Tests.Hanske
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithIndicationTypes, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithIndicationTypes.Count, Is.EqualTo(2));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.EqualTo(true));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GlovesUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygieneType.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Ja));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
@@ -74,7 +74,7 @@ namespace HyFive.Services.Tests.Hanske
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithoutIndicationTypes, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveWithoutIndicationTypes.Count, Is.EqualTo(2));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GloveUsed, Is.True);
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].GlovesUsed, Is.True);
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygieneType.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Nei));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(avdeling.Roles.First().Name));
@@ -134,7 +134,7 @@ namespace HyFive.Services.Tests.Hanske
                                     Id = hanskeMedIndikasjonTyper.FirstOrDefault(x => x.Code == GloveWithIndicationTypeConstants.BodyFluids).Id
                                 }
                             },
-                            GloveUsed = true,
+                            GlovesUsed = true,
                             PostGloveHandHygieneType = new PostGloveHandHygieneType()
                             {
                                 Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Code == HandHygieneAfterGloveUseTypeConstants.Yes).Id
@@ -191,7 +191,7 @@ namespace HyFive.Services.Tests.Hanske
                                     Id = hanskeUtenIndikasjonTyper.FirstOrDefault(x => x.Code == GloveWithoutIndicationTypeConstants.CareWithoutBodyFluids).Id
                                 }
                             },
-                            GloveUsed = true,
+                            GlovesUsed = true,
                             PostGloveHandHygieneType = new PostGloveHandHygieneType()
                             {
                                 Id = handhygieneEtterHanskebrukTyper.FirstOrDefault(x => x.Code == HandHygieneAfterGloveUseTypeConstants.No).Id

@@ -28,19 +28,14 @@ namespace HyFive.Services.Institution
 
             public async Task<IEnumerable<string>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (request.SessionType == SessionType.ProtectiveEquipment)
-                {
-                    var predefinedComments = await _context.PredefinedComment
-                        .Where(pk =>
-                            pk.InstitutionId == request.InstitutionId &&
-                            pk.SessionType == Domain.Place.SessionType.ProtectiveEquipment)
-                        .Select(pk => pk.Comment)
-                        .ToListAsync(cancellationToken);
+                
+                var predefinedComments = await _context.PredefinedComment
+                    .Where(pk =>
+                        pk.InstitutionId == request.InstitutionId )
+                    .Select(pk => pk.Comment)
+                    .ToListAsync(cancellationToken);
 
-                    return predefinedComments;
-                }
-
-                return null;
+                return predefinedComments;
             }
         }
     }

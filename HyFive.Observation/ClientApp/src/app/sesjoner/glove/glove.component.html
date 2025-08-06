@@ -17,6 +17,7 @@
     <ng-template #content let-item="item">
       <app-edit-glove-observation [observation]="item"
                                       [department]="session.department"
+                                      [institutionid]="institutionid"
                                       (observationDeletedEvent)="observationDeletedEventHandler($event)">
       </app-edit-glove-observation>
     </ng-template>

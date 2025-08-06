@@ -11,7 +11,7 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registeredTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-1">{{ item.settingtype.name }}</p>
+        <p class="mb-1">{{ item.settingType.name }}</p>
         <p class="mb-0"><small>{{ showEquipment(item.protectiveEquipmentList) }}</small></p>
       </div>
     </ng-template>
