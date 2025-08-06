@@ -131,7 +131,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
         return true;
       }
       else if (this.glovesUsed === null) {
-        this.observationMissingText = "\"Glove used?\" must be answered";
+        this.observationMissingText = "\"Gloves used?\" must be answered";
         this.showInfoModal = true;
         return true;
       }
