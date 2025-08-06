@@ -37,6 +37,7 @@ namespace HyFive.Services.Authentication.User
         bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProviderId);
 
         string GetHprNumber();
+        string GetEmail();
 
         bool IsCoordinatorForSession(string sessionId);
 

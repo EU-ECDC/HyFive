@@ -153,8 +153,7 @@ namespace HyFive.Services.HealthcareOrganization
             private Coordinator GetCoordinator(int institutionId, string email,  string hprNumber, string identityPseudonym)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
-                                                                        ((!string.IsNullOrEmpty(k.Email) &&
-                                                    k.Email == email)));
+                                                                        ((!string.IsNullOrEmpty(k.Email) && k.Email == email)));
                 return coordinator;
             }
         }
