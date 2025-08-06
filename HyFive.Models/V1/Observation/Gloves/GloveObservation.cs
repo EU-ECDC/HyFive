@@ -12,7 +12,7 @@ namespace HyFive.Models.V1.Observation.Gloves
         [TsProperty(ForceNullable = true)]
         public List<GloveWithoutIndicationType> GloveWithoutIndicationTypes { get; set; }
 
-        public bool GloveUsed { get; set; }
+        public bool GlovesUsed { get; set; }
 
         [TsProperty(ForceNullable = true)]
         public PostGloveHandHygieneType PostGloveHandHygieneType { get; set; }

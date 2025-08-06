@@ -60,6 +60,12 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<ProtectiveEquipmentSession, Models.V1.Session.ProtectiveEquipmentSession>(MemberList.None)
                 .ForMember(dst => dst.InstitutionName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
+
+            CreateMap<ProtectiveEquipmentObservation, Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
+            .ForMember(dst => dst.ProtectiveEquipmentList, opt => opt.MapFrom(src => src.ProtectiveEquipmentList))
+            .ForMember(dst => dst.SettingType, opt => opt.MapFrom(src => src.SettingType))
+            .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => src.Comment));
+            
             CreateMap<ProtectiveEquipmentSession,
                 Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None);
             CreateMap<Domain.Observation.ProtectiveEquipment.ProtectiveEquipment,
@@ -176,7 +182,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.Indications, opt => opt.MapFrom(o => string.Join(',', o.IndicationTypes.Select(i => i.Name))))
                 .ForMember(dest => dest.SecondsUsed, opt => opt.MapFrom(o => o.Activity.SecondsUsed))
                 .ForMember(dest => dest.TimingWasPerformed, opt => opt.MapFrom(o => o.Activity.TimingWasPerformed))
-                .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GloveUsed))
+                .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GlovesUsed))
                 .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.HealthcareOrganization.Name))
                 .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.Municipality.Number))

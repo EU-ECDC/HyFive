@@ -135,7 +135,7 @@ namespace HyFive.Services.Tests
                         {
                             Id = activityTypes.FirstOrDefault(x => x.Code == ActivityTypeConstants.Handwash).Id
                         },
-                        GloveUsed = null,
+                        GlovesUsed = null,
                         SecondsUsed = 3,
                         TimingWasPerformed = true
                     }

@@ -192,6 +192,10 @@ namespace HyFive.Api.Common
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            //var serviceProvider = services.BuildServiceProvider();
+            //var mapper = serviceProvider.GetRequiredService<AutoMapper.IMapper>();
+            //mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
