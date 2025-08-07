@@ -41,7 +41,7 @@ namespace HyFive.Services.HealthcareOrganization
 
                     foreach (var institutionId in institutionIds)
                     {
-                        var coordinator = GetCoordinator(institutionId, command.Coordinator.HPRNumber, command.Coordinator.IdentityPseudonym);
+                        var coordinator = GetCoordinator(institutionId, command.Coordinator.Email, command.Coordinator.HPRNumber, command.Coordinator.IdentityPseudonym);
                         if (coordinator != null)
                         {
                             if (coordinator.IsDeactivated)
@@ -105,13 +105,11 @@ namespace HyFive.Services.HealthcareOrganization
                 return observator;
             }
 
-            private Coordinator GetCoordinator(int institutionId, string hprNumber, string identityPseudonym)
+            private Coordinator GetCoordinator(int institutionId, string email, string hprNumber, string identityPseudonym)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
-                                                                        ((!string.IsNullOrEmpty(k.HPRNumber) &&
-                                                                        k.HPRNumber == hprNumber) ||
-                                                                        (!string.IsNullOrEmpty(k.IdentityPseudonym) &&
-                                                                        k.IdentityPseudonym == identityPseudonym)));
+                                                                        ((!string.IsNullOrEmpty(k.Email) &&
+                                                                        k.Email == email)));
                 return coordinator;
             }
 

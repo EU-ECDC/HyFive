@@ -26,9 +26,9 @@
           <tbody>
             
             <tr *ngIf="newCoordinator != null">
-              <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Firstname"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Lastname"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
+              <td><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Firstname"></td>
+              <td><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Lastname"></td>
+              <td><input type="text" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
               <!-- <td>
                 <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
               </td> -->
@@ -75,9 +75,9 @@
 
               </ng-container>
               <ng-container *ngIf="isCoordinatorAsChanged(coordinator)">
-                <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.email" name="email" placeholder="Email"></td>
+                <td><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
+                <td><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
+                <td><input type="text" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="coordinatorAsChanged.email" name="email" disabled placeholder="Email"></td>
                 <!-- <td>
                   <input type="text" class="form-control" [(ngModel)]="coordinatorAsChanged.modifiedHPRNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
                 </td> -->

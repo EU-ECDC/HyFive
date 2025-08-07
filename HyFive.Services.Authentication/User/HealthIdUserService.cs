@@ -164,6 +164,17 @@ namespace HyFive.Services.Authentication.User
             return user?.HPRNumber;
         }
 
+        public string GetEmail()
+        {
+            var email = _httpContextAccessor.HttpContext?.User?
+            .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            return email;
+        }
+
         public bool IsCoordinatorForSession(string sessionId)
         {
             var isGuid = Guid.TryParse(sessionId, out Guid guidSessionId);
