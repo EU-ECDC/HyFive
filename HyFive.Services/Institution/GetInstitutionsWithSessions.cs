@@ -88,13 +88,13 @@ namespace HyFive.Services.Institution
                 }
             }
 
-            private int GetAggregatedNumberOfObservations(in int avdelingId, Query query)
+            private int GetAggregatedNumberOfObservations(in int departmentId, Query query)
             {
                 return 
-                    GetNumberOfObservationsForProtectiveEquipment(avdelingId, query)
-                    + GetNumberOfObservationsForFiveIndications(avdelingId, query)
-                    + GetNumberOfObservationsForGloves(avdelingId, query)
-                    + GetNumberOfObservationsForHandJewelry(avdelingId, query);
+                    GetNumberOfObservationsForProtectiveEquipment(departmentId, query)
+                    + GetNumberOfObservationsForFiveIndications(departmentId, query)
+                    + GetNumberOfObservationsForGloves(departmentId, query)
+                    + GetNumberOfObservationsForHandJewelry(departmentId, query);
             }
 
             private int GetNumberOfObservationsForHandJewelry(int departmentId, Query query)
