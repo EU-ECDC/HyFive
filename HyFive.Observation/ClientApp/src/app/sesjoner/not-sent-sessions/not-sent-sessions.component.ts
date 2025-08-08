@@ -85,6 +85,8 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
         (s) =>
           s.departmentName?.toLowerCase().indexOf(this.keyword.toLowerCase()) !=
           -1 ||
+          s.institutionName?.toLowerCase().indexOf(this.keyword.toLowerCase()) !=
+          -1 ||
           this.sessionNameMap
             .get(s.type)
             ?.toLowerCase()
