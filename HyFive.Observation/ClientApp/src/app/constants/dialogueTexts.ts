@@ -1,5 +1,5 @@
 export class DialogueTexts {
-  public static SessionDeleteConfirmation = 'Are you sure you want to delete this session?';
+  public static SessionDeleteConfirmation = 'Are you sure you want to delete this session? This action cannot be undone.';
   public static ObservationDeleteConfirmation = 'Are you sure you want to delete this observation?';
   public static SessionIsSentToCoordinator = 'Session has been sent to the coordinator. ';
   public static ShowSubmittedSession = 'Show submitted session';
