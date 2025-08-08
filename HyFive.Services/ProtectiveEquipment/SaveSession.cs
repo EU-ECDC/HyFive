@@ -45,17 +45,18 @@ namespace HyFive.Services.ProtectiveEquipment
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Could not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
+                session.StartDate = DateTime.UtcNow;
                 session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observer;
 
                 // This is the way we want to handle errors if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
 
@@ -66,6 +67,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 foreach (var observation in session.Observations)
                 {
                     observation.CreatedTime = DateTime.UtcNow;
+                    observation.RegisteredTime = DateTime.UtcNow;
                     observation.SettingType = settingTypes.First(s => s.Id == observation.SettingType.Id);
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
                     foreach (var equipment in observation.ProtectiveEquipmentList)
@@ -85,8 +87,6 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 var transferStatuses = _context.TransferStatusType.ToList();
                 session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
-
-                
                 _context.Add(session);
                 _context.SaveChanges();
                 return session.Id;
@@ -107,7 +107,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (institution == null)
                     throw new Exception(
-                        $"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution
                     .Users

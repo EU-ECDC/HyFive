@@ -58,7 +58,7 @@ export class SentSessionsComponent {
             .get(s.type)
             ?.toLowerCase()
             .indexOf(this.keyword.toLowerCase()) != -1 ||
-          s.institutionsName
+          s.institutionName
             ?.toLowerCase()
             .indexOf(this.keyword.toLowerCase()) != -1
       );

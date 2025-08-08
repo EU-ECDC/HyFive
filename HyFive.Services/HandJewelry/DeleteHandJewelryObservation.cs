@@ -39,7 +39,7 @@ namespace HyFive.Services.HandJewelry
 
                     if (observation == null)
                     {
-                        throw new Exception("S-HS-03: Could not find observation with ID: " + request.ObservationId);
+                        throw new Exception("S-HS-03: Did not find observation with ID: " + request.ObservationId);
                     }
 
                     var handJewelry = _context.HandJewelryType.Where(i => observation.HandJewelries.Select(oi => oi.Id).Contains(i.Id)).ToList();
@@ -59,7 +59,7 @@ namespace HyFive.Services.HandJewelry
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-HS-02: Error while deleting bracelet observation with ID: {request.ObservationId}");
+                    _logger.LogError(e, $"S-HS-02: Error while deleting jewelry observation with ID: {request.ObservationId}");
                     throw;
                 }
 

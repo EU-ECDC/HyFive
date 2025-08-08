@@ -21,6 +21,7 @@ export class ReportComponent implements OnInit {
     return [
       {
         name: 'Five Indications',
+        isExpanded: true,
         children: [
           {
             name: 'Compliance',
@@ -30,7 +31,6 @@ export class ReportComponent implements OnInit {
       },
       {
         name: 'Predifined (PDF)',
-        isExpanded: true,
         children: [
           {
             name: 'Compliance five indications',

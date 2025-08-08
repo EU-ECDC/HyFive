@@ -80,6 +80,9 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   }
 
   createCoordinator() {
+    if (this.newCoordinator.identityPseudonym == "") {
+      this.newCoordinator.identityPseudonym = null;
+    }
     this.userService.createCoordinator(this.newCoordinator).subscribe(
       () => {
         this.toastrService.success('Coordinator and observer created');
@@ -96,6 +99,9 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   }
 
   updateCoordinator(coordinator: User) {
+    if (coordinator.identityPseudonym == "") {
+        coordinator.identityPseudonym = null;
+    }
     this.userService.updateCoordinator(coordinator).subscribe(
       (updateUser) => {
         this.toastrService.success('Coordinator updated');

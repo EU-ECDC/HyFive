@@ -23,7 +23,7 @@ export class InstitutionService {
   }
 
 
-    getInstitutionsPaginated(offset, limit): Observable<InstitutionReport[]> {
+  getInstitutionsPaginated(offset, limit): Observable<InstitutionReport[]> {
     const url = `${environment.apiBaseUrl}/v1/institution/getInstitutionsPaginated`;
 
     let params = new HttpParams();
@@ -35,6 +35,16 @@ export class InstitutionService {
     }
 
     return this.http.get<Institution[]>(url, { params: params });
+  }
+
+   getComplianceInstitutions(institutionIds: number[]): Observable<Institution[]> {
+    const params = new HttpParams({
+    fromObject: {
+      institutionIds: institutionIds.map(id => id.toString()) // repeat the key
+    }
+  });
+    const url = `${environment.apiBaseUrl}/v1/institution/getComplianceInstitutions`;
+    return this.http.get<Institution[]>(url, { params });
   }
 
   getInstitutionsForCoordinator(): Observable<InstitutionReport[]> {
@@ -70,6 +80,12 @@ export class InstitutionService {
   getDepartments(id: number): Observable<Department[]> {
     const url = `${environment.apiBaseUrl}/v1/institution/${id}/departments/`;
     return this.http.get<Department[]>(url);
+  }
+
+  getDepartmentsByInstitutions(ids: number[]): Observable<Department[]> {
+    const params = new HttpParams({ fromObject: { ids: ids.map(String) } });
+    const url = `${environment.apiBaseUrl}/v1/institution/departments`;
+    return this.http.get<Department[]>(url, {params});
   }
 
   getInstitutionTypes(): Observable<InstitutionType[]> {

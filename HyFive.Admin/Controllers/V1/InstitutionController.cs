@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 return await _mediator.Send(new GetInstitutions.Query());
             }
-            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym()});
+            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym(), CoordinatorEmail = _userService.GetEmail() });
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("getInstitutionsForCoordinator")]
         public async Task<IEnumerable<InstitutionReport>> GetInstitutionsForCoordinator()
         {
-            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym() });
+            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym(), CoordinatorEmail = _userService.GetEmail() });
         }
 
 
@@ -75,6 +75,22 @@ namespace HyFive.Admin.Controllers.V1
             if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(id))
             {
                 var result = await _mediator.Send(new GetInstitution.Query() { InstitutionId = id });
+                return Ok(result);
+            }
+            return Unauthorized();
+        }
+
+        /// <summary>
+        /// Get compliance institutions
+        /// </summary>
+        /// <param name="ids">The list of institution IDs to fetch.</param>
+        /// <returns>Returns a list of matching institutions if authorized; otherwise Unauthorized.</returns>
+        [HttpGet("getComplianceInstitutions")]
+        public async Task<IActionResult> GetComplianceInstitutions([FromQuery] List<int> institutionIds)
+        {
+            if (_userService.IsCoordinatorForInstitutionsOrAdmin(institutionIds))
+            {
+                var result = await _mediator.Send(new GetComplianceInstitution.Query() { InstitutionIds = institutionIds });
                 return Ok(result);
             }
             return Unauthorized();

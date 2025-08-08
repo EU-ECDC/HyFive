@@ -325,7 +325,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Comment = "Sesjon kommentar",
                     CreatedDate = DateTime.UtcNow,

@@ -114,7 +114,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
             {
-                var response = await _mediator.Send(new CreateCoordinator.Command() { USer = user });
+                var response = await _mediator.Send(new CreateCoordinator.Command() { User = user });
                 return CreatedAtRoute("GetCoordinators", new { id = response.InstitutionId }, response);
             }
 

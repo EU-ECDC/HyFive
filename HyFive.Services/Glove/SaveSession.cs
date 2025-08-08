@@ -41,10 +41,10 @@ namespace HyFive.Services.Glove
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observator = await HentObservator(request, cancellationToken);
+                var observator = await GetObserver(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
-                        $"Could not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
 
                 var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
                 var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
@@ -53,13 +53,13 @@ namespace HyFive.Services.Glove
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
-                session.Department = await HentAvdeling(request, cancellationToken);
+                session.Department = await GetDepartment(request, cancellationToken);
                 session.Observer = observator;
 
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Could not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
                     return session.Id;
                 }
 
@@ -68,8 +68,8 @@ namespace HyFive.Services.Glove
                     observation.CreatedTime = DateTime.UtcNow;
                     observation.RegisteredTime = DateTime.UtcNow;
                     observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
-                    observation.IndicatedGloveTypes = gloveWithIndicationTypes
-                                                            .Where(hmi => observation.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
+                    observation.GloveWithIndicationTypes = gloveWithIndicationTypes
+                                                            .Where(hmi => observation.GloveWithIndicationTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                                                             .ToList();
                     observation.GloveWithoutIndicationTypes = gloveWithoutIndicationTypes
                                                             .Where(hui => observation.GloveWithoutIndicationTypes.Select(ohui => ohui.Id).Contains(hui.Id))
@@ -89,13 +89,13 @@ namespace HyFive.Services.Glove
                 return session.Id;
             }
 
-            private async Task<Domain.Place.Department> HentAvdeling(Command request, CancellationToken cancellationToken)
+            private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
             {
                 return await _context.Department.Include(a => a.Roles)
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<Observer> HentObservator(Command request, CancellationToken cancellationToken)
+            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var institution = await _context.Institution
                     .Include(i => i.Users)
@@ -103,7 +103,7 @@ namespace HyFive.Services.Glove
 
                 if (institution == null)
                     throw new Exception(
-                        $"Could not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution.Users.OfType<Observer>().Where(
                     _userService

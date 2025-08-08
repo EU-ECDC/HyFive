@@ -9,7 +9,7 @@
             Seeds all necessary static code lists required for the application to run:
             OverforingstatusTyper (TransferStatusTypes), AktivitetTyper (ActivityTypes), Indications, HandsmykkeTyper (HandJewelryTypes), 
             BeskyttelsesutstyrTyper (ProtectiveEquipmentTypes), BeskyttelsesutstyrsettingTyper (ProtectiveEquipmentSettingTypes),
-            IndicatedGloveTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
+            GloveWithIndicationTypes, GloveWithoutIndicationType, PostGloveHandHygieneType.
             In addition, an FHI Admin is seeded: Felix Mørk.
             To seed municipalities, you must run the script "HyFive.DataAccess\Scripts\Kommuner.sql"
             </summary>
@@ -65,7 +65,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.GloveWithIndicationTypeController.GetGloveWithIndicationTypes">
             <summary>
-            Get IndicatedGloveTypes
+            Get GloveWithIndicationTypes
             </summary>
             <returns></returns>
         </member>
@@ -301,6 +301,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetComplianceInstitutions(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Get compliance institutions
+            </summary>
+            <param name="ids">The list of institution IDs to fetch.</param>
+            <returns>Returns a list of matching institutions if authorized; otherwise Unauthorized.</returns>
+        </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetDepartments(System.Int32)">
             <summary>
             Get all departments belonging to the institution
@@ -399,72 +406,54 @@
             <param name="regionType"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(GloveReportRequest)">
             <summary>
             Create an Excel report for Glove observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportAsExcel(HandJewelryReportRequest)">
             <summary>
             Create an Excel report for HandJewelries observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateProtectiveEquipmentReportAsExcel(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateProtectiveEquipmentReportAsExcel(HyFive.Models.V1.Report.ProtectiveEquipment.ProtectiveEquipmentReport)">
             <summary>
             Create an Excel report for ProtectiveEquipment observations for department
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportAsExcel(FiveIndicationsReportRequest)">
             <summary>
             Lag en Excel-rapport for Fire Indications-observasjoner for avdeling
             </summary>
-            <param name="institutionId"></param>
-            <param name="departmentId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
-            <param name="sessionId"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateFiveIndicationsReportForDepartmentPdf(FiveIndicationsReportRequest)">
             <summary>
             Create five indications report for department in PDF format
             </summary>
-            <param name="departmentId"></param>
-            <param name="institutionId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportForDepartmentPdf(System.Int32,System.Int32,System.DateTime,System.DateTime,HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateHandJewelryReportForDepartmentPdf(HandJewelryReportRequest)">
             <summary>
             Create hand jewelry report for department in PDF format
             </summary>
-            <param name="departmentId"></param>
-            <param name="institutionId"></param>
-            <param name="fromDate"></param>
-            <param name="toDate"></param>
-            <param name="role"></param>
+            <param name="request"></param>
             <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.ReportController.ReportForSessionTypeHasData(HyFive.Models.V1.Session.ReportForSessionTypeHasDataRequest)">
+            <summary>
+            Checks if there is report data for a given session type, institutions, and (optionally) departments.
+            </summary>
+            <param name="request">The request body.</param>
+            <returns>True if data exists, otherwise false.</returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.RoleController.GetAllRoles">
             <summary>

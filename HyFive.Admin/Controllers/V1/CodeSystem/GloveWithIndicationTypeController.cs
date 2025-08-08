@@ -21,7 +21,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get IndicatedGloveTypes
+        /// Get GloveWithIndicationTypes
         /// </summary>
         /// <returns></returns>
         [HttpGet]

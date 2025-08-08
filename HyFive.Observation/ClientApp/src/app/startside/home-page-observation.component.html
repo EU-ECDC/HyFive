@@ -93,7 +93,7 @@
                 [value]="SessionType.FiveIndications"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FiveIndications">
-                <span class="fhi-form-check-tile__label-text">5 indications</span>
+                <span class="fhi-form-check-tile__label-text">5 Indications</span>
               </label>
             </div>
           </div>
@@ -164,7 +164,7 @@
           <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
             <h2 class="h5 text-center">Timekeeping</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Of</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="timekeeping" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
@@ -176,7 +176,7 @@
           <div>
             <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? "GloveUse" : "Handhygiene" }}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Of</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="gloveUse" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>

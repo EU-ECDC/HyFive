@@ -29,15 +29,15 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (!UserValidator.HasNameAndHprNumberOrValidPseudonym(command.User))
+                if (!UserValidator.HasNameAndEmail(command.User))
                 {
-                    throw new ArgumentException("Observer must have first name, last name, and either HPR number or pseudonym");
+                    throw new ArgumentException("Observer must have first name, last name, email");
                 }
                 
                 var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.User.InstitutionId);
                 if (institution == null)
                 {
-                    throw new Exception("Could not find institution with ID. " + command.User.InstitutionId);
+                    throw new Exception("Did not find institution with ID. " + command.User.InstitutionId);
                 }
 
                 var observer = new Observer()

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
 import { SessionType } from "src/app/models/api/SessionType";
 import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
+import { ReportForSessionTypeHasDataModel } from "src/app/models/api/reportForSessionTypeHasDataModel";
 
 @Injectable({
   providedIn: 'root'
@@ -11,35 +12,29 @@ import { AuthorizedRole } from "src/app/_common/authorization/authorized-role";
 export class ReportService {
   constructor(private httpClient: HttpClient) { }
 
-  getComplianceForFiveIndications(institutionId: number, interval: string, fromMonth: number, fromYear: number, toMonth: number, toYear: number, roleId: number, departmentId): Observable<any[]> {
+  getComplianceForFiveIndications(payload: {
+    institutionIds: number[];
+    institutionTypeIds: number[];
+    interval: string;
+    fromMonth: number;
+    fromYear: number;
+    fromQuarter: number;
+    toMonth: number;
+    toYear: number;
+    toQuarter: number;
+    roleIds: number[];
+    departmentIds: number[];
+    departmentTypeIds: number[];
+    transferredTo: number}): Observable<any[]> {
     const url = `${environment.apiBaseUrl}/v1/report/fiveΙndications/compliance`;
 
-    let params = new HttpParams();
-    params = params.append("institutionId", institutionId.toString());
-    params = params.append("interval", interval);
-    params = params.append("fromMonth", fromMonth);
-    params = params.append("fromYear", fromYear);
-    params = params.append("toMonth", toMonth);
-    params = params.append("toYear", toYear);
-    params = params.append("roleId", roleId);
-    params = params.append("departmentId", departmentId);
-
-    return this.httpClient.get<any[]>(url, { params: params });
+    return this.httpClient.post<any[]>(url, payload);
   }
 
-  reportForSessionTypeHasData(sessionType: SessionType, institutionId: number, departmentId: number,
-    fromDate: Date, toDate: Date, roleId: AuthorizedRole): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/report/reportForSessionTypeHasData`;
+  reportForSessionTypeHasData(
+      payload: ReportForSessionTypeHasDataModel): Observable<boolean> {
+      const url = `${environment.apiBaseUrl}/v1/report/reportForSessionTypeHasData`;
+      return this.httpClient.post<boolean>(url, payload);
 
-    let params = new HttpParams();
-    params = params.append("sessionType", sessionType);
-    params = params.append("institutionId", institutionId.toString());
-    if (departmentId != null)
-      params = params.append("departmentId", departmentId);
-    params = params.append("fromDate", fromDate.toString());
-    params = params.append("toDate", toDate.toString());
-    params = params.append("roleId", roleId);
-
-    return this.httpClient.get<boolean>(url, { params: params });
  }
 }

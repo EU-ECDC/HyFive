@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
 #nullable disable
 
 namespace HyFive.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrationSQL : Migration
+    public partial class initialMigrationSQL : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +41,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProtectiveEquipmentSettingType",
+                name: "GloveWithIndicationType",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -51,11 +51,11 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProtectiveEquipmentSettingType", x => x.Id);
+                    table.PrimaryKey("PK_GloveWithIndicationType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProtectiveEquipmentType",
+                name: "GloveWithoutIndicationType",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -65,29 +65,7 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProtectiveEquipmentType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserAccessRequest",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    InstitutionId = table.Column<int>(type: "integer", nullable: true),
-                    UserFirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    UserLastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    IdentityPseudonym = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    HPRNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProcessedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ProcessedByUserId = table.Column<int>(type: "integer", nullable: true),
-                    ProcessedByUsername = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserAccessRequest", x => x.Id);
+                    table.PrimaryKey("PK_GloveWithoutIndicationType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,34 +96,6 @@ namespace HyFive.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HandJewelryType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GloveWithIndicationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GloveWithIndicationType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GloveWithoutIndicationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GloveWithoutIndicationType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,17 +142,31 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransferStatusType",
+                name: "ProtectiveEquipmentSettingType",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransferStatusType", x => x.Id);
+                    table.PrimaryKey("PK_ProtectiveEquipmentSettingType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProtectiveEquipmentType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProtectiveEquipmentType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,7 +193,7 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RegionalHealthcareOrganizationId", x => x.Id);
+                    table.PrimaryKey("PK_RegionalHealthcareOrganization", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,6 +211,42 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TransferStatusType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransferStatusType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAccessRequest",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    InstitutionId = table.Column<int>(type: "integer", nullable: true),
+                    UserFirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    UserLastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    IdentityPseudonym = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    HPRNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProcessedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ProcessedByUserID = table.Column<int>(type: "integer", nullable: true),
+                    ProcessedByUsername = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAccessRequest", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Activity",
                 columns: table => new
                 {
@@ -254,7 +254,7 @@ namespace HyFive.DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SecondsUsed = table.Column<int>(type: "integer", nullable: false),
                     TimingWasPerformed = table.Column<bool>(type: "boolean", nullable: false),
-                    UsedGloves = table.Column<bool>(type: "boolean", nullable: true),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: true),
                     ActivityTypeId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -265,31 +265,6 @@ namespace HyFive.DataAccess.Migrations
                         column: x => x.ActivityTypeId,
                         principalTable: "ActivityType",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType",
-                columns: table => new
-                {
-                    ProtectiveEquipmentTypeId = table.Column<int>(type: "integer", nullable: false),
-                    ProtectiveEquipmentSettingTypeId = table.Column<int>(type: "integer", nullable: false),
-                    IsDefault = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType", x => new { x.ProtectiveEquipmentTypeId, x.ProtectiveEquipmentSettingTypeId });
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prot~",
-                        column: x => x.ProtectiveEquipmentTypeId,
-                        principalTable: "ProtectiveEquipmentType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prot~1",
-                        column: x => x.ProtectiveEquipmentSettingTypeId,
-                        principalTable: "ProtectiveEquipmentSettingType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,6 +287,31 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType",
+                columns: table => new
+                {
+                    ProtectiveEquipmentTypeId = table.Column<int>(type: "integer", nullable: false),
+                    ProtectiveEquipmentSettingTypeId = table.Column<int>(type: "integer", nullable: false),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType", x => new { x.ProtectiveEquipmentTypeId, x.ProtectiveEquipmentSettingTypeId });
+                    table.ForeignKey(
+                        name: "FK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prote~",
+                        column: x => x.ProtectiveEquipmentSettingTypeId,
+                        principalTable: "ProtectiveEquipmentSettingType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prot~1",
+                        column: x => x.ProtectiveEquipmentTypeId,
+                        principalTable: "ProtectiveEquipmentType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HealthcareOrganization",
                 columns: table => new
                 {
@@ -324,7 +324,7 @@ namespace HyFive.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_HealthcareOrganization", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HealthcareOrganization_RegionalHealthcareOrganization_RegionalHealthcare~",
+                        name: "FK_HealthcareOrganization_RegionalHealthcareOrganization_Regio~",
                         column: x => x.RegionalHealthcareOrganizationId,
                         principalTable: "RegionalHealthcareOrganization",
                         principalColumn: "Id");
@@ -371,6 +371,25 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clinic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    InstitutionId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clinic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clinic_Institution_InstitutionId",
+                        column: x => x.InstitutionId,
+                        principalTable: "Institution",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Department",
                 columns: table => new
                 {
@@ -390,6 +409,27 @@ namespace HyFive.DataAccess.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Department_Institution_InstitutionId",
+                        column: x => x.InstitutionId,
+                        principalTable: "Institution",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PredefinedComment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    SessionType = table.Column<int>(type: "integer", nullable: false),
+                    InstitutionId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PredefinedComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PredefinedComment_Institution_InstitutionId",
                         column: x => x.InstitutionId,
                         principalTable: "Institution",
                         principalColumn: "Id",
@@ -423,41 +463,25 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clinic",
+                name: "ClinicDepartment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
-                    InstitutionId = table.Column<int>(type: "integer", nullable: true)
+                    ClinicsId = table.Column<int>(type: "integer", nullable: false),
+                    DepartmentsId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clinic", x => x.Id);
+                    table.PrimaryKey("PK_ClinicDepartment", x => new { x.ClinicsId, x.DepartmentsId });
                     table.ForeignKey(
-                        name: "FK_Clinic_Institution_InstitutionId",
-                        column: x => x.InstitutionId,
-                        principalTable: "Institution",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PredefinedComment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    SessionType = table.Column<int>(type: "integer", nullable: false),
-                    InstitutionId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PredefinedComment", x => x.Id);
+                        name: "FK_ClinicDepartment_Clinic_ClinicsId",
+                        column: x => x.ClinicsId,
+                        principalTable: "Clinic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PredefinedComment_Institution_InstitutionId",
-                        column: x => x.InstitutionId,
-                        principalTable: "Institution",
+                        name: "FK_ClinicDepartment_Department_DepartmentsId",
+                        column: x => x.DepartmentsId,
+                        principalTable: "Department",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -491,8 +515,8 @@ namespace HyFive.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DepartmentId = table.Column<int>(type: "integer", nullable: true),
                     ObserverId = table.Column<int>(type: "integer", nullable: true),
                     Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
@@ -508,70 +532,14 @@ namespace HyFive.DataAccess.Migrations
                         principalTable: "Department",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Session_User_ObserverId",
-                        column: x => x.ObserverId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Session_TransferStatusType_TransferStatusId",
                         column: x => x.TransferStatusId,
                         principalTable: "TransferStatusType",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DepartmentClinic",
-                columns: table => new
-                {
-                    DepartmentsId = table.Column<int>(type: "integer", nullable: false),
-                    ClinicsId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DepartmentClinic", x => new { x.DepartmentsId, x.ClinicsId });
                     table.ForeignKey(
-                        name: "FK_DepartmentClinic_Department_DepartmentsId",
-                        column: x => x.DepartmentsId,
-                        principalTable: "Department",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DepartmentClinic_Clinic_ClinicsId",
-                        column: x => x.ClinicsId,
-                        principalTable: "Clinic",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProtectiveEquipmentObservation",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SettingTypeId = table.Column<int>(type: "integer", nullable: true),
-                    ProtectiveEquipmentSessionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RoleId = table.Column<int>(type: "integer", nullable: true),
-                    RegisteredTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProtectiveEquipmentObservation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentObservation_ProtectiveEquipmentSettingTy~",
-                        column: x => x.SettingTypeId,
-                        principalTable: "ProtectiveEquipmentSettingType",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentObservation_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentObservation_Session_ProtectiveEquipment~",
-                        column: x => x.ProtectiveEquipmentSessionId,
-                        principalTable: "Session",
+                        name: "FK_Session_User_ObserverId",
+                        column: x => x.ObserverId,
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
@@ -608,6 +576,39 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GloveObservation",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    PostGloveHandHygieneTypeId = table.Column<int>(type: "integer", nullable: true),
+                    GloveSessionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: true),
+                    RegisteredTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GloveObservation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GloveObservation_HandHygieneAfterGloveUseType_PostGloveHand~",
+                        column: x => x.PostGloveHandHygieneTypeId,
+                        principalTable: "HandHygieneAfterGloveUseType",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GloveObservation_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GloveObservation_Session_GloveSessionId",
+                        column: x => x.GloveSessionId,
+                        principalTable: "Session",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HandJewelryObservation",
                 columns: table => new
                 {
@@ -634,13 +635,12 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GloveObservation",
+                name: "ProtectiveEquipmentObservation",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UsedGloves = table.Column<bool>(type: "boolean", nullable: false),
-                    HandHygieneAfterGloveUseTypeId = table.Column<int>(type: "integer", nullable: true),
-                    GloveSessionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SettingTypeId = table.Column<int>(type: "integer", nullable: true),
+                    ProtectiveEquipmentSessionId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     RoleId = table.Column<int>(type: "integer", nullable: true),
                     RegisteredTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -648,54 +648,26 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GloveObservation", x => x.Id);
+                    table.PrimaryKey("PK_ProtectiveEquipmentObservation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GloveObservation_HandHygieneAfterGloveUseType_HandHygiene~",
-                        column: x => x.HandHygieneAfterGloveUseTypeId,
-                        principalTable: "HandHygieneAfterGloveUseType",
+                        name: "FK_ProtectiveEquipmentObservation_ProtectiveEquipmentSettingTy~",
+                        column: x => x.SettingTypeId,
+                        principalTable: "ProtectiveEquipmentSettingType",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_GloveObservation_Role_RoleId",
+                        name: "FK_ProtectiveEquipmentObservation_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_GloveObservation_Session_GloveSessionId",
-                        column: x => x.GloveSessionId,
+                        name: "FK_ProtectiveEquipmentObservation_Session_ProtectiveEquipmentS~",
+                        column: x => x.ProtectiveEquipmentSessionId,
                         principalTable: "Session",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProtectiveEquipment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WasUsed = table.Column<bool>(type: "boolean", nullable: false),
-                    IsIndicated = table.Column<bool>(type: "boolean", nullable: false),
-                    EquipmentTypeId = table.Column<int>(type: "integer", nullable: true),
-                    WasUsedCorrectly = table.Column<bool>(type: "boolean", nullable: false),
-                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    ProtectiveEquipmentObservationId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProtectiveEquipment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipment_ProtectiveEquipmentObservation_Protect~",
-                        column: x => x.ProtectiveEquipmentObservationId,
-                        principalTable: "ProtectiveEquipmentObservation",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ProtectiveEquipment_ProtectiveEquipmentType_EquipmentTypeId",
-                        column: x => x.EquipmentTypeId,
-                        principalTable: "ProtectiveEquipmentType",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FiveIndicationsObservationIndicationType",
+                name: "FiveIndicationsObservationIndicationTypes",
                 columns: table => new
                 {
                     IndicationTypesId = table.Column<int>(type: "integer", nullable: false),
@@ -703,15 +675,15 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FiveIndicationsObservationIndicationType", x => new { x.IndicationTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_FiveIndicationsObservationIndicationTypes", x => new { x.IndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_FiveIndicationsObservationIndicationType_FiveIndicationsOb~",
+                        name: "FK_FiveIndicationsObservationIndicationTypes_FiveIndicationsOb~",
                         column: x => x.ObservationsId,
                         principalTable: "FiveIndicationsObservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FiveIndicationsObservationIndicationType_IndicationType_In~",
+                        name: "FK_FiveIndicationsObservationIndicationTypes_IndicationType_In~",
                         column: x => x.IndicationTypesId,
                         principalTable: "IndicationType",
                         principalColumn: "Id",
@@ -719,31 +691,7 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HandJewelryObservationHandJewelryType",
-                columns: table => new
-                {
-                    HandJewelriesId = table.Column<int>(type: "integer", nullable: false),
-                    ObservationsId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HandJewelryObservationHandJewelryType", x => new { x.HandJewelriesId, x.ObservationsId });
-                    table.ForeignKey(
-                        name: "FK_HandJewelryObservationHandJewelryType_HandJewelryObservati~",
-                        column: x => x.ObservationsId,
-                        principalTable: "HandJewelryObservation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HandJewelryObservationHandJewelryType_HandJewelryType_Hand~",
-                        column: x => x.HandJewelriesId,
-                        principalTable: "HandJewelryType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GloveWithIndicationTypeGloveObservation",
+                name: "GloveObservationGloveWithIndicationType",
                 columns: table => new
                 {
                     GloveWithIndicationTypesId = table.Column<int>(type: "integer", nullable: false),
@@ -751,15 +699,15 @@ namespace HyFive.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GloveWithIndicationTypeGloveObservation", x => new { x.GloveWithIndicationTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_GloveObservationGloveWithIndicationType", x => new { x.GloveWithIndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_GloveWithIndicationTypeGloveObservation_GloveObservation_Ob~",
+                        name: "FK_GloveObservationGloveWithIndicationType_GloveObservation_Ob~",
                         column: x => x.ObservationsId,
                         principalTable: "GloveObservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GloveWithIndicationTypeGloveObservation_GloveWithIndicatio~",
+                        name: "FK_GloveObservationGloveWithIndicationType_GloveWithIndication~",
                         column: x => x.GloveWithIndicationTypesId,
                         principalTable: "GloveWithIndicationType",
                         principalColumn: "Id",
@@ -777,13 +725,13 @@ namespace HyFive.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_GloveObservationGloveWithoutIndicationType", x => new { x.GloveWithoutIndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_GloveObservationGloveWithoutIndicationType_GloveObservatio~",
+                        name: "FK_GloveObservationGloveWithoutIndicationType_GloveObservation~",
                         column: x => x.ObservationsId,
                         principalTable: "GloveObservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GloveObservationGloveWithoutIndicationType_GloveWithoutIn~",
+                        name: "FK_GloveObservationGloveWithoutIndicationType_GloveWithoutIndi~",
                         column: x => x.GloveWithoutIndicationTypesId,
                         principalTable: "GloveWithoutIndicationType",
                         principalColumn: "Id",
@@ -791,23 +739,75 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProtectiveEquipmentMisuseType",
+                name: "HandJewelryObservationHandJewelryType",
                 columns: table => new
                 {
-                    ProtectiveEquipmentId = table.Column<int>(type: "integer", nullable: false),
-                    MisuseTypesId = table.Column<int>(type: "integer", nullable: false)
+                    HandJewelriesId = table.Column<int>(type: "integer", nullable: false),
+                    ObservationsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProtectiveEquipmentMisuseType", x => new { x.ProtectiveEquipmentId, x.MisuseTypesId });
+                    table.PrimaryKey("PK_HandJewelryObservationHandJewelryType", x => new { x.HandJewelriesId, x.ObservationsId });
                     table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentMisuseType_MisuseType_MisuseTypesId",
+                        name: "FK_HandJewelryObservationHandJewelryType_HandJewelryObservatio~",
+                        column: x => x.ObservationsId,
+                        principalTable: "HandJewelryObservation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HandJewelryObservationHandJewelryType_HandJewelryType_HandJ~",
+                        column: x => x.HandJewelriesId,
+                        principalTable: "HandJewelryType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProtectiveEquipment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WasUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    IsRequired = table.Column<bool>(type: "boolean", nullable: false),
+                    EquipmentTypeId = table.Column<int>(type: "integer", nullable: true),
+                    WasUsedCorrectly = table.Column<bool>(type: "boolean", nullable: false),
+                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    ProtectiveEquipmentObservationId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProtectiveEquipment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProtectiveEquipment_ProtectiveEquipmentObservation_Protecti~",
+                        column: x => x.ProtectiveEquipmentObservationId,
+                        principalTable: "ProtectiveEquipmentObservation",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProtectiveEquipment_ProtectiveEquipmentType_EquipmentTypeId",
+                        column: x => x.EquipmentTypeId,
+                        principalTable: "ProtectiveEquipmentType",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MisuseTypeProtectiveEquipment",
+                columns: table => new
+                {
+                    MisuseTypesId = table.Column<int>(type: "integer", nullable: false),
+                    ProtectiveEquipmentId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MisuseTypeProtectiveEquipment", x => new { x.MisuseTypesId, x.ProtectiveEquipmentId });
+                    table.ForeignKey(
+                        name: "FK_MisuseTypeProtectiveEquipment_MisuseType_MisuseTypesId",
                         column: x => x.MisuseTypesId,
                         principalTable: "MisuseType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProtectiveEquipmentMisuseType_ProtectiveEquipment_Protect~",
+                        name: "FK_MisuseTypeProtectiveEquipment_ProtectiveEquipment_Protectiv~",
                         column: x => x.ProtectiveEquipmentId,
                         principalTable: "ProtectiveEquipment",
                         principalColumn: "Id",
@@ -831,6 +831,21 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clinic_InstitutionId",
+                table: "Clinic",
+                column: "InstitutionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clinic_Name",
+                table: "Clinic",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClinicDepartment_DepartmentsId",
+                table: "ClinicDepartment",
+                column: "DepartmentsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Department_DepartmentTypeId",
                 table: "Department",
                 column: "DepartmentTypeId");
@@ -844,11 +859,6 @@ namespace HyFive.DataAccess.Migrations
                 name: "IX_Department_Name",
                 table: "Department",
                 column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DepartmentClinic_ClinicsId",
-                table: "DepartmentClinic",
-                column: "ClinicsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DepartmentRole_RolesId",
@@ -872,14 +882,14 @@ namespace HyFive.DataAccess.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FiveIndicationsObservation_FiveIndicationsSessionId",
-                table: "FiveIndicationsObservation",
-                column: "FiveIndicationsSessionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_FiveIndicationsObservation_CreatedTime",
                 table: "FiveIndicationsObservation",
                 column: "CreatedTime");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FiveIndicationsObservation_FiveIndicationsSessionId",
+                table: "FiveIndicationsObservation",
+                column: "FiveIndicationsSessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FiveIndicationsObservation_RegisteredTime",
@@ -892,9 +902,14 @@ namespace HyFive.DataAccess.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FiveIndicationsObservationIndicationType_ObservationsId",
-                table: "FiveIndicationsObservationIndicationType",
+                name: "IX_FiveIndicationsObservationIndicationTypes_ObservationsId",
+                table: "FiveIndicationsObservationIndicationTypes",
                 column: "ObservationsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GloveObservation_CreatedTime",
+                table: "GloveObservation",
+                column: "CreatedTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GloveObservation_GloveSessionId",
@@ -902,14 +917,9 @@ namespace HyFive.DataAccess.Migrations
                 column: "GloveSessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GloveObservation_HandHygieneAfterGloveUseTypeId",
+                name: "IX_GloveObservation_PostGloveHandHygieneTypeId",
                 table: "GloveObservation",
-                column: "HandHygieneAfterGloveUseTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GloveObservation_CreatedTime",
-                table: "GloveObservation",
-                column: "CreatedTime");
+                column: "PostGloveHandHygieneTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GloveObservation_RegisteredTime",
@@ -922,14 +932,36 @@ namespace HyFive.DataAccess.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GloveObservationGloveWithIndicationType_ObservationsId",
+                table: "GloveObservationGloveWithIndicationType",
+                column: "ObservationsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GloveObservationGloveWithoutIndicationType_ObservationsId",
                 table: "GloveObservationGloveWithoutIndicationType",
                 column: "ObservationsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GloveWithIndicationTypeGloveObservation_ObservationsId",
-                table: "GloveWithIndicationTypeGloveObservation",
-                column: "ObservationsId");
+                name: "IX_GloveWithIndicationType_Code",
+                table: "GloveWithIndicationType",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GloveWithIndicationType_Name",
+                table: "GloveWithIndicationType",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GloveWithoutIndicationType_Code",
+                table: "GloveWithoutIndicationType",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GloveWithoutIndicationType_Name",
+                table: "GloveWithoutIndicationType",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HandHygieneAfterGloveUseType_Code",
@@ -943,14 +975,14 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HandJewelryObservation_HandJewelrySessionId",
-                table: "HandJewelryObservation",
-                column: "HandJewelrySessionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_HandJewelryObservation_CreatedTime",
                 table: "HandJewelryObservation",
                 column: "CreatedTime");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HandJewelryObservation_HandJewelrySessionId",
+                table: "HandJewelryObservation",
+                column: "HandJewelrySessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HandJewelryObservation_RegisteredTime",
@@ -977,6 +1009,17 @@ namespace HyFive.DataAccess.Migrations
                 name: "IX_HealthcareOrganization_RegionalHealthcareOrganizationId",
                 table: "HealthcareOrganization",
                 column: "RegionalHealthcareOrganizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IndicationType_Code",
+                table: "IndicationType",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IndicationType_Name",
+                table: "IndicationType",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Institution_Abbreviation",
@@ -1025,14 +1068,19 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MisuseType_Name",
+                table: "MisuseType",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MisuseType_ProtectiveEquipmentTypeId",
                 table: "MisuseType",
                 column: "ProtectiveEquipmentTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MisuseType_Name",
-                table: "MisuseType",
-                column: "Name");
+                name: "IX_MisuseTypeProtectiveEquipment_ProtectiveEquipmentId",
+                table: "MisuseTypeProtectiveEquipment",
+                column: "ProtectiveEquipmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PredefinedComment_InstitutionId",
@@ -1050,19 +1098,14 @@ namespace HyFive.DataAccess.Migrations
                 column: "ProtectiveEquipmentObservationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProtectiveEquipmentMisuseType_MisuseTypesId",
-                table: "ProtectiveEquipmentMisuseType",
-                column: "MisuseTypesId");
+                name: "IX_ProtectiveEquipmentObservation_CreatedTime",
+                table: "ProtectiveEquipmentObservation",
+                column: "CreatedTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProtectiveEquipmentObservation_ProtectiveEquipmentSessionId",
                 table: "ProtectiveEquipmentObservation",
                 column: "ProtectiveEquipmentSessionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProtectiveEquipmentObservation_CreatedTime",
-                table: "ProtectiveEquipmentObservation",
-                column: "CreatedTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProtectiveEquipmentObservation_RegisteredTime",
@@ -1091,7 +1134,7 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prot~",
+                name: "IX_ProtectiveEquipmentSettingTypeProtectiveEquipmentType_Prote~",
                 table: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType",
                 column: "ProtectiveEquipmentSettingTypeId");
 
@@ -1123,6 +1166,11 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Session_CreatedDate",
+                table: "Session",
+                column: "CreatedDate");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Session_DepartmentId",
                 table: "Session",
                 column: "DepartmentId");
@@ -1138,19 +1186,14 @@ namespace HyFive.DataAccess.Migrations
                 column: "ObserverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Session_CreatedTime",
+                name: "IX_Session_StartDate",
                 table: "Session",
-                column: "CreatedTime");
+                column: "StartDate");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Session_TransferStatusId",
                 table: "Session",
                 column: "TransferStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Session_StartTime",
-                table: "Session",
-                column: "StartTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TransferStatusType_Code",
@@ -1177,34 +1220,39 @@ namespace HyFive.DataAccess.Migrations
                 name: "IX_User_InstitutionId",
                 table: "User",
                 column: "InstitutionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAccessRequest_Status",
+                table: "UserAccessRequest",
+                column: "Status");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DepartmentClinic");
+                name: "ClinicDepartment");
 
             migrationBuilder.DropTable(
                 name: "DepartmentRole");
 
             migrationBuilder.DropTable(
-                name: "FiveIndicationsObservationIndicationType");
+                name: "FiveIndicationsObservationIndicationTypes");
+
+            migrationBuilder.DropTable(
+                name: "GloveObservationGloveWithIndicationType");
 
             migrationBuilder.DropTable(
                 name: "GloveObservationGloveWithoutIndicationType");
 
             migrationBuilder.DropTable(
-                name: "GloveWithIndicationTypeGloveObservation");
-
-            migrationBuilder.DropTable(
                 name: "HandJewelryObservationHandJewelryType");
 
             migrationBuilder.DropTable(
-                name: "PredefinedComment");
+                name: "MisuseTypeProtectiveEquipment");
 
             migrationBuilder.DropTable(
-                name: "ProtectiveEquipmentMisuseType");
+                name: "PredefinedComment");
 
             migrationBuilder.DropTable(
                 name: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType");
@@ -1219,13 +1267,16 @@ namespace HyFive.DataAccess.Migrations
                 name: "FiveIndicationsObservation");
 
             migrationBuilder.DropTable(
-                name: "GloveWithoutIndicationType");
+                name: "IndicationType");
+
+            migrationBuilder.DropTable(
+                name: "GloveWithIndicationType");
 
             migrationBuilder.DropTable(
                 name: "GloveObservation");
 
             migrationBuilder.DropTable(
-                name: "GloveWithIndicationType");
+                name: "GloveWithoutIndicationType");
 
             migrationBuilder.DropTable(
                 name: "HandJewelryObservation");
@@ -1258,16 +1309,19 @@ namespace HyFive.DataAccess.Migrations
                 name: "ProtectiveEquipmentSettingType");
 
             migrationBuilder.DropTable(
+                name: "Role");
+
+            migrationBuilder.DropTable(
                 name: "Session");
 
             migrationBuilder.DropTable(
                 name: "Department");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "TransferStatusType");
 
             migrationBuilder.DropTable(
-                name: "TransferStatusType");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "DepartmentType");
@@ -1289,9 +1343,6 @@ namespace HyFive.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "RegionalHealthcareOrganization");
-
-            migrationBuilder.DropTable(
-                name: "Role");
         }
     }
 }

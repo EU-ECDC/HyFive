@@ -152,7 +152,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
 
   resetEquipment(selection: ProtectiveEquipment) {
     let selectedIndex = this.protectiveEquipment.findIndex(x => x.equipmentType.id === selection.equipmentType.id);
-    this.protectiveEquipment[selectedIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingtype.equipmentTypes).find(x => x.equipmentType.id === selection.equipmentType.id);
+    this.protectiveEquipment[selectedIndex] = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.observation.settingType.equipmentTypes).find(x => x.equipmentType.id === selection.equipmentType.id);
   }
 
   showDisplayModeModal(event, selection: ProtectiveEquipment) {

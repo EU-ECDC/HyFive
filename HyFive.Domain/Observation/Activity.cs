@@ -12,7 +12,7 @@ namespace HyFive.Domain.Observation
 
         public bool TimingWasPerformed { get; set; }
         
-        public bool? GloveUsed { get; set; }
+        public bool? GlovesUsed { get; set; }
 
         public ActivityType ActivityType { get; set; }
     }

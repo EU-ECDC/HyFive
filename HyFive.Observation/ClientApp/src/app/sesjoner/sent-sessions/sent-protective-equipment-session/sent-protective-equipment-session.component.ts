@@ -53,7 +53,7 @@ export class SentProtectiveEquipmentSessionComponent implements OnInit, OnDestro
   }
 
   getIngress(observation: ProtectiveEquipmentObservation) {
-    return observation.settingtype.name;
+    return observation?.settingType?.name;
   }
 
   navigateToSentSessions() {

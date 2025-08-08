@@ -167,7 +167,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
       registeredTime: new Date(Date.now()),
       sessionId: this.sessionView.sessionId,
       comment: this.comment,
-      settingtype: this.sessionView.setting,
+      settingType: this.sessionView.setting,
       protectiveEquipmentList: this.ProtectiveEquipmentSelection
     };
 

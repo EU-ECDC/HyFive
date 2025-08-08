@@ -127,7 +127,7 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
       observations: [observation],
       createdDate: new Date(),
       department: sessionView.department,
-      institutionsName: institution.name
+      institutionName: institution.name
     } as TSession;
     sessions.push(newSession);
     this.saveSessions(sessions);

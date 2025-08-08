@@ -44,7 +44,7 @@ namespace HyFive.Services.Tests.Rapporter
         //        Activity = new Activity()
         //        {
         //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.Disinfection),
-        //            GloveUsed = false,
+        //            GlovesUsed = false,
         //            SecondsUsed = 4,
         //            TimingWasPerformed = false
         //        },
@@ -62,7 +62,7 @@ namespace HyFive.Services.Tests.Rapporter
         //        Activity = new Activity()
         //        {
         //            ActivityType = aktivitettyper.First(a => a.Code == AktivitetTypeKonstanter.NotCompleted),
-        //            GloveUsed = false,
+        //            GlovesUsed = false,
         //            SecondsUsed = 4,
         //            TimingWasPerformed = false
         //        },
@@ -101,7 +101,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    {
         //        DepartmentId = enAvdeling.Id, 
         //        FromDate = DateTime.UtcNow.AddDays(-1),
-        //        ToTime = DateTime.UtcNow.AddDays(1),
+        //        ToDate = DateTime.UtcNow.AddDays(1),
         //        Roles = AuthorizedRole.Coordinator,
         //    };
         //    var rapport = await rapportHandler.Handle(lagRapportQuery, new System.Threading.CancellationToken());

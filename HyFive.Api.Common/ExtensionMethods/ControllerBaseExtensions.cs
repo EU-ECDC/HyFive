@@ -10,21 +10,21 @@ namespace HyFive.Api.Common.ExtensionMethods
 {
     public static class ControllerBaseExtensions
     {
-        public static async Task<IActionResult> ExcelFileContentResult(this ControllerBase controller, IEnumerable<object> objekter, string filnavn)
+        public static async Task<IActionResult> ExcelFileContentResult(this ControllerBase controller, IEnumerable<object> objects, string fileName)
         {
-            var filnavnExcel = $"{DateTime.UtcNow:yyyyMMddHHmmss_}{filnavn}.xlsx";
-            var excel = await LagExcelFilInnhold(objekter);
-            return controller.File(excel, "application/xlsx", filnavnExcel);
+            var fileNameExcel = $"{DateTime.UtcNow:yyyyMMddHHmmss_}{fileName}.xlsx";
+            var excel = await CreateExcelFileContent(objects);
+            return controller.File(excel, "application/xlsx", fileNameExcel);
         }
         
-        private static async Task<byte[]> LagExcelFilInnhold( IEnumerable<object> objekter)
+        private static async Task<byte[]> CreateExcelFileContent( IEnumerable<object> objects)
         {
-            var norskKultur = CultureInfo.InvariantCulture;
+            var culture = CultureInfo.InvariantCulture;
             using var ms = new MemoryStream();
             
-            using (var excelWriter = new ExcelWriter(ms, norskKultur, true))
+            using (var excelWriter = new ExcelWriter(ms, culture, true))
             {
-                await excelWriter.WriteRecordsAsync(objekter);
+                await excelWriter.WriteRecordsAsync(objects);
             }
             ms.Position = 0;
             return ms.ToArray();

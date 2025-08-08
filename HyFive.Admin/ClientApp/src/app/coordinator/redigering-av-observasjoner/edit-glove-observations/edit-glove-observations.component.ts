@@ -72,7 +72,7 @@ export class EditGloveObservationsComponent implements OnInit{
     }
 
     this.gloveObservationAsChanged = {
-      gloveUsed: observation.gloveObservation.gloveUsed,
+      glovesUsed: observation.gloveObservation.glovesUsed,
       id: observation.id,
       sessionId:  this.sessionId,
       comment: observation.comment,
@@ -81,24 +81,24 @@ export class EditGloveObservationsComponent implements OnInit{
       postGloveHandHygieneType: observation.gloveObservation.postGloveHandHygieneType,
     }
     this.gloveWithIndicationTypes.map((h) =>{
-      h.isSelected = observation.gloveObservation.indicatedGloveTypes.map(x => x.code).indexOf(h.code) !== -1;
+      h.isSelected = observation.gloveObservation.gloveWithIndicationTypes.map(x => x.code).indexOf(h.code) !== -1;
       return h;
     });
 
     this.gloveWithoutIndicationTypes.map((h) =>{
-      h.isSelected = observation.gloveObservation.indicatedGloveTypes.map(x => x.code).indexOf(h.code) !== -1;
+      h.isSelected = observation.gloveObservation.gloveWithIndicationTypes.map(x => x.code).indexOf(h.code) !== -1;
       return h;
     });
 
     this.selectedHygieneAfterGloveuseCode = this.gloveObservationAsChanged.postGloveHandHygieneType?.code;
     this.gloveWithIndicationsSelected = this.gloveWithIndicationTypes?.filter(h => h.isSelected).length > 0;
     if(this.gloveWithIndicationsSelected){
-      this.gloveObservationAsChanged.indicatedGloveTypes = [];
+      this.gloveObservationAsChanged.gloveWithIndicationTypes = [];
     }
     else{
       // Impliserer at gloveWithoutIndicationTypes er valgt. Da skal hanske benyttes
-      this.gloveObservationAsChanged.indicatedGloveTypes = [];
-      this.gloveObservationAsChanged.gloveUsed = true;
+      this.gloveObservationAsChanged.gloveWithIndicationTypes = [];
+      this.gloveObservationAsChanged.glovesUsed = true;
     }
   }
 
@@ -107,7 +107,7 @@ export class EditGloveObservationsComponent implements OnInit{
   }
 
   updateGloveObservation() {
-    if(this.gloveObservationAsChanged.gloveUsed){
+    if(this.gloveObservationAsChanged.glovesUsed){
       this.gloveObservationAsChanged.postGloveHandHygieneType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHygieneAfterGloveuseCode);
     }
     else {
@@ -116,12 +116,12 @@ export class EditGloveObservationsComponent implements OnInit{
     }
 
     if(this.gloveWithIndicationsSelected){
-      this.gloveObservationAsChanged.indicatedGloveTypes = this.gloveWithIndicationTypes.filter(h => h.isSelected);
+      this.gloveObservationAsChanged.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(h => h.isSelected);
       this.gloveObservationAsChanged.gloveWithoutIndicationTypes = [];
     }
     else {
       this.gloveObservationAsChanged.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(h => h.isSelected);
-      this.gloveObservationAsChanged.indicatedGloveTypes = [];
+      this.gloveObservationAsChanged.gloveWithIndicationTypes = [];
     }
 
     this.observationService.updateGloveObservation(this.gloveObservationAsChanged).subscribe(
@@ -160,7 +160,7 @@ export class EditGloveObservationsComponent implements OnInit{
 
   setUsedGloveIfCurrent(gloveWithIndicationsSelected: boolean) {
     if(gloveWithIndicationsSelected == false){
-      this.gloveObservationAsChanged.gloveUsed = true;
+      this.gloveObservationAsChanged.glovesUsed = true;
     }
   }
 }

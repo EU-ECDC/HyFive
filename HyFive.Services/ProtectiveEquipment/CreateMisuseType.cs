@@ -35,7 +35,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     .FirstOrDefaultAsync(but => but.Id == request.EquipmentTypeId, cancellationToken);
                 if (equipmentType == null)
                 {
-                    throw new Exception("Could not find equipment type with ID: " + request.EquipmentTypeId);
+                    throw new Exception("Did not find equipment type with ID: " + request.EquipmentTypeId);
                 }
 
                 var misuseType = new Domain.Observation.ProtectiveEquipment.MisuseType()

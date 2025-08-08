@@ -24,6 +24,7 @@ export class FiveIndicationsComponent implements OnInit {
   sessionSentToServer = false;
   activityTypes: ActivityType[];
   isOnline: boolean;
+  institutionid: number;
 
   faArrowLeft = faArrowLeft;
   faTrashAlt = faTrashAlt;
@@ -46,6 +47,7 @@ export class FiveIndicationsComponent implements OnInit {
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.session = this.sessionService.getSession(sessionId);
+        this.institutionid = this.session.department.institutionId;
         this.sessionView = this.sessionService.getSessionViewForSession(sessionId);
         if (!this.session) this.router.navigate(['']);
       });

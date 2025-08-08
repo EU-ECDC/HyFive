@@ -34,7 +34,7 @@
       <div class="row text-break">
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-hanske-tabs">
-            <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes.length">
+            <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes?.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Gloves with indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
@@ -60,14 +60,14 @@
                       <tr>
                         <td class="hh-hanske-tabs__label-td" colspan="2">
                           <div class="d-flex">
-                            <strong class="pt-2" id="gloveIsUsedHeading">Glove used?</strong>
+                            <strong class="pt-2" id="gloveIsUsedHeading">Gloves used?</strong>
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="gloveUsed"/>
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="glovesUsed"/>
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
                                 
-                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="gloveUsed" />
+                                <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="glovesUsed" />
                                 <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
                               </div>
                             </div>
@@ -79,7 +79,7 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes.length">
+            <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes?.length">
               <a ngbNavLink class="hh-hanske-tabs__tab">Glove without indication</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
@@ -109,7 +109,7 @@
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
-          <div class="w-100" *ngIf="gloveUsed">
+          <div class="w-100" *ngIf="glovesUsed">
             <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
@@ -126,6 +126,8 @@
             <ng-container *ngIf="isEditMode">
               <app-register-comment [disabled]="isReadonly"
                                        [commentInput]="observation.comment"
+                                       [institutionid]="institutionid"
+                                       [sessiontype]="gloveSessionType"
                                        (commentRegisteredEvent)="registerComment($event)">
               </app-register-comment>
             </ng-container>

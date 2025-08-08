@@ -37,7 +37,7 @@ namespace HyFive.Services.Glove
 
                     if (observation == null)
                     {
-                        throw new Exception("S-H-01: Could not find glove observation with ID: " + request.ObservationId);
+                        throw new Exception("S-H-01: Did not find glove observation with ID: " + request.ObservationId);
                     }
 
                     var session = _context.GloveSession

@@ -9,7 +9,7 @@ export class ProtectiveEquipmentMapper {
   public static getIconTypeMap(): Map<string, IconProp> {
     var iconmap = new Map<string, IconProp>();
     iconmap.set(ProtectiveEquipmentTypeConstants.Gloves, faUserTimes);
-    iconmap.set(ProtectiveEquipmentTypeConstants.InfectionGown, faUserTimes);
+    iconmap.set(ProtectiveEquipmentTypeConstants.IsolationGown, faUserTimes);
     iconmap.set(ProtectiveEquipmentTypeConstants.FaceMask, faUserTimes);
     iconmap.set(ProtectiveEquipmentTypeConstants.EyeProtection, faUserTimes);
     iconmap.set(ProtectiveEquipmentTypeConstants.RespiratoryProtection, faUserTimes);

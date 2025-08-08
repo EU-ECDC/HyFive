@@ -13,7 +13,7 @@ namespace HyFive.Services.User
     {
         public class Command : IRequest<Models.V1.User.User>
         {
-            public Models.V1.User.User USer { get; set; }
+            public Models.V1.User.User User { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Models.V1.User.User>
@@ -30,25 +30,25 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.USer.InstitutionId);
+                var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.User.InstitutionId);
                 if (institution == null)
                 {
-                    throw new Exception("Could not find institution with ID: " + command.USer.InstitutionId);
+                    throw new Exception("Did not find institution with ID: " + command.User.InstitutionId);
                 }
 
-                if (!UserValidator.HasNameAndHprNumberOrValidPseudonym(command.USer))
+                if (!UserValidator.HasNameAndEmail(command.User))
                 {
-                    throw new ArgumentException("Coordinator must have first name, last name, and either HPR number or pseudonym");
+                    throw new ArgumentException("Coordinator must have first name, last name, and email");
                 }
 
                 var coordinator = new Coordinator()
                 {
-                    FirstName = command.USer.FirstName,
-                    LastName = command.USer.LastName,
-                    Email = command.USer.Email,
+                    FirstName = command.User.FirstName,
+                    LastName = command.User.LastName,
+                    Email = command.User.Email,
                     Institution = institution,
-                    HPRNumber = command.USer.HPRNumber,
-                    IdentityPseudonym = command.USer.IdentityPseudonym,
+                    HPRNumber = command.User.HPRNumber,
+                    IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,
                     IsDeactivated = false
                 };
@@ -57,12 +57,12 @@ namespace HyFive.Services.User
                 // The coordinator must also be an observer for the same institution
                 var observer = new Observer()
                 {
-                    FirstName = command.USer.FirstName,
-                    LastName = command.USer.LastName,
-                    Email = command.USer.Email,
+                    FirstName = command.User.FirstName,
+                    LastName = command.User.LastName,
+                    Email = command.User.Email,
                     Institution = institution,
-                    HPRNumber = command.USer.HPRNumber,
-                    IdentityPseudonym = command.USer.IdentityPseudonym,
+                    HPRNumber = command.User.HPRNumber,
+                    IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,
                     IsDeactivated = false
                 };

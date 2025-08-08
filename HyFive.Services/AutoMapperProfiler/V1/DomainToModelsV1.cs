@@ -42,7 +42,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.Place.DepartmentType, Models.V1.Institution.DepartmentType>(MemberList.None);
 
             CreateMap<FiveIndicationsSession, Models.V1.Session.FiveIndicationsSession>(MemberList.None)
-                .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
+                .ForMember(dst => dst.InstitutionName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.CreatedDate, opt => opt.MapFrom(src => src.Observer.Institution.CreatedTime))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<FiveIndicationsObservation, Models.V1.Observation.FiveIndicatorsObservation>(MemberList
@@ -52,14 +52,20 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<ActivityType, Models.V1.Observation.ActivityType>(MemberList.None);
 
             CreateMap<HandJewelrySession, Models.V1.Session.HandJewelrySession>(MemberList.None)
-                .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
+                .ForMember(dst => dst.InstitutionName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<HandJewelryObservation, Models.V1.Observation.HandJewelryObservation>(MemberList.None);
             CreateMap<HandJewelryType, Models.V1.Observation.HandJewelryType>(MemberList.None);
 
             CreateMap<ProtectiveEquipmentSession, Models.V1.Session.ProtectiveEquipmentSession>(MemberList.None)
-                .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
+                .ForMember(dst => dst.InstitutionName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
+
+            CreateMap<ProtectiveEquipmentObservation, Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
+            .ForMember(dst => dst.ProtectiveEquipmentList, opt => opt.MapFrom(src => src.ProtectiveEquipmentList))
+            .ForMember(dst => dst.SettingType, opt => opt.MapFrom(src => src.SettingType))
+            .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => src.Comment));
+            
             CreateMap<ProtectiveEquipmentSession,
                 Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None);
             CreateMap<Domain.Observation.ProtectiveEquipment.ProtectiveEquipment,
@@ -82,7 +88,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<GloveSession, Models.V1.Session.GloveSession>(MemberList.None)
                 .ForMember(dst => dst.Observations, opt => opt.MapFrom(src => src.Observations))
-                .ForMember(dst => dst.InstitutionsName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
+                .ForMember(dst => dst.InstitutionName, opt => opt.MapFrom(src => src.Observer.Institution.Name))
                 .ForMember(dst => dst.InstitutionId, opt => opt.MapFrom(src => src.Observer.Institution.Id));
             CreateMap<GloveObservation, Models.V1.Observation.Gloves.GloveObservation>(MemberList.None);
             CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.GloveWithIndicationType>(MemberList
@@ -176,7 +182,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.Indications, opt => opt.MapFrom(o => string.Join(',', o.IndicationTypes.Select(i => i.Name))))
                 .ForMember(dest => dest.SecondsUsed, opt => opt.MapFrom(o => o.Activity.SecondsUsed))
                 .ForMember(dest => dest.TimingWasPerformed, opt => opt.MapFrom(o => o.Activity.TimingWasPerformed))
-                .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GloveUsed))
+                .ForMember(dest => dest.GlovesUsed, opt => opt.MapFrom(o => o.Activity.GlovesUsed))
                 .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.HealthcareOrganization.Name))
                 .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.FiveIndicationsSession.Department.Institution.Municipality.Number))
@@ -203,7 +209,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dest => dest.SessionComment, opt => opt.MapFrom(o => o.GloveSession.Comment))
                 .ForMember(dest => dest.HandHygieneAfterGloveUseCode, opt => opt.MapFrom(o => o.PostGloveHandHygieneType.Code))
                 .ForMember(dest => dest.GlovesWithoutIndicationCode, opt => opt.MapFrom(o => string.Join(',',o.GloveWithoutIndicationTypes.Select(h => h.Code))))
-                .ForMember(dest => dest.GlovesWithIndicationCode, opt => opt.MapFrom(o => string.Join(',', o.IndicatedGloveTypes.Select(h => h.Code))))
+                .ForMember(dest => dest.GlovesWithIndicationCode, opt => opt.MapFrom(o => string.Join(',', o.GloveWithIndicationTypes.Select(h => h.Code))))
                 .ForMember(dest => dest.HealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.Name))
                 .ForMember(dest => dest.RegionalHealthcareOrganization, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.HealthcareOrganization.RegionalHealthcareOrganization.Name))
                 .ForMember(dest => dest.MunicipalityNumber, opt => opt.MapFrom(src => src.GloveSession.Department.Institution.Municipality.Number))

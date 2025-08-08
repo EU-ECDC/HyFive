@@ -13,6 +13,6 @@ namespace HyFive.Models.V1.Observation
         public bool TimingWasPerformed { get; set; }
         
         [TsProperty(ForceNullable = true)]
-        public bool? GloveUsed { get; set; }
+        public bool? GlovesUsed { get; set; }
     }
 }

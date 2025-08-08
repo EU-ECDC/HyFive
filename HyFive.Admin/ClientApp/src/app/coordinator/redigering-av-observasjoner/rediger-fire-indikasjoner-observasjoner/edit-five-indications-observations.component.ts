@@ -82,7 +82,7 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
       this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
     }
     else {
-      this.fiveIndicationsObservationWhichChanged.activity.gloveUsed = null;
+      this.fiveIndicationsObservationWhichChanged.activity.glovesUsed = null;
       if (this.fiveIndicationsObservationWhichChanged.activity.secondsUsed <= 0){
         this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
         this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = false;
