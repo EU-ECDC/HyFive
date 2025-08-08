@@ -31,9 +31,9 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (!UserValidator.HasNameAndHprNumberOrValidPseudonym(command.User))
+                if (!UserValidator.HasNameAndEmail(command.User))
                 {
-                    throw new ArgumentException("Observer must have first name, last name, and either HPR number or pseudonym.");
+                    throw new ArgumentException("Observer must have first name, last name, and email.");
                 }
                 
                 var user = await _context.User.OfType<Observer>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
