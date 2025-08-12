@@ -17,6 +17,7 @@ namespace HyFive.Services.Institution
         {
             public string CoordinatorHprNumber { get; set; }
             public string CoordinatorPseudonym { get; set; }
+            public string CoordinatorEmail { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.Institution.InstitutionReport[]>
@@ -32,11 +33,13 @@ namespace HyFive.Services.Institution
 
             public async Task<Models.V1.Institution.InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrEmpty(request.CoordinatorHprNumber) && string.IsNullOrEmpty(request.CoordinatorPseudonym))
+                /*if (string.IsNullOrEmpty(request.CoordinatorHprNumber) && string.IsNullOrEmpty(request.CoordinatorPseudonym))
                 {
                     throw new ArgumentException(
                         $"The coordinator's HPR number must be greater than 0, or CoordinatorPseudonym must be filled in. HPR number was: {request.CoordinatorHprNumber}. ");
-                }
+                }*/
+
+
                 
                 var query = _context.Institution
                     .AsNoTracking()
@@ -47,8 +50,7 @@ namespace HyFive.Services.Institution
                     .Include(i => i.InstitutionType)
                     .Where(i => i.Users
                         .Where(b => b.IsDeactivated == false
-                                    && ((HasHprNumber(request.CoordinatorHprNumber) && b.HPRNumber == request.CoordinatorHprNumber) ||
-                                        (HasIdentityPseudonym(request.CoordinatorPseudonym) && b.IdentityPseudonym == request.CoordinatorPseudonym)))
+                                    && ((HasEmail(request.CoordinatorEmail) && b.Email == request.CoordinatorEmail)))
                         .Any(b => b.Discriminator == nameof(Coordinator))
                     );
 
@@ -65,6 +67,14 @@ namespace HyFive.Services.Institution
             private static bool HasHprNumber(string hprnumber)
             {
                 if (string.IsNullOrEmpty(hprnumber))
+                    return false;
+
+                return true;
+            }
+
+            private static bool HasEmail(string email)
+            {
+                if (string.IsNullOrEmpty(email))
                     return false;
 
                 return true;

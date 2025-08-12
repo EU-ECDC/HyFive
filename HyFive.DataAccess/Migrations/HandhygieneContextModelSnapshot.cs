@@ -69,13 +69,13 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("GloveObservationGloveWithIndicationType", b =>
                 {
-                    b.Property<int>("IndicatedGloveTypesId")
+                    b.Property<int>("GloveWithIndicationTypesId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("ObservationsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("IndicatedGloveTypesId", "ObservationsId");
+                    b.HasKey("GloveWithIndicationTypesId", "ObservationsId");
 
                     b.HasIndex("ObservationsId");
 
@@ -123,7 +123,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("ActivityTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<bool?>("GloveUsed")
+                    b.Property<bool?>("GlovesUsed")
                         .HasColumnType("boolean");
 
                     b.Property<int>("SecondsUsed")
@@ -221,7 +221,7 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<Guid?>("GloveSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("GloveUsed")
+                    b.Property<bool>("GlovesUsed")
                         .HasColumnType("boolean");
 
                     b.Property<int?>("PostGloveHandHygieneTypeId")
@@ -1195,7 +1195,7 @@ namespace HyFive.DataAccess.Migrations
                 {
                     b.HasOne("HyFive.Domain.Observation.Gloves.GloveWithIndicationType", null)
                         .WithMany()
-                        .HasForeignKey("IndicatedGloveTypesId")
+                        .HasForeignKey("GloveWithIndicationTypesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

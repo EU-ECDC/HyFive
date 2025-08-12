@@ -17,6 +17,7 @@
     <ng-template #content let-item="item">
       <app-edit-hand-jewelry-observation [observation]="item"
                                          [department]="session.department"
+                                         [institutionid]="institutionid"
                                          (observationDeletedEvent)="observationDeletedEventHandler($event)">
       </app-edit-hand-jewelry-observation>
     </ng-template>

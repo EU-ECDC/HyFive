@@ -82,7 +82,7 @@ namespace HyFive.Services.Tests.Handsmykke
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionsName = institusjon.Name,
+                    InstitutionName = institusjon.Name,
                     InstitutionId = institusjon.Id,
                     Observations = new List<HandJewelryObservation>()
                     {

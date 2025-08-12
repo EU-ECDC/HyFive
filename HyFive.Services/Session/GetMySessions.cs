@@ -34,9 +34,7 @@ namespace HyFive.Services.Session
                 var sessions = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
-                    .Where(s => s.Observer.IsDeactivated == false
-                                && ((HasHprNumber(request.HPRNumber) && s.Observer.HPRNumber == request.HPRNumber) ||
-                                    (HasIdentityPseudonym(request.Pseudonym) && s.Observer.IdentityPseudonym == request.Pseudonym)))
+                    .Where(s => s.Observer.IsDeactivated == false)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 

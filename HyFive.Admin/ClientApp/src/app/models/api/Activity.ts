@@ -9,5 +9,5 @@ export interface Activity
 	activityType: ActivityType;
 	secondsUsed?: number;
 	timingWasPerformed: boolean;
-	gloveUsed?: boolean;
+	glovesUsed?: boolean;
 }

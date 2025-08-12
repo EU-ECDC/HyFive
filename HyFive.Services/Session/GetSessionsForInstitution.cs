@@ -114,7 +114,7 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observer)
                                      .Include(s => s.TransferStatus)
                                      .Include(s => s.Observations).ThenInclude(o => o.Role)
-                                     .Include(s => s.Observations).ThenInclude(o => o.IndicatedGloveTypes)
+                                     .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
                                      .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
                                      .Where(s => s.Department.InstitutionId == request.InstitutionId)

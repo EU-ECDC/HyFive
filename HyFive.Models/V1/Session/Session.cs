@@ -18,7 +18,7 @@ namespace HyFive.Models.V1.Session
         public List<TObservation> Observations { get; set; }
 
         [TsProperty(ForceNullable = true)]
-        public string InstitutionsName { get; set; }
+        public string InstitutionName { get; set; }
         
         [TsProperty(ForceNullable = true)]
         public int InstitutionId { get; set; }
