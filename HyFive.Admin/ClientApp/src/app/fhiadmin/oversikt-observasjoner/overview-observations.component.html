@@ -5,10 +5,21 @@
     <div class="row align-items-end mb-4">
       <div class="col-md-2">
         <label for="sessionType">Session Type</label>
-        <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
+        <!-- <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
           <option value="null">All</option>
           <option *ngFor="let sessiontype of sessiontypes" [ngValue]="sessiontype.value">{{sessiontype.name}}</option>
-        </select>
+        </select> -->
+        <ng-select
+            [searchable]="false"
+            placeholder="All"
+            [clearable]="false"
+            [items]="sessiontypes"
+            bindLabel="name"
+            bindValue="value"
+            [(ngModel)]="selectedSessiontype"
+            (ngModelChange)="resetSearchresults()"
+            >
+        </ng-select>
       </div>
       <div class="col-md-2">
         <label for="fra">From date</label>
@@ -20,12 +31,23 @@
       </div>
       <div *ngIf="canSelectInstitution" class="col-md-3">
         <label for="institutions">Institution</label>
-        <select id="institutions" class="form-select" [(ngModel)]="selectedInstitutionId" (ngModelChange)="resetSearchresults()">
+        <!-- <select id="institutions" class="form-select" [(ngModel)]="selectedInstitutionId" (ngModelChange)="resetSearchresults()">
           <option value="null">All</option>
           <option *ngFor="let institution of institutions" [ngValue]="institution.id.toString()">
             {{institution.name}}
           </option>
-        </select>
+        </select> -->
+        <ng-select
+          [searchable]="false"
+          placeholder="All"
+          [clearable]="false"
+          [items]="institutions"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="selectedInstitutionId"
+          (ngModelChange)="resetSearchresults()"
+          >
+        </ng-select>
       </div>
       <div style="display: flex;" class="form-group col-12 col-md-3">
         <label style="opacity:0;">-</label>

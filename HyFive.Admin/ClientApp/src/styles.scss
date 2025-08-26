@@ -171,3 +171,30 @@ table {
 .list-group-item.active {
     // border-color: #edf2e8 !important;
 }
+
+.ng-select .ng-select-container {
+  border-color: #4f841a !important;
+  box-shadow: none !important;
+  height: 40px !important;
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: #4f841a !important;
+  box-shadow: none !important;
+}
+
+.ng-select .ng-input input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: #edf2e8 !important;
+  color: #000;
+}
+
+.ng-option.ng-option-selected {
+ background-color: #c9cfbb !important;
+ color: #000;
+}
