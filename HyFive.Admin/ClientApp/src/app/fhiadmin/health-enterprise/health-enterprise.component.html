@@ -6,10 +6,19 @@
     </div>
     <div class="col-4">
       <h5>Regional HealthCare Organization</h5>
-      <select class="form-select" [(ngModel)]="newHealthcareOrganization.regionalHealthcareOrganizationId">
+      <!-- <select class="form-select" [(ngModel)]="newHealthcareOrganization.regionalHealthcareOrganizationId">
         <option value="0">Not selected</option>
         <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
-      </select>
+      </select> -->
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="RegionalHealthcareOrganizationList"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newHealthcareOrganization.regionalHealthcareOrganizationId"
+          >
+        </ng-select>
     </div>
     <div class="col-4">
       <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="!canCreateHealthcareOrganization()">Create</button>
@@ -45,10 +54,19 @@
                 <ng-container *ngIf="healthcareOrganizationAsChanged?.id == healthcareOrganization.id">
                   <td class="col-4"><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
-                    <select class="form-select" [(ngModel)]="healthcareOrganizationAsChanged.regionalHealthcareOrganizationId">
+                    <!-- <select class="form-select" [(ngModel)]="healthcareOrganizationAsChanged.regionalHealthcareOrganizationId">
                       <option value="0">Not selected</option>
                       <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
-                    </select>
+                    </select> -->
+                    <ng-select
+                      [searchable]="false"
+                      [clearable]="false"
+                      [items]="RegionalHealthcareOrganizationList"
+                      bindLabel="name"
+                      bindValue="id"
+                      [(ngModel)]="healthcareOrganizationAsChanged.regionalHealthcareOrganizationId"
+                      >
+                    </ng-select>
                   </td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" [disabled]="!canUpdateHealthcareOrganization()" (click)="updateHealthcareOrganization(healthcareOrganizationAsChanged)">

@@ -41,8 +41,8 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
 
     forkJoin(healthcareOrganizationRequest).subscribe((result) => {
       let i = 0;
-      this.listOfHealthcareOrganizations = result[i++] as HealthcareOrganization[];
-      this.RegionalHealthcareOrganizationList = result[i++] as RegionalHealthcareOrganization[];
+      this.listOfHealthcareOrganizations = [ { id: 0, name: 'Not selected', regionalHealthcareOrganizationId: 0, regionalHealthcareOrganization: null } , ...result[i++]] as HealthcareOrganization[];
+      this.RegionalHealthcareOrganizationList = [ {id: 0, name: 'Not selected'}, ...result[i++]] as RegionalHealthcareOrganization[];
       this.loading = false;
     });
   }
