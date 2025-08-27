@@ -126,8 +126,15 @@ table {
             border: solid 1px #dddddd !important;
         }
     }
+
+    .btn:hover {
+        background-color: #edf2e8;
+    }
 }
 
+.accordion-button:hover::before {
+    background-color: #edf2e8 !important;
+}
 
   
 .form-check-input:checked {
