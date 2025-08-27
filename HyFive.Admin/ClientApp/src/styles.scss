@@ -223,3 +223,15 @@ table {
     background: #3e8064 !important;
     border: 2px solid #3e8064 !important;
 }
+
+.form-check-input:checked[type=radio] {
+    background-color: white;
+    background-image: none;
+    outline: #3e8064 solid 1px;
+    color: #3e8064 !important;
+}
+
+.form-check-input:checked[type=radio] ~ .form-check-label::after {
+    background-color: #3e8064;
+    color: #3e8064 !important;
+}
