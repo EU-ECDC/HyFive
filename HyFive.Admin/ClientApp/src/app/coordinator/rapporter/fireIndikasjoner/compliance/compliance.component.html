@@ -26,21 +26,41 @@
 <div class = "row mb-4">
       <div class="col-md-2">
         <label for="interval">Interval</label>
-        <select class="form-select" id="interval" [(ngModel)]="interval" (ngModelChange)="onChangeInterval()">
+        <!-- <select class="form-select" id="interval" [(ngModel)]="interval" (ngModelChange)="onChangeInterval()">
           <option value="year">Year</option>
           <option value="quarter">Quarter</option>
           <option value="month">Month</option>
-        </select>
+        </select> -->
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="intervalsList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="interval"
+          (ngModelChange)="onChangeInterval()"
+          >
+        </ng-select>
       </div>
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
         <label for="fromQuarter">From quarter</label>
-        <select class="form-select" id="fromQuarter" [(ngModel)]="fromQuarter" (ngModelChange)="validateQuarters()">
+        <!-- <select class="form-select" id="fromQuarter" [(ngModel)]="fromQuarter" (ngModelChange)="validateQuarters()">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
-        </select>
+        </select> -->
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="quartersList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="fromQuarter"
+          (ngModelChange)="validateQuarters()"
+          >
+        </ng-select>
       </div>
 
       <div class="col-md-2">
@@ -50,12 +70,22 @@
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
         <label for="toQuarter">To quarter</label>
-        <select class="form-select" id="toQuarter" [(ngModel)]="toQuarter" (ngModelChange)="validateQuarters()">
+        <!-- <select class="form-select" id="toQuarter" [(ngModel)]="toQuarter" (ngModelChange)="validateQuarters()">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
-        </select>
+        </select> -->
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="quartersList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="toQuarter"
+          (ngModelChange)="validateQuarters()"
+          >
+        </ng-select>
       </div>
       <!-- <div class="col-md-2" *ngIf="interval=='week'">
         <label for="fra">From month</label>

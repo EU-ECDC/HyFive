@@ -52,6 +52,17 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   selectedInstitutionId: number;
   selectedDepartments: Department[] = [];
   selectedDepartmentTypes: DepartmentType[];
+  intervalsList = [
+    {name: 'Year', value: 'year'},
+    {name: 'Quarter', value: 'quarter'},
+    {name: 'Month', value: 'month'}
+  ];
+  quartersList = [
+    {name: '1', value: 1},
+    {name: '2', value: 2},
+    {name: '3', value: 3},
+    {name: '4', value: 4}
+  ];
   interval: string = 'year';
   months: any [];
   transferredTo: number = 0;
