@@ -247,3 +247,12 @@ table {
 .ng-select.ng-select-opened>.ng-select-container .ng-arrow {
     border-color: transparent transparent #4f841a !important;
 }
+
+.multiselect-dropdown .dropdown-btn {
+    border: 1px solid #4f841a !important;
+}
+
+.multiselect-dropdown[_ngcontent-ng-c692748064] .dropdown-btn[_ngcontent-ng-c692748064] .dropdown-multiselect__caret[_ngcontent-ng-c692748064]:before
+ {
+border-color: #4f841a transparent !important;
+ }
