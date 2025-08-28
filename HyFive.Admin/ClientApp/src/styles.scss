@@ -239,3 +239,11 @@ table {
 .multiselect-item-checkbox:hover {
     background-color: #edf2e8 !important;
 }
+
+.ng-arrow {
+    border-color: #4f841a transparent transparent !important;
+}
+
+.ng-select.ng-select-opened>.ng-select-container .ng-arrow {
+    border-color: transparent transparent #4f841a !important;
+}
