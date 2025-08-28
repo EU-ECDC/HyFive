@@ -6,10 +6,20 @@
             
             <div class="col-md-4">
                 <label for="institution">Institution</label>
-                <select class="form-select" id="institution" [(ngModel)]="institutionId" (ngModelChange)="updateUserList()">
+                <!-- <select class="form-select" id="institution" [(ngModel)]="institutionId" (ngModelChange)="updateUserList()">
                     <option value="0"></option>
                     <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
-                </select>
+                </select> -->
+                <ng-select
+                    [searchable]="false"
+                    [clearable]="false"
+                    [items]="institutions"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="institutionId"
+                    (ngModelChange)="updateUserList()"
+                    >
+                </ng-select>
             </div>
             
             <div style="position: relative; bottom: 6px;" class="col-md-2">
