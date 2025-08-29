@@ -8,12 +8,10 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 import { User } from 'src/app/models/api/User';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-editing-of-institutions',
-  templateUrl: './editing-of-institutions.component.html',
-  styleUrls: ['./editing-of-institutions.component.scss']
+  templateUrl: './editing-of-institutions.component.html'
 })
 export class EditingOfInstitutionsComponent implements OnInit {
 
@@ -24,10 +22,6 @@ export class EditingOfInstitutionsComponent implements OnInit {
   keyword: string = '';
   keywordPerson: string = '';
   users: User[] = [];
-  totalItems = 0; // total number of items, e.g. from API
-  currentPage = 0;
-  offset = 0;
-  pageSize = 5;
 
   constructor(private institutionService: InstitutionService,
     private toastrService: ToastrService,
@@ -42,33 +36,14 @@ export class EditingOfInstitutionsComponent implements OnInit {
       }
     );
 
-    //for total number, and total institutions due to validations on mail (create/update coord)
     this.getInstitutions();
-    //first population of table with default offset, limit
-    this.getInstitutionsPaginated(this.offset, this.pageSize);
   }
 
-  //I NEED THAT CALL IN NG ON INIT, TO GET ALL INSTITUIONS FOR VALIDATING NAME IN CREATE/UPDATE COMPONENTS AND TOTAL
-  //NUMBER OF INSTITUTIONS FOR PAGINATION PARAMETER
-  //this.totalInstitutions, this.totalItems
   getInstitutions() {
     this.institutionService.getInstitutions().subscribe((result) => {
-      // this.institutions = result;
-      // this.filteredInstitutions = result;
-      this.totalInstitutions = result;
-      this.totalItems = this.totalInstitutions.length;
-      
-      // this.institutions.forEach(i => {
-      //   this.getUsers(i.id);
-      // });
-    });
-  }
-
-  getInstitutionsPaginated(offset, limit) {
-        this.institutionService.getInstitutionsPaginated(offset, limit).subscribe((result) => {
+    this.totalInstitutions = result;
       this.institutions = result;
       this.filteredInstitutions = this.institutions;
-      // this.totalItems = this.filteredInstitutions.length;
       
       this.institutions.forEach(i => {
         this.getUsers(i.id);
@@ -106,7 +81,7 @@ export class EditingOfInstitutionsComponent implements OnInit {
   }
 
   deleteInstitution(institutionId: number) {
-    this.getInstitutionsPaginated(this.offset, this.pageSize);
+    this.getInstitutions();
     this.toastrService.success('Deleted institution with id: ' + institutionId, 'Institution deleted');
     this.navigateToInstitution(0);
   }
@@ -129,15 +104,6 @@ export class EditingOfInstitutionsComponent implements OnInit {
     } else if (this.keywordPerson.length === 0) {
       this.filteredInstitutions = this.institutions;
     }
-  }
-
-  onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    
-    this.offset = this.currentPage * this.pageSize;
-    // console.log('offs', this.offset, 'limit', this.pageSize);
-    this.getInstitutionsPaginated(this.offset, this.pageSize);
   }
 
   sort($event: IColumnSortedEvent) {

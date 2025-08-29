@@ -50,14 +50,7 @@
       </div>
     </ng-container>
 
-    <mat-paginator *ngIf="institutions?.length > 0"
-               [length]="totalItems"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[5, 10, 20]"
-               (page)="onPageChange($event)">
-    </mat-paginator>
 
-  
   <div class="row">
     <app-spinner class="col-12" *ngIf="institutions?.length == 0">Loading institutions</app-spinner>
   </div>
