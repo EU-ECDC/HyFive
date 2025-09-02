@@ -4,13 +4,6 @@
           
           <div class="form-group col col-md-3">
             <label for="observer">Observer</label>
-            <!-- <select class="form-select" id="observer" [(ngModel)]="selectedObserver" (ngModelChange)="resetSearchresults()">
-              <option [ngValue]="null">All</option>
-              <option *ngFor="let observer of observers" [ngValue]="observer.id">
-                {{observer.firstName}} {{observer.lastName}}
-                <ng-container *ngIf="observer.isDisabled">(disabled user)</ng-container>
-              </option>
-            </select> -->
             <ng-select
               [searchable]="false"
               [clearable]="false"
@@ -25,10 +18,6 @@
           </div>
           <div class="form-group col col-md-2">
             <label for="sessionType">Module</label>
-            <!-- <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
-              <option [ngValue]="null">All</option>
-              <option *ngFor="let option of sessionTypeOptions" [ngValue]="option.value">{{option.name}}</option>
-            </select> -->
             <ng-select
               [searchable]="false"
               [clearable]="false"

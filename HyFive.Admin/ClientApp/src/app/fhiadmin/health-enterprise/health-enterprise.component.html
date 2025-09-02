@@ -6,10 +6,6 @@
     </div>
     <div class="col-4">
       <h5>Regional HealthCare Organization</h5>
-      <!-- <select class="form-select" [(ngModel)]="newHealthcareOrganization.regionalHealthcareOrganizationId">
-        <option value="0">Not selected</option>
-        <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
-      </select> -->
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -54,10 +50,6 @@
                 <ng-container *ngIf="healthcareOrganizationAsChanged?.id == healthcareOrganization.id">
                   <td class="col-4"><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
-                    <!-- <select class="form-select" [(ngModel)]="healthcareOrganizationAsChanged.regionalHealthcareOrganizationId">
-                      <option value="0">Not selected</option>
-                      <option *ngFor="let RegionalHealthcareOrganization of RegionalHealthcareOrganizationList" [ngValue]="RegionalHealthcareOrganization.id">{{RegionalHealthcareOrganization.name}}</option>
-                    </select> -->
                     <ng-select
                       [searchable]="false"
                       [clearable]="false"

@@ -264,3 +264,11 @@ border-color: #4f841a transparent !important;
  .fhi-tree-view-navigation__link:hover {
     background-color: #edf2e8 !important;
  }
+
+ .dropdown-toggle:empty:hover:after {
+    background-color: #edf2e8 !important;
+ }
+
+ .dropdown-menu > .dropdown-item:last-child, .dropdown-menu > li:last-child .dropdown-item {
+   background-color: #edf2e8 !important; 
+ }

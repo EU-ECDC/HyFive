@@ -5,10 +5,6 @@
     <div class="row align-items-end mb-4">
       <div class="col-md-2">
         <label for="sessionType">Session Type</label>
-        <!-- <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
-          <option value="null">All</option>
-          <option *ngFor="let sessiontype of sessiontypes" [ngValue]="sessiontype.value">{{sessiontype.name}}</option>
-        </select> -->
         <ng-select
             [searchable]="false"
             placeholder="All"
@@ -31,12 +27,6 @@
       </div>
       <div *ngIf="canSelectInstitution" class="col-md-3">
         <label for="institutions">Institution</label>
-        <!-- <select id="institutions" class="form-select" [(ngModel)]="selectedInstitutionId" (ngModelChange)="resetSearchresults()">
-          <option value="null">All</option>
-          <option *ngFor="let institution of institutions" [ngValue]="institution.id.toString()">
-            {{institution.name}}
-          </option>
-        </select> -->
         <ng-select
           [searchable]="false"
           placeholder="All"

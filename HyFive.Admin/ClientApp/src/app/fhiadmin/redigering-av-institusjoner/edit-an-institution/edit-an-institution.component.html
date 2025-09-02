@@ -27,9 +27,6 @@
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="institutionType">Institution Type</label>
-                <!-- <select class="form-select" id="institutionType" [(ngModel)]="institutiontypeId" (ngModelChange)="institutionTypeChanged()">
-                  <option *ngFor="let institutionType of institutionTypes" [ngValue]="institutionType.id">{{institutionType.name}}</option>
-                </select> -->
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
@@ -43,10 +40,6 @@
               </div>
               <div class="col-md-2" *ngIf="showMunicipality">
                 <label for="municipality">Municipality</label>
-                <!-- <select class="form-select" id="municipality" [(ngModel)]="municipalityId" (ngModelChange)="municipalityChanged()">
-                  <option value="0"></option>
-                  <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
-                </select> -->
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
@@ -60,10 +53,6 @@
               </div>
               <div class="form-group col-12 col-md-3" *ngIf="showHealthcareOrganization">
                 <label for="Healthcareorganization">Healthcare Organization</label>
-                <!-- <select class="form-select" id="Healthcareorganization" [(ngModel)]="healthcareOrganizationId" (ngModelChange)="healthEnterpriseChanged()">
-                  <option value="0"></option>
-                  <option *ngFor="let Healthcareorganization of listOfHealthcareOrganizations" [ngValue]="Healthcareorganization.id">{{Healthcareorganization.name}}</option>
-                </select> -->
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
