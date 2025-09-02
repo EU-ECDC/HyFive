@@ -41,21 +41,6 @@ namespace HyFive.Admin.Controllers.V1
             return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym(), CoordinatorEmail = _userService.GetEmail() });
         }
 
-        /// <summary>
-        /// Get all available institutions Paginated<see cref="InstitutionReport"/>
-        /// </summary>
-        /// <returns></returns>
-
-        [HttpGet("getInstitutionsPaginated")]
-        public async Task<IEnumerable<InstitutionReport>> GetInstitutionsPaginated([FromQuery]  int offset, [FromQuery] int limit)
-        {
-            if (_userService.IsFhiAdmin())
-            {
-                return await _mediator.Send(new GetInstitutionsPaginated.Query() {  Offset = offset, Limit = limit  });
-            }
-            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym() });
-        }
-
         [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("getInstitutionsForCoordinator")]
         public async Task<IEnumerable<InstitutionReport>> GetInstitutionsForCoordinator()
