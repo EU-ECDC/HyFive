@@ -117,16 +117,26 @@ export class CreateInstitutionComponent implements OnInit, OnDestroy {
     {
       this.showHealthcareOrganization = true;
       this.showMunicipality = false;
+      if (this.newInstitution) {
+        this.newInstitution.municipalityId = 0;
+      }
     }
     else if(selectedInstitutiontype.code === InstitutionTypeConstants.NursingHome)
     {
       this.showMunicipality = true;
       this.showHealthcareOrganization = false;
+      if (this.newInstitution) {
+        this.newInstitution.healthcareOrganizationId = 0;
+      }
     }
     else
     {
       this.showHealthcareOrganization = false;
       this.showMunicipality = false;
+      if (this.newInstitution) {
+        this.newInstitution.municipalityId = 0;
+        this.newInstitution.healthcareOrganizationId = 0;
+      }
     }
   }
 

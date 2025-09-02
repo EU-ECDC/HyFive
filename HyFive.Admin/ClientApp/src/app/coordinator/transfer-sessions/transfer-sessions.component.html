@@ -4,20 +4,31 @@
           
           <div class="form-group col col-md-3">
             <label for="observer">Observer</label>
-            <select class="form-select" id="observer" [(ngModel)]="selectedObserver" (ngModelChange)="resetSearchresults()">
-              <option [ngValue]="null">All</option>
-              <option *ngFor="let observer of observers" [ngValue]="observer.id">
-                {{observer.firstName}} {{observer.lastName}}
-                <ng-container *ngIf="observer.isDisabled">(disabled user)</ng-container>
-              </option>
-            </select>
+            <ng-select
+              [searchable]="false"
+              [clearable]="false"
+              placeholder="All"
+              [items]="observers"
+              bindLabel="firstLast"
+              bindValue="id"
+              [(ngModel)]="selectedObserver"
+              (ngModelChange)="resetSearchresults()"
+              >
+            </ng-select>
           </div>
           <div class="form-group col col-md-2">
             <label for="sessionType">Module</label>
-            <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype" (ngModelChange)="resetSearchresults()">
-              <option [ngValue]="null">All</option>
-              <option *ngFor="let option of sessionTypeOptions" [ngValue]="option.value">{{option.name}}</option>
-            </select>
+            <ng-select
+              [searchable]="false"
+              [clearable]="false"
+              placeholder="All"
+              [items]="sessionTypeOptions"
+              bindLabel="name"
+              bindValue="value"
+              [(ngModel)]="selectedSessiontype"
+              (ngModelChange)="resetSearchresults()"
+              >
+            </ng-select>
           </div>
 
           <div class="form-group col-12 col-md-1 px-0">
@@ -29,12 +40,12 @@
           
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="markAllSessions()">Select all sessions</button>
+            <button style="background-color: transparent !important; color: #4f841a;" class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="markAllSessions()">Select all sessions</button>
           </div>
 
           <div class="form-group col col-md-2">
             <label style="opacity:0;">-</label>
-            <button class="btn fhi-btn-link" [disabled]="!hasSelectedAtLeastOneSession()" (click)="transferSessions()">Transfer selected sessions</button>
+            <button class="btn fhi-btn-link" style="background-color: transparent !important; color: #4f841a;" [disabled]="!hasSelectedAtLeastOneSession()" (click)="transferSessions()">Transfer selected sessions</button>
           </div>
         </div>
       </div>

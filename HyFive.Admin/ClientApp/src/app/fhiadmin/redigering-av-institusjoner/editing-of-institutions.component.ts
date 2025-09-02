@@ -18,6 +18,7 @@ export class EditingOfInstitutionsComponent implements OnInit {
   institutionId: number = 0;
   institutions: InstitutionReport[] = [];
   filteredInstitutions: InstitutionReport[] = [];
+  totalInstitutions: InstitutionReport[] = [];
   keyword: string = '';
   keywordPerson: string = '';
   users: User[] = [];
@@ -40,6 +41,7 @@ export class EditingOfInstitutionsComponent implements OnInit {
 
   getInstitutions() {
     this.institutionService.getInstitutions().subscribe((result) => {
+    this.totalInstitutions = result;
       this.institutions = result;
       this.filteredInstitutions = this.institutions;
       

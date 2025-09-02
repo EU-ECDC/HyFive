@@ -1,7 +1,12 @@
 <div class="form-group {{customClass}}">
-  <select class="form-select form-control--rounded"
-          [(ngModel)]="selectedRoleId"
-          (ngModelChange)="selectedRoleChanged()">
-    <option *ngFor="let role of roles" [value]="role.id+''" >{{role.name}}</option>
-  </select>
+  <ng-select
+    [searchable]="false"
+    [clearable]="false"
+    [items]="roles"
+    bindLabel="name"
+    bindValue="id"
+    [(ngModel)]="selectedRoleId"
+    (ngModelChange)="selectedRoleChanged()"
+    >
+  </ng-select>
 </div>
