@@ -288,12 +288,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetInstitutionsPaginated(System.Int32,System.Int32)">
-            <summary>
-            Get all available institutions Paginated<see cref="T:HyFive.Models.V1.Institution.InstitutionReport"/>
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetInstitution(System.Int32)">
             <summary>
             Get institution
