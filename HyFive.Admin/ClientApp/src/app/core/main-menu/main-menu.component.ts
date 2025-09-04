@@ -107,7 +107,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
-        name: 'Transfer Sessions to Admin',
+        name: 'Transfer Sessions',
         routerLink: `/${UrlPaths.transferSessions}`,
         roles: [AuthorizedRole.Coordinator]
       },

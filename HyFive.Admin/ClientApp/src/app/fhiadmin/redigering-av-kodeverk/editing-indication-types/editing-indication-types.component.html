@@ -32,7 +32,7 @@
               <ng-container *ngIf="indicationtypeAsChanged?.id === indicationtype.id">
                 <td>{{indicationtypeAsChanged.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="indicationtypeAsChanged.name">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="indicationtypeAsChanged.name">
                 </td>
                 <td>
                   <input type="number" class="form-control" [(ngModel)]="indicationtypeAsChanged.number" maxLength="2" size="2">

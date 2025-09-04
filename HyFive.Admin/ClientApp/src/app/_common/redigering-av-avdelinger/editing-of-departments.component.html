@@ -4,7 +4,7 @@
   </div>
   <app-create-department (departmentCreatedEvent)="getDepartments()" [institutionId]="institutionId" [departments]="filteredDepartments" *ngIf="canCreate()"></app-create-department>
   <div class="row mb-5 mt-5" *ngIf="departments?.length > 0">
-    <input type="text" placeholder="Search by name or department type..." autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
+    <input type="text" autocomplete="off" placeholder="Search by name or department type..." autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
   
     <ng-container>
       <div class="table-responsive">
@@ -37,7 +37,7 @@
                 </ng-container>
               </ng-container>
               <ng-container *ngIf="canEdit && departmentAsChanged?.id === department.id">
-                <td><input type="text" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name"></td>
+                <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name"></td>
                 <td>
                   <select class="form-control" id="departmenttype" [(ngModel)]="departmentAsChanged.departmentTypeId">
                     <option value="0">Not selected</option>

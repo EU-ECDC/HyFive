@@ -2,7 +2,7 @@
   <div class="row" *ngIf="!loading">
     <div class="col-4">
       <h5>HealthCare Organization</h5>
-      <input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
+      <input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
     </div>
     <div class="col-4">
       <h5>Regional HealthCare Organization</h5>
@@ -48,7 +48,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="healthcareOrganizationAsChanged?.id == healthcareOrganization.id">
-                  <td class="col-4"><input type="text" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
+                  <td class="col-4"><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="healthcareOrganizationAsChanged.name" name="name" placeholder="Name"></td>
                   <td class="col-4">
                     <ng-select
                       [searchable]="false"

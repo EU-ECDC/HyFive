@@ -30,7 +30,7 @@
               <ng-container *ngIf="handHygieneAfterGloveUseTypeWhichChanges?.id === handHygieneAfterGloveUseType.id">
                 <td>{{handHygieneAfterGloveUseTypeWhichChanges.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="handHygieneAfterGloveUseTypeWhichChanges.name">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="handHygieneAfterGloveUseTypeWhichChanges.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateHandHygieneAfterGloveUseType(handHygieneAfterGloveUseTypeWhichChanges)">

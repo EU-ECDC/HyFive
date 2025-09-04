@@ -30,7 +30,7 @@
               <ng-container *ngIf="gloveWithIndicationTypeAsChanged?.id === gloveWithIndicationType.id">
                 <td>{{gloveWithIndicationTypeAsChanged.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="gloveWithIndicationTypeAsChanged.name">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="gloveWithIndicationTypeAsChanged.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateGloveWithIndicationType(gloveWithIndicationTypeAsChanged)">

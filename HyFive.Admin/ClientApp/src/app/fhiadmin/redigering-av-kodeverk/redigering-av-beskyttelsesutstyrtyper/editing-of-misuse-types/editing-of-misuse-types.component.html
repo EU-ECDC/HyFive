@@ -12,7 +12,7 @@
 </div>
 <div class="row ms-1">
   <div class="col-3">
-    <input type="text" class="form-control" [(ngModel)]='newMisuseType.name' placeholder="Name">
+    <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newMisuseType.name' placeholder="Name">
   </div>
   <div class="col-6">
     <label></label>
@@ -42,7 +42,7 @@
             </ng-container>
             <ng-container *ngIf="misusetypeAsChanged?.id === misusetype.id">
               <td>
-                <input type="text" class="form-control" [(ngModel)]="misusetypeAsChanged.name">
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="misusetypeAsChanged.name">
               </td>
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="updateMisuseType(misusetypeAsChanged)">
