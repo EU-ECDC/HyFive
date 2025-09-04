@@ -206,8 +206,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
 
     // return false;
 
-    if (this.coordinatorAsChanged
-      && this.coordinatorAsChanged?.id == coordinator.id
+    if (this.user.id == coordinator.id.toString()
       ) {
       return true;
     } 
@@ -234,6 +233,12 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
                       .find(coord => coord?.email == coordinator?.email) == undefined
       && this.userService.isValidPseudonym(coordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
+  }
+
+  omitSpecialChar(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
   cancelEdit($event: Event = null) {

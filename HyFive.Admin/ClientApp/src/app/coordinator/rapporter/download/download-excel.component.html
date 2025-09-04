@@ -47,18 +47,23 @@
                               [(ngModel)]="selectedDepartments">
       </ng-multiselect-dropdown>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label for="sessionType">Module</label>
-      <select class="form-select" id="sessiontype" [(ngModel)]="selectedSessiontype">
-        <option value=""></option>
-        <option *ngFor="let sessionType of sessionTypes" [ngValue]="sessionType.value">{{sessionType.name}}</option>
-      </select>
+      <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="sessionTypes"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="selectedSessiontype"
+          >
+        </ng-select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label for="fromDate">From date</label>
       <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" [max]="toDate || null" />
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <label for="toDate">To date</label>
       <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" [min]="fromDate || null" />
     </div>

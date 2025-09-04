@@ -118,6 +118,8 @@
             <ng-container *ngIf="isEditMode">
               <app-register-comment [disabled]="isReadonly"
                                        [commentInput]="observation.comment"
+                                       [institutionid]="institutionid"
+                                       [sessiontype]="fiveIndicationsSessionType"
                                        (commentRegisteredEvent)="registerComment($event)">
               </app-register-comment>
             </ng-container>

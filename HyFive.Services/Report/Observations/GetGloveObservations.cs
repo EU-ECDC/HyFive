@@ -45,8 +45,8 @@ namespace HyFive.Services.Report.Observations
                     .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Observer)
                     .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
                     .Include(fo => fo.PostGloveHandHygieneType)
-                    .Include(fo => fo.IndicatedGloveTypes)
-                    .Include(fo => fo.IndicatedGloveTypes)
+                    .Include(fo => fo.GloveWithIndicationTypes)
+                    .Include(fo => fo.GloveWithIndicationTypes)
                     .Include(fo => fo.Role)
                     .AsNoTracking();
 

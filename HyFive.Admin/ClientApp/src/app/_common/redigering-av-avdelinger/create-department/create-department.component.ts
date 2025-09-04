@@ -57,7 +57,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   loadDepartmentTypes() {
     this.departmentService.getDepartmentTypes().subscribe(
       (departmentTypes) => {
-        this.departmentTypes = departmentTypes;
+        this.departmentTypes = [ { id: 0, code: '', name: 'Not selected' }, ...departmentTypes ];
       },
       (err) => this.toastrService.error(`Could not load roles: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
     );

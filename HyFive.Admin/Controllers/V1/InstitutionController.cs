@@ -38,14 +38,14 @@ namespace HyFive.Admin.Controllers.V1
             {
                 return await _mediator.Send(new GetInstitutions.Query());
             }
-            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym()});
+            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym(), CoordinatorEmail = _userService.GetEmail() });
         }
 
         [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("getInstitutionsForCoordinator")]
         public async Task<IEnumerable<InstitutionReport>> GetInstitutionsForCoordinator()
         {
-            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym() });
+            return await _mediator.Send(new GetInstitutionsForCoordinator.Query() { CoordinatorHprNumber = _userService.GetHprNumber(), CoordinatorPseudonym = _userService.GetPseudonym(), CoordinatorEmail = _userService.GetEmail() });
         }
 
 

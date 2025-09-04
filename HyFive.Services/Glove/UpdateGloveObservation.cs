@@ -39,7 +39,7 @@ namespace HyFive.Services.Glove
                     .Include(o => o.GloveSession)
                     .ThenInclude(s => s.TransferStatus)
                     .Include(o => o.PostGloveHandHygieneType)
-                    .Include(o => o.IndicatedGloveTypes)
+                    .Include(o => o.GloveWithIndicationTypes)
                     .Include(o => o.GloveWithoutIndicationTypes)
                     .Include(o => o.Role)
                     .FirstOrDefaultAsync(o => o.Id == new Guid(request.Observation.Id), cancellationToken);
@@ -66,9 +66,9 @@ namespace HyFive.Services.Glove
                 {
                     observation.RegisteredTime = request.Observation.RegisteredTime;
 
-                    observation.GloveUsed = observationFromRequest.GloveUsed;
-                    observation.IndicatedGloveTypes = gloveWithIndicationTypes
-                        .Where(hmi => observationFromRequest.IndicatedGloveTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
+                    observation.GlovesUsed = observationFromRequest.GlovesUsed;
+                    observation.GloveWithIndicationTypes = gloveWithIndicationTypes
+                        .Where(hmi => observationFromRequest.GloveWithIndicationTypes.Select(ohmi => ohmi.Id).Contains(hmi.Id))
                         .ToList();
                     observation.GloveWithoutIndicationTypes = gloveWithoutIndicationTypes
                         .Where(hui => observationFromRequest.GloveWithoutIndicationTypes.Select(ohui => ohui.Id).Contains(hui.Id))

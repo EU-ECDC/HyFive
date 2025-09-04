@@ -33,12 +33,24 @@ export class EmailComponent implements OnInit {
     this.allUsersList = [];
 
     this.institutionService.getInstitutions().subscribe((institutions) => {
-      this.institutions = institutions;
       
-      this.institutions.forEach(institution => {
+      institutions.forEach(institution => {
         this.GetCoordinatorsForInstitution(institution.id);
         this.getObserversForInstitution(institution.id);
       });
+
+      this.institutions = [ 
+                            { name: '', 
+                              id: null,
+                              abbreviation: null,
+                              herId: null,
+                              institutionType: null,
+                              region: null,
+                              municipality: null,
+                              healthcareOrganization: null 
+                            },
+                            ...institutions
+        ];
     });
   }
 

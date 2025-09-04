@@ -80,7 +80,7 @@
                   <th>Indications</th>
                   <th>Activity</th>
                   <th>Seconds used</th>
-                  <th>Glove used</th>
+                  <th>Gloves used</th>
                   <th>Registered</th>
                   <th>Comment</th>
                 </tr>
@@ -97,7 +97,7 @@
                   </td>
                   <td>{{obs.activity.activityType.name}}</td>
                   <td>{{obs.activity.timekeepingWasRemoved ? obs.activity.secondsUsed + ' second(s)' : '-' }}</td>
-                  <td>{{obs.activity.gloveUsed === null ? '-' : obs.activity.gloveUsed ? "Yes" : "No"}}</td>
+                  <td>{{obs.activity.glovesUsed === null ? '-' : obs.activity.glovesUsed ? "Yes" : "No"}}</td>
                   <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>
                 </tr>
@@ -199,7 +199,7 @@
                   <th>Role</th>
                   <th>With/Without Indications</th>
                   <th>Indications</th>
-                  <th>Glove used</th>
+                  <th>Gloves used</th>
                   <th>Hand hygiene after wearing gloves</th>
                   <th>Registered</th>
                   <th>Comment</th>
@@ -222,7 +222,7 @@
                       </li>
                     </ul>
                   </td>
-                  <td style="padding-left: 40px;">{{obs.gloveObservation.gloveUsed ? "Yes" : 'No'}}</td>
+                  <td style="padding-left: 40px;">{{obs.gloveObservation.glovesUsed ? "Yes" : 'No'}}</td>
                   <td style="padding-left: 40px;">{{obs.gloveObservation.postGloveHandHygieneType.name}}</td>
                   <td>{{showFormattedDateWithTime(obs.registeredTime)}}</td>
                   <td>{{obs.comment}}</td>

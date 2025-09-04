@@ -35,20 +35,20 @@ namespace HyFive.Services.HealthcareOrganization
             {
                 try
                 {
-                    if(!CanCoordinatorBeUpdated(command.Coordinator, out var feilmelding))
-                        return new Status { Success = false, ErrorMessage = feilmelding };
+                    if(!CanCoordinatorBeUpdated(command.Coordinator, out var errorMessage))
+                        return new Status { Success = false, ErrorMessage = errorMessage };
 
-                    var institusjonIdListe = command.Coordinator.Institutions.Select(x => x.Id);
+                    var institutionIdList = command.Coordinator.Institutions.Select(x => x.Id);
                     List<Coordinator> coordinators = FindCoordinatorForInstitutionInHealthcareOrganization(command);
                     UpdateCoordinatorsForInstitutionInHealthcareOrganization(command.Coordinator, coordinators);
 
-                    UpdateInstitutionForCoordinator(command.Coordinator, institusjonIdListe, coordinators);
+                    UpdateInstitutionForCoordinator(command.Coordinator, institutionIdList, coordinators);
 
                     _context.SaveChanges();
                 }
                 catch(Exception e)
                 {
-                    _logger.LogError(e, "Feil under oppdatering av koordinator");
+                    _logger.LogError(e, "Error while updating coordinator");
                     return new Status { Success = false, ErrorMessage = e.Message };
                 }
 
@@ -95,7 +95,7 @@ namespace HyFive.Services.HealthcareOrganization
 
                 foreach (var institutionId in institutionIds)
                 {
-                    var coordinator = GetCoordinator(institutionId, coordinatorForHealthcareOrganization.HPRNumber, coordinatorForHealthcareOrganization.IdentityPseudonym);
+                    var coordinator = GetCoordinator(institutionId, coordinatorForHealthcareOrganization.Email,  coordinatorForHealthcareOrganization.HPRNumber, coordinatorForHealthcareOrganization.IdentityPseudonym);
                     if (coordinator != null)
                     {
                         if (coordinator.IsDeactivated)
@@ -125,10 +125,8 @@ namespace HyFive.Services.HealthcareOrganization
             private List<Coordinator> FindCoordinatorForInstitutionInHealthcareOrganization(Command request)
             {
                 return _context.Coordinator.Where(k => k.Institution.HealthcareOrganization.Id == request.HealthcareOrganizationId &&
-                                                    ((!string.IsNullOrEmpty(k.HPRNumber) &&
-                                                    k.HPRNumber == request.Coordinator.HPRNumber) ||
-                                                    (!string.IsNullOrEmpty(k.IdentityPseudonym) &&
-                                                    k.IdentityPseudonym == request.Coordinator.IdentityPseudonym))).ToList();
+                                                    ((!string.IsNullOrEmpty(k.Email) &&
+                                                    k.Email == request.Coordinator.Email))).ToList();
             }
 
             private Coordinator CreateCoordinatorForInstitution(HealthcareOrganizationCoordinator coordinator, int institutionId)
@@ -138,6 +136,7 @@ namespace HyFive.Services.HealthcareOrganization
                 {
                     FirstName = coordinator.FirstName,
                     LastName = coordinator.LastName,
+                    Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
                     Institution = institution
@@ -152,13 +151,10 @@ namespace HyFive.Services.HealthcareOrganization
                 coordinatorsNotInList.All(k => k.IsDeactivated = true);
             }
 
-            private Coordinator GetCoordinator(int institutionId, string hprNumber, string identityPseudonym)
+            private Coordinator GetCoordinator(int institutionId, string email,  string hprNumber, string identityPseudonym)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
-                                                                        ((!string.IsNullOrEmpty(k.HPRNumber) &&
-                                                                        k.HPRNumber == hprNumber) ||
-                                                                        (!string.IsNullOrEmpty(k.IdentityPseudonym) &&
-                                                                        k.IdentityPseudonym == identityPseudonym)));
+                                                                        ((!string.IsNullOrEmpty(k.Email) && k.Email == email)));
                 return coordinator;
             }
         }

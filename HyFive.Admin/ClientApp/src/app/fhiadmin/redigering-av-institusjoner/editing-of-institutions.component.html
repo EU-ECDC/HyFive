@@ -2,7 +2,7 @@
   <div class="row">
     <h3>Maintenance of institutions</h3>
   </div>
-  <app-create-institution [institutions]="filteredInstitutions" [coordinators]="users" (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
+  <app-create-institution [institutions]="totalInstitutions" [coordinators]="users" (institutionCreatedEvent)="getInstitutions()"></app-create-institution>
 
   <div class="row">
     <div class="col-12">
@@ -57,6 +57,6 @@
 
 </div>
 <ng-container *ngIf="institutionId > 0">
-  <app-edit-an-institution [institutionId]="institutionId" [institutions]="filteredInstitutions" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
+  <app-edit-an-institution [institutionId]="institutionId" [institutions]="totalInstitutions" (institutionDeletedEvent)="deleteInstitution($event)" (institutionUpdatedEvent)="updateInstitution($event)"></app-edit-an-institution>
 </ng-container>
 

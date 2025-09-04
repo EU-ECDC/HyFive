@@ -254,7 +254,7 @@ namespace HyFive.DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SecondsUsed = table.Column<int>(type: "integer", nullable: false),
                     TimingWasPerformed = table.Column<bool>(type: "boolean", nullable: false),
-                    GloveUsed = table.Column<bool>(type: "boolean", nullable: true),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: true),
                     ActivityTypeId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -580,7 +580,7 @@ namespace HyFive.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    GloveUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    GlovesUsed = table.Column<bool>(type: "boolean", nullable: false),
                     PostGloveHandHygieneTypeId = table.Column<int>(type: "integer", nullable: true),
                     GloveSessionId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -694,12 +694,12 @@ namespace HyFive.DataAccess.Migrations
                 name: "GloveObservationGloveWithIndicationType",
                 columns: table => new
                 {
-                    IndicatedGloveTypesId = table.Column<int>(type: "integer", nullable: false),
+                    GloveWithIndicationTypesId = table.Column<int>(type: "integer", nullable: false),
                     ObservationsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GloveObservationGloveWithIndicationType", x => new { x.IndicatedGloveTypesId, x.ObservationsId });
+                    table.PrimaryKey("PK_GloveObservationGloveWithIndicationType", x => new { x.GloveWithIndicationTypesId, x.ObservationsId });
                     table.ForeignKey(
                         name: "FK_GloveObservationGloveWithIndicationType_GloveObservation_Ob~",
                         column: x => x.ObservationsId,
@@ -708,7 +708,7 @@ namespace HyFive.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GloveObservationGloveWithIndicationType_GloveWithIndication~",
-                        column: x => x.IndicatedGloveTypesId,
+                        column: x => x.GloveWithIndicationTypesId,
                         principalTable: "GloveWithIndicationType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);

@@ -17,6 +17,7 @@ import { HandJewelryTypeConstants } from "../../models/api/HandJewelryTypeConsta
 import { HandJewelryTypeService } from "../../services/data/hand-jewelry-type.service";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogueTexts } from '../../constants/dialogueTexts';
+import { SessionType } from "src/app/models/api/SessionType";
 
 @Component({
   selector: 'app-handjewelry-observation-card',
@@ -46,6 +47,8 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
   handJewelryTypes: HandJewelryType[] = [];
 
   handJewelrySelection = [] as HandJewelrySelection[];
+  handJewelrySessionType: number = SessionType.HandJewelry;
+  institutionid: number;
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[];
@@ -67,6 +70,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
       this.handJewelryTypes = handJewelryTypes;
       this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
     });
+    this.institutionid = this.sessionView.department.institutionId;
   }
 
   deleteCard() {

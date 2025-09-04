@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h3>ECDC</h3>
+      <!-- <h3>ECDC</h3> -->
     </div>
     <app-offline-message (hasInternetEvent)="receivedInternetStatus($event)"></app-offline-message>
     <div class="col-12" *ngIf="!receivedUserStatusFromServer">
@@ -12,7 +12,7 @@
 
     <div class="col-12" *ngIf="user?.name && isOnline">
       <p class="mb-2">Hello, {{user.name}}. </p>
-      <p *ngIf="user?.isObserver">Welcome to ECDC HyFive tool for Hand Hygiene monitoring.</p>
+      <p *ngIf="user?.isObserver">Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool.</p>
     </div>
   </div>
 
@@ -65,6 +65,12 @@
       </div>
     </div>
     <ng-container *ngIf="isOnline && isLoggedIn && user?.isObserver">
+      <div class="row mt-3 word">
+        <div class="col">
+          <p>Read more about <a href="https://www.fhi.no/sv/forebygging-i-helsetjenesten/handhygiene/ecdc/" target="_blank">ECDC</a> at fhi.no. Questions can be sent to <a href="mailto:HAI-Net@ecdc.europa.eu​"> HAI-Net&#64;ecdc.europa.eu​</a>.</p>
+          <p class="mb-4"><a href="https://www.fhi.no/nettpub/ecdc/generelt-om-losningen2/personvernerklaring-for-ecdc/" target="_blank">Open the privacy policy</a></p>
+        </div>
+      </div>
       <div class="row">
         <div class="col-lg-8">
           <a [routerLink]="'/register'" class="btn fhi-btn-primary w-100">
@@ -72,20 +78,14 @@
           </a>
         </div>
       </div>
-      <div class="row mt-3 word">
-        <div class="col">
-          <p>Read more about <a href="https://www.fhi.no/sv/forebygging-i-helsetjenesten/handhygiene/ecdc/" target="_blank">ECDC</a> at fhi.no. Questions can be sent to <a href="mailto:ecdc@fhi.no"> ecdc&#64;fhi.no</a>.</p>
-          <p class="mb-4"><a href="https://www.fhi.no/nettpub/ecdc/generelt-om-losningen2/personvernerklaring-for-ecdc/" target="_blank">Open the privacy policy</a></p>
-        </div>
-      </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-lg-8">
           <button class="btn fhi-btn-secondary w-100" (click)="showPseudonym()">Show pseudonym</button>
         </div>
-      </div>
+      </div> -->
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="isShowPseudonym">
+  <!-- <ng-container *ngIf="isShowPseudonym">
     <app-pseudonym [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)">
       <p class="text-break">
         <small><strong>Pseudonym:</strong> {{user?.identityPseudonym}}</small>
@@ -98,7 +98,7 @@
       </p>
       <p>Pseudonym is only used to gain access to other institutions</p>
     </app-pseudonym>
-  </ng-container>
+  </ng-container> -->
   <div class="row" *ngIf="isLoggedIn">
     <div class="col-lg-4 mt-3">
       <button class="btn fhi-btn-secondary" (click)="logout()">Log out</button>

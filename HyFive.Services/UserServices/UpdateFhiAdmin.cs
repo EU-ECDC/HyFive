@@ -36,14 +36,14 @@ namespace HyFive.Services.UserServices
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                //if (string.IsNullOrWhiteSpace(command.User.IdentityPseudonym))
-                //{
-                //    throw new Exception("Missing pseudonym.");
-                //}
-                //if (!UserValidator.IsValidIdentityPseudonym(command.User.IdentityPseudonym))
-                //{
-                //    throw new Exception("Pseudonym is not valid.");
-                //}
+                if (string.IsNullOrWhiteSpace(command.User.FirstName))
+                {
+                    throw new Exception("Missing first name.");
+                }
+                if (string.IsNullOrWhiteSpace(command.User.LastName))
+                {
+                    throw new Exception("Missing last name.");
+                }
 
                 var user = await _context.User.OfType<FhiAdmin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
                 if (user == null)

@@ -60,12 +60,12 @@ export class EditInstitutionComponent implements OnInit {
 
     this.municipalityService.getMunicipalities().subscribe(
       (municipalities) => {
-        this.municipalities = municipalities;
+        this.municipalities = [ {id: 0, number: null, name: null}, ...municipalities];
     });
 
     this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
       (allHealthcareorganization) => {
-        this.listOfHealthcareOrganizations = allHealthcareorganization;
+        this.listOfHealthcareOrganizations = [ { id: 0, name: null, regionalHealthcareOrganization: null, regionalHealthcareOrganizationId: null }, ...allHealthcareorganization];
     });
   }
 
@@ -91,11 +91,13 @@ export class EditInstitutionComponent implements OnInit {
   }
 
   municipalityChanged() {
-    if (this.municipalityId) {
       this.healthcareOrganizationId = 0;
       this.institution.healthcareOrganization = null;
-      this.institution.municipality = this.municipalities.find(r => r.id === this.municipalityId);
-    }
+      if (this.municipalityId == 0) {
+        this.institution.municipality = null;
+      } else {
+        this.institution.municipality = this.municipalities.find(r => r.id === this.municipalityId);
+      }
   }
 
   saveInstitution() {
@@ -108,11 +110,13 @@ export class EditInstitutionComponent implements OnInit {
   }
 
   healthEnterpriseChanged() {
-    if (this.healthcareOrganizationId) {
       this.municipalityId = 0;
       this.institution.municipality = null;
-      this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthcareOrganizationId);
-    }
+      if (this.healthcareOrganizationId == 0) {
+        this.institution.healthcareOrganization = null;
+      } else {
+        this.institution.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthcareOrganizationId);
+      }
   }
 
   canNotSaveInstitution(): boolean {

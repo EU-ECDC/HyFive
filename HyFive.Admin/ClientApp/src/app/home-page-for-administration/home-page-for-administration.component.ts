@@ -4,6 +4,7 @@ import { LoggedInUser } from '../models/api/LoggedInUser';
 import { ToastrService } from 'ngx-toastr';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ClipboardService } from 'ngx-clipboard';
+import { AuthorizedRole } from '../_common/authorization/authorized-role';
 
 @Component({
   selector: 'app-home-page-for-administration',
@@ -13,6 +14,7 @@ export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
   loading = true;
   user: LoggedInUser = null;
   faCopy = faCopy;
+  selectedRole: AuthorizedRole;
 
   constructor(
     public authorizationService: AuthorizationService,
@@ -26,6 +28,7 @@ export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
       (error) => (this.toastrService.error("An error occurred while loading user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
       () => this.loading = false
     );
+    this.selectedRole = this.authorizationService.getSelectedRole();
   }
   
   ngOnDestroy(): void {

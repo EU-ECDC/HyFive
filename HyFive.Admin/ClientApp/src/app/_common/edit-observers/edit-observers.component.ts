@@ -157,7 +157,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && this.mailValidatorHelper.validateMail(observer.email)
       && this.observers
                       .filter(obs => obs.id !== observer.id)
-                      .find(obs => obs?.email == this.newObserver?.email) == undefined
+                      .find(obs => obs?.email == observer?.email) == undefined
       //&& this.filteredObservers
       //                        .filter(fc => fc.id !== observer.id)
       ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined

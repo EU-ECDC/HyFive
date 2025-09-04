@@ -13,6 +13,7 @@ import { Colors } from '../../utils/colors';
 import { Role } from '../../models/api/Role';
 import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
 import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 @Component({
   selector: 'app-edit-hand-jewelry-observation',
@@ -26,6 +27,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
   iconTypeMap: Map<HandJewelryTypeConstants, IconProp> = HandJewelryMapper.getIconTypeMap();
   Colors = Colors;
   DialogueTexts = DialogueTexts;
+  handJewelrySessionType: SessionType = SessionType.HandJewelry;
 
   faCircle = faCircle;
   faCheck = faCheck;
@@ -41,6 +43,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: HandJewelryObservation;
   @Input() department: Department;
+  @Input("institutionid") institutionid: number;
   @Output() observationDeletedEvent = new EventEmitter();
 
 

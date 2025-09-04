@@ -13,23 +13,40 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="institutiontype" class="mb-1">Institution Type</label>
-        <select class="form-select" id="institutiontype" [(ngModel)]="newInstitution.institutionTypeId" (ngModelChange)="showHealthcareOrRegion(newInstitution.institutionTypeId)">
-          <option *ngFor="let institutiontype of institutionTypes" [ngValue]="institutiontype.id">{{institutiontype.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="institutionTypes"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.institutionTypeId"
+          (ngModelChange)="showHealthcareOrRegion(newInstitution.institutionTypeId)"
+          >
+        </ng-select>
       </div>
       <div class="col-md-6" *ngIf="showMunicipality">
         <label for="municipality" class="mb-1">Municipality</label>
-        <select class="form-select" id="municipality" [(ngModel)]="newInstitution.municipalityId">
-          <option value="0"></option>
-          <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="municipalities"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.municipalityId"
+          >
+        </ng-select>
       </div>
       <div class="col-md-6" *ngIf="showHealthcareOrganization">
         <label for="healthcareorganization" class="mb-1">Healthcare Organization</label>
-        <select class="form-select" id="healthcareorganization" [(ngModel)]="newInstitution.healthcareOrganizationId">
-          <option value="0"></option>
-          <option *ngFor="let healthcareorganization of listOfHealthcareOrganizations" [ngValue]="healthcareorganization.id">{{healthcareorganization.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="listOfHealthcareOrganizations"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.healthcareOrganizationId"
+          >
+        </ng-select>
       </div>
     </div>
     <div class="row mb-2">

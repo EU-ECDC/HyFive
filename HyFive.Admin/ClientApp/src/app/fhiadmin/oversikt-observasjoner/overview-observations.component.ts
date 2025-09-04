@@ -28,6 +28,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   faFilePdf = faFilePdf;
 
   sessiontypes = [
+    {name: 'All', value: null},
     { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
     { name: 'Five Indications', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
@@ -99,7 +100,19 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   getInstitution() {
     this.institutionService.getInstitutions().subscribe(
       (institutions) => {
-        this.institutions = institutions;
+        this.institutions = [ 
+                            { name: 'All', 
+                              id: null,
+                              abbreviation: null,
+                              herId: null,
+                              institutionType: null,
+                              region: null,
+                              municipality: null,
+                              healthcareOrganization: null 
+                            },
+                            ...institutions
+        ];
+        this.selectedInstitutionId = null;
       },
       error => {
         this.toastrService.error(error.error.message, 'Loading of institutions failed', {disableTimeOut: true});

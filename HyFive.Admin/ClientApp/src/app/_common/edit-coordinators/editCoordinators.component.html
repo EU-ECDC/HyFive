@@ -16,7 +16,7 @@
             <th sortable-column="Last name"></th>
             <th>Email</th>
             <!-- <th>HPR-number</th> -->
-            <th>Pseudonym</th>
+            <!-- <th>Pseudonym</th> -->
             <th>Disabled</th>
             <th class="text-end" scope="col">Action</th>
           </tr>
@@ -29,7 +29,7 @@
             <!-- <td>
               <input type="text" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
             </td> -->
-            <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td>
+            <!-- <td><input type="text" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td> -->
             <td></td>
             <td class="text-end py-2 align-middle">
               <button class="btn fhi-btn-icon" [disabled]="canBeCreated() == false" (click)="createCoordinator()">
@@ -48,9 +48,9 @@
               <td>{{coordinator.email}}</td>
               <!-- <td>{{coordinator.hprNumber}}</td> -->
             
-              <td>
+              <!-- <td>
                 <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
-              </td>
+              </td> -->
               
               <td>
                 <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
@@ -78,14 +78,14 @@
                 <input type="text" class="form-control" [(ngModel)]="coordinatorIsChanged.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
               </td> -->
               
-              <td>
+              <!-- <td>
                 <app-pseudonym-dialog
                                       [text]="'Change'"
                                       [editable]= "true"
                                       [identityPseudonym]="coordinator.identityPseudonym"
                                       (identityPseudonymChanged)="identityPseudonymChanged(coordinatorIsChanged, $event)">
                 </app-pseudonym-dialog>
-              </td>
+              </td> -->
               
               <td>
                 <input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorIsChanged.isDisabled" name="isDisabled">

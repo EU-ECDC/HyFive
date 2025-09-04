@@ -29,7 +29,7 @@ export class MissedOpportunityComponent implements OnInit {
       this.activity = {
         activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotPerformed),
         TimingWasPerformed: false,
-        gloveUsed: null
+        glovesUsed: null
       };
     });
   }
@@ -46,7 +46,7 @@ export class MissedOpportunityComponent implements OnInit {
   }
 
   registerActivity(bleHanskerBrukt: boolean) {
-    this.activity.gloveUsed = bleHanskerBrukt;
+    this.activity.glovesUsed = bleHanskerBrukt;
     this.activityRegisteredEvent.emit(this.activity);
   }
 }

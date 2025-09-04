@@ -26,7 +26,7 @@
               </td>
               <td class="col-2">{{observation.activity.activityType.name}}</td>
               <td class="col-1">{{observation.activity.timekeepingWasRemoved && observation.activity.secondsUsed > 0 ? observation.activity.secondsUsed + ' second(is)' : '-' }}</td>
-              <td class="col-1">{{observation.activity.gloveUsed === null ? '-' : observation.activity.gloveUsed ? "Yes" : "No"}}</td>
+              <td class="col-1">{{observation.activity.glovesUsed === null ? '-' : observation.activity.glovesUsed ? "Yes" : "No"}}</td>
               <td class="col-2">{{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</td>
               <td class="col-2">{{observation.comment}}</td>
             </tr>
@@ -61,15 +61,15 @@
                   </div>
                   <div class="col-1">
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="appropriateUse" name="appropriateUse" class="custom-control-input" [value]="true" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.gloveUsed">
+                      <input type="radio" id="appropriateUse" name="appropriateUse" class="custom-control-input" [value]="true" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.glovesUsed">
                       <label class="custom-control-label" for="appropriateUse">Yes</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="wrongUse" name="wrongUse" class="custom-control-input" [value]="false" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.gloveUsed">
+                      <input type="radio" id="wrongUse" name="wrongUse" class="custom-control-input" [value]="false" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.glovesUsed">
                       <label class="custom-control-label" for="wrongUse">No</label>
                     </div>
                     <div class="custom-control custom-radio pb-2">
-                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.gloveUsed">
+                      <input type="radio" id="notRegistered" name="notRegistered" class="custom-control-input" [value]="null" [(ngModel)]="fiveIndicationsObservationWhichChanged.activity.glovesUsed">
                       <label class="custom-control-label" for="notRegistered">Not registered</label>
                     </div>
                   </div>

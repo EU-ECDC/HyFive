@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [HttpPut("update")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> OppdaterHeleforetaket([FromBody] HealthcareOrganization healthcareOrganization)
+        public async Task<ActionResult<bool>> UpdateHealthcareOrganization([FromBody] HealthcareOrganization healthcareOrganization)
         {
             var isUpdated = await _mediator.Send(new UpdateHealthcareOrganization.Command
             {

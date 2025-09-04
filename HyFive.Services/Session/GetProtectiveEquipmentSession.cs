@@ -35,7 +35,7 @@ namespace HyFive.Services.Session
 
             public async Task<ProtectiveEquipmentSession> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sesjon = await _context.ProtectiveEquipmentSession
+                var session = await _context.ProtectiveEquipmentSession
                     .AsNoTracking()
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
@@ -46,11 +46,11 @@ namespace HyFive.Services.Session
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId);
                 
-                if (!_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber, request.Pseudonym).Compile()(sesjon.Observer))
+                if (!_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber, request.Pseudonym).Compile()(session.Observer))
                     throw new Exception(
                         $"he session with ID {request.SessionId} is not associated with the user with HPR number {request.HPRNumber} / Pseudonym XXX");
                 
-                var protectiveEquipmentSession = _mapper.Map<ProtectiveEquipmentSession>(sesjon);
+                var protectiveEquipmentSession = _mapper.Map<ProtectiveEquipmentSession>(session);
                 return protectiveEquipmentSession;
             }
         }

@@ -14,6 +14,7 @@ import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicat
 import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { Uuid } from 'src/app/utils/uuid';
+import { SessionType } from 'src/app/models/api/SessionType';
 
 @Component({
   selector: 'app-edit-glove-observation',
@@ -29,7 +30,7 @@ export class EditGloveObservationComponent implements OnInit {
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
 
   activeTab = "with";
-  gloveUsed = null;
+  glovesUsed = null;
   selectedHygieneAfterGloveUse: string = null;
 
   uuid: string;
@@ -51,9 +52,11 @@ export class EditGloveObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: GloveObservation;
   @Input() department: Department;
+  @Input("institutionid") institutionid: number;
   @Output() observationDeletedEvent = new EventEmitter();
   showInfoModal = false;
   observationMissingText: any;
+  gloveSessionType: SessionType = SessionType.Gloves;
 
 
   ngOnInit(): void {
@@ -62,7 +65,7 @@ export class EditGloveObservationComponent implements OnInit {
 
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
       this.gloveWithIndicationTypes = gloveWithIndicationTypes;
-      if (this.observation.gloveWithIndicationTypes.length) {
+      if (this.observation.gloveWithIndicationTypes?.length) {
         this.activeTab = "with";
         this.gloveWithIndicationTypes.forEach(x => {
           if (this.observation.gloveWithIndicationTypes.some(y => y.code === x.code))
@@ -84,7 +87,7 @@ export class EditGloveObservationComponent implements OnInit {
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
 
-    this.gloveUsed = this.observation.gloveUsed;
+    this.glovesUsed = this.observation.glovesUsed;
     this.selectedHygieneAfterGloveUse = this.observation.handHygieneAfterGloveUseType?.code;
   }
 
@@ -105,9 +108,9 @@ export class EditGloveObservationComponent implements OnInit {
 
     this.observation.gloveWithIndicationTypes = this.gloveWithIndicationTypes.filter(x => x.isSelected);
     this.observation.gloveWithoutIndicationTypes = this.gloveWithoutIndicationTypes.filter(x => x.isSelected);
-    this.observation.gloveUsed = this.gloveUsed;
+    this.observation.glovesUsed = this.glovesUsed;
 
-    if(this.observation.gloveUsed){
+    if(this.observation.glovesUsed){
       this.observation.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHygieneAfterGloveUse);
     }
     else {
