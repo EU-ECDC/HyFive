@@ -206,8 +206,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
 
     // return false;
 
-    if (this.coordinatorAsChanged
-      && this.coordinatorAsChanged?.id == coordinator.id
+    if (this.user.id == coordinator.id.toString()
       ) {
       return true;
     } 

@@ -85,7 +85,7 @@
       </div> -->
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="isShowPseudonym">
+  <!-- <ng-container *ngIf="isShowPseudonym">
     <app-pseudonym [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)">
       <p class="text-break">
         <small><strong>Pseudonym:</strong> {{user?.identityPseudonym}}</small>
@@ -98,7 +98,7 @@
       </p>
       <p>Pseudonym is only used to gain access to other institutions</p>
     </app-pseudonym>
-  </ng-container>
+  </ng-container> -->
   <div class="row" *ngIf="isLoggedIn">
     <div class="col-lg-4 mt-3">
       <button class="btn fhi-btn-secondary" (click)="logout()">Log out</button>
