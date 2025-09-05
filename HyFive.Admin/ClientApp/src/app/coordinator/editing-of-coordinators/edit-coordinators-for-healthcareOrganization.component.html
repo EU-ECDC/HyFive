@@ -16,8 +16,6 @@
               <th sortable-column="Firstname"></th>
               <th sortable-column="Lastname"></th>
               <th>Email</th>
-              <!-- <th>HPR-number</th> -->
-              <!-- <th>Pseudonym</th> -->
               <th>Disabled</th>
               <th>Institutions</th>
               <th class="text-end" scope="col">Action</th>
@@ -29,10 +27,6 @@
               <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.firstName" name="firstName" placeholder="Firstname"></td>
               <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.lastName" name="lastName" placeholder="Lastname"></td>
               <td><input type="text" autocomplete="off" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
-              <!-- <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-              </td> -->
-              <!-- <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td> -->
               <td></td>
               <td>
                 <ng-multiselect-dropdown [placeholder]="'Select'"
@@ -57,10 +51,6 @@
                 <td>{{coordinator.firstName}}</td>
                 <td>{{coordinator.lastName}} </td>
                 <td>{{coordinator.email}}</td>
-                <!-- <td>{{coordinator.hprNumber}}</td> -->
-                <!-- <td>
-                  <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
-                </td> -->
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
                 </td>
@@ -78,16 +68,6 @@
                 <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.firstName" name="firstName" placeholder="Firstname"></td>
                 <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.lastName" name="lastName" placeholder="Lastname"></td>
                 <td><input type="text" autocomplete="off" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="coordinatorAsChanged.email" name="email" disabled placeholder="Email"></td>
-                <!-- <td>
-                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorAsChanged.modifiedHPRNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-                </td> -->
-                <!-- <td>
-                  <app-pseudonym-dialog [text]="'Change'"
-                                        [editable]="true"
-                                        [identityPseudonym]="coordinator.modifiedPseudonym"
-                                        (identityPseudonymChanged)="identityPseudonymChanged(coordinatorAsChanged, $event)">
-                  </app-pseudonym-dialog>
-                </td> -->
                 <td><input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorAsChanged.isDisabled" name="isDisabled"></td>
                 <td>      
                   <ng-multiselect-dropdown [placeholder]="'Select'"

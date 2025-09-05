@@ -133,8 +133,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       //&& this.coordinators.find(fc => fc.firstName == this.newCoordinator?.firstName && fc.lastName == this.newCoordinator?.lastName) == undefined
       && this.coordinators.find(fc => fc.email == this.newCoordinator?.email) == undefined
       && this.newCoordinator.email?.length > 0
-      && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
-      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym);
+      && this.mailValidatorHelper.validateMail(this.newCoordinator.email);
   }
 
   canbeChanged(coordinator: User) {
@@ -147,18 +146,13 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
                               .filter(fc => fc.id !== coordinator.id)
                               .find(fc => fc.email == coordinator?.email) == undefined
       && coordinator.email?.length > 0
-      && this.mailValidatorHelper.validateMail(coordinator.email)
-      && this.userService.isValidPseudonym(coordinator.identityPseudonym);
+      && this.mailValidatorHelper.validateMail(coordinator.email);
   }
 
     omitSpecialChar(event) {   
     var k;  
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
-  }
-
-  identityPseudonymChanged(coordinator: User, identityPseudonym: string) {
-    coordinator.identityPseudonym = identityPseudonym;
   }
 
   cancelEdit($event: Event = null) {

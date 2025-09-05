@@ -15,8 +15,6 @@
             <th sortable-column="First name"></th>
             <th sortable-column="Last name"></th>
             <th>Email</th>
-            <!-- <th>HPR-number</th> -->
-            <!-- <th>Pseudonym</th> -->
             <th>Disabled</th>
             <th class="text-end" scope="col">Action</th>
           </tr>
@@ -26,10 +24,6 @@
             <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
             <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
             <td><input type="email" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email"></td>
-            <!-- <td>
-              <input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-            </td> -->
-            <!-- <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.identityPseudonym" name="identityPseudonym" placeholder="Pseudonym"></td> -->
             <td></td>
             <td class="text-end py-2 align-middle">
               <button class="btn fhi-btn-icon" [disabled]="canBeCreated() == false" (click)="createCoordinator()">
@@ -46,12 +40,6 @@
               <td>{{coordinator.firstName}}</td>
               <td>{{coordinator.lastName}} </td>
               <td>{{coordinator.email}}</td>
-              <!-- <td>{{coordinator.hprNumber}}</td> -->
-            
-              <!-- <td>
-                <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="coordinator.identityPseudonym"></app-pseudonym-dialog>
-              </td> -->
-              
               <td>
                 <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
               </td>
@@ -73,20 +61,7 @@
               <td>
                 <input type="email" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email">
               </td>
-              
-              <!-- <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.hprNumber" name="hprNumber" placeholder="HPR-number" [maxLength]="2147483647">
-              </td> -->
-              
-              <!-- <td>
-                <app-pseudonym-dialog
-                                      [text]="'Change'"
-                                      [editable]= "true"
-                                      [identityPseudonym]="coordinator.identityPseudonym"
-                                      (identityPseudonymChanged)="identityPseudonymChanged(coordinatorIsChanged, $event)">
-                </app-pseudonym-dialog>
-              </td> -->
-              
+
               <td>
                 <input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorIsChanged.isDisabled" name="isDisabled">
               </td>

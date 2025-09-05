@@ -23,7 +23,6 @@
         <table class="table mt-3" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <!-- <td>HER-id</td> -->
               <td sortable-column="Name"></td>
               <td>Short Name</td>
               <td>Institution Type</td>
@@ -34,7 +33,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let institution of filteredInstitutions">
-              <!-- <td>{{institution.herId}}</td> -->
               <td>{{institution.name}}</td>
               <td>{{institution.abbreviation}}</td>
               <td>{{institution.institutionType?.name}}</td>

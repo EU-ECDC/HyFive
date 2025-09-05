@@ -89,7 +89,7 @@
       </app-edit-sessionsdata>
     </div>
     <h3 class="text-dark mb-3"><strong>Observations</strong></h3>
-    <!-- Fireindikasjoner -->
+    <!-- Five Indicatiobs -->
     <ng-container *ngIf="item.type === SessionType[SessionType.FiveIndications]">
       <app-edit-five-indications-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                                    (observationUpdatedEvent)="observationUpdatedEvent.emit(true)"
