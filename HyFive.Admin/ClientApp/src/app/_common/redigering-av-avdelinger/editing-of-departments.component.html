@@ -52,12 +52,12 @@
                   </ng-multiselect-dropdown>
                 </td>
                 <td class="text-end py-2 align-middle">
-                  <button class="btn fhi-btn-icon mr-2"
+                  <button class="btn fhi-btn-icon mr-2" style="width: 100%;"
                                 (click)="updateDepartment(departmentAsChanged)"
                                 [disabled]="!canBeSaved()">
                     <i class="icon-pencil"></i><span class="btn__text">Save</span>
                   </button>
-                  <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <button class="my-2 btn fhi-btn-icon" style="width: 100%;" (click)="cancelEdit($event)">
                     <i class="icon-x"></i><span class="btn__text">Cancel</span>
                   </button>
                     <app-confirmation-dialog
