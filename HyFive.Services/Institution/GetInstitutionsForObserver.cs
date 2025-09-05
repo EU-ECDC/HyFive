@@ -14,8 +14,7 @@ namespace HyFive.Services.Institution
     {
         public class Query : IRequest<Models.V1.Institution.Institution[]>
         {
-            public string HPRNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.Institution.Institution[]>
@@ -40,7 +39,7 @@ namespace HyFive.Services.Institution
                     .Include(i => i.Institution)
                     .ThenInclude(i => i.Departments)
                     .ThenInclude(a => a.Roles)
-                    .Where(_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber, request.Pseudonym))
+                    .Where(_userService.HasEmailAndIsActive<Observer>(request.Email))
                     .Select(b => b.Institution)
                     .ToListAsync();
 

@@ -86,7 +86,7 @@ namespace HyFive.Services.Tests.Hanske
             var hentHentHanskeSesjonHandler = new GetGloveSession.Handler(DatabaseContext, Mapper, UserService);
             var handsmykkeSesjon = await hentHentHanskeSesjonHandler.Handle(new GetGloveSession.Query()
             {
-                HPRNumber = hprnummer,
+                Email = hprnummer,
                 SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 

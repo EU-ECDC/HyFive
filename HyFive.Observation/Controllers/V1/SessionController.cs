@@ -31,8 +31,7 @@ namespace HyFive.Observation.Controllers.V1
             
             var result = await _mediator.Send(new GetMySessions.Query()
             {
-                HPRNumber = _userService.GetHprNumber(),
-                Pseudonym = _userService.GetPseudonym()
+                Email = _userService.GetEmail()
             });
             return result;
         }
@@ -42,8 +41,7 @@ namespace HyFive.Observation.Controllers.V1
         {
             var session = await _mediator.Send(new GetFiveIndicationsSession.Query()
             {
-                HPRNumber = _userService.GetHprNumber(),  
-                Pseudonym =  _userService.GetPseudonym(), 
+                Email = _userService.GetEmail(),  
                 SessionId = sessionId
             });
             return session;
@@ -54,8 +52,7 @@ namespace HyFive.Observation.Controllers.V1
         {
             var session = await _mediator.Send(new GetHandJewelrySession.Query()
             {
-                HPRNumber = _userService.GetHprNumber(), 
-                Pseudonym = _userService.GetPseudonym(),
+                Email = _userService.GetEmail(), 
                 SessionId = sessionId
             });
             return session;
@@ -66,8 +63,7 @@ namespace HyFive.Observation.Controllers.V1
         {
             var session = await _mediator.Send(new GetProtectiveEquipmentSession.Query()
             {
-                HPRNumber = _userService.GetHprNumber(),
-                Pseudonym = _userService.GetPseudonym(),
+                Email = _userService.GetEmail(),
                 SessionId = sessionId
             });
             return session;
@@ -78,8 +74,7 @@ namespace HyFive.Observation.Controllers.V1
         {
             var session = await _mediator.Send(new GetGloveSession.Query
             {
-                HPRNumber = _userService.GetHprNumber(),
-                Pseudonym = _userService.GetPseudonym(),
+                Email = _userService.GetEmail(),
                 SessionId = sessionId
             });
 

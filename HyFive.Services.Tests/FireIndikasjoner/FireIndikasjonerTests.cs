@@ -152,7 +152,7 @@ namespace HyFive.Services.Tests.FireIndikasjoner
             var hentFireIndikasjonSesjonHandler = new GetFiveIndicationsSession.Handler(DatabaseContext, Mapper, UserService);
             var fireIndikasjonSesjon = await hentFireIndikasjonSesjonHandler.Handle(new GetFiveIndicationsSession.Query()
             {
-                HPRNumber = _hprnummer,
+                Email = _hprnummer,
                 SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 

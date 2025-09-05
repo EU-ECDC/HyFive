@@ -14,8 +14,7 @@ namespace HyFive.Services.Session
     {
         public class Query : IRequest<List<SessionReport>>
         {
-            public string HPRNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<SessionReport>>
@@ -42,18 +41,6 @@ namespace HyFive.Services.Session
                 return mapped;
             }
 
-            private static bool HasIdentityPseudonym(string identityPseudonym)
-            {
-                return !string.IsNullOrEmpty(identityPseudonym);
-            }
-
-            private static bool HasHprNumber(string hprNumber)
-            {
-                if (string.IsNullOrEmpty(hprNumber))
-                    return false;
-                
-                return true;
-            }
         }
     }
 }

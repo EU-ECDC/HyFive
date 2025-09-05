@@ -14,4 +14,5 @@ export interface LoggedInUser
 	firstName: string;
 	lastName: string;
 	hprNumber: string;
+	email: string;
 }
