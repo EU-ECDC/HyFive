@@ -29,7 +29,7 @@ namespace HyFive.Observation.Controllers.V1
         [HttpGet()]
         public async Task<IEnumerable<Institution>> GetObserverInstitutions()
         {
-            var result = await _mediator.Send(new GetInstitutionsForObserver.Query() { HPRNumber = _userService.GetHprNumber(), Pseudonym = _userService.GetPseudonym()});
+            var result = await _mediator.Send(new GetInstitutionsForObserver.Query() { Email = _userService.GetEmail()});
             return result;
         }
 

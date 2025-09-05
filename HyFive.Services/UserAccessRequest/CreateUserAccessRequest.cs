@@ -40,6 +40,7 @@ namespace HyFive.Services.UserAccessRequest
                     UserFirstName = request.UserAccessRequest.UserFirstName,
                     UserLastName = request.UserAccessRequest.UserLastName,
                     HPRNumber = request.UserAccessRequest.HPRNumber != "0" ? request.UserAccessRequest.HPRNumber : null,
+                    Email = request.UserAccessRequest.Email,
                     IdentityPseudonym = request.UserAccessRequest.IdentityPseudonym,
                     InstitutionId = institution?.Id,
                     Status = UserAccessRequestStatus.Registered,

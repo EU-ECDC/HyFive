@@ -11,5 +11,6 @@ namespace HyFive.Models.V1.UserAccessRequest
         public string UserLastName { get; set; }
         public string IdentityPseudonym { get; set; }
         public string HPRNumber { get; set; }
+        public string Email { get; set; }
     }
 }

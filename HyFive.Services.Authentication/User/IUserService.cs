@@ -12,9 +12,9 @@ namespace HyFive.Services.Authentication.User
 
         bool IsUserLoggedIn();
 
-        bool IsCoordinator(string hprNumber, string pseudonym);
+        bool IsCoordinator(string email);
 
-        bool IsObserver(string hprNumber, string identityPseudonym);
+        bool IsObserver(string email);
 
         bool IsCoordinatorForInstitution(int institutionId);
 
@@ -22,9 +22,9 @@ namespace HyFive.Services.Authentication.User
 
         bool IsCoordinatorForDepartment(int departmentId);
 
-        bool IsFhiAdminOrCoordinator(string pseudonym, string hprNumber);
+        bool IsFhiAdminOrCoordinator(string email);
 
-        bool IsFhiAdmin(string identityPseudonym, string hprNumber);
+        bool IsFhiAdmin(string email);
 
         bool IsFhiAdmin();
 
@@ -45,6 +45,6 @@ namespace HyFive.Services.Authentication.User
 
         string GetPseudonym();
 
-        Expression<Func<TUser, bool>> HasHprOrPseudonymAndIsActive<TUser>(string hprnummer, string identPseudonym) where TUser : Domain.User.User;
+        Expression<Func<TUser, bool>> HasEmailAndIsActive<TUser>(string email) where TUser : Domain.User.User;
     }
 }

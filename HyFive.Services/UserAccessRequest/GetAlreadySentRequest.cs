@@ -12,8 +12,7 @@ namespace HyFive.Services.UserAccessRequest
     {
         public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest>
         {
-            public string HprNumber { get; set; }
-            public string IdentityPseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest>
@@ -31,8 +30,7 @@ namespace HyFive.Services.UserAccessRequest
                 var userAccessRequest = _context.UserAccessRequest
                                     .OrderByDescending(f => f.CreatedTime)
                                     .FirstOrDefault(f =>
-                                    f.HPRNumber == request.HprNumber &&
-                                    f.IdentityPseudonym == request.IdentityPseudonym &&
+                                    f.Email == request.Email &&
                                     f.Status == UserAccessRequestStatus.Registered);
 
                 if (userAccessRequest == null)
