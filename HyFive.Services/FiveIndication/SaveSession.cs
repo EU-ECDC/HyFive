@@ -22,8 +22,7 @@ namespace HyFive.Services.FiveIndication
         public class Command : IRequest<Guid>
         {
             public FiveIndicationsSession Session { get; set; }
-            public string HprNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Guid>
@@ -47,7 +46,7 @@ namespace HyFive.Services.FiveIndication
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Did not find an observer with HPR number {request.HprNumber} at institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email {request.Email} at institution with ID {request.Session.Department.InstitutionId}");
 
                 var indicationTypes = _context.IndicationTypes.ToList();
                 var activityTypes = _context.ActivityType.ToList();
@@ -104,7 +103,7 @@ namespace HyFive.Services.FiveIndication
                         $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
 
                 return institution.Users.OfType<Observer>()
-                    .Where(_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HprNumber, request.Pseudonym).Compile())
+                    .Where(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile())
                     .FirstOrDefault();
 
             }

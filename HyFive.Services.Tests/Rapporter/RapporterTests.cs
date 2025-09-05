@@ -78,7 +78,7 @@ namespace HyFive.Services.Tests.Rapporter
 
         //    var lagreSesjonQuery = new SaveSession.Command()
         //    {
-        //        HPRNumber = Seed.SeedObservatorHprNummer,
+        //        Email = Seed.SeedObservatorHprNummer,
         //        Session = new FiveIndicationsSession()
         //        {
         //            Department = enAvdeling,

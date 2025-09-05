@@ -65,8 +65,7 @@ namespace HyFive.Observation.Controllers.V1
                 var user = await _userService.GetUser();
                 var request = await _mediator.Send(new GetAlreadySentRequest.Query
                 {
-                    HprNumber = user.HPRNumber,
-                    IdentityPseudonym = user.IdentityPseudonym
+                    Email = user.Email
                 });
 
                 return Ok(request);

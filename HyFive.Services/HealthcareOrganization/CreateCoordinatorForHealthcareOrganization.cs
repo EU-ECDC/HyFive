@@ -41,7 +41,7 @@ namespace HyFive.Services.HealthcareOrganization
 
                     foreach (var institutionId in institutionIds)
                     {
-                        var coordinator = GetCoordinator(institutionId, command.Coordinator.Email, command.Coordinator.HPRNumber, command.Coordinator.IdentityPseudonym);
+                        var coordinator = GetCoordinator(institutionId, command.Coordinator.Email);
                         if (coordinator != null)
                         {
                             if (coordinator.IsDeactivated)
@@ -105,7 +105,7 @@ namespace HyFive.Services.HealthcareOrganization
                 return observator;
             }
 
-            private Coordinator GetCoordinator(int institutionId, string email, string hprNumber, string identityPseudonym)
+            private Coordinator GetCoordinator(int institutionId, string email)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
                                                                         ((!string.IsNullOrEmpty(k.Email) &&
@@ -129,7 +129,7 @@ namespace HyFive.Services.HealthcareOrganization
                     return false;
                 }
 
-                /*if (string.IsNullOrWhiteSpace(coordinator.HPRNumber) && string.IsNullOrWhiteSpace(coordinator.IdentityPseudonym))
+                /*if (string.IsNullOrWhiteSpace(coordinator.Email) && string.IsNullOrWhiteSpace(coordinator.IdentityPseudonym))
                 {
                     errorMessage = "HPR number or identity pseudonym must be filled in";
                     return false;

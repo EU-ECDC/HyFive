@@ -10,6 +10,7 @@ export interface UserAccessRequest
 	userLastName: string;
 	identityPseudonym: string;
 	hprNumber: string;
+	email: string;
 	status: number;
 	createdTime: any;
 	approvedTime: any;

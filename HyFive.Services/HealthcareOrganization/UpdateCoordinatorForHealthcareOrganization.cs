@@ -95,7 +95,7 @@ namespace HyFive.Services.HealthcareOrganization
 
                 foreach (var institutionId in institutionIds)
                 {
-                    var coordinator = GetCoordinator(institutionId, coordinatorForHealthcareOrganization.Email,  coordinatorForHealthcareOrganization.HPRNumber, coordinatorForHealthcareOrganization.IdentityPseudonym);
+                    var coordinator = GetCoordinator(institutionId, coordinatorForHealthcareOrganization.Email);
                     if (coordinator != null)
                     {
                         if (coordinator.IsDeactivated)
@@ -151,7 +151,7 @@ namespace HyFive.Services.HealthcareOrganization
                 coordinatorsNotInList.All(k => k.IsDeactivated = true);
             }
 
-            private Coordinator GetCoordinator(int institutionId, string email,  string hprNumber, string identityPseudonym)
+            private Coordinator GetCoordinator(int institutionId, string email)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
                                                                         ((!string.IsNullOrEmpty(k.Email) && k.Email == email)));

@@ -10,6 +10,7 @@ namespace HyFive.Domain.User
         public string UserLastName { get; set; }
         public string IdentityPseudonym { get; set; }
         public string HPRNumber { get; set; }
+        public string Email { get; set; }
         public UserAccessRequestStatus Status { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime? ProcessedTime { get; set; }

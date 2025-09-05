@@ -60,7 +60,7 @@ namespace HyFive.Services.Tests.Handsmykke
             var hentHentHandsmykkeSesjonHandler = new GetHandJewelrySession.Handler(DatabaseContext, Mapper, UserService);
             var handsmykkeSesjon = await hentHentHandsmykkeSesjonHandler.Handle(new GetHandJewelrySession.Query()
             {
-                HPRNumber = hprnummer,
+                Email = hprnummer,
                 SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 
@@ -105,7 +105,7 @@ namespace HyFive.Services.Tests.Handsmykke
                     Comment = "Sesjon kommentar",
                     CreatedDate = DateTime.UtcNow
                 },
-                HprNumber = hprnummer
+                Email = hprnummer
             }, CancellationToken.None);
 
             return handsmykkeSesjonGuid;
