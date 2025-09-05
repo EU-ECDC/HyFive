@@ -4,7 +4,7 @@
     </div>
   </div>
   <div class="row" *ngIf="observers">
-    <input type="text" *ngIf="observers.length > 0" placeholder="Search for...(First name/Last name)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
+    <input type="text" autocomplete="off" *ngIf="observers.length > 0" placeholder="Search for...(First name/Last name)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
     <label class="col-12" *ngIf="observers.length === 0 && !newObserver">No observers found at this institution</label>
     
     <ng-container>
@@ -15,21 +15,15 @@
               <td sortable-column="First name"></td>
               <td sortable-column="Last name"></td>
               <td scope="col">Email</td>
-              <!-- <td scope="col">HPR-number</td> -->
-              <!-- <td scope="col">Pseudonym</td> -->
               <td scope="col">Disabled</td>
               <td class="text-end" scope="col">Action</td>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="newObserver != null">
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" (keypress)="omitSpecialChar($event)" placeholder="First name"></td>
-              <td><input type="text" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" (keypress)="omitSpecialChar($event)" placeholder="Last name"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" (keypress)="omitSpecialChar($event)" placeholder="First name"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" (keypress)="omitSpecialChar($event)" placeholder="Last name"></td>
               <td><input type="email" class="form-control" [(ngModel)]="newObserver.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
-              <!-- <td>
-                <input type="text" class="form-control" [(ngModel)]="newObserver.hprNumber" name="hprNumber" placeholder="HPR-number">
-              </td> -->
-              <!-- <td><input type="text" class="form-control" [(ngModel)]="newObserver.identityPseudonym" name="pseudonym" placeholder="Pseudonym"></td> -->
               <td></td>
               <td>
                 <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createObserver()">
@@ -47,10 +41,6 @@
                 <td>{{observer.firstName}}</td>
                 <td>{{observer.lastName}} </td>
                 <td>{{observer.email}}</td>
-                <!-- <td>{{observer.hprNumber}}</td> -->
-                <!-- <td>
-                  <app-pseudonym-dialog [text]="'Show'" [identityPseudonym]="observer.identityPseudonym"></app-pseudonym-dialog>
-                </td> -->
                 <td class="col-1"><input type="checkbox" class="form-check-input" [(ngModel)]="observer.isDisabled" name="isDisabled" disabled="disabled"></td>
               
                 <td class="text-end py-2 align-middle">
@@ -61,20 +51,9 @@
               </ng-container>
               
               <ng-container *ngIf="observerAsChanged?.id == observer.id">
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
-                <td><input type="text" class="form-control" [(ngModel)]="observerAsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
                 <td><input type="email" class="form-control" [(ngModel)]="observerAsChanged.email" disabled (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
-                <!-- <td>
-                  <input type="text" class="form-control" [(ngModel)]="observerAsChanged.hprNumber" name="hprNumber" placeholder="HPR-number">
-                </td> -->
-                <!-- <td>
-                  <app-pseudonym-dialog 
-                                        [text]="'Change'"
-                                        [editable]="true"
-                                        [identityPseudonym]="observer.identityPseudonym"
-                                        (identityPseudonymChanged)="identityPseudonymChanged($event)">
-                  </app-pseudonym-dialog> 
-                </td> -->
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="observerAsChanged.isDisabled" name="isDisabled">
                 </td>

@@ -1,5 +1,5 @@
 
-<div *ngIf="session.comment">
+<div>
   <label for="comment" class="form-label"><b>comment: </b></label>
   <span *ngIf="!editingMode">{{session.comment}}</span>
   <textarea id="comment" class="form-control" [(ngModel)]="sessionCopy.comment" (ngModelChange)="hasChangedComment = true" *ngIf="editingMode"></textarea>

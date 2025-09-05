@@ -30,7 +30,7 @@
                 <ng-container *ngIf="activitytypeAsChanged?.id === activityType.id">
                   <td>{{activitytypeAsChanged.code}}</td>
                   <td>
-                    <input type="text" class="form-control" [(ngModel)]="activitytypeAsChanged.name">
+                    <input type="text" autocomplete="off" class="form-control" [(ngModel)]="activitytypeAsChanged.name">
                   </td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="saveActivitytype(activitytypeAsChanged)">
