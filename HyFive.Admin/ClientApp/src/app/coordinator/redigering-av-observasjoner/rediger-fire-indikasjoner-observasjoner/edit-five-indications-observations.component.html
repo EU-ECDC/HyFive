@@ -42,7 +42,7 @@
               <td colspan="7" class="col-12">
                 <div class="row">
                   <div class="col-2">
-                    <app-role-selection-dropdown [roleId]="fiveIndicationsObservationWhichChanged.role.id" [departmentId]="avdeling.id" (roleSelected)="selectRole($event)"></app-role-selection-dropdown>
+                    <app-role-selection-dropdown [roleId]="fiveIndicationsObservationWhichChanged.role.id" [departmentId]="department.id" (roleSelected)="selectRole($event)"></app-role-selection-dropdown>
                   </div>
                   <div class="col-2">
                     <app-indication-selection [selectedIndications]="fiveIndicationsObservationWhichChanged.indicationTypes"
@@ -81,7 +81,7 @@
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="col mt-3">
+                  <div class="col mt-3" style="display: flex; gap: 15px;">
                     <app-confirmation-dialog 
                                           [buttonText]="'Save'"
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
