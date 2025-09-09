@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HyFive.Services.Department
+namespace HyFive.Services.User
 {
-    public class HasTransferredSessionToFHI
+    public class HasTransferredSessionToAdmin
     {
         public class Command : IRequest<bool>
         {
-            public int DepartmentId { get; set; }
+            public int ObservationId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -26,11 +26,10 @@ namespace HyFive.Services.Department
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Department.Id == request.DepartmentId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
+                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Observer.Id == request.ObservationId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
 
                 return SessionsTransferredToFHI;
             }
         }
     }
-
 }

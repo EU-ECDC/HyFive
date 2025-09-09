@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Services.Session
 {
-    public class TransferSessionToFhi
+    public class TransferSessionToAdmin
     {
         public class Query : IRequest<SessionOverviewReport>
         {

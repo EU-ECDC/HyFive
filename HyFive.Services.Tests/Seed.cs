@@ -170,7 +170,7 @@ namespace HyFive.Services.Tests
                 Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
             });
 
-            _context.FhiAdmin.Add(new FhiAdmin()
+            _context.FhiAdmin.Add(new Admin()
             {
                 FirstName = SeedFhiAdminFornavn,
                 LastName = SeedFhiAdminEtternavn,

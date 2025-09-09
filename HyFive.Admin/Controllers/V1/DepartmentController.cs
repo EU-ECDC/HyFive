@@ -170,7 +170,7 @@ namespace HyFive.Admin.Controllers.V1
         public async Task<IActionResult> HasTransferredSessionToFHI(int id)
         {
 
-            var result = await _mediator.Send(new HasTransferredSessionToFHI.Command
+            var result = await _mediator.Send(new HasTransferredSessionToAdmin.Command
             {
                 DepartmentId = id
             });

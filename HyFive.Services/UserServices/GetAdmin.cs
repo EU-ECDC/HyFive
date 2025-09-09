@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Services.UserServices
 {
-    public class GetFhiAdmin
+    public class GetAdmin
     {
         public class Query : IRequest<Models.V1.User.User[]>
         {
@@ -31,7 +31,7 @@ namespace HyFive.Services.UserServices
             public async Task<Models.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.User
-                    .OfType<Domain.User.FhiAdmin>()
+                    .OfType<Domain.User.Admin>()
                     .AsNoTracking()
                     .ProjectTo<Models.V1.User.User>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
