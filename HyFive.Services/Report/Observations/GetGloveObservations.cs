@@ -56,7 +56,7 @@ namespace HyFive.Services.Report.Observations
                 }
                 else if (query.Role == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
                 }
 
                 if (query.DepartmentIds != null && query.DepartmentIds.Any())

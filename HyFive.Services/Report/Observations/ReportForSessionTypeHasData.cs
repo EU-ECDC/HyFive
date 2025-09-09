@@ -99,7 +99,7 @@ namespace HyFive.Services.Report.Observations
                 queryable = queryable.Where(p => p.RegisteredTime <= toDate);
 
                 if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
                 return queryable;
             }
@@ -117,7 +117,7 @@ namespace HyFive.Services.Report.Observations
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
                 if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
                 return queryable;
             }
@@ -135,7 +135,7 @@ namespace HyFive.Services.Report.Observations
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
                 if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
                 return queryable;
             }
@@ -153,7 +153,7 @@ namespace HyFive.Services.Report.Observations
                 queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
 
                 if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
                 return queryable;
             }

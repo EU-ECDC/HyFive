@@ -115,7 +115,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   updateLists() {
     this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToCoordinator);
-    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToFhi);
+    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToAdmin);
   }
 
   transfer(sessionId) {

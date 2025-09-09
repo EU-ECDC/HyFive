@@ -115,7 +115,7 @@ namespace HyFive.Services.Tests
                     },
                     new TransferStatusType()
                     {
-                        Code = TransferStatusTypeConstants.TransferredToFhi,
+                        Code = TransferStatusTypeConstants.TransferredToAdmin,
                         Name = "Overført til FHI"
                     }
                 };

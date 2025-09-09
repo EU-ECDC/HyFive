@@ -74,7 +74,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 var reportForUnit = CreateUnitReport(sessions);
@@ -100,7 +100,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 var unitReport = CreateUnitReport(sessions);

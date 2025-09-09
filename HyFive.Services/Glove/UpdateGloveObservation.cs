@@ -49,7 +49,7 @@ namespace HyFive.Services.Glove
                     throw new Exception("O-H-01: Did not find observation with ID: " + request.Observation.Id);
                 }
 
-                if (observation.GloveSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.GloveSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
                     throw new Exception("O-H-02: The observation has already been transferred to FHI and cannot be modified.");
                 }

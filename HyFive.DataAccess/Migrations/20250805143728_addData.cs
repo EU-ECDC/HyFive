@@ -1195,7 +1195,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""User"" (""Id"", ""InstitutionId"", ""Discriminator"", ""LastName"", ""FirstName"", ""CreatedTime"", ""IsDeactivated"", ""IdentityPseudonym"", ""HPRNumber"", ""Email"") VALUES (193, 2, N'Coordinator', N'Vits', N'Grønn', TIMESTAMP '2021-08-05T07:12:21.6585229', FALSE, N'OCW6BpVN57vnbxBUE8WOOTM9FrkCaBixlD2y8FgYCag=', NULL, N'epipulse_ecdc_o@ecdc.europa.eu') ON CONFLICT (""Id"") DO NOTHING");
 
 
-            migrationBuilder.Sql(@"INSERT INTO ""TransferStatusType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'TRANSFERRED_TO_FHI', N'Transferred To FHI') ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""TransferStatusType"" (""Id"", ""Code"", ""Name"") VALUES (1, N'TRANSFERRED_TO_ADMIN', N'Transferred To Admin') ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""TransferStatusType"" (""Id"", ""Code"", ""Name"") VALUES (2, N'TRANSFERRED_TO_COORDINATOR', N'Transferred To Coordinator') ON CONFLICT (""Id"") DO NOTHING");
 
 

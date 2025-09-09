@@ -55,7 +55,7 @@ namespace HyFive.Admin.Controllers.V1
             string transferStatusType;
             if (role == AuthorizedRole.Administrator)
             {
-                transferStatusType = TransferStatusTypeConstants.TransferredToFhi;
+                transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
                 if (!_userService.IsFhiAdmin())
                     return Forbid();
             }
@@ -104,7 +104,7 @@ namespace HyFive.Admin.Controllers.V1
             string transferStatusType;
             if (role == AuthorizedRole.Administrator)
             {
-                transferStatusType = TransferStatusTypeConstants.TransferredToFhi;
+                transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
                 if (!_userService.IsFhiAdmin())
                     return Forbid();
             }

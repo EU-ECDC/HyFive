@@ -26,7 +26,7 @@ namespace HyFive.Services.User
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Observer.Id == request.ObservationId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).AnyAsync();
+                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Observer.Id == request.ObservationId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
 
                 return SessionsTransferredToFHI;
             }

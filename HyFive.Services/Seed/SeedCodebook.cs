@@ -91,7 +91,7 @@ namespace HyFive.Services.Seed
                     },
                     new TransferStatusType
                     {
-                        Code = TransferStatusTypeConstants.TransferredToFhi,
+                        Code = TransferStatusTypeConstants.TransferredToAdmin,
                         Name = "Transferred To FHI"
                     }
                 };

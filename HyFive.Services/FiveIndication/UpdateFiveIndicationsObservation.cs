@@ -47,7 +47,7 @@ namespace HyFive.Services.FiveIndication
                 {
                     throw new Exception("O-FI-01: Did not find observation with ID: " + request.Observation.Id);
                 }
-                if (observation.FiveIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.FiveIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
                     throw new Exception("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
                 }
