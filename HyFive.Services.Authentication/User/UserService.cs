@@ -117,8 +117,8 @@ namespace HyFive.Services.Authentication.User
             if (string.IsNullOrEmpty(email))
                 return false;
 
-            bool isFhiAdmin = _context.User.AsNoTracking().OfType<FhiAdmin>().AsNoTracking()
-                    .Where(HasEmailAndIsActive<FhiAdmin>(email)).Any();
+            bool isFhiAdmin = _context.User.AsNoTracking().OfType<Admin>().AsNoTracking()
+                    .Where(HasEmailAndIsActive<Admin>(email)).Any();
             return isFhiAdmin;
         }
 

@@ -41,7 +41,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   }
 
   isTransferToFhi(code) {
-    return code === TransferStatusTypeConstants.TransferredToFhi;
+    return code === TransferStatusTypeConstants.TransferredToAdmin;
   }
 
   transfer(sessionId, event) {

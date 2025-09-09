@@ -91,7 +91,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> HasTransferredSessionToFHI([FromQuery] int observatorId)
         {
-            var result = await _mediator.Send(new HasTransferredSessionToFHI.Command
+            var result = await _mediator.Send(new HasTransferredSessionToAdmin.Command
             {
                 ObservationId = observatorId
             });
@@ -176,7 +176,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new GetFhiAdmin.Query() { });
+                var response = await _mediator.Send(new GetAdmin.Query() { });
                 return Ok(response);
             }
             catch (Exception e)
@@ -186,20 +186,20 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Creating an FhiAdmin.
+        /// Creating an Admin.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("fhiadmin")]
         [Authorize(HandhygienePolicy.FhiAdmin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateFhiAdminRequest request)
+        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateAdminRequest request)
         {
             try
             {
-                var response = await _mediator.Send(new CreateFhiAdmin.Command() { Request = request });
+                var response = await _mediator.Send(new CreateAdmin.Command() { Request = request });
                 return Ok(response);
-                //return CreatedAtRoute("GetFhiAdmin", new { id = response.HealthcareOrganizationId }, response);
+                //return CreatedAtRoute("GetAdmin", new { id = response.HealthcareOrganizationId }, response);
             }
             catch (Exception e)
             {
@@ -208,7 +208,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Updating a FhiAdmin.
+        /// Updating a Admin.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -219,7 +219,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             try
             {
-                var response = await _mediator.Send(new UpdateFhiAdmin.Command() { User = user });
+                var response = await _mediator.Send(new UpdateAdmin.Command() { User = user });
                 return Ok(response);
             }
             catch (Exception e)

@@ -529,16 +529,16 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.UserController.CreateFhiAdmin(HyFive.Models.V1.User.CreateFhiAdminRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.UserController.CreateFhiAdmin(HyFive.Models.V1.User.CreateAdminRequest)">
             <summary>
-            Creating an FhiAdmin.
+            Creating an Admin.
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.UserController.UpdateFhiAdmin(HyFive.Models.V1.User.User)">
             <summary>
-            Updating a FhiAdmin.
+            Updating a Admin.
             </summary>
             <param name="user"></param>
             <returns></returns>

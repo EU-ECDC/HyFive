@@ -70,7 +70,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    departmentSessionsWithObservations = departmentSessionsWithObservations.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    departmentSessionsWithObservations = departmentSessionsWithObservations.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 foreach (var session in departmentSessionsWithObservations)
@@ -130,7 +130,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    SessionsOfComparableDepartments = SessionsOfComparableDepartments.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    SessionsOfComparableDepartments = SessionsOfComparableDepartments.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 foreach (var session in SessionsOfComparableDepartments)
@@ -202,7 +202,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    institutionSessionsMinusRequestedDepartment = institutionSessionsMinusRequestedDepartment.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    institutionSessionsMinusRequestedDepartment = institutionSessionsMinusRequestedDepartment.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 foreach (var session in institutionSessionsMinusRequestedDepartment)
@@ -276,7 +276,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi).ToList();
+                    AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
                 foreach (var session in AssociatedClinicSessions)

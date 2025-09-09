@@ -14,11 +14,11 @@ using Bruker = HyFive.Models.V1.User.User;
 
 namespace HyFive.Services.UserServices
 {
-    public class CreateFhiAdmin
+    public class CreateAdmin
     {
         public class Command : IRequest<Models.V1.User.User>
         {
-            public CreateFhiAdminRequest Request { get; set; }
+            public CreateAdminRequest Request { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Models.V1.User.User>
@@ -48,12 +48,12 @@ namespace HyFive.Services.UserServices
                     throw new Exception("Missing email.");
                 }
 
-                //var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
+                //var existingPseudonym = await _context.User.OfType<Admin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
                 //if (existingPseudonym)
                 //    throw new Exception("User cannot be created. The pseudonym is already in use.");
                 
 
-                var fhiAdmin = new FhiAdmin()
+                var fhiAdmin = new Admin()
                 {
                     IdentityPseudonym = command.Request.IdentityPseudonym,
                     FirstName = command.Request.FirstName,

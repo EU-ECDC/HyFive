@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HyFive.Services.UserServices
 {
-    public class UpdateFhiAdmin
+    public class UpdateAdmin
     {
         public class Command : IRequest<Models.V1.User.User>
         {
@@ -45,14 +45,14 @@ namespace HyFive.Services.UserServices
                     throw new Exception("Missing last name.");
                 }
 
-                var user = await _context.User.OfType<FhiAdmin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
+                var user = await _context.User.OfType<Admin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
                 if (user == null)
                     throw new Exception($"User with Id not found {command.User.Id}");
                 //if (_currentUser.PidPseudonym == user.IdentityPseudonym)
                 //    throw new Exception($"User cannot change themselves.");
                 if (user.IdentityPseudonym != command.User.IdentityPseudonym)
                 {
-                    var existingPseudonym = await _context.User.OfType<FhiAdmin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
+                    var existingPseudonym = await _context.User.OfType<Admin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
                     if (existingPseudonym)
                         throw new Exception("User cannot be updated. The pseudonym is already in use.");
                 }

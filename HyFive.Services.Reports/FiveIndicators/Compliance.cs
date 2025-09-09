@@ -99,11 +99,11 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.TranferredTo == 1)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
                 }
                 else if (request.TranferredTo == 2)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code != TransferStatusTypeConstants.TransferredToFhi);
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code != TransferStatusTypeConstants.TransferredToAdmin);
                 }
 
                 var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();

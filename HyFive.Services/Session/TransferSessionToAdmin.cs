@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Services.Session
 {
-    public class TransferSessionToFhi
+    public class TransferSessionToAdmin
     {
         public class Query : IRequest<SessionOverviewReport>
         {
@@ -39,7 +39,7 @@ namespace HyFive.Services.Session
                     .Include(s => s.TransferStatus)
                     .FirstOrDefaultAsync(x => x.Id == request.SessionId);
 
-                var transferredToFHI = await _context.TransferStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToFhi);
+                var transferredToFHI = await _context.TransferStatusType.FirstOrDefaultAsync(x => x.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
                 session.TransferStatus = transferredToFHI;
 

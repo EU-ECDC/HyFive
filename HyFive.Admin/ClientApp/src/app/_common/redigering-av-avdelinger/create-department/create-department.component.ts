@@ -44,10 +44,10 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
 
   createDepartment() {
     this.newDepartment.roleIds = this.roleSelected.filter(r => r.isSelected).map(r => r.role.id);
-    this.departmentService.createDepartment(this.newDepartment).subscribe((avdeling) => {
-        this.toastrService.success('Department created', `Department with ID: ${avdeling.id} created`);
+    this.departmentService.createDepartment(this.newDepartment).subscribe((department) => {
+        this.toastrService.success('Department created', `Department with ID: ${department.id} created`);
         this.roleSelected = this.roles.map<RoleSelected>((r) => ({role: r, isSelected: false}) );
-        this.departmentCreatedEvent.emit(avdeling);
+        this.departmentCreatedEvent.emit(department);
       },
       (error) => this.toastrService.error(`An error occurred while creating the department. Error message from server: ${error?.message ? error.message : error}`, 'Error creating department', { disableTimeOut: true}),
       () => { this.resetForm();  }
