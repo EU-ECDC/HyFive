@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdmin)]
+    [Authorize(HandhygienePolicy.Admin)]
     [Route("api/v1/regions")]
     public class RegionController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Get Region Types
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Region>>> GetRegionTypes()
         {
@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Get Region type
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpGet("{id}", Name = "GetRegion")]
         public async Task<ActionResult<Region>> GetRegion(int id)
         {

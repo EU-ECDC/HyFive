@@ -9,7 +9,7 @@ using HyFive.Services.Authentication.Requirements;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/activityType")]
     public class ActivityTypeController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
 
-        [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+        [Authorize(HandhygienePolicy.AdminOrCoordinator)]
         [HttpGet]
         public async Task<IEnumerable<ActivityType>> GetAllActivityTypes()
             => await _mediator.Send(new GetActivityTypes.Query());
@@ -35,7 +35,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="activityType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<ActivityType> UpdateActivityType([FromBody] ActivityType activityType)
         {

@@ -3,8 +3,8 @@
     public enum UserType
     {
         Coordinator, 
-        FhiAdmin,
+        Admin,
         Observer,
-        FhiAdminOrCoordinator
+        AdminOrCoordinator
     }
 }

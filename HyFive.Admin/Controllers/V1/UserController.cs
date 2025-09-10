@@ -14,7 +14,7 @@ using User = HyFive.Models.V1.User.User;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/user")]
     public class UserController : ControllerBase
     {
@@ -70,7 +70,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="observerId"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpDelete("observer/delete")]
         public async Task<ActionResult<bool>> DeleteObserver([FromQuery] int observerId)
         {
@@ -144,7 +144,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="coordinatorId"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpDelete("coordinator/delete")]
         public async Task<ActionResult<bool>> DeleteCoordinator([FromQuery] int coordinatorId)
         {
@@ -163,14 +163,14 @@ namespace HyFive.Admin.Controllers.V1
 
         #endregion
 
-        #region FhiAdmin
+        #region Admin
 
         /// <summary>
         /// Getting all FhiAdmins.
         /// </summary>
         /// <returns></returns>
         [HttpGet("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> GetFhiAdmin()
         {
@@ -191,7 +191,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateAdminRequest request)
         {
@@ -213,7 +213,7 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> UpdateFhiAdmin([FromBody] User user)
         {

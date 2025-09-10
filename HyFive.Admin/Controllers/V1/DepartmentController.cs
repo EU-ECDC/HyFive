@@ -15,7 +15,7 @@ using CsvHelper.Configuration.Attributes;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/department")]
     public class DepartmentController : ControllerBase
     {
@@ -96,7 +96,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="departmentType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPost("departmentType/create")]
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status201Created)]
         public async Task<ActionResult<DepartmentType>> CreateDepartmentType([FromBody] DepartmentType departmentType)
@@ -118,7 +118,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="departmentType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("departmentTypes/update")]
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
         public async Task<ActionResult<DepartmentType>> UpdateDepartmentType([FromBody] DepartmentType departmentType)
@@ -150,7 +150,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+        [Authorize(HandhygienePolicy.AdminOrCoordinator)]
         [HttpDelete("delete/{id}")]
         public async Task<bool> DeleteDepartment(int id)
         {

@@ -14,7 +14,7 @@ namespace HyFive.Admin.Controllers.V1
     /// <summary>
     /// InstitutionTypes
     /// </summary>
-    [Authorize(HandhygienePolicy.FhiAdmin)]
+    [Authorize(HandhygienePolicy.Admin)]
     [Route("api/v1/institutionTypes")]
     public class InstitutionTypesController : ControllerBase
     {

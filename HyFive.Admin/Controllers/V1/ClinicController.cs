@@ -12,7 +12,7 @@ using HyFive.Services.Clinic;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/clinic")]
     public class ClinicController : ControllerBase
     {

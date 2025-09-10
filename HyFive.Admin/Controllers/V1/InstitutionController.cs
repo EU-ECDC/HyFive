@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/institution")]
     public class InstitutionController : ControllerBase
     {
@@ -139,7 +139,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Get Institution Types  <see cref="InstitutionType"/>r
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpGet("types")]
         public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
         {
@@ -152,7 +152,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPost("create")]
         [ProducesResponseType(typeof(Institution), StatusCodes.Status201Created)]
         public async Task<ActionResult<Institution>> CreateInstitution([FromBody] CreateInstitutionRequest request)
@@ -166,7 +166,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="institution"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<Institution> UpdateInstitution([FromBody] Institution institution)
         {
@@ -179,7 +179,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="institutionId"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpDelete("delete")]
         public async Task<bool> DeleteInstitution([FromQuery] int institutionId)
         {
