@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/handJewelryType")]
     public class HandJewelryTypeController : ControllerBase
     {
@@ -34,7 +34,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="handJewelryType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<HandJewelryType> UpdateHandJewelryType([FromBody] HandJewelryType handJewelryType)
         {

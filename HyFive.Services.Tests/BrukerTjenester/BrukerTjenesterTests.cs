@@ -31,7 +31,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
 
             var hentFhiAdminHandler = new GetAdmin.Handler(DatabaseContext, Mapper);
             var query = new GetAdmin.Query() { };
-            var fhiAdminIdsFraDatabase = DatabaseContext.FhiAdmin.OrderBy(x => x.Id).Select(x => x.Id).ToList();
+            var fhiAdminIdsFraDatabase = DatabaseContext.Admin.OrderBy(x => x.Id).Select(x => x.Id).ToList();
 
             // Act
             var res = await hentFhiAdminHandler.Handle(query, new System.Threading.CancellationToken());
@@ -50,7 +50,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
         {
             // Arrange and Act
             var opprettetFhiAdmin = await OpprettFhiAdmin();
-            var opprettetFhiAdminFraDatabase = DatabaseContext.FhiAdmin.FirstOrDefault(r => r.Id == opprettetFhiAdmin.Id);
+            var opprettetFhiAdminFraDatabase = DatabaseContext.Admin.FirstOrDefault(r => r.Id == opprettetFhiAdmin.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -136,7 +136,7 @@ namespace HyFive.Services.Tests.BrukerTjenester
 
             // Act
             var oppdatertFhiAdmin = await oppdaterFhiAdminHandler.Handle(command, new System.Threading.CancellationToken());
-            var oppdatertFhiAdminFraDatabase = DatabaseContext.FhiAdmin.First(x => x.Id == opprettetFhiAdmin.Id);
+            var oppdatertFhiAdminFraDatabase = DatabaseContext.Admin.First(x => x.Id == opprettetFhiAdmin.Id);
 
             // Assert
             Assert.Multiple(() =>

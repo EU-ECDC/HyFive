@@ -179,11 +179,11 @@ namespace HyFive.Api.Common
                     policy.Requirements.Add(new UserTypeRequirement(UserType.Coordinator)));
                 options.AddPolicy(HandhygienePolicy.Observer, policy =>
                     policy.Requirements.Add(new UserTypeRequirement(UserType.Observer)));
-                options.AddPolicy(HandhygienePolicy.FhiAdmin, policy =>
-                    policy.Requirements.Add(new UserTypeRequirement(UserType.FhiAdmin)));
-                options.AddPolicy(HandhygienePolicy.FhiAdminOrCoordinator, policy =>
+                options.AddPolicy(HandhygienePolicy.Admin, policy =>
+                    policy.Requirements.Add(new UserTypeRequirement(UserType.Admin)));
+                options.AddPolicy(HandhygienePolicy.AdminOrCoordinator, policy =>
                 {
-                    policy.Requirements.Add(new UserTypeRequirement(UserType.FhiAdminOrCoordinator));
+                    policy.Requirements.Add(new UserTypeRequirement(UserType.AdminOrCoordinator));
                 });
 
             });

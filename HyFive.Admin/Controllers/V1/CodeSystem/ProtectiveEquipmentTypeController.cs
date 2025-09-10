@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdmin)]
+    [Authorize(HandhygienePolicy.Admin)]
     [Route("api/v1/protectiveEquipmentTypes")]
     public class ProtectiveEquipmentTypeController : ControllerBase
     {

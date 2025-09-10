@@ -117,9 +117,9 @@ namespace HyFive.Services.Seed
 
             private void SeedFhiAdmin()
             {
-                if (_context.FhiAdmin.Any() == false)
+                if (_context.Admin.Any() == false)
                 {
-                    _context.FhiAdmin.Add(new Admin
+                    _context.Admin.Add(new Admin
                     {
                         FirstName = "Grønn",
                         LastName = "Vits",

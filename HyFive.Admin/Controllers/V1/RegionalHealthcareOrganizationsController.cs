@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdmin)]
+    [Authorize(HandhygienePolicy.Admin)]
     [Route("api/v1/regionalHealthcareOrganizations")]
     [ApiController]
     public class RegionalHealthcareOrganizationsController : ControllerBase
@@ -20,7 +20,7 @@ namespace HyFive.Admin.Controllers.V1
             _mediator = mediator;
         }
 
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpGet]
         public async Task<ActionResult<List<Models.V1.Institution.RegionalHealthcareOrganization>>> GetAllRegionalHealthcareOrganizations()
         {

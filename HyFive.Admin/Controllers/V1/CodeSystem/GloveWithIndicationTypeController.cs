@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/gloveWithIndicationType")]
     public class GloveWithIndicationTypeController : ControllerBase
     {
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="gloveWithIndicationType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<GloveWithIndicationType> UpdateGloveWithIndicationType([FromBody] GloveWithIndicationType gloveWithIndicationType)
         {

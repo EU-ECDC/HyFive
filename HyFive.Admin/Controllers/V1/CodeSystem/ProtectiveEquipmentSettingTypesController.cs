@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HyFive.Admin.Controllers.V1
 {
 
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/protectiveEquipmentSettingTypes")]
     public class ProtectiveEquipmentSettingTypesController : ControllerBase
     {
@@ -36,7 +36,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="settingType"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<ProtectiveEquipmentSettingType> UpdateProtectionEquipmentSettingType([FromBody] ProtectiveEquipmentSettingType settingType)
         {

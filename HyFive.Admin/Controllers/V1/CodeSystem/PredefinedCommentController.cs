@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/predefinedComment")]
     public class PredefinedCommentController : ControllerBase
     {
