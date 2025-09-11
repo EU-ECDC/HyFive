@@ -123,7 +123,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     this.observationService.transferSessionToFHI(this.institution.id, sessionId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
-        this.toastrService.success('The session(s) was transferred to FHI');
+        this.toastrService.success('The session(s) was transferred');
         this.updateLists();
         this.loading = false;
       }
