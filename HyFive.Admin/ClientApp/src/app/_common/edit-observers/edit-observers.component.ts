@@ -113,7 +113,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.userService.hasTransferredSessionToFHI(observatorId).subscribe(
       (hasTranferedSession) => { 
         if (hasTranferedSession) {
-          this.toastrService.error('Observer has sessions transferred to FHI, and could not be deleted.', '', { disableTimeOut: true});
+          this.toastrService.error('Observer has sessions transferred, and could not be deleted.', '', { disableTimeOut: true});
           return;
         }
         else {
