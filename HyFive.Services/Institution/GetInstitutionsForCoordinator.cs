@@ -15,8 +15,6 @@ namespace HyFive.Services.Institution
     {
         public class Query : IRequest<Models.V1.Institution.InstitutionReport[]>
         {
-            public string CoordinatorHprNumber { get; set; }
-            public string CoordinatorPseudonym { get; set; }
             public string CoordinatorEmail { get; set; }
         }
 
@@ -58,18 +56,6 @@ namespace HyFive.Services.Institution
                     .ProjectTo<Models.V1.Institution.InstitutionReport>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
                 return result;
-            }
-
-            private static bool HasIdentityPseudonym(string identityPseudonym)
-            {
-                return !string.IsNullOrEmpty(identityPseudonym);
-            }
-            private static bool HasHprNumber(string hprnumber)
-            {
-                if (string.IsNullOrEmpty(hprnumber))
-                    return false;
-
-                return true;
             }
 
             private static bool HasEmail(string email)

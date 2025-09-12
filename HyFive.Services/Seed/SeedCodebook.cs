@@ -91,7 +91,7 @@ namespace HyFive.Services.Seed
                     },
                     new TransferStatusType
                     {
-                        Code = TransferStatusTypeConstants.TransferredToFhi,
+                        Code = TransferStatusTypeConstants.TransferredToAdmin,
                         Name = "Transferred To FHI"
                     }
                 };
@@ -117,9 +117,9 @@ namespace HyFive.Services.Seed
 
             private void SeedFhiAdmin()
             {
-                if (_context.FhiAdmin.Any() == false)
+                if (_context.Admin.Any() == false)
                 {
-                    _context.FhiAdmin.Add(new FhiAdmin
+                    _context.Admin.Add(new Admin
                     {
                         FirstName = "Grønn",
                         LastName = "Vits",

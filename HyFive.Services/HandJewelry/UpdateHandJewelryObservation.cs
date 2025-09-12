@@ -47,7 +47,7 @@ namespace HyFive.Services.HandJewelry
                     throw new Exception("O-HS-01: Did not find observation with ID " + request.Observation.Id);
                 }
                 
-                if (observation.HandJewelrySession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.HandJewelrySession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
                     throw new Exception("O-HS-02: The observation has already been transferred to FHI and cannot be changed");
                 }

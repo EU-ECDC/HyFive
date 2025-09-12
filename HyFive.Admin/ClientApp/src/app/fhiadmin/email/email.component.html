@@ -6,19 +6,25 @@
             
             <div class="col-md-4">
                 <label for="institution">Institution</label>
-                <select class="form-select" id="institution" [(ngModel)]="institutionId" (ngModelChange)="updateUserList()">
-                    <option value="0"></option>
-                    <option *ngFor="let institution of institutions" [ngValue]="institution.id">{{institution.name}}</option>
-                </select>
+                <ng-select
+                    [searchable]="false"
+                    [clearable]="false"
+                    [items]="institutions"
+                    bindLabel="name"
+                    bindValue="id"
+                    [(ngModel)]="institutionId"
+                    (ngModelChange)="updateUserList()"
+                    >
+                </ng-select>
             </div>
             
-            <div class="col-md-1">
-                <label for="coordinator">Coordinator</label>
+            <div style="position: relative; bottom: 6px;" class="col-md-2">
+                <label style="margin-right: 10px;" for="coordinator">Coordinator</label>
                 <input type="checkbox" class="form-check-input" id="coordinator" [(ngModel)]="coordinatorsSelected" (ngModelChange)="updateUserList()" name="coordinator">
             </div>
             
-            <div class="col-md-1">
-                    <label for="observers">Observers</label>
+            <div style="position: relative; bottom: 6px;" class="col-md-2">
+                    <label style="margin-right: 10px;" for="observers">Observers</label>
                     <input type="checkbox" class="form-check-input" id="observers" [(ngModel)]="observerSelected" (ngModelChange)="updateUserList()" name="observer">
             </div>
         </div>

@@ -13,6 +13,7 @@ namespace HyFive.Models.V1.UserAccessRequest
         public string UserLastName { get; set; }
         public string IdentityPseudonym { get; set; }
         public string HPRNumber { get; set; }
+        public string Email { get; set; }
         public int Status { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime ApprovedTime { get; set; }

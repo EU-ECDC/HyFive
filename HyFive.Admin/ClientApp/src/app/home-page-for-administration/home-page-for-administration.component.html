@@ -11,20 +11,11 @@
 
   <div class="row">
     <div class="col-12">
-      <div>Welcome to the administration of the National tool for observation of transmission prevention measures in the health service (ECDC).</div>
+      <div>Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool! You are now logged in as <span *ngIf="selectedRole == 2">a Coordinator</span><span *ngIf="selectedRole == 1">an Administrator</span>.</div>
       <ng-container *ngIf="!user?.isCoordinator && !user?.isFhiAdmin">
-        <div>You are not registered as a coordinator and therefore do not have access to ECDC administration. Contact the coordinator at your institution for access. If you are an observer, go to nost.fhi.no.</div>
-        <div class="mt-3">
-          <i>Your pseudonym: {{user?.identityPseudonym}}</i>
-        </div>
-        <div class="col-12 ml-n3">
-          <button class="btn fhi-btn-secondary"
-                  (click)="copyPseudonymClick()">
-            <fa-icon [icon]="faCopy"></fa-icon>Copy pseudonym to clipboard
-          </button>
-        </div>
+        <div>You are not registered as a coordinator and therefore do not have access to the administration module. Contact the coordinator at your institution for access. If you are an observer, go to HyFive observers module.</div>
       </ng-container>
-      <div class="mt-3">Read more about <a href="https://www.ecdc.europa.eu/en" target="_blank">ECDC</a> at fhi.no. Questions can be sent to <a href="mailto:nost@fhi.no"> ECDC&#64;fhi.no</a>.</div>
+      <div class="mt-3">Find more information about ECDC HyFive at <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. Questions or inquiries can be directed to <a href="mailto:HAI-et@ecdc.europa.eu">HAI-et&#64;ecdc.europa.eu</a>.</div>
       <div class="mt-3"><a href="https://www.fhi.no/nettpub/nost/generelt-om-losningen2/personvernerklaring-for-nost/" target="_blank">Open the privacy policy</a></div>
     </div>
   </div>

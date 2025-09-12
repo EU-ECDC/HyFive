@@ -13,10 +13,16 @@ namespace HyFive.Admin
 {
     public class ProgramAdmin 
     {
+        
+
+        protected static readonly string Env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
         protected static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", true)
+            .AddJsonFile(
+                Env == "Development" ? "appsettings.Development.json" : "appsettings.json",
+                optional: false,
+                reloadOnChange: true)
             .AddEnvironmentVariables()
             .Build();
 

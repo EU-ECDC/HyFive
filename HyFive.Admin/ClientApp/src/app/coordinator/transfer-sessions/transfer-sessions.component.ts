@@ -22,18 +22,19 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   faPaperPlane = faPaperPlane;
 
   sessionTypeOptions = [
-    { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
-    { name: "FiveIndications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
+    { name: "All", value: null },
+    { name: "Protective Equipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
+    { name: "Five Indications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "HandJewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
+    { name: "Hand Jewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
   ];
 
   selectedSessiontype: SessionType = null;
   fromDate: Date = null;
   toDate: Date = null;
 
-  observers: User[] = [];
-  selectedObserver: User = null;
+  observers = [];
+  selectedObserver = null;
 
   institution: InstitutionReport;
 
@@ -65,8 +66,19 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
       } as InstitutionReport;
 
       this.institutionService.getObservers(this.institution.id).subscribe((observers) => {
-        this.observers = observers.sort(this.compareFirstNameForUsers);
-        this.observers = this.showDisabledObserversBottom(observers);
+        let editedObservers = [];
+        observers.forEach(obs => {
+        let firstLast = `${obs.firstName} ${obs.lastName}`;
+        if (obs.isDisabled) {
+          firstLast += ' (disabled user)';
+        }
+        const o = {...obs, firstLast}; 
+        editedObservers.push(o);
+        });
+        editedObservers = editedObservers.sort(this.compareFirstNameForUsers);
+        editedObservers = this.showDisabledObserversBottom(editedObservers);
+        editedObservers.unshift({ id: null, firstLast: "All" });
+        this.observers = editedObservers;
       });
     });
   }
@@ -75,7 +87,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
   
-  showDisabledObserversBottom(observers: User[]): User[] {
+  showDisabledObserversBottom(observers): User[] {
     var observersList = observers.filter(o => o.isDisabled === false);
     var observersWhoAreDisabled = observers.filter(o => o.isDisabled);
     observersList.push.apply(observersList, observersWhoAreDisabled);
@@ -103,7 +115,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   updateLists() {
     this.sessionsCoordinator = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToCoordinator);
-    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToFhi);
+    this.sessionsFHI = this.sessions.filter(x => x.transferStatus.code === TransferStatusTypeConstants.TransferredToAdmin);
   }
 
   transfer(sessionId) {
@@ -111,7 +123,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     this.observationService.transferSessionToFHI(this.institution.id, sessionId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
-        this.toastrService.success('The session(s) was transferred to FHI');
+        this.toastrService.success('The session(s) was transferred');
         this.updateLists();
         this.loading = false;
       }

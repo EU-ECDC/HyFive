@@ -56,7 +56,7 @@ namespace HyFive.Services.Report.Observations
 
                 if (query.Role == AuthorizedRole.Administrator)
                 {
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToFhi);
+                    queryable = queryable.Where(p => p.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
                 }
 
                 if (query.DepartmentIds != null && query.DepartmentIds.Count > 0)

@@ -19,8 +19,7 @@ namespace HyFive.Services.Glove
     {
         public class Command : IRequest<Guid>
         {
-            public string HPRNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
             public GloveSession Session { get; set; }
         }
 
@@ -44,7 +43,7 @@ namespace HyFive.Services.Glove
                 var observator = await GetObserver(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
-                        $"Did not find an observer with HPR number { request.HPRNumber } // pseudonym {request.Pseudonym} at institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email { request.Email } at institution with ID: {request.Session.Department.InstitutionId}");
 
                 var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
                 var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
@@ -107,8 +106,7 @@ namespace HyFive.Services.Glove
 
                 return institution.Users.OfType<Observer>().Where(
                     _userService
-                        .HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber,
-                            request.Pseudonym).Compile()).FirstOrDefault();
+                        .HasEmailAndIsActive<Observer>(request.Email).Compile()).FirstOrDefault();
             }
         }
     }

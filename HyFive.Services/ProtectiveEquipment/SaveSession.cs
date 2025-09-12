@@ -20,8 +20,7 @@ namespace HyFive.Services.ProtectiveEquipment
         public class Command : IRequest<Guid>
         {
             public ProtectiveEquipmentSession Session { get; set; }
-            public string HPRNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Guid>
@@ -45,7 +44,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Did not find an observer with HPR number {request.HPRNumber} or pseudonym XXX at the institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email {request.Email} at the institution with ID {request.Session.Department.InstitutionId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
@@ -113,7 +112,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     .Users
                     .OfType<Observer>()
                     .FirstOrDefault(_userService
-                        .HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber,request.Pseudonym)
+                        .HasEmailAndIsActive<Observer>(request.Email)
                         .Compile());
             }
         }

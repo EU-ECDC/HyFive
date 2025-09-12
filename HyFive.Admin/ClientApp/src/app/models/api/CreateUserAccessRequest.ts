@@ -9,4 +9,5 @@ export interface CreateUserAccessRequest
 	userLastName: string;
 	identityPseudonym: string;
 	hprNumber: string;
+	email: string;
 }

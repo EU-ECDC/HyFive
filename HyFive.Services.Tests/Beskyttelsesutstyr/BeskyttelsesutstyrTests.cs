@@ -301,7 +301,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
             var hentBeskyttelsesutstyrSesjonHandler = new GetProtectiveEquipmentSession.Handler(DatabaseContext, Mapper, UserService);
             var beskyttelsesutstyrSesjon = await hentBeskyttelsesutstyrSesjonHandler.Handle(new GetProtectiveEquipmentSession.Query()
             {
-                HPRNumber = hprnummer,
+                Email = hprnummer,
                 SessionId = sesjonGuidFraRequestGuid
             }, CancellationToken.None);
 
@@ -457,7 +457,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                         }
                     }
                 },
-                HPRNumber = hprnummer
+                Email = hprnummer
             }, CancellationToken.None);
 
             return beskyttelsesutstyrSesjonGuid;

@@ -35,9 +35,6 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.mailValidatorHelper = MailValidatorHelper;
    }
 
-  identityPseudonymChanged(modifiedPseudonym: string) {
-    this.observerAsChanged.identityPseudonym = modifiedPseudonym;
-  }
 
   ngOnInit(): void {
     this.authorizationService.getUser().subscribe(
@@ -116,7 +113,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.userService.hasTransferredSessionToFHI(observatorId).subscribe(
       (hasTranferedSession) => { 
         if (hasTranferedSession) {
-          this.toastrService.error('Observer has sessions transferred to FHI, and could not be deleted.', '', { disableTimeOut: true});
+          this.toastrService.error('Observer has sessions transferred, and could not be deleted.', '', { disableTimeOut: true});
           return;
         }
         else {
@@ -147,7 +144,6 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && this.mailValidatorHelper.validateMail(this.newObserver.email)
       && this.observers.find(obs => obs?.email == this.newObserver?.email) == undefined
       //&& this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
-      && this.userService.isValidPseudonym(this.newObserver.identityPseudonym);
   }
 
   canChange(observer: User) {
@@ -161,7 +157,6 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       //&& this.filteredObservers
       //                        .filter(fc => fc.id !== observer.id)
       ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
-      && this.userService.isValidPseudonym(observer.identityPseudonym);
   }
 
     omitSpecialChar(event) {   

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HyFive.Domain.User
 {
-    public class FhiAdmin : User
+    public class Admin : User
     {
     }
 }

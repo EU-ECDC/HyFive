@@ -3,53 +3,66 @@
     <div class="row mb-1">
       <div class="col-md-6">
         <label for="institutionname" class="mb-1">Name</label>
-        <input type="text" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.institutionName">
+        <input type="text" autocomplete="off" id="institutionname" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.institutionName">
       </div>
       <div class="col-md-2">
         <label for="abbreviation" class="mb-1">Short Name</label>
-        <input type="text" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.abbreviation">
+        <input type="text" autocomplete="off" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.abbreviation">
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="institutiontype" class="mb-1">Institution Type</label>
-        <select class="form-select" id="institutiontype" [(ngModel)]="newInstitution.institutionTypeId" (ngModelChange)="showHealthcareOrRegion(newInstitution.institutionTypeId)">
-          <option *ngFor="let institutiontype of institutionTypes" [ngValue]="institutiontype.id">{{institutiontype.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="institutionTypes"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.institutionTypeId"
+          (ngModelChange)="showHealthcareOrRegion(newInstitution.institutionTypeId)"
+          >
+        </ng-select>
       </div>
       <div class="col-md-6" *ngIf="showMunicipality">
         <label for="municipality" class="mb-1">Municipality</label>
-        <select class="form-select" id="municipality" [(ngModel)]="newInstitution.municipalityId">
-          <option value="0"></option>
-          <option *ngFor="let municipality of municipalities" [ngValue]="municipality.id">{{municipality.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="municipalities"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.municipalityId"
+          >
+        </ng-select>
       </div>
       <div class="col-md-6" *ngIf="showHealthcareOrganization">
         <label for="healthcareorganization" class="mb-1">Healthcare Organization</label>
-        <select class="form-select" id="healthcareorganization" [(ngModel)]="newInstitution.healthcareOrganizationId">
-          <option value="0"></option>
-          <option *ngFor="let healthcareorganization of listOfHealthcareOrganizations" [ngValue]="healthcareorganization.id">{{healthcareorganization.name}}</option>
-        </select>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="listOfHealthcareOrganizations"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="newInstitution.healthcareOrganizationId"
+          >
+        </ng-select>
       </div>
     </div>
     <div class="row mb-2">
       <h5 class="col-12">Coordinator</h5>
       <div class="col-md-3">
         <label for="coordinatorfirstname" class="mb-1">First Name</label>
-        <input type="text" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorFirstName">
+        <input type="text" autocomplete="off" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorFirstName">
       </div>
       <div class="col-md-3">
         <label for="coordinatorLastname" class="mb-1">Last Name</label>
-        <input type="text" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorLastName">
+        <input type="text" autocomplete="off" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newInstitution.coordinatorLastName">
       </div>
       <div class="col-md-4">
         <label for="coordinatorEmail" class="mb-1">Email</label>
         <input type="email" id="coordinatorEmail" class="form-control" [(ngModel)]="newInstitution.coordinatorEmail" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [maxlength]="2147483647">
       </div>
-      <!-- <div class="col-md-2">
-        <label for="coordinatorhprnumber" class="mb-1">HPR-number</label>
-        <input type="text" id="coordinatorhprnumber" class="form-control" [(ngModel)]="newInstitution.coordinatorHPRNumber" [maxlength]="2147483647">
-      </div> -->
     </div>
     <div class="row">
       <div class="col-md-3">

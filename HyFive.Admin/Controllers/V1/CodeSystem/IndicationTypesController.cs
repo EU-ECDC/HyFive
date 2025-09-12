@@ -12,7 +12,7 @@ namespace HyFive.Admin.Controllers.V1
     /// <summary>
     /// IndicationTypes
     /// </summary>
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/indicationTypes")]
     public class IndicationTypesController : ControllerBase
     {
@@ -38,7 +38,7 @@ namespace HyFive.Admin.Controllers.V1
         /// Update IndicationTypes
         /// </summary>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         public async Task<IndicationType> UpdateIndicationType([FromBody] IndicationType indicationType)
         {

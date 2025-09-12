@@ -4,6 +4,6 @@
 
 export class TransferStatusTypeConstants
 {
-	public static TransferredToFhi: string = `TRANSFERRED_TO_FHI`;
+	public static TransferredToAdmin: string = `TRANSFERRED_TO_ADMIN`;
 	public static TransferredToCoordinator: string = `TRANSFERRED_TO_COORDINATOR`;
 }

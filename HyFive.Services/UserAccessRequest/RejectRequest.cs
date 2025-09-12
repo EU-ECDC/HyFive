@@ -14,8 +14,7 @@ namespace HyFive.Services.UserAccessRequest
         public class Command : IRequest<bool>
         {
             public int RequestId { get; set; }
-            public string IdentityPseudonym { get; set; }
-            public string HPRNumber { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -33,8 +32,7 @@ namespace HyFive.Services.UserAccessRequest
 
                 if (request == null) return false;
 
-                var user = _context.User.FirstOrDefault(b => b.IdentityPseudonym == command.IdentityPseudonym
-                                                    || b.HPRNumber == command.HPRNumber);
+                var user = _context.User.FirstOrDefault(b => b.Email == command.Email);
 
                 if (user == null) return false;
 

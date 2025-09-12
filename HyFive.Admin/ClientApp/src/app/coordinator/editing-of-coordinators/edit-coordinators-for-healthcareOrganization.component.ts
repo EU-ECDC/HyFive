@@ -145,14 +145,6 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   isCoordinatorAsChanged(coordinator: CoordinatorForHealthcareOrganization) {
-    // if (this.coordinatorAsChanged?.hprNumber?.length > 0 &&
-    //   this.coordinatorAsChanged.hprNumber === coordinator.hprNumber)
-    //   return true;
-    // if (this.coordinatorAsChanged?.identityPseudonym?.length > 0 &&
-    //   this.coordinatorAsChanged.identityPseudonym === coordinator.identityPseudonym)
-    //   return true;
-
-    // return false;
     if (this.coordinatorAsChanged 
       && this.coordinatorAsChanged?.id == coordinator.id
       ) {
@@ -199,15 +191,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   isCoordinatorAsChangedLikeLoggedInUser(coordinator: CoordinatorForHealthcareOrganization) {
-    // if (this.user.hprNumber && this.user.hprNumber === coordinator.hprNumber)
-    //   return true;
-    // if (this.user.identityPseudonym && this.user.identityPseudonym === coordinator.identityPseudonym)
-    //   return true;
-
-    // return false;
-
-    if (this.coordinatorAsChanged
-      && this.coordinatorAsChanged?.id == coordinator.id
+    if (this.user.id == coordinator.id.toString()
       ) {
       return true;
     } 
@@ -220,7 +204,6 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       && this.newCoordinator.email.length > 0
       && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
       && this.coordinators.find(coord => coord?.email == this.newCoordinator?.email) == undefined
-      && this.userService.isValidPseudonym(this.newCoordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
   }
 
@@ -232,7 +215,6 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       && this.coordinators
                       .filter(coord => coord.id !== coordinator.id)
                       .find(coord => coord?.email == coordinator?.email) == undefined
-      && this.userService.isValidPseudonym(coordinator.identityPseudonym)
       && this.selectedInstitutions?.length > 0;
   }
 
@@ -258,10 +240,6 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
 
   resetSelectedInstitutions() {
     this.selectedInstitutions.splice(0, this.selectedInstitutions.length);
-  }
-
-  identityPseudonymChanged(coordinator: CoordinatorForHealthcareOrganization, identityPseudonym: string) {
-    coordinator.modifiedPseudonym = identityPseudonym;
   }
 
   filterCoordinators(): void {

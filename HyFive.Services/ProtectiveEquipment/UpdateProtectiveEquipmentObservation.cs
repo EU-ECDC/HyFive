@@ -51,7 +51,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     throw new Exception("O-BU-01: Did not find observation with ID: " + request.Observation.Id);
                 }
 
-                if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToFhi)
+                if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
                     throw new Exception("O-BU-02: The observation has already been transferred to FHI, and cannot be changed");
                 }

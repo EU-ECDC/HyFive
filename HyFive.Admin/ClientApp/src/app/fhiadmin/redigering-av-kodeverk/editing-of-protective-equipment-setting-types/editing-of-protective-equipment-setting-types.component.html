@@ -30,7 +30,7 @@
               <ng-container *ngIf="settingTypeAsChanged?.id === settingType.id">
                 <td>{{settingTypeAsChanged.code}}</td>
                 <td>
-                  <input type="text" class="form-control" [(ngModel)]="settingTypeAsChanged.name">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="settingTypeAsChanged.name">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateSettingType(settingTypeAsChanged)">

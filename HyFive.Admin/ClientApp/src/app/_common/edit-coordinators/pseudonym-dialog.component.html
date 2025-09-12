@@ -1,17 +1,3 @@
-<!-- <fhi-modal *ngIf="!editable">
-  <ng-container fhi-modal.button>{{text}}</ng-container>
-  <ng-container fhi-modal.body>{{identityPseudonym}}</ng-container>
-</fhi-modal>
-
-<fhi-modal *ngIf="editable"
-            [actionButtons]="[{name: 'Save', disabled: !isOk()}]"
-            (modalAction)="ok()">
-  <ng-container fhi-modal.button>{{text}}</ng-container>
-  <ng-container fhi-modal.body>
-    <input type="text" class="form-control mb-1" [(ngModel)]="identityPseudonym" name="identityPseudonym">
-  </ng-container>
-</fhi-modal> -->
-
 <button class="show-button" (click)="showModal()">{{text}}</button>
 
 <ng-container *ngIf="showModalDialog">  
@@ -26,7 +12,7 @@
   <ng-template #editableModal>
     <div class="ps-modal">
       <div class="ps-modal-content">
-        <input type="text" class="form-control mb-1" [(ngModel)]="identityPseudonym" name="identityPseudonym">
+        <input type="text" autocomplete="off" class="form-control mb-1" [(ngModel)]="identityPseudonym" name="identityPseudonym">
         <div class="modal-buttons">
           <button (click)="showModal()">Cancel</button>
           <button class="save-button" [disabled]="!isOk()" (click)="ok()">Save</button>

@@ -19,8 +19,7 @@ namespace HyFive.Services.HandJewelry
         public class Command : IRequest<Guid>
         {
             public HandJewelrySession Session { get; set; }
-            public string HprNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Guid>
@@ -43,7 +42,7 @@ namespace HyFive.Services.HandJewelry
                 // Verify that observer is an observer at the institution
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
-                    throw new Exception($"Did not find an observer with HPR number {request.HprNumber} at institution with ID {request.Session.Department.InstitutionId}");
+                    throw new Exception($"Did not find an observer with Email {request.Email} at institution with ID {request.Session.Department.InstitutionId}");
 
                 var handJewelryTypes = _context.HandJewelryType.ToList();
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
@@ -94,7 +93,7 @@ namespace HyFive.Services.HandJewelry
                 return institution
                     .Users
                     .OfType<Observer>()
-                    .FirstOrDefault(_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HprNumber, request.Pseudonym).Compile());
+                    .FirstOrDefault(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile());
             }
         }
     }

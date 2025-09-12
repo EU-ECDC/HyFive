@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/healthcareOrganization")]
     [ApiController]
     public class HealthcareOrganizationController : ControllerBase
@@ -28,7 +28,7 @@ namespace HyFive.Admin.Controllers.V1
             _userService = userService;
         }
 
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpGet]
         [ProducesResponseType(typeof(List<HealthcareOrganization>), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<HealthcareOrganization>>> GetAllHealthcareOrganizations()
@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(allHealthcareOrganizations);
         }
 
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPost("create")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> CreateHealthcareOrganization([FromBody] CreateHealthcareOrganizationRequest healthcareOrganizationRequest)
@@ -49,7 +49,7 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(isCreated);
         }
 
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> UpdateHealthcareOrganization([FromBody] HealthcareOrganization healthcareOrganization)

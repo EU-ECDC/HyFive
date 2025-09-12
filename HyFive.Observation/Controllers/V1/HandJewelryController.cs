@@ -48,8 +48,7 @@ namespace HyFive.Observation.Controllers.V1
             {
                 var result = await _mediator.Send(new SaveSession.Command()
                 {
-                    HprNumber = _userService.GetHprNumber(),
-                    Pseudonym = _userService.GetPseudonym(),
+                    Email = _userService.GetEmail(),
                     Session = session
                 });
 

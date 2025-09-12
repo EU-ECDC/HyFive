@@ -68,7 +68,7 @@ export class DownloadExcelComponent {
     };
   }
 
-  sessionTypes = SessionTypes.GetSessionTypes();
+  sessionTypes = [ {name: '', value: ""}, ...SessionTypes.GetSessionTypes()];
 
   selectedSessiontype: SessionType = null;
   fromDate: Date = null;

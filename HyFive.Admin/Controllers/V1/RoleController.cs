@@ -11,7 +11,7 @@ using HyFive.Services.Roles;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/role")]
     public class RoleController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPost()]
         [ProducesResponseType(typeof(Role), StatusCodes.Status201Created)]
         public async Task<ActionResult<Role>> CreateRole([FromBody] CreateRoleRequest request)
@@ -54,7 +54,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpPut()]
         public async Task<Role> UpdateRole([FromBody] UpdateRoleRequest request)
         {

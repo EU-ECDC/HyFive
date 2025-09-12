@@ -14,7 +14,7 @@ using User = HyFive.Models.V1.User.User;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdminOrCoordinator)]
+    [Authorize(HandhygienePolicy.AdminOrCoordinator)]
     [Route("api/v1/user")]
     public class UserController : ControllerBase
     {
@@ -70,7 +70,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="observerId"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpDelete("observer/delete")]
         public async Task<ActionResult<bool>> DeleteObserver([FromQuery] int observerId)
         {
@@ -91,7 +91,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> HasTransferredSessionToFHI([FromQuery] int observatorId)
         {
-            var result = await _mediator.Send(new HasTransferredSessionToFHI.Command
+            var result = await _mediator.Send(new HasTransferredSessionToAdmin.Command
             {
                 ObservationId = observatorId
             });
@@ -144,7 +144,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <param name="coordinatorId"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [HttpDelete("coordinator/delete")]
         public async Task<ActionResult<bool>> DeleteCoordinator([FromQuery] int coordinatorId)
         {
@@ -163,20 +163,20 @@ namespace HyFive.Admin.Controllers.V1
 
         #endregion
 
-        #region FhiAdmin
+        #region Admin
 
         /// <summary>
         /// Getting all FhiAdmins.
         /// </summary>
         /// <returns></returns>
         [HttpGet("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> GetFhiAdmin()
         {
             try
             {
-                var response = await _mediator.Send(new GetFhiAdmin.Query() { });
+                var response = await _mediator.Send(new GetAdmin.Query() { });
                 return Ok(response);
             }
             catch (Exception e)
@@ -186,20 +186,20 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Creating an FhiAdmin.
+        /// Creating an Admin.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateFhiAdminRequest request)
+        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateAdminRequest request)
         {
             try
             {
-                var response = await _mediator.Send(new CreateFhiAdmin.Command() { Request = request });
+                var response = await _mediator.Send(new CreateAdmin.Command() { Request = request });
                 return Ok(response);
-                //return CreatedAtRoute("GetFhiAdmin", new { id = response.HealthcareOrganizationId }, response);
+                //return CreatedAtRoute("GetAdmin", new { id = response.HealthcareOrganizationId }, response);
             }
             catch (Exception e)
             {
@@ -208,18 +208,18 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Updating a FhiAdmin.
+        /// Updating a Admin.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("fhiadmin")]
-        [Authorize(HandhygienePolicy.FhiAdmin)]
+        [Authorize(HandhygienePolicy.Admin)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> UpdateFhiAdmin([FromBody] User user)
         {
             try
             {
-                var response = await _mediator.Send(new UpdateFhiAdmin.Command() { User = user });
+                var response = await _mediator.Send(new UpdateAdmin.Command() { User = user });
                 return Ok(response);
             }
             catch (Exception e)

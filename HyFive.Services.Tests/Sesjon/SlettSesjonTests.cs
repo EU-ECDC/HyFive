@@ -23,7 +23,7 @@ namespace HyFive.Services.Tests.Sesjon
         //    var handler = new DeleteSession.Handler(DatabaseContext);
         //    var slettRequest = new DeleteSession.Command()
         //    {
-        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToFhi,
+        //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToAdmin,
         //        SessionId = sesjonId,
         //        HealthcareOrganizationId = avdeling.HealthcareOrganizationId
         //    };

@@ -107,12 +107,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
-        name: 'Transfer sessions',
+        name: 'Transfer Sessions',
         routerLink: `/${UrlPaths.transferSessions}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Institutions',
+        name: 'Healthcare Facilities',
         routerLink: `/${UrlPaths.editingByInstitutions}`,
         roles: [AuthorizedRole.Administrator]
       },
@@ -137,7 +137,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Coding works',
+        name: 'Coding',
         routerLink: `/${UrlPaths.editingByCodeworks}`,
         roles: [AuthorizedRole.Administrator]
       },

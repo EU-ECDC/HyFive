@@ -23,7 +23,7 @@ namespace HyFive.DataAccess
         public DbSet<User> User { get; set; }
         public DbSet<Coordinator> Coordinator { get; set; }
         public DbSet<Observer> Observer { get; set; }
-        public DbSet<FhiAdmin> FhiAdmin { get; set; }
+        public DbSet<Admin> Admin { get; set; }
         public DbSet<UserAccessRequest> UserAccessRequest { get; set; }
         public DbSet<TransferStatusType> TransferStatusType { get; set; }
         public DbSet<Institution> Institution { get; set; }

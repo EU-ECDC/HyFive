@@ -89,7 +89,6 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
       && this.users.find(fc => fc.email == this.newFhiAdmin?.email) == undefined
       && this.newFhiAdmin.email?.length > 0
       && this.mailValidatorHelper.validateMail(this.newFhiAdmin?.email)
-      && this.userService.isValidPseudonym(this.newFhiAdmin?.identityPseudonym);
   }
 
   canChange(fhiAdmin: User) {
@@ -100,7 +99,6 @@ export class EditFhiAdminComponent implements OnInit, OnDestroy {
       //                   .filter(fc => fc.id !== fhiAdmin.id)
       //                   .find(fc => fc.email == fhiAdmin?.email) == undefined
       // && this.mailValidatorHelper.validateMail(fhiAdmin?.email)
-      && this.userService.isValidPseudonym(fhiAdmin?.identityPseudonym);
   }
 
   cancelEdit($event: Event = null) {

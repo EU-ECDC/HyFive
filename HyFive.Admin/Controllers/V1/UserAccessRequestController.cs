@@ -82,8 +82,7 @@ namespace HyFive.Admin.Controllers.V1
                 var response = await _mediator.Send(new CreateUserRequest.Command()
                 {
                     RequestId = requestId,
-                    IdentityPseudonym = user.IdentityPseudonym,
-                    HPRNumber = user.HPRNumber
+                    Email = user.Email
                 });
                 return Ok(response);
             }
@@ -104,8 +103,7 @@ namespace HyFive.Admin.Controllers.V1
                 var response = await _mediator.Send(new RejectRequest.Command()
                 {
                     RequestId = requestId,
-                    IdentityPseudonym = user.IdentityPseudonym,
-                    HPRNumber = user.HPRNumber
+                    Email = user.Email
                 });
                 return Ok(response);
             }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HyFive.Admin.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.FhiAdmin)]
+    [Authorize(HandhygienePolicy.Admin)]
     [Route("api/v1/municipality")]
     [ApiController]
     public class MunicipalityController : ControllerBase

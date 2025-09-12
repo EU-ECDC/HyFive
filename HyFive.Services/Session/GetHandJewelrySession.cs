@@ -15,8 +15,7 @@ namespace HyFive.Services.Session
     {
         public class Query : IRequest<HandJewelrySession>
         {
-            public string HPRNumber { get; set; }
-            public string Pseudonym { get; set; }
+            public string Email { get; set; }
             public Guid SessionId { get; set; }
         }
 
@@ -42,9 +41,9 @@ namespace HyFive.Services.Session
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 
-                if (!_userService.HasHprOrPseudonymAndIsActive<Observer>(request.HPRNumber, request.Pseudonym).Compile()(session.Observer))
+                if (!_userService.HasEmailAndIsActive<Observer>(request.Email).Compile()(session.Observer))
                     throw new Exception(
-                        $"The session with ID {{request.SessionId}} is not associated with a user with HPR number {request.HPRNumber}");
+                        $"The session with ID {{request.SessionId}} is not associated with a user with email {request.Email}");
 
                 var handmykkeSesjon = _mapper.Map<Domain.Session.HandJewelrySession, HandJewelrySession>(session);
                 return handmykkeSesjon;
