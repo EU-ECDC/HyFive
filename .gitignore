@@ -234,3 +234,4 @@ _Pvt_Extensions
 .fake/
 /HyFive.Observasjon
 /HyFive.Observasjon/ClientApp/node_modules
+/HyFive.Admin/appsettings.json
