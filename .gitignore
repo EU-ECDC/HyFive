@@ -237,3 +237,5 @@ _Pvt_Extensions
 /HyFive.Admin/appsettings.json
 /HyFive.Admin/appsettings.json
 /HyFive.Admin/appsettings.json
+/HyFive.Admin/appsettings.Development.json
+/HyFive.Observation/appsettings.Development.json
