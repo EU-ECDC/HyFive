@@ -1,7 +1,7 @@
 ﻿using HyFive.Domain.User;
 using HyFive.Models.V1;
 using HyFive.Models.V1.User;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.HealthcareOrganization;
@@ -67,18 +67,18 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {
-                var coordinatorsWithInstitutionsList = await _mediator.Send(new GetCoordinatorsForHealthcareOrganization.Query
+                var coordinatorsWithFacilitiesList = await _mediator.Send(new GetCoordinatorsForHealthcareOrganization.Query
                 {
                     HealthcareOrganizationId = id
                 });
-                return Ok(coordinatorsWithInstitutionsList);
+                return Ok(coordinatorsWithFacilitiesList);
             }
 
             return Unauthorized();
         }
 
-        [HttpGet("{id}/Institutions")]
-        public async Task<ActionResult<InstitutionReport[]>> GetInstitutionsForHealthcareOrganization(int id)
+        [HttpGet("{id}/Facilities")]
+        public async Task<ActionResult<FacilityReport[]>> GetFacilitiesForHealthcareOrganization(int id)
         {
             if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(id))
             {

@@ -6,7 +6,7 @@ namespace HyFive.Models.V1.UserAccessRequest
     public class CreateUserAccessRequest
     {
         [TsProperty(ForceNullable = true)]
-        public int InstitutionId { get; set; }
+        public int FacilityId { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string IdentityPseudonym { get; set; }

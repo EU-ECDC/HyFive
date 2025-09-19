@@ -3,7 +3,7 @@ import { HandJewelrySession } from 'src/app/models/api/HandJewelrySession';
 import { Role } from 'src/app/models/api/Role';
 import { HandJewelrySessionService } from 'src/app/services/data/hand-Jewelry-session.service';
 import { HandJewelrySessionView } from '../../models/registration/handJewelry-session-view.model';
-import { InstitutionService } from '../../services/data/InstitutionService';
+import { FacilityService } from '../../services/data/FacilityService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { Urls } from '../../constants/urls';
@@ -38,9 +38,9 @@ export class RegisterHandjewelryComponent implements OnInit, OnDestroy {
     private sessionService: HandJewelrySessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private toastrService: ToastrService) {
-    this.institutionService.getSelectedInstitution()
+    this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 

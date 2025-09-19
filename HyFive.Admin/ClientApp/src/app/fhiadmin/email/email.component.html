@@ -5,14 +5,14 @@
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
-                <label for="institution">Institution</label>
+                <label for="facility">Healthcare facilities</label>
                 <ng-select
                     [searchable]="false"
                     [clearable]="false"
-                    [items]="institutions"
+                    [items]="facilities"
                     bindLabel="name"
                     bindValue="id"
-                    [(ngModel)]="institutionId"
+                    [(ngModel)]="facilityId"
                     (ngModelChange)="updateUserList()"
                     >
                 </ng-select>

@@ -56,7 +56,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observation") observation: FiveIndicationsObservation;
   @Input("department") department: Department;
-  @Input("institutionid") institutionid: number;
+  @Input("facilityid") facilityid: number;
   @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
   @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
   @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FiveIndicationsObservation> = new EventEmitter<FiveIndicationsObservation>();

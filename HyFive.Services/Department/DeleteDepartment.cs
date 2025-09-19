@@ -28,10 +28,10 @@ namespace HyFive.Services.Department
 
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var institution = GetDepartment(command.DepartmentId);
+                var facility = GetDepartment(command.DepartmentId);
                 
 
-                DeleteDepartmentWithAssociatedData(institution);
+                DeleteDepartmentWithAssociatedData(facility);
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return true;
@@ -44,7 +44,7 @@ namespace HyFive.Services.Department
 
                 if (department == null)
                 {
-                    throw new Exception($"Did not find institution with ID {departmentId}");
+                    throw new Exception($"Did not find facility with ID {departmentId}");
                 }
 
                 return department;
@@ -119,12 +119,12 @@ namespace HyFive.Services.Department
                     .ThenInclude(o => o.ProtectiveEquipmentList)
                     .Where(s => s.Department.Id == departmentId).ToList();
 
-                foreach (var sesjon in departmentSessions)
+                foreach (var session in departmentSessions)
                 {
-                    var protectiveEquipmentList = sesjon.Observations.SelectMany(o => o.ProtectiveEquipmentList).ToList();
+                    var protectiveEquipmentList = session.Observations.SelectMany(o => o.ProtectiveEquipmentList).ToList();
                     _context.RemoveRange(protectiveEquipmentList);
-                    _context.ProtectiveEquipmentObservation.RemoveRange(sesjon.Observations);
-                    _context.Session.Remove(sesjon);
+                    _context.ProtectiveEquipmentObservation.RemoveRange(session.Observations);
+                    _context.Session.Remove(session);
                 }
             }
         }

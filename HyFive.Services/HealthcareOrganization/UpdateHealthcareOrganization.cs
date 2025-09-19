@@ -11,7 +11,7 @@ namespace HyFive.Services.HealthcareOrganization
     {
         public class Command : IRequest<bool>
         {
-            public Models.V1.Institution.HealthcareOrganization HealthcareOrganization { get; set; }
+            public Models.V1.Facility.HealthcareOrganization HealthcareOrganization { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>

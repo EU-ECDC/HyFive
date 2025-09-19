@@ -12,20 +12,20 @@ export class RequestAboutUserAccessService {
   
   constructor(private readonly http: HttpClient) { }
 
-  getAllRequests(institutionId: number): Observable<RequestAboutUserAccess[]> {
+  getAllRequests(facilityId: number): Observable<RequestAboutUserAccess[]> {
     const url = `${environment.apiBaseUrl}/v1/userAccessRequest/allrequests`;
 
     let params = new HttpParams();
-    params = params.append("institutionId", institutionId.toString());
+    params = params.append("facilityId", facilityId.toString());
 
     return this.http.get<RequestAboutUserAccess[]>(url, {params: params});
   }
 
-  getRequestsAwaitingApproval(institutionId: number): Observable<RequestAboutUserAccess[]> {
+  getRequestsAwaitingApproval(facilityId: number): Observable<RequestAboutUserAccess[]> {
     const url = `${environment.apiBaseUrl}/v1/userAccessRequest/pendingApprovalRequests`;
 
     let params = new HttpParams();
-    params = params.append("institutionId", institutionId.toString());
+    params = params.append("facilityId", facilityId.toString());
 
     return this.http.get<RequestAboutUserAccess[]>(url, {params: params});
   }

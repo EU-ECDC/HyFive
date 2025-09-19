@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreateHealthcareOrganizationRequest } from 'src/app/models/api/CreateHealthcareOrganizationRequest';
 import { environment } from 'src/environments/environment';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityReport } from '../../models/api/FacilityReport';
 import { CoordinatorForHealthcareOrganization } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { Status } from 'src/app/models/api/Status';
 import { HealthcareOrganization } from '../../models/api/HealthcareOrganization';
@@ -35,9 +35,9 @@ export class HealthcareOrganizationService {
     return this.httpClient.get<CoordinatorForHealthcareOrganization[]>(url);
   }
 
-  getInstitutions(id: number): Observable<InstitutionReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/healthcareorganization/${id}/institutions`;
-    return this.httpClient.get<InstitutionReport[]>(url);
+  getFacilities(id: number): Observable<FacilityReport[]> {
+    const url = `${environment.apiBaseUrl}/v1/healthcareorganization/${id}/facilities`;
+    return this.httpClient.get<FacilityReport[]>(url);
   }
 
   updateCoordinator(id: number, coordinator: CoordinatorForHealthcareOrganization): Observable<Status> {

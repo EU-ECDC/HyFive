@@ -7,7 +7,7 @@ import {GloveSessionService} from '../services/data/glove-session.service';
 import {ProtectiveEquipmentSessionService} from '../services/data/protectiveEquipment-session.service';
 import {HandJewelrySessionService} from '../services/data/hand-Jewelry-session.service';
 import {ToastrService} from 'ngx-toastr';
-import { Institution } from '../models/api/Institution';
+import { Facility } from '../models/api/Facility';
 import { RequestAboutUserAccessService } from '../services/data/requestAboutUserAccess.service';
 import {ClipboardService} from 'ngx-clipboard';
 import { CodeWorkCacheService } from '../services/data/codeWork-cache.service';
@@ -25,11 +25,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   user: LoggedInUser;
   Urls = Urls;
   receivedUserStatusFromServer = false;
-  institutions: Institution[];
-  selectedInstitution: Institution = null;
+  facilities: Facility[];
+  selectedFacility: Facility = null;
   showErrorMessage: boolean = false;
   showRequestIsRegistered = false;
-  institution: Institution;
+  facility: Facility;
   showRequestAwaitingApproval = false;
   showRequestRegistration = true;
   isShowPseudonym = false;
@@ -58,11 +58,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             (forsporsel) => {
               if(forsporsel != null)
               {
-                this.requestAboutUserAccessService.getInstitution(forsporsel.institutionId).subscribe(
-                  (institution) => {
-                    if(institution != null)
+                this.requestAboutUserAccessService.getFacility(forsporsel.facilityId).subscribe(
+                  (facility) => {
+                    if(facility != null)
                     {
-                      this.institution = institution;
+                      this.facility = facility;
                       this.showRequestAwaitingApproval = true;
                       this.showRequestRegistration = false;
                     }
@@ -74,9 +74,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           // this.codeWorkCacheService.loadCodeworks();
         });
 
-        this.requestAboutUserAccessService.getInstitutions().subscribe(
-          (institutions) => {
-            this.institutions = institutions;
+        this.requestAboutUserAccessService.getFacilities().subscribe(
+          (facilities) => {
+            this.facilities = facilities;
           }
         );
       }
@@ -115,14 +115,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   sendRequest() {
-    if(this.selectedInstitution)
+    if(this.selectedFacility)
     {
       var newRequestAboutUserAccess = {
-        institutionId: this.selectedInstitution?.id,
+        facilityId: this.selectedFacility?.id,
         userFirstName: this.user.firstName,
         userLastName: this.user.lastName,
         hprNumber: this.user.hprNumber,
-        identityPseudonym: this.user.identityPseudonym
+        identityPseudonym: this.user.identityPseudonym,
+        email: this.user.email
       }
       this.requestAboutUserAccessService.sendRequestAboutUserAccess(newRequestAboutUserAccess).subscribe(
         (isUserCreated) => {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using Reinforced.Typings.Attributes;
 
 namespace HyFive.Models.V1.Overview

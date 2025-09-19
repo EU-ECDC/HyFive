@@ -37,7 +37,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   roles: Role[];
   ProtectiveEquipmentSelection: ProtectiveEquipment[] = [];
   protectiveEquipmentSessionType: number = SessionType.ProtectiveEquipment;
-  institutionid: number;
+  facilityid: number;
 
   faEraser = faEraser;
   faSave = faSave;
@@ -69,7 +69,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
       this.updateProtectiveEquipmentSelection();
     })
     this.ProtectiveEquipmentSelection = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes);
-    this.institutionid = this.sessionView.department.institutionId;
+    this.facilityid = this.sessionView.department.facilityId;
   }
 
 

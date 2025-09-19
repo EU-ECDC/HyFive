@@ -52,7 +52,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   glovesUsed = null;
   selectedHandHygieneAfterGlovesUsed = null;
   glovesSessionType: number = SessionType.Gloves;
-  institutionid: number;
+  facilityid: number;
   
   uuid: string;
 
@@ -85,7 +85,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
     });
     this.uuid = Uuid.generateUUID();
-    this.institutionid = this.sessionView.department.institutionId;
+    this.facilityid = this.sessionView.department.facilityId;
   }
 
   deleteCard() {

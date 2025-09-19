@@ -24,8 +24,8 @@ namespace HyFive.Services.Reports.HandJewelry
             CreateRoleToColorMap(report);
 
             var grafForDepartment = CreateGraph(report.ReportForDepartment, "Report for department");
-            var graphForInstitution = CreateGraph(report.ReportForInstitution, "Report for institution");
-            var pdf = CreatePdf(grafForDepartment, graphForInstitution, report);
+            var graphForFacility = CreateGraph(report.ReportForFacility, "Report for facility");
+            var pdf = CreatePdf(grafForDepartment, graphForFacility, report);
 
             return pdf;
         }
@@ -39,10 +39,10 @@ namespace HyFive.Services.Reports.HandJewelry
         private void CreateRoleToColorMap(JewelryReportForJewelryTypeAndRole report)
         {
             var allRolesDepartment = report.ReportForDepartment.RoleJewelrySummaryList.SelectMany(p => p.CountByRoleList.Select(q => q.Role)).ToList();
-            var allRolesInstitution = report.ReportForInstitution.RoleJewelrySummaryList.SelectMany(p => p.CountByRoleList.Select(q => q.Role)).ToList();
+            var allRolesFacility = report.ReportForFacility.RoleJewelrySummaryList.SelectMany(p => p.CountByRoleList.Select(q => q.Role)).ToList();
 
             var allRoles = allRolesDepartment;
-            allRoles.AddRange(allRolesInstitution);
+            allRoles.AddRange(allRolesFacility);
             allRoles = allRoles.Distinct().ToList();
             allRoles.Insert(0, TotalForAllRoles);
 
@@ -250,7 +250,7 @@ namespace HyFive.Services.Reports.HandJewelry
         private const int YSpacing = 50;
         private const int LeftMargin = 50;
 
-        private static PdfResult CreatePdf(byte[] graphForDepartment, byte[] graphForInstitution, JewelryReportForJewelryTypeAndRole report)
+        private static PdfResult CreatePdf(byte[] graphForDepartment, byte[] graphForFacility, JewelryReportForJewelryTypeAndRole report)
         {
             var copyOfTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.Report-template.pdf");
             using var pdfMemoryStream = new MemoryStream();
@@ -266,7 +266,7 @@ namespace HyFive.Services.Reports.HandJewelry
             pdfContent.AddImage(image);
 
             yStart -= ImageHeight + YSpacing;
-            image = CreateImage(graphForInstitution, yStart);
+            image = CreateImage(graphForFacility, yStart);
             pdfContent.AddImage(image);
 
             pdfStamper.FormFlattening = true;
@@ -285,7 +285,7 @@ namespace HyFive.Services.Reports.HandJewelry
         {
             pdfStamper.AcroFields.SetField("title", "Report on Observations of Transmission Prevention Measures (NOST)");
             pdfStamper.AcroFields.SetField("subtitle", "Module 2: Jewelry, Watches, and Nails");
-            pdfStamper.AcroFields.SetField("institution", $"Institution: {report.Institution}");
+            pdfStamper.AcroFields.SetField("facility", $"Facility: {report.Facility}");
             pdfStamper.AcroFields.SetField("department", $"Department: {report.Department}");
             pdfStamper.AcroFields.SetField("time period", "Registered time period: " +
                                                       $"{report.FromDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)} - " +
@@ -293,7 +293,7 @@ namespace HyFive.Services.Reports.HandJewelry
             pdfStamper.AcroFields.SetField("report date", $"Report date: {DateTime.Today.ToString(Helpers.DateFormat)}");
 
             FillOutUnitInfo(report.ReportForDepartment, pdfStamper, "Number of observations - Department", "Department info");
-            FillOutUnitInfo(report.ReportForInstitution, pdfStamper, "Number of observations - Institution", "Institution info");
+            FillOutUnitInfo(report.ReportForFacility, pdfStamper, "Number of observations - Facility", "Facility info");
         }
 
         private static void FillOutUnitInfo(ReportForUnit reportForUnit, PdfStamper pdfStamper, string header, string field)

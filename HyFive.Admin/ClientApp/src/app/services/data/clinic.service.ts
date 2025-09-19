@@ -12,13 +12,13 @@ export class ClinicService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getClinic(id: number, institutionId: number): Observable<Clinic> {
-    const url = `${environment.apiBaseUrl}/v1/clinic/${id}?institutionId=${institutionId}`;
+  getClinic(id: number, facilityId: number): Observable<Clinic> {
+    const url = `${environment.apiBaseUrl}/v1/clinic/${id}?facilityId=${facilityId}`;
     return this.http.get<Clinic>(url);
   }
 
-  getClinicsForInstitution(institutionId: number): Observable<Clinic[]> {
-    const url = `${environment.apiBaseUrl}/v1/clinic/institution/${institutionId}`;
+  getClinicsForFacility(facilityId: number): Observable<Clinic[]> {
+    const url = `${environment.apiBaseUrl}/v1/clinic/facility/${facilityId}`;
     return this.http.get<Clinic[]>(url);
   }
 

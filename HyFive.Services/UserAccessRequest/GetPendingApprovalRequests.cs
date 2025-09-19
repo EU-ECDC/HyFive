@@ -14,7 +14,7 @@ namespace HyFive.Services.UserAccessRequest
     {
         public class Query : IRequest<Models.V1.UserAccessRequest.UserAccessRequest[]>
         {
-            public int InstitutionId { get; set; }
+            public int FacilityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.UserAccessRequest.UserAccessRequest[]>
@@ -33,7 +33,7 @@ namespace HyFive.Services.UserAccessRequest
             {
                 return await _context.UserAccessRequest
                     .AsNoTracking()
-                    .Where(f => f.Status == UserAccessRequestStatus.Registered && f.InstitutionId.Value == request.InstitutionId)
+                    .Where(f => f.Status == UserAccessRequestStatus.Registered && f.FacilityId.Value == request.FacilityId)
                     .ProjectTo<Models.V1.UserAccessRequest.UserAccessRequest>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
             }

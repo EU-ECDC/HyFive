@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -12,12 +12,12 @@ namespace HyFive.Services.HealthcareOrganization
 {
     public class GetHealthcareOrganization
     {
-        public class Query : IRequest<InstitutionReport[]>
+        public class Query : IRequest<FacilityReport[]>
         {
             public int HealthcareOrganizationId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, InstitutionReport[]>
+        public class Handler : IRequestHandler<Query, FacilityReport[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace HyFive.Services.HealthcareOrganization
                 _mapper = mapper;
             }
 
-            public async Task<InstitutionReport[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Institution.Where(x=>x.HealthcareOrganization.Id == request.HealthcareOrganizationId);
+                var query = _context.Facility.Where(x=>x.HealthcareOrganization.Id == request.HealthcareOrganizationId);
 
                 var result = await query
-                    .ProjectTo<InstitutionReport>(_mapper.ConfigurationProvider)
+                    .ProjectTo<FacilityReport>(_mapper.ConfigurationProvider)
                     .ToArrayAsync();
                 return result;
             }

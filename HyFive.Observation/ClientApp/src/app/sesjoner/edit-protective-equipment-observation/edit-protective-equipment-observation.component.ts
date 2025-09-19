@@ -43,7 +43,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observation") observation: ProtectiveEquipmentObservation;
   @Input("department") department: Department;
-  @Input("institutionid") institutionid: number;
+  @Input("facilityid") facilityid: number;
   @Output("observationDeletedEvent") observationDeletedEvent = new EventEmitter();
 
 

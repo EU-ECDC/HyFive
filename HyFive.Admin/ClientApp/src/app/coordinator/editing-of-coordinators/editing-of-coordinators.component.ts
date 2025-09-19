@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitutionService } from '../../services/data/institution.service';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityService } from '../../services/data/facility.service';
+import { FacilityReport } from '../../models/api/FacilityReport';
 
 @Component({
   selector: 'app-editing-of-coordinators',
@@ -8,21 +8,21 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 })
 export class EditingCoordinatorsComponent implements OnInit {
 
-  institutionReport: InstitutionReport = null;
-  constructor(private institutionService: InstitutionService) { }
+  facilityReport: FacilityReport = null;
+  constructor(private facilityService: FacilityService) { }
 
   ngOnInit(): void {
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result) => {
-      this.institutionReport = {
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result) => {
+      this.facilityReport = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,
-        institutionType: result.institutionType,
+        facilityType: result.facilityType,
         name: result.name,
         region: result.region,
         healthcareOrganization: result.healthcareOrganization
-      } as InstitutionReport;
+      } as FacilityReport;
     });
   }
 }

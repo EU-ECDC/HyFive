@@ -1,4 +1,4 @@
-﻿using HyFive.Models.V1.Institution;
+﻿using HyFive.Models.V1.Facility;
 using Reinforced.Typings.Attributes;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace HyFive.Models.V1.User
         public string IdentityPseudonym { get; set; }
         public bool IsDisabled { get; set; }
         public string HPRNumber { get; set; }
-        public List<InstitutionReport> Institutions { get; set; }
+        public List<FacilityReport> Facilities { get; set; }
         [TsProperty(ForceNullable = true)]
         public string ModifiedPseudonym { get; set; }
         [TsProperty(ForceNullable = true)]

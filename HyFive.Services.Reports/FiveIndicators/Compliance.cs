@@ -16,7 +16,7 @@ namespace HyFive.Services.Reports.FiveIndicators
     {
         public class Query : IRequest<List<GrafDto>>
         {
-            public List<int> InstitutionIds { get; set; } = new();
+            public List<int> FacilityIds { get; set; } = new();
             public string Interval { get; set; }
             public int FromMonth { get; set; }
             public int FromYear { get; set; }
@@ -26,7 +26,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             public int ToQuarter { get; set; }
             public List<int> RoleIds { get; set; } = new();
             public List<int> DepartmentIds { get; set; } = new();
-            public List<int> InstitutionTypeIds { get; set; } = new();       // Optional: add if needed
+            public List<int> FacilityTypeIds { get; set; } = new();       // Optional: add if needed
             public List<int> DepartmentTypeIds { get; set; } = new();
             public int TranferredTo { get; set; }
         }
@@ -75,11 +75,11 @@ namespace HyFive.Services.Reports.FiveIndicators
                                                                                       .AsNoTracking()
                                                                                       .Where(f => f.RegisteredTime >= fromDateUtc &&
                                                                                                   f.RegisteredTime < toDateUtc &&
-                                                                                                  request.InstitutionIds.Contains(f.FiveIndicationsSession.Department.Institution.Id));
+                                                                                                  request.FacilityIds.Contains(f.FiveIndicationsSession.Department.Facility.Id));
 
-                if (request.InstitutionTypeIds?.Any() == true)
+                if (request.FacilityTypeIds?.Any() == true)
                 {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.InstitutionTypeIds.Contains(x.FiveIndicationsSession.Department.Institution.InstitutionType.Id));
+                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.FacilityTypeIds.Contains(x.FiveIndicationsSession.Department.Facility.FacilityType.Id));
                 }
 
                 if (request.RoleIds?.Any() == true)

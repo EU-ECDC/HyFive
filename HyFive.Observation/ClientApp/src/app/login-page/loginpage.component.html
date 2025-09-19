@@ -21,22 +21,22 @@
     <div *ngIf="isOnline && (isLoggedIn == false || user?.isObserver == false) && showRequestRegistration" class="row">
       <div class="col-lg-6">
         <div *ngIf="user?.isObserver == false">
-          You are not registered as a user of ECDC. Select an institution in the list and click "Register".
+          You are not registered as a user of ECDC. Select a healthcare facility in the list and click "Register".
           <div class="row my-4">
             <div class="col-12">
-              <h5>Select institution:</h5>
+              <h5>Select healthcare facility:</h5>
               <div class="form-group">
                 <select class="form-select form-control-lg bg-white mb-2"
-                        name="institution" id="institutions"
-                        [(ngModel)]="selectedInstitution">
+                        name="facility" id="facilities"
+                        [(ngModel)]="selectedFacility">
                   <option [ngValue]="null"></option>
-                  <option *ngFor="let institution of institutions" [ngValue]="institution">{{institution.name}}</option>
+                  <option *ngFor="let facility of facilities" [ngValue]="facility">{{facility.name}}</option>
                 </select>
               </div>
             </div>
             <div class="col-12">
               <div class="row">
-                <div class="col-6"><button class="btn fhi-btn-primary" [disabled]="selectedInstitution == null" (click)="sendRequest()">Register</button></div>
+                <div class="col-6"><button class="btn fhi-btn-primary" [disabled]="selectedFacility == null" (click)="sendRequest()">Register</button></div>
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
         Your request has been submitted for approval.
       </div>
       <div class="col-lg-6 alert-info p-2" *ngIf="showRequestAwaitingApproval">
-        Your user access request has been sent to {{institution?.name}}. It is awaiting approval.
+        Your user access request has been sent to {{facility?.name}}. It is awaiting approval.
       </div>
     </ng-container>
     <div *ngIf="showErrorMessage" class="row">
@@ -96,7 +96,7 @@
           Copy pseudonym<span class="d-none d-sm-inline"> to clipboard</span>
         </button>
       </p>
-      <p>Pseudonym is only used to gain access to other institutions</p>
+      <p>Pseudonym is only used to gain access to other facilities</p>
     </app-pseudonym>
   </ng-container> -->
   <div class="row" *ngIf="isLoggedIn">

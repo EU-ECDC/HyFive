@@ -2,7 +2,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { InstitutionReport } from './InstitutionReport';
+import { FacilityReport } from './FacilityReport';
 
 export interface CoordinatorForHealthcareOrganization
 {
@@ -14,7 +14,7 @@ export interface CoordinatorForHealthcareOrganization
 	identityPseudonym: string;
 	isDisabled: boolean;
 	hprNumber: string;
-	institutions: InstitutionReport[];
+	facilities: FacilityReport[];
 	modifiedPseudonym?: string;
 	modifiedHPRNumber?: string;
 }

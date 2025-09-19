@@ -2,11 +2,11 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { LoggedInUser } from '../../models/api/LoggedInUser';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityReport } from '../../models/api/FacilityReport';
 import { CoordinatorForHealthcareOrganization } from '../../models/api/CoordinatorForHealthcareOrganization';
 import { UserService } from '../../services/data/user.service';
 import { HealthcareOrganizationService } from '../../services/data/healthcareOrganization.service';
-import { InstitutionForCoordinatorEventService } from '../../services/events/instittution-for-coordinator-event.service';
+import { FacilityForCoordinatorEventService } from '../../services/events/facility-for-coordinator-event.service';
 import { KeyEventService } from '../../services/events/key-event.service';
 import { AuthorizationService } from '../../_common/services/authorization.service';
 import { ObservationService } from 'src/app/services/data/observation.service';
@@ -20,15 +20,15 @@ import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 })
 export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, OnDestroy {
 
-  @Input() institution: InstitutionReport;
+  @Input() facility: FacilityReport;
   coordinators: CoordinatorForHealthcareOrganization[];
-  institutionsHealthcareOrganization: InstitutionReport[];
+  facilitiesHealthcareOrganization: FacilityReport[];
 
   coordinatorAsChanged: CoordinatorForHealthcareOrganization = null;
   newCoordinator: CoordinatorForHealthcareOrganization = null;
 
   dropdownSettings: IDropdownSettings;
-  selectedInstitutions: InstitutionReport[] = [];
+  selectedFacilities: FacilityReport[] = [];
   user: LoggedInUser = null;
   keyword: string = '';
   filteredCoordinators: CoordinatorForHealthcareOrganization[];
@@ -39,7 +39,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
-    private institutionForCoordinatorEventService: InstitutionForCoordinatorEventService,
+    private facilityForCoordinatorEventService: FacilityForCoordinatorEventService,
     private authorizationService: AuthorizationService,
     private observationService: ObservationService
   ) {
@@ -56,7 +56,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     });
 
     this.loadCoordinators();
-    this.loadInstitutions();
+    this.loadFacilities();
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -74,7 +74,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
   }
 
   loadCoordinators() {
-    this.HealthcareOrganizationService.getCoordinators(this.institution.healthcareOrganization.id).subscribe(
+    this.HealthcareOrganizationService.getCoordinators(this.facility.healthcareOrganization.id).subscribe(
       (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators
@@ -83,18 +83,18 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     );
   }
 
-  loadInstitutions() {
-    this.HealthcareOrganizationService.getInstitutions(this.institution.healthcareOrganization.id).subscribe(
-      (institutions) => {
-        this.institutionsHealthcareOrganization = institutions
+  loadFacilities() {
+    this.HealthcareOrganizationService.getFacilities(this.facility.healthcareOrganization.id).subscribe(
+      (facilities) => {
+        this.facilitiesHealthcareOrganization = facilities
       },
-      (error) => this.toastrService.error('An error occurred while loading institutions: ' + error?.message, '', { disableTimeOut: true }),
+      (error) => this.toastrService.error('An error occurred while loading facilities: ' + error?.message, '', { disableTimeOut: true }),
     );
   }
 
   createEmptyCoordinator() {
     this.cancelEdit();
-    this.resetSelectedInstitutions();
+    this.resetSelectedFacilitys();
 
     this.newCoordinator = {
       lastName: '',
@@ -104,7 +104,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       identityPseudonym: null,
       createdTime: new Date(),
       isDisabled: false,
-      institutions: [this.institution]
+      facilities: [this.facility]
     };
   }
 
@@ -112,8 +112,8 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     if (this.newCoordinator.modifiedPseudonym == "") {
         this.newCoordinator.modifiedPseudonym = null;
     }
-    this.newCoordinator.institutions = this.selectedInstitutions;
-    this.HealthcareOrganizationService.createCoordinator(this.institution.healthcareOrganization.id, this.newCoordinator).subscribe(
+    this.newCoordinator.facilities = this.selectedFacilities;
+    this.HealthcareOrganizationService.createCoordinator(this.facility.healthcareOrganization.id, this.newCoordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator(s) and observer(s) created');
@@ -132,10 +132,10 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     if (this.isCoordinatorAsChanged(coordinator)) return;
 
     this.newCoordinator = null;
-    this.resetSelectedInstitutions();
+    this.resetSelectedFacilitys();
     let me = this;
-    coordinator.institutions.forEach(function (institution) {
-      me.selectedInstitutions.push(institution);
+    coordinator.facilities.forEach(function (facility) {
+      me.selectedFacilities.push(facility);
     });
 
     coordinator.modifiedHPRNumber = coordinator.hprNumber;
@@ -157,10 +157,10 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     if (coordinator.modifiedPseudonym == "") {
         coordinator.modifiedPseudonym = null;
     }
-    coordinator.institutions = this.selectedInstitutions;
-    let CurrentInstitutionIsStillSelected = this.selectedInstitutions.some(i => i.id == this.institution.id);
+    coordinator.facilities = this.selectedFacilities;
+    let CurrentFacilityIsStillSelected = this.selectedFacilities.some(i => i.id == this.facility.id);
     let isCoordinatorAsChangedLikeLoggedInUser = this.isCoordinatorAsChangedLikeLoggedInUser(coordinator);
-    this.HealthcareOrganizationService.updateCoordinator(this.institution.healthcareOrganization.id, coordinator).subscribe(
+    this.HealthcareOrganizationService.updateCoordinator(this.facility.healthcareOrganization.id, coordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success('Coordinator updated');
@@ -169,18 +169,18 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
             if (coordinator.isDisabled)
               this.authorizationService.logout();
 
-            if (CurrentInstitutionIsStillSelected)
-              this.institutionForCoordinatorEventService.updateInstitutionList.emit();
+            if (CurrentFacilityIsStillSelected)
+              this.facilityForCoordinatorEventService.updateFacilityList.emit();
           }
 
-          if (isCoordinatorAsChangedLikeLoggedInUser && !CurrentInstitutionIsStillSelected)
+          if (isCoordinatorAsChangedLikeLoggedInUser && !CurrentFacilityIsStillSelected)
             window.location.reload();
           else {
             this.coordinatorAsChanged = null;
             this.loadCoordinators();
           }
 
-          this.institutionForCoordinatorEventService.updateInstitutionList.emit();
+          this.facilityForCoordinatorEventService.updateFacilityList.emit();
         }
         else {
           this.toastrService.error(status.errorMessage, '', { disableTimeOut: true });
@@ -204,7 +204,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       && this.newCoordinator.email.length > 0
       && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
       && this.coordinators.find(coord => coord?.email == this.newCoordinator?.email) == undefined
-      && this.selectedInstitutions?.length > 0;
+      && this.selectedFacilities?.length > 0;
   }
 
   canChange(coordinator: CoordinatorForHealthcareOrganization) {
@@ -215,7 +215,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
       && this.coordinators
                       .filter(coord => coord.id !== coordinator.id)
                       .find(coord => coord?.email == coordinator?.email) == undefined
-      && this.selectedInstitutions?.length > 0;
+      && this.selectedFacilities?.length > 0;
   }
 
   omitSpecialChar(event) {   
@@ -233,13 +233,13 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
     this.newCoordinator = null;
   }
 
-  showInstitutionsForCoordinator(coordinator: CoordinatorForHealthcareOrganization): string {
-    const institutions = coordinator.institutions.map(institution => institution.name);
-    return institutions.toString();
+  showfacilitiesForCoordinator(coordinator: CoordinatorForHealthcareOrganization): string {
+    const facilities = coordinator.facilities.map(facility => facility.name);
+    return facilities.toString();
   }
 
-  resetSelectedInstitutions() {
-    this.selectedInstitutions.splice(0, this.selectedInstitutions.length);
+  resetSelectedFacilitys() {
+    this.selectedFacilities.splice(0, this.selectedFacilities.length);
   }
 
   filterCoordinators(): void {
@@ -249,7 +249,7 @@ export class EditCoordinatorsForHealthOrganizationComponent implements OnInit, O
                                     k.firstName?.toLowerCase().includes(this.keyword.toLowerCase()) || 
                                     k.lastName?.toLocaleLowerCase().includes(this.keyword.toLowerCase()) ||
                                     // k.hprNumber?.includes(this.keyword) ||
-                                    k.institutions?.some(i => i.name.toLowerCase().includes(this.keyword.toLowerCase())));
+                                    k.facilities?.some(i => i.name.toLowerCase().includes(this.keyword.toLowerCase())));
     }
     else if (this.keyword.length === 0)
       this.filteredCoordinators = this.coordinators;

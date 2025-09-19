@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ namespace HyFive.Services.Department
 {
     public class UpdateDepartment
     {
-        public class Command : IRequest<Models.V1.Institution.Department>
+        public class Command : IRequest<Models.V1.Facility.Department>
         {
             public Command() { Role = new List<Models.V1.Observation.Role>(); }
 
@@ -23,7 +23,7 @@ namespace HyFive.Services.Department
             public List<Models.V1.Observation.Role> Role { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Models.V1.Institution.Department>
+        public class Handler : IRequestHandler<Command, Models.V1.Facility.Department>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace HyFive.Services.Department
             }
 
 
-            public async Task<Models.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Department> Handle(Command command, CancellationToken cancellationToken)
             {
                 var department = await _context.Department
                                              .Include(a => a.Roles)
@@ -43,10 +43,10 @@ namespace HyFive.Services.Department
 
                 if (command.DepartmentTypeId > 0)
                 {
-                    var avdelingtype = _context.DepartmentType.FirstOrDefault(a => a.Id == command.DepartmentTypeId);
-                    if (avdelingtype == null)
+                    var departmentType = _context.DepartmentType.FirstOrDefault(a => a.Id == command.DepartmentTypeId);
+                    if (departmentType == null)
                         throw new Exception("Did not find department type with ID " + command.DepartmentTypeId);
-                    department.DepartmentType = avdelingtype;
+                    department.DepartmentType = departmentType;
                 }
 
                 if (command.Role.Any())
@@ -63,7 +63,7 @@ namespace HyFive.Services.Department
 
                 _context.Update(department);
                 await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Models.V1.Institution.Department>(department);
+                var mapped = _mapper.Map<Models.V1.Facility.Department>(department);
                 return mapped;
             }
         }

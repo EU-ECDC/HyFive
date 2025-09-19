@@ -67,11 +67,11 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
           this.loadAllHealthcareOrganizations();
         }
         else{
-          this.toastrService.error("HealthcareOrganization already exists", '', { disableTimeOut: true})
+          this.toastrService.error("City already exists", '', { disableTimeOut: true})
         }
       },
       () => {
-        this.toastrService.error("Error creating HealthcareOrganization", '', { disableTimeOut: true});
+        this.toastrService.error("Error creating City", '', { disableTimeOut: true});
       }
     );
   }
@@ -161,7 +161,7 @@ export class HealthEnterpriseComponent implements OnInit, OnDestroy
       case "Name":
         propertyOf = (x: HealthcareOrganization) => x.name.toLowerCase();
         break;
-      case "Regional HealthCare Organization":
+      case "City":
         propertyOf = (x: HealthcareOrganization) => x.regionalHealthcareOrganization?.name;
         break;
       default:

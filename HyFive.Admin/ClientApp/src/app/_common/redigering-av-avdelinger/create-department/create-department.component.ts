@@ -19,7 +19,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   departmentTypes: DepartmentType[];
   roles: Role[] = [];
 
-  @Input() institutionId: number;
+  @Input() facilityId: number;
   @Input() departments: Department[] = [];
   @Output() departmentCreatedEvent: EventEmitter<Department> = new EventEmitter<Department>();
 
@@ -34,7 +34,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
       this.roles = roles;
       this.roleSelected = roles.map<RoleSelected>((r) => ({role: r, isSelected: true}) );
       },
-      error => this.toastrService.error(`Something went wrong while loading roles for institution: ${error?.message ? error.message : error}`, '', { disableTimeOut: true})
+      error => this.toastrService.error(`Something went wrong while loading roles for facility: ${error?.message ? error.message : error}`, '', { disableTimeOut: true})
     );
   }
 
@@ -66,7 +66,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   resetForm() {
     this.newDepartment = {
       name: null,
-      institutionId: this.institutionId,
+      facilityId: this.facilityId,
       departmentTypeId: 0,
       roleIds: []
     };
@@ -77,7 +77,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   }
 
   canCreateDepartment(): boolean{
-    return this.newDepartment.institutionId > 0
+    return this.newDepartment.facilityId > 0
       && this.newDepartment.departmentTypeId > 0
       && this.roleSelected?.filter(r => r.isSelected)?.length > 0
       && this.newDepartment.name?.length > 0

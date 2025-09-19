@@ -39,10 +39,10 @@ namespace HyFive.Services.HandJewelry
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Verify that observer is an observer at the institution
+                // Verify that observer is an observer at the facility
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
-                    throw new Exception($"Did not find an observer with Email {request.Email} at institution with ID {request.Session.Department.InstitutionId}");
+                    throw new Exception($"Did not find an observer with Email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
 
                 var handJewelryTypes = _context.HandJewelryType.ToList();
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
@@ -83,14 +83,14 @@ namespace HyFive.Services.HandJewelry
 
             private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution
+                var facility = await _context.Facility
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
-                if (institution == null)
-                    throw new Exception($"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                if (facility == null)
+                    throw new Exception($"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return institution
+                return facility
                     .Users
                     .OfType<Observer>()
                     .FirstOrDefault(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile());

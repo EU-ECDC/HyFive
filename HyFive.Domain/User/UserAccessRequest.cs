@@ -5,7 +5,7 @@ namespace HyFive.Domain.User
     public class UserAccessRequest
     {
         public int Id { get; set; }
-        public int? InstitutionId { get; set; }
+        public int? FacilityId { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string IdentityPseudonym { get; set; }

@@ -1,6 +1,6 @@
 ﻿using HyFive.Models.V1.Overview;
 using HyFive.Models.V1.Session;
-using HyFive.Services.Institution;
+using HyFive.Services.Facility;
 using HyFive.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -36,21 +36,21 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Create report for institution(s) <see cref="InstitutionOverviewReport"/>
+        /// Create report for facilities <see cref="FacilityOverviewReport"/>
         /// </summary>
         /// <returns></returns>
-        [HttpGet("institutionsWithSessions")]
-        public async Task<ActionResult<IEnumerable<InstitutionOverviewReport>>> GetInstitutionsWithSessions(
-            [FromQuery] string institutionid,
+        [HttpGet("facilitiesWithSessions")]
+        public async Task<ActionResult<IEnumerable<FacilityOverviewReport>>> GetFacilitiesWithSessions(
+            [FromQuery] string facilityId,
             [FromQuery] SessionType? sessionType,
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate,
             [FromQuery] AuthorizedRole role)
         {
-            int? institutionId = null;
+            int? facilityid = null;
 
-            if (institutionid != null)
-                institutionId = int.Parse(institutionid);
+            if (facilityId != null)
+                facilityid = int.Parse(facilityId);
 
             string transferStatusType;
             if (role == AuthorizedRole.Administrator)
@@ -62,7 +62,7 @@ namespace HyFive.Admin.Controllers.V1
             else if (role == AuthorizedRole.Coordinator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToCoordinator;
-                if (!_userService.IsCoordinatorForInstitution(institutionId.Value))
+                if (!_userService.IsCoordinatorForFacility(facilityid.Value))
                     return Forbid();
             }
             else
@@ -78,12 +78,12 @@ namespace HyFive.Admin.Controllers.V1
                 ? DateTime.SpecifyKind(toDate.Value, DateTimeKind.Utc)
                 : (DateTime?)null;
 
-            return await _mediator.Send(new GetInstitutionsWithSessions.Query
+            return await _mediator.Send(new GetFacilitiesWithSessions.Query
             {
                 SessionType = sessionType,
                 FromDate = utcFromDate,
                 ToDate = utcToDate,
-                InstitutionId = institutionId,
+                FacilityId = facilityid,
                 TransferStatusType = transferStatusType
             });
         }
@@ -136,23 +136,23 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get all sessions for an institution <see cref="SessionOverviewReport"/>
+        /// Get all sessions for an facility <see cref="SessionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Coordinator)]
-        [HttpGet("institution")]
-        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> GetSessionsForInstitution(
-            [FromQuery] int institutionId,
+        [HttpGet("facility")]
+        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> GetSessionsForFacility(
+            [FromQuery] int facilityId,
             [FromQuery] int? observerId,
             [FromQuery] SessionType? sessionType,
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate)
         {
-            if (_userService.IsCoordinatorForInstitution(institutionId))
+            if (_userService.IsCoordinatorForFacility(facilityId))
             {
-                var resultat = await _mediator.Send(new GetSessionsForInstitution.Query()
+                var resultat = await _mediator.Send(new GetSessionsForFacility.Query()
                 {
-                    InstitutionId = institutionId,
+                    FacilityId = facilityId,
                     ObservatorId = observerId,
                     SessionType = sessionType,
                     FromDate = fromDate,
@@ -171,10 +171,10 @@ namespace HyFive.Admin.Controllers.V1
         [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("transfer")]
         public async Task<ActionResult<SessionOverviewReport>> TransferSessionToFhi(
-            [FromQuery] int institutionId,
+            [FromQuery] int facilityId,
             [FromQuery] Guid sessionId)
         {
-            if (_userService.IsCoordinatorForInstitution(institutionId))
+            if (_userService.IsCoordinatorForFacility(facilityId))
             {
                 var resultat = await _mediator.Send(new TransferSessionToAdmin.Query()
                 {

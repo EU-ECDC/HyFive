@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HyFive.Models.V1.Observation;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Institution;
+using HyFive.Services.Facility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using HyFive.Services.Roles;

@@ -36,7 +36,7 @@ namespace HyFive.Services.Session
                 var session = await _context.HandJewelrySession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);

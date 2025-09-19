@@ -33,12 +33,12 @@ namespace HyFive.Services.UserAccessRequest
                 
                 if (request == null) return false;
 
-                var institution = await GetInstitution(request);
+                var facility = await GetFacility(request);
 
-                if (institution == null) return false;
+                if (facility == null) return false;
 
-                if (!ExistsObserverForInstitution(request.IdentityPseudonym, institution.Id))
-                    CreateObserver(request, institution);
+                if (!ExistsObserverForFacility(request.Email, facility.Id))
+                    CreateObserver(request, facility);
 
                 var user = _context.User.FirstOrDefault(b => b.Email == command.Email);
 
@@ -54,19 +54,19 @@ namespace HyFive.Services.UserAccessRequest
                 return true;
             }
 
-            private bool ExistsObserverForInstitution(string IdentifierPseudonymRequest, int institutionId)
+            private bool ExistsObserverForFacility(string email, int facilityId)
             {
-                return _context.User.OfType<Observer>().Any(x => x.IdentityPseudonym == IdentifierPseudonymRequest &&
-                                                                     x.Institution.Id == institutionId);
+                return _context.User.OfType<Observer>().Any(x => x.Email == email &&
+                                                                     x.Facility.Id == facilityId);
             }
 
-            private void CreateObserver(Domain.User.UserAccessRequest request, Domain.Place.Institution institution)
+            private void CreateObserver(Domain.User.UserAccessRequest request, Domain.Place.Facility facility)
             {
                 var observer = new Observer()
                 {
                     FirstName = request.UserFirstName,
                     LastName = request.UserLastName,
-                    Institution = institution,
+                    Facility = facility,
                     HPRNumber = request.HPRNumber,
                     Email = request.Email,
                     IdentityPseudonym = request.IdentityPseudonym,
@@ -76,15 +76,15 @@ namespace HyFive.Services.UserAccessRequest
                 _context.User.Add(observer);
             }
 
-            private async Task<Domain.Place.Institution> GetInstitution(Domain.User.UserAccessRequest request)
+            private async Task<Domain.Place.Facility> GetFacility(Domain.User.UserAccessRequest request)
             {
-                Domain.Place.Institution institution = null;
-                if (request.InstitutionId != null)
+                Domain.Place.Facility facility = null;
+                if (request.FacilityId != null)
                 {
-                    institution = await _context.Institution.FindAsync(request.InstitutionId);
+                    facility = await _context.Facility.FindAsync(request.FacilityId);
                 }
                 
-                return institution;
+                return facility;
             }
         }
     }

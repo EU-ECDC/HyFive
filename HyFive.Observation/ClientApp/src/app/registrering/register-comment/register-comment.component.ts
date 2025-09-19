@@ -20,7 +20,7 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
 
   @Input("commentInput") commentInput;
   @Input('disabled') disabled = false;
-  @Input('institutionid') institutionid;
+  @Input('facilityid') facilityid;
   @Input("sessiontype") sessiontype: SessionType;
   @Output() commentRegisteredEvent = new EventEmitter<string>();
 
@@ -30,7 +30,7 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    if (this.institutionid && this.sessiontype)
+    if (this.facilityid && this.sessiontype)
       this.getPredefinedComments();
   }
 
@@ -46,7 +46,7 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
   }
 
   getPredefinedComments() {
-    this.predefinedCommentsService.getPredefinedComments(this.institutionid, this.sessiontype).subscribe(result => {
+    this.predefinedCommentsService.getPredefinedComments(this.facilityid, this.sessiontype).subscribe(result => {
       this.predefinedComments = result;
     });
   }

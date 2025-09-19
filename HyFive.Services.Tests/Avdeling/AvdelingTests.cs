@@ -17,7 +17,7 @@ namespace HyFive.Services.Tests.Department
             var hentAvdelingHandler = new GetDepartment.Handler(DatabaseContext, Mapper);
             var query = new GetDepartment.Query() { Id = 9999 };
 
-            var avdeling = new Domain.Place.Department { Id = 9999, InstitutionId = DatabaseContext.Institution.First().Id };
+            var avdeling = new Domain.Place.Department { Id = 9999, FacilityId = DatabaseContext.Facility.First().Id };
             DatabaseContext.Department.Add(avdeling);
             DatabaseContext.SaveChanges();
 
@@ -45,16 +45,16 @@ namespace HyFive.Services.Tests.Department
         public async Task HentAvdelingerForInstitusjonTest()
         {
             // Arrange
-            var institusjon = new Domain.Place.Institution { Id = 9999 };
-            var avdeling = new Domain.Place.Department { Id = 9999, InstitutionId = institusjon.Id };
-            var avdeling2 = new Domain.Place.Department { Id = 99999, InstitutionId = institusjon.Id };
-            DatabaseContext.Institution.Add(institusjon);
+            var institusjon = new Domain.Place.Facility { Id = 9999 };
+            var avdeling = new Domain.Place.Department { Id = 9999, FacilityId = institusjon.Id };
+            var avdeling2 = new Domain.Place.Department { Id = 99999, FacilityId = institusjon.Id };
+            DatabaseContext.Facility.Add(institusjon);
             DatabaseContext.Department.Add(avdeling);
             DatabaseContext.Department.Add(avdeling2);
             DatabaseContext.SaveChanges();
 
-            var hentAvdelingerForInstitusjon = new GetDepartmentsForInstitution.Handler(DatabaseContext, Mapper);
-            var query = new GetDepartmentsForInstitution.Query() { InstitutionId = 9999 };
+            var hentAvdelingerForInstitusjon = new GetDepartmentsForFacility.Handler(DatabaseContext, Mapper);
+            var query = new GetDepartmentsForFacility.Query() { FacilityId = 9999 };
 
             // Act
             var res = await hentAvdelingerForInstitusjon.Handle(query, new System.Threading.CancellationToken());
@@ -63,7 +63,7 @@ namespace HyFive.Services.Tests.Department
             Assert.Multiple(() =>
             {
                 Assert.That(res.ToList(), Has.Count.EqualTo(2));
-                Assert.That(res.All(x => x.InstitutionId == institusjon.Id));
+                Assert.That(res.All(x => x.FacilityId == institusjon.Id));
             });
         }
 
@@ -71,8 +71,8 @@ namespace HyFive.Services.Tests.Department
         public async Task HentAvdelingerForInstitusjon_InstitusjonEksistererIkke_ReturnererTomListe()
         {
             // Arrange
-            var hentAvdelingerForInstitusjon = new GetDepartmentsForInstitution.Handler(DatabaseContext, Mapper);
-            var query = new GetDepartmentsForInstitution.Query() { InstitutionId = 123456789 };
+            var hentAvdelingerForInstitusjon = new GetDepartmentsForFacility.Handler(DatabaseContext, Mapper);
+            var query = new GetDepartmentsForFacility.Query() { FacilityId = 123456789 };
 
             // Act
             var hentAvdelingerForInstitusjonResultat = await hentAvdelingerForInstitusjon.Handle(query, new System.Threading.CancellationToken());
@@ -90,7 +90,7 @@ namespace HyFive.Services.Tests.Department
             // Arrange and Act
             var opprettetAvdeling = await OpprettAvdeling();
             var opprettetAvdelingFraDatabase = DatabaseContext.Department
-                .Include(a => a.Institution)
+                .Include(a => a.Facility)
                 .Include(a => a.Roles)
                 .FirstOrDefault(a => a.Id == opprettetAvdeling.Id);
 
@@ -99,7 +99,7 @@ namespace HyFive.Services.Tests.Department
             {
                 Assert.That(opprettetAvdeling.Id, Is.GreaterThan(0));
                 Assert.That(opprettetAvdeling.Name, Is.EqualTo(opprettetAvdelingFraDatabase.Name));
-                Assert.That(opprettetAvdeling.InstitutionId, Is.EqualTo(opprettetAvdelingFraDatabase.Institution.Id));
+                Assert.That(opprettetAvdeling.FacilityId, Is.EqualTo(opprettetAvdelingFraDatabase.Facility.Id));
                 Assert.That(opprettetAvdeling.Roles.Any(r => r.Id == opprettetAvdelingFraDatabase.Roles.First().Id));
             });
         }
@@ -189,7 +189,7 @@ namespace HyFive.Services.Tests.Department
             var oppdaterAvdelingTypeHandler = new UpdateDepartmentType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateDepartmentType.Command()
             {
-                DepartmentType = new Models.V1.Institution.DepartmentType()
+                DepartmentType = new Models.V1.Facility.DepartmentType()
                 {
                     Id = opprettetAvdelingType.Id,
                     Name = "Da Vinci",
@@ -215,7 +215,7 @@ namespace HyFive.Services.Tests.Department
             var oppdaterAvdelingTypeHandler = new UpdateDepartmentType.Handler(DatabaseContext, Mapper);
             var oppdaterCommand = new UpdateDepartmentType.Command()
             {
-                DepartmentType = new Models.V1.Institution.DepartmentType()
+                DepartmentType = new Models.V1.Facility.DepartmentType()
                 {
                     Id = opprettetAvdelingType.Id,
                     Code = "PROVER",
@@ -237,15 +237,15 @@ namespace HyFive.Services.Tests.Department
 
         #region Helper-methods
 
-        private async Task<Models.V1.Institution.Department> OpprettAvdeling(int institusjonsId = 0, List<int> rolleIder = null, int avdelingTypeId = 0)
+        private async Task<Models.V1.Facility.Department> OpprettAvdeling(int institusjonsId = 0, List<int> rolleIder = null, int avdelingTypeId = 0)
         {
             var opprettAvdelingHandler = new CreateDepartment.Handler(DatabaseContext, Mapper);
             var opprettCommand = new CreateDepartment.Command()
             {
-                Request = new Models.V1.Institution.CreateDepartmentRequest()
+                Request = new Models.V1.Facility.CreateDepartmentRequest()
                 {
                     Name = "Test",
-                    InstitutionId = institusjonsId == 0 ? DatabaseContext.Institution.First().Id : institusjonsId,
+                    FacilityId = institusjonsId == 0 ? DatabaseContext.Facility.First().Id : institusjonsId,
                     DepartmentTypeId = avdelingTypeId == 0 ? DatabaseContext.DepartmentType.First().Id : avdelingTypeId,
                     RoleIds = rolleIder ?? new List<int>() { DatabaseContext.Role.First().Id }
                 }
@@ -256,12 +256,12 @@ namespace HyFive.Services.Tests.Department
             return resOpprett;
         }
 
-        private async Task<Models.V1.Institution.DepartmentType> OpprettAvdelingType(string kode = null)
+        private async Task<Models.V1.Facility.DepartmentType> OpprettAvdelingType(string kode = null)
         {
             var opprettAvdelingTypeHandler = new CreateDepartmentType.Handler(DatabaseContext, Mapper);
             var opprettCommand = new CreateDepartmentType.Command()
             {
-                DepartmentType = new Models.V1.Institution.DepartmentType()
+                DepartmentType = new Models.V1.Facility.DepartmentType()
                 {
                     Code = kode ?? "TEST",
                     Name = "Test"

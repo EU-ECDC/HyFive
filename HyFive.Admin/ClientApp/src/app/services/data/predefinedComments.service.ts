@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { Observable } from 'rxjs';
-import { OpprettPredefinertKommentarRequest } from '../../models/api/OpprettPredefinertKommentarRequest';
-import { InstitutionService } from './institution.service';
+import { CreatePredefinedCommentRequest } from '../../models/api/CreatePredefinedCommentRequest';
+import { FacilityService } from './facility.service';
 import { PredefinedComment } from "src/app/models/api/PredefinedComment";
 
 @Injectable({
@@ -14,24 +14,24 @@ export class PredefinedCommentsService {
 
   constructor(
     private httpClient: HttpClient,
-    private institutionService: InstitutionService
+    private facilityService: FacilityService
   ) { }
 
   getPredefinedComments(): Observable<PredefinedComment[]> {
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinedComment?institutionId=${selectedInstitutionId}`;
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    const url = `${environment.apiBaseUrl}/v1/predefinedComment?facilityId=${selectedFacilityId}`;
     return this.httpClient.get<PredefinedComment[]>(url);
   }
 
   updatePredefinedComment(predefinedComment: PredefinedComment): Observable<boolean>{
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinedComment/${selectedInstitutionId}/update`;
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    const url = `${environment.apiBaseUrl}/v1/predefinedComment/${selectedFacilityId}/update`;
     return this.httpClient.put<boolean>(url, predefinedComment);
   }
 
-  createPredefinedComment(newPredefinedComment: OpprettPredefinertKommentarRequest): Observable<boolean> {
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    const url = `${environment.apiBaseUrl}/v1/predefinedComment/${selectedInstitutionId}/create`;
+  createPredefinedComment(newPredefinedComment: CreatePredefinedCommentRequest): Observable<boolean> {
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    const url = `${environment.apiBaseUrl}/v1/predefinedComment/${selectedFacilityId}/create`;
     return this.httpClient.post<boolean>(url, newPredefinedComment);
   }
 }

@@ -35,7 +35,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 role.Chart = roleGraph;
             }
 
-            foreach (var role in departmentReport.Institution.Roles)
+            foreach (var role in departmentReport.Facility.Roles)
             {
                 var roleGraphChartConfig = MakeChartConfigForRole(role);
                 var roleGraph = await Helpers.CreateChart(roleGraphChartConfig, PixelWidth);
@@ -124,16 +124,16 @@ namespace HyFive.Services.Reports.FiveIndicators
             var fileName = departmentReport.Filename;
             reportsToBeCombined.Add(departmentReport);
 
-            if (reportForDepartment.Institution?.NumberOfObservations > 0)
+            if (reportForDepartment.Facility?.NumberOfObservations > 0)
             {
-                var institutionReport = CreatePdfReport(reportForDepartment.Institution);
-                reportsToBeCombined.Add(institutionReport);
+                var facilityReport = CreatePdfReport(reportForDepartment.Facility);
+                reportsToBeCombined.Add(facilityReport);
             }
 
             if (reportForDepartment.ComparableDepartments?.NumberOfObservations > 0)
             {
-                var sammenlignbareAvdelingerRapport = CreatePdfReport(reportForDepartment.ComparableDepartments);
-                reportsToBeCombined.Add(sammenlignbareAvdelingerRapport);
+                var comparableDepartmentsReport = CreatePdfReport(reportForDepartment.ComparableDepartments);
+                reportsToBeCombined.Add(comparableDepartmentsReport);
             }
 
             foreach (var clinic in reportForDepartment.Clinics)

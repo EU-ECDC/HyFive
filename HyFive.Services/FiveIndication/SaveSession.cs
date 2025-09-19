@@ -42,11 +42,11 @@ namespace HyFive.Services.FiveIndication
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Verify that the observer is an observer at the institution
+                // Verify that the observer is an observer at the facility
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Did not find an observer with email {request.Email} at institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
 
                 var indicationTypes = _context.IndicationTypes.ToList();
                 var activityTypes = _context.ActivityType.ToList();
@@ -94,15 +94,15 @@ namespace HyFive.Services.FiveIndication
 
             private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution
+                var facility = await _context.Facility
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
-                if (institution == null)
+                if (facility == null)
                     throw new Exception(
-                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return institution.Users.OfType<Observer>()
+                return facility.Users.OfType<Observer>()
                     .Where(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile())
                     .FirstOrDefault();
 

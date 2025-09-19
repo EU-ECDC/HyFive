@@ -37,11 +37,11 @@ namespace HyFive.Services.HealthcareOrganization
                     if (!CanCoordinatorBeUpdated(command.Coordinator, out var errorMessage))
                         return new Status { Success = false, ErrorMessage = errorMessage };
 
-                    var institutionIds = command.Coordinator.Institutions.Select(x => x.Id);
+                    var facilityIds = command.Coordinator.Facilities.Select(x => x.Id);
 
-                    foreach (var institutionId in institutionIds)
+                    foreach (var facilityId in facilityIds)
                     {
-                        var coordinator = GetCoordinator(institutionId, command.Coordinator.Email);
+                        var coordinator = GetCoordinator(facilityId, command.Coordinator.Email);
                         if (coordinator != null)
                         {
                             if (coordinator.IsDeactivated)
@@ -49,10 +49,10 @@ namespace HyFive.Services.HealthcareOrganization
                         }
                         else
                         {
-                            var newCoordinator = CreateCoordinatorForInstitution(command.Coordinator, institutionId);
+                            var newCoordinator = CreateCoordinatorForFacility(command.Coordinator, facilityId);
 
-                            // Coordinator must also be an observer for the same institution
-                            var newObserver = CreateObserverForInstitution(command.Coordinator, institutionId);
+                            // Coordinator must also be an observer for the same facility
+                            var newObserver = CreateObserverForFacility(command.Coordinator, facilityId);
 
                             _context.Add(newCoordinator);
                             _context.Add(newObserver);
@@ -73,9 +73,9 @@ namespace HyFive.Services.HealthcareOrganization
                 return new Status { Success = true };
             }
 
-            private Coordinator CreateCoordinatorForInstitution(HealthcareOrganizationCoordinator coordinator, int institutionId)
+            private Coordinator CreateCoordinatorForFacility(HealthcareOrganizationCoordinator coordinator, int facilityId)
             {
-                var institution = _context.Institution.FirstOrDefault(i => i.Id == institutionId);
+                var facility = _context.Facility.FirstOrDefault(i => i.Id == facilityId);
                 var newCoordinator = new Coordinator
                 {
                     FirstName = coordinator.FirstName,
@@ -83,14 +83,14 @@ namespace HyFive.Services.HealthcareOrganization
                     Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
-                    Institution = institution
+                    Facility = facility
                 };
                 return newCoordinator;
             }
 
-            private Observer CreateObserverForInstitution(HealthcareOrganizationCoordinator coordinator, int institutionId)
+            private Observer CreateObserverForFacility(HealthcareOrganizationCoordinator coordinator, int facilityId)
             { 
-                var institution = _context.Institution.FirstOrDefault(i => i.Id == institutionId);
+                var facility = _context.Facility.FirstOrDefault(i => i.Id == facilityId);
 
                 var observator = new Observer
                 {
@@ -99,15 +99,15 @@ namespace HyFive.Services.HealthcareOrganization
                     Email = coordinator.Email,
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
-                    Institution = institution
+                    Facility = facility
                 };
 
                 return observator;
             }
 
-            private Coordinator GetCoordinator(int institutionId, string email)
+            private Coordinator GetCoordinator(int facilityId, string email)
             {
-                var coordinator = _context.Coordinator.FirstOrDefault(k => k.Institution.Id == institutionId &&
+                var coordinator = _context.Coordinator.FirstOrDefault(k => k.Facility.Id == facilityId &&
                                                                         ((!string.IsNullOrEmpty(k.Email) &&
                                                                         k.Email == email)));
                 return coordinator;

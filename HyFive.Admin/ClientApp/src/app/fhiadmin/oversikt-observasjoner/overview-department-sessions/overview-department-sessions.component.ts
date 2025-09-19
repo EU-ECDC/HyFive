@@ -10,7 +10,7 @@ import { DepartmentService } from '../../../services/data/department.service';
 import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../../_common/services/authorization.service';
-import { InstitutionService } from 'src/app/services/data/institution.service';
+import { FacilityService } from 'src/app/services/data/facility.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -23,8 +23,8 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   selectedSessiontype: SessionType = null;
   fromDate: Date;
   toDate: Date;
-  selectedInstitutionId: number = null;
-  institutionIdSearch: number;
+  selectedFacilityId: number = null;
+  facilityIdSearch: number;
 
   sessionTypeOptions = [
     { name: "FiveIndications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
@@ -45,14 +45,14 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
     private observationService: ObservationService,
     private datepipe: DatePipe,
     private authorizationService: AuthorizationService,
-    private institutionService: InstitutionService
+    private facilityService: FacilityService
   ) { }
 
 
   ngOnInit(): void {
     this.loading = true;
     this.selectedRole = this.authorizationService.getSelectedRole();
-    this.selectedInstitutionId = this.getInstitutionId();
+    this.selectedFacilityId = this.getFacilityId();
 
     this.route
       .queryParams
@@ -62,7 +62,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
         this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
-        this.institutionIdSearch = params[QueryParameters.InstitutionIdIsOk] || null;
+        this.facilityIdSearch = params[QueryParameters.facilityIdIsOk] || null;
         this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
       });
 
@@ -84,7 +84,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
 
         this.loading = false;
         
-        if(this.isCoordinatorChangedInstitution())
+        if(this.isCoordinatorChangedFacility())
         {
           this.router.navigate([`/${UrlPaths.observations}`], {
             queryParams: {
@@ -97,14 +97,14 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
       });
   }
 
-  getInstitutionId(): number {
+  getFacilityId(): number {
     if(this.selectedRole === AuthorizedRole.Coordinator) 
-      return this.institutionService.getSelectedInstitutionId()
+      return this.facilityService.getSelectedFacilityId()
     return null;
   }
 
-  isCoordinatorChangedInstitution() {
-    return this.department.institutionId !== this.selectedInstitutionId && this.selectedRole == AuthorizedRole.Coordinator;
+  isCoordinatorChangedFacility() {
+    return this.department.facilityId !== this.selectedFacilityId && this.selectedRole == AuthorizedRole.Coordinator;
   }
 
   getSessionsForDepartment() {
@@ -128,13 +128,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
     return this.datepipe.transform(date, 'dd.MM.yyyy');
   }
 
-  navigateToObservationsForInstitutions() {
+  navigateToObservationsForFacilities() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         sessiontype: this.selectedSessiontype,
         fra: this.fromDate,
         til: this.toDate,
-        institutionIdSearch: this.institutionIdSearch
+        facilityIdSearch: this.facilityIdSearch
       }
     });
   }

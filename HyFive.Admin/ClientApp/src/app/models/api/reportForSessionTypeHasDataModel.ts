@@ -3,8 +3,8 @@ import { SessionType } from "./SessionType";
 
 export interface ReportForSessionTypeHasDataModel {
     sessionType: SessionType, 
-    // institutionTypeIds: number[],
-    institutionIds: number[], 
+    // facilityTypeIds: number[],
+    facilityIds: number[], 
     // departmentTypeIds: number[], 
     departmentIds: number[],
     fromDate: Date, 

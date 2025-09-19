@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PredefinedComment } from '../../models/api/PredefinedComment';
 import { PredefinedCommentsService } from '../../services/data/predefinedComments.service';
 import { ToastrService } from 'ngx-toastr';
-import { OpprettPredefinertKommentarRequest } from '../../models/api/OpprettPredefinertKommentarRequest';
+import { CreatePredefinedCommentRequest } from '../../models/api/CreatePredefinedCommentRequest';
 import { KeyEventService } from '../../services/events/key-event.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { KeyEventService } from '../../services/events/key-event.service';
 })
 export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
 
-  newPredefinedComment: OpprettPredefinertKommentarRequest = this.emptyRequest();
+  newPredefinedComment: CreatePredefinedCommentRequest = this.emptyRequest();
   predefinedComments: PredefinedComment[] = [];
   predefinedCommentAsChanged: PredefinedComment = null;
   loading: boolean = false;
@@ -45,7 +45,7 @@ export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
     );
   }
 
-  emptyRequest(): OpprettPredefinertKommentarRequest {
+  emptyRequest(): CreatePredefinedCommentRequest {
     return {
       comment: null
     }

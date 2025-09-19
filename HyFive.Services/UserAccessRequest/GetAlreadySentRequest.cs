@@ -36,9 +36,9 @@ namespace HyFive.Services.UserAccessRequest
                 if (userAccessRequest == null)
                     return null;
 
-                var institution = _context.Institution.FirstOrDefault(i => i.Id == userAccessRequest.InstitutionId);
+                var facility = _context.Facility.FirstOrDefault(i => i.Id == userAccessRequest.FacilityId);
 
-                if (institution == null)
+                if (facility == null)
                     return null;
 
                 return _mapper.Map<Models.V1.UserAccessRequest.UserAccessRequest>(userAccessRequest);

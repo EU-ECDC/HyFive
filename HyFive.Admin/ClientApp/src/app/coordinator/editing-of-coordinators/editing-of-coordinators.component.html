@@ -1,13 +1,13 @@
 <div class="container">
-  <ng-container *ngIf="institutionReport else spinner ">
+  <ng-container *ngIf="facilityReport else spinner ">
     <div class="row">
       <h3>Maintenance of coordinators</h3>
     </div>
-    <div *ngIf="!institutionReport.healthcareOrganization">
-      <app-edit-coordinators [institutionId]="institutionReport.id"></app-edit-coordinators>
+    <div *ngIf="!facilityReport.healthcareOrganization">
+      <app-edit-coordinators [facilityId]="facilityReport.id"></app-edit-coordinators>
     </div>
-    <div *ngIf="institutionReport.healthcareOrganization">
-      <app-edit-coordinators-for-healthcareOrganization [institution]="institutionReport"></app-edit-coordinators-for-healthcareOrganization>
+    <div *ngIf="facilityReport.healthcareOrganization">
+      <app-edit-coordinators-for-healthcareOrganization [facility]="facilityReport"></app-edit-coordinators-for-healthcareOrganization>
     </div>
   </ng-container>
   <ng-template #spinner>

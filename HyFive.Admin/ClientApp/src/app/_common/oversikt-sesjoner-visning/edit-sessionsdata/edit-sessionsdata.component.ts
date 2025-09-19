@@ -14,7 +14,7 @@ export class EditSessionDataComponent implements OnInit {
   @Input() session: SessionOverviewReport;
 
 
-  @Input() institutionId: number;
+  @Input() facilityId: number;
   @Input() canEdit: boolean;
 
   hasChangedDate: boolean;
@@ -35,7 +35,7 @@ export class EditSessionDataComponent implements OnInit {
     if(this.canSave()){
       var request: Partial<UpdateSessionRequest> = {
         sessionId: this.sessionCopy.id,
-        institutionId:  this.institutionId,
+        facilityId:  this.facilityId,
       }
 
       if(this.hasChangedComment){

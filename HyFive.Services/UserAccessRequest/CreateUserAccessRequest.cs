@@ -27,22 +27,22 @@ namespace HyFive.Services.UserAccessRequest
             {
                 var requestAlreadyExists = _context.UserAccessRequest
                                                             .FirstOrDefault(f =>
-                                                                f.InstitutionId == request.UserAccessRequest.InstitutionId 
-                                                                && f.IdentityPseudonym == request.UserAccessRequest.IdentityPseudonym
+                                                                f.FacilityId == request.UserAccessRequest.FacilityId 
+                                                                && f.Email == request.UserAccessRequest.Email
                                                                 && f.Status == UserAccessRequestStatus.Registered);
 
                 if (requestAlreadyExists != null)
                     return requestAlreadyExists.Id;
 
-                var institution = _context.Institution.Find(request.UserAccessRequest.InstitutionId);
+                var facility = _context.Facility.Find(request.UserAccessRequest.FacilityId);
                 var newUserAccessRequest = new Domain.User.UserAccessRequest()
                 {
                     UserFirstName = request.UserAccessRequest.UserFirstName,
                     UserLastName = request.UserAccessRequest.UserLastName,
-                    HPRNumber = request.UserAccessRequest.HPRNumber != "0" ? request.UserAccessRequest.HPRNumber : null,
+                    //HPRNumber = request.UserAccessRequest.HPRNumber != "0" ? request.UserAccessRequest.HPRNumber : null,
                     Email = request.UserAccessRequest.Email,
-                    IdentityPseudonym = request.UserAccessRequest.IdentityPseudonym,
-                    InstitutionId = institution?.Id,
+                    //IdentityPseudonym = request.UserAccessRequest.IdentityPseudonym,
+                    FacilityId = facility?.Id,
                     Status = UserAccessRequestStatus.Registered,
                     CreatedTime = DateTime.UtcNow
                 };

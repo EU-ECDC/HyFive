@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.Hanske
         //public async Task HentSesjonMedIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjonMedIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -64,7 +64,7 @@ namespace HyFive.Services.Tests.Hanske
         //public async Task HentSesjonUtenIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjonUtenIndikasjonTyper(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -98,9 +98,9 @@ namespace HyFive.Services.Tests.Hanske
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var lagreHanskeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
+            var avdelingModell = Mapper.Map<Models.V1.Facility.Department>(
+                avdeling ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Facility.First(x => x.Id == avdelingModell.FacilityId);
             var hanskeMedIndikasjonTyper = DatabaseContext.GloveWithIndicationType.ToList();
             var handhygieneEtterHanskebrukTyper = DatabaseContext.HandHygieneAfterGloveUseType.ToList();
 
@@ -110,8 +110,8 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionName = institusjon.Name,
-                    InstitutionId = institusjon.Id,
+                    FacilityName = institusjon.Name,
+                    FacilityId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {
                         new GloveObservation()
@@ -155,9 +155,9 @@ namespace HyFive.Services.Tests.Hanske
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var lagreHanskeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(
-                department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
+            var avdelingModell = Mapper.Map<Models.V1.Facility.Department>(
+                department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Facility.First(x => x.Id == avdelingModell.FacilityId);
             var hanskeUtenIndikasjonTyper = DatabaseContext.GloveWithoutIndicationType.ToList();
             var handhygieneEtterHanskebrukTyper = DatabaseContext.HandHygieneAfterGloveUseType.ToList();
 
@@ -167,8 +167,8 @@ namespace HyFive.Services.Tests.Hanske
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionName = institusjon.Name,
-                    InstitutionId = institusjon.Id,
+                    FacilityName = institusjon.Name,
+                    FacilityId = institusjon.Id,
                     Observations = new List<GloveObservation>()
                     {
                         new GloveObservation()

@@ -25,16 +25,16 @@
         <label for="to">To date</label>
         <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" [min]="fromDate || null" />
       </div>
-      <div *ngIf="canSelectInstitution" class="col-md-3">
-        <label for="institutions">Institution</label>
+      <div *ngIf="canSelectFacility" class="col-md-3">
+        <label for="facilities">Facility</label>
         <ng-select
           [searchable]="false"
           placeholder="All"
           [clearable]="false"
-          [items]="institutions"
+          [items]="facilities"
           bindLabel="name"
           bindValue="id"
-          [(ngModel)]="selectedInstitutionId"
+          [(ngModel)]="selectedFacilityId"
           (ngModelChange)="resetSearchresults()"
           >
         </ng-select>
@@ -42,7 +42,7 @@
       <div style="display: flex;" class="form-group col-12 col-md-3">
         <label style="opacity:0;">-</label>
         <br />
-        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getInstitutionsWithSessions()">Search</button>
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getFacilitiesWithSessions()">Search</button>
         <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
       </div>
     </div>
@@ -53,19 +53,19 @@
   </div>
 
   <!-- Search result -->
-  <div class="row mb-5" *ngIf="institutionOverviewReportList.length">
+  <div class="row mb-5" *ngIf="facilityOverviewReportList.length">
     <app-accordion class="col-12"
-                   [items]="institutionOverviewReportList"
-                   [headerTemplate]="headerInstitutionOverviewReport"
-                   [contentTemplate]="contentInstitutionOverviewReport"
+                   [items]="facilityOverviewReportList"
+                   [headerTemplate]="headerFacilityOverviewReport"
+                   [contentTemplate]="contentFacilityOverviewReport"
                    (shownEvent)="findId($event)">
     </app-accordion>
 
-    <ng-template #headerInstitutionOverviewReport let-item="item">
+    <ng-template #headerFacilityOverviewReport let-item="item">
       {{item.name}}. Sessions: {{item.numberOfSessions}}. Observations: {{item.numberOfObservations}}.
     </ng-template>
 
-    <ng-template #contentInstitutionOverviewReport let-item="item">
+    <ng-template #contentFacilityOverviewReport let-item="item">
       <h5>Departments</h5>
       <ng-container>
         <div class="table-responsive">

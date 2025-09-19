@@ -8,7 +8,7 @@ namespace HyFive.Domain.Place
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Institution Institution { get; set; }
+        public Facility Facility { get; set; }
         public ICollection<Department> Departments { get; set; }
     }
 }

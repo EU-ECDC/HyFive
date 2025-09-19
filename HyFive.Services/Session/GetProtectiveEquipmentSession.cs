@@ -37,7 +37,7 @@ namespace HyFive.Services.Session
                 var session = await _context.ProtectiveEquipmentSession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(o => o.EquipmentType)
                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(o => o.EquipmentType).ThenInclude(u => u.MisuseTypes)
                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(o => o.MisuseTypes)

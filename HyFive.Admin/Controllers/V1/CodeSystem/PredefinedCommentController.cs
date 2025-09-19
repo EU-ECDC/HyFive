@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Institution;
+using HyFive.Services.Facility;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,13 +29,13 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "GetPredefinedComments")]
-        public async Task<ActionResult<List<PredefinedComment>>> GetPredefinedComments(int institutionId)
+        public async Task<ActionResult<List<PredefinedComment>>> GetPredefinedComments(int facilityId)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(institutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
             {
                 return await _mediator.Send(new GetPredefinedCommentsForCoordinator.Query
                 {
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
             }
             return Unauthorized();
@@ -45,21 +45,21 @@ namespace HyFive.Admin.Controllers.V1
         /// Update Predefined Comment
         /// </summary>
         /// <param name="predefinedComment"></param>
-        /// <param name="institutionId"></param>
+        /// <param name="facilityId"></param>
         /// <returns></returns>
-        [HttpPut("{institutionId}/update")]
+        [HttpPut("{facilityId}/update")]
         public async Task<ActionResult<bool>> UpdatePredefinedComment(
-            int institutionId,
+            int facilityId,
             [FromBody] PredefinedComment predefinedComment)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(institutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
             {
-                var isupdated = await _mediator.Send(new UpdatePredefinedComment.Command
+                var isUpdated = await _mediator.Send(new UpdatePredefinedComment.Command
                 {
                     PredefinedComment = predefinedComment,
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
-                return isupdated;
+                return isUpdated;
             }
 
             return Unauthorized();
@@ -69,20 +69,20 @@ namespace HyFive.Admin.Controllers.V1
         /// Create Predefined Comment
         /// </summary>
         /// <param name="newPredefinedComment"></param>
-        /// <param name="institutionId"></param>
+        /// <param name="facilityId"></param>
         /// <returns></returns>
-        [HttpPost("{institutionId}/Create")]
+        [HttpPost("{facilityId}/Create")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         public async Task<ActionResult<bool>> CreatePredefinedComment(
-            int institutionId,
+            int facilityId,
             [FromBody] CreatePredefinedCommentRequest newPredefinedComment)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(institutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
             {
                 var isCreated = await _mediator.Send(new CreatePredefinedComment.Command
                 {
                     NewPredefinedComment = newPredefinedComment,
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
 
                 return CreatedAtRoute("GetPredefinedComments", isCreated);

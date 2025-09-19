@@ -5,7 +5,7 @@
 export interface UpdateSessionRequest
 {
 	sessionId: any;
-	institutionId: number;
+	facilityId: number;
 	comment: string;
 	startTime: any;
 }

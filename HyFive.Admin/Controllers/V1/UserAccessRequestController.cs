@@ -32,14 +32,14 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("allRequests")]
         [Authorize(HandhygienePolicy.Coordinator)]
         [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserAccessRequest>> GetAllRequests([FromQuery] int institutionId)
+        public async Task<ActionResult<UserAccessRequest>> GetAllRequests([FromQuery] int facilityId)
         {
             try
             {
                 var user = await _userService.GetUser();
                 var response = await _mediator.Send(new GetAllRequests.Query
                 {
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
                 return Ok(response);
             }
@@ -56,13 +56,13 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("pendingApprovalRequests")]
         [Authorize(HandhygienePolicy.Coordinator)]
         [ProducesResponseType(typeof(List<UserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserAccessRequest>> GetPendingApprovalRequests([FromQuery] int institutionId)
+        public async Task<ActionResult<UserAccessRequest>> GetPendingApprovalRequests([FromQuery] int facilityId)
         {
             try
             {
                 var response = await _mediator.Send(new GetPendingApprovalRequests.Query()
                 {
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
                 return Ok(response);
             }

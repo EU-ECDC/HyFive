@@ -84,11 +84,11 @@ export class AppComponent implements OnInit {
   }
 
   mainMenuToBeDisplayed(): boolean {
-  // Show main menu if we are offline and user has logged in-id + selected institution
+  // Show main menu if we are offline and user has logged in-id + selected healthcare facility
     if (
       navigator.onLine == false &&
       localStorage.getItem(Localstoragepaths.LoggedInUserId) != null &&
-      localStorage.getItem(Localstoragepaths.SelectedInstitution) != null
+      localStorage.getItem(Localstoragepaths.SelectedFacility) != null
     ) {
       return true;
     }

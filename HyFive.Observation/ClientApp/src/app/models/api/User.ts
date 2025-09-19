@@ -5,7 +5,7 @@
 export interface User
 {
 	id: number;
-	institutionId: number;
+	facilityId: number;
 	createdTime: any;
 	firstName: string;
 	lastName: string;

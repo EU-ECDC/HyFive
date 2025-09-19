@@ -12,10 +12,10 @@ namespace HyFive.Services.HealthcareOrganization
 {
     public class GetAllHealthcareOrganizations
     {
-        public class Query : IRequest<List<Models.V1.Institution.HealthcareOrganization>>
+        public class Query : IRequest<List<Models.V1.Facility.HealthcareOrganization>>
         {  }
 
-        public class Handler : IRequestHandler<Query, List<Models.V1.Institution.HealthcareOrganization>>
+        public class Handler : IRequestHandler<Query, List<Models.V1.Facility.HealthcareOrganization>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,14 +26,14 @@ namespace HyFive.Services.HealthcareOrganization
                 _mapper = mapper;
             }
 
-            public async Task<List<Models.V1.Institution.HealthcareOrganization>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Models.V1.Facility.HealthcareOrganization>> Handle(Query request, CancellationToken cancellationToken)
             {
                 if (_context.HealthcareOrganization.Any())
                 {
                     var allHealthcareOrganizations = await _context.HealthcareOrganization
                                                          .AsNoTracking()
                                                          .OrderBy(h => h.Name)
-                                                         .ProjectTo<Models.V1.Institution.HealthcareOrganization>(_mapper.ConfigurationProvider)
+                                                         .ProjectTo<Models.V1.Facility.HealthcareOrganization>(_mapper.ConfigurationProvider)
                                                          .ToListAsync();
 
                     return allHealthcareOrganizations;

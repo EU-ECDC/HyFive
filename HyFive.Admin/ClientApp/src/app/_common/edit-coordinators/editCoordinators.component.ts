@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { InstitutionService } from '../../services/data/institution.service';
+import { FacilityService } from '../../services/data/facility.service';
 import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/api/User';
@@ -16,7 +16,7 @@ import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 })
 export class EditCoordinatorsComponent implements OnInit, OnDestroy {
 
-  @Input() institutionId: 0;
+  @Input() facilityId: 0;
   coordinators: User[];
 
   coordinatorIsChanged: User = null;
@@ -27,7 +27,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   mailValidatorHelper;
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
@@ -55,7 +55,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
   }
 
   loadCoordinators() {
-    this.institutionService.getCoordinators(this.institutionId).subscribe(
+    this.facilityService.getCoordinators(this.facilityId).subscribe(
       (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators;
@@ -68,7 +68,7 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
     this.cancelEdit();
     this.newCoordinator = {
       id: 0,
-      institutionId: this.institutionId,
+      facilityId: this.facilityId,
       lastName: '',
       firstName: '',
       email: '',

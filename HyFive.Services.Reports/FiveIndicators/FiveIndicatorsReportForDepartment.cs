@@ -8,7 +8,7 @@ namespace HyFive.Services.Reports.FiveIndicators
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public FiveIndicatorsReport Department { get; set; } = new FiveIndicatorsReport();
-        public FiveIndicatorsReport Institution { get; set; } = new FiveIndicatorsReport();
+        public FiveIndicatorsReport Facility { get; set; } = new FiveIndicatorsReport();
         public FiveIndicatorsReport ComparableDepartments { get; set; } = new FiveIndicatorsReport();
         public List<FiveIndicatorsReport> Clinics { get; set; } = new List<FiveIndicatorsReport>();
 
@@ -18,8 +18,8 @@ namespace HyFive.Services.Reports.FiveIndicators
             ToDate = endTime;
             Department.FromDate = startTime;
             Department.ToDate = endTime;
-            Institution.FromDate = startTime;
-            Institution.ToDate = endTime;
+            Facility.FromDate = startTime;
+            Facility.ToDate = endTime;
             ComparableDepartments.FromDate = startTime;
             ComparableDepartments.ToDate = endTime;
             Clinics.ForEach(k =>

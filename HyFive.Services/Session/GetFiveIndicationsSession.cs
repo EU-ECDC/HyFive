@@ -36,7 +36,7 @@ namespace HyFive.Services.Session
                 var session = await _context.FiveIndicationsSession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
                     .Include(s => s.Observations).ThenInclude(o => o.Activity).ThenInclude(a => a.ActivityType)
                     .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)

@@ -7,7 +7,7 @@ namespace HyFive.Models.V1.User
     public class User
     {
         public int Id { get; set; }
-        public int InstitutionId { get; set; }
+        public int FacilityId { get; set; }
         public DateTime CreatedTime { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -30,10 +30,10 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.User.InstitutionId);
-                if (institution == null)
+                var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
+                if (facility == null)
                 {
-                    throw new Exception("Did not find institution with ID: " + command.User.InstitutionId);
+                    throw new Exception("Did not find facility with ID: " + command.User.FacilityId);
                 }
 
                 if (!UserValidator.HasNameAndEmail(command.User))
@@ -46,7 +46,7 @@ namespace HyFive.Services.User
                     FirstName = command.User.FirstName,
                     LastName = command.User.LastName,
                     Email = command.User.Email,
-                    Institution = institution,
+                    Facility = facility,
                     HPRNumber = command.User.HPRNumber,
                     IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,
@@ -54,13 +54,13 @@ namespace HyFive.Services.User
                 };
 
 
-                // The coordinator must also be an observer for the same institution
+                // The coordinator must also be an observer for the same facility
                 var observer = new Observer()
                 {
                     FirstName = command.User.FirstName,
                     LastName = command.User.LastName,
                     Email = command.User.Email,
-                    Institution = institution,
+                    Facility = facility,
                     HPRNumber = command.User.HPRNumber,
                     IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,

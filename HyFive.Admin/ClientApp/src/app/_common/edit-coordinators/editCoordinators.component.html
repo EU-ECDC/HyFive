@@ -5,7 +5,7 @@
 </div>
 <div class="row" *ngIf="coordinators">
   <input type="text" autocomplete="off" *ngIf="coordinators.length > 0" placeholder="Search for...(First name/Last name)" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="searchWord" (ngModelChange)="filterCoordinators()">
-  <label class="col-12" *ngIf="coordinators.length === 0 && !newCoordinator">No coordinators found at this institution</label>
+  <label class="col-12" *ngIf="coordinators.length === 0 && !newCoordinator">No coordinators found at this facility</label>
   
   <ng-container>
     <div class="table-responsive">

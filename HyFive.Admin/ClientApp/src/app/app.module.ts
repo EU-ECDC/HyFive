@@ -8,14 +8,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
-import { EditingOfInstitutionsComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-institutions.component';
-import { EditInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/edit-an-institution/edit-an-institution.component';
-import { CreateInstitutionComponent } from './fhiadmin/redigering-av-institusjoner/create-institution/create-institution.component';
+import { EditingOfFacilitiesComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-facilities.component';
+import { EditFacilityComponent } from './fhiadmin/redigering-av-institusjoner/edit-a-facility/edit-a-facility.component';
+import { CreateFacilityComponent } from './fhiadmin/redigering-av-institusjoner/create-facility/create-facility.component';
 import { EditObserversComponent } from './_common/edit-observers/edit-observers.component';
 import { ConfirmationDialogComponent } from './fhiadmin/redigering-av-institusjoner/confirmation-dialog/confirmation-dialog.component';
 import { EditingIndicationTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-indication-types/editing-indication-types.component';
 import { EditingByHandjewelryTypeComponent } from './fhiadmin/redigering-av-kodeverk/editing-HandjewelryType/editing-of-handjewelry-type.component';
-import { EditingInstitutionTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-institution-types/editing-of-institution-types.component';
+import { EditingFacilityTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-facility-types/editing-of-facility-types.component';
 import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
 import { EditingDepartmentsComponent } from './_common/redigering-av-avdelinger/editing-of-departments.component';
 import { CreateDepartmentComponent } from './_common/redigering-av-avdelinger/create-department/create-department.component';
@@ -87,9 +87,9 @@ export const httpInterceptorProviders = [
   declarations: [
     AppComponent,
     HomePageForAdministrationComponent,
-    EditingOfInstitutionsComponent,
-    EditInstitutionComponent,
-    CreateInstitutionComponent,
+    EditingOfFacilitiesComponent,
+    EditFacilityComponent,
+    CreateFacilityComponent,
     EditObserversComponent,
     EditingByHandjewelryTypeComponent,
     EditCoordinatorsComponent,
@@ -97,7 +97,7 @@ export const httpInterceptorProviders = [
     EditingCodeworkComponent,
     EditingIndicationTypesComponent,
     EditingActivityTypeComponent,
-    EditingInstitutionTypesComponent,
+    EditingFacilityTypesComponent,
     EditingDepartmentsComponent,
     CreateDepartmentComponent,
     EditingProtectiveEquipmentTypeComponent,

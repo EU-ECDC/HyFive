@@ -56,7 +56,7 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
 
   deleteSession(sessionOverviewReport: SessionOverviewReport) {
     const errorMessage = `An error occurred while deleting session with id ${sessionOverviewReport.id}`;
-    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.department.institutionId).subscribe(
+    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.department.facilityId).subscribe(
       (isDeleted) => {
         if (isDeleted){
           this.toastrService.success(`Session with id ${sessionOverviewReport.id} was deleted`);

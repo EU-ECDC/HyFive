@@ -31,15 +31,15 @@ namespace HyFive.Admin.Controllers
         }
 
         /// <summary>
-        /// Seeds a limited set of institutions, InstitutionTypes, departments, DepartmentTypes, Roles, and Users.
-        /// If you need more than this, you can run the SQL script "HyFive.DataAccess\Scripts\Institutions, departments, etc.sql".
+        /// Seeds a limited set of facilities, FacilitiesTypes, departments, DepartmentTypes, Roles, and Users.
+        /// If you need more than this, you can run the SQL script "HyFive.DataAccess\Scripts\Facilities, departments, etc.sql".
         /// NOTE: You must use EITHER this API method OR the script.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("institutions")]
-        public async Task<IActionResult> SeedInstitutions()
+        [HttpGet("facilities")]
+        public async Task<IActionResult> SeedFacilities()
         {
-            var ok = await _mediator.Send(new Services.Seed.SeedInstitutions.Command());
+            var ok = await _mediator.Send(new Services.Seed.SeedFacilities.Command());
             return Ok();
         }
     }

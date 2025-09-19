@@ -44,7 +44,7 @@ namespace HyFive.Observation.Controllers.V1
             {
                 return BadRequest("The session must have at least one observation");
             }
-            if (_userService.IsObserverForInstitution(session.Department.InstitutionId))
+            if (_userService.IsObserverForFacility(session.Department.FacilityId))
             {
                 var result = await _mediator.Send(new SaveSession.Command()
                 {
@@ -66,15 +66,15 @@ namespace HyFive.Observation.Controllers.V1
         }
 
         [HttpGet("myObservations")]
-        public async Task<IEnumerable<HandJewelryObservationReport>> GetMyObservations(int institutionId, Guid? sessionId = null)
+        public async Task<IEnumerable<HandJewelryObservationReport>> GetMyObservations(int facilityId, Guid? sessionId = null)
         {
-            var observerIdForInstitution = _userService.GetObserverIdForInstitution(institutionId);
-            if (observerIdForInstitution > 0)
+            var observerIdForFacility = _userService.GetObserverIdForFacility(facilityId);
+            if (observerIdForFacility > 0)
             {
                 var query = new GetHandJewelryObservations.Query
                 {
-                    ObserverId = observerIdForInstitution,
-                    InstitutionId = institutionId,
+                    ObserverId = observerIdForFacility,
+                    FacilityId = facilityId,
                     SessionId = sessionId,
                     Role = AuthorizedRole.Observer
                 };
@@ -83,13 +83,13 @@ namespace HyFive.Observation.Controllers.V1
                 return observations;
             }
 
-            throw new UnauthorizedAccessException("You do not have access to query the observations for this institution");
+            throw new UnauthorizedAccessException("You do not have access to query the observations for this facility");
         }
 
         [HttpGet("myObservations/excel")]
-        public async Task<IActionResult> GetMyObservationsAsExcel(int institutionId, Guid? sessionId = null)
+        public async Task<IActionResult> GetMyObservationsAsExcel(int facilityId, Guid? sessionId = null)
         {
-            var observations = await GetMyObservations(institutionId, sessionId);
+            var observations = await GetMyObservations(facilityId, sessionId);
             return await this.ExcelFileContentResult(observations, "Observations");
         }
     }

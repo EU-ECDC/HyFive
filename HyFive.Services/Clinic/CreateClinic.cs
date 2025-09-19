@@ -11,12 +11,12 @@ namespace HyFive.Services.Clinic
 {
     public class CreateClinic
     {
-        public class Command : IRequest<Models.V1.Institution.Clinic>
+        public class Command : IRequest<Models.V1.Facility.Clinic>
         {
-            public Models.V1.Institution.Clinic Clinic { get; set; }
+            public Models.V1.Facility.Clinic Clinic { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Models.V1.Institution.Clinic>
+        public class Handler : IRequestHandler<Command, Models.V1.Facility.Clinic>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,29 +27,29 @@ namespace HyFive.Services.Clinic
                 _mapper = mapper;
             }
 
-            public async Task<Models.V1.Institution.Clinic> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Clinic> Handle(Command command, CancellationToken cancellationToken)
             {
-                var institution = await _context
-                    .Institution
+                var facility = await _context
+                    .Facility
                     .Include(i => i.Departments)
-                    .FirstOrDefaultAsync(i => i.Id == command.Clinic.InstitutionId);
-                if (institution == null)
+                    .FirstOrDefaultAsync(i => i.Id == command.Clinic.FacilityId);
+                if (facility == null)
                 {
-                    throw new Exception("Did not find institution with ID: " + command.Clinic.InstitutionId);
+                    throw new Exception("Did not find facility with ID: " + command.Clinic.FacilityId);
                 }
-                else if (command.Clinic.Departments.Any(x => x.InstitutionId != institution.Id))
+                else if (command.Clinic.Departments.Any(x => x.FacilityId != facility.Id))
                 {
-                    throw new InvalidOperationException($"At least one department is not linked to the institution with ID: {command.Clinic.InstitutionId}");
+                    throw new InvalidOperationException($"At least one department is not linked to the facility with ID: {command.Clinic.FacilityId}");
                 }
 
                 var clinic = new Domain.Place.Clinic()
                 {
-                    Institution = institution,
+                    Facility = facility,
                     Name = command.Clinic.Name,
                 };
 
                 var departments = await _context.Department
-                    .Where(a => a.InstitutionId == institution.Id)
+                    .Where(a => a.FacilityId == facility.Id)
                     .Where(a => command.Clinic.Departments.Select(x => x.Id).Contains(a.Id))
                     .ToListAsync();
 
@@ -57,7 +57,7 @@ namespace HyFive.Services.Clinic
 
                 _context.Clinic.Add(clinic);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Models.V1.Institution.Clinic>(clinic);
+                return _mapper.Map<Models.V1.Facility.Clinic>(clinic);
             }
         }
     }

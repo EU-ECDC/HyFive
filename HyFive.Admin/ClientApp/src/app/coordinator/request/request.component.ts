@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { InstitutionService } from 'src/app/services/data/institution.service';
+import { FacilityService } from 'src/app/services/data/facility.service';
 import { RequestAboutUserAccess } from "../../models/api/RequestAboutUserAccess";
 import { RequestAboutUserAccessService } from "../../services/data/requestAboutUserAccess.service";
 import { RequestStatus } from 'src/app/models/api/RequestStatus';
@@ -17,7 +17,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   constructor(
     private requestAboutUserAccessService: RequestAboutUserAccessService,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private toastrService: ToastrService
   ) {}
 
@@ -31,8 +31,8 @@ export class RequestComponent implements OnInit, OnDestroy {
   
   loadAllRequests() {
     this.showAllRequest = true;
-    var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.requestAboutUserAccessService.getAllRequests(institutionId).subscribe(
+    var facilityId = this.facilityService.getSelectedFacilityId();
+    this.requestAboutUserAccessService.getAllRequests(facilityId).subscribe(
       (requests) => this.requests = requests,
       (error) => this.toastrService.error('An error occurred while loading user access requests: ' + error?.message, '', { disableTimeOut: true})
     );
@@ -40,8 +40,8 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   loadRequestsAwaitingApproval() {
     this.showAllRequest = false;
-    var institutionId = this.institutionService.getSelectedInstitutionId();
-    this.requestAboutUserAccessService.getRequestsAwaitingApproval(institutionId).subscribe(
+    var facilityId = this.facilityService.getSelectedFacilityId();
+    this.requestAboutUserAccessService.getRequestsAwaitingApproval(facilityId).subscribe(
       (requests) => this.requests = requests,
       (error) => this.toastrService.error('An error occurred while loading user access requests: ' + error?.message, '', { disableTimeOut: true})
     );

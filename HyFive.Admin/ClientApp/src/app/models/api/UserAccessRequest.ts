@@ -5,7 +5,7 @@
 export interface UserAccessRequest
 {
 	id: number;
-	institutionId?: number;
+	facilityId?: number;
 	userFirstName: string;
 	userLastName: string;
 	identityPseudonym: string;

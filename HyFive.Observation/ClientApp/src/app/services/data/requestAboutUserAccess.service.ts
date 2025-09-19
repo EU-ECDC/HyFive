@@ -3,7 +3,7 @@ import { UserAccessRequest } from '../../models/api/UserAccessRequest';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Institution } from 'src/app/models/api/Institution';
+import { Facility } from 'src/app/models/api/Facility';
 import { CreateUserAccessRequest } from '../../models/api/CreateUserAccessRequest';
 @Injectable({
   'providedIn': 'root'
@@ -12,9 +12,9 @@ export class RequestAboutUserAccessService {
 
   constructor(private readonly httpClient: HttpClient){  }
 
-  getInstitutions(): Observable<Institution[]> {
-    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/institutions`;
-    return this.httpClient.get<Institution[]>(url);
+  getFacilities(): Observable<Facility[]> {
+    const url = `${environment.apiBaseUrl}/v1/userAccessRequest/facilities`;
+    return this.httpClient.get<Facility[]>(url);
   }
 
   sendRequestAboutUserAccess(newRequestAboutUserAccess: CreateUserAccessRequest): Observable<boolean>{
@@ -27,10 +27,10 @@ export class RequestAboutUserAccessService {
     return this.httpClient.get<UserAccessRequest>(url);
   }
 
-  getInstitution(id: number): Observable<Institution> {
-    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/institution`;
+  getFacility(id: number): Observable<Facility> {
+    const url = `${environment.apiBaseUrl}/v1/requestaboutuseraccess/facility`;
     let params = new HttpParams();
-    params = params.append("institutionId", id.toString());
-    return this.httpClient.get<Institution>(url, {params});
+    params = params.append("facilityId", id.toString());
+    return this.httpClient.get<Facility>(url, {params});
   }
 }

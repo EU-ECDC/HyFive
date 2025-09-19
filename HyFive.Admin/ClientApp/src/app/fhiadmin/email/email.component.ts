@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/api/User';
-import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
-import { InstitutionService } from 'src/app/services/data/institution.service';
+import { FacilityReport } from 'src/app/models/api/FacilityReport';
+import { FacilityService } from 'src/app/services/data/facility.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -17,13 +17,13 @@ export class EmailComponent implements OnInit {
   observerList: User[];
   filteredUserList: User[];
 
-  institutionId: number;
-  institutions: InstitutionReport[];
+  facilityId: number;
+  facilities: FacilityReport[];
 
   coordinatorsSelected: boolean;
   observerSelected: boolean;
 
-  constructor(private institutionService: InstitutionService) {}
+  constructor(private facilityService: FacilityService) {}
 
   ngOnInit(): void {
     this.coordinatorList = [];
@@ -32,30 +32,30 @@ export class EmailComponent implements OnInit {
     this.emailList = [];
     this.allUsersList = [];
 
-    this.institutionService.getInstitutions().subscribe((institutions) => {
+    this.facilityService.getFacilities().subscribe((facilities) => {
       
-      institutions.forEach(institution => {
-        this.GetCoordinatorsForInstitution(institution.id);
-        this.getObserversForInstitution(institution.id);
+      facilities.forEach(facility => {
+        this.GetCoordinatorsForFacility(facility.id);
+        this.getObserversForFacility(facility.id);
       });
 
-      this.institutions = [ 
+      this.facilities = [ 
                             { name: '', 
                               id: null,
                               abbreviation: null,
                               herId: null,
-                              institutionType: null,
+                              facilityType: null,
                               region: null,
                               municipality: null,
                               healthcareOrganization: null 
                             },
-                            ...institutions
+                            ...facilities
         ];
     });
   }
 
-  GetCoordinatorsForInstitution(id: number) {
-    this.institutionService.getCoordinators(id).subscribe((coordinators) => {
+  GetCoordinatorsForFacility(id: number) {
+    this.facilityService.getCoordinators(id).subscribe((coordinators) => {
       coordinators.forEach(coordinator => {
         if(coordinator.email != null && coordinator.email != "") {
           this.coordinatorList.push(coordinator);
@@ -65,8 +65,8 @@ export class EmailComponent implements OnInit {
     });
   }
 
-  getObserversForInstitution(id: number) {
-    this.institutionService.getObservers(id).subscribe((observers) => {
+  getObserversForFacility(id: number) {
+    this.facilityService.getObservers(id).subscribe((observers) => {
       observers.forEach(observer => {
         if(observer.email != null && observer.email != "") {
           this.observerList.push(observer);
@@ -81,13 +81,13 @@ export class EmailComponent implements OnInit {
     this.filteredUserList = [];
 
     if (this.coordinatorsSelected) { 
-      this.filteredUserList = this.allUsersList.filter(user => this.coordinatorList.includes(user) && user.institutionId === this.institutionId);
+      this.filteredUserList = this.allUsersList.filter(user => this.coordinatorList.includes(user) && user.facilityId === this.facilityId);
     }
     if (this.observerSelected) { 
-      this.filteredUserList = this.allUsersList.filter(user => this.observerList.includes(user) && user.institutionId === this.institutionId);
+      this.filteredUserList = this.allUsersList.filter(user => this.observerList.includes(user) && user.facilityId === this.facilityId);
     }
     if (this.coordinatorsSelected && this.observerSelected) {
-      this.filteredUserList = this.allUsersList.filter(user => user.institutionId === this.institutionId);
+      this.filteredUserList = this.allUsersList.filter(user => user.facilityId === this.facilityId);
       this.filteredUserList = this.filteredUserList.sort((a, b) => a.lastName.localeCompare(b.lastName));
     }
   }

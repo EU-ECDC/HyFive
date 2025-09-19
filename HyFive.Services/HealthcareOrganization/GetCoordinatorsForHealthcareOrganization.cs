@@ -1,7 +1,7 @@
 ﻿using HyFive.DataAccess;
 using HyFive.Domain.User;
 using HyFive.Models.V1.User;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -30,18 +30,18 @@ namespace HyFive.Services.HealthcareOrganization
 
             public async Task<HealthcareOrganizationCoordinator[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var coordinatorsForInstitutionsInHealthcareOrganization = GetCoordinatorsForInstitutionsInHealthcareOrganization(request.HealthcareOrganizationId);
+                var coordinatorsForFacilitiesInHealthcareOrganization = GetCoordinatorsForFacilitiesInHealthcareOrganization(request.HealthcareOrganizationId);
 
-                List<HealthcareOrganizationCoordinator> coordinatorForHealthcareOrganizationList = CreateCoordinatorsForHealthcareOrganizationList(coordinatorsForInstitutionsInHealthcareOrganization);
+                List<HealthcareOrganizationCoordinator> coordinatorForHealthcareOrganizationList = CreateCoordinatorsForHealthcareOrganizationList(coordinatorsForFacilitiesInHealthcareOrganization);
 
                 return coordinatorForHealthcareOrganizationList.ToArray();
             }
 
-            private static List<HealthcareOrganizationCoordinator> CreateCoordinatorsForHealthcareOrganizationList(List<Coordinator> coordinatorsForInstitutionsInHealthcareOrganization)
+            private static List<HealthcareOrganizationCoordinator> CreateCoordinatorsForHealthcareOrganizationList(List<Coordinator> coordinatorsForFacilitiesInHealthcareOrganization)
             {
                 var coordinatorsListForHealthcareOrganization = new List<HealthcareOrganizationCoordinator>();
 
-                foreach (var coordinator in coordinatorsForInstitutionsInHealthcareOrganization)
+                foreach (var coordinator in coordinatorsForFacilitiesInHealthcareOrganization)
                 {
                     var coordinatorForHealthcareOrganization = coordinatorsListForHealthcareOrganization.FirstOrDefault(k => k.Email == coordinator.Email);
                     if (coordinatorForHealthcareOrganization == null)
@@ -49,29 +49,29 @@ namespace HyFive.Services.HealthcareOrganization
                         coordinatorForHealthcareOrganization = CreateCoordinatorForHealthcareOrganization(coordinatorsListForHealthcareOrganization, coordinator);
                     }
 
-                    AddInstitution(coordinator, coordinatorForHealthcareOrganization);
+                    AddFacility(coordinator, coordinatorForHealthcareOrganization);
                 }
 
                 return coordinatorsListForHealthcareOrganization;
             }
 
-            private static void AddInstitution(Coordinator coordinator, HealthcareOrganizationCoordinator coordinatorForHealthcareOrganization)
+            private static void AddFacility(Coordinator coordinator, HealthcareOrganizationCoordinator coordinatorForHealthcareOrganization)
             {
-                var institutionReport = new InstitutionReport
+                var facilityReport = new FacilityReport
                 {
-                    Abbreviation = coordinator.Institution.Abbreviation,
-                    HERId = coordinator.Institution.HERId,
-                    Id = coordinator.Institution.Id,
-                    Name = coordinator.Institution.Name,
-                    InstitutionType = new InstitutionType
+                    Abbreviation = coordinator.Facility.Abbreviation,
+                    HERId = coordinator.Facility.HERId,
+                    Id = coordinator.Facility.Id,
+                    Name = coordinator.Facility.Name,
+                    FacilityType = new FacilityType
                     {
-                        Id = coordinator.Institution.InstitutionType.Id,
-                        Code = coordinator.Institution.InstitutionType.Code,
-                        Name = coordinator.Institution.InstitutionType.Name
+                        Id = coordinator.Facility.FacilityType.Id,
+                        Code = coordinator.Facility.FacilityType.Code,
+                        Name = coordinator.Facility.FacilityType.Name
                     }
                 };
 
-                coordinatorForHealthcareOrganization.Institutions.Add(institutionReport);
+                coordinatorForHealthcareOrganization.Facilities.Add(facilityReport);
             }
 
             private static HealthcareOrganizationCoordinator CreateCoordinatorForHealthcareOrganization(List<HealthcareOrganizationCoordinator> coordinatorForHealthcareOrganizationList, Coordinator coordinator)
@@ -85,21 +85,21 @@ namespace HyFive.Services.HealthcareOrganization
                     HPRNumber = coordinator.HPRNumber,
                     IdentityPseudonym = coordinator.IdentityPseudonym,
                     CreatedTime = coordinator.CreatedTime,
-                    Institutions = new List<InstitutionReport>()
+                    Facilities = new List<FacilityReport>()
                 };
                 coordinatorForHealthcareOrganizationList.Add(coordinatorForHealthcareOrganization);
                 return coordinatorForHealthcareOrganization;
             }
 
-            private List<Coordinator> GetCoordinatorsForInstitutionsInHealthcareOrganization(int healthcareOrganizationId)
+            private List<Coordinator> GetCoordinatorsForFacilitiesInHealthcareOrganization(int healthcareOrganizationId)
             {
                 return _context.User.OfType<Coordinator>()
                     .AsNoTracking()
-                    .Include(b => b.Institution)
+                    .Include(b => b.Facility)
                         .ThenInclude(i => i.HealthcareOrganization)
-                    .Include(b => b.Institution)
-                        .ThenInclude(i => i.InstitutionType)
-                    .Where(b => b.Institution.HealthcareOrganization.Id == healthcareOrganizationId &&
+                    .Include(b => b.Facility)
+                        .ThenInclude(i => i.FacilityType)
+                    .Where(b => b.Facility.HealthcareOrganization.Id == healthcareOrganizationId &&
                                 b.IsDeactivated == false)
                     .OrderBy(b => b.LastName)
                     .ToList();

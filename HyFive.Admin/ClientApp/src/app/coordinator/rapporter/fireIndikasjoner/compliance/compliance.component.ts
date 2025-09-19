@@ -3,13 +3,12 @@ import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
 import { Department} from '../../../../models/api/Department';
 import { Role } from '../../../../models/api/Role';
-import { InstitutionService } from '../../../../services/data/institution.service';
+import { FacilityService } from '../../../../services/data/facility.service';
 import { ReportService } from '../../../../services/data/report.service';
 import { RoleService } from '../../../../services/data/role.service';
-import { InstitutionType } from 'src/app/models/api/InstitutionType';
-import { Institution } from 'src/app/models/api/Institution';
+import { FacilityType } from 'src/app/models/api/FacilityType';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
+import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { DepartmentType } from 'src/app/models/api/DepartmentType';
 import { LoggedInUser } from 'src/app/models/api/LoggedInUser';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
@@ -44,12 +43,12 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   showToYear: number = this.d.getFullYear();
   showFromQuarter: number = 1;
   showToQuarter: number = 1;
-  showSelectedInstitutions: InstitutionReport[] = [];
+  showSelectedFacilities: FacilityReport[] = [];
   selectedRoles: Role[] = [];
-  selectedInstitutionTypes: InstitutionType[] = [];
-  selectedInstitutionType: number;
-  selectedInstitutions: InstitutionReport[] = [];
-  selectedInstitutionId: number;
+  selectedFacilityTypes: FacilityType[] = [];
+  selectedFacilityType: number;
+  selectedFacilities: FacilityReport[] = [];
+  selectedFacilityId: number;
   selectedDepartments: Department[] = [];
   selectedDepartmentTypes: DepartmentType[];
   intervalsList = [
@@ -71,7 +70,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   interval: string = 'year';
   months: any [];
   transferredTo: number = 0;
-  canSelectInstitution = true;
+  canSelectFacility = true;
   intervalYearError: boolean = false;
   showQuarterError: boolean = false;
 
@@ -83,10 +82,10 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   departments: Department[];
   allDepartments: Department[];
   departmentTypes: DepartmentType[];
-  institutionTypes: InstitutionType[];
-  institutions: InstitutionReport[];
-  allInstitutions: InstitutionReport[];
-  institution: InstitutionReport;
+  facilityTypes: FacilityType[];
+  facilities: FacilityReport[];
+  allFacilities: FacilityReport[];
+  facility: FacilityReport;
 
   percentageDiagramOptions: FhiDiagramOptions = {
     title: 'Diagram title',
@@ -105,7 +104,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   constructor(
     public authorizationService: AuthorizationService,
     private graphService: ReportService,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private departmentService: DepartmentService,
     private roleService: RoleService,
     private toastrService: ToastrService,
@@ -134,33 +133,33 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
           
           if (this.selectedRole === AuthorizedRole.Coordinator) {
             this.loadDepartmentTypes();
-            this.canSelectInstitution = false;
-            this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-            this.institutionService.getInstitution(this.selectedInstitutionId)
+            this.canSelectFacility = false;
+            this.selectedFacilityId = this.facilityService.getSelectedFacilityId();
+            this.facilityService.getFacility(this.selectedFacilityId)
               .subscribe(
-                (institution) => {
-                  this.institution = institution;
+                (facility) => {
+                  this.facility = facility;
                 }
               )
-            this.loadCoordinatorInstitutionDepartments(this.selectedInstitutionId)
+            this.loadCoordinatorFacilityDepartments(this.selectedFacilityId)
           }
           else if (this.selectedRole === AuthorizedRole.Administrator) {  
-            this.loadAdminInstitutionsTypes();          
-            this.institutionService.getInstitutions().subscribe(
-              (institutions) => {
-                this.institutions = institutions;
-                this.allInstitutions = institutions;
+            this.loadAdminFacilityTypes();          
+            this.facilityService.getFacilities().subscribe(
+              (facilities) => {
+                this.facilities = facilities;
+                this.allFacilities = facilities;
               });
             }
     
   }
 
-  onChangeModelInstitution() {
+  onChangeModelFacility() {
 
-    if (this.selectedInstitutions.length > 0) {
+    if (this.selectedFacilities.length > 0) {
 
       if (this.departmentTypes.length > 0 && this.allDepartments.length > 0) {
-        this.allDepartments = this.allDepartments.filter(dep => this.selectedInstitutions.some(inst => inst.id == dep.institutionId));
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.facilityId));
         this.departments = this.allDepartments;
         this.departmentTypes = Array.from(
                                 new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
@@ -189,19 +188,19 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.isDropdownFocused = true;
   } else if (this.isDropdownFocused) {
     this.isDropdownFocused = false;
-    this.selectInstitution();
+    this.selectFacility();
   }
   }
 
-  selectInstitution(): void {
+  selectFacility(): void {
     this.departments = [];
     this.departmentTypes = [];
     this.allDepartments = [];
     this.selectedDepartments = [];
     this.selectedDepartmentTypes = [];
-    if (this.selectedInstitutions != null && this.selectedInstitutions?.length > 0) {
-      var institutionIds = this.selectedInstitutions?.map(inst => inst.id);
-      this.loadInstitutionsDepartments(institutionIds)
+    if (this.selectedFacilities != null && this.selectedFacilities?.length > 0) {
+      var facilityIds = this.selectedFacilities?.map(inst => inst.id);
+      this.loadFacilitiesDepartments(facilityIds)
     }
   };
 
@@ -218,16 +217,16 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   ngOnDestroy(): void {
   }
 
-  loadAdminInstitutionsTypes() {
-    this.institutionService.getInstitutionTypes().subscribe((result) => {
-      this.institutionTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading institution types: ' + error?.message, '', { disableTimeOut: true })
+  loadAdminFacilityTypes() {
+    this.facilityService.getFacilityTypes().subscribe((result) => {
+      this.facilityTypes = result,
+      (error) => this.toastrService.error('An error occurred while loading facility types: ' + error?.message, '', { disableTimeOut: true })
     });
   }
 
-  loadInstitutionsDepartments(institutionIds: number[]) {
-  this.institutionService.getComplianceInstitutions(institutionIds).subscribe(institutions => {
-    const allDepartments = institutions.reduce((all, inst) => {
+  loadFacilitiesDepartments(facilityIds: number[]) {
+  this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
+    const allDepartments = facilities.reduce((all, inst) => {
       return all.concat(inst.departments);
     }, []);
 
@@ -245,14 +244,14 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   });
 }
 
-  filterInstitutionsByType() {
-    this.selectedInstitutions = [];
+  filterFacilitiesByType() {
+    this.selectedFacilities = [];
     this.selectedDepartments = [];
     this.selectedDepartmentTypes = [];
-    if (this.selectedInstitutionTypes?.length > 0) {
-      this.institutions =  this.allInstitutions?.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+    if (this.selectedFacilityTypes?.length > 0) {
+      this.facilities =  this.allFacilities?.filter(item => this.selectedFacilityTypes.some(si => si.id == item.facilityType.id));
     } else {
-      this.institutions = this.allInstitutions;
+      this.facilities = this.allFacilities;
     }
   }
 
@@ -295,12 +294,12 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.showQuarterError = false;
   }
 
-  loadCoordinatorInstitutionDepartments(institutionId: number) {
-    this.institutionService.getInstitution(institutionId).subscribe(
-      institution => {
-        this.departments = institution.departments;
+  loadCoordinatorFacilityDepartments(facilityId: number) {
+    this.facilityService.getFacility(facilityId).subscribe(
+      facility => {
+        this.departments = facility.departments;
         this.allDepartments = this.departments;
-        this.selectedInstitutionTypes.push(institution.institutionType);
+        this.selectedFacilityTypes.push(facility.facilityType);
       })
   };
 
@@ -312,8 +311,8 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   loadDepartments() {
-    var institutionIds = this.selectedInstitutions.map(inst => inst.id);
-    this.institutionService.getDepartmentsByInstitutions(institutionIds).subscribe(
+    var facilityIds = this.selectedFacilities.map(inst => inst.id);
+    this.facilityService.getDepartmentsByFacilities(facilityIds).subscribe(
       (departments) => this.departments = departments,
       (error) => this.toastrService.error('An error occurred while loading departments: ' + error?.message, '', { disableTimeOut: true })
     );
@@ -331,18 +330,18 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   getComplianceForFiveIndications() {
     //if(this.selectedRole === AuthorizedRole.Coordinator)
-      //var institutionId = this.institutionService.getSelectedInstitutionId();
+      //var facilityId = this.facilityService.getSelectedFacilityId();
     this.showGraphError = false;
 
     const roleIds = this.selectedRoles?.map(role => role.id) ?? [];
     const departmentIds = this.selectedDepartments?.map(dep => dep.id) ?? [];
-    const institutionTypeIds = this.selectedInstitutionTypes?.map(t => t.id) ?? [];
-    const institutionIds = this.selectedInstitutionId ? [this.selectedInstitutionId] : this.selectedInstitutions?.map(t => t.id) ?? [];
+    const facilityTypeIds = this.selectedFacilityTypes?.map(t => t.id) ?? [];
+    const facilityIds = this.selectedFacilityId ? [this.selectedFacilityId] : this.selectedFacilities?.map(t => t.id) ?? [];
     const departmentTypeIds = this.selectedDepartmentTypes?.map(t => t.id) ?? [];
 
     this.graphService.getComplianceForFiveIndications({
-        institutionIds,
-        institutionTypeIds,
+        facilityIds,
+        facilityTypeIds,
         interval: this.interval,
         fromMonth: this.fromMonth,
         fromYear: this.fromYear,
@@ -356,7 +355,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         transferredTo: this.transferredTo}).subscribe(
       (graphs) => {
 
-        this.showInstitutionsAndPeriod();
+        this.showFacilitiesAndPeriod();
         let percentageGraph = graphs[0];
         this.savePercentageChartOptions(percentageGraph);
         let antallGraf = graphs[1];
@@ -369,14 +368,14 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     );
   }
 
-  showInstitutionsAndPeriod() {
+  showFacilitiesAndPeriod() {
     this.showFromMonth = this.fromMonth;
     this.showToMonth = this.toMonth;
     this.showFromYear = this.fromYear;
     this.showToYear = this.toYear;
     this.showFromQuarter = this.fromQuarter;
     this.showToQuarter = this.toQuarter;
-    this.showSelectedInstitutions = this.selectedInstitutions;
+    this.showSelectedFacilities = this.selectedFacilities;
   }
 
   savePercentageChartOptions(graph: any) {

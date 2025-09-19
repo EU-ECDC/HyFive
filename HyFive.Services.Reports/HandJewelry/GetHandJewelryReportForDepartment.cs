@@ -17,7 +17,7 @@ namespace HyFive.Services.Reports.HandJewelry
         public class Query : IRequest<JewelryReportForJewelryTypeAndRole>
         {
             public List<int> DepartmentIds { get; set; }
-            public List<int> InstitutionIds { get; set; }
+            public List<int> FacilityIds { get; set; }
             public DateTime FromDateTime { get; set; }
             public DateTime ToDateTime { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -35,22 +35,22 @@ namespace HyFive.Services.Reports.HandJewelry
             public async Task<JewelryReportForJewelryTypeAndRole> Handle(Query request, CancellationToken cancellationToken)
             {
                 var departmentReport = CreateDepartmentReport(request);
-                var InstitutionReport = CreateInstitutionReport(request);
+                var facilityReport = CreateFacilityReport(request);
 
                 var departments = _context.Department.AsNoTracking().Where(d => request.DepartmentIds.Contains(d.Id)).ToList();
-                var institutions = _context.Institution.AsNoTracking().Where(i => request.InstitutionIds.Contains(i.Id)).ToList();
+                var facilities = _context.Facility.AsNoTracking().Where(i => request.FacilityIds.Contains(i.Id)).ToList();
 
                 var departmentNames = string.Join(", ", departments.Select(d => d.Name));
-                var institutionNames = string.Join(", ", institutions.Select(i => i.Name));
+                var facilityNames = string.Join(", ", facilities.Select(i => i.Name));
 
                 var report = new JewelryReportForJewelryTypeAndRole
                 {
                     Department = departmentNames,
-                    Institution = institutionNames,
+                    Facility = facilityNames,
                     FromDate = request.FromDateTime,
                     ToTime = request.ToDateTime,
                     ReportForDepartment = departmentReport,
-                    ReportForInstitution = InstitutionReport
+                    ReportForFacility = facilityReport
                 };
 
                 return report;
@@ -82,7 +82,7 @@ namespace HyFive.Services.Reports.HandJewelry
                 return reportForUnit;
             }
 
-            private ReportForUnit CreateInstitutionReport(Query request)
+            private ReportForUnit CreateFacilityReport(Query request)
             {
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
                 var toDateUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
@@ -93,7 +93,7 @@ namespace HyFive.Services.Reports.HandJewelry
                    .Include(s => s.Observations).ThenInclude(o => o.Role)
                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                    .Where(s =>
-                       request.InstitutionIds.Contains(s.Department.InstitutionId)
+                       request.FacilityIds.Contains(s.Department.FacilityId)
                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                    .ToList();

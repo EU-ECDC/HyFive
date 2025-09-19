@@ -10,8 +10,9 @@ export interface LoggedInUser
 	isCoordinator: boolean;
 	isFhiAdmin: boolean;
 	isObserver: boolean;
-	institutionIds: number[];
+	facilityIds: number[];
 	firstName: string;
 	lastName: string;
 	hprNumber: string;
+	email?: string;
 }

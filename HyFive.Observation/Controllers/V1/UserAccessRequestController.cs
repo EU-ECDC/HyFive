@@ -22,13 +22,13 @@ namespace HyFive.Observation.Controllers.V1
             _userService = userService;
         }
 
-        [HttpGet("institutions")]
-        [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> GetInstitutions()
+        [HttpGet("facilities")]
+        [ProducesResponseType(typeof(List<FacilityForUserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<FacilityForUserAccessRequest>>> GetFacilities()
         {
             try
             {
-                var result = await _mediator.Send(new GetInstitutions.Query());
+                var result = await _mediator.Send(new GetFacilities.Query());
                 return Ok(result);
             }
             catch (Exception e)
@@ -76,15 +76,15 @@ namespace HyFive.Observation.Controllers.V1
             }
         }
 
-        [HttpGet("institution")]
-        [ProducesResponseType(typeof(List<InstitutionForUserAccessRequest>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<InstitutionForUserAccessRequest>>> GetInstitution(int institutionId)
+        [HttpGet("facility")]
+        [ProducesResponseType(typeof(List<FacilityForUserAccessRequest>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<FacilityForUserAccessRequest>>> GetFacility(int facilityId)
         {
             try
             {
-                var result = await _mediator.Send(new GetInstitution.Query()
+                var result = await _mediator.Send(new GetFacility.Query()
                 {
-                    InstitutionId = institutionId
+                    FacilityId = facilityId
                 });
                 return Ok(result);
             }

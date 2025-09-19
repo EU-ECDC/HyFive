@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Role } from 'src/app/models/api/Role';
-import { InstitutionService } from '../../services/data/InstitutionService';
+import { FacilityService } from '../../services/data/FacilityService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { Urls } from '../../constants/urls';
@@ -41,11 +41,11 @@ export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
     private sessionService: ProtectiveEquipmentSessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private mainMenuService: MainMenuEventService,
     private toastrService: ToastrService
   ) {
-    this.institutionService.getSelectedInstitution()
+    this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
     //this.mainMenuService.mainMenuIsOpenEvent.subscribe(m => this.mainMenuIsOpen = m);
   }

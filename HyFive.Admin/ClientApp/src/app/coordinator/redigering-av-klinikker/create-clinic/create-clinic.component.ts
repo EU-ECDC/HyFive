@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { InstitutionService } from '../../../services/data/institution.service';
+import { FacilityService } from '../../../services/data/facility.service';
 import { ToastrService } from 'ngx-toastr';
 import { ClinicService } from '../../../services/data/clinic.service';
 import { Clinic } from '../../../models/api/Clinic';
@@ -20,12 +20,12 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
 
   fawarningicon = faExclamationTriangle;
 
-  @Input() institutionId: number;
+  @Input() facilityId: number;
   @Output() clinicCreatedEvent: EventEmitter<Clinic> = new EventEmitter<Clinic>();
 
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private clinicService: ClinicService,
     private departmentService: DepartmentService,
     private toastrService: ToastrService) { }
@@ -42,7 +42,7 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
   createClinic() {
     this.newClinic.departments = this.departmentsSelection
       .filter(r => r.isSelected)
-      .map((r) => ({ id: r.department.id, departmentTypeId: 0, roles: null, institutionId: this.institutionId, name: null, departmentType: null }));
+      .map((r) => ({ id: r.department.id, departmentTypeId: 0, roles: null, facilityId: this.facilityId, name: null, departmentType: null }));
 
     this.clinicService.createClinic(this.newClinic).subscribe((clinic) => {
       this.toastrService.success('Clinic created', `Clinic with ID: ${clinic.id} created`);
@@ -57,10 +57,10 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
 
   loadDepartments() {
 
-    this.clinicService.getClinicsForInstitution(this.institutionId).subscribe((result: Clinic[]) => {
+    this.clinicService.getClinicsForFacility(this.facilityId).subscribe((result: Clinic[]) => {
       this.clinicsList = result;
 
-      this.institutionService.getDepartments(this.institutionId).subscribe(
+      this.facilityService.getDepartments(this.facilityId).subscribe(
         (departments) => {
           this.departmentsSelection = departments.map(a =>
           ({
@@ -77,7 +77,7 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
     this.newClinic = {
       id: 0,
       name: null,
-      institutionId: this.institutionId,
+      facilityId: this.facilityId,
       departments: []
     };
     for (const department of this.departmentsSelection) {
@@ -90,7 +90,7 @@ export class CreateClinicComponent implements OnInit, OnDestroy {
   }
 
   canCreateClinic(): boolean {
-    return this.newClinic.institutionId > 0
+    return this.newClinic.facilityId > 0
       && this.departmentsSelection?.filter(r => r.isSelected)?.length > 0
       && this.clinicsList.find(cl => cl.name == this.newClinic.name) == undefined
       && this.newClinic.name?.length > 0;

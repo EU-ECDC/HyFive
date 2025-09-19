@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row" *ngIf="!loading">
     <div class="col-4">
-      <h5>HealthCare Organization</h5>
+      <h5>City</h5>
       <input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newHealthcareOrganization.name" name="name" placeholder="Name">
     </div>
     <div class="col-4">
-      <h5>Regional HealthCare Organization</h5>
+      <h5>Country</h5>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -20,7 +20,7 @@
       <button class="btn fhi-btn-primary mt-5" (click)="createHealthcareOrganization()" [disabled]="!canCreateHealthcareOrganization()">Create</button>
     </div>
     <div class="col-12 m-3">
-      <label *ngIf="!listOfHealthcareOrganizations">No HealthcareOrganization found</label>
+      <label *ngIf="!listOfHealthcareOrganizations">No City found</label>
       
       <ng-container>
         <div class="table-responsive">
@@ -28,7 +28,7 @@
             <thead>
               <tr>
                 <th sortable-column="Name"></th>
-                <th sortable-column="Regional HealthCare Organization"></th>
+                <th sortable-column="City"></th>
                 <th class="text-end" scope="col">Action</th>
               </tr>
             </thead>

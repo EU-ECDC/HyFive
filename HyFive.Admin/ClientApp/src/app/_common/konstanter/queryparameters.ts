@@ -3,7 +3,7 @@ export class QueryParameters {
   static SessionType = 'sessiontype';
   static FromDate = 'from';
   static ToDate = 'to';
-  static InstitutionIdeas = 'institutionideas';
+  static FacilityIdeas = 'facilityideas';
   static DepartmentId = 'departmentid';
-  static InstitutionIdIsOk = 'institutionidisok';
+  static facilityIdIsOk = 'facilityidIsok';
 }

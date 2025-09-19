@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var avdeling = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
+        //    var avdeling = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
         //    var opprettetSesjonId = await OpprettSesjon(avdeling);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonId);
 
@@ -312,9 +312,9 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(
-                avdeling ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
+            var avdelingModell = Mapper.Map<Models.V1.Facility.Department>(
+                avdeling ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Facility.First(x => x.Id == avdelingModell.FacilityId);
             var settingTyper = DatabaseContext.ProtectiveEquipmentSettingType.ToList();
             var utstyrsTyper = DatabaseContext.ProtectiveEquipmentType.ToList();
 
@@ -325,8 +325,8 @@ namespace HyFive.Services.Tests.Beskyttelsesutstyr
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionName = institusjon.Name,
-                    InstitutionId = institusjon.Id,
+                    FacilityName = institusjon.Name,
+                    FacilityId = institusjon.Id,
                     Comment = "Sesjon kommentar",
                     CreatedDate = DateTime.UtcNow,
                     Observations = new List<ProtectiveEquipmentObservation>()

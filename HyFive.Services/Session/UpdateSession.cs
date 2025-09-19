@@ -12,7 +12,7 @@ namespace HyFive.Services.Session
         public class Command : IRequest<UpdateSessionResponse>
         {
             public Guid SessionId { get; set; }
-            public int InstitutionId { get; set; }
+            public int FacilityId { get; set; }
             public string Comment { get; set; }
             public DateTime? StartDate { get; set; }
         }
@@ -28,9 +28,9 @@ namespace HyFive.Services.Session
             
             public async Task<UpdateSessionResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var respons = new UpdateSessionResponse();
+                var response = new UpdateSessionResponse();
 
-                var session = _databaseContext.Session.FirstOrDefault(s => s.Id == request.SessionId && s.Department.InstitutionId == request.InstitutionId);
+                var session = _databaseContext.Session.FirstOrDefault(s => s.Id == request.SessionId && s.Department.FacilityId == request.FacilityId);
 
                 if (session == null)
                 {
@@ -44,8 +44,8 @@ namespace HyFive.Services.Session
                 }
 
                 await _databaseContext.SaveChangesAsync();
-                respons.Success = true;
-                return respons;
+                response.Success = true;
+                return response;
             }
         }
 

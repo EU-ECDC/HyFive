@@ -1,10 +1,10 @@
 <div class="container">
-  <ng-container *ngIf="institutionReport else spinner ">
+  <ng-container *ngIf="facilityReport else spinner ">
     <div class="row">
       <h3>Maintenance of observers</h3>
     </div>
     <div>
-    <app-edit-observers [institutionId]="institutionReport.id"> </app-edit-observers>
+    <app-edit-observers [facilityId]="facilityReport.id"> </app-edit-observers>
     </div>
   </ng-container>
   <ng-template #spinner>

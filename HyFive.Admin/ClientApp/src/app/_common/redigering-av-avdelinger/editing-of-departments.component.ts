@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Department} from '../../models/api/Department';
-import { InstitutionService } from '../../services/data/institution.service';
+import { FacilityService } from '../../services/data/facility.service';
 import { DepartmentType } from "../../models/api/DepartmentType";
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
@@ -17,7 +17,7 @@ selector: 'app-editing-of-departments',
 })
 export class EditingDepartmentsComponent implements OnInit {
   
-  @Input() institutionId: number;
+  @Input() facilityId: number;
 
   departments: Department[] = [];
   filteredDepartments: Department[] = [];
@@ -27,12 +27,12 @@ export class EditingDepartmentsComponent implements OnInit {
   roles: Role[];
   selectedRoles: Role[] = [];
   canEdit: boolean;
-  institutionName: string;
+  facilityName: string;
   keyword: string;
   loading: boolean = false;
   dropdownSettings: IDropdownSettings;
 
-  constructor(private institutionService: InstitutionService,
+  constructor(private facilityService: FacilityService,
     private authorizationService: AuthorizationService,
     private departmentService: DepartmentService,
     private roleService: RoleService,
@@ -71,16 +71,16 @@ export class EditingDepartmentsComponent implements OnInit {
   }
 
   getDepartments() {
-    let selectedInstitutionId = this.institutionId ?? this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(selectedInstitutionId).subscribe(
-      (institution) => {
-        this.institutionName = institution.name;
-        this.institutionId = institution.id;
-        this.departments = institution.departments;
+    let selectedFacilityId = this.facilityId ?? this.facilityService.getSelectedFacilityId();
+    this.facilityService.getFacility(selectedFacilityId).subscribe(
+      (facility) => {
+        this.facilityName = facility.name;
+        this.facilityId = facility.id;
+        this.departments = facility.departments;
         this.filteredDepartments = this.departments;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Loading institutions failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, 'Loading facilities failed', {disableTimeOut: true});
     });
   }
 
@@ -105,7 +105,7 @@ export class EditingDepartmentsComponent implements OnInit {
   }
 
   canCreate() : boolean {
-    return (this.institutionId > 0 && this.departmentId == 0 && this.canEdit);
+    return (this.facilityId > 0 && this.departmentId == 0 && this.canEdit);
   }
 
   getRoleDescriptions(department: Department) {

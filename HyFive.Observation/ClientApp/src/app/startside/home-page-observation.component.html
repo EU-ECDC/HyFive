@@ -4,15 +4,15 @@
       <div class="d-flex">
         <div
           class="d-flex flex-column justify-content-between"
-          *ngIf="institution"
+          *ngIf="facility"
         >
           <i class="icon-hospital icon-lg mt-1 me-3"></i>
         </div>
         <div>
           <p>
-            <ng-container *ngIf="institution">
+            <ng-container *ngIf="facility">
               <strong style="word-break: break-word">{{
-                institution.name
+                facility.name
               }}</strong>
               <br />
             </ng-container>
@@ -23,45 +23,45 @@
     </div>
 
     <div class="col-md-6 mb-3">
-      <h2 class="h5">Institution</h2>
+      <h2 class="h5">Healthcare facility</h2>
       <!-- <div class="form-group"> -->
         <!-- <select
           class="form-select"
-          name="institution"
-          id="institutions"
-          [(ngModel)]="selectedInstitutionOptionId"
-          (ngModelChange)="selectedInstitutionChanged()"
+          name="facility"
+          id="facilities"
+          [(ngModel)]="selectedFacilityOptionId"
+          (ngModelChange)="selectedFacilityChanged()"
         >
-          <option [ngValue]="null">Select institution</option>
+          <option [ngValue]="null">Select facility</option>
           <option
-            *ngFor="let institutionOption of institutionOptions"
-            [ngValue]="institutionOption.id"
+            *ngFor="let facilityOption of facilityOptions"
+            [ngValue]="facilityOption.id"
           >
-            {{ institutionOption.name }}
+            {{ facilityOption.name }}
           </option>
         </select> -->
-        <div *ngIf="institutionOptions" class="fhi-ng-select-wrapper fhi-autosuggest">
+        <div *ngIf="facilityOptions" class="fhi-ng-select-wrapper fhi-autosuggest">
           <ng-select
             class="hh-avdeling-dropdown"
-            [items]="institutionOptions"
+            [items]="facilityOptions"
             bindLabel="name"
             bindValue="id"
-            placeholder="Select Institution"
+            placeholder="Select Facility"
             clearAllText="Delete"
             notFoundText="No results"
-            [(ngModel)]="selectedInstitutionOptionId"
-            (ngModelChange)="selectedInstitutionChanged()"
+            [(ngModel)]="selectedFacilityOptionId"
+            (ngModelChange)="selectedFacilityChanged()"
             >
         </ng-select>
       </div>
     </div>
 
-    <div class="col-md-6" *ngIf="institution">
+    <div class="col-md-6" *ngIf="facility">
       <h2 class="h5">Department</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
         class="hh-avdeling-dropdown"
-        [items]="institution?.departments"
+        [items]="facility?.departments"
           bindLabel="name"
           bindValue="id"
           placeholder="Select department"
@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <div *ngIf="institution && selectedDepartmentId">
+  <div *ngIf="facility && selectedDepartmentId">
     <div class="row mb-5">
       <div class="col">
         <h2 class="h5">Type observation</h2>
@@ -241,7 +241,7 @@
     do the following:
   </p>
   <ol>
-    <li>Select institution</li>
+    <li>Select healthcare facility</li>
     <li>Select department</li>
     <li>Select type observation</li>
     <li>Choose which professions you want to observe</li>

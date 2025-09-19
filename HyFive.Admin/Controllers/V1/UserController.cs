@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("observer/update")]
         public async Task<IActionResult> UpdateObserver([FromBody] User user)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(user.FacilityId))
             {
                 var updatedObserver = await _mediator.Send(new UpdateObserver.Command() { User = user });
                 return Ok(updatedObserver);
@@ -56,10 +56,10 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateObserver([FromBody] User user)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(user.FacilityId))
             {
                 var response = await _mediator.Send(new CreateObserver.Command() { User = user });
-                return CreatedAtRoute("GetObservers", new { id = response.InstitutionId }, response);
+                return CreatedAtRoute("GetObservers", new { id = response.FacilityId }, response);
             }
 
             return Unauthorized();
@@ -112,10 +112,10 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateCoordinator([FromBody] User user)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(user.FacilityId))
             {
                 var response = await _mediator.Send(new CreateCoordinator.Command() { User = user });
-                return CreatedAtRoute("GetCoordinators", new { id = response.InstitutionId }, response);
+                return CreatedAtRoute("GetCoordinators", new { id = response.FacilityId }, response);
             }
 
             return Unauthorized();
@@ -129,7 +129,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("coordinator/update")]
         public async Task<ActionResult<User>> UpdateCoordinator([FromBody] User user)
         {
-            if (_userService.IsCoordinatorForInstitutionOrFhiAdmin(user.InstitutionId))
+            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(user.FacilityId))
             {
                 var updatedUser = await _mediator.Send(new UpdateCoordinator.Command() { User = user });
                 return updatedUser;

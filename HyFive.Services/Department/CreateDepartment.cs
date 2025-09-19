@@ -7,18 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 
 namespace HyFive.Services.Department
 {
     public class CreateDepartment
     {
-        public class Command : IRequest<Models.V1.Institution.Department>
+        public class Command : IRequest<Models.V1.Facility.Department>
         {
             public CreateDepartmentRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Models.V1.Institution.Department>
+        public class Handler : IRequestHandler<Command, Models.V1.Facility.Department>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -30,16 +30,16 @@ namespace HyFive.Services.Department
             }
 
 
-            public async Task<Models.V1.Institution.Department> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Department> Handle(Command command, CancellationToken cancellationToken)
             {
-                var institution = await _context
-                    .Institution
+                var facility = await _context
+                    .Facility
                     .Include(i => i.Departments)
-                    .FirstOrDefaultAsync(i => i.Id == command.Request.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == command.Request.FacilityId);
 
-                if (institution == null)
+                if (facility == null)
                 {
-                    throw new Exception("Sis not find department type with ID " + command.Request.InstitutionId);
+                    throw new Exception("Sis not find department type with ID " + command.Request.FacilityId);
                 }
 
                 if (command.Request.RoleIds.Any() == false)
@@ -52,15 +52,15 @@ namespace HyFive.Services.Department
                 }
 
                 bool nameExists = await _context.Department
-                    .AnyAsync(d => d.Name == command.Request.Name && d.InstitutionId == command.Request.InstitutionId);
+                    .AnyAsync(d => d.Name == command.Request.Name && d.FacilityId == command.Request.FacilityId);
                 if(nameExists)
                 {
-                    throw new Exception($"A department with the name '{command.Request.Name}' already exists in this institution.");
+                    throw new Exception($"A department with the name '{command.Request.Name}' already exists in this facility.");
                 }
 
                 var department = new Domain.Place.Department()
                 {
-                    InstitutionId = institution.Id,
+                    FacilityId = facility.Id,
                     Name = command.Request.Name,
                     Roles = GetRoles(command.Request.RoleIds),
                     DepartmentType = departmentType
@@ -68,7 +68,7 @@ namespace HyFive.Services.Department
 
                 _context.Department.Add(department);
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Models.V1.Institution.Department>(department);
+                return _mapper.Map<Models.V1.Facility.Department>(department);
             }
 
             private ICollection<Domain.Observation.Role> GetRoles(List<int> requestRoleIds)

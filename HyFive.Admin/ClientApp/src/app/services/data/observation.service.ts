@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { InstitutionOverviewReport } from '../../models/api/InstitutionOverviewReport';
+import { FacilityOverviewReport } from '../../models/api/FacilityOverviewReport';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
 import { User } from '../../models/api/User';
@@ -19,8 +19,8 @@ export class ObservationService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getInstitutionsWithSessions(institutionId: string, sessionType: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<InstitutionOverviewReport[]> {
-    let url = `${environment.apiBaseUrl}/v1/observation/institutionsWithSessions`;
+  getFacilitiesWithSessions(facilityId: string, sessionType: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<FacilityOverviewReport[]> {
+    let url = `${environment.apiBaseUrl}/v1/observation/facilitiesWithSessions`;
 
     let params = new HttpParams();
     if (sessionType && sessionType.toString() !== 'null')
@@ -32,12 +32,12 @@ export class ObservationService {
     if (toDate !== null)
       params = params.append("todate", toDate?.toString());
 
-    if (institutionId !== null)
-      params = params.append("institutionid", institutionId);
+    if (facilityId !== null)
+      params = params.append("facilityid", facilityId);
 
     params = params.append("role", selectedRole.toString());
 
-    return this.http.get<InstitutionOverviewReport[]>(url, { params: params });
+    return this.http.get<FacilityOverviewReport[]>(url, { params: params });
   }
 
   getSessionsForDepartment(departmentid: number, sessiontype: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<SessionOverviewReport[]> {
@@ -61,11 +61,11 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  getSessionsForInstitution(institutionId: number, observer?: User, sessiontype?: SessionType, fromDate?: Date, toDate?: Date): Observable<SessionOverviewReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/observation/institution`;
+  getSessionsForFacility(facilityId: number, observer?: User, sessiontype?: SessionType, fromDate?: Date, toDate?: Date): Observable<SessionOverviewReport[]> {
+    const url = `${environment.apiBaseUrl}/v1/observation/facility`;
     let params = new HttpParams();
 
-    params = params.append("institutionid", institutionId?.toString());
+    params = params.append("facilityid", facilityId?.toString());
 
     if (observer)
       params = params.append("observerid", observer?.toString());
@@ -82,11 +82,11 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  transferSessionToFHI(institutionId: number, sessionId: any) {
+  transferSessionToFHI(facilityId: number, sessionId: any) {
     const url = `${environment.apiBaseUrl}/v1/observation/transfer`;
     let params = new HttpParams();
 
-    params = params.append("institutionid", institutionId?.toString());
+    params = params.append("facilityid", facilityId?.toString());
     params = params.append("sessionid", sessionId.toString());
 
     return this.http.get<SessionOverviewReport>(url, { params: params });

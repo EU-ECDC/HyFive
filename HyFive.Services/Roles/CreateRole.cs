@@ -31,17 +31,17 @@ namespace HyFive.Services.Roles
 
             public async Task<Models.V1.Observation.Role> Handle(Command command, CancellationToken cancellationToken)
             {
-                // check institution
-                var rolle = new Domain.Observation.Role()
+                // check facility
+                var role = new Domain.Observation.Role()
                 {
                     Name = command.Request.Name,
                     Description = command.Request.Description
                 };
 
-                _context.Role.Add(rolle);
+                _context.Role.Add(role);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var mapped = _mapper.Map<Models.V1.Observation.Role>(rolle);
+                var mapped = _mapper.Map<Models.V1.Observation.Role>(role);
                 return mapped;
             }
         }

@@ -46,23 +46,23 @@ export class SentSessionsService {
   }
 
 
-  public downloadGloveSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/glove/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
+  public downloadGloveSessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/glove/myobservations/excel?facilityid=${facilityId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "Glove");
   }
 
-  public downloadFiveIndicationsSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/fiveindications/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
+  public downloadFiveIndicationsSessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/fiveindications/myobservations/excel?facilityid=${facilityId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "FiveIndications");
   }
 
-  public downloadHandJewelrySessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/handjewelry/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
+  public downloadHandJewelrySessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/handjewelry/myobservations/excel?facilityid=${facilityId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "Handjewelry");
   }
 
-  public DownloadProtectiveEquipmentSessionAsExcel(institutionId: number, sessionId: string) : Observable<any> {
-    const url = `${environment.apiBaseUrl}/v1/protectiveequipment/myobservations/excel?institutionid=${institutionId}&sessionid=${sessionId}`;
+  public DownloadProtectiveEquipmentSessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
+    const url = `${environment.apiBaseUrl}/v1/protectiveequipment/myobservations/excel?facilityid=${facilityId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "ProtectiveEquipment");
   }
 

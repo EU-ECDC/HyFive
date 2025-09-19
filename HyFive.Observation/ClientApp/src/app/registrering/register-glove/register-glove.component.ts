@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Role } from 'src/app/models/api/Role';
-import { InstitutionService } from '../../services/data/InstitutionService';
+import { FacilityService } from '../../services/data/FacilityService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Queryparameters } from '../../constants/queryparameters';
 import { Urls } from '../../constants/urls';
@@ -37,9 +37,9 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
     private sessionService: GloveSessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private toastrService: ToastrService) {
-    this.institutionService.getSelectedInstitution()
+    this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 

@@ -3,7 +3,7 @@ export class UrlPaths {
   static observations = 'fhiadmin/observations';
   static observationsDepartment = 'fhiadmin/observations/department';
   static transferSessions = 'coordinator/transfer';
-  static editingByInstitutions = 'fhiadmin/institutions';
+  static editingByFacilities = 'fhiadmin/facilities';
   static editingByCodeworks = 'fhiadmin/codeworks';
   static editingofhandjewelrytypes = 'fhiadmin/typesofhandjewelry';
   static editingOfDepartments = 'coordinator/departments';
@@ -12,8 +12,8 @@ export class UrlPaths {
   static editingByObservers = 'coordinator/observers';
   static editingPredefinedComments = 'coordinator/predefinedcomments';
   static profile = 'profile';
-  static changeInstitution = 'changeinstitution';
-  static institutions = 'fhiadmin/institutions';
+  static changeFacility = 'changefacility';
+  static facilities = 'fhiadmin/facilities';
   static fhiAdminOverview = 'fhiadmin/overview';
   static request = 'coordinator/request';
   static healthcareOrganization = 'fhiadmin/healthcareOrganization';

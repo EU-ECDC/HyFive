@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { InstitutionService } from '../../services/data/institution.service';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityService } from '../../services/data/facility.service';
+import { FacilityReport } from '../../models/api/FacilityReport';
 import { ObservationService } from '../../services/data/observation.service';
 import { SessionType } from '../../models/api/SessionType';
 import { QueryParameters } from '../../_common/konstanter/queryparameters';
 import { UrlPaths } from '../../_common/konstanter/url-paths';
 import { faArrowRight, faFileDownload, faFileExcel, faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { InstitutionOverviewReport } from "../../models/api/InstitutionOverviewReport";
+import { FacilityOverviewReport } from "../../models/api/FacilityOverviewReport";
 import { ToastrService } from "ngx-toastr";
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
@@ -36,23 +36,23 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   ];
 
   selectedSessiontype: SessionType = null;
-  institutionIdForReportAsDownloaded = 0;
+  facilityIdForReportAsDownloaded = 0;
 
   fromDate: Date = null;
   toDate: Date = null;
-  institutions: InstitutionReport[] = [];
-  selectedInstitutionId: string = null;
+  facilities: FacilityReport[] = [];
+  selectedFacilityId: string = null;
   departmentIdForReportAsDownloaded = 0;
 
-  selectedInstitutionFromListId: number = 0;
+  SelectedFacilityFromListId: number = 0;
 
-  institutionOverviewReportList: InstitutionOverviewReport[] = [];
-  canSelectInstitution = false;
+  facilityOverviewReportList: FacilityOverviewReport[] = [];
+  canSelectFacility = false;
   searching = false;
   private selectedRole: AuthorizedRole;
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private observationService: ObservationService,
     private route: ActivatedRoute,
     private router: Router,
@@ -62,7 +62,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedRole = this.authorizationService.getSelectedRole();
-    this.selectedInstitutionId = this.getInstitutionId();
+    this.selectedFacilityId = this.getFacilityId();
 
     this.route
       .queryParams
@@ -75,15 +75,15 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
         if (this.selectedRole === AuthorizedRole.Administrator)
-          this.selectedInstitutionId = params[QueryParameters.InstitutionIdIsOk] || null;
-        this.getInstitutionsWithSessions();
+          this.selectedFacilityId = params[QueryParameters.facilityIdIsOk] || null;
+        this.getFacilitiesWithSessions();
       });
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.canSelectInstitution = true;
-      this.getInstitution();
+      this.canSelectFacility = true;
+      this.getFacility();
     } else if (this.selectedRole === AuthorizedRole.Coordinator) {
-      this.canSelectInstitution = false;
+      this.canSelectFacility = false;
     }
   }
 
@@ -91,44 +91,44 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  getInstitutionId(): string {
+  getFacilityId(): string {
     if(this.selectedRole === AuthorizedRole.Coordinator)
-      return this.institutionService.getSelectedInstitutionId().toString();
+      return this.facilityService.getSelectedFacilityId().toString();
     return "null";
   }
 
-  getInstitution() {
-    this.institutionService.getInstitutions().subscribe(
-      (institutions) => {
-        this.institutions = [ 
+  getFacility() {
+    this.facilityService.getFacilities().subscribe(
+      (facilities) => {
+        this.facilities = [ 
                             { name: 'All', 
                               id: null,
                               abbreviation: null,
                               herId: null,
-                              institutionType: null,
+                              facilityType: null,
                               region: null,
                               municipality: null,
                               healthcareOrganization: null 
                             },
-                            ...institutions
+                            ...facilities
         ];
-        this.selectedInstitutionId = null;
+        this.selectedFacilityId = null;
       },
       error => {
-        this.toastrService.error(error.error.message, 'Loading of institutions failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, 'Loading of facilities failed', {disableTimeOut: true});
       });
   }
 
-  getInstitutionsWithSessions() {
-    let selectedInstitutionId = this.selectedInstitutionId;
-    if (this.selectedInstitutionId === null || this.selectedInstitutionId === 'null') {
-      selectedInstitutionId = null;
+  getFacilitiesWithSessions() {
+    let selectedFacilityId = this.selectedFacilityId;
+    if (this.selectedFacilityId === null || this.selectedFacilityId === 'null') {
+      selectedFacilityId = null;
     }
     this.searching = true;
-    this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
+    this.facilityOverviewReportList = new Array<FacilityOverviewReport>();
 
-    this.observationService.getInstitutionsWithSessions(
-      selectedInstitutionId,
+    this.observationService.getFacilitiesWithSessions(
+      selectedFacilityId,
       this.selectedSessiontype ? this.selectedSessiontype : null,
       this.fromDate,
       this.toDate,
@@ -137,12 +137,12 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
       if(this.selectedSessiontype !== SessionType.FiveIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
         this.selectedSessiontype !== SessionType.Gloves && this.selectedSessiontype !== SessionType.ProtectiveEquipment)
         this.selectedSessiontype = null;
-      this.institutionOverviewReportList = results;
+      this.facilityOverviewReportList = results;
       this.searching = false;
     },
       error => {
         this.toastrService.error(error.error.message, 'Loading the list failed', {disableTimeOut: true});
-        this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
+        this.facilityOverviewReportList = new Array<FacilityOverviewReport>();
         this.searching = false;
       });
 
@@ -155,7 +155,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
         sessiontype: this.selectedSessiontype,
         from: this.fromDate,
         to: this.toDate,
-        institutionIdSearch: this.selectedInstitutionId
+        facilityIdSearch: this.selectedFacilityId
       })
     });
   }
@@ -166,14 +166,14 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     this.toDate = null;
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.selectedInstitutionId = null;
+      this.selectedFacilityId = null;
     }
 
-    this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
+    this.facilityOverviewReportList = new Array<FacilityOverviewReport>();
   }
 
   resetSearchresults() {
-    this.institutionOverviewReportList = new Array<InstitutionOverviewReport>();
+    this.facilityOverviewReportList = new Array<FacilityOverviewReport>();
   }
 
   loadSelectedSessionTypeText(): string {
@@ -195,7 +195,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   }
 
   findId(item: any) {
-    this.selectedInstitutionFromListId = item.id;
+    this.SelectedFacilityFromListId = item.id;
   }
 
   sort($event: IColumnSortedEvent) {
@@ -219,10 +219,10 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
       return result * sortOrder;
     };
 
-    let index = this.institutionOverviewReportList.findIndex(x => x.id == this.selectedInstitutionFromListId);
+    let index = this.facilityOverviewReportList.findIndex(x => x.id == this.SelectedFacilityFromListId);
 
     if (index > -1) {
-      this.institutionOverviewReportList[index].departments = this.institutionOverviewReportList[index].departments.sort(sortFunc);
+      this.facilityOverviewReportList[index].departments = this.facilityOverviewReportList[index].departments.sort(sortFunc);
     }
   }
 }

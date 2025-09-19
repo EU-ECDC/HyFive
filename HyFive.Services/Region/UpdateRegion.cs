@@ -4,19 +4,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 
 namespace HyFive.Services.Region
 {
     public class UpdateRegion
     {
-        public class Command : IRequest<Models.V1.Institution.Region>
+        public class Command : IRequest<Models.V1.Facility.Region>
         {
-            public Models.V1.Institution.Region RegionType { get; set; }
+            public Models.V1.Facility.Region RegionType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Models.V1.Institution.Region>
+        public class Handler : IRequestHandler<Command, Models.V1.Facility.Region>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace HyFive.Services.Region
                 _mapper = mapper;
             }
 
-            public async Task<Models.V1.Institution.Region> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Region> Handle(Command request, CancellationToken cancellationToken)
             {
                 var regionType = _context.Region.SingleOrDefault(r => r.Id == request.RegionType.Id);
 
@@ -38,7 +38,7 @@ namespace HyFive.Services.Region
                 _context.Update(regionType);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<Models.V1.Institution.Region>(regionType);
+                return _mapper.Map<Models.V1.Facility.Region>(regionType);
             }
         }
     }

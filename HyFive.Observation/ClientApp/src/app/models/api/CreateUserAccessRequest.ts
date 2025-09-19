@@ -4,9 +4,10 @@
 
 export interface CreateUserAccessRequest
 {
-	institutionId?: number;
+	facilityId?: number;
 	userFirstName: string;
 	userLastName: string;
 	identityPseudonym: string;
 	hprNumber: string;
+	email?: string;
 }

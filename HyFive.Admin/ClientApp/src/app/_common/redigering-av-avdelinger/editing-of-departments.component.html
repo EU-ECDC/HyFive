@@ -2,7 +2,7 @@
   <div class="row" *ngIf="canEdit && !loading">
     <h3>Department maintenance</h3>
   </div>
-  <app-create-department (departmentCreatedEvent)="getDepartments()" [institutionId]="institutionId" [departments]="filteredDepartments" *ngIf="canCreate()"></app-create-department>
+  <app-create-department (departmentCreatedEvent)="getDepartments()" [facilityId]="facilityId" [departments]="filteredDepartments" *ngIf="canCreate()"></app-create-department>
   <div class="row mb-5 mt-5" *ngIf="departments?.length > 0">
     <input type="text" autocomplete="off" placeholder="Search by name or department type..." autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
   
@@ -78,7 +78,7 @@
   </div>
   <div class="row m-3" *ngIf="!loading && departments?.length == 0">
     <div class="col-12">
-      <p>There are no departments registered at this institution.</p>
+      <p>There are no departments registered at this facility.</p>
     </div>
   </div>
   <div class="row" *ngIf="loading">

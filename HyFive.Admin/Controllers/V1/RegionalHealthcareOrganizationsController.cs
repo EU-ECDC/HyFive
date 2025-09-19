@@ -22,7 +22,7 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.Admin)]
         [HttpGet]
-        public async Task<ActionResult<List<Models.V1.Institution.RegionalHealthcareOrganization>>> GetAllRegionalHealthcareOrganizations()
+        public async Task<ActionResult<List<Models.V1.Facility.RegionalHealthcareOrganization>>> GetAllRegionalHealthcareOrganizations()
         {
             var result = await  _mediator.Send(new GetAllRegionalHealthOrganization.Query());
 

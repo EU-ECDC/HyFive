@@ -62,13 +62,14 @@ namespace HyFive.Services.Authentication.User
             user.IsFhiAdmin = IsFhiAdmin(email);
             //user.HPRNumber = hprNumber;
             //user.IdentityPseudonym = pseudonym;
-            user.InstitutionIds = await _context.User.AsNoTracking().Include(k => k.Institution)
+            user.FacilityIds = await _context.User.AsNoTracking().Include(k => k.Facility)
                 .Where(HasEmailAndIsActive<Domain.User.User>(email))
-                .Where(k => k.Institution != null)
-                .Select(k => k.Institution.Id)
+                .Where(k => k.Facility != null)
+                .Select(k => k.Facility.Id)
                 .ToListAsync();
-            user.FirstName = GetFirstName();
-            user.LastName = GetLastName();
+            user.Email = dbUser.Email;
+            user.FirstName = dbUser.FirstName;
+            user.LastName = dbUser.LastName;
 
             return user;
         }
@@ -86,17 +87,17 @@ namespace HyFive.Services.Authentication.User
         public bool IsObserver(string email)
             => IsRole<Observer>(email);
 
-        public bool IsCoordinatorForInstitution(int institutionId, string email)
-            => IsRoleForInstitution<Coordinator>(email, institutionId);
+        public bool IsCoordinatorForFacility(int facilityId, string email)
+            => IsRoleForFacility<Coordinator>(email, facilityId);
 
-        public bool IsCoordinatorForInstitution(int institutionId)
-            => IsRoleForInstitution<Coordinator>(GetEmail(), institutionId);
+        public bool IsCoordinatorForFacility(int facilityId)
+            => IsRoleForFacility<Coordinator>(GetEmail(), facilityId);
 
         public bool IsCoordinatorForHealthcareProvider(int healthcareProvider)
             => IsCoordinatorForHealthcareProvider(GetEmail(), healthcareProvider);
 
-        public bool IsCoordinatorForInstitutions(List<int> institutionIds)
-            => IsRoleForInstitutions<Coordinator>(institutionIds);
+        public bool IsCoordinatorForFacilities(List<int> facilityIds)
+            => IsRoleForFacilities<Coordinator>(facilityIds);
 
         public bool IsCoordinatorForDepartment(int departmentId)
             => IsRoleForDepartment<Coordinator>(departmentId);
@@ -104,8 +105,8 @@ namespace HyFive.Services.Authentication.User
         public bool IsCoordinatorForUser(int userID)
             => IsRoleForUser<Coordinator>(GetEmail(), userID);
 
-        public bool IsObserverForInstitution(string email, int institutionId)
-            => IsRoleForInstitution<Observer>(email, institutionId);
+        public bool IsObserverForFacility(string email, int facilityId)
+            => IsRoleForFacility<Observer>(email, facilityId);
 
         public bool IsFhiAdminOrCoordinator(string email)
         {
@@ -130,19 +131,19 @@ namespace HyFive.Services.Authentication.User
             return IsCoordinatorForDepartment(departmentId) || IsFhiAdmin();
         }
 
-        public bool IsObserverForInstitution(int institutionId)
+        public bool IsObserverForFacility(int facilityId)
         {
-            return IsObserverForInstitution(GetEmail(), institutionId);
+            return IsObserverForFacility(GetEmail(), facilityId);
         }
 
-        public bool IsCoordinatorForInstitutionOrFhiAdmin(int institutionId)
+        public bool IsCoordinatorForFacilityOrFhiAdmin(int facilityId)
         {
-            return IsCoordinatorForInstitution(institutionId) || IsFhiAdmin();
+            return IsCoordinatorForFacility(facilityId) || IsFhiAdmin();
         }
 
-        public bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds)
+        public bool IsCoordinatorForFacilitiesOrAdmin(List<int> facilityIds)
         {
-            return IsCoordinatorForInstitutions(institutionIds) || IsFhiAdmin();
+            return IsCoordinatorForFacilities(facilityIds) || IsFhiAdmin();
         }
 
         public bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProvider)
@@ -183,23 +184,23 @@ namespace HyFive.Services.Authentication.User
                 throw new ArgumentException($"HealthIdUSerService: Error parsing ID: {sessionId}. {sessionId} must be of type Guid");
             }
 
-            var institutionId = _context.Session.AsNoTracking().Include(s => s.Department).ThenInclude(a => a.Institution)
-                .FirstOrDefault(s => s.Id == guidSessionId).Department?.InstitutionId;
-            if (institutionId != null)
+            var facilityId = _context.Session.AsNoTracking().Include(s => s.Department).ThenInclude(a => a.Facility)
+                .FirstOrDefault(s => s.Id == guidSessionId).Department?.FacilityId;
+            if (facilityId != null)
             {
-                return IsRoleForInstitution<Coordinator>(GetEmail(), (int)institutionId);
+                return IsRoleForFacility<Coordinator>(GetEmail(), (int)facilityId);
             }
 
             return false;
         }
 
-        public int GetObserverIdForInstitution(int institutionId)
+        public int GetObserverIdForFacility(int facilityId)
         {
             var email = GetEmail();
             return _context.User.AsNoTracking()
                 .OfType<Observer>()
-                .Include(o => o.Institution)
-                .Where(HasEmailAndIsActive<Domain.User.User>(email)).First(o => o.Institution.Id == institutionId)?.Id ?? 0;
+                .Include(o => o.Facility)
+                .Where(HasEmailAndIsActive<Domain.User.User>(email)).First(o => o.Facility.Id == facilityId)?.Id ?? 0;
         }
 
         public Expression<Func<TUser, bool>> HasEmailAndIsActive<TUser>(string email) where TUser : Domain.User.User
@@ -218,7 +219,7 @@ namespace HyFive.Services.Authentication.User
         private bool IsRole<TRole>(string email) where TRole : Domain.User.User
         {
             var isRole = _context.User.AsNoTracking().OfType<TRole>()
-                .Include(r => r.Institution)
+                .Include(r => r.Facility)
                 .Any(HasEmailAndIsActive<TRole>(email));
 
             /*if (isRole)
@@ -229,68 +230,68 @@ namespace HyFive.Services.Authentication.User
             return isRole;
         }
 
-        private bool IsRoleForInstitution<TRole>(string email, int institutionId) where TRole : Domain.User.User
+        private bool IsRoleForFacility<TRole>(string email, int facilityId) where TRole : Domain.User.User
         {
-            return _context.User.OfType<TRole>().AsNoTracking().Include(b => b.Institution)
+            return _context.User.OfType<TRole>().AsNoTracking().Include(b => b.Facility)
                 .Where(HasEmailAndIsActive<TRole>(email))
-                .Any(b => b.Institution.Id == institutionId && b.Discriminator == GetDiscriminator<TRole>());
+                .Any(b => b.Facility.Id == facilityId && b.Discriminator == GetDiscriminator<TRole>());
         }
 
         private bool IsCoordinatorForHealthcareProvider(string email, int healthcareOrganization)
         {
-            return _context.User.OfType<Coordinator>().AsNoTracking().Include(b => b.Institution).ThenInclude(i => i.HealthcareOrganization)
+            return _context.User.OfType<Coordinator>().AsNoTracking().Include(b => b.Facility).ThenInclude(i => i.HealthcareOrganization)
                 .Where(HasEmailAndIsActive<Coordinator>(email))
-                .Any(b => b.Institution.HealthcareOrganization.Id == healthcareOrganization);
+                .Any(b => b.Facility.HealthcareOrganization.Id == healthcareOrganization);
         }
 
-        private bool IsRoleForInstitutions<TRole>(List<int> InstitutionIds) where TRole : Domain.User.User
+        private bool IsRoleForFacilities<TRole>(List<int> FacilityIds) where TRole : Domain.User.User
         {
             var email = GetEmail();
-            var CoordinatorForInstitutionIds = _context
+            var CoordinatorForFacilityIds = _context
                 .User
                 .OfType<TRole>()
                 .AsNoTracking()
-                .Include(k => k.Institution)
+                .Include(k => k.Facility)
                 .Where(HasEmailAndIsActive<TRole>(email))
                 .Where(k => k.Discriminator == GetDiscriminator<TRole>())
-                .Select(k => k.Institution.Id).ToList();
+                .Select(k => k.Facility.Id).ToList();
 
-            if (InstitutionIds == null)
+            if (FacilityIds == null)
             {
-                return CoordinatorForInstitutionIds.Any();
+                return CoordinatorForFacilityIds.Any();
             }
 
-            return CoordinatorForInstitutionIds.Any() && InstitutionIds.ToList().TrueForAll(iid => CoordinatorForInstitutionIds.Contains(iid));
+            return CoordinatorForFacilityIds.Any() && FacilityIds.ToList().TrueForAll(iid => CoordinatorForFacilityIds.Contains(iid));
         }
 
         private bool IsRoleForUser<TRole>(string email, int userId) where TRole : Domain.User.User
         {
-            var institutionId = _context
+            var facilityId = _context
                 .User
                 .AsNoTracking()
-                .Include(b => b.Institution)
+                .Include(b => b.Facility)
                 .Where(b => b.Id == userId)
-                .Select(b => b.Institution.Id).First();
-            return IsRoleForInstitution<TRole>(email, institutionId);
+                .Select(b => b.Facility.Id).First();
+            return IsRoleForFacility<TRole>(email, facilityId);
         }
 
         private bool IsRoleForSession<TRole>(string email, Guid sessionId) where TRole : Domain.User.User
         {
-            var institutionId = _context.Session
+            var facilityId = _context.Session
                 .AsNoTracking()
                 .Include(s => s.Department)
-                .ThenInclude(a => a.Institution)
+                .ThenInclude(a => a.Facility)
                 .Where(s => s.Id == sessionId)
-                .Select(b => b.Department.Institution.Id).First();
-            return IsRoleForInstitution<TRole>(email, institutionId);
+                .Select(b => b.Department.Facility.Id).First();
+            return IsRoleForFacility<TRole>(email, facilityId);
         }
 
         private bool IsRoleForDepartment<TRole>(int departmentId) where TRole : Domain.User.User
         {
-            var institutionId = _context.Department.Include(a => a.Institution).First(a => a.Id == departmentId)
-                .InstitutionId;
+            var facilityId = _context.Department.Include(a => a.Facility).First(a => a.Id == departmentId)
+                .FacilityId;
 
-            return IsRoleForInstitution<TRole>(GetEmail(), institutionId);
+            return IsRoleForFacility<TRole>(GetEmail(), facilityId);
         }
 
         /// <summary>

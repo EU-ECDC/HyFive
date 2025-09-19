@@ -13,8 +13,8 @@ export class ReportService {
   constructor(private httpClient: HttpClient) { }
 
   getComplianceForFiveIndications(payload: {
-    institutionIds: number[];
-    institutionTypeIds: number[];
+    facilityIds: number[];
+    facilityTypeIds: number[];
     interval: string;
     fromMonth: number;
     fromYear: number;

@@ -13,7 +13,7 @@ import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { InstitutionService } from "./InstitutionService";
+import { FacilityService } from "./FacilityService";
 import {ProtectiveEquipmentType} from "../../models/api/ProtectiveEquipmentType";
 import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
 
@@ -27,9 +27,9 @@ export class ProtectiveEquipmentSessionService extends BaseSessionService<Protec
 
 
   constructor(
-    public institutionService: InstitutionService,
+    public facilityService: FacilityService,
     private httpClient: HttpClient) {
-    super(institutionService);
+    super(facilityService);
   }
 
   public sendToServer(sessionId: string): Observable<string> {

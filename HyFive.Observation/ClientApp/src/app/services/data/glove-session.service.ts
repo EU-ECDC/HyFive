@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { GloveSessionView } from '../../models/registration/glove-session-view.model';
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveObservation } from '../../models/api/GloveObservation';
-import { InstitutionService } from './InstitutionService';
+import { FacilityService } from './FacilityService';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +22,9 @@ export class GloveSessionService extends BaseSessionService<GloveSessionView, Gl
   sessionShowLocalStoragePath = Localstoragepaths.GloveSessionViews;
 
   constructor(
-    public institutionService: InstitutionService,
+    public facilityService: FacilityService,
     private httpClient: HttpClient) {
-    super(institutionService);
+    super(facilityService);
   }
 
   public sendToServer(sessionId: string): Observable<string> {

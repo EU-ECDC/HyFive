@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { InstitutionService } from '../../services/data/institution.service';
+import { FacilityService } from '../../services/data/facility.service';
 import { QueryParameters } from '../../_common/konstanter/queryparameters';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityReport } from '../../models/api/FacilityReport';
 
 @Component({
   selector: 'app-editing-of-observers',
@@ -9,20 +9,20 @@ import { InstitutionReport } from '../../models/api/InstitutionReport';
 })
 export class EditingOfObserversComponent implements OnInit {
 
-  institutionReport: InstitutionReport = null;
-  constructor(private institutionService: InstitutionService) { }
+  facilityReport: FacilityReport = null;
+  constructor(private facilityService: FacilityService) { }
 
   ngOnInit(): void {
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result) => {
-      this.institutionReport = {
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result) => {
+      this.facilityReport = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,
-        institutionType: result.institutionType,
+        facilityType: result.facilityType,
         name: result.name,
         region: result.region
-      } as InstitutionReport;
+      } as FacilityReport;
     });
   }
 

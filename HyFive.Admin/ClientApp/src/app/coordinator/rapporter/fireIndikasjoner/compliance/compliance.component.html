@@ -1,24 +1,24 @@
 <div class="container">
   <div class="row">
-    <div class="row align-items-start mb-4" *ngIf="canSelectInstitution">
+    <div class="row align-items-start mb-4" *ngIf="canSelectFacility">
 
       <div class="col-md-4">
-        <label for="institutionsTypes">Institution Types</label>
+        <label for="facilitiesTypes">Facility Types</label>
           <ng-multiselect-dropdown [placeholder]="'Select'"
                                         [settings]="dropdownSettings"
-                                        [data]="institutionTypes"
-                                        [(ngModel)]="selectedInstitutionTypes"
-                                        (ngModelChange)="filterInstitutionsByType()">
+                                        [data]="facilityTypes"
+                                        [(ngModel)]="selectedFacilityTypes"
+                                        (ngModelChange)="filterFacilitiesByType()">
               </ng-multiselect-dropdown>
       </div>   
       <div class="col-md-4">
-        <label for="institutions">Institutions</label>
+        <label for="facilities">Healthcare facilities</label>
         <div #dropdownRef>
-        <ng-multiselect-dropdown placeholder="Select institutions"
+        <ng-multiselect-dropdown placeholder="Select healthcare facilities"
                                 [settings]="dropdownSettings"
-                                [data]="institutions"
-                                [(ngModel)]="selectedInstitutions"
-                                (ngModelChange)="onChangeModelInstitution()">
+                                [data]="facilities"
+                                [(ngModel)]="selectedFacilities"
+                                (ngModelChange)="onChangeModelFacility()">
         </ng-multiselect-dropdown>
         </div>
     </div>           
@@ -92,7 +92,7 @@
       </div>
 
             <div class="col-md-4">
-        <label for="department">Department</label>
+        <label for="department">Departments</label>
             <ng-multiselect-dropdown [placeholder]="'Select departments'"
                                     [settings]="dropdownSettings"
                                     [data]="departments"
@@ -111,7 +111,7 @@
                                     [(ngModel)]="selectedRoles">
             </ng-multiselect-dropdown>
       </div>
-            <div class="col-md-3" *ngIf="!canSelectInstitution">
+            <div class="col-md-3" *ngIf="!canSelectFacility">
         <label for="transferredTo">Transferred to</label>
         <ng-select
           [searchable]="false"
@@ -133,13 +133,13 @@
   </div>
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
-    <p><strong>Institution:</strong> {{institution.name}}</p>
+    <p><strong>Facility:</strong> {{facility.name}}</p>
     <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
     <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
-    <p *ngIf="showSelectedInstitutions.length>0"><strong>Institutions:</strong> <span *ngFor="let inst of showSelectedInstitutions; index as i">{{inst.name}}<span *ngIf="i < showSelectedInstitutions.length-1">, </span> </span> </p>
+    <p *ngIf="showSelectedFacilities.length>0"><strong>Healthcare facilities:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
     <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
     <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
   </div>
@@ -151,13 +151,13 @@
   </div>
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
-    <p><strong>Institution:</strong> {{institution.name}}</p>
+    <p><strong>Facility:</strong> {{facility.name}}</p>
     <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
     <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
-    <p *ngIf="showSelectedInstitutions.length>0"><strong>Institutions:</strong> <span *ngFor="let inst of showSelectedInstitutions; index as i">{{inst.name}}<span *ngIf="i < showSelectedInstitutions.length-1">, </span> </span> </p>
+    <p *ngIf="showSelectedFacilities.length>0"><strong>Healthcare facilities:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
     <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
     <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
   </div>

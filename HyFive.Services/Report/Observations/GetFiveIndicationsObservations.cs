@@ -21,8 +21,8 @@ namespace HyFive.Services.Report.Observations
             public int? DepartmentId { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public List<int> InstitutionIds { get; set; }
-            public int? InstitutionId { get; set; }
+            public List<int> FacilityIds { get; set; }
+            public int? FacilityId { get; set; }
             public DateTime? FromDate { get; set; }
             public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -44,7 +44,7 @@ namespace HyFive.Services.Report.Observations
             {
                 var queryable = _context.FiveIndicationsObservation
                     .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility).ThenInclude(i => i.Municipality)
                     .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.TransferStatus)
                     .Include(fo => fo.Activity)
                     .Include(fo => fo.IndicationTypes)
@@ -65,13 +65,13 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.FiveIndicationsSession.Department.Id == query.DepartmentId);
                 }
 
-                if (query.InstitutionIds != null && query.InstitutionIds.Count > 0)
+                if (query.FacilityIds != null && query.FacilityIds.Count > 0)
                 {
-                    queryable = queryable.Where(o => query.InstitutionIds.Contains(o.FiveIndicationsSession.Department.InstitutionId));
+                    queryable = queryable.Where(o => query.FacilityIds.Contains(o.FiveIndicationsSession.Department.FacilityId));
                 }
-                else if (query.InstitutionId > 0)
+                else if (query.FacilityId > 0)
                 {
-                    queryable = queryable.Where(o => o.FiveIndicationsSession.Department.InstitutionId == query.InstitutionId);
+                    queryable = queryable.Where(o => o.FiveIndicationsSession.Department.FacilityId == query.FacilityId);
                 }
 
                 if (query.ObserverId > 0)

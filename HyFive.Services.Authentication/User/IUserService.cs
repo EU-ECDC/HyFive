@@ -16,9 +16,9 @@ namespace HyFive.Services.Authentication.User
 
         bool IsObserver(string email);
 
-        bool IsCoordinatorForInstitution(int institutionId);
+        bool IsCoordinatorForFacility(int facilityId);
 
-        bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds);
+        bool IsCoordinatorForFacilitiesOrAdmin(List<int> facilityIds);
 
         bool IsCoordinatorForDepartment(int departmentId);
 
@@ -30,9 +30,9 @@ namespace HyFive.Services.Authentication.User
 
         bool IsCoordinatorForDepartmentOrFhiAdmin(int departmentId);
 
-        bool IsObserverForInstitution(int institutionId);
+        bool IsObserverForFacility(int facilityId);
 
-        bool IsCoordinatorForInstitutionOrFhiAdmin(int institutionId);
+        bool IsCoordinatorForFacilityOrFhiAdmin(int facilityId);
 
         bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProviderId);
 
@@ -41,7 +41,7 @@ namespace HyFive.Services.Authentication.User
 
         bool IsCoordinatorForSession(string sessionId);
 
-        int GetObserverIdForInstitution(int institutionId);
+        int GetObserverIdForFacility(int facilityId);
 
         string GetPseudonym();
 

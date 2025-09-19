@@ -43,7 +43,7 @@ namespace HyFive.Services.Glove
                 var observator = await GetObserver(request, cancellationToken);
                 if (observator == null)
                     throw new Exception(
-                        $"Did not find an observer with email { request.Email } at institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email { request.Email } at facility with ID: {request.Session.Department.FacilityId}");
 
                 var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
                 var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
@@ -96,15 +96,15 @@ namespace HyFive.Services.Glove
 
             private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution
+                var facility = await _context.Facility
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
-                if (institution == null)
+                if (facility == null)
                     throw new Exception(
-                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return institution.Users.OfType<Observer>().Where(
+                return facility.Users.OfType<Observer>().Where(
                     _userService
                         .HasEmailAndIsActive<Observer>(request.Email).Compile()).FirstOrDefault();
             }

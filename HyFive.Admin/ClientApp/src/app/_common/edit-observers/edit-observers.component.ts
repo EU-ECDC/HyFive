@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { InstitutionService } from '../../services/data/institution.service';
+import { FacilityService } from '../../services/data/facility.service';
 import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/api/User';
@@ -16,7 +16,7 @@ import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 })
 export class EditObserversComponent implements OnInit, OnDestroy {
 
-  @Input() institutionId: 0;
+  @Input() facilityId: 0;
   observers: User[];
 
   observerAsChanged: User = null;
@@ -26,7 +26,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   filteredObservers: User[];
   mailValidatorHelper;
 
-  constructor(private institutionService: InstitutionService,
+  constructor(private facilityService: FacilityService,
     private userService: UserService,
     private toastrService: ToastrService,
     private keyEventService: KeyEventService,
@@ -53,7 +53,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   }
 
   loadObservers() {
-    this.institutionService.getObservers(this.institutionId).subscribe(
+    this.facilityService.getObservers(this.facilityId).subscribe(
       (observers) => {
         this.observers = observers;
         this.filteredObservers = this.observers;
@@ -66,7 +66,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.cancelEdit();
     this.newObserver = {
       id: 0,
-      institutionId: this.institutionId,
+      facilityId: this.facilityId,
       lastName: '',
       firstName: '',
       email: '',

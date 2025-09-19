@@ -11,12 +11,12 @@ namespace HyFive.Services.Department
 {
     public class GetDepartment
     {
-        public class Query : IRequest<Models.V1.Institution.Department>
+        public class Query : IRequest<Models.V1.Facility.Department>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.Institution.Department>
+        public class Handler : IRequestHandler<Query, Models.V1.Facility.Department>
         {
 
             private readonly HandHygieneContext _context;
@@ -28,12 +28,12 @@ namespace HyFive.Services.Department
                 _mapper = mapper;
             }
 
-            public async Task<Models.V1.Institution.Department> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Department> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Department
                     .AsNoTracking()
                     .Where(a => a.Id == request.Id)
-                    .ProjectTo<Models.V1.Institution.Department>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Facility.Department>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
             }
         }

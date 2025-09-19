@@ -13,7 +13,7 @@ export class Localstoragepaths {
   public static ProtectiveEquipmentSessions = "protectiveEquipmentSessions";
   public static ProtectiveEquipmentSessionViews = "protectiveEquipmentSessionViews";
 
-  public static SelectedInstitution = "selectedInstitution";
+  public static SelectedFacility = "selectedFacility";
 
   public static LoggedInUserId = "uid";
 }

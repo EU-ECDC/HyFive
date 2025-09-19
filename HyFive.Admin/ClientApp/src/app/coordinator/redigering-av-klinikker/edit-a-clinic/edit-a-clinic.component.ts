@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Clinic } from '../../../models/api/Clinic';
-import { InstitutionService } from '../../../services/data/institution.service';
+import { FacilityService } from '../../../services/data/facility.service';
 import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_common/konstanter/url-paths';
@@ -25,7 +25,7 @@ export class EditAClinicComponent implements OnInit, OnDestroy {
   fawarningicon = faExclamationTriangle;
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private departmentService: DepartmentService,
     private toastrService: ToastrService,
     private clinicService: ClinicService) { }
@@ -46,10 +46,10 @@ export class EditAClinicComponent implements OnInit, OnDestroy {
 
   loadDepartments() {
 
-    this.clinicService.getClinicsForInstitution(this.clinicCopy.institutionId).subscribe((institution) => {
-      this.clinicsList = institution;
+    this.clinicService.getClinicsForFacility(this.clinicCopy.facilityId).subscribe((facility) => {
+      this.clinicsList = facility;
 
-      this.institutionService.getDepartments(this.clinicCopy.institutionId).subscribe(
+      this.facilityService.getDepartments(this.clinicCopy.facilityId).subscribe(
         (departments) => {
           this.departmentsSelection = departments.map(a => (
             {
@@ -70,7 +70,7 @@ export class EditAClinicComponent implements OnInit, OnDestroy {
   }
 
   canSaveClinic(): boolean {
-    return this.clinicCopy.institutionId > 0
+    return this.clinicCopy.facilityId > 0
       && this.clinicCopy.name?.length > 0
       && this.clinics
                     .filter(cl => cl.id !== this.clinicCopy.id)
@@ -90,7 +90,7 @@ export class EditAClinicComponent implements OnInit, OnDestroy {
       (k) => {
         // Must replace values ​​on the original object to support updating the list when navigating back to the clinic overview
         this.clinic.name = k.name;
-        this.clinic.institutionId = k.institutionId;
+        this.clinic.facilityId = k.facilityId;
         this.clinic.departments = k.departments;
         this.toastrService.success('Clinic updated');
       },
