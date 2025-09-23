@@ -82,7 +82,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
     this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
-      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes;
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.sort((a, b) => a.id - b.id);
     });
     this.uuid = Uuid.generateUUID();
     this.facilityid = this.sessionView.department.facilityId;
