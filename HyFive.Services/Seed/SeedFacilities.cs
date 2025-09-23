@@ -102,7 +102,6 @@ namespace HyFive.Services.Seed
                 {
                     new Domain.Place.Facility
                     {
-                        Region = _context.Region.First(),
                         HERId = HerIdOus,
                         Name = "Oslo University Hospital HF",
                         Abbreviation = "OUS",
@@ -149,7 +148,6 @@ namespace HyFive.Services.Seed
                     new Domain.Place.Facility
                     {
                         HERId = HerIdLillehammer,
-                        Region = _context.Region.First(),
                         Name = "Lillehammer sykehus",
                         Abbreviation = "LS",
                         FacilityType = InstitutionTypes.First(),

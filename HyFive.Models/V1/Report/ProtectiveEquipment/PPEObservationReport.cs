@@ -27,9 +27,6 @@ namespace HyFive.Models.V1.Report.Beskyttelsesutstyr
         public string ProtectiveEquipmentSettingCode { get; set; }
         public string ProtectiveEquipmentSetting { get; set; }
         public string Misuse { get; set; }
-        public string HealthOrganization { get; set; }
-        public string RegionalHealthOrganization { get; set; }
-        public string MunicipalityNumber { get; set; }
-        public string Municipality { get; set; }
+        public string City { get; set; }
     }
 }

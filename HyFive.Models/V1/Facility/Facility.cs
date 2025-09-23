@@ -12,9 +12,7 @@ namespace HyFive.Models.V1.Facility
         public string HERId { get; set; }
         public List<Department> Departments { get; set; }
         public FacilityType FacilityType { get; set; }
-        public Region Region { get; set; }
-        public Municipality Municipality { get; set; }
         public bool HasObservations { get; set; }
-        public HealthcareOrganization HealthcareOrganization { get; set; }
+        public City City { get; set; }
     }
 }

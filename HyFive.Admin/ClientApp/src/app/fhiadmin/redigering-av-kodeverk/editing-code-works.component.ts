@@ -10,7 +10,6 @@ import { EditingGlovesWithIndicationTypesComponent } from './editing-gloves-with
 import { EditingGlovewithoutindicationtypesComponent } from './editing-of-gloveswithoutindicationtypes/editing-of-gloveswithoutindicationtypes.component';
 import { EditingHandHygieneAfterGloveUseTypesComponent } from './editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
 import { EditingOfDepartmentTypesComponent } from './editing-of-departmenttypes/editing-of-departmentstype.component';
-import { EditingRegionComponent } from './editing-region.component/editing-region.component';
 import { EditingOfRolesComponent } from './editing-of-roles/editing-of-roles.component';
 
 @Component({
@@ -32,7 +31,6 @@ export class EditingCodeworkComponent implements OnInit {
     { name: 'Hand Hygiene after wearing Gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
     { name: 'Indication Types', isActive: false, component: EditingIndicationTypesComponent },
     { name: 'Facility Types', isActive: false, component: EditingFacilityTypesComponent },
-    // { name: 'Region', isActive: false, component: EditingRegionComponent },
     { name: 'Roles', isActive: false, component: EditingOfRolesComponent }
   ] as CodeworksSidemenuModel[];
 

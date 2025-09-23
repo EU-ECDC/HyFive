@@ -20,8 +20,7 @@ export class EditingOfObserversComponent implements OnInit {
         herId: result.herId,
         abbreviation: result.abbreviation,
         facilityType: result.facilityType,
-        name: result.name,
-        region: result.region
+        name: result.name
       } as FacilityReport;
     });
   }

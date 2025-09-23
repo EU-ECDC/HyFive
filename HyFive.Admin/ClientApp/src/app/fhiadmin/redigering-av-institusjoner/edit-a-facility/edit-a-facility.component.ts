@@ -4,10 +4,8 @@ import { Facility } from '../../../models/api/Facility';
 import { FacilityType } from '../../../models/api/FacilityType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_common/konstanter/url-paths';
-import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
-import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
-import { MunicipalityService } from 'src/app/services/data/municipality.service';
-import { Municipality } from 'src/app/models/api/Municipality';
+import { City } from 'src/app/models/api/City';
+import { CityService } from 'src/app/services/data/City.service';
 
 @Component({
   selector: 'app-edit-a-facility',
@@ -17,19 +15,15 @@ export class EditFacilityComponent implements OnInit {
 
   constructor(private facilityService: FacilityService,
               private toastrService: ToastrService,
-              private municipalityService: MunicipalityService,
-              private healthcareOrganizationService: HealthcareOrganizationService) { }
+              private cityService: CityService) { }
 
   facility: Facility = null;
   facilityTypes: FacilityType[] = [];
   facilitytypeId = 0;
-  listOfHealthcareOrganizations: HealthcareOrganization[] = [];
+  listOfCities: City[] = [];
 
-  municipality: Municipality = null;
-  municipalities: Municipality[];
-  municipalityId = 0;
   UrlPaths = UrlPaths;
-  healthcareOrganizationId = 0;
+  cityId = 0;
 
 
   @Input() facilityId: number;
@@ -45,22 +39,16 @@ export class EditFacilityComponent implements OnInit {
     this.facilityService.getFacility(this.facilityId).subscribe((facility) => {
       this.facility = facility;
       this.facilitytypeId = facility.facilityType.id;
-      this.municipalityId = facility.municipality?.id;
-      this.healthcareOrganizationId = facility.healthcareOrganization?.id;
+      this.cityId = facility.city?.id;
       
       this.facilityService.getFacilityTypes().subscribe((types) => {
         this.facilityTypes = types;
       });
     });
 
-    this.municipalityService.getMunicipalities().subscribe(
-      (municipalities) => {
-        this.municipalities = [ {id: 0, number: null, name: null}, ...municipalities];
-    });
-
-    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
-      (allHealthcareorganization) => {
-        this.listOfHealthcareOrganizations = [ { id: 0, name: null, regionalHealthcareOrganization: null, regionalHealthcareOrganizationId: null }, ...allHealthcareorganization];
+    this.cityService.getAllCities().subscribe(
+      (allCities) => {
+        this.listOfCities = [ { id: 0, name: null }, ...allCities];
     });
   }
 
@@ -76,21 +64,9 @@ export class EditFacilityComponent implements OnInit {
   }
 
   facilityTypeChanged() {
-    this.facility.healthcareOrganization = null;
-    this.facility.municipality = null;
-    this.healthcareOrganizationId = 0;
-    this.municipalityId = 0;
+    this.facility.city = null;
+    this.cityId = 0;
     this.facility.facilityType = this.facilityTypes.find(i => i.id === this.facilitytypeId);
-  }
-
-  municipalityChanged() {
-      this.healthcareOrganizationId = 0;
-      this.facility.healthcareOrganization = null;
-      if (this.municipalityId == 0) {
-        this.facility.municipality = null;
-      } else {
-        this.facility.municipality = this.municipalities.find(r => r.id === this.municipalityId);
-      }
   }
 
   saveFacility() {
@@ -102,13 +78,11 @@ export class EditFacilityComponent implements OnInit {
       (error) => this.toastrService.error(`An error occurred: ${error?.error} / ${error?.message}`, 'Error during update', { disableTimeOut: true}));
   }
 
-  healthEnterpriseChanged() {
-      this.municipalityId = 0;
-      this.facility.municipality = null;
-      if (this.healthcareOrganizationId == 0) {
-        this.facility.healthcareOrganization = null;
+  cityChanged() {
+      if (this.cityId == 0) {
+        this.facility.city = null;
       } else {
-        this.facility.healthcareOrganization = this.listOfHealthcareOrganizations.find(r => r.id === this.healthcareOrganizationId);
+        this.facility.city = this.listOfCities.find(r => r.id === this.cityId);
       }
   }
 

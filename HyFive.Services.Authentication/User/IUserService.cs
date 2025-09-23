@@ -22,19 +22,19 @@ namespace HyFive.Services.Authentication.User
 
         bool IsCoordinatorForDepartment(int departmentId);
 
-        bool IsFhiAdminOrCoordinator(string email);
+        bool IsAdminOrCoordinator(string email);
 
-        bool IsFhiAdmin(string email);
+        bool IsAdmin(string email);
 
-        bool IsFhiAdmin();
+        bool IsAdmin();
 
-        bool IsCoordinatorForDepartmentOrFhiAdmin(int departmentId);
+        bool IsCoordinatorForDepartmentOrAdmin(int departmentId);
 
         bool IsObserverForFacility(int facilityId);
 
-        bool IsCoordinatorForFacilityOrFhiAdmin(int facilityId);
+        bool IsCoordinatorForFacilityOrAdmin(int facilityId);
 
-        bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProviderId);
+        bool IsCoordinatorForCityOrAdmin(int cityId);
 
         string GetHprNumber();
         string GetEmail();

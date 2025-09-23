@@ -45,9 +45,7 @@ export class EmailComponent implements OnInit {
                               abbreviation: null,
                               herId: null,
                               facilityType: null,
-                              region: null,
-                              municipality: null,
-                              healthcareOrganization: null 
+                              city: null 
                             },
                             ...facilities
         ];

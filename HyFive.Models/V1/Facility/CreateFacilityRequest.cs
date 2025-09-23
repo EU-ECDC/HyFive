@@ -17,8 +17,6 @@ namespace HyFive.Models.V1.Facility
         public string CoordinatorFirstName { get; set; }
         public string CoordinatorLastName { get; set; }
         public string CoordinatorEmail { get; set; }    
-        public int RegionId { get; set; }
-        public int MunicipalityId { get; set; }
-        public int HealthcareOrganizationId { get; set; }
+        public int CityId { get; set; }
     }
 }

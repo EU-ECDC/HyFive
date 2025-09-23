@@ -3,9 +3,7 @@
 //     the code is regenerated.
 
 import { FacilityType } from './FacilityType';
-import { Region } from './Region';
-import { Municipality } from './Municipality';
-import { HealthcareOrganization } from './HealthcareOrganization';
+import { City } from './City';
 
 export interface FacilityReport
 {
@@ -14,7 +12,5 @@ export interface FacilityReport
 	abbreviation: string;
 	herId: string;
 	facilityType: FacilityType;
-	region: Region;
-	municipality: Municipality;
-	healthcareOrganization: HealthcareOrganization;
+	city: City;
 }

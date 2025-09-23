@@ -36,10 +36,8 @@ namespace HyFive.Services.Facility
                 if (facilityType == null)
                     throw new ArgumentException(
                         $"FacilityType with id {command.Request.FacilityTypeId} was not found in the database");
-
-                var municipality = await _context.Municipality.FirstOrDefaultAsync(k => k.Id == command.Request.MunicipalityId);
                 
-                var healthcareOrganization = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Request.HealthcareOrganizationId);
+                var city = await _context.City.FirstOrDefaultAsync(h => h.Id == command.Request.CityId);
                 
                 var coordinator = new Coordinator()
                 {
@@ -64,8 +62,7 @@ namespace HyFive.Services.Facility
                 facility.Abbreviation = command.Request.Abbreviation;
                 facility.HERId = command.Request.HERId;
                 facility.FacilityType = facilityType;
-                facility.Municipality = municipality;
-                facility.HealthcareOrganization = healthcareOrganization;
+                facility.City = city;
 
                 facility.Users.Add(coordinator);
                 facility.Users.Add(observer);

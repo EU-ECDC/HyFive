@@ -4,11 +4,9 @@ import { CreateFacilityRequest } from '../../../models/api/CreateFacilityRequest
 import { FacilityService } from '../../../services/data/facility.service';
 import { ToastrService } from 'ngx-toastr';
 import { Facility } from '../../../models/api/Facility';
-import { HealthcareOrganization } from 'src/app/models/api/HealthcareOrganization';
-import { HealthcareOrganizationService } from 'src/app/services/data/healthcareOrganization.service';
+import { City } from 'src/app/models/api/City';
+import { CityService } from 'src/app/services/data/City.service';
 import { FacilityTypeConstants } from 'src/app/models/api/FacilityTypeConstants';
-import { Municipality } from 'src/app/models/api/Municipality';
-import { MunicipalityService } from 'src/app/services/data/municipality.service';
 import { User } from 'src/app/models/api/User';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 
@@ -20,8 +18,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   facilityTypes: FacilityType[] = [];
   newfacility: CreateFacilityRequest = null;
-  municipalities: Municipality[] = [];
-  listOfHealthcareOrganizations: HealthcareOrganization[] = [];
+  listOfCities: City[] = [];
   mailValidatorHelper;
 
   @Input() facilities: Facility[] = [];
@@ -30,8 +27,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   constructor(private facilityService: FacilityService,
               private toastrService: ToastrService,
-              private municipalityService: MunicipalityService, 
-              private healthcareOrganizationService: HealthcareOrganizationService) {
+              private cityService: CityService) {
                 this.mailValidatorHelper = MailValidatorHelper;
                }
 
@@ -41,15 +37,9 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       this.newfacility = this.createDefaultFacility();
     });
 
-    this.municipalityService.getMunicipalities().subscribe(
-      (municipalities) => {
-        this.municipalities = municipalities;
-      }
-    );
-
-    this.healthcareOrganizationService.getAllHealthcareOrganizations().subscribe(
-      (allHealthcareOrganization) => {
-        this.listOfHealthcareOrganizations = allHealthcareOrganization;
+    this.cityService.getAllCities().subscribe(
+      (allCities) => {
+        this.listOfCities = allCities;
       }
     );
   }
@@ -87,9 +77,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       coordinatorPseudonym: null,
       herId: null,
       abbreviation: null,
-      regionId: 0,
-      municipalityId: 0,
-      healthcareOrganizationId: 0
+      cityId: 0
     };    
   }
 

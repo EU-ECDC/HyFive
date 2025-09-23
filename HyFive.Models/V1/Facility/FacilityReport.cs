@@ -11,8 +11,6 @@ namespace HyFive.Models.V1.Facility
         public string Abbreviation { get; set; }
         public string HERId { get; set; }
         public FacilityType FacilityType { get; set; }
-        public Region Region { get; set; }
-        public Municipality Municipality { get; set; }
-        public HealthcareOrganization HealthcareOrganization { get; set; }
+        public City City { get; set; }
     }
 }

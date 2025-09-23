@@ -619,6 +619,24 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("HyFive.Domain.Place.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("City");
+                });
+
             modelBuilder.Entity("HyFive.Domain.Place.Clinic", b =>
                 {
                     b.Property<int>("Id")
@@ -711,6 +729,9 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<int?>("CityId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -721,34 +742,21 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("HealthcareOrganizationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MunicipalityId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
-
-                    b.Property<int?>("RegionId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Abbreviation");
 
+                    b.HasIndex("CityId");
+
                     b.HasIndex("FacilityTypeId");
 
                     b.HasIndex("HERId");
 
-                    b.HasIndex("HealthcareOrganizationId");
-
-                    b.HasIndex("MunicipalityId");
-
                     b.HasIndex("Name");
-
-                    b.HasIndex("RegionId");
 
                     b.ToTable("Facility");
                 });
@@ -780,50 +788,6 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("FacilityType");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.HealthcareOrganization", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.Property<int?>("RegionalHealthcareOrganizationId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionalHealthcareOrganizationId");
-
-                    b.ToTable("HealthcareOrganization");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.Municipality", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(4)
-                        .HasColumnType("character varying(4)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Municipality");
-                });
-
             modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>
                 {
                     b.Property<int>("Id")
@@ -847,50 +811,6 @@ namespace HyFive.DataAccess.Migrations
                     b.HasIndex("FacilityId");
 
                     b.ToTable("PredefinedComment");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.Region", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("Region");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.RegionaltHealthcareOrganization", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RegionalHealthcareOrganization");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
@@ -1043,7 +963,9 @@ namespace HyFive.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int?>("FacilityId")
                         .HasColumnType("integer");
@@ -1398,38 +1320,17 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("HyFive.Domain.Place.Facility", b =>
                 {
+                    b.HasOne("HyFive.Domain.Place.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
                     b.HasOne("HyFive.Domain.Place.FacilityType", "FacilityType")
                         .WithMany()
                         .HasForeignKey("FacilityTypeId");
 
-                    b.HasOne("HyFive.Domain.Place.HealthcareOrganization", "HealthcareOrganization")
-                        .WithMany()
-                        .HasForeignKey("HealthcareOrganizationId");
-
-                    b.HasOne("HyFive.Domain.Place.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipalityId");
-
-                    b.HasOne("HyFive.Domain.Place.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
+                    b.Navigation("City");
 
                     b.Navigation("FacilityType");
-
-                    b.Navigation("HealthcareOrganization");
-
-                    b.Navigation("Municipality");
-
-                    b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.HealthcareOrganization", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.RegionaltHealthcareOrganization", "RegionalHealthcareOrganization")
-                        .WithMany()
-                        .HasForeignKey("RegionalHealthcareOrganizationId");
-
-                    b.Navigation("RegionalHealthcareOrganization");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>

@@ -14,7 +14,7 @@
     <ng-template #header let-item="item">
       <div>
         <p class="mb-1"><strong>{{ item.role.name }} - {{ item.registeredTime | date:'HH:mm' }}</strong></p>
-        <p class="mb-0 lh-1"><small>{{ showHandJewelry(item.handJewelry) }}</small></p>
+        <p class="mb-0 lh-1"><small>{{ showHandJewelry(item.handJewelries) }}</small></p>
       </div>
     </ng-template>
     <ng-template #content let-item="item">

@@ -9,9 +9,9 @@ import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { GloveWithIndicationTypeService } from '../../services/data/glove-with-indication-type.service';
 import { GloveWithoutIndicationTypeService } from '../../services/data/glove-without-indication-type.service';
-import { HandHygieneAfterGloveUseTypeService } from '../../services/data/hand-hygiene-after-glove-useType-service';
+import { PostGloveHandHygieneTypeService } from '../../services/data/post-glove-hand-hygiene-type-service';
 import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicationType';
-import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterGloveUseType';
+import { PostGloveHandHygieneType } from '../../models/api/PostGloveHandHygieneType';
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { Uuid } from 'src/app/utils/uuid';
 import { SessionType } from 'src/app/models/api/SessionType';
@@ -27,7 +27,7 @@ export class EditGloveObservationComponent implements OnInit {
   DialogueTexts = DialogueTexts;
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
-  handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
+  postGloveHandHygieneTypes: PostGloveHandHygieneType[] = [];
 
   activeTab = "with";
   glovesUsed = null;
@@ -46,7 +46,7 @@ export class EditGloveObservationComponent implements OnInit {
     private sessionService: GloveSessionService,
     private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
     private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
-    private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
+    private postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
   ) { }
 
   @Input() isReadonly: boolean = false;
@@ -83,12 +83,12 @@ export class EditGloveObservationComponent implements OnInit {
         });
       }
     });
-    this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes().subscribe((handHygieneAfterGloveUseTypes) => {
-      this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
+    this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes;
     });
 
     this.glovesUsed = this.observation.glovesUsed;
-    this.selectedHygieneAfterGloveUse = this.observation.handHygieneAfterGloveUseType?.code;
+    this.selectedHygieneAfterGloveUse = this.observation.postGloveHandHygieneType?.code;
   }
 
   gloveWithIndicationsChanged(code, event) {
@@ -111,10 +111,10 @@ export class EditGloveObservationComponent implements OnInit {
     this.observation.glovesUsed = this.glovesUsed;
 
     if(this.observation.glovesUsed){
-      this.observation.handHygieneAfterGloveUseType = this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHygieneAfterGloveUse);
+      this.observation.postGloveHandHygieneType = this.postGloveHandHygieneTypes.find(x => x.code === this.selectedHygieneAfterGloveUse);
     }
     else {
-      this.observation.handHygieneAfterGloveUseType = null;
+      this.observation.postGloveHandHygieneType = null;
       this.selectedHygieneAfterGloveUse = null;
     }
 

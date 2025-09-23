@@ -13,7 +13,5 @@ export interface CreateFacilityRequest
 	coordinatorFirstName: string;
 	coordinatorLastName: string;
 	coordinatorEmail: string;
-	regionId: number;
-	municipalityId: number;
-	healthcareOrganizationId: number;
+	cityId: number;
 }

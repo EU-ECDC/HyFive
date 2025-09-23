@@ -4,9 +4,7 @@
 
 import { Department } from './Department';
 import { FacilityType } from './FacilityType';
-import { Region } from './Region';
-import { Municipality } from './Municipality';
-import { HealthcareOrganization } from './HealthcareOrganization';
+import { City } from './City';
 
 export interface Facility
 {
@@ -16,8 +14,6 @@ export interface Facility
 	herId: string;
 	departments: Department[];
 	facilityType: FacilityType;
-	region: Region;
-	municipality: Municipality;
 	hasObservations: boolean;
-	healthcareOrganization: HealthcareOrganization;
+	city: City;
 }

@@ -44,7 +44,7 @@ namespace HyFive.Services.Report.Observations
             {
                 var queryable = _context.FiveIndicationsObservation
                     .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility)
                     .Include(fo => fo.FiveIndicationsSession).ThenInclude(fo => fo.TransferStatus)
                     .Include(fo => fo.Activity)
                     .Include(fo => fo.IndicationTypes)

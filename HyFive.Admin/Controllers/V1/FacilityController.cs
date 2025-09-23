@@ -34,7 +34,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<FacilityReport>> GetFacilities()
         {
-            if (_userService.IsFhiAdmin())
+            if (_userService.IsAdmin())
             {
                 return await _mediator.Send(new GetFacilities.Query());
             }
@@ -57,7 +57,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}", Name = "GetFacility")]
         public async Task<IActionResult> GetFacility(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
             {
                 var result = await _mediator.Send(new GetFacility.Query() { FacilityId = id });
                 return Ok(result);
@@ -108,7 +108,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/observers", Name = "GetObservers")]
         public async Task<ActionResult<IEnumerable<User>>> GetObservators(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
             {
                 var result = await _mediator.Send(new GetObserversForFacility.Query() { FacilityId = id });
                 return Ok(result);
@@ -127,7 +127,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/coordinators", Name = "GetCoordinators")]
         public async Task<ActionResult<IEnumerable<User>>> GetCoordinators(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
             {
                 var result = await _mediator.Send(new GetCoordinatorsForFacility.Query() { FacilityId = id });
                 return Ok(result);
@@ -192,7 +192,7 @@ namespace HyFive.Admin.Controllers.V1
 
         private bool UserIsAuthorized(int facilityId)
         {
-            if (_userService.IsFhiAdmin())
+            if (_userService.IsAdmin())
                 return true;
 
             if (_userService.IsCoordinatorForFacility(facilityId))

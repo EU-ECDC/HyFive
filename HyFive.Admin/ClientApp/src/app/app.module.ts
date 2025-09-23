@@ -39,7 +39,6 @@ import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kode
 import { EditingClinicsComponent } from './coordinator/redigering-av-klinikker/editing-of-clinic.component';
 import { CreateClinicComponent } from './coordinator/redigering-av-klinikker/create-clinic/create-clinic.component';
 import { EditAClinicComponent } from './coordinator/redigering-av-klinikker/edit-a-clinic/edit-a-clinic.component';
-import { EditingRegionComponent } from './fhiadmin/redigering-av-kodeverk/editing-region.component/editing-region.component';
 import { RoleSelectionDropdownComponent } from './_common/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { EditingOfRolesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-roles/editing-of-roles.component';
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
@@ -59,8 +58,7 @@ import {ProtectiveEquipmentModalComponent} from "./coordinator/redigering-av-obs
 import { SearchHprNumberLinkComponent } from './_common/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_common/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
 import { RequestComponent } from "./coordinator/request/request.component";
-import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
-import { EditCoordinatorsForHealthOrganizationComponent } from './coordinator/editing-of-coordinators/edit-coordinators-for-healthcareOrganization.component';
+import { EditCoordinatorsForCityComponent } from './coordinator/editing-of-coordinators/edit-coordinators-for-city.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EditCoordinatorsComponent } from './_common/edit-coordinators/editCoordinators.component';
@@ -117,7 +115,6 @@ export const httpInterceptorProviders = [
     EditingClinicsComponent,
     CreateClinicComponent,
     EditAClinicComponent,
-    EditingRegionComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
     ActivityChoiceDropdownComponent,
@@ -134,9 +131,8 @@ export const httpInterceptorProviders = [
     SearchHprNumberLinkComponent,
     EditSessionDataComponent,
     RequestComponent,
-    HealthEnterpriseComponent,
     EditingCoordinatorsComponent,
-    EditCoordinatorsForHealthOrganizationComponent,
+    EditCoordinatorsForCityComponent,
     PseudonymDialogComponent,
     EmailComponent,
     ReportComponent,

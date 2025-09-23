@@ -23,8 +23,6 @@ namespace HyFive.Domain.Place
         public ICollection<User.User> Users { get; set; }
         public ICollection<PredefinedComment> PredefinedComment { get; set; }
         public FacilityType FacilityType { get; set; }
-        public Region Region { get; set; }
-        public HealthcareOrganization HealthcareOrganization { get; set; }
-        public Municipality Municipality { get; set; }
+        public City City { get; set; }
     }
 }

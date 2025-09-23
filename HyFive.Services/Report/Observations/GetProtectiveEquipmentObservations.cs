@@ -45,7 +45,7 @@ namespace HyFive.Services.Report.Observations
 
                 var queryable = _context.ProtectiveEquipmentObservation
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility)
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.TransferStatus)
                     .Include(fo => fo.SettingType)
                     .Include(fo => fo.ProtectiveEquipmentList).ThenInclude(bu => bu.MisuseTypes)

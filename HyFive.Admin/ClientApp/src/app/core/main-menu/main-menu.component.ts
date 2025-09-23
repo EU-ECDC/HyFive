@@ -157,11 +157,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Health Care Organization',
-        routerLink: `/${UrlPaths.healthcareOrganization}`,
-        roles: [AuthorizedRole.Administrator]
-      },
-      {
         name: 'Email',
         routerLink: `/${UrlPaths.email}`,
         roles: [AuthorizedRole.Administrator]

@@ -40,7 +40,7 @@ namespace HyFive.Services.Session
                     .Include(s => s.Observer).ThenInclude(r => r.Facility)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
-                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
+                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
                     .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 

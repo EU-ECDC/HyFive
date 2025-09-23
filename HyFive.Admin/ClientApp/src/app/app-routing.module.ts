@@ -15,7 +15,6 @@ import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefine
 import { EditingClinicsComponent } from "./coordinator/redigering-av-klinikker/editing-of-clinic.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { RequestComponent } from './coordinator/request/request.component';
-import { HealthEnterpriseComponent } from './fhiadmin/health-enterprise/health-enterprise.component';
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
 import { ReportComponent } from './coordinator/rapporter/report.component';
@@ -91,10 +90,6 @@ const routes: Routes = [
   {
     path: UrlPaths.request,
     component: RequestComponent
-  },
-  {
-    path: UrlPaths.healthcareOrganization,
-    component: HealthEnterpriseComponent
   },
   {
     path: UrlPaths.email,

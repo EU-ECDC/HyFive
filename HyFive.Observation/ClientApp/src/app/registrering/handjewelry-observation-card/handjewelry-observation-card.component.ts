@@ -124,7 +124,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
       sessionId: this.sessionView.sessionId,
       registeredTime: new Date(Date.now()),
       role: this.card.role,
-      handJewelry: this.handJewelrySelection.reduce((acc, item) => {
+      handJewelries: this.handJewelrySelection.reduce((acc, item) => {
         if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
       }, [] as HandJewelryType[]) as HandJewelryType[],

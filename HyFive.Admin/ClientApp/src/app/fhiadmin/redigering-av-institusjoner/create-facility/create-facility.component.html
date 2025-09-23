@@ -20,7 +20,6 @@
           bindLabel="name"
           bindValue="id"
           [(ngModel)]="newfacility.facilityTypeId"
-          (ngModelChange)="showHealthcareOrRegion(newfacility.facilityTypeId)"
           >
         </ng-select>
       </div>
@@ -29,10 +28,10 @@
         <ng-select
           [searchable]="false"
           [clearable]="false"
-          [items]="listOfHealthcareOrganizations"
+          [items]="listOfCities"
           bindLabel="name"
           bindValue="id"
-          [(ngModel)]="newfacility.healthcareOrganizationId"
+          [(ngModel)]="newfacility.cityId"
           >
         </ng-select>
       </div>

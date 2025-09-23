@@ -89,8 +89,7 @@ export class EditingOfFacilitiesComponent implements OnInit {
   filterFacilities(): void {
     if (this.keyword.length >= 2)
       this.filteredFacilities = this.facilities.filter(i => i.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        i.healthcareOrganization?.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        i.municipality?.name.toLowerCase().includes(this.keyword.toLowerCase()));
+        i.city?.name.toLowerCase().includes(this.keyword.toLowerCase()));
     else if (this.keyword.length === 0)
       this.filteredFacilities = this.facilities;
   }
@@ -113,7 +112,7 @@ export class EditingOfFacilitiesComponent implements OnInit {
         propertyOf = (x: Facility) => x.name;
         break;
         case "City":
-          propertyOf = (x: Facility) => x.healthcareOrganization?.name || x.municipality?.name;
+          propertyOf = (x: Facility) => x.city?.name;
         break;
       default:
         throw new Error("Invalid sort column");

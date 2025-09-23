@@ -37,29 +37,8 @@ namespace HyFive.Services.Facility
                         $"Facility type with ID {command.Facility.FacilityType.Id} was not found in the database.");
 
                 var facility = await _context.Facility
-                                                .Include(i => i.Municipality)
-                                                .Include(i => i.HealthcareOrganization)
+                                                .Include(i => i.City)
                                                 .FirstOrDefaultAsync(i => i.Id == command.Facility.Id);
-
-                //if (command.Facility.Municipality != null && command.Facility.FacilityType.Code == FacilityTypeConstants.NursingHome)
-                //{
-                //    var municipality = await _context.Municipality.FirstOrDefaultAsync(k => k.Id == command.Facility.Municipality.Id);
-                //    facility.Municipality = municipality;
-                //}
-                //else
-                //{
-                //    facility.Municipality = null;
-                //}
-
-                //if (command.Facility.HealthcareOrganization != null && command.Facility.FacilityType.Code == FacilityTypeConstants.Hospital)
-                //{
-                //    var healthcareOrganization = await _context.HealthcareOrganization.FirstOrDefaultAsync(h => h.Id == command.Facility.HealthcareOrganization.Id);
-                //    facility.HealthcareOrganization = healthcareOrganization;
-                //}
-                //else
-                //{
-                //    facility.HealthcareOrganization = null;
-                //}
                 
                 facility.Name = command.Facility.Name;
                 facility.Abbreviation = command.Facility.Abbreviation;

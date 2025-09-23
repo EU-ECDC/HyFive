@@ -43,11 +43,11 @@
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
-                  [items]="listOfHealthcareOrganizations"
+                  [items]="listOfCities"
                   bindLabel="name"
                   bindValue="id"
-                  [(ngModel)]="healthcareOrganizationId"
-                  (ngModelChange)="healthEnterpriseChanged()"
+                  [(ngModel)]="cityId"
+                  (ngModelChange)="cityChanged()"
                   >
                 </ng-select>
               </div>

@@ -106,9 +106,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
                               abbreviation: null,
                               herId: null,
                               facilityType: null,
-                              region: null,
-                              municipality: null,
-                              healthcareOrganization: null 
+                              city: null 
                             },
                             ...facilities
         ];

@@ -43,7 +43,7 @@ namespace HyFive.Services.Report.Observations
             {
                 var queryable = _context.GloveObservation
                     .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility)
                     .Include(fo => fo.PostGloveHandHygieneType)
                     .Include(fo => fo.GloveWithIndicationTypes)
                     .Include(fo => fo.GloveWithIndicationTypes)

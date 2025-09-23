@@ -374,32 +374,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.GetRegionTypes">
-            <summary>
-            Get Region Types
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.GetRegion(System.Int32)">
-            <summary>
-            Get Region type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.CreateRegionType(HyFive.Models.V1.Facility.CreateRegionRequest)">
-            <summary>
-            Create Region type
-            </summary>
-            <param name="newRegionType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OppdaterRegionType(HyFive.Models.V1.Facility.Region)">
-            <summary>
-            Update Region type
-            </summary>
-            <param name="regionType"></param>
-            <returns></returns>
-        </member>
         <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(GloveReportRequest)">
             <summary>
             Create an Excel report for Glove observations for department

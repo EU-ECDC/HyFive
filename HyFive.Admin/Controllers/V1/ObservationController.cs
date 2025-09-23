@@ -56,7 +56,7 @@ namespace HyFive.Admin.Controllers.V1
             if (role == AuthorizedRole.Administrator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
-                if (!_userService.IsFhiAdmin())
+                if (!_userService.IsAdmin())
                     return Forbid();
             }
             else if (role == AuthorizedRole.Coordinator)
@@ -105,7 +105,7 @@ namespace HyFive.Admin.Controllers.V1
             if (role == AuthorizedRole.Administrator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
-                if (!_userService.IsFhiAdmin())
+                if (!_userService.IsAdmin())
                     return Forbid();
             }
             else if (role == AuthorizedRole.Coordinator)
@@ -119,7 +119,7 @@ namespace HyFive.Admin.Controllers.V1
                 return Forbid();
             }
 
-            if (_userService.IsCoordinatorForDepartment(departmentId) || _userService.IsFhiAdmin())
+            if (_userService.IsCoordinatorForDepartment(departmentId) || _userService.IsAdmin())
             {
                 var result = await _mediator.Send(new GetSessionsForDepartmentOverview.Query()
                 {

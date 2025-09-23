@@ -23,9 +23,6 @@ namespace HyFive.Models.V1.Report.Glove
         public string GlovesWithIndicationCode { get; set; }
         public string ObservationComment { get; set; }
         public string SessionComment { get; set; }
-        public string HealthcareOrganization { get; set; }
-        public string RegionalHealthcareOrganization { get; set; }
-        public string MunicipalityNumber { get; set; }
-        public string Municipality { get; set; }
+        public string City { get; set; }
     }
 }

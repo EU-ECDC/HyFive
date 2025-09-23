@@ -21,7 +21,6 @@ export class EditingObserversComponent implements OnInit {
         abbreviation: result.abbreviation,
         facilityType: result.facilityType,
         name: result.name,
-        region: result.region
       } as FacilityReport;
     });
   }

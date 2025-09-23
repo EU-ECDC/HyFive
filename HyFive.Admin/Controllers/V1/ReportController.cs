@@ -290,7 +290,7 @@ namespace HyFive.Admin.Controllers.V1
 
         private bool UserIsAuthorized(int facilityId)
         {
-            if (_userService.IsFhiAdmin())
+            if (_userService.IsAdmin())
                 return true;
 
             if (_userService.IsCoordinatorForFacility(facilityId))

@@ -20,8 +20,7 @@ export class EditingCoordinatorsComponent implements OnInit {
         abbreviation: result.abbreviation,
         facilityType: result.facilityType,
         name: result.name,
-        region: result.region,
-        healthcareOrganization: result.healthcareOrganization
+        city: result.city
       } as FacilityReport;
     });
   }

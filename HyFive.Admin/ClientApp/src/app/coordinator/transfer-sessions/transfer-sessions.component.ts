@@ -62,7 +62,6 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
         abbreviation: result.abbreviation,
         facilityType: result.facilityType,
         name: result.name,
-        region: result.region
       } as FacilityReport;
 
       this.facilityService.getObservers(this.facility.id).subscribe((observers) => {

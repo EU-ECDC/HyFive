@@ -25,7 +25,7 @@ namespace HyFive.Services.Tests.Rapporter
         //    var rolleSomTestes = "Lege";
         //    var hentAvdelingHandler =
         //        new GetDepartmentsForFacility.Handler(DatabaseContext, Mapper);
-        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForFacility.Query(){HealthcareOrganizationId = 1}, CancellationToken.None)).First();
+        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForFacility.Query(){CityId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
         //        new GetActivityTypes.Handler(DatabaseContext, Mapper);

@@ -31,7 +31,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet(Name = "GetPredefinedComments")]
         public async Task<ActionResult<List<PredefinedComment>>> GetPredefinedComments(int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 return await _mediator.Send(new GetPredefinedCommentsForCoordinator.Query
                 {
@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
             int facilityId,
             [FromBody] PredefinedComment predefinedComment)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var isUpdated = await _mediator.Send(new UpdatePredefinedComment.Command
                 {
@@ -77,7 +77,7 @@ namespace HyFive.Admin.Controllers.V1
             int facilityId,
             [FromBody] CreatePredefinedCommentRequest newPredefinedComment)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var isCreated = await _mediator.Send(new CreatePredefinedComment.Command
                 {

@@ -35,7 +35,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Clinic), StatusCodes.Status200OK)]
         public async Task<ActionResult<Clinic>> GetClinic(int id, int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 return await _mediator.Send(new GetClinic.Query() { Id = id, FacilityId = facilityId });
             }
@@ -52,7 +52,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(IEnumerable<Clinic>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Clinic>>> GetClinicsForFacility(int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(facilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var clinics = await _mediator.Send(new GetClinicsForFacility.Query() { FacilityId = facilityId });
                 return Ok(clinics);
@@ -69,7 +69,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
         public async Task<ActionResult<Clinic>> CreateClinic([FromBody] Clinic clinic)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(clinic.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(clinic.FacilityId))
             {
                 return await _mediator.Send(new CreateClinic.Command() { Clinic = clinic });
             }
@@ -85,7 +85,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
         public async Task<ActionResult<Clinic>> UpdateClinic([FromBody] Clinic clinic)
         {
-            if (_userService.IsCoordinatorForFacilityOrFhiAdmin(clinic.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(clinic.FacilityId))
             {
                 return await _mediator.Send(new UpdateClinic.Command() { Clinic = clinic });
             }
