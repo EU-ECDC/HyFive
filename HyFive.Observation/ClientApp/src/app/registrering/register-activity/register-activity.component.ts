@@ -50,7 +50,7 @@ export class RegisterActivityComponent implements OnInit {
 
   getActivityText() {
     if (this.activityType?.code === ActivityTypeConstants.Disinfection)
-      return 'Spirit';
+      return 'ABHR';
     if (this.activityType?.code === ActivityTypeConstants.Handwash)
       return 'Wash';
     if(this.activityType?.code === ActivityTypeConstants.NotPerformed)
