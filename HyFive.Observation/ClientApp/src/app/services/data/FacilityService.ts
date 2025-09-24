@@ -26,8 +26,13 @@ export class FacilityService {
     const url = `${environment.apiBaseUrl}/v1/facility/`;
     return this.http.get<Facility[]>(url).pipe(
                                                 map(data => data.filter(x => x != null)),
-                                                map(data => [...new Map(data.map(item => [item.id, item])).values()]
-                                                            .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
+                                                map(data => {
+                                                              let distinctSorted = [...new Map(data.map(item => [item.id, item])).values()]
+                                                                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+                                                              distinctSorted.forEach(facility => facility.departments.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })));
+                                                              return distinctSorted;
+                                                            }
+                                                    )
                                               );
   }
 
