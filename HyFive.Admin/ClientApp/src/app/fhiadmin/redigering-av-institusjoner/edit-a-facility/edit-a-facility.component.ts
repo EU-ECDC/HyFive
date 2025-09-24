@@ -89,6 +89,7 @@ export class EditFacilityComponent implements OnInit {
   canNotSavefacility(): boolean {
     if (this.facility.facilityType.id > 0 
       && this.facility.name?.length > 0
+      && this.facility.city?.id > 0
       && this.facilities.filter(i => i.id !== this.facility.id).find(i => i.name === this.facility.name) == undefined
     )
       return false;
