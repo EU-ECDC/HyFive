@@ -38,7 +38,10 @@ namespace HyFive.Services.Facility
                         $"FacilityType with id {command.Request.FacilityTypeId} was not found in the database");
                 
                 var city = await _context.City.FirstOrDefaultAsync(h => h.Id == command.Request.CityId);
-                
+                if (city == null)
+                    throw new ArgumentException(
+                        $"City with id {command.Request.CityId} was not found in the database");
+
                 var coordinator = new Coordinator()
                 {
                     FirstName = command.Request.CoordinatorFirstName,
