@@ -24,7 +24,11 @@ export class FacilityService {
 
   getFacilities(): Observable<Facility[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/`;
-    return this.http.get<Facility[]>(url).pipe(map(data => data.filter(x => x != null)));
+    return this.http.get<Facility[]>(url).pipe(
+                                                map(data => data.filter(x => x != null)),
+                                                map(data => [...new Map(data.map(item => [item.id, item])).values()]
+                                                            .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
+                                              );
   }
 
   getSelectedFacilityId(): number | null {
