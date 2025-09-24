@@ -87,7 +87,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   canCreateFacility(): boolean{
     return this.newfacility?.facilityName?.length > 0
-      // && this.newfacility?.coordinatorHPRNumber?.length > 0
+      && this.newfacility.cityId > 0
       && this.newfacility?.coordinatorFirstName?.length > 0
       && this.newfacility?.coordinatorLastName?.length > 0
       && this.coordinators.find(fc => fc.email == this.newfacility?.coordinatorEmail) == undefined
