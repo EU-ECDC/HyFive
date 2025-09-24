@@ -41,6 +41,7 @@ namespace HyFive.Services.Facility
                     .ThenInclude(a => a.Roles)
                     .Where(_userService.HasEmailAndIsActive<Observer>(request.Email))
                     .Select(b => b.Facility)
+                    .OrderBy(f => f.Name)
                     .ToListAsync();
 
                 var mapped = _mapper.Map<Models.V1.Facility.Facility[]>(facilities);

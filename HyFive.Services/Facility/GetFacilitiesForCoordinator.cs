@@ -50,7 +50,8 @@ namespace HyFive.Services.Facility
                         .Where(b => b.IsDeactivated == false
                                     && ((HasEmail(request.CoordinatorEmail) && b.Email == request.CoordinatorEmail)))
                         .Any(b => b.Discriminator == nameof(Coordinator))
-                    );
+                    )
+                    .OrderBy(i => i.Name);
 
                 var result = await query
                     .ProjectTo<Models.V1.Facility.FacilityReport>(_mapper.ConfigurationProvider)
