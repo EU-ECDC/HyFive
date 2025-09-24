@@ -84,7 +84,7 @@ export class EditGloveObservationComponent implements OnInit {
       }
     });
     this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
-      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes;
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.sort((a, b) => a.id - b.id);
     });
 
     this.glovesUsed = this.observation.glovesUsed;

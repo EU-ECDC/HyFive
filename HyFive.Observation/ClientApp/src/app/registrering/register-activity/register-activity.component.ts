@@ -23,7 +23,7 @@ export class RegisterActivityComponent implements OnInit {
   usedGloves?: boolean = null;
 
   @Input("parentId") parentId: string;
-  @Input("timekeeping") timekeeping: boolean;
+  @Input("time") time: boolean;
   @Input("disabled") disabled: boolean;
   @Input("activityType") activityType: ActivityType;
   @Input("seconds") seconds: number;
@@ -50,7 +50,7 @@ export class RegisterActivityComponent implements OnInit {
 
   getActivityText() {
     if (this.activityType?.code === ActivityTypeConstants.Disinfection)
-      return 'Spirit';
+      return 'ABHR';
     if (this.activityType?.code === ActivityTypeConstants.Handwash)
       return 'Wash';
     if(this.activityType?.code === ActivityTypeConstants.NotPerformed)
@@ -63,7 +63,7 @@ export class RegisterActivityComponent implements OnInit {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     }
     else {
-      if (this.timekeeping) {
+      if (this.time) {
         this.startOrStopTimer();
         this.showText = false;
       }
@@ -77,7 +77,7 @@ export class RegisterActivityComponent implements OnInit {
 
     this.usedGloves = wasConfirmed;
 
-    if (this.timekeeping) {
+    if (this.time) {
       this.startOrStopTimer();
       this.showText = false;
     }
