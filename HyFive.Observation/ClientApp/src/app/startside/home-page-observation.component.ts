@@ -21,7 +21,7 @@ import { FacilityService } from "../services/data/FacilityService";
 export class HomePageForObservationComponent implements OnInit {
   SessionType = SessionType;
   selectedSessionType: SessionType;
-  timekeeping: boolean;
+  time: boolean;
   gloveUse: boolean;
   roleSelected: RoleSelected[];
   selectedDepartmentId: string = null;
@@ -57,7 +57,7 @@ export class HomePageForObservationComponent implements OnInit {
 
   resetState() {
     this.selectedSessionType = SessionType.NotSelected;
-    this.timekeeping = false;
+    this.time = false;
     this.gloveUse = false;
     this.roleSelected = [];
     this.selectedDepartmentId = null;
@@ -138,7 +138,7 @@ export class HomePageForObservationComponent implements OnInit {
   startFiveIndicationsSession() {
     let sessionId = this.fiveIndicationsSessionService.createSessionView(
       this.gloveUse,
-      this.timekeeping,
+      this.time,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.getSelectedDepartment()
     );

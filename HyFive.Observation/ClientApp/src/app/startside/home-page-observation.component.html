@@ -144,7 +144,7 @@
                 [value]="SessionType.ProtectiveEquipment"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.ProtectiveEquipment">
-                <span class="fhi-form-check-tile__label-text">Protective equipment</span>
+                <span class="fhi-form-check-tile__label-text">PPE</span>
               </label>
             </div>
           </div>
@@ -162,14 +162,14 @@
       <div class="d-flex mt-n2 mb-5">
         <div class="d-flex mx-auto">
           <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
-            <h2 class="h5 text-center">Timekeeping</h2>
+            <h2 class="h5 text-center">Time</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !timekeeping ? 'bold' : '' }">Off</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !time ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
-                <input type="checkbox" checked [(ngModel)]="timekeeping" />
+                <input type="checkbox" checked [(ngModel)]="time" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': timekeeping ? 'bold' : '' }">On</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': time ? 'bold' : '' }">On</span>
             </div>
           </div>
 
