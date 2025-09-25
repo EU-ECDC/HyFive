@@ -155,7 +155,7 @@ export class DownloadExcelComponent {
       return all.concat(inst.departments);
     }, []);
 
-    const uniqueDepartments = Array.from(
+    let uniqueDepartments = Array.from(
       new Map(allDepartments.map(dep => [dep.id, dep])).values()
     );
 
@@ -164,6 +164,8 @@ export class DownloadExcelComponent {
     );
 
       // this.departmentTypes = uniqueDepartmentTypes;
+      uniqueDepartments = uniqueDepartments
+                    .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
       this.departments = uniqueDepartments;
       this.allDepartments = uniqueDepartments;
     });

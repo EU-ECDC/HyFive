@@ -230,14 +230,15 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
       return all.concat(inst.departments);
     }, []);
 
-    const uniqueDepartments = Array.from(
+    let uniqueDepartments = Array.from(
       new Map(allDepartments.map(dep => [dep.id, dep])).values()
     );
 
     const uniqueDepartmentTypes = Array.from(
       new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
     );
-
+      uniqueDepartments = uniqueDepartments
+                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
     this.departmentTypes = uniqueDepartmentTypes;
     this.departments = uniqueDepartments;
     this.allDepartments = uniqueDepartments;
