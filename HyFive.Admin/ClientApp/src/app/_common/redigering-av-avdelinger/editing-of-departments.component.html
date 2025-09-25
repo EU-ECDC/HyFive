@@ -37,7 +37,7 @@
                 </ng-container>
               </ng-container>
               <ng-container *ngIf="canEdit && departmentAsChanged?.id === department.id">
-                <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name"></td>
+                <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name" (ngModelChange)="departmentAsChanged.name = $event.trim()"></td>
                 <td>
                   <select class="form-control" id="departmenttype" [(ngModel)]="departmentAsChanged.departmentTypeId">
                     <option value="0">Not selected</option>
