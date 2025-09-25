@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { Facility } from '../../models/api/Facility';
 import { CreateFacilityRequest } from '../../models/api/CreateFacilityRequest';
 import { FacilityType } from '../../models/api/FacilityType';
@@ -19,7 +19,10 @@ export class FacilityService {
 
   getFacilities(): Observable<FacilityReport[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/`;
-    return this.http.get<Facility[]>(url);
+    return this.http.get<Facility[]>(url).pipe(
+                                                map(data => data.filter(x => x != null)),
+                                                map(data =>  [...new Map(data.map(item => [item.id, item])).values()])
+                                              );
   }
 
 
