@@ -17,11 +17,11 @@
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="facilityName">Name</label>
-                <input type="text" autocomplete="off" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.name">
+                <input type="text" autocomplete="off" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.name" (ngModelChange)="facility.name = $event.trim()">
               </div>
               <div class="col-md-2">
                 <label for="abbreviation">Short Name</label>
-                <input type="text" autocomplete="off" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.abbreviation">
+                <input type="text" autocomplete="off" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.abbreviation" (ngModelChange)="facility.abbreviation = $event.trim()">
               </div>
             </div>
             <div class="row mb-3">
