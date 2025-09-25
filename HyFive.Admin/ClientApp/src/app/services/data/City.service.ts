@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { CoordinatorForCity } from '../../models/api/CoordinatorForCity';
@@ -26,7 +26,9 @@ export class CityService {
 
   getFacilities(id: number): Observable<FacilityReport[]> {
     const url = `${environment.apiBaseUrl}/v1/city/${id}/facilities`;
-    return this.httpClient.get<FacilityReport[]>(url);
+    return this.httpClient.get<FacilityReport[]>(url).pipe(
+                                                          map(data => data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
+                                                          );
   }
 
   updateCoordinator(id: number, coordinator: CoordinatorForCity): Observable<Status> {

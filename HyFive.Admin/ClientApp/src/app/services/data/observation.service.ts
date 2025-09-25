@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { FacilityOverviewReport } from '../../models/api/FacilityOverviewReport';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
@@ -37,7 +37,10 @@ export class ObservationService {
 
     params = params.append("role", selectedRole.toString());
 
-    return this.http.get<FacilityOverviewReport[]>(url, { params: params });
+    return this.http.get<FacilityOverviewReport[]>(url, { params: params })
+                    .pipe(
+                            map(data => data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
+                          );
   }
 
   getSessionsForDepartment(departmentid: number, sessiontype: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<SessionOverviewReport[]> {
