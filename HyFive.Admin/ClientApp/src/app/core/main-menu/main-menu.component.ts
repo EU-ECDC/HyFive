@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MainMenuItem } from './main-menu-item.model';
-import { UrlPaths } from '../../_common/konstanter/url-paths';
+import { UrlPaths } from '../../_common/constants/url-paths';
 import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../_common/services/authorization.service';
 import { RoleEventService } from 'src/app/services/events/role-event.service';

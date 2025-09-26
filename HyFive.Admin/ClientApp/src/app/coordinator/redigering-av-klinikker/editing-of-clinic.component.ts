@@ -4,7 +4,7 @@ import { FacilityService } from '../../services/data/facility.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Clinic } from '../../models/api/Clinic';
 import { ClinicService } from '../../services/data/clinic.service';
-import { QueryParameters } from "../../_common/konstanter/queryparameters";
+import { QueryParameters } from "../../_common/constants/queryparameters";
 import { Facility } from '../../models/api/Facility';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 

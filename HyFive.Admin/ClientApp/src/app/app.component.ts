@@ -8,7 +8,7 @@ import { UrlService } from './_common/services/url.service';
 import { AuthorizationService } from './_common/services/authorization.service';
 import { LoggedInUser } from './models/api/LoggedInUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
-import { UrlPaths } from './_common/konstanter/url-paths';
+import { UrlPaths } from './_common/constants/url-paths';
 import { FacilityService } from './services/data/facility.service';
 
 @Component({

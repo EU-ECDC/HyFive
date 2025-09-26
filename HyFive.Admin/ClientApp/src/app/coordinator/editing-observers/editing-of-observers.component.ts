@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FacilityService } from '../../services/data/facility.service';
-import { QueryParameters } from '../../_common/konstanter/queryparameters';
+import { QueryParameters } from '../../_common/constants/queryparameters';
 import { FacilityReport } from '../../models/api/FacilityReport';
 
 @Component({

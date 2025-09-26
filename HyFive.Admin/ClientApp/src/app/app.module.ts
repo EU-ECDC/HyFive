@@ -17,8 +17,8 @@ import { EditingIndicationTypesComponent } from './fhiadmin/redigering-av-kodeve
 import { EditingByHandjewelryTypeComponent } from './fhiadmin/redigering-av-kodeverk/editing-HandjewelryType/editing-of-handjewelry-type.component';
 import { EditingFacilityTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-facility-types/editing-of-facility-types.component';
 import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
-import { EditingDepartmentsComponent } from './_common/redigering-av-avdelinger/editing-of-departments.component';
-import { CreateDepartmentComponent } from './_common/redigering-av-avdelinger/create-department/create-department.component';
+import { EditingDepartmentsComponent } from './_common/editing-of-departments/editing-of-departments.component';
+import { CreateDepartmentComponent } from './_common/editing-of-departments/create-department/create-department.component';
 import { EditingActivityTypeComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-activitytype/editing-activitytype.component';
 import { EditingProtectiveEquipmentTypeComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/editing-of-protectiveequipment-types.component';
 import { EditingMisuseTypesComponent } from './fhiadmin/redigering-av-kodeverk/redigering-av-beskyttelsesutstyrtyper/editing-of-misuse-types/editing-of-misuse-types.component';
@@ -33,7 +33,7 @@ import { EditingGlovesWithIndicationTypesComponent } from './fhiadmin/redigering
 import { EditingGlovewithoutindicationtypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-gloveswithoutindicationtypes/editing-of-gloveswithoutindicationtypes.component';
 import { EditingHandHygieneAfterGloveUseTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
 import { TransferSessionsComponent } from './coordinator/transfer-sessions/transfer-sessions.component';
-import { OverviewSessionsViewComponent } from './_common/oversikt-sesjoner-visning/overview-sessions-view.component';
+import { OverviewSessionsViewComponent } from './_common/overview-sessions-view/overview-sessions-view.component';
 import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefined-comments/edit-predefined-comments.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
 import { EditingClinicsComponent } from './coordinator/redigering-av-klinikker/editing-of-clinic.component';
@@ -56,7 +56,7 @@ import { EditProtectiveEquipmentObservationsComponent } from "./coordinator/redi
 import { EditProtectiveEquipmentObservationComponent } from './coordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/rediger-beskyttelsesutstyr-observasjon/edit-protective-equipment-observation.component';
 import {ProtectiveEquipmentModalComponent} from "./coordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
 import { SearchHprNumberLinkComponent } from './_common/search-hprnumber-link/search-hprnumber-link.component';
-import { EditSessionDataComponent } from './_common/oversikt-sesjoner-visning/edit-sessionsdata/edit-sessionsdata.component';
+import { EditSessionDataComponent } from './_common/overview-sessions-view/edit-sessionsdata/edit-sessionsdata.component';
 import { RequestComponent } from "./coordinator/request/request.component";
 import { EditCoordinatorsForCityComponent } from './coordinator/editing-of-coordinators/edit-coordinators-for-city.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';

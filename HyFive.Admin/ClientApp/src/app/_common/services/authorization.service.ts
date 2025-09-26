@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { map, tap } from 'rxjs/operators';
-import { Localstoragepaths } from '../konstanter/localstoragepaths';
+import { Localstoragepaths } from '../constants/localstoragepaths';
 import { LoggedInUser } from 'src/app/models/api/LoggedInUser';
 @Injectable({
   providedIn: 'root'

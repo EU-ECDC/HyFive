@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UrlPaths } from './_common/konstanter/url-paths';
+import { UrlPaths } from './_common/constants/url-paths';
 import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
 import { EditingOfFacilitiesComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-facilities.component';
 import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
 import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
-import { EditingDepartmentsComponent } from './_common/redigering-av-avdelinger/editing-of-departments.component';
+import { EditingDepartmentsComponent } from './_common/editing-of-departments/editing-of-departments.component';
 import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/overview-department-sessions/overview-department-sessions.component';
 import { EditingOfObserversComponent } from "./coordinator/editing-observers/editing-of-observers.component";
 import { ProfilsideComponent } from "./profile-page/profile-page.component";

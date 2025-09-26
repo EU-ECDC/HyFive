@@ -3,7 +3,7 @@ import { Clinic } from '../../../models/api/Clinic';
 import { FacilityService } from '../../../services/data/facility.service';
 import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
-import { UrlPaths } from '../../../_common/konstanter/url-paths';
+import { UrlPaths } from '../../../_common/constants/url-paths';
 import { DepartmentSelection } from '../../../models/code-work/departmentSelection.model';
 import { ClinicService } from '../../../services/data/clinic.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';

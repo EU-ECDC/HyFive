@@ -8,7 +8,7 @@ import { FacilityType } from '../../models/api/FacilityType';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { User } from '../../models/api/User';
 import { Department} from "../../models/api/Department";
-import { Localstoragepaths } from '../../_common/konstanter/localstoragepaths';
+import { Localstoragepaths } from '../../_common/constants/localstoragepaths';
 
 @Injectable({
   providedIn: 'root'
