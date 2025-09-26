@@ -24,7 +24,6 @@ namespace HyFive.DataAccess
         public DbSet<Coordinator> Coordinator { get; set; }
         public DbSet<Observer> Observer { get; set; }
         public DbSet<Admin> Admin { get; set; }
-        public DbSet<UserAccessRequest> UserAccessRequest { get; set; }
         public DbSet<TransferStatusType> TransferStatusType { get; set; }
         public DbSet<Facility> Facility { get; set; }
         public DbSet<FacilityType> FacilityType { get; set; }
@@ -157,13 +156,6 @@ namespace HyFive.DataAccess
             mb.Entity<User>().Property(b => b.HPRNumber).HasMaxLength(50);
             mb.Entity<User>().HasIndex(b => b.IdentityPseudonym);
             mb.Entity<User>().HasIndex(b => b.HPRNumber);
-
-            mb.Entity<UserAccessRequest>().Property(b => b.UserFirstName).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.UserLastName).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.Email).HasMaxLength(500).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.IdentityPseudonym).HasMaxLength(100);
-            mb.Entity<UserAccessRequest>().Property(b => b.HPRNumber).HasMaxLength(50);
-            mb.Entity<UserAccessRequest>().HasIndex(b => b.Status);
 
             mb.Entity<ProtectiveEquipmentSettingTypeProtectiveEquipmentType>()
                 .HasKey(bu => new { bu.ProtectiveEquipmentTypeId, bu.ProtectiveEquipmentSettingTypeId });

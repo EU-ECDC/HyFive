@@ -951,62 +951,6 @@ namespace HyFive.DataAccess.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("HyFive.Domain.User.UserAccessRequest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<int?>("FacilityId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("HPRNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("IdentityPseudonym")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int?>("ProcessedByUserID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProcessedByUsername")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("ProcessedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserFirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("UserLastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Status");
-
-                    b.ToTable("UserAccessRequest");
-                });
-
             modelBuilder.Entity("MisuseTypeProtectiveEquipment", b =>
                 {
                     b.Property<int>("MisuseTypesId")

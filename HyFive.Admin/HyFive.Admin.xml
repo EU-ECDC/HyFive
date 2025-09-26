@@ -443,18 +443,6 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.UserAccessRequestController.GetAllRequests(System.Int32)">
-            <summary>
-            Getting all requests for user access.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.UserAccessRequestController.GetPendingApprovalRequests(System.Int32)">
-            <summary>
-            Getting requests that are not approved.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:HyFive.Admin.Controllers.V1.UserController.UpdateObserver(HyFive.Models.V1.User.User)">
             <summary>
             Updating an observer.

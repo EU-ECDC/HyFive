@@ -18,7 +18,6 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Facility.Department, Domain.Place.Department>(MemberList.None);
             CreateMap<Models.V1.Facility.DepartmentType, Domain.Place.DepartmentType>(MemberList.None);
             CreateMap<Models.V1.Observation.Role, Domain.Observation.Role>(MemberList.None);
-            CreateMap<Models.V1.UserAccessRequest.UserAccessRequest, Domain.User.UserAccessRequest>(MemberList.None);
 
             CreateMap<Models.V1.Session.FiveIndicationsSession, FiveIndicationsSession>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))

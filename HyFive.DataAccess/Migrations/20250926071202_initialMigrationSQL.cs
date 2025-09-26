@@ -197,29 +197,6 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAccessRequest",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FacilityId = table.Column<int>(type: "integer", nullable: true),
-                    UserFirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    UserLastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    IdentityPseudonym = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    HPRNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Email = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProcessedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ProcessedByUserID = table.Column<int>(type: "integer", nullable: true),
-                    ProcessedByUsername = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserAccessRequest", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Activity",
                 columns: table => new
                 {
@@ -1136,11 +1113,6 @@ namespace HyFive.DataAccess.Migrations
                 name: "IX_User_IdentityPseudonym",
                 table: "User",
                 column: "IdentityPseudonym");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserAccessRequest_Status",
-                table: "UserAccessRequest",
-                column: "Status");
         }
 
         /// <inheritdoc />
@@ -1172,9 +1144,6 @@ namespace HyFive.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType");
-
-            migrationBuilder.DropTable(
-                name: "UserAccessRequest");
 
             migrationBuilder.DropTable(
                 name: "Clinic");
