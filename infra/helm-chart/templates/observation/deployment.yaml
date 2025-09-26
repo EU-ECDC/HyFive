@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "HyFive.fullname" . }}
+  labels:
+    {{- include "HyFive.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.observation.autoscaling.enabled }}
+  replicas: {{ .Values.observation.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "HyFive.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "HyFive.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "HyFive.serviceAccountName" . }}
+      {{- with .Values.observation.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.observation.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.global.image_repository }}{{ .Values.observation.image.repository }}:{{ .Values.observation.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.observation.image.pullPolicy }}
+          env:
+          - name: ConnectionStrings__HandhygieneConnection
+            value: Server=$(POSTGRES_HOST); Database=$(POSTGRES_DB); Username=$(POSTGRES_USER); Password=$(POSTGRES_PASSWORD); SSLMode=disable
+          envFrom:
+            - secretRef:
+                name: {{ include "HyFive.fullname" . }}-db
+            - secretRef:
+                name: {{ include "HyFive.fullname" . }}-oidc
+            - configMapRef:
+                name: {{ include "HyFive.fullname" . }}-observation
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # livenessProbe: {}
+          # readinessProbe: {}
+          {{- with .Values.observation.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.observation.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.observation.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.observation.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.observation.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.observation.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
