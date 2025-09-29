@@ -57,7 +57,6 @@ import { EditProtectiveEquipmentObservationComponent } from './coordinator/redig
 import {ProtectiveEquipmentModalComponent} from "./coordinator/redigering-av-observasjoner/rediger-beskyttelsesutstyr-observasjoner/protective-equipment-modal/protective-equipment-modal.component";
 import { SearchHprNumberLinkComponent } from './_common/search-hprnumber-link/search-hprnumber-link.component';
 import { EditSessionDataComponent } from './_common/overview-sessions-view/edit-sessionsdata/edit-sessionsdata.component';
-import { RequestComponent } from "./coordinator/request/request.component";
 import { EditCoordinatorsForCityComponent } from './coordinator/editing-of-coordinators/edit-coordinators-for-city.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
@@ -130,7 +129,6 @@ export const httpInterceptorProviders = [
     ProtectiveEquipmentModalComponent,
     SearchHprNumberLinkComponent,
     EditSessionDataComponent,
-    RequestComponent,
     EditingCoordinatorsComponent,
     EditCoordinatorsForCityComponent,
     PseudonymDialogComponent,
