@@ -235,7 +235,7 @@ namespace HyFive.Services.Authentication.User
         {
             return _context.User.OfType<TRole>().AsNoTracking().Include(b => b.Facility)
                 .Where(HasEmailAndIsActive<TRole>(email))
-                .Any(b => b.Facility.Id == facilityId && b.Discriminator == GetDiscriminator<TRole>());
+                .Any(b => b.Facility.Id == facilityId /*&& b.Discriminator == GetDiscriminator<TRole>()*/);
         }
 
         private bool IsCoordinatorForCity(string email, int city)
