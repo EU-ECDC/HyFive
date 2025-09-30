@@ -72,6 +72,8 @@ export class AppComponent implements OnInit {
           this.user = user;
           if (
             this.user.isObserver == false &&
+            this.user.isCoordinator == false &&
+            this.user.isFhiAdmin == false &&
             window.location.pathname !== Urls.LoginPageUrl
           ) {
             this.router.navigate([Urls.LoginPageUrl]);
@@ -94,7 +96,7 @@ export class AppComponent implements OnInit {
     }
 
   // Otherwise show main menu only if user is an Observer and we are not on the front page.
-    return this.user?.isObserver;
+    return (this.user?.isObserver || this.user?.isCoordinator || this.user?.isFhiAdmin);
   }
   
   shouldShowAppBrand() {
