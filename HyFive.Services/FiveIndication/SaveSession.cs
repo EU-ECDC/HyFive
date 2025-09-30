@@ -14,6 +14,7 @@ using HyFive.Services.FiveIndication.Helpers;
 using Microsoft.Extensions.Logging;
 using HyFive.Domain.Observation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ObserverUser = HyFive.Domain.User.User;
 
 namespace HyFive.Services.FiveIndication
 {
@@ -92,7 +93,7 @@ namespace HyFive.Services.FiveIndication
             }
 
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
@@ -102,10 +103,9 @@ namespace HyFive.Services.FiveIndication
                     throw new Exception(
                         $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return facility.Users.OfType<Observer>()
-                    .Where(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile())
+                return facility.Users
+                    .Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile())
                     .FirstOrDefault();
-
             }
         }
     }

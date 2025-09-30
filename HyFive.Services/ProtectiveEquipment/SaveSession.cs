@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -98,7 +98,7 @@ namespace HyFive.Services.ProtectiveEquipment
             }
 
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
@@ -110,9 +110,8 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 return facility
                     .Users
-                    .OfType<Observer>()
                     .FirstOrDefault(_userService
-                        .HasEmailAndIsActive<Observer>(request.Email)
+                        .HasEmailAndIsActive<ObserverUser>(request.Email)
                         .Compile());
             }
         }

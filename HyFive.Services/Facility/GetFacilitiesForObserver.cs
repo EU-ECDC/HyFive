@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.Services.Authentication.User;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 
 namespace HyFive.Services.Facility
 {
@@ -30,16 +30,14 @@ namespace HyFive.Services.Facility
                 _userService = userService;
             }
 
-
             public async Task<Models.V1.Facility.Facility[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var facilities = await _context.Observer
-                    
+                var facilities = await _context.User
                     .AsNoTracking()
                     .Include(i => i.Facility)
                     .ThenInclude(i => i.Departments)
                     .ThenInclude(a => a.Roles)
-                    .Where(_userService.HasEmailAndIsActive<Observer>(request.Email))
+                    .Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email))
                     .Select(b => b.Facility)
                     .OrderBy(f => f.Name)
                     .ToListAsync();

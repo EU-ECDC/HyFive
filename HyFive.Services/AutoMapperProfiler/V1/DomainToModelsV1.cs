@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using HyFive.Domain.Observation;
 using HyFive.Domain.Observation.ProtectiveEquipment;
 using HyFive.Domain.Observation.Gloves;
@@ -260,7 +260,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
         
         }
 
-        private static string GetObserverName(Observer observer)
+        private static string GetObserverName(ObserverUser observer)
         {
             return string.Join(" ", new[] { observer.FirstName, observer.LastName });
         }

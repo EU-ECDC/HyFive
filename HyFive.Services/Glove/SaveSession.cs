@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Glove.Helpers;
@@ -94,7 +94,7 @@ namespace HyFive.Services.Glove
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
@@ -104,9 +104,7 @@ namespace HyFive.Services.Glove
                     throw new Exception(
                         $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return facility.Users.OfType<Observer>().Where(
-                    _userService
-                        .HasEmailAndIsActive<Observer>(request.Email).Compile()).FirstOrDefault();
+                return facility.Users.Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile()).FirstOrDefault();
             }
         }
     }
