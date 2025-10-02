@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   user: LoggedInUser;
   Urls = Urls;
   receivedUserStatusFromServer = false;
+  hasFacilities: boolean = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -28,6 +29,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if (isLoggedIn) {
         this.authorizationService.getUser().subscribe(user => {
           this.user = user;
+          if (user.facilityIds?.length > 0) {
+            this.hasFacilities = true;
+          } else {
+            this.hasFacilities = false;
+          }
         });
       }
     });
