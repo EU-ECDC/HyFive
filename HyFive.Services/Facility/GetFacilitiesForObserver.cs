@@ -38,6 +38,7 @@ namespace HyFive.Services.Facility
                     .ThenInclude(i => i.Departments)
                     .ThenInclude(a => a.Roles)
                     .Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email))
+                    .Where(u => u.Facility != null)
                     .Select(b => b.Facility)
                     .OrderBy(f => f.Name)
                     .ToListAsync();
