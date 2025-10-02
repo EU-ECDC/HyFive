@@ -11,11 +11,11 @@
 
   <div class="row">
     <div class="col-12">
-      <div>Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool! You are now logged in as <span *ngIf="selectedRole == 2">a Coordinator</span><span *ngIf="selectedRole == 1">an Administrator</span>.</div>
+      <div *ngIf="selectedRole == 1 || selectedRole ==2">Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool! You are now logged in as <span *ngIf="selectedRole == 2">a Coordinator</span><span *ngIf="selectedRole == 1">an Administrator</span>.</div>
       <ng-container *ngIf="!user?.isCoordinator && !user?.isFhiAdmin">
-        <div>You are not registered as a coordinator and therefore do not have access to the administration module. Contact the coordinator at your facility for access. If you are an observer, go to HyFive observers module.</div>
+        <div>You are not registered as an administrator and therefore do not have access to the administration module. Contact the coordinator at your facility for access. If you are an observer, go to HyFive link for observers module.</div>
       </ng-container>
-      <div class="mt-3">Find more information about ECDC HyFive at <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. Questions or inquiries can be directed to <a href="mailto:HAI-et@ecdc.europa.eu">HAI-et&#64;ecdc.europa.eu</a>.</div>
+      <div class="mt-3">Find more information about ECDC HyFive at <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. Questions or inquiries can be directed to <a href="mailto:HAI-net@ecdc.europa.eu">HAI-net&#64;ecdc.europa.eu</a>.</div>
       <div class="mt-3"><a href="https://www.fhi.no/nettpub/nost/generelt-om-losningen2/personvernerklaring-for-nost/" target="_blank">Open the privacy policy</a></div>
     </div>
   </div>

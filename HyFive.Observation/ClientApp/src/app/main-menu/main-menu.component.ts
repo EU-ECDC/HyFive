@@ -23,10 +23,11 @@ export class MainMenuComponent {
   mainMenuItems: MainMenuItem[] = [];
   
 
-  constructor(private mainMenuEventService: MainMenuEventService)
-  {
+  constructor(private mainMenuEventService: MainMenuEventService){
     this.loadMenuOptions();
   }
+
+
 
   mainMenuClose(): void {
     this.mainMenuIsOpen = false;
@@ -49,31 +50,31 @@ export class MainMenuComponent {
   }
 
   private loadMenuOptions(): void {
-    this.mainMenuItems = [
-      {
-        name: "Start Observation",
-        routerLink: `/${Urls.HomePageForObservationUrl}`,
-        exactRouteMatch: true,
-        icon: faHospital
-      },
-      {
-        name: "Unsent Sessions",
-        routerLink: `/${Urls.NotSentSessionsUrl}`,
-        exactRouteMatch: false,
-        icon: faClipboard
-      },
-      {
-        name: "Sent Sessions",
-        routerLink: `/${Urls.SentSessionsUrl}`,
-        exactRouteMatch: false,
-        icon: faInbox
-      },
-      {
-        name: "Profile",
-        routerLink: `/${Urls.ProfileUrl}`,
-        exactRouteMatch: true,
-        icon: faUser
-      },
-    ];
+      this.mainMenuItems = [
+        {
+          name: "Start Observation",
+          routerLink: `/${Urls.HomePageForObservationUrl}`,
+          exactRouteMatch: true,
+          icon: faHospital
+        },
+        {
+          name: "Unsent Sessions",
+          routerLink: `/${Urls.NotSentSessionsUrl}`,
+          exactRouteMatch: false,
+          icon: faClipboard
+        },
+        {
+          name: "Sent Sessions",
+          routerLink: `/${Urls.SentSessionsUrl}`,
+          exactRouteMatch: false,
+          icon: faInbox
+        },
+        {
+          name: "Profile",
+          routerLink: `/${Urls.ProfileUrl}`,
+          exactRouteMatch: true,
+          icon: faUser
+        },
+      ];
   }
 }

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using Microsoft.EntityFrameworkCore;
 using HandJewelrySession = HyFive.Models.V1.Session.HandJewelrySession;
 using HyFive.Models.V1.Constants;
@@ -81,7 +81,7 @@ namespace HyFive.Services.HandJewelry
                 return await _context.Department.Include(a => a.Roles).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
@@ -92,8 +92,7 @@ namespace HyFive.Services.HandJewelry
 
                 return facility
                     .Users
-                    .OfType<Observer>()
-                    .FirstOrDefault(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile());
+                    .FirstOrDefault(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile());
             }
         }
     }

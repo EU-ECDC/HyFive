@@ -85,12 +85,14 @@ namespace HyFive.Services.Report.Observations
 
                 if (query.FromDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
+                    var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Value.Date, DateTimeKind.Utc);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date >= fromDateUtc);
                 }
-                
+
                 if (query.ToDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToDate.Value.Date);
+                    var toDateUtc = DateTime.SpecifyKind(query.ToDate.Value.Date, DateTimeKind.Utc);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date <= toDateUtc);
                 }
 
                 return await queryable

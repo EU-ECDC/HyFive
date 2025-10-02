@@ -21,8 +21,8 @@
         </thead>
         <tbody>
           <tr *ngIf="newCoordinator != null">
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
+            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.firstName" (ngModelChange)="newCoordinator.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
+            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.lastName" (ngModelChange)="newCoordinator.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
             <td><input type="email" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email"></td>
             <td></td>
             <td class="text-end py-2 align-middle">
@@ -53,10 +53,10 @@
             </ng-container>
             <ng-container *ngIf="coordinatorIsChanged?.id == coordinator.id">
               <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name">
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" (ngModelChange)="coordinatorIsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name">
               </td>
               <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name">
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (ngModelChange)="coordinatorIsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name">
               </td>
               <td>
                 <input type="email" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email">

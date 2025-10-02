@@ -3,7 +3,7 @@ import { FacilityService } from '../../../services/data/facility.service';
 import { Facility } from '../../../models/api/Facility';
 import { FacilityType } from '../../../models/api/FacilityType';
 import { ToastrService } from 'ngx-toastr';
-import { UrlPaths } from '../../../_common/konstanter/url-paths';
+import { UrlPaths } from '../../../_common/constants/url-paths';
 import { City } from 'src/app/models/api/City';
 import { CityService } from 'src/app/services/data/City.service';
 

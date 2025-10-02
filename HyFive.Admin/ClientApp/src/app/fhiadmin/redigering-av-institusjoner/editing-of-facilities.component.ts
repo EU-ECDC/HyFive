@@ -3,7 +3,7 @@ import { FacilityService } from '../../services/data/facility.service';
 import { Facility } from '../../models/api/Facility';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { QueryParameters } from '../../_common/konstanter/queryparameters';
+import { QueryParameters } from '../../_common/constants/queryparameters';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { User } from 'src/app/models/api/User';
 import { SearchHelper } from 'src/app/utils/searchHelper';

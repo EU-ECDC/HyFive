@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="col">
-      <h5>Activitytypes</h5>
+      <h5>Activity types</h5>
     </div>
   </div>
   <div class="col-12 m-3">     
@@ -30,7 +30,7 @@
                 <ng-container *ngIf="activitytypeAsChanged?.id === activityType.id">
                   <td>{{activitytypeAsChanged.code}}</td>
                   <td>
-                    <input type="text" autocomplete="off" class="form-control" [(ngModel)]="activitytypeAsChanged.name">
+                    <input type="text" autocomplete="off" class="form-control" [(ngModel)]="activitytypeAsChanged.name" (ngModelChange)="activitytypeAsChanged.name = $event.trim()">
                   </td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="saveActivitytype(activitytypeAsChanged)">

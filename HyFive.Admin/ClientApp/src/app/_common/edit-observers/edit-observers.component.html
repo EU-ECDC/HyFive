@@ -21,8 +21,8 @@
           </thead>
           <tbody>
             <tr *ngIf="newObserver != null">
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.firstName" name="firstName" (keypress)="omitSpecialChar($event)" placeholder="First name"></td>
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.lastName" name="lastName" (keypress)="omitSpecialChar($event)" placeholder="Last name"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.firstName" (ngModelChange)="newObserver.firstName = $event.trim()" name="firstName" (keypress)="omitSpecialChar($event)" placeholder="First name"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.lastName" (ngModelChange)="newObserver.lastName = $event.trim()" name="lastName" (keypress)="omitSpecialChar($event)" placeholder="Last name"></td>
               <td><input type="email" class="form-control" [(ngModel)]="newObserver.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
               <td></td>
               <td>
@@ -51,8 +51,8 @@
               </ng-container>
               
               <ng-container *ngIf="observerAsChanged?.id == observer.id">
-                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.firstName" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
-                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.lastName" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.firstName" (ngModelChange)="observerAsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.lastName" (ngModelChange)="observerAsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
                 <td><input type="email" class="form-control" [(ngModel)]="observerAsChanged.email" disabled (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="observerAsChanged.isDisabled" name="isDisabled">

@@ -37,7 +37,7 @@ namespace HyFive.Observation.Controllers.V1
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        [Authorize(HandhygienePolicy.Observer)]
+        //[Authorize(HandhygienePolicy.Observer)]
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> SaveSession([FromBody] FiveIndicationsSession session)

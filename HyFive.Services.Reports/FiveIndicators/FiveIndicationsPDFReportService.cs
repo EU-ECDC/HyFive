@@ -221,7 +221,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-Fire-indikasjoner-Avdelingsrapport-{report.Name}.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-Five-Indications-DepartmentReport-{report.Name}.pdf"
             };
 
             return pdfResult;

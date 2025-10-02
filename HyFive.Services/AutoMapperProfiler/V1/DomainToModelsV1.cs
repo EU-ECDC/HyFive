@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using HyFive.Domain.Observation;
 using HyFive.Domain.Observation.ProtectiveEquipment;
 using HyFive.Domain.Observation.Gloves;
@@ -34,7 +34,6 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.User.User, Models.V1.User.User>(MemberList.None)
                 .ForMember(dst => dst.FacilityId, opt => opt.MapFrom(b => b.Facility != null ? b.Facility.Id : 0))
                 .ForMember(dst => dst.IsDisabled, opt => opt.MapFrom(src => src.IsDeactivated));
-            CreateMap<Domain.User.UserAccessRequest, Models.V1.UserAccessRequest.UserAccessRequest>(MemberList.None);
             CreateMap<Domain.Place.Department, Models.V1.Facility.Department>(MemberList.None)
                 .ForMember(dst => dst.DepartmentTypeId, opt => opt.MapFrom(o => o.DepartmentType != null ? o.DepartmentType.Id : 0))
                 .ForMember(dst => dst.Roles, opt => opt.MapFrom(o => o.Roles.ToList()));
@@ -261,7 +260,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
         
         }
 
-        private static string GetObserverName(Observer observer)
+        private static string GetObserverName(ObserverUser observer)
         {
             return string.Join(" ", new[] { observer.FirstName, observer.LastName });
         }

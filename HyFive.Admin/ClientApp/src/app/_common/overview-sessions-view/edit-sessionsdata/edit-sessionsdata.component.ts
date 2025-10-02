@@ -42,8 +42,6 @@ export class EditSessionDataComponent implements OnInit {
         request.comment = this.sessionCopy.comment;
       }
 
-      console.log("Just before submitting Request:", request);
-
       this.sessionService.updateSession(request).subscribe((result) => {
         this.toastrService.success("Session data update was successful");
           if(this.hasChangedComment){

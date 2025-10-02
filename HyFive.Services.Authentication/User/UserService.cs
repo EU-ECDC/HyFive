@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ObserverUser = HyFive.Domain.User.User;
 
 namespace HyFive.Services.Authentication.User
 {
@@ -85,7 +86,7 @@ namespace HyFive.Services.Authentication.User
             => IsRole<Coordinator>(email);
 
         public bool IsObserver(string email)
-            => IsRole<Observer>(email);
+            => IsRole<ObserverUser>(email);
 
         public bool IsCoordinatorForFacility(int facilityId, string email)
             => IsRoleForFacility<Coordinator>(email, facilityId);
@@ -106,7 +107,7 @@ namespace HyFive.Services.Authentication.User
             => IsRoleForUser<Coordinator>(GetEmail(), userID);
 
         public bool IsObserverForFacility(string email, int facilityId)
-            => IsRoleForFacility<Observer>(email, facilityId);
+            => IsRoleForFacility<ObserverUser>(email, facilityId);
 
         public bool IsAdminOrCoordinator(string email)
         {
@@ -198,9 +199,9 @@ namespace HyFive.Services.Authentication.User
         {
             var email = GetEmail();
             return _context.User.AsNoTracking()
-                .OfType<Observer>()
+                .OfType<ObserverUser>()
                 .Include(o => o.Facility)
-                .Where(HasEmailAndIsActive<Domain.User.User>(email)).First(o => o.Facility.Id == facilityId)?.Id ?? 0;
+                .Where(HasEmailAndIsActive<ObserverUser>(email)).First(o => o.Facility.Id == facilityId)?.Id ?? 0;
         }
 
         public Expression<Func<TUser, bool>> HasEmailAndIsActive<TUser>(string email) where TUser : Domain.User.User
@@ -234,7 +235,7 @@ namespace HyFive.Services.Authentication.User
         {
             return _context.User.OfType<TRole>().AsNoTracking().Include(b => b.Facility)
                 .Where(HasEmailAndIsActive<TRole>(email))
-                .Any(b => b.Facility.Id == facilityId && b.Discriminator == GetDiscriminator<TRole>());
+                .Any(b => b.Facility.Id == facilityId /*&& b.Discriminator == GetDiscriminator<TRole>()*/);
         }
 
         private bool IsCoordinatorForCity(string email, int city)

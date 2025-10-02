@@ -15,7 +15,6 @@ export class UrlPaths {
   static changeFacility = 'changefacility';
   static facilities = 'fhiadmin/facilities';
   static fhiAdminOverview = 'fhiadmin/overview';
-  static request = 'coordinator/request';
   static email = 'fhiadmin/email';
   static reports = 'coordinator/reports';
   static fiveIndicationsCompliance = 'fiveindications/compliance';

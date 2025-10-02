@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router, Scroll } from "@angular/router";
 import { Urls } from "./constants/urls";
 import { UrlService } from "./services/events/url.service";
@@ -7,9 +7,7 @@ import { ViewportScroller } from "@angular/common";
 import { fromEvent, Subscription } from "rxjs";
 import { BrowserViewportService } from "./services/events/browser-viewport.service";
 import { AuthorizationService } from "./services/data/authorization.service";
-import { AuthorizedRole } from "./models/authorization/authorized-role";
 import { LoggedInUser } from "./models/api/LoggedInUser";
-import { AuthenticationEventService } from "./services/events/authentication-event.service";
 import { Localstoragepaths } from "./constants/localstoragepaths";
 
 @Component({
@@ -21,6 +19,7 @@ export class AppComponent implements OnInit {
   isMobile: boolean;
   isLoggedIn = false;
   user: LoggedInUser;
+  hasFacilities: boolean = false;
 
   siderMedInverterteFarger = [
     Urls.NotSentSessionsUrl,
@@ -70,8 +69,13 @@ export class AppComponent implements OnInit {
       if (this.isLoggedIn) {
         this.authorizationService.getUser().subscribe((user) => {
           this.user = user;
+          if (user.facilityIds?.length > 0) {
+            this.hasFacilities = true;
+          } else {
+            this.hasFacilities = false;
+          }
           if (
-            this.user.isObserver == false &&
+            !this.hasFacilities &&
             window.location.pathname !== Urls.LoginPageUrl
           ) {
             this.router.navigate([Urls.LoginPageUrl]);
@@ -94,7 +98,7 @@ export class AppComponent implements OnInit {
     }
 
   // Otherwise show main menu only if user is an Observer and we are not on the front page.
-    return this.user?.isObserver;
+    return ((this.user?.isObserver || this.user?.isCoordinator || this.user?.isFhiAdmin) && this.hasFacilities);
   }
   
   shouldShowAppBrand() {

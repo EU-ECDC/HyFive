@@ -7,7 +7,7 @@
         <div class="container">
           <div class="row">
             <div class="col-6 col-md-8">
-              <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newPredefinedComment.comment' placeholder="Comment">
+              <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newPredefinedComment.comment' (ngModelChange)="newPredefinedComment.comment = $event.trim()" placeholder="Comment">
             </div>
             <div class="col-6 col-md-4">
               <label></label>
@@ -38,7 +38,7 @@
               </ng-container>
               <ng-container *ngIf="predefinedCommentAsChanged?.id === predefinedComment.id">
                 <td class="col-8">
-                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="predefinedCommentAsChanged.comment">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="predefinedCommentAsChanged.comment" (ngModelChange)="predefinedCommentAsChanged.comment = $event.trim()">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon"
