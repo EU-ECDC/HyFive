@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, HostListener, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { faBars, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { MainMenuItem } from "./main-menu-item.model";
@@ -11,8 +11,9 @@ import { MenuParameters } from "../constants/menu-parameters";
   selector: "app-main-menu",
   templateUrl: "./main-menu.component.html",
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnChanges {
   @Input() projectName: string;
+  @Input() hasFacilities: boolean = false;
 
   faBars = faBars;
   faTimes = faTimes;
@@ -23,8 +24,9 @@ export class MainMenuComponent {
   mainMenuItems: MainMenuItem[] = [];
   
 
-  constructor(private mainMenuEventService: MainMenuEventService)
-  {
+  constructor(private mainMenuEventService: MainMenuEventService){}
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.loadMenuOptions();
   }
 
@@ -49,31 +51,43 @@ export class MainMenuComponent {
   }
 
   private loadMenuOptions(): void {
-    this.mainMenuItems = [
-      {
-        name: "Start Observation",
-        routerLink: `/${Urls.HomePageForObservationUrl}`,
-        exactRouteMatch: true,
-        icon: faHospital
-      },
-      {
-        name: "Unsent Sessions",
-        routerLink: `/${Urls.NotSentSessionsUrl}`,
-        exactRouteMatch: false,
-        icon: faClipboard
-      },
-      {
-        name: "Sent Sessions",
-        routerLink: `/${Urls.SentSessionsUrl}`,
-        exactRouteMatch: false,
-        icon: faInbox
-      },
-      {
-        name: "Profile",
-        routerLink: `/${Urls.ProfileUrl}`,
-        exactRouteMatch: true,
-        icon: faUser
-      },
-    ];
+    if (this.hasFacilities) {
+      this.mainMenuItems = [
+        {
+          name: "Start Observation",
+          routerLink: `/${Urls.HomePageForObservationUrl}`,
+          exactRouteMatch: true,
+          icon: faHospital
+        },
+        {
+          name: "Unsent Sessions",
+          routerLink: `/${Urls.NotSentSessionsUrl}`,
+          exactRouteMatch: false,
+          icon: faClipboard
+        },
+        {
+          name: "Sent Sessions",
+          routerLink: `/${Urls.SentSessionsUrl}`,
+          exactRouteMatch: false,
+          icon: faInbox
+        },
+        {
+          name: "Profile",
+          routerLink: `/${Urls.ProfileUrl}`,
+          exactRouteMatch: true,
+          icon: faUser
+        },
+      ];
+    } else {
+        this.mainMenuItems = [
+        {
+          name: "Profile",
+          routerLink: `/${Urls.ProfileUrl}`,
+          exactRouteMatch: true,
+          icon: faUser
+        }
+        ];
+      }
+
   }
 }
