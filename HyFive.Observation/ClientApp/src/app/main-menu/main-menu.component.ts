@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { faBars, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { MainMenuItem } from "./main-menu-item.model";
@@ -11,9 +11,8 @@ import { MenuParameters } from "../constants/menu-parameters";
   selector: "app-main-menu",
   templateUrl: "./main-menu.component.html",
 })
-export class MainMenuComponent implements OnChanges {
+export class MainMenuComponent {
   @Input() projectName: string;
-  @Input() hasFacilities: boolean = false;
 
   faBars = faBars;
   faTimes = faTimes;
@@ -24,11 +23,11 @@ export class MainMenuComponent implements OnChanges {
   mainMenuItems: MainMenuItem[] = [];
   
 
-  constructor(private mainMenuEventService: MainMenuEventService){}
-
-  ngOnChanges(changes: SimpleChanges): void {
+  constructor(private mainMenuEventService: MainMenuEventService){
     this.loadMenuOptions();
   }
+
+
 
   mainMenuClose(): void {
     this.mainMenuIsOpen = false;
@@ -51,7 +50,6 @@ export class MainMenuComponent implements OnChanges {
   }
 
   private loadMenuOptions(): void {
-    if (this.hasFacilities) {
       this.mainMenuItems = [
         {
           name: "Start Observation",
@@ -78,16 +76,5 @@ export class MainMenuComponent implements OnChanges {
           icon: faUser
         },
       ];
-    } else {
-        this.mainMenuItems = [
-        {
-          name: "Profile",
-          routerLink: `/${Urls.ProfileUrl}`,
-          exactRouteMatch: true,
-          icon: faUser
-        }
-        ];
-      }
-
   }
 }
