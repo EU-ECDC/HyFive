@@ -36,9 +36,9 @@ import { TransferSessionsComponent } from './coordinator/transfer-sessions/trans
 import { OverviewSessionsViewComponent } from './_common/overview-sessions-view/overview-sessions-view.component';
 import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefined-comments/edit-predefined-comments.component';
 import { EditingOfDepartmentTypesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-departmenttypes/editing-of-departmentstype.component';
-import { EditingClinicsComponent } from './coordinator/redigering-av-klinikker/editing-of-clinic.component';
-import { CreateClinicComponent } from './coordinator/redigering-av-klinikker/create-clinic/create-clinic.component';
-import { EditAClinicComponent } from './coordinator/redigering-av-klinikker/edit-a-clinic/edit-a-clinic.component';
+import { EditingUnitsComponent } from './coordinator/redigering-av-klinikker/editing-of-unit.component';
+import { CreateUnitComponent } from './coordinator/redigering-av-klinikker/create-unit/create-unit.component';
+import { EditAUnitComponent } from './coordinator/redigering-av-klinikker/edit-a-unit/edit-a-unit.component';
 import { RoleSelectionDropdownComponent } from './_common/app-role-selection-dropdown/app-role-selection-dropdown.component';
 import { EditingOfRolesComponent } from './fhiadmin/redigering-av-kodeverk/editing-of-roles/editing-of-roles.component';
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
@@ -111,9 +111,9 @@ export const httpInterceptorProviders = [
     OverviewSessionsViewComponent,
     EditingPredefinedCommentsComponent,
     EditingOfDepartmentTypesComponent,
-    EditingClinicsComponent,
-    CreateClinicComponent,
-    EditAClinicComponent,
+    EditingUnitsComponent,
+    CreateUnitComponent,
+    EditAUnitComponent,
     RoleSelectionDropdownComponent,
     IndicationSelectionComponent,
     ActivityChoiceDropdownComponent,
