@@ -1,7 +1,7 @@
 import { Session } from '../../models/api/Session';
 import { BaseSessionView } from '../../models/registration/base-sessionView.model';
 import { Observation } from '../../models/api/Observation';
-import { InstitutionService } from './InstitutionService';
+import { FacilityService } from './FacilityService';
 import {AjaxResponse} from 'rxjs/ajax';
 import { DateHelper } from 'src/app/utils/datehelper';
 
@@ -11,7 +11,7 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
   abstract sessionLocalStoragePath: string;
 
   constructor(
-    public institutionService: InstitutionService) {
+    public facilityService: FacilityService) {
   }
 
   protected saveSessionViews(sessionViews: TSessionView[]) {
@@ -121,13 +121,13 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
   protected async createSessionWithObservation(observation: TObservation) {
     let sessionView = this.getSessionViewForSession(observation.sessionId);
     let sessions = this.getSessions();
-    let institution = await this.institutionService.getInstitution(sessionView.department.institutionId).toPromise();
+    let facility = await this.facilityService.getFacility(sessionView.department.facilityId).toPromise();
     let newSession = {
       id: observation.sessionId,
       observations: [observation],
       createdDate: new Date(),
       department: sessionView.department,
-      institutionName: institution.name
+      facilityName: facility.name
     } as TSession;
     sessions.push(newSession);
     this.saveSessions(sessions);

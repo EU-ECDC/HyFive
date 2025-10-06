@@ -43,7 +43,7 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   alcohol: string = Activities.Alcohol;
   wash: string = Activities.Wash;
   fiveIndicationsSessionType: number = SessionType.FiveIndications;
-  institutionid: number;
+  facilityid: number;
 
   faEraser = faEraser;
   faSave = faSave;
@@ -81,7 +81,7 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
         this.activityUnderRegistration = activity;
       }
     })
-    this.institutionid = this.sessionView.department.institutionId;
+    this.facilityid = this.sessionView.department.facilityId;
   }
 
   deleteCard() {

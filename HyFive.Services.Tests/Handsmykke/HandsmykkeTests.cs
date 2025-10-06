@@ -42,7 +42,7 @@ namespace HyFive.Services.Tests.Handsmykke
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var department = DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First();
+        //    var department = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await OpprettSesjon(department);
         //    var hentetSesjonFraDatabase = await HentSesjon(opprettetSesjonGuid);
 
@@ -71,8 +71,8 @@ namespace HyFive.Services.Tests.Handsmykke
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var avdelingModell = Mapper.Map<Models.V1.Institution.Department>(department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institusjon = DatabaseContext.Institution.First(x => x.Id == avdelingModell.InstitutionId);
+            var avdelingModell = Mapper.Map<Models.V1.Facility.Department>(department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
+            var institusjon = DatabaseContext.Facility.First(x => x.Id == avdelingModell.FacilityId);
             var handsmykkeTyper = DatabaseContext.HandJewelryType.ToList();
 
             var lagreHandsmykkeSesjonHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
@@ -82,8 +82,8 @@ namespace HyFive.Services.Tests.Handsmykke
                 {
                     Id = sesjonId.ToString(),
                     Department = avdelingModell,
-                    InstitutionName = institusjon.Name,
-                    InstitutionId = institusjon.Id,
+                    FacilityName = institusjon.Name,
+                    FacilityId = institusjon.Id,
                     Observations = new List<HandJewelryObservation>()
                     {
                         new HandJewelryObservation()

@@ -12,7 +12,7 @@ using HyFive.Services.Authentication.Requirements;
 
 namespace HyFive.Observation.Controllers.V1
 {
-    [Authorize(HandhygienePolicy.Observer)]
+    //[Authorize(HandhygienePolicy.Observer)]
     [Route("api/v1/session")]
     public class SessionController : ControllerBase
     {

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using Microsoft.EntityFrameworkCore;
 using HandJewelrySession = HyFive.Models.V1.Session.HandJewelrySession;
 using HyFive.Models.V1.Constants;
@@ -39,10 +39,10 @@ namespace HyFive.Services.HandJewelry
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Verify that observer is an observer at the institution
+                // Verify that observer is an observer at the facility
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
-                    throw new Exception($"Did not find an observer with Email {request.Email} at institution with ID {request.Session.Department.InstitutionId}");
+                    throw new Exception($"Did not find an observer with Email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
 
                 var handJewelryTypes = _context.HandJewelryType.ToList();
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
@@ -81,19 +81,18 @@ namespace HyFive.Services.HandJewelry
                 return await _context.Department.Include(a => a.Roles).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution
+                var facility = await _context.Facility
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
-                if (institution == null)
-                    throw new Exception($"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                if (facility == null)
+                    throw new Exception($"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return institution
+                return facility
                     .Users
-                    .OfType<Observer>()
-                    .FirstOrDefault(_userService.HasEmailAndIsActive<Observer>(request.Email).Compile());
+                    .FirstOrDefault(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile());
             }
         }
     }

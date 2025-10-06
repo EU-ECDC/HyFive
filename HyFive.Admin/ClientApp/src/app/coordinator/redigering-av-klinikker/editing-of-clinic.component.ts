@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Department} from '../../models/api/Department';
-import { InstitutionService } from '../../services/data/institution.service';
+import { FacilityService } from '../../services/data/facility.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Clinic } from '../../models/api/Clinic';
 import { ClinicService } from '../../services/data/clinic.service';
-import { QueryParameters } from "../../_common/konstanter/queryparameters";
-import { Institution } from '../../models/api/Institution';
+import { QueryParameters } from "../../_common/constants/queryparameters";
+import { Facility } from '../../models/api/Facility';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
@@ -15,14 +15,14 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 export class EditingClinicsComponent implements OnInit {
 
   clinics: Clinic[] = [];
-  institutionName: string;
-  institutionId: number;
+  facilityName: string;
+  facilityId: number;
   clinicId = 0;
   clinicAsEdited: Clinic;
 
   loading: boolean = false;
 
-  constructor(private institutionService: InstitutionService,
+  constructor(private facilityService: FacilityService,
     private clinicService: ClinicService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -33,11 +33,11 @@ export class EditingClinicsComponent implements OnInit {
 
   getClinics() {
     this.loading = true;
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
-      this.institutionName = result.name;
-      this.institutionId = result.id;
-      this.clinicService.getClinicsForInstitution(this.institutionId).subscribe(clinics => {
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result: Facility) => {
+      this.facilityName = result.name;
+      this.facilityId = result.id;
+      this.clinicService.getClinicsForFacility(this.facilityId).subscribe(clinics => {
         this.loading = false;
         this.clinics = clinics;
         this.route.queryParams.subscribe(

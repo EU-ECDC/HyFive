@@ -1,0 +1,45 @@
+﻿using System.Threading;
+using System.Threading.Tasks;
+using HyFive.DataAccess;
+using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.Session;
+using MediatR;
+using PredefinedComment = HyFive.Domain.Place.PredefinedComment;
+
+namespace HyFive.Services.Facility
+{
+    public class CreatePredefinedComment
+    {
+        public class Command : IRequest<bool>
+        {
+            public CreatePredefinedCommentRequest NewPredefinedComment { get; set; }
+            public int FacilityId { get; set; }
+            public SessionType SessionType { get; set; } = SessionType.ProtectiveEquipment;
+
+        }
+
+        public class Handler : IRequestHandler<Command, bool>
+        {
+            private readonly HandHygieneContext _context;
+
+            public Handler(HandHygieneContext context)
+            {
+                _context = context;
+            }
+            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var comment = new PredefinedComment
+                {
+                    FacilityId = request.FacilityId,
+                    Comment = request.NewPredefinedComment.Comment,
+                    SessionType = (Domain.Place.SessionType)request.SessionType
+                };
+
+                _context.Add(comment);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return true;
+            }
+        }
+    }
+}

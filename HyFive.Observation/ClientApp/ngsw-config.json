@@ -32,9 +32,9 @@
   ],
   "dataGroups": [
     {
-      "name": "institution",
+      "name": "facility",
       "urls": [
-        "api/v1/institution"
+        "api/v1/facility"
       ],
       "cacheConfig": {
         "strategy": "freshness",

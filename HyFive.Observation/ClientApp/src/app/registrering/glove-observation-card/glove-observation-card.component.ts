@@ -15,8 +15,8 @@ import { GloveWithIndicationTypeService } from "../../services/data/glove-with-i
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { GloveWithoutIndicationTypeService } from "../../services/data/glove-without-indication-type.service";
 import { GloveWithoutIndicationType } from "../../models/api/GloveWithoutIndicationType";
-import { HandHygieneAfterGloveUseTypeService } from "../../services/data/hand-hygiene-after-glove-useType-service";
-import { HandHygieneAfterGloveUseType } from "../../models/api/HandHygieneAfterGloveUseType";
+import { PostGloveHandHygieneTypeService } from "../../services/data/post-glove-hand-hygiene-type-service";
+import { PostGloveHandHygieneType } from "../../models/api/PostGloveHandHygieneType";
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from "src/app/models/api/SessionType";
 
@@ -47,12 +47,12 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   roles: Role[];
   gloveWithIndicationTypes: GloveWithIndicationType[] = [];
   gloveWithoutIndicationTypes: GloveWithoutIndicationType[] = [];
-  handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[] = [];
+  postGloveHandHygieneTypes: PostGloveHandHygieneType[] = [];
   activeTab = "with";
   glovesUsed = null;
   selectedHandHygieneAfterGlovesUsed = null;
   glovesSessionType: number = SessionType.Gloves;
-  institutionid: number;
+  facilityid: number;
   
   uuid: string;
 
@@ -68,7 +68,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   constructor(
     private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
     private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
-    private handHygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
+    private postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
     protected modalService: NgbModal
   ) {
     super(modalService);
@@ -81,11 +81,11 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
     this.gloveWithoutIndicationTypeService.getGloveWithoutIndicationTypes().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
-    this.handHygieneAfterGloveUseTypeService.getHandhygieneAfterGloveUseTypes().subscribe((handHygieneAfterGloveUseTypes) => {
-      this.handHygieneAfterGloveUseTypes = handHygieneAfterGloveUseTypes;
+    this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.sort((a, b) => a.id - b.id);
     });
     this.uuid = Uuid.generateUUID();
-    this.institutionid = this.sessionView.department.institutionId;
+    this.facilityid = this.sessionView.department.facilityId;
   }
 
   deleteCard() {
@@ -162,7 +162,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       gloveWithIndicationTypes: this.gloveWithIndicationTypes.filter(x => x.isSelected),
       gloveWithoutIndicationTypes: this.gloveWithoutIndicationTypes.filter(x => x.isSelected),
       glovesUsed: this.glovesUsed,
-      handHygieneAfterGloveUseType: this.glovesUsed ? this.handHygieneAfterGloveUseTypes.find(x => x.code === this.selectedHandHygieneAfterGlovesUsed) : null,
+      postGloveHandHygieneType: this.glovesUsed ? this.postGloveHandHygieneTypes.find(x => x.code === this.selectedHandHygieneAfterGlovesUsed) : null,
     } as GloveObservation;
 
     this.observationRegister.emit(observation);

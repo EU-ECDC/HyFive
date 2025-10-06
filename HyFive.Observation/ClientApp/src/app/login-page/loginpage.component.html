@@ -12,49 +12,11 @@
 
     <div class="col-12" *ngIf="user?.name && isOnline">
       <p class="mb-2">Hello, {{user.name}}. </p>
-      <p *ngIf="user?.isObserver">Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool.</p>
+      <p>Welcome to the ECDC HyFive Hand Hygiene Monitoring Tool.</p>
     </div>
   </div>
 
   <ng-container *ngIf="receivedUserStatusFromServer">
-
-    <div *ngIf="isOnline && (isLoggedIn == false || user?.isObserver == false) && showRequestRegistration" class="row">
-      <div class="col-lg-6">
-        <div *ngIf="user?.isObserver == false">
-          You are not registered as a user of ECDC. Select an institution in the list and click "Register".
-          <div class="row my-4">
-            <div class="col-12">
-              <h5>Select institution:</h5>
-              <div class="form-group">
-                <select class="form-select form-control-lg bg-white mb-2"
-                        name="institution" id="institutions"
-                        [(ngModel)]="selectedInstitution">
-                  <option [ngValue]="null"></option>
-                  <option *ngFor="let institution of institutions" [ngValue]="institution">{{institution.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="row">
-                <div class="col-6"><button class="btn fhi-btn-primary" [disabled]="selectedInstitution == null" (click)="sendRequest()">Register</button></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <ng-container *ngIf="!showRequestRegistration">
-      <div class="col-lg-6 alert-success p-2" *ngIf="showRequestIsRegistered">
-        Your request has been submitted for approval.
-      </div>
-      <div class="col-lg-6 alert-info p-2" *ngIf="showRequestAwaitingApproval">
-        Your user access request has been sent to {{institution?.name}}. It is awaiting approval.
-      </div>
-    </ng-container>
-    <div *ngIf="showErrorMessage" class="row">
-      <p class="col-lg-6 alert-danger p-2">We could not create you as a user. Send email to <a href="mailto:ecdc@fhi.no">ecdc&#64;fhi.no</a>  </p>
-    </div>
-
     <div class="row" *ngIf="isOnline && isLoggedIn == false">
       <div class="col-lg-4">
         <p *ngIf="isLoggedIn == false">You are not logged in. <br />
@@ -64,41 +26,26 @@
         </a>
       </div>
     </div>
-    <ng-container *ngIf="isOnline && isLoggedIn && user?.isObserver">
+    <ng-container *ngIf="isOnline && isLoggedIn">
       <div class="row mt-3 word">
         <div class="col">
-          <p>Read more about <a href="https://www.fhi.no/sv/forebygging-i-helsetjenesten/handhygiene/ecdc/" target="_blank">ECDC</a> at fhi.no. Questions can be sent to <a href="mailto:HAI-Net@ecdc.europa.eu​"> HAI-Net&#64;ecdc.europa.eu​</a>.</p>
+          <p>Find more information about ECDC HyFive at <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. Questions or inquiries can be directed to<a href="mailto:HAI-Net@ecdc.europa.eu​"> HAI-Net&#64;ecdc.europa.eu​</a>.</p>
           <p class="mb-4"><a href="https://www.fhi.no/nettpub/ecdc/generelt-om-losningen2/personvernerklaring-for-ecdc/" target="_blank">Open the privacy policy</a></p>
         </div>
       </div>
-      <div class="row">
+      <div *ngIf="hasFacilities; else noFacilities" class="row">
         <div class="col-lg-8">
           <a [routerLink]="'/register'" class="btn fhi-btn-primary w-100">
             Start observation
           </a>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-lg-8">
-          <button class="btn fhi-btn-secondary w-100" (click)="showPseudonym()">Show pseudonym</button>
-        </div>
-      </div> -->
+      <ng-template #noFacilities>
+        <p><strong>Υou are not registered as an observer to a healthcare facility and therefore do not have access to the observation module. Contact the coordinator at your facility for access.</strong></p>
+      </ng-template>
+      
     </ng-container>
   </ng-container>
-  <!-- <ng-container *ngIf="isShowPseudonym">
-    <app-pseudonym [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)">
-      <p class="text-break">
-        <small><strong>Pseudonym:</strong> {{user?.identityPseudonym}}</small>
-      </p>
-      <p>
-        <button class="btn fhi-btn-icon" (click)="copyPseudonymClick()">
-          <i class="icon-clipboard2"></i>
-          Copy pseudonym<span class="d-none d-sm-inline"> to clipboard</span>
-        </button>
-      </p>
-      <p>Pseudonym is only used to gain access to other institutions</p>
-    </app-pseudonym>
-  </ng-container> -->
   <div class="row" *ngIf="isLoggedIn">
     <div class="col-lg-4 mt-3">
       <button class="btn fhi-btn-secondary" (click)="logout()">Log out</button>

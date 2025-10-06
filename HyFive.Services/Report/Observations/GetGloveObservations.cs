@@ -21,8 +21,8 @@ namespace HyFive.Services.Report.Observations
             public int? DepartmentId { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public List<int> InstitutionIds { get; set; }
-            public int? InstitutionId { get; set; }
+            public List<int> FacilityIds { get; set; }
+            public int? FacilityId { get; set; }
             public DateTime? FromDate { get; set; }
             public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -43,7 +43,7 @@ namespace HyFive.Services.Report.Observations
             {
                 var queryable = _context.GloveObservation
                     .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.GloveSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility)
                     .Include(fo => fo.PostGloveHandHygieneType)
                     .Include(fo => fo.GloveWithIndicationTypes)
                     .Include(fo => fo.GloveWithIndicationTypes)
@@ -68,9 +68,9 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.GloveSession.Department.Id == query.DepartmentId);
                 }
 
-                if (query.InstitutionIds != null && query.InstitutionIds.Any())
+                if (query.FacilityIds != null && query.FacilityIds.Any())
                 {
-                    queryable = queryable.Where(o => query.InstitutionIds.Contains(o.GloveSession.Department.InstitutionId));
+                    queryable = queryable.Where(o => query.FacilityIds.Contains(o.GloveSession.Department.FacilityId));
                 }
 
                 if (query.ObserverId > 0)
@@ -85,12 +85,14 @@ namespace HyFive.Services.Report.Observations
 
                 if (query.FromDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date >= query.FromDate.Value.Date);
+                    var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Value.Date, DateTimeKind.Utc);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date >= fromDateUtc);
                 }
-                
+
                 if (query.ToDate != null)
                 {
-                    queryable = queryable.Where(o => o.RegisteredTime.Date <= query.ToDate.Value.Date);
+                    var toDateUtc = DateTime.SpecifyKind(query.ToDate.Value.Date, DateTimeKind.Utc);
+                    queryable = queryable.Where(o => o.RegisteredTime.Date <= toDateUtc);
                 }
 
                 return await queryable

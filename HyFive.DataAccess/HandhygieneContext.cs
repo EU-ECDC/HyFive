@@ -24,10 +24,9 @@ namespace HyFive.DataAccess
         public DbSet<Coordinator> Coordinator { get; set; }
         public DbSet<Observer> Observer { get; set; }
         public DbSet<Admin> Admin { get; set; }
-        public DbSet<UserAccessRequest> UserAccessRequest { get; set; }
         public DbSet<TransferStatusType> TransferStatusType { get; set; }
-        public DbSet<Institution> Institution { get; set; }
-        public DbSet<InstitutionType> InstitutionType { get; set; }
+        public DbSet<Facility> Facility { get; set; }
+        public DbSet<FacilityType> FacilityType { get; set; }
         public DbSet<DepartmentType> DepartmentType { get; set; }
         public DbSet<PredefinedComment> PredefinedComment { get; set; }
         public DbSet<Department> Department { get; set; }
@@ -39,7 +38,6 @@ namespace HyFive.DataAccess
         public DbSet<GloveWithoutIndicationType> GloveWithoutIndicationType { get; set; }
         public DbSet<HandHygieneAfterGloveUseType> HandHygieneAfterGloveUseType { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
-        public DbSet<Region> Region { get; set; }
         public DbSet<FiveIndicationsObservation> FiveIndicationsObservation { get; set; }
         public DbSet<GloveObservation> GloveObservation { get; set; }
         public DbSet<HandJewelryObservation> HandJewelryObservation { get; set; }
@@ -47,9 +45,7 @@ namespace HyFive.DataAccess
         public DbSet<Activity> Activity { get; set; }
         public DbSet<IndicationTypes> IndicationTypes { get; set; }
         public DbSet<MisuseType> MisuseType { get; set; }
-        public DbSet<HealthcareOrganization> HealthcareOrganization { get; set; }
-        public DbSet<RegionaltHealthcareOrganization> RegionalHealthcareOrganization { get; set; }
-        public DbSet<Municipality> Municipality { get; set; }
+        public DbSet<City> City { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -95,10 +91,10 @@ namespace HyFive.DataAccess
             mb.Entity<HandJewelryType>().HasIndex(ht => ht.Code).IsUnique();
             mb.Entity<HandJewelryType>().Property(ht => ht.Name).HasMaxLength(100);
 
-            mb.Entity<InstitutionType>().Property(it => it.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<InstitutionType>().HasIndex(it => it.Code).IsUnique();
-            mb.Entity<InstitutionType>().Property(it => it.Name).HasMaxLength(100);
-            mb.Entity<InstitutionType>().HasIndex(it => it.Name);
+            mb.Entity<FacilityType>().Property(it => it.Code).HasMaxLength(50).IsRequired();
+            mb.Entity<FacilityType>().HasIndex(it => it.Code).IsUnique();
+            mb.Entity<FacilityType>().Property(it => it.Name).HasMaxLength(100);
+            mb.Entity<FacilityType>().HasIndex(it => it.Name);
 
             mb.Entity<DepartmentType>().Property(at => at.Code).HasMaxLength(50).IsRequired();
             mb.Entity<DepartmentType>().HasIndex(at => at.Code).IsUnique();
@@ -133,22 +129,17 @@ namespace HyFive.DataAccess
             mb.Entity<HandHygieneAfterGloveUseType>().HasIndex(h => h.Code).IsUnique();
             mb.Entity<HandHygieneAfterGloveUseType>().Property(h => h.Name).HasMaxLength(100);
             mb.Entity<HandHygieneAfterGloveUseType>().HasIndex(h => h.Name);
-            
-
-            mb.Entity<Region>().Property(rt => rt.Code).HasMaxLength(50).IsRequired();
-            mb.Entity<Region>().HasIndex(rt => rt.Code).IsUnique();
-            mb.Entity<Region>().Property(rt => rt.Name).HasMaxLength(100);
-            mb.Entity<Region>().HasIndex(rt => rt.Name);
+       
 
             mb.Entity<MisuseType>().Property(i => i.Name).HasMaxLength(100);
             mb.Entity<MisuseType>().HasIndex(i => i.Name);
 
-            mb.Entity<Institution>().Property(i => i.Name).HasMaxLength(250);
-            mb.Entity<Institution>().HasIndex(i => i.Name);
-            mb.Entity<Institution>().Property(i => i.HERId).HasMaxLength(50);
-            mb.Entity<Institution>().Property(i => i.Abbreviation).HasMaxLength(250);
-            mb.Entity<Institution>().HasIndex(i => i.Abbreviation);
-            mb.Entity<Institution>().HasIndex(i => i.HERId);
+            mb.Entity<Facility>().Property(i => i.Name).HasMaxLength(250);
+            mb.Entity<Facility>().HasIndex(i => i.Name);
+            mb.Entity<Facility>().Property(i => i.HERId).HasMaxLength(50);
+            mb.Entity<Facility>().Property(i => i.Abbreviation).HasMaxLength(250);
+            mb.Entity<Facility>().HasIndex(i => i.Abbreviation);
+            mb.Entity<Facility>().HasIndex(i => i.HERId);
 
             mb.Entity<PredefinedComment>().Property(pk => pk.Comment).HasMaxLength(1000);
 
@@ -160,17 +151,11 @@ namespace HyFive.DataAccess
 
             mb.Entity<User>().Property(b => b.FirstName).HasMaxLength(100).IsRequired();
             mb.Entity<User>().Property(b => b.LastName).HasMaxLength(100).IsRequired();
-            mb.Entity<User>().Property(b => b.Email).HasMaxLength(500);
+            mb.Entity<User>().Property(b => b.Email).HasMaxLength(500).IsRequired();
             mb.Entity<User>().Property(b => b.IdentityPseudonym).HasMaxLength(100);
             mb.Entity<User>().Property(b => b.HPRNumber).HasMaxLength(50);
             mb.Entity<User>().HasIndex(b => b.IdentityPseudonym);
             mb.Entity<User>().HasIndex(b => b.HPRNumber);
-
-            mb.Entity<UserAccessRequest>().Property(b => b.UserFirstName).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.UserLastName).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.IdentityPseudonym).HasMaxLength(100).IsRequired();
-            mb.Entity<UserAccessRequest>().Property(b => b.HPRNumber).HasMaxLength(50);
-            mb.Entity<UserAccessRequest>().HasIndex(b => b.Status);
 
             mb.Entity<ProtectiveEquipmentSettingTypeProtectiveEquipmentType>()
                 .HasKey(bu => new { bu.ProtectiveEquipmentTypeId, bu.ProtectiveEquipmentSettingTypeId });
@@ -183,12 +168,8 @@ namespace HyFive.DataAccess
                 .WithMany(c => c.ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes)
                 .HasForeignKey(bc => bc.ProtectiveEquipmentSettingTypeId);
 
-            mb.Entity<HealthcareOrganization>().Property(h => h.Name).HasMaxLength(250).IsRequired();
+            mb.Entity<City>().Property(h => h.Name).HasMaxLength(250).IsRequired();
 
-            mb.Entity<RegionaltHealthcareOrganization>().Property(rh => rh.Name).HasMaxLength(50);
-
-            mb.Entity<Municipality>().Property(k => k.Number).HasMaxLength(4);
-            mb.Entity<Municipality>().Property(k => k.Name).HasMaxLength(100);
         }
     }
 }

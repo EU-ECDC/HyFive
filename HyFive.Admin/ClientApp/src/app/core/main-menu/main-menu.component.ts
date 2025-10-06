@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MainMenuItem } from './main-menu-item.model';
-import { UrlPaths } from '../../_common/konstanter/url-paths';
+import { UrlPaths } from '../../_common/constants/url-paths';
 import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../_common/services/authorization.service';
 import { RoleEventService } from 'src/app/services/events/role-event.service';
@@ -113,7 +113,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Healthcare Facilities',
-        routerLink: `/${UrlPaths.editingByInstitutions}`,
+        routerLink: `/${UrlPaths.editingByFacilities}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
@@ -147,19 +147,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Requests',
-        routerLink: `/${UrlPaths.request}`,
-        roles: [AuthorizedRole.Coordinator]
-      },
-      {
         name: 'Predefined comments',
         routerLink: `/${UrlPaths.editingPredefinedComments}`,
         roles: [AuthorizedRole.Coordinator]
-      },
-      {
-        name: 'Health Care Organization',
-        routerLink: `/${UrlPaths.healthcareOrganization}`,
-        roles: [AuthorizedRole.Administrator]
       },
       {
         name: 'Email',

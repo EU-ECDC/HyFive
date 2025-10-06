@@ -46,7 +46,7 @@ export class EditingProtectiveEquipmentTypeComponent implements OnInit, OnDestro
     this.equipmentTypeAsChanged = JSON.parse(JSON.stringify(equipmentType));
   }
 
-  oppdaterUtstyrtype(equipmentType: ProtectiveEquipmentTypeq): void {
+  updateProtectiveEquipmentType(equipmentType: ProtectiveEquipmentTypeq): void {
     this.protectiveEquipmentTypeqsService.updateProtectiveEquipmentTypes(equipmentType).subscribe(
       (updatedEquipmenttype) => {
         this.toastrService.success("Protective equipment type updated");

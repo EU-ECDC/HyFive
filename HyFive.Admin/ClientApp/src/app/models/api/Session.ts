@@ -10,7 +10,7 @@ export interface Session<TObservation>
 	department: Department;
 	createdDate: Date;
 	observations?: TObservation[];
-	institutionName?: string;
-	institutionId?: number;
+	facilityName?: string;
+	facilityId?: number;
 	comment?: string;
 }

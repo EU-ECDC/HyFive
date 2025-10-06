@@ -15,10 +15,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.SeedController.SeedInstitutions">
+        <member name="M:HyFive.Admin.Controllers.SeedController.SeedFacilities">
             <summary>
-            Seeds a limited set of institutions, InstitutionTypes, departments, DepartmentTypes, Roles, and Users.
-            If you need more than this, you can run the SQL script "HyFive.DataAccess\Scripts\Institutions, departments, etc.sql".
+            Seeds a limited set of facilities, FacilitiesTypes, departments, DepartmentTypes, Roles, and Users.
+            If you need more than this, you can run the SQL script "HyFive.DataAccess\Scripts\Facilities, departments, etc.sql".
             NOTE: You must use EITHER this API method OR the script.
             </summary>
             <returns></returns>
@@ -28,23 +28,23 @@
             Get Clinic
             </summary>
             <param name="id"></param>
-            <param name="institutionId"></param>
+            <param name="facilityId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.GetClinicsForInstitution(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.GetClinicsForFacility(System.Int32)">
             <summary>
-            Get Clinics For Institution
+            Get Clinics For Facility
             </summary>
-            <param name="institutionId"></param>
+            <param name="facilityId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.CreateClinic(HyFive.Models.V1.Institution.Clinic)">
+        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.CreateClinic(HyFive.Models.V1.Facility.Clinic)">
             <summary>
             Create clinic
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.UpdateClinic(HyFive.Models.V1.Institution.Clinic)">
+        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.UpdateClinic(HyFive.Models.V1.Facility.Clinic)">
             <summary>
             Update clinic
             </summary>
@@ -61,6 +61,30 @@
             Updating an activity type
             </summary>
             <param name="activityType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HyFive.Admin.Controllers.V1.FacilityTypesController">
+            <summary>
+            FacilityTypes
+            </summary>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityTypesController.GetFacilityTypes">
+            <summary>
+            Get FacilityTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityTypesController.UpdateFacilityType(HyFive.Models.V1.Facility.FacilityType)">
+            <summary>
+            update FacilityType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityTypesController.CreateFacilityType(HyFive.Models.V1.Facility.CreateFacilityTypeRequest)">
+            <summary>
+            Create FacilityType
+            </summary>
+            <param name="facilityType"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.GloveWithIndicationTypeController.GetGloveWithIndicationTypes">
@@ -132,50 +156,26 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:HyFive.Admin.Controllers.V1.InstitutionTypesController">
-            <summary>
-            InstitutionTypes
-            </summary>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionTypesController.GetInstitutionTypes">
-            <summary>
-            Get InstitutionTypes
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionTypesController.UpdateInstitutionType(HyFive.Models.V1.Institution.InstitutionType)">
-            <summary>
-            update InstitutionType
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionTypesController.CreateInstitutionType(HyFive.Models.V1.Institution.CreateInstitutionTypeRequest)">
-            <summary>
-            Create InstitutionType
-            </summary>
-            <param name="institutionType"></param>
-            <returns></returns>
-        </member>
         <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.GetPredefinedComments(System.Int32)">
             <summary>
             Get PredefinedComment
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.UpdatePredefinedComment(System.Int32,HyFive.Models.V1.Institution.PredefinedComment)">
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.UpdatePredefinedComment(System.Int32,HyFive.Models.V1.Facility.PredefinedComment)">
             <summary>
             Update Predefined Comment
             </summary>
             <param name="predefinedComment"></param>
-            <param name="institutionId"></param>
+            <param name="facilityId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.CreatePredefinedComment(System.Int32,HyFive.Models.V1.Institution.CreatePredefinedCommentRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.PredefinedCommentController.CreatePredefinedComment(System.Int32,HyFive.Models.V1.Facility.CreatePredefinedCommentRequest)">
             <summary>
             Create Predefined Comment
             </summary>
             <param name="newPredefinedComment"></param>
-            <param name="institutionId"></param>
+            <param name="facilityId"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.ProtectiveEquipmentSettingTypesController.GetProtectiveEquipmentSettingTypes">
@@ -233,28 +233,28 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.CreateDepartment(HyFive.Models.V1.Institution.CreateDepartmentRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.CreateDepartment(HyFive.Models.V1.Facility.CreateDepartmentRequest)">
             <summary>
             Create department with roles
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.UpdateDepartment(HyFive.Models.V1.Institution.Department)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.UpdateDepartment(HyFive.Models.V1.Facility.Department)">
             <summary>
             Update department 
             </summary>
             <param name="department"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.CreateDepartmentType(HyFive.Models.V1.Institution.DepartmentType)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.CreateDepartmentType(HyFive.Models.V1.Facility.DepartmentType)">
             <summary>
             Create department type
             </summary>
             <param name="departmentType"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.UpdateDepartmentType(HyFive.Models.V1.Institution.DepartmentType)">
+        <member name="M:HyFive.Admin.Controllers.V1.DepartmentController.UpdateDepartmentType(HyFive.Models.V1.Facility.DepartmentType)">
             <summary>
             Update department type
             </summary>
@@ -282,77 +282,77 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetInstitutions">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetFacilities">
             <summary>
-            Get all available institutions <see cref="T:HyFive.Models.V1.Institution.InstitutionReport"/>
+            Get all available facilities <see cref="T:HyFive.Models.V1.Facility.FacilityReport"/>
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetInstitution(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetFacility(System.Int32)">
             <summary>
-            Get institution
+            Get facility
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetComplianceInstitutions(System.Collections.Generic.List{System.Int32})">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetComplianceFacilities(System.Collections.Generic.List{System.Int32})">
             <summary>
-            Get compliance institutions
+            Get compliance facilities
             </summary>
-            <param name="ids">The list of institution IDs to fetch.</param>
-            <returns>Returns a list of matching institutions if authorized; otherwise Unauthorized.</returns>
+            <param name="ids">The list of facility IDs to fetch.</param>
+            <returns>Returns a list of matching facilities if authorized; otherwise Unauthorized.</returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetDepartments(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetDepartments(System.Int32)">
             <summary>
-            Get all departments belonging to the institution
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetObservators(System.Int32)">
-            <summary>
-            Get all observers belonging to the institution
+            Get all departments belonging to the facility
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetCoordinators(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetObservators(System.Int32)">
             <summary>
-            Get all coordinators belonging to the institution
+            Get all observers belonging to the facility
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.GetInstitutionTypes">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetCoordinators(System.Int32)">
             <summary>
-            Get Institution Types  <see cref="T:HyFive.Models.V1.Institution.InstitutionType"/>r
+            Get all coordinators belonging to the facility
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.GetFacilityTypes">
+            <summary>
+            Get Facility Types  <see cref="T:HyFive.Models.V1.Facility.FacilityType"/>r
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.CreateInstitution(HyFive.Models.V1.Institution.CreateInstitutionRequest)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.CreateFacility(HyFive.Models.V1.Facility.CreateFacilityRequest)">
             <summary>
-            Create institution with coordinator.
+            Create facility with coordinator.
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.UpdateInstitution(HyFive.Models.V1.Institution.Institution)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.UpdateFacility(HyFive.Models.V1.Facility.Facility)">
             <summary>
-            Updating an institution. Ignoring any departments or roles that are sent with it.
+            Updating an facility. Ignoring any departments or roles that are sent with it.
             </summary>
-            <param name="institution"></param>
+            <param name="facility"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.InstitutionController.DeleteInstitution(System.Int32)">
+        <member name="M:HyFive.Admin.Controllers.V1.FacilityController.DeleteFacility(System.Int32)">
             <summary>
-            Delete institution and all associated sessions, observations, departments, roles, and users
+            Delete facility and all associated sessions, observations, departments, roles, and users
             </summary>
-            <param name="institutionId"></param>
+            <param name="facilityId"></param>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetInstitutionsWithSessions(System.String,System.Nullable{HyFive.Models.V1.Session.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetFacilitiesWithSessions(System.String,System.Nullable{HyFive.Models.V1.Session.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},HyFive.Services.AuthorizedRole)">
             <summary>
-            Create report for institution(s) <see cref="T:HyFive.Models.V1.Overview.InstitutionOverviewReport"/>
+            Create report for facilities <see cref="T:HyFive.Models.V1.Overview.FacilityOverviewReport"/>
             </summary>
             <returns></returns>
         </member>
@@ -362,9 +362,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetSessionsForInstitution(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Models.V1.Session.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetSessionsForFacility(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Models.V1.Session.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
-            Get all sessions for an institution <see cref="T:HyFive.Models.V1.Overview.SessionOverviewReport"/>
+            Get all sessions for an facility <see cref="T:HyFive.Models.V1.Overview.SessionOverviewReport"/>
             </summary>
             <returns></returns>
         </member>
@@ -372,32 +372,6 @@
             <summary>
             Send/transfer session to FHI
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.GetRegionTypes">
-            <summary>
-            Get Region Types
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.GetRegion(System.Int32)">
-            <summary>
-            Get Region type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.CreateRegionType(HyFive.Models.V1.Institution.CreateRegionRequest)">
-            <summary>
-            Create Region type
-            </summary>
-            <param name="newRegionType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.RegionController.OppdaterRegionType(HyFive.Models.V1.Institution.Region)">
-            <summary>
-            Update Region type
-            </summary>
-            <param name="regionType"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.ReportController.CreateGloveReportAsExcel(GloveReportRequest)">
@@ -444,7 +418,7 @@
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.ReportController.ReportForSessionTypeHasData(HyFive.Models.V1.Session.ReportForSessionTypeHasDataRequest)">
             <summary>
-            Checks if there is report data for a given session type, institutions, and (optionally) departments.
+            Checks if there is report data for a given session type, facilities, and (optionally) departments.
             </summary>
             <param name="request">The request body.</param>
             <returns>True if data exists, otherwise false.</returns>
@@ -467,18 +441,6 @@
             Update role
             </summary>
             <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.UserAccessRequestController.GetAllRequests(System.Int32)">
-            <summary>
-            Getting all requests for user access.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.UserAccessRequestController.GetPendingApprovalRequests(System.Int32)">
-            <summary>
-            Getting requests that are not approved.
-            </summary>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.UserController.UpdateObserver(HyFive.Models.V1.User.User)">

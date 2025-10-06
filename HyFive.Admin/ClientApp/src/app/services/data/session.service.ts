@@ -11,8 +11,8 @@ export class SessionService {
 
   constructor(private readonly http: HttpClient) { }
 
-  deleteSession(sessionId: string, institutionId: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/session/delete/${sessionId}?institutionId=${institutionId}`;
+  deleteSession(sessionId: string, facilityId: number): Observable<boolean> {
+    const url = `${environment.apiBaseUrl}/v1/session/delete/${sessionId}?facilityId=${facilityId}`;
     return this.http.delete<boolean>(url);
   }
 

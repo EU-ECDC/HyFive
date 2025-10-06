@@ -8,7 +8,7 @@ import { DepartmentType } from './DepartmentType';
 export interface Department
 {
 	id: number;
-	institutionId: number;
+	facilityId: number;
 	departmentTypeId: number;
 	name: string;
 	roles: Role[];

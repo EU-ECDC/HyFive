@@ -1,6 +1,6 @@
 export interface DownloadExcelModel {
     departmentIds: number [],
-    institutionIds: number [],
+    facilityIds: number [],
     fromDate: Date,
     toDate: Date,
     role: number

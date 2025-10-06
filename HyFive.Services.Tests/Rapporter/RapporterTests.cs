@@ -24,8 +24,8 @@ namespace HyFive.Services.Tests.Rapporter
         //    var logger = new Mock<ILogger<SaveSession.Handler>>();
         //    var rolleSomTestes = "Lege";
         //    var hentAvdelingHandler =
-        //        new GetDepartmentsForInstitution.Handler(DatabaseContext, Mapper);
-        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForInstitution.Query(){HealthcareOrganizationId = 1}, CancellationToken.None)).First();
+        //        new GetDepartmentsForFacility.Handler(DatabaseContext, Mapper);
+        //    var enAvdeling = (await hentAvdelingHandler.Handle(new GetDepartmentsForFacility.Query(){CityId = 1}, CancellationToken.None)).First();
 
         //    var hentAktivitettyperHandler =
         //        new GetActivityTypes.Handler(DatabaseContext, Mapper);

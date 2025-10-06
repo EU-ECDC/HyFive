@@ -86,7 +86,7 @@
             <h3 class="h5 text-center">Hand hygiene after using gloves?</h3>
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
-                <ng-container *ngFor="let type of handHygieneAfterGloveUseTypes">
+                <ng-container *ngFor="let type of postGloveHandHygieneTypes">
                   <input type="radio" class="btn-check fhi-btn-group__check" id="btnradio-{{type.name}}-{{uuid}}" name="gloveUse-name-{{uuid}}" [value]="type.code" [(ngModel)]="selectedHandHygieneAfterGlovesUsed" />
                   <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}-{{uuid}}">{{type.name}}</label>
                 </ng-container>
@@ -97,12 +97,12 @@
 
         <div class=" d-flex flex-row mt-2 justify-content-around">
           <app-register-comment [commentInput]="comment"
-                                [institutionid]="institutionid"
+                                [facilityid]="facilityid"
                                 [sessiontype]="glovesSessionType"
                                 (commentRegisteredEvent)="registerComment($event)">
           </app-register-comment>
           <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Empty card</span>
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Clear card</span>
           </button>
         </div>
       </div>

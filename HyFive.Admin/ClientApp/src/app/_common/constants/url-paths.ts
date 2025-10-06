@@ -1,0 +1,24 @@
+export class UrlPaths {
+  static homePage = 'homepage';
+  static observations = 'fhiadmin/observations';
+  static observationsDepartment = 'fhiadmin/observations/department';
+  static transferSessions = 'coordinator/transfer';
+  static editingByFacilities = 'fhiadmin/facilities';
+  static editingByCodeworks = 'fhiadmin/codeworks';
+  static editingofhandjewelrytypes = 'fhiadmin/typesofhandjewelry';
+  static editingOfDepartments = 'coordinator/departments';
+  static editingByClinics = 'coordinator/clinics';
+  static editingByCoordinators = 'coordinator/coordinators';
+  static editingByObservers = 'coordinator/observers';
+  static editingPredefinedComments = 'coordinator/predefinedcomments';
+  static profile = 'profile';
+  static changeFacility = 'changefacility';
+  static facilities = 'fhiadmin/facilities';
+  static fhiAdminOverview = 'fhiadmin/overview';
+  static email = 'fhiadmin/email';
+  static reports = 'coordinator/reports';
+  static fiveIndicationsCompliance = 'fiveindications/compliance';
+  static fiveIndicationsCompliancePdf = 'fiveindications/compliance-five-indications-pdf';
+  static handjewelryCompliancePdf = 'handjewelry/compliance-handjewelry-pdf';
+  static downloadExcel = 'regular-reports/departmentalreport';
+}

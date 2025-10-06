@@ -7,7 +7,7 @@ namespace HyFive.Models.V1.Session
     public class UpdateSessionRequest
     {
         public Guid SessionId { get; set; }
-        public int InstitutionId { get; set; }
+        public int FacilityId { get; set; }
         public string Comment { get; set; }
         public DateTime StartTime { get; set; }
     }

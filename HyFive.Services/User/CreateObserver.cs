@@ -34,10 +34,10 @@ namespace HyFive.Services.User
                     throw new ArgumentException("Observer must have first name, last name, email");
                 }
                 
-                var institution = await _context.Institution.FirstOrDefaultAsync(i => i.Id == command.User.InstitutionId);
-                if (institution == null)
+                var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
+                if (facility == null)
                 {
-                    throw new Exception("Did not find institution with ID. " + command.User.InstitutionId);
+                    throw new Exception("Did not find facility with ID. " + command.User.FacilityId);
                 }
 
                 var observer = new Observer()
@@ -45,7 +45,7 @@ namespace HyFive.Services.User
                     FirstName = command.User.FirstName,
                     LastName = command.User.LastName,
                     Email = command.User.Email,
-                    Institution = institution,
+                    Facility = facility,
                     HPRNumber = command.User.HPRNumber,
                     IdentityPseudonym = command.User.IdentityPseudonym,
                     CreatedTime = DateTime.UtcNow,

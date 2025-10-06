@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { InstitutionService } from './InstitutionService';
+import { FacilityService } from './FacilityService';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +22,9 @@ export class HandJewelrySessionService extends BaseSessionService<HandJewelrySes
   sessionShowLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
 
   constructor(
-    public institutionService: InstitutionService,
+    public facilityService: FacilityService,
     private httpClient: HttpClient) {
-    super(institutionService);
+    super(facilityService);
   }
 
   public sendToServer(sessionId: string): Observable<string> {

@@ -16,32 +16,32 @@ namespace HyFive.Services.Authentication.User
 
         bool IsObserver(string email);
 
-        bool IsCoordinatorForInstitution(int institutionId);
+        bool IsCoordinatorForFacility(int facilityId);
 
-        bool IsCoordinatorForInstitutionsOrAdmin(List<int> institutionIds);
+        bool IsCoordinatorForFacilitiesOrAdmin(List<int> facilityIds);
 
         bool IsCoordinatorForDepartment(int departmentId);
 
-        bool IsFhiAdminOrCoordinator(string email);
+        bool IsAdminOrCoordinator(string email);
 
-        bool IsFhiAdmin(string email);
+        bool IsAdmin(string email);
 
-        bool IsFhiAdmin();
+        bool IsAdmin();
 
-        bool IsCoordinatorForDepartmentOrFhiAdmin(int departmentId);
+        bool IsCoordinatorForDepartmentOrAdmin(int departmentId);
 
-        bool IsObserverForInstitution(int institutionId);
+        bool IsObserverForFacility(int facilityId);
 
-        bool IsCoordinatorForInstitutionOrFhiAdmin(int institutionId);
+        bool IsCoordinatorForFacilityOrAdmin(int facilityId);
 
-        bool IsCoordinatorForHealthcareProviderOrFhiAdmin(int healthcareProviderId);
+        bool IsCoordinatorForCityOrAdmin(int cityId);
 
         string GetHprNumber();
         string GetEmail();
 
         bool IsCoordinatorForSession(string sessionId);
 
-        int GetObserverIdForInstitution(int institutionId);
+        int GetObserverIdForFacility(int facilityId);
 
         string GetPseudonym();
 

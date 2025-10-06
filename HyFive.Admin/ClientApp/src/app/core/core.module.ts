@@ -17,12 +17,12 @@ import 'what-input';
 import { SharedModule } from '../shared/shared.module';
 
 import { MainMenuComponent } from '../core/main-menu/main-menu.component';
-import { ChangeInstitutionComponent } from '../coordinator/change-institution/change-institution.component';
+import { ChangeFacilityComponent } from '../coordinator/change-facility/change-facility.component';
 
 @NgModule({
   declarations: [
     MainMenuComponent,
-    ChangeInstitutionComponent
+    ChangeFacilityComponent
   ],
   imports: [
     SharedModule,
@@ -30,7 +30,7 @@ import { ChangeInstitutionComponent } from '../coordinator/change-institution/ch
   ],
   exports: [
     MainMenuComponent,
-    ChangeInstitutionComponent
+    ChangeFacilityComponent
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'nb' },

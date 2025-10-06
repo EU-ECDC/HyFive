@@ -32,8 +32,9 @@ namespace HyFive.Services.Session
             {
                 var sessions = await _context.Session
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Institution)
-                    .Where(s => s.Observer.IsDeactivated == false)
+                    .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
+                    .Where(s => s.Observer.IsDeactivated == false &&
+                            s.Observer.Email == request.Email)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 

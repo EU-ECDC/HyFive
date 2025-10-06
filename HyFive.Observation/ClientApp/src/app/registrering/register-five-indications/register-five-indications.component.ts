@@ -5,7 +5,7 @@ import { FiveIndicationsSessionView } from '../../models/registration/FiveIndica
 import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { Queryparameters } from '../../constants/queryparameters';
 import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
-import { InstitutionService } from '../../services/data/InstitutionService';
+import { FacilityService } from '../../services/data/FacilityService';
 import { Role } from '../../models/api/Role';
 import { Uuid } from '../../utils/uuid';
 import { Card } from '../../models/registration/card.model';
@@ -33,10 +33,10 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
     private sessionService: FiveIndicationsSessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private toastrService: ToastrService) {
-    this.institutionService
-      .getSelectedInstitution()
+    this.facilityService
+      .getSelectedFacility()
       .subscribe(i => this.roles = i?.departments.find(a => a.id === this.sessionView?.department?.id)?.roles);
   }
 

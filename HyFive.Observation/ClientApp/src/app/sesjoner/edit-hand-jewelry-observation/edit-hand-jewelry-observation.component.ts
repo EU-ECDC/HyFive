@@ -43,14 +43,14 @@ export class EditHandJewelryObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: HandJewelryObservation;
   @Input() department: Department;
-  @Input("institutionid") institutionid: number;
+  @Input("facilityid") facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
 
 
   ngOnInit(): void {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
       this.handJewelryTypes = handJewelryTypes;
-      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelry?.map(x => x?.code));
+      this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, this.observation.handJewelries?.map(x => x?.code));
       this.handJewelrySelection.forEach(x => this.changed(x));
     });
   }
@@ -69,7 +69,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
   }
 
   saveObservation() {
-    this.observation.handJewelry = this.handJewelrySelection.reduce((acc, item) => {
+    this.observation.handJewelries = this.handJewelrySelection.reduce((acc, item) => {
       if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
       return acc;
     }, [] as HandJewelryType[]) as HandJewelryType[];

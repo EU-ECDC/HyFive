@@ -1,0 +1,18 @@
+<ng-container *ngIf="showChangeFacilityBox">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn fhi-btn-group__btn fhi-btn-group__split-btn bg-white"><b>{{selectedFacility?.name}}</b></button>
+    <div class="btn-group fhi-dropdown" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button
+        type="button"
+        class="btn fhi-btn-group__btn fhi-dropdown__btn fhi-btn-group__split-btn-toggler bg-white"
+        aria-label="Choose something..."
+        ngbDropdownToggle
+      ></button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <li *ngFor="let facility of shownFacilities">
+          <button ngbDropdownItem (click)="changeFacility(facility)"><span><b>{{facility.name}}</b></span></button>
+        </li>
+      </div>
+    </div>
+  </div>
+</ng-container>

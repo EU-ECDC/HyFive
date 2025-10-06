@@ -143,7 +143,7 @@ namespace HyFive.Services.Tests
                 LastName = SeedObservatorEtternavn,
                 FirstName = SeedObservatorFornavn,
                 HPRNumber = SeedObservatorHprNummer,
-                Institution = _context.Institution.FirstOrDefault()
+                Facility = _context.Facility.FirstOrDefault()
             });
 
             _context.Observer.Add(new Observer()
@@ -151,7 +151,7 @@ namespace HyFive.Services.Tests
                 LastName = SeedObservatorEtternavn,
                 FirstName = SeedObservatorFornavn,
                 HPRNumber = SeedObservatorHprNummer,
-                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
+                Facility = _context.Facility.FirstOrDefault(i => i.HERId == "93917")
             });
 
             _context.Coordinator.Add(new Coordinator()
@@ -159,7 +159,7 @@ namespace HyFive.Services.Tests
                 LastName = SeedKoordinatorEtternavn,
                 FirstName = SeedKoordinatorFornavn,
                 HPRNumber = SeedKoordinatorHprNummer,
-                Institution = _context.Institution.FirstOrDefault()
+                Facility = _context.Facility.FirstOrDefault()
             });
 
             _context.Coordinator.Add(new Coordinator()
@@ -167,7 +167,7 @@ namespace HyFive.Services.Tests
                 LastName = SeedKoordinatorEtternavn,
                 FirstName = SeedKoordinatorFornavn,
                 HPRNumber = SeedKoordinatorHprNummer,
-                Institution = _context.Institution.FirstOrDefault(i => i.HERId == "93917")
+                Facility = _context.Facility.FirstOrDefault(i => i.HERId == "93917")
             });
 
             _context.Admin.Add(new Admin()
@@ -225,12 +225,12 @@ namespace HyFive.Services.Tests
 
         private void SeedInstitusjonTyper()
         {
-            var institusjontyper = new InstitutionType[]
+            var institusjontyper = new FacilityType[]
             {
-                    new InstitutionType {Code = "SYKEHUS", Name = "Sykehus"},
-                    new InstitutionType {Code = "SYKEHJEM", Name = "Sykehjem"}
+                    new FacilityType {Code = "SYKEHUS", Name = "Sykehus"},
+                    new FacilityType {Code = "SYKEHJEM", Name = "Sykehjem"}
             };
-            _context.InstitutionType.AddRange(institusjontyper);
+            _context.FacilityType.AddRange(institusjontyper);
             _context.SaveChanges();
         }
 
@@ -278,18 +278,18 @@ namespace HyFive.Services.Tests
                 };
             _context.Role.AddRange(roller);
 
-            var institusjontyper = _context.InstitutionType;
+            var institusjontyper = _context.FacilityType;
             var avdelingtyper = _context.DepartmentType;
 
             var institusjoner = new[]
             {
-                    new Domain.Place.Institution()
+                    new Domain.Place.Facility()
                     {
                         Region = _context.Region.First(),
                         HERId = "87711",
                         Name = "Oslo universitetssykehus HF",
                         Abbreviation = "OUS",
-                        InstitutionType = institusjontyper.First(),
+                        FacilityType = institusjontyper.First(),
                         Departments = new List<Domain.Place.Department>()
                         {
                             new Domain.Place.Department
@@ -329,13 +329,13 @@ namespace HyFive.Services.Tests
                             new PredefinedComment { Comment = "Dårlig teknikk hånddesinfeksjon", SessionType = SessionType.ProtectiveEquipment }
                         }
                     },
-                    new Domain.Place.Institution()
+                    new Domain.Place.Facility()
                     {
                         HERId = "93917",
                         Region = _context.Region.First(),
                         Name = "Lillehammer sykehus",
                         Abbreviation = "LS",
-                        InstitutionType = institusjontyper.First(),
+                        FacilityType = institusjontyper.First(),
                         Departments = new List<Domain.Place.Department>()
                         {
                             new Domain.Place.Department
@@ -371,7 +371,7 @@ namespace HyFive.Services.Tests
                         }
                     }
                 };
-            _context.Institution.AddRange(institusjoner);
+            _context.Facility.AddRange(institusjoner);
             _context.SaveChanges();
         }
 

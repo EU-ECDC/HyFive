@@ -48,7 +48,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
 
   handJewelrySelection = [] as HandJewelrySelection[];
   handJewelrySessionType: number = SessionType.HandJewelry;
-  institutionid: number;
+  facilityid: number;
 
   @Input("card") card: Card;
   @Input("roleSelected") roleSelected: Role[];
@@ -70,7 +70,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
       this.handJewelryTypes = handJewelryTypes;
       this.handJewelrySelection = HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, []);
     });
-    this.institutionid = this.sessionView.department.institutionId;
+    this.facilityid = this.sessionView.department.facilityId;
   }
 
   deleteCard() {
@@ -124,7 +124,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
       sessionId: this.sessionView.sessionId,
       registeredTime: new Date(Date.now()),
       role: this.card.role,
-      handJewelry: this.handJewelrySelection.reduce((acc, item) => {
+      handJewelries: this.handJewelrySelection.reduce((acc, item) => {
         if (item.isSelected) acc.push(this.handJewelryTypes.find(x => x.code === item.type));
         return acc;
       }, [] as HandJewelryType[]) as HandJewelryType[],

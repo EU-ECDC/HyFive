@@ -8,8 +8,8 @@ import { UrlService } from './_common/services/url.service';
 import { AuthorizationService } from './_common/services/authorization.service';
 import { LoggedInUser } from './models/api/LoggedInUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
-import { UrlPaths } from './_common/konstanter/url-paths';
-import { InstitutionService } from './services/data/institution.service';
+import { UrlPaths } from './_common/constants/url-paths';
+import { FacilityService } from './services/data/facility.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     private browserViewportService: BrowserViewportService,
     private urlService: UrlService,
     public authorizationService: AuthorizationService,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private keyEventService: KeyEventService
   ) { }
 
@@ -64,10 +64,10 @@ export class AppComponent implements OnInit {
 
     this.authorizationService.getUser().subscribe((user: LoggedInUser) => {
       if (user.isCoordinator) {
-        let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-        if (selectedInstitutionId === null) {
-          this.institutionService.getInstitutions().subscribe((result) => {
-            this.institutionService.updateSelectedInstitutionId(result[0].id);
+        let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+        if (selectedFacilityId === null) {
+          this.facilityService.getFacilities().subscribe((result) => {
+            this.facilityService.updateSelectedFacilityId(result[0].id);
             window.location.reload();
           });
         }

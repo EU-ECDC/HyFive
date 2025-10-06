@@ -8,8 +8,8 @@ namespace HyFive.Models.V1.Report.FiveIndications
 {
     public class FiveIndicationsComplianceRequest
     {
-        public List<int> InstitutionIds { get; set; }
-        public List<int> InstitutionTypeIds { get; set; }
+        public List<int> FacilityIds { get; set; }
+        public List<int> FacilityTypeIds { get; set; }
         public string Interval { get; set; }
         public int FromMonth { get; set; }
         public int FromYear { get; set; }

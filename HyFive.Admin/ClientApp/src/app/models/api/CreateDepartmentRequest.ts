@@ -5,7 +5,7 @@
 export interface CreateDepartmentRequest
 {
 	name: string;
-	institutionId: number;
+	facilityId: number;
 	departmentTypeId: number;
 	roleIds: number[];
 }

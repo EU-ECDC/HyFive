@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using HyFive.Services.Department;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
         public async Task<ActionResult<Department>> GetDepartment(int id)
         {
-            if (_userService.IsCoordinatorForDepartmentOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForDepartmentOrAdmin(id))
             {
                 return await _mediator.Send(new GetDepartment.Query() { Id = id });
             }
@@ -54,10 +54,10 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
         public async Task<ActionResult<Department>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {
-            if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(request.InstitutionId))
+            if (_userService.IsCoordinatorForCityOrAdmin(request.FacilityId))
             {
                 var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
-                return CreatedAtRoute("GetDepartment", new { id = result.InstitutionId }, result);
+                return CreatedAtRoute("GetDepartment", new { id = result.FacilityId }, result);
             }
             return Unauthorized();
         }
@@ -70,7 +70,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("update")]
         public async Task<ActionResult<Department>> UpdateDepartment([FromBody] Department department)
         {
-            if (_userService.IsCoordinatorForHealthcareProviderOrFhiAdmin(department.InstitutionId))
+            if (_userService.IsCoordinatorForCityOrAdmin(department.FacilityId))
             {
                 var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
@@ -136,7 +136,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Role>>> GetRoles(int id)
         {
-            if (_userService.IsCoordinatorForDepartmentOrFhiAdmin(id))
+            if (_userService.IsCoordinatorForDepartmentOrAdmin(id))
             {
                 return await _mediator.Send(new GetRolesForDepartment.Query { DepartmentId = id });
             }

@@ -5,14 +5,11 @@ import { Observable } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
-import { DepartmentType } from 'src/app/models/api/DepartmentType';
 import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
-import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
-import { InstitutionType } from 'src/app/models/api/InstitutionType';
-import { Role } from 'src/app/models/api/Role';
+import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { DepartmentService } from 'src/app/services/data/department.service';
-import { InstitutionService } from 'src/app/services/data/institution.service';
+import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
 import { RoleService } from 'src/app/services/data/role.service';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
@@ -25,34 +22,32 @@ export class CompliancePdfComponent {
 
   @Input() sessionType: SessionType;
 
-  selectedInstitutionId: number;
-  // selectedInstitutionTypes: InstitutionType[] = [];
-  selectedInstitutions: InstitutionReport[] = [];
+  selectedFacilityId: number;
+  // selectedFacilityTypes: FacilityType[] = [];
+  selectedFacilities: FacilityReport[] = [];
   // selectedDepartmentTypes: DepartmentType[];
   selectedDepartments: Department[] = [];
   fromDate: Date = null;
   toDate: Date = null;
-  institution: InstitutionReport;
-  // institutionTypes: InstitutionType[];
+  facility: FacilityReport;
+  // facilityTypes: FacilityType[];
   departments: Department[] = [];
   // departmentTypes: DepartmentType[] = [];
   allDepartments: Department[] = [];
-  institutions: InstitutionReport[] = [];
-  allInstitutions: InstitutionReport[] = [];
-  canSelectInstitution = false;
+  facilities: FacilityReport[] = [];
+  allFacilities: FacilityReport[] = [];
+  canSelectFacility = false;
   storedReport = false;
-  createInstitutionalReport = false;
+  createFacilityReport = false;
 
   private selectedRole: AuthorizedRole;
 
   dropdownSettings: IDropdownSettings;
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private reportService: ReportService,
     private toastrService: ToastrService,
-    private roleService: RoleService,
-    private departmentService: DepartmentService,
     private authorizationService: AuthorizationService) { }
 
   @ViewChild('dropdownRef', { static: false }) dropdownRef: ElementRef;
@@ -66,7 +61,7 @@ export class CompliancePdfComponent {
       this.isDropdownFocused = true;
     } else if (this.isDropdownFocused) {
       this.isDropdownFocused = false;
-      this.selectInstitution();
+      this.selectFacility();
     }
   }
 
@@ -75,23 +70,23 @@ export class CompliancePdfComponent {
     
     if (this.selectedRole === AuthorizedRole.Coordinator) {
       // this.loadDepartmentTypes();
-      this.canSelectInstitution = false;
-      this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-      this.institutionService.getInstitution(this.selectedInstitutionId)
+      this.canSelectFacility = false;
+      this.selectedFacilityId = this.facilityService.getSelectedFacilityId();
+      this.facilityService.getFacility(this.selectedFacilityId)
         .subscribe(
-          (institution) => {
-            this.institution = institution;
+          (facility) => {
+            this.facility = facility;
           }
         )
-      this.loadCoordinatorInstitutionDepartments(this.selectedInstitutionId)
+      this.loadCoordinatorFacilityDepartments(this.selectedFacilityId)
     }
     else if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.canSelectInstitution = true;
-      // this.loadAdminInstitutionsTypes();
-      this.institutionService.getInstitutions().subscribe(
-        (institutions) => {
-          this.institutions = institutions;
-          this.allInstitutions = institutions;
+      this.canSelectFacility = true;
+      // this.loadAdminFacilityTypes();
+      this.facilityService.getFacilities().subscribe(
+        (facilities) => {
+          this.facilities = facilities;
+          this.allFacilities = facilities;
         });
       }
     this.dropdownSettings = {
@@ -104,14 +99,14 @@ export class CompliancePdfComponent {
     };
   }
 
-  // filterInstitutionsByType() {
-  //   this.selectedInstitutions = [];
+  // filterFacilitiesByType() {
+  //   this.selectedFacilities = [];
   //   this.selectedDepartments = [];
   //   this.selectedDepartmentTypes = [];
-  //   if (this.selectedInstitutionTypes?.length > 0) {
-  //     this.institutions =  this.allInstitutions?.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+  //   if (this.selectedFacilityTypes?.length > 0) {
+  //     this.facilities =  this.allFacilities?.filter(item => this.selectedFacilityTypes.some(si => si.id == item.facilityType.id));
   //   } else {
-  //     this.institutions = this.allInstitutions;
+  //     this.facilities = this.allFacilities;
   //   }
   // }
 
@@ -125,12 +120,12 @@ export class CompliancePdfComponent {
   //   }
   // }
 
-  onChangeModelInstitution() {
-    if (this.selectedInstitutions.length > 0) {
+  onChangeModelFacility() {
+    if (this.selectedFacilities.length > 0) {
       if (
         // this.departmentTypes.length > 0 && 
         this.allDepartments.length > 0) {
-        this.allDepartments = this.allDepartments.filter(dep => this.selectedInstitutions.some(inst => inst.id == dep.institutionId));
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.facilityId));
         this.departments = this.allDepartments;
         // this.departmentTypes = Array.from(
         //                         new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
@@ -150,14 +145,14 @@ export class CompliancePdfComponent {
     // this.selectedDepartmentTypes = [];
   }
       
-  selectInstitution(): void {
+  selectFacility(): void {
     this.departments = [];
     this.allDepartments = [];
     // this.selectedDepartmentTypes = [];
     this.selectedDepartments = [];
-    if (this.selectedInstitutions != null && this.selectedInstitutions?.length > 0) {
-      var institutionIds = this.selectedInstitutions?.map(inst => inst.id);
-      this.loadInstitutionsDepartments(institutionIds)
+    if (this.selectedFacilities != null && this.selectedFacilities?.length > 0) {
+      var facilityIds = this.selectedFacilities?.map(inst => inst.id);
+      this.loadFacilitiesDepartments(facilityIds)
     }
   };
 
@@ -170,7 +165,7 @@ export class CompliancePdfComponent {
     this.toastrService.clear();
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.selectedInstitutionId = null;
+      this.selectedFacilityId = null;
     }
   }
 
@@ -182,15 +177,15 @@ export class CompliancePdfComponent {
     this.toastrService.clear();
 
     const departmentIds = this.selectedDepartments?.map(dep => dep.id) ?? [];
-    // const institutionTypeIds = this.selectedInstitutionTypes?.map(t => t.id) ?? [];
-    const institutionIds = this.selectedInstitutionId ? [this.selectedInstitutionId] : this.selectedInstitutions?.map(t => t.id) ?? [];
+    // const facilityTypeIds = this.selectedFacilityTypes?.map(t => t.id) ?? [];
+    const facilityIds = this.selectedFacilityId ? [this.selectedFacilityId] : this.selectedFacilities?.map(t => t.id) ?? [];
     // const departmentTypeIds = this.selectedDepartmentTypes?.map(t => t.id) ?? [];
 
     this.reportService.reportForSessionTypeHasData(
       {
       sessionType: this.sessionType,
-      // institutionTypeIds,
-      institutionIds,
+      // facilityTypeIds,
+      facilityIds,
       // departmentTypeIds,
       departmentIds,
       fromDate: this.fromDate, 
@@ -226,12 +221,12 @@ export class CompliancePdfComponent {
     url += '/department/pdf/';
     // url += `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
     // url += `&role=${this.selectedRole}`;
-    // this.selectedInstitutions.forEach(inst =>  {url += `&institutionId=${inst.id}`});
+    // this.selectedFacilities.forEach(inst =>  {url += `&facilityId=${inst.id}`});
     // this.selectedDepartments.forEach(dep => { url += `&departmentId=${dep.id}`});
-    // url += `&institutionId=${this.selectedInstitutionId}&departmentId=${this.selectedDepartmentId}`;
+    // url += `&facilityId=${this.selectedFacilityId}&departmentId=${this.selectedDepartmentId}`;
     const payload: DownloadExcelModel = {
       departmentIds:  this.selectedDepartments?.map(dep => dep.id) ?? [],
-      institutionIds: this.selectedInstitutionId ? [this.selectedInstitutionId] : this.selectedInstitutions?.map(t => t.id) ?? [],
+      facilityIds: this.selectedFacilityId ? [this.selectedFacilityId] : this.selectedFacilities?.map(t => t.id) ?? [],
       fromDate: this.fromDate,
       toDate: this.toDate,
       role: this.selectedRole
@@ -240,10 +235,10 @@ export class CompliancePdfComponent {
     return DownloadFileHelper.downloadFile(url, 'application/pdf, */*', payload);
   }
 
-  // loadAdminInstitutionsTypes() {
-  //   this.institutionService.getInstitutionTypes().subscribe((result) => {
-  //     this.institutionTypes = result,
-  //     (error) => this.toastrService.error('An error occurred while loading institution types: ' + error?.message, '', { disableTimeOut: true })
+  // loadAdminFacilityTypes() {
+  //   this.facilityService.getFacilityTypes().subscribe((result) => {
+  //     this.facilityTypes = result,
+  //     (error) => this.toastrService.error('An error occurred while loading facility types: ' + error?.message, '', { disableTimeOut: true })
   //   });
   // }
 
@@ -257,22 +252,22 @@ export class CompliancePdfComponent {
   //   });
   // }
 
-  loadCoordinatorInstitutionDepartments(institutionId: number) {
-    this.institutionService.getInstitution(institutionId).subscribe(
-      institution => {
-        this.departments = institution.departments;
+  loadCoordinatorFacilityDepartments(facilityId: number) {
+    this.facilityService.getFacility(facilityId).subscribe(
+      facility => {
+        this.departments = facility.departments;
         this.allDepartments = this.departments;
-        // this.selectedInstitutionTypes.push(institution.institutionType);
+        // this.selectedFacilityTypes.push(facility.facilityType
       })
   };
 
-  loadInstitutionsDepartments(institutionIds: number[]) {
-  this.institutionService.getComplianceInstitutions(institutionIds).subscribe(institutions => {
-    const allDepartments = institutions.reduce((all, inst) => {
+  loadFacilitiesDepartments(facilityIds: number[]) {
+  this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
+    const allDepartments = facilities.reduce((all, inst) => {
       return all.concat(inst.departments);
     }, []);
 
-    const uniqueDepartments = Array.from(
+    let uniqueDepartments = Array.from(
       new Map(allDepartments.map(dep => [dep.id, dep])).values()
     );
 
@@ -281,6 +276,8 @@ export class CompliancePdfComponent {
     );
 
       // this.departmentTypes = uniqueDepartmentTypes;
+      uniqueDepartments = uniqueDepartments
+                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
       this.departments = uniqueDepartments;
       this.allDepartments = uniqueDepartments;
     });

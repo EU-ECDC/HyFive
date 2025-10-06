@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { InstitutionService } from '../../services/data/institution.service';
-import { InstitutionReport } from '../../models/api/InstitutionReport';
+import { FacilityService } from '../../services/data/facility.service';
+import { FacilityReport } from '../../models/api/FacilityReport';
 import { ObservationService } from '../../services/data/observation.service';
 import { SessionType } from '../../models/api/SessionType';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import { User } from '../../models/api/User';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
-import { Institution } from '../../models/api/Institution';
+import { Facility } from '../../models/api/Facility';
 import { forEach } from 'lodash-es';
 
 @Component({
@@ -36,10 +36,10 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   observers = [];
   selectedObserver = null;
 
-  institution: InstitutionReport;
+  facility: FacilityReport;
 
-  institutionsOptions: InstitutionReport[] = [];
-  selectedInstitutionOptions: number = null;
+  facilitiesOptions: FacilityReport[] = [];
+  selectedFacilityOptions: number = null;
 
   sessions: SessionOverviewReport[] = [];
   sessionsCoordinator: SessionOverviewReport[] = [];
@@ -48,24 +48,23 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   SearchDone: boolean = false;
 
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private observationService: ObservationService,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
-    let selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-    this.institutionService.getInstitution(selectedInstitutionId).subscribe((result: Institution) => {
-      this.institution = {
+    let selectedFacilityId = this.facilityService.getSelectedFacilityId();
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result: Facility) => {
+      this.facility = {
         id: result.id,
         herId: result.herId,
         abbreviation: result.abbreviation,
-        institutionType: result.institutionType,
+        facilityType: result.facilityType,
         name: result.name,
-        region: result.region
-      } as InstitutionReport;
+      } as FacilityReport;
 
-      this.institutionService.getObservers(this.institution.id).subscribe((observers) => {
+      this.facilityService.getObservers(this.facility.id).subscribe((observers) => {
         let editedObservers = [];
         observers.forEach(obs => {
         let firstLast = `${obs.firstName} ${obs.lastName}`;
@@ -96,8 +95,8 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   getSessions() {
     this.loading = true;
-    this.observationService.getSessionsForInstitution(
-      this.institution.id,
+    this.observationService.getSessionsForFacility(
+      this.facility.id,
       this.selectedObserver,
       this.selectedSessiontype,
       this.fromDate,
@@ -120,7 +119,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   transfer(sessionId) {
     this.loading = true;
-    this.observationService.transferSessionToFHI(this.institution.id, sessionId).subscribe((result) => {
+    this.observationService.transferSessionToFHI(this.facility.id, sessionId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
         this.toastrService.success('The session(s) was transferred');

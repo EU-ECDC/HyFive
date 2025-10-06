@@ -21,8 +21,8 @@ namespace HyFive.Services.Report.Observations
             public int DepartmentId { get; set; }
             public Guid? SessionId { get; set; }
             public int ObserverId { get; set; }
-            public List<int> InstitutionIds { get; set; }
-            public int InstitutionId { get; set; }
+            public List<int> FacilityIds { get; set; }
+            public int FacilityId { get; set; }
             public DateTime? FromDate { get; set; }
             public DateTime? ToDate { get; set; }
             public AuthorizedRole Role { get; set; }
@@ -45,7 +45,7 @@ namespace HyFive.Services.Report.Observations
 
                 var queryable = _context.ProtectiveEquipmentObservation
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Observer)
-                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Institution).ThenInclude(i => i.Municipality)
+                    .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.Department).ThenInclude(a => a.Facility)
                     .Include(fo => fo.ProtectiveEquipmentSession).ThenInclude(fo => fo.TransferStatus)
                     .Include(fo => fo.SettingType)
                     .Include(fo => fo.ProtectiveEquipmentList).ThenInclude(bu => bu.MisuseTypes)
@@ -68,13 +68,13 @@ namespace HyFive.Services.Report.Observations
                     queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.Id == query.DepartmentId);
                 }
 
-                if (query.InstitutionIds != null && query.InstitutionIds.Count > 0)
+                if (query.FacilityIds != null && query.FacilityIds.Count > 0)
                 {
-                    queryable = queryable.Where(o => query.InstitutionIds.Contains(o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.InstitutionId));
+                    queryable = queryable.Where(o => query.FacilityIds.Contains(o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.FacilityId));
                 }
-                else if (query.InstitutionId > 0)
+                else if (query.FacilityId > 0)
                 {
-                    queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.InstitutionId == query.InstitutionId);
+                    queryable = queryable.Where(o => o.ProtectiveEquipmentObservation.ProtectiveEquipmentSession.Department.FacilityId == query.FacilityId);
                 }
 
                 if (query.ObserverId > 0)

@@ -1,0 +1,100 @@
+<div class="container">
+  <ng-container *ngIf="coordinators else spinner ">
+    <div class="row">
+      <div class="col-12">
+        <button class="btn fhi-btn-primary mb-5" (click)="createEmptyCoordinator()">Create coordinator</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="coordinators">
+      <h5 class="col-12">Coordinators</h5>
+      <input type="text" autocomplete="off" placeholder="Search for.." autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterCoordinators()">
+      <label class="col-12" *ngIf="coordinators.length === 0 && !newCoordinator">Did not find any coordinators at this healthcare facility</label>
+      <ng-container>
+        <table class="table" *ngIf="coordinators.length > 0 || newCoordinator" sortable-table (sorted)="sort($event)">
+          <thead>
+            <tr>
+              <th sortable-column="Firstname"></th>
+              <th sortable-column="Lastname"></th>
+              <th>Email</th>
+              <th>Disabled</th>
+              <th>Healthcare facilities</th>
+              <th class="text-end" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr *ngIf="newCoordinator != null">
+              <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.firstName" (ngModelChange)="newCoordinator.firstName = $event.trim()" name="firstName" placeholder="Firstname"></td>
+              <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newCoordinator.lastName" (ngModelChange)="newCoordinator.lastName = $event.trim()" name="lastName" placeholder="Lastname"></td>
+              <td><input type="text" autocomplete="off" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="newCoordinator.email" name="email" placeholder="Email"></td>
+              <td></td>
+              <td>
+                <ng-multiselect-dropdown [placeholder]="'Select'"
+                                         [settings]="dropdownSettings"
+                                         [data]="facilitiesCity"
+                                         [(ngModel)]="selectedFacilities">
+                </ng-multiselect-dropdown>
+              </td>
+              <td class="text-end py-2 align-middle">
+                <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createCoordinator()">
+                  <i class="icon-plus"></i><span class="btn__text">Create</span>
+                </button>
+                <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngFor="let coordinator of filteredCoordinators">
+              
+              <ng-container *ngIf="!isCoordinatorAsChanged(coordinator)">
+                <td>{{coordinator.firstName}}</td>
+                <td>{{coordinator.lastName}} </td>
+                <td>{{coordinator.email}}</td>
+                <td>
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
+                </td>
+                <td>
+                  {{showfacilitiesForCoordinator(coordinator)}}
+                </td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="setCoordinatorAsChanged(coordinator)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  </button>
+                </td>
+
+              </ng-container>
+              <ng-container *ngIf="isCoordinatorAsChanged(coordinator)">
+                <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.firstName" (ngModelChange)="coordinatorAsChanged.firstName = $event.trim()" name="firstName" placeholder="Firstname"></td>
+                <td><input type="text" autocomplete="off" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="coordinatorAsChanged.lastName" (ngModelChange)="coordinatorAsChanged.lastName = $event.trim()" name="lastName" placeholder="Lastname"></td>
+                <td><input type="text" autocomplete="off" class="form-control" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [(ngModel)]="coordinatorAsChanged.email" name="email" disabled placeholder="Email"></td>
+                <td><input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorAsChanged.isDisabled" name="isDisabled"></td>
+                <td>      
+                  <ng-multiselect-dropdown [placeholder]="'Select'"
+                                           [settings]="dropdownSettings"
+                                           [data]="facilitiesCity"
+                                           [(ngModel)]="selectedFacilities">
+                  </ng-multiselect-dropdown>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon"
+                          (click)="updateCoordinator(coordinatorAsChanged)"
+                          [disabled]="canChange(coordinatorAsChanged) == false">
+                          <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                  </button>
+                  <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                  </button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #spinner>
+    <div class="row">
+      <app-spinner class="col-12"></app-spinner>
+    </div>
+  </ng-template>
+</div>

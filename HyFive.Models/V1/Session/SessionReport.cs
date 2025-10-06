@@ -11,7 +11,7 @@ namespace HyFive.Models.Session
         public string DepartmentName { get; set; }
         public DateTime StartDate { get; set; }
         public SessionType Type { get; set; }
-        public string InstitutionName { get; set; }
+        public string FacilityName { get; set; }
         [TsProperty(ForceNullable = true)]
         public bool? IsSelected { get; set; }
     }

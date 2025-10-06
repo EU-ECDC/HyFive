@@ -3,7 +3,7 @@
     <div class="row">
       <h3>Maintenance of clinics</h3>
     </div>
-    <app-create-clinic (clinicCreatedEvent)="getClinics()" [institutionId]="institutionId" *ngIf="institutionId > 0 && clinicId == 0"></app-create-clinic>
+    <app-create-clinic (clinicCreatedEvent)="getClinics()" [facilityId]="facilityId" *ngIf="facilityId > 0 && clinicId == 0"></app-create-clinic>
     <div class="row mb-5 mt-5">
       <ng-container>
         <div class="table-responsive">
@@ -37,7 +37,7 @@
   </ng-container>
   <div class="row" *ngIf="!loading && clinics?.length == 0">
     <div class="col-12">
-      <p>There are no clinics registered at this institution.</p>
+      <p>There are no clinics registered at this healthcare facility.</p>
     </div>
   </div>
   <div class="row" *ngIf="loading">

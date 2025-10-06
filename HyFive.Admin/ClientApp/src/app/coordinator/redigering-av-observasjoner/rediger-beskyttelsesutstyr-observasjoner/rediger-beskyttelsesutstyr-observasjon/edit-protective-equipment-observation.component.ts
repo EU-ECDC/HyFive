@@ -47,7 +47,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   @Input() observationId: string;
 
   @Input() department: Department;
-  @Input() institutionId: number;
+  @Input() facilityId: number;
   @Input() sessionId: string;
   @Output() observationDeletedEvent = new EventEmitter();
   @Output() observationUpdatedEvent = new EventEmitter<ProtectiveEquipmentObservation>();

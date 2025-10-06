@@ -10,6 +10,6 @@ export interface SessionReport
 	departmentName: string;
 	startDate: any;
 	type: SessionType;
-	institutionName: string;
+	facilityName: string;
 	isSelected?: boolean;
 }

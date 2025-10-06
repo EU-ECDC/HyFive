@@ -4,6 +4,20 @@
         <name>HyFive.Observation</name>
     </assembly>
     <members>
+        <member name="M:HyFive.Observation.Controllers.V1.FacilityController.GetObserverFacilities">
+            <summary>
+            Get the user's available facilities
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Observation.Controllers.V1.FacilityController.GetPredefinedComments(System.Int32,HyFive.Models.V1.Session.SessionType)">
+            <summary>
+            Get predefined comments for given facility and session type
+            </summary>
+            <param name="facilityId"></param>
+            <param name="sessionType"></param>
+            <returns></returns>
+        </member>
         <member name="M:HyFive.Observation.Controllers.V1.FiveIndicationsController.SaveSession(HyFive.Models.V1.Session.FiveIndicationsSession)">
             <summary>
             Save a Five Indications session
@@ -23,20 +37,6 @@
             Save a Hand Jewelry session
             </summary>
             <param name="session"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Observation.Controllers.V1.InstitutionController.GetObserverInstitutions">
-            <summary>
-            Get the user's available institutions
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Observation.Controllers.V1.InstitutionController.GetPredefinedComments(System.Int32,HyFive.Models.V1.Session.SessionType)">
-            <summary>
-            Get predefined comments for given institution and session type
-            </summary>
-            <param name="institutionId"></param>
-            <param name="sessionType"></param>
             <returns></returns>
         </member>
         <member name="M:HyFive.Observation.Controllers.V1.ProtectiveEquipmentController.SaveSession(HyFive.Models.V1.Session.ProtectiveEquipmentSession)">

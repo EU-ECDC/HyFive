@@ -9,10 +9,10 @@ namespace HyFive.Models.V1.Report.FiveIndications
         public string SessionCreatedTime { get; set; }
         public string ObservationRegisteredTime { get; set; }
         public string Observer { get; set; }
-        public string InstitutionAbbreviation { get; set; }
-        public string Institution { get; set; }
-        public string InstitutionType { get; set; }
-        public string InstitutionTypeCode { get; set; }
+        public string FacilityAbbreviation { get; set; }
+        public string Facility { get; set; }
+        public string FacilityType { get; set; }
+        public string FacilityTypeCode { get; set; }
         public string Department { get; set; }
         public string DepartmentType { get; set; }
         public string RoleName { get; set; }
@@ -24,9 +24,6 @@ namespace HyFive.Models.V1.Report.FiveIndications
         public string TransferStatus { get; set; }
         public string ObservationComment { get; set; }
         public string SessionComment { get; set; }
-        public string HealthcareOrganization { get; set; }
-        public string RegionalHealthcareOrganization { get; set; }
-        public string MunicipalityNumber { get; set; }
-        public string Municipality { get; set; }
+        public string City { get; set; }
     }
 }

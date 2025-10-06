@@ -6,7 +6,7 @@ namespace HyFive.Domain.Place
         public int Id { get; set; }
         public string Comment { get; set; }
         public SessionType SessionType { get; set; }
-        public int InstitutionId { get; set; }
+        public int FacilityId { get; set; }
     }
 
     public enum SessionType

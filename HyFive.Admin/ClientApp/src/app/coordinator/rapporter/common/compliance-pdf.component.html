@@ -1,21 +1,21 @@
-<div class="row mt-4" *ngIf="canSelectInstitution">
+<div class="row mt-4" *ngIf="canSelectFacility">
     <!-- <div class="col-md-4">
-      <label for="institutionsTypes">Institution Types</label>
+      <label for="facilitiesTypes">Facility Types</label>
         <ng-multiselect-dropdown [placeholder]="'Select'"
                                 [settings]="dropdownSettings"
-                                [data]="institutionTypes"
-                                [(ngModel)]="selectedInstitutionTypes"
-                                (ngModelChange)="filterInstitutionsByType()">
+                                [data]="facilityTypes"
+                                [(ngModel)]="selectedFacilityTypes"
+                                (ngModelChange)="filterFacilitiesByType()">
         </ng-multiselect-dropdown>
     </div>  -->
     <div class="col-md-4">
-      <label for="institution">Institution</label>
+      <label for="facility">Healthcare facilities</label>
       <div #dropdownRef>
-        <ng-multiselect-dropdown placeholder="Select institutions"
+        <ng-multiselect-dropdown placeholder="Select healthcare facilities"
                                 [settings]="dropdownSettings"
-                                [data]="institutions"
-                                [(ngModel)]="selectedInstitutions"
-                                (ngModelChange)="onChangeModelInstitution()">
+                                [data]="facilities"
+                                [(ngModel)]="selectedFacilities"
+                                (ngModelChange)="onChangeModelFacility()">
         </ng-multiselect-dropdown>
     </div>
   </div>
@@ -31,9 +31,9 @@
         </ng-multiselect-dropdown>
     </div> -->
     <div class="col-md-4">
-      <label for="department">Department</label>
+      <label for="department">Departments</label>
       <ng-multiselect-dropdown [placeholder]="'Select departments'"
-                              [disabled]="createInstitutionalReport"
+                              [disabled]="createFacilityReport"
                               [settings]="dropdownSettings"
                               [data]="departments"
                               [(ngModel)]="selectedDepartments">

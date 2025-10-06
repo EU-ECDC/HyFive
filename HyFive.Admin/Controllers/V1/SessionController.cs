@@ -23,13 +23,13 @@ namespace HyFive.Admin.Controllers.V1
 
         [Route("delete/{sessionId}")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteSession(Guid sessionId, [FromQuery] int institutionId)
+        public async Task<IActionResult> DeleteSession(Guid sessionId, [FromQuery] int facilityId)
         {
-            if (_userService.IsCoordinatorForInstitution(institutionId))
+            if (_userService.IsCoordinatorForFacility(facilityId))
             {
                 var result = await _mediator.Send(new DeleteSession.Command
                 {
-                    InstitutionId = institutionId,
+                    FacilityId = facilityId,
                     TransferStatusCode = TransferStatusTypeConstants.TransferredToCoordinator,
                     SessionId = sessionId
                 });
@@ -44,12 +44,12 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut]
         public async Task<IActionResult> UpdateSession([FromBody] UpdateSessionRequest session)
         {
-            if (_userService.IsCoordinatorForInstitution(session.InstitutionId))
+            if (_userService.IsCoordinatorForFacility(session.FacilityId))
             {
                 var resultat = await _mediator.Send(new UpdateSession.Command
                 {
                     SessionId = session.SessionId,
-                    InstitutionId = session.InstitutionId,
+                    FacilityId = session.FacilityId,
                     Comment = session.Comment
                 });
 

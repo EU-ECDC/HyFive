@@ -12,7 +12,7 @@ namespace HyFive.Models.V1.Authentication
         public bool IsCoordinator { get; set; }
         public bool IsFhiAdmin { get; set; }
         public bool IsObserver { get; set; }
-        public List<int> InstitutionIds { get; set; }
+        public List<int> FacilityIds { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string HPRNumber { get; set; }

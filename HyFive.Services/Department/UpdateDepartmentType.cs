@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,7 @@ namespace HyFive.Services.Department
                     _context.Update(departmentType);
                     await _context.SaveChangesAsync();
 
-                    return _mapper.Map<Models.V1.Institution.DepartmentType>(departmentType);
+                    return _mapper.Map<Models.V1.Facility.DepartmentType>(departmentType);
                 }
 
                 throw new ArgumentException($"Did not find department type with ID {request.DepartmentType.Id}");

@@ -6,9 +6,9 @@ import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
 import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
-import { InstitutionReport } from 'src/app/models/api/InstitutionReport';
+import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { SessionType } from 'src/app/models/api/SessionType';
-import { InstitutionService } from 'src/app/services/data/institution.service';
+import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
 import { SessionTypeReportUrlMapper } from 'src/app/utils/sessionstype-report-url-mapper';
@@ -22,7 +22,7 @@ import { SessionTypes } from 'src/app/utils/sessionTypes';
 
 export class DownloadExcelComponent {
   constructor(
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private reportService: ReportService,
     private toastrService: ToastrService,
     private authorizationService: AuthorizationService) { }
@@ -38,7 +38,7 @@ export class DownloadExcelComponent {
         this.isDropdownFocused = true;
       } else if (this.isDropdownFocused) {
         this.isDropdownFocused = false;
-        this.selectInstitution();
+        this.selectFacility();
       }
     }
 
@@ -46,16 +46,16 @@ export class DownloadExcelComponent {
     this.selectedRole = this.authorizationService.getSelectedRole();
 
     if (this.selectedRole === AuthorizedRole.Coordinator) {
-      this.selectedInstitutionId = this.institutionService.getSelectedInstitutionId();
-      this.getInstitution(this.selectedInstitutionId);
-      this.loadCoordinatorInstitutionDepartments(this.selectedInstitutionId)
+      this.selectedFacilityId = this.facilityService.getSelectedFacilityId();
+      this.getFacility(this.selectedFacilityId);
+      this.loadCoordinatorFacilityDepartments(this.selectedFacilityId)
     }
     else if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.canSelectInstitution = true;
+      this.canSelectFacility = true;
 
-      this.institutionService.getInstitutions().subscribe(
-        (institutions) => {
-          this.institutions = institutions;
+      this.facilityService.getFacilities().subscribe(
+        (facilities) => {
+          this.facilities = facilities;
         });
     }
     this.dropdownSettings = {
@@ -75,31 +75,31 @@ export class DownloadExcelComponent {
   toDate: Date = null;
   
   departments: Department[];
-  institutions: InstitutionReport[] = [];
-  canSelectInstitution = false;
+  facilities: FacilityReport[] = [];
+  canSelectFacility = false;
   storedReport = false;
-  selectedInstitutionId: number;
-  selectedInstitutions: InstitutionReport[] = [];
-  // selectedInstitutionTypes: InstitutionType[] = [];
+  selectedFacilityId: number;
+  selectedFacilities: FacilityReport[] = [];
+  // selectedFacilityTypes: FacilityType[] = [];
   // selectedDepartmentTypes: DepartmentType[];
   selectedDepartments: Department[] = [];
-  // institutionTypes: InstitutionType[];
+  // facilityTypes: FacilityType[];
   // departmentTypes: DepartmentType[] = [];
   allDepartments: Department[] = [];
-  allInstitutions: InstitutionReport[] = [];
-  createInstitutionalReport = false;
+  allFacilities: FacilityReport[] = [];
+  createFacilityReport = false;
 
   private selectedRole: AuthorizedRole;
   dropdownSettings: IDropdownSettings;
 
-  // filterInstitutionsByType() {
-  //   this.selectedInstitutions = [];
+  // filterFacilitiesByType() {
+  //   this.selectedFacilities = [];
   //   this.selectedDepartments = [];
   //   this.selectedDepartmentTypes = [];
-  //   if (this.selectedInstitutionTypes?.length > 0) {
-  //     this.institutions =  this.allInstitutions?.filter(item => this.selectedInstitutionTypes.some(si => si.id == item.institutionType.id));
+  //   if (this.selectedFacilityTypes?.length > 0) {
+  //     this.facilities =  this.allFacilities?.filter(item => this.selectedFacilityTypes.some(si => si.id == item.facilityType.id));
   //   } else {
-  //     this.institutions = this.allInstitutions;
+  //     this.facilities = this.allFacilities;
   //   }
   // }
 
@@ -113,12 +113,12 @@ export class DownloadExcelComponent {
   //   }
   // }
 
-  onChangeModelInstitution() {
-    if (this.selectedInstitutions.length > 0) {
+  onChangeModelFacility() {
+    if (this.selectedFacilities.length > 0) {
       if (
         // this.departmentTypes.length > 0 && 
         this.allDepartments.length > 0) {
-        this.allDepartments = this.allDepartments.filter(dep => this.selectedInstitutions.some(inst => inst.id == dep.institutionId));
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.facilityId));
         this.departments = this.allDepartments;
         // this.departmentTypes = Array.from(
         //                         new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
@@ -138,24 +138,24 @@ export class DownloadExcelComponent {
     // this.selectedDepartmentTypes = [];
   }
 
-  selectInstitution(): void {
+  selectFacility(): void {
     this.departments = [];
     this.allDepartments = [];
     // this.selectedDepartmentTypes = [];
     this.selectedDepartments = [];
-    if (this.selectedInstitutions != null && this.selectedInstitutions?.length > 0) {
-      var institutionIds = this.selectedInstitutions?.map(inst => inst.id);
-      this.loadInstitutionsDepartments(institutionIds)
+    if (this.selectedFacilities != null && this.selectedFacilities?.length > 0) {
+      var facilityIds = this.selectedFacilities?.map(inst => inst.id);
+      this.loadFacilitiesDepartments(facilityIds)
     }
   };
 
-  loadInstitutionsDepartments(institutionIds: number[]) {
-    this.institutionService.getComplianceInstitutions(institutionIds).subscribe(institutions => {
-    const allDepartments = institutions.reduce((all, inst) => {
+  loadFacilitiesDepartments(facilityIds: number[]) {
+    this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
+    const allDepartments = facilities.reduce((all, inst) => {
       return all.concat(inst.departments);
     }, []);
 
-    const uniqueDepartments = Array.from(
+    let uniqueDepartments = Array.from(
       new Map(allDepartments.map(dep => [dep.id, dep])).values()
     );
 
@@ -164,6 +164,8 @@ export class DownloadExcelComponent {
     );
 
       // this.departmentTypes = uniqueDepartmentTypes;
+      uniqueDepartments = uniqueDepartments
+                    .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
       this.departments = uniqueDepartments;
       this.allDepartments = uniqueDepartments;
     });
@@ -173,30 +175,30 @@ export class DownloadExcelComponent {
     this.selectedDepartments = [];
     // this.selectedDepartmentTypes = [];
     this.selectedSessiontype = null;
-    this.createInstitutionalReport = false;
+    this.createFacilityReport = false;
     this.fromDate = null;
     this.toDate = null;
     this.toastrService.clear();
 
     if (this.selectedRole === AuthorizedRole.Administrator) {
-      this.selectedInstitutionId = null;
+      this.selectedFacilityId = null;
     }
   }
 
-  selectCreateInstitutionalReport() {
+  selectCreateFacilityReport() {
     this.selectedDepartments = [];
   }
 
   canCreateReport() {
     // return (((
-    //   this.selectedInstitutionId && this.selectedDepartmentId) ||
-    //   (this.selectedInstitutionId && this.createInstitutionalReport)) &&
+    //   this.selectedFacilityId && this.selectedDepartmentId) ||
+    //   (this.selectedFacilityId && this.createFacilityReport)) &&
     //   this.selectedSessiontype && this.fromDate && this.toDate);
 
     return (
       (
-        ((this.selectedInstitutionId || this.selectedInstitutions.length > 0) && this.selectedDepartments.length > 0) ||
-        ((this.selectedInstitutionId || this.selectedInstitutions.length > 0) && this.createInstitutionalReport)
+        ((this.selectedFacilityId || this.selectedFacilities.length > 0) && this.selectedDepartments.length > 0) ||
+        ((this.selectedFacilityId || this.selectedFacilities.length > 0) && this.createFacilityReport)
       ) && this.selectedSessiontype && this.fromDate && this.toDate);
   }
 
@@ -204,15 +206,15 @@ export class DownloadExcelComponent {
     this.toastrService.clear();
     
     const departmentIds = this.selectedDepartments?.map(dep => dep.id) ?? [];
-    // const institutionTypeIds = this.selectedInstitutionTypes?.map(t => t.id) ?? [];
-    const institutionIds = this.selectedInstitutionId ? [this.selectedInstitutionId] : this.selectedInstitutions?.map(t => t.id) ?? [];
+    // const facilityTypeIds = this.selectedFacilityTypes?.map(t => t.id) ?? [];
+    const facilityIds = this.selectedFacilityId ? [this.selectedFacilityId] : this.selectedFacilities?.map(t => t.id) ?? [];
     // const departmentTypeIds = this.selectedDepartmentTypes?.map(t => t.id) ?? [];
 
     this.reportService.reportForSessionTypeHasData(
       {
         sessionType: this.selectedSessiontype,
-        // institutionTypeIds: [], 
-        institutionIds: institutionIds,
+        // facilityTypeIds: [], 
+        facilityIds: facilityIds,
         // departmentTypeIds: [],
         departmentIds: departmentIds,
         fromDate: this.fromDate,
@@ -227,7 +229,7 @@ export class DownloadExcelComponent {
             let url = `${baseUrl}`;
                 const payload: DownloadExcelModel = {
                   departmentIds: departmentIds,
-                  institutionIds: institutionIds,
+                  facilityIds: facilityIds,
                   fromDate: this.fromDate,
                   toDate: this.toDate,
                   role: this.selectedRole
@@ -248,12 +250,12 @@ export class DownloadExcelComponent {
         })
   }
 
-  loadCoordinatorInstitutionDepartments(institutionId: number) {
-    this.institutionService.getInstitution(institutionId).subscribe(
-      institution => {
-        this.departments = institution.departments;
+  loadCoordinatorFacilityDepartments(facilityId: number) {
+    this.facilityService.getFacility(facilityId).subscribe(
+      facility => {
+        this.departments = facility.departments;
         this.allDepartments = this.departments;
-        // this.selectedInstitutionTypes.push(institution.institutionType);
+        // this.selectedFacilityTypes.push(facility.facilityType);
       })
   };
 
@@ -261,10 +263,10 @@ export class DownloadExcelComponent {
     return DownloadFileHelper.downloadFile(url, 'application/xlsx, */*', payload)
   }
 
-  private getInstitution(institutionId: number) {
-    this.institutionService.getInstitution(institutionId).subscribe(
-      institution => {
-        this.departments = institution.departments;
+  private getFacility(facilityId: number) {
+    this.facilityService.getFacility(facilityId).subscribe(
+      facility => {
+        this.departments = facility.departments;
       })
   };
 }

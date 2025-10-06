@@ -25,7 +25,7 @@ namespace HyFive.Services.Tests.Sesjon
         //    {
         //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToAdmin,
         //        SessionId = sesjonId,
-        //        HealthcareOrganizationId = avdeling.HealthcareOrganizationId
+        //        CityId = avdeling.CityId
         //    };
             
         //    // Assert
@@ -51,7 +51,7 @@ namespace HyFive.Services.Tests.Sesjon
         //    {
         //        TransferStatusCode = OverforingstatusTypeKonstanter.TransferredToCoordinator,
         //        SessionId = sesjonId,
-        //        HealthcareOrganizationId = avdeling.HealthcareOrganizationId
+        //        CityId = avdeling.CityId
         //    };
         //    var resultat = await handler.Handle(slettRequest, CancellationToken.None);
 

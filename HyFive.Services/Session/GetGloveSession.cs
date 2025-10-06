@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using MediatR;
@@ -37,14 +37,14 @@ namespace HyFive.Services.Session
                 var session = await _context.GloveSession
                     .AsNoTracking()
                     .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(r => r.Institution)
+                    .Include(s => s.Observer).ThenInclude(r => r.Facility)
                     .Include(s => s.Observations).ThenInclude(o => o.Role)
                     .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
-                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
+                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
                     .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 
-                if (!_userService.HasEmailAndIsActive<Observer>(request.Email).Compile()(session.Observer))
+                if (!_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile()(session.Observer))
                     throw new Exception(
                         $"The session with ID {request.SessionId} is not linked to the user with email {request.Email}");
 

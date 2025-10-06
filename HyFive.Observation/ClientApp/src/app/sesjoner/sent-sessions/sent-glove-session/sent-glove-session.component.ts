@@ -57,7 +57,7 @@ export class SentGloveSessionComponent implements OnInit, OnDestroy {
   
   downloadAsExcelFnct() {
     this.downloadAsExcel = true;
-    this.sessionService.downloadGloveSessionAsExcel(this.session.institutionId, this.session.id).subscribe(
+    this.sessionService.downloadGloveSessionAsExcel(this.session.facilityId, this.session.id).subscribe(
       () => {},
       error => this.toastrService.error(error?.message ? error.message : error, DialogueTexts.ErrorDuringDownloadSessionExcel, {disableTimeOut: true}),
       () => this.downloadAsExcel = false)

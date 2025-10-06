@@ -48,13 +48,13 @@ namespace HyFive.Services.Authentication.Requirements
 
             if (userType == UserType.Admin)
             {
-                var erFhiAdmin = _userService.IsFhiAdmin(email);
+                var erFhiAdmin = _userService.IsAdmin(email);
                 if(erFhiAdmin)
                     context.Succeed(requirement);
             }
             if (userType == UserType.AdminOrCoordinator)
             {
-                var IsFhiAdminOrCoordinator = _userService.IsFhiAdminOrCoordinator(email);
+                var IsFhiAdminOrCoordinator = _userService.IsAdminOrCoordinator(email);
                 if(IsFhiAdminOrCoordinator)
                     context.Succeed(requirement);
             }

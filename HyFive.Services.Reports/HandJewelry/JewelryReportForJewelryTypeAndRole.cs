@@ -7,11 +7,11 @@ namespace HyFive.Services.Reports.HandJewelry
     public class JewelryReportForJewelryTypeAndRole
     {
         public string Department { get; set; }
-        public string Institution { get; set; }
+        public string Facility { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToTime { get; set; }
         public ReportForUnit ReportForDepartment { get; set; }
-        public ReportForUnit ReportForInstitution { get; set; }
+        public ReportForUnit ReportForFacility { get; set; }
     }
 
     public class ReportForUnit

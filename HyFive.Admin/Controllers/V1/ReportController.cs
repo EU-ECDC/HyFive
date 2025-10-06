@@ -48,9 +48,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("department/gloves/excel")]
         public async Task<IActionResult> CreateGloveReportAsExcel([FromBody] GloveReportRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -59,7 +59,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetGloveObservations.Query
             {
                 DepartmentIds = request.DepartmentIds,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
                 Role = role
@@ -79,9 +79,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("department/handJewelry/excel")]
         public async Task<IActionResult> CreateHandJewelryReportAsExcel([FromBody] HandJewelryReportRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -90,7 +90,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetHandJewelryObservations.Query
             {
                 DepartmentIds = request.DepartmentIds,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
                 Role = role
@@ -110,9 +110,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("department/protectiveEquipment/excel")]
         public async Task<IActionResult> CreateProtectiveEquipmentReportAsExcel([FromBody] ProtectiveEquipmentReport request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -121,7 +121,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetProtectiveEquipmentObservations.Query
             {
                 DepartmentIds = request.DepartmentIds,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
                 Role = role
@@ -141,9 +141,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("department/fiveIndications/excel")]
         public async Task<IActionResult> CreateFiveIndicationsReportAsExcel([FromBody] FiveIndicationsReportRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -152,7 +152,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetFiveIndicationsObservations.Query
             {
                 DepartmentIds = request.DepartmentIds,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
                 Role = role
@@ -172,9 +172,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("fiveIndications/department/pdf")]
         public async Task<IActionResult> CreateFiveIndicationsReportForDepartmentPdf([FromBody] FiveIndicationsReportRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -203,9 +203,9 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("handJewelry/department/pdf")]
         public async Task<IActionResult> CreateHandJewelryReportForDepartmentPdf([FromBody] HandJewelryReportRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -214,7 +214,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new GetHandJewelryReportForDepartment.Query
             {
                 DepartmentIds = request.DepartmentIds,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 FromDateTime = request.FromDate,
                 ToDateTime = request.ToDate,
                 Role = role
@@ -228,16 +228,16 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Checks if there is report data for a given session type, institutions, and (optionally) departments.
+        /// Checks if there is report data for a given session type, facilities, and (optionally) departments.
         /// </summary>
         /// <param name="request">The request body.</param>
         /// <returns>True if data exists, otherwise false.</returns>
         [HttpPost("reportForSessionTypeHasData")]
         public async Task<IActionResult> ReportForSessionTypeHasData([FromBody] ReportForSessionTypeHasDataRequest request)
         {
-            foreach (var institutionId in request.InstitutionIds)
+            foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -246,7 +246,7 @@ namespace HyFive.Admin.Controllers.V1
             var query = new ReportForSessionTypeHasData.Query
             {
                 SessionType = request.SessionType,
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 DepartmentIds = request.DepartmentIds,
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
@@ -261,15 +261,15 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPost("fiveΙndications/compliance")]
         public async Task<IActionResult> FiveIndicationsCompliance([FromBody] FiveIndicationsComplianceRequest request)
         {
-            foreach(var institutionId in request.InstitutionIds)
+            foreach(var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(institutionId))
+                if (!UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
             var query = new Compliance.Query
             {
-                InstitutionIds = request.InstitutionIds,
+                FacilityIds = request.FacilityIds,
                 Interval = request.Interval,
                 FromMonth = request.FromMonth,
                 FromYear = request.FromYear,
@@ -280,7 +280,7 @@ namespace HyFive.Admin.Controllers.V1
                 RoleIds = request.RoleIds,
                 DepartmentIds = request.DepartmentIds,
                 DepartmentTypeIds = request.DepartmentTypeIds,
-                InstitutionTypeIds = request.InstitutionTypeIds,
+                FacilityTypeIds = request.FacilityTypeIds,
                 TranferredTo = request.TransferredTo
             };
 
@@ -288,12 +288,12 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(graphList);
         }
 
-        private bool UserIsAuthorized(int institutionId)
+        private bool UserIsAuthorized(int facilityId)
         {
-            if (_userService.IsFhiAdmin())
+            if (_userService.IsAdmin())
                 return true;
 
-            if (_userService.IsCoordinatorForInstitution(institutionId))
+            if (_userService.IsCoordinatorForFacility(facilityId))
                 return true;
 
             return false;

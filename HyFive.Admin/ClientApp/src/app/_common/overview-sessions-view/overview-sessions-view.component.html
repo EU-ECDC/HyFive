@@ -1,0 +1,131 @@
+<div class="row mb-5">
+  <app-accordion class="col-12"
+                 [items]="session"
+                 [headerTemplate]="isTransferOverview ? transferHeader : overviewHeader"
+                 [contentTemplate]="contentSessions">
+  </app-accordion>
+</div>
+
+<!-- Header templates -->
+<ng-template #overviewHeader let-item="item">
+  <div class="row w-100">
+    <div class="col mb-3 mb-lg-2">
+      <div class="mb-2"><strong>Session type</strong></div>
+      <span>{{item.type}}</span>
+    </div>
+    <div class="col mb-3 mb-lg-2">
+      <div class="mb-2"><strong>Observer</strong></div>
+      <span>{{item.observerName}}</span>
+    </div>
+    <div class="col mb-3 mb-lg-2">
+      <div class="mb-2"><strong>Start Date</strong></div>
+      <span>{{item.startDate | date:'dd.MM.yyyy HH:mm' }}</span>
+    </div>
+    <div class="col mb-3 mb-lg-2">
+      <div class="mb-2"><strong>Registered Date</strong></div>
+      <span>{{item.createdDate | date:'dd.MM.yyyy HH:mm' }}</span>
+    </div>
+    <div class="col mb-3 mb-lg-2">
+      <div class="mb-2"><strong>Transfer Status</strong></div>
+      <span>{{item.transferStatus.name}}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #transferHeader let-item="item">
+  <div class="row w-100">
+    <div class="col-12 col-md-2 mb-3">
+      <div class="mb-2"><strong>Department Name</strong></div>
+      <span>{{item.department.name}}</span>
+    </div>
+    <div class="col-12 col-md-2 mb-3">
+      <div class="mb-2"><strong>Observer</strong></div>
+      <span>{{item.observerName}}</span>
+    </div>
+    <div class="col-12 col-md-2 mb-3">
+      <div class="mb-2"><strong>Session type</strong></div>
+      <span>{{item.type}}</span>
+    </div>
+    <div class="col-12 col-md-2 mb-3">
+      <div class="mb-2"><strong>Registered date</strong></div>
+      <span>{{item.createdDate | date:'dd.MM.yyyy HH:mm' }}</span>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngIf="!isTransferToFhi(item.transferStatus.code)">
+      <div class="mb-2 me-2">
+        <button class="btn btn-sm fhi-btn-primary col-md-12" (click)="transfer(item.id, $event)">
+          <fa-icon [icon]="faPaperPlane"></fa-icon>
+          Transfer to Admin
+        </button>
+      </div>
+      <div>
+        <app-confirmation-dialog *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator"
+                                [buttonText]="'Delete session'"
+                                (confirmEvent)="deleteSession(item)"
+                                [dialogMessage]="getDeleteMessage(item)"
+                                [shouldUseIcon]="true"
+                                [buttonClass]="'btn btn-sm fhi-btn-secondary col-md-11'">
+        </app-confirmation-dialog>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 mb-3" *ngIf="isTransferToFhi(item.transferStatus.code)"></div>
+    <div class="col-12 col-md-1 mb-3">
+      <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator" class="mt-2">
+        <input type="checkbox" id="check" class="form-check-input" (click)="selectOverToFhi(item.id, $event)" [(ngModel)]="item.isSelected">
+        <label class="ms-2" for="check">Select</label>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- Content template(s) -->
+<ng-template #contentSessions let-item="item">
+  <div class="mt-n3" style="padding: 0.625rem 0.75rem;">
+    <div class="pb-4">
+      <app-edit-sessionsdata [session]="item"
+                               [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                               [facilityId]="item.department.facilityId">
+      </app-edit-sessionsdata>
+    </div>
+    <h3 class="text-dark mb-3"><strong>Observations</strong></h3>
+    <!-- Five Indicatiobs -->
+    <ng-container *ngIf="item.type === SessionType[SessionType.FiveIndications]">
+      <app-edit-five-indications-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                                   (observationUpdatedEvent)="observationUpdatedEvent.emit(true)"
+                                                   (observationDeletedEvent)="observationDeletedEvent.emit(true)"
+                                                   [department]="item.department"
+                                                   [observations]="item.observations"
+                                                   [sessionId]="item.id"></app-edit-five-indications-observations>
+    </ng-container>
+    <!-- HandJewelry -->
+    <ng-container *ngIf="item.type === SessionType[SessionType.HandJewelry]">
+      <app-edit-handjewelry-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                            [sessionId]="item.id"
+                                            [observations]="item.observations"
+                                            [department]="item.department"
+                                            (observationDeletedEvent)="observationDeletedEvent.emit()"
+                                            (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-handjewelry-observations>
+    </ng-container>
+    <!-- Gloves -->
+    <ng-container *ngIf="item.type === SessionType[SessionType.Gloves]">
+      <app-edit-glove-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                        [sessionId]="item.id"
+                                        [observations]="item.observations"
+                                        [department]="item.department"
+                                        (observationDeletedEvent)="observationDeletedEvent.emit()"
+                                        (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-glove-observations>
+    </ng-container>
+    <!-- ProtectiveEquipment -->
+    <ng-container *ngIf="item.type === SessionType[SessionType.ProtectiveEquipment]">
+      <app-edit-protective-equipment-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+                                                    [sessionId]="item.id"
+                                                    [observations]="item.observations"
+                                                    [department]="item.department"
+                                                    (observationDeletedEvent)="observationDeletedEvent.emit()"
+                                                    (observationUpdatedEvent)="observationUpdatedEvent.emit()">
+      </app-edit-protective-equipment-observations>
+    </ng-container>
+  </div>
+</ng-template>
+

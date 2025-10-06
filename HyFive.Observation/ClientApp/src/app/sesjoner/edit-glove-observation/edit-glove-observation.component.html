@@ -112,7 +112,7 @@
           <div class="w-100" *ngIf="glovesUsed">
             <h2 class="h5">Hand hygiene after wearing gloves?</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
-              <div class="d-flex justify-content-center" *ngFor="let type of handHygieneAfterGloveUseTypes">
+              <div class="d-flex justify-content-center" *ngFor="let type of postGloveHandHygieneTypes">
                 <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !isEditMode" [value]="type.code" [(ngModel)]="selectedHygieneAfterGloveUse" />
                 <label class="btn fhi-btn-group__btn" for="btnradio-{{type.name}}">{{type.name}}</label>
               </div>
@@ -126,7 +126,7 @@
             <ng-container *ngIf="isEditMode">
               <app-register-comment [disabled]="isReadonly"
                                        [commentInput]="observation.comment"
-                                       [institutionid]="institutionid"
+                                       [facilityid]="facilityid"
                                        [sessiontype]="gloveSessionType"
                                        (commentRegisteredEvent)="registerComment($event)">
               </app-register-comment>

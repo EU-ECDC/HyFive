@@ -9,13 +9,13 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.User;
 using HyFive.Services.FiveIndication;
-using HyFive.Services.Institution;
+using HyFive.Services.Facility;
 using Moq;
 using Microsoft.Extensions.Logging;
 using HyFive.Services.Authentication.User;
@@ -68,23 +68,23 @@ namespace HyFive.Services.Tests
             return databaseContext;
         }
 
-        protected async Task<(Models.V1.Institution.Institution, Models.V1.User.User)> CreateInstitution()
+        protected async Task<(Models.V1.Facility.Facility, Models.V1.User.User)> CreateInstitution()
         {
-            var CreateInstitutionHandler = new CreateInstitution.Handler(DatabaseContext, Mapper);
+            var CreateInstitutionHandler = new CreateFacility.Handler(DatabaseContext, Mapper);
 
             DatabaseContext.Role.AddRange(new Domain.Observation.Role("Doctor"), new Domain.Observation.Role("Nurse"));
             DatabaseContext.SaveChanges();
-            var institution = await CreateInstitutionHandler.Handle(new CreateInstitution.Command()
+            var institution = await CreateInstitutionHandler.Handle(new CreateFacility.Command()
             {
-                Request = new CreateInstitutionRequest()
+                Request = new CreateFacilityRequest()
                 {
                     CoordinatorHPRNumber = Seed.SeedKoordinatorHprNummer,
                     CoordinatorLastName = Seed.SeedKoordinatorFornavn,
                     CoordinatorFirstName = Seed.SeedKoordinatorFornavn,
                     Abbreviation = "FHI",
                     HERId = "85217",
-                    InstitutionTypeId = DatabaseContext.InstitutionType.First().Id,
-                    InstitutionName = "FOLKEHELSEINSTITUTTET",
+                    FacilityTypeId = DatabaseContext.FacilityType.First().Id,
+                    FacilityName = "FOLKEHELSEINSTITUTTET",
                     RegionId = DatabaseContext.Region.First().Id
                 }
             }, CancellationToken.None);
@@ -96,7 +96,7 @@ namespace HyFive.Services.Tests
                 User = new Models.V1.User.User()
                 {
                     HPRNumber = Seed.SeedObservatorHprNummer,
-                    InstitutionId = institution.Id,
+                    FacilityId = institution.Id,
                     IsDisabled = false,
                     LastName = "Stangeland",
                     FirstName = "Stian Pål",
@@ -119,9 +119,9 @@ namespace HyFive.Services.Tests
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var departmentModel = Mapper.Map<Models.V1.Institution.Department>(
-                department ?? DatabaseContext.Department.Include(x => x.Institution).Include(x => x.Roles).First());
-            var institution = DatabaseContext.Institution.First(x => x.Id == departmentModel.InstitutionId);
+            var departmentModel = Mapper.Map<Models.V1.Facility.Department>(
+                department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
+            var institution = DatabaseContext.Facility.First(x => x.Id == departmentModel.FacilityId);
             var activityTypes = DatabaseContext.ActivityType.ToList();
             var indicationTypesList = DatabaseContext.IndicationTypes.ToList();
 
@@ -149,7 +149,7 @@ namespace HyFive.Services.Tests
                     }
                 },
                 Comment = "Comment til observasjonen",
-                RegistrationTime = DateTime.UtcNow,
+                RegisteredTime = DateTime.UtcNow,
                 Role = useDefaultRole ? departmentModel.Roles.First() : role,
                 SessionId = sessionId.ToString()
             };
@@ -160,16 +160,15 @@ namespace HyFive.Services.Tests
                 {
                     Id = sessionId.ToString(),
                     Department = departmentModel,
-                    InstitutionName = institution.Name,
-                    InstitutionId = institution.Id,
+                    FacilityName = institution.Name,
+                    FacilityId = institution.Id,
                     Observations = new List<FiveIndicatorsObservation>()
                     {
                         observation
                     },
                     Comment = "Comment til sesjonen",
-                    StartTime = DateTime.UtcNow
-                },
-                HprNumber = hprNumber
+                    CreatedDate = DateTime.UtcNow
+                }
             }, CancellationToken.None);
 
             return fourIndicatorsSessionGuid;

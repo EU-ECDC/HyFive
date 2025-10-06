@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { FiveIndicationsSessionService } from "../services/data/five-indications-session.service";
-import { InstitutionService } from "../services/data/InstitutionService";
-import { Institution } from "../models/api/Institution";
+import { Facility } from "../models/api/Facility";
 import { RoleSelected } from "../models/registration/roleSelected.model";
 import { Urls } from "../constants/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +12,7 @@ import { SessionType } from "../models/api/SessionType";
 import { GloveSessionService } from "../services/data/glove-session.service";
 import { AuthorizationService } from "../services/data/authorization.service";
 import { LoggedInUser } from "../models/api/LoggedInUser";
+import { FacilityService } from "../services/data/FacilityService";
 
 @Component({
   selector: "app-home-page-observation",
@@ -21,7 +21,7 @@ import { LoggedInUser } from "../models/api/LoggedInUser";
 export class HomePageForObservationComponent implements OnInit {
   SessionType = SessionType;
   selectedSessionType: SessionType;
-  timekeeping: boolean;
+  time: boolean;
   gloveUse: boolean;
   roleSelected: RoleSelected[];
   selectedDepartmentId: string = null;
@@ -29,9 +29,9 @@ export class HomePageForObservationComponent implements OnInit {
   showHomePage: boolean;
   showProtectiveEquipment: boolean;
   user: LoggedInUser;
-  institutionOptions: Institution[];
-  selectedInstitutionOptionId: number;
-  institution: Institution;
+  facilityOptions: Facility[];
+  selectedFacilityOptionId: number;
+  facility: Facility;
 
   faCircle = faCircle;
   faUserNurse = faUserNurse;
@@ -42,7 +42,7 @@ export class HomePageForObservationComponent implements OnInit {
     private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
-    private institutionService: InstitutionService,
+    private facilityService: FacilityService,
     private authorizationService: AuthorizationService
   ) {}
 
@@ -57,38 +57,38 @@ export class HomePageForObservationComponent implements OnInit {
 
   resetState() {
     this.selectedSessionType = SessionType.NotSelected;
-    this.timekeeping = false;
+    this.time = false;
     this.gloveUse = false;
     this.roleSelected = [];
     this.selectedDepartmentId = null;
     this.showHomePage = true;
     this.showProtectiveEquipment = false;
-    this.institutionOptions = [];
-    this.selectedInstitutionOptionId = null;
-    this.institution = null;
-    this.institutionService
-      .getInstitutions()
-      .subscribe((institutions: Institution[]) => {
-        this.institutionOptions = institutions;
-        let onlyInstitution: Institution = null;
-        if (this.institutionOptions?.length == 1) {
-          onlyInstitution = this.institutionOptions[0];
+    this.facilityOptions = [];
+    this.selectedFacilityOptionId = null;
+    this.facility = null;
+    this.facilityService
+      .getFacilities()
+      .subscribe((facilities: Facility[]) => {
+        this.facilityOptions = facilities;
+        let onlyFacility: Facility = null;
+        if (this.facilityOptions?.length == 1) {
+          onlyFacility = this.facilityOptions[0];
         }
 
-        this.institutionService
-          .getSelectedInstitution()
-          .subscribe((selectedInstitution) => {
-            if (selectedInstitution) {
-              this.institution = selectedInstitution;
+        this.facilityService
+          .getSelectedFacility()
+          .subscribe((selectedFacility) => {
+            if (selectedFacility) {
+              this.facility = selectedFacility;
             }
-            if (!selectedInstitution && onlyInstitution) {
-              this.institution = onlyInstitution;
-              this.institutionService.updateSelectedInstitutionId(
-                onlyInstitution.id
+            if (!selectedFacility && onlyFacility) {
+              this.facility = onlyFacility;
+              this.facilityService.updateSelectedFacilityId(
+                onlyFacility.id
               );
             }
-            this.selectedInstitutionOptionId = this.institution
-              ? this.institution.id
+            this.selectedFacilityOptionId = this.facility
+              ? this.facility.id
               : null;
           });
       });
@@ -138,7 +138,7 @@ export class HomePageForObservationComponent implements OnInit {
   startFiveIndicationsSession() {
     let sessionId = this.fiveIndicationsSessionService.createSessionView(
       this.gloveUse,
-      this.timekeeping,
+      this.time,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
       this.getSelectedDepartment()
     );
@@ -170,15 +170,15 @@ export class HomePageForObservationComponent implements OnInit {
     });
   }
 
-  selectedInstitutionChanged() {
-    // change institution
-    this.institutionService.updateSelectedInstitutionId(
-      this.selectedInstitutionOptionId
+  selectedFacilityChanged() {
+    // change facility
+    this.facilityService.updateSelectedFacilityId(
+      this.selectedFacilityOptionId
     );
 
-    // change selectedInstitution
-    this.institution = this.institutionOptions.find(
-      (x) => x.id === this.selectedInstitutionOptionId
+    // change selectedFacility
+    this.facility = this.facilityOptions.find(
+      (x) => x.id === this.selectedFacilityOptionId
     );
     this.selectedDepartmentId = null;
     this.selectedSessionType = SessionType.NotSelected;
@@ -186,13 +186,13 @@ export class HomePageForObservationComponent implements OnInit {
   }
 
   getSelectedDepartment(): Department {
-    return this.institution.departments.find(
+    return this.facility.departments.find(
       (x) => x.id === parseInt(this.selectedDepartmentId)
     );
   }
 
   selectedDepartmentChanged() {
-    this.roleSelected = this.institution?.departments
+    this.roleSelected = this.facility?.departments
       .find((x) => x.id === parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;

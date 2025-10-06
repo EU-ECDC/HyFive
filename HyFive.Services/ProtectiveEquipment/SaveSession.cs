@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Domain.User;
+using ObserverUser = HyFive.Domain.User.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,11 +40,11 @@ namespace HyFive.Services.ProtectiveEquipment
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Verify that the observer is an observer at the institution
+                // Verify that the observer is an observer at the facility
                 var observer = await GetObserver(request, cancellationToken);
                 if (observer == null)
                     throw new Exception(
-                        $"Did not find an observer with email {request.Email} at the institution with ID {request.Session.Department.InstitutionId}");
+                        $"Did not find an observer with email {request.Email} at the facility with ID {request.Session.Department.FacilityId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
@@ -98,21 +98,20 @@ namespace HyFive.Services.ProtectiveEquipment
             }
 
 
-            private async Task<Observer> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
             {
-                var institution = await _context.Institution
+                var facility = await _context.Facility
                     .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.InstitutionId);
+                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
-                if (institution == null)
+                if (facility == null)
                     throw new Exception(
-                        $"Did not find the specified institution with ID: {request.Session.Department.InstitutionId}");
+                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return institution
+                return facility
                     .Users
-                    .OfType<Observer>()
                     .FirstOrDefault(_userService
-                        .HasEmailAndIsActive<Observer>(request.Email)
+                        .HasEmailAndIsActive<ObserverUser>(request.Email)
                         .Compile());
             }
         }

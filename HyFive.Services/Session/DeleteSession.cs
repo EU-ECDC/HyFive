@@ -14,7 +14,7 @@ namespace HyFive.Services.Session
         public class Command : IRequest<DeleteSessionResponse>
         {
             public Guid SessionId { get; set; }
-            public int InstitutionId { get; set; }
+            public int FacilityId { get; set; }
             public string TransferStatusCode { get; set; }
         }
 
@@ -29,15 +29,15 @@ namespace HyFive.Services.Session
             
             public async Task<DeleteSessionResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var respons = new DeleteSessionResponse();
+                var response = new DeleteSessionResponse();
                 var sessionAndType = await _databaseContext.Session
                     .AsNoTracking()
-                    .Include(s => s.Department).ThenInclude(a => a.Institution)
-                    .Select(s => new {s.Id, s.Discriminator, TransferStatusCode = s.TransferStatus.Code, InstitutionId = s.Department.Institution.Id})
+                    .Include(s => s.Department).ThenInclude(a => a.Facility)
+                    .Select(s => new {s.Id, s.Discriminator, TransferStatusCode = s.TransferStatus.Code, FacilityId = s.Department.Facility.Id})
                     .FirstOrDefaultAsync(s => 
                         s.Id == request.SessionId
                         && s.TransferStatusCode == request.TransferStatusCode
-                        && s.InstitutionId == request.InstitutionId
+                        && s.FacilityId == request.FacilityId
                     );
 
                 if (sessionAndType == null)
@@ -51,23 +51,23 @@ namespace HyFive.Services.Session
                 switch (sessionType)
                 {
                     case SessionType.FiveIndications:
-                        respons.Success = DeleteSessionFourIndicators(request.SessionId);
+                        response.Success = DeleteSessionFourIndicators(request.SessionId);
                         break;
                     case SessionType.HandJewelry:
-                        respons.Success = DeleteSessionHandJewelry(request.SessionId);
+                        response.Success = DeleteSessionHandJewelry(request.SessionId);
                         break;
                     case SessionType.Gloves:
-                        respons.Success = DeleteSessionGloves(request.SessionId);
+                        response.Success = DeleteSessionGloves(request.SessionId);
                         break;
                     case SessionType.ProtectiveEquipment:
-                        respons.Success = DeleteSessionProtectiveEquipment(request.SessionId);
+                        response.Success = DeleteSessionProtectiveEquipment(request.SessionId);
                         break;
                     default:
                         throw new ArgumentException(
                             $"Deletion of session type {sessionType} is not supported.");
                 }
 
-                return respons;
+                return response;
             }
 
             private bool DeleteSessionFourIndicators(Guid sessionIdToDelete)

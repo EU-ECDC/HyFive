@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Institution;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

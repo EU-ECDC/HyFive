@@ -47,7 +47,7 @@
                                          [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Disinfection) }"
                                          [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
                                          [isRegistered]="isActivitySelected(ActivityTypeConstants.Disinfection)"
-                                         [timekeeping]="false"
+                                         [time]="false"
                                          [seconds]="isActivitySelected(ActivityTypeConstants.Disinfection) ? observation.activity?.secondsUsed : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandHoldingWater"
@@ -60,7 +60,7 @@
                                          [ngClass]="{ 'hh-card-slider__aktivitet--active': isActivitySelected(ActivityTypeConstants.Handwash) }"
                                          [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
                                          [isRegistered]="isActivitySelected(ActivityTypeConstants.Handwash)"
-                                         [timekeeping]="false"
+                                         [time]="false"
                                          [seconds]="isActivitySelected(ActivityTypeConstants.Handwash) ? observation.activity?.secondsUsed : 0"
                                          [disabled]="!isEditMode"
                                          [icon]="faHandsWash"
@@ -118,7 +118,7 @@
             <ng-container *ngIf="isEditMode">
               <app-register-comment [disabled]="isReadonly"
                                        [commentInput]="observation.comment"
-                                       [institutionid]="institutionid"
+                                       [facilityid]="facilityid"
                                        [sessiontype]="fiveIndicationsSessionType"
                                        (commentRegisteredEvent)="registerComment($event)">
               </app-register-comment>

@@ -1,0 +1,64 @@
+<div>
+  <div class="row ms-1">
+    <div class="col">
+      <h5>Facility types</h5>
+    </div>
+  </div>
+  <div class="row ms-1">
+    <div class="col-3">
+      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newFacilityType.code' placeholder="Code">
+    </div>
+    <div class="col-3">
+      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newFacilityType.name' placeholder="Name">
+    </div>
+    <div class="col-6">
+      <label></label>
+      <button class="form-control btn fhi-btn-primary" (click)="createFacilityType()" [disabled]="!newFacilityType.code || !newFacilityType.name">Add to</button>
+    </div>
+  </div>
+
+  <div class="col-12 m-3">
+    <ng-container>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th class="text-end" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let facilitytype of facilityTypes">
+              <ng-container *ngIf="facilitytypeAsChanged?.id !== facilitytype.id">
+                <td>{{facilitytype.code}}</td>
+                <td>{{facilitytype.name}}</td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="selectedFacilitytype(facilitytype)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="facilitytypeAsChanged?.id === facilitytype.id">
+                <td>{{facilitytypeAsChanged.code}}</td>
+                <td>
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="facilitytypeAsChanged.name">
+                </td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="updateFacilityType(facilitytypeAsChanged)">
+                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                  </button>
+                  <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
+                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                  </button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+<div class="row">
+  <app-spinner class="col-12" *ngIf="facilityTypes?.length == 0">Loading FacilityTypes</app-spinner>
+</div>

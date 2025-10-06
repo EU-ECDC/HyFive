@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParameters } from '../../../_common/konstanter/queryparameters';
+import { QueryParameters } from '../../../_common/constants/queryparameters';
 import { SessionType } from '../../../models/api/SessionType';
 import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
-import { UrlPaths } from '../../../_common/konstanter/url-paths';
+import { UrlPaths } from '../../../_common/constants/url-paths';
 import { DatePipe } from '@angular/common';
 import { DepartmentService } from '../../../services/data/department.service';
 import { Department} from '../../../models/api/Department';
@@ -21,7 +21,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   selectedSessiontype: SessionType = null;
   fromDate: Date;
   toDate: Date;
-  selectedInstitutionOptions: number = null;
+  selectedFacilityOptions: number = null;
 
   sessionTypeOptions = [
     { name: "FiveIndications", value: SessionType.FiveIndications },
@@ -55,7 +55,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
         this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
-        this.selectedInstitutionOptions = parseInt(params[QueryParameters.InstitutionIdeas]) || null;
+        this.selectedFacilityOptions = parseInt(params[QueryParameters.FacilityIdeas]) || null;
 
         this.getDepartment();
         this.getSessionsForDepartment();
@@ -93,13 +93,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
     return this.datepipe.transform(date, 'dd.MM.yyyy');
   }
 
-  navigateToObservationsForInstitutions() {
+  navigateToObservationsForFacilities() {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         SessionType: this.selectedSessiontype,
         FromDate: this.fromDate,
         ToDate: this.toDate,
-        InstitutionIdeas: this.selectedInstitutionOptions
+        FacilityIdeas: this.selectedFacilityOptions
       }
     });
   }
