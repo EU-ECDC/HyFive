@@ -1,0 +1,15 @@
+{{- if .Values.postgres.deploy -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "HyFive.fullname" . }}-db
+  labels:
+    {{- include "HyFive.labels" . | nindent 4 }}
+spec:
+  accessModes:
+   - ReadWriteMany
+  storageClassName: {{ .Values.global.storageclassname }}
+  resources:
+    requests:
+      storage: {{ .Values.postgres.storage }}
+{{- end }}
