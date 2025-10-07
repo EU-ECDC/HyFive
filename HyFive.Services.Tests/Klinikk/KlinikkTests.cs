@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HyFive.Services.Clinic;
+using HyFive.Services.Unit;
 using System;
 
 namespace HyFive.Services.Tests.Klinikk
@@ -14,15 +14,15 @@ namespace HyFive.Services.Tests.Klinikk
         public async Task HentKlinikkTest()
         {
             // Arrange
-            var hentKlinikkHandler = new GetClinic.Handler(DatabaseContext, Mapper);
+            var hentKlinikkHandler = new GetUnit.Handler(DatabaseContext, Mapper);
 
             var institusjon = new Domain.Place.Facility { Id = 9999 };
-            var klinikk = new Domain.Place.Clinic { Id = 9999, Facility = institusjon };
-            DatabaseContext.Clinic.Add(klinikk);
+            var klinikk = new Domain.Place.Unit { Id = 9999, Facility = institusjon };
+            DatabaseContext.Unit.Add(klinikk);
             DatabaseContext.SaveChanges();
 
             // Act
-            var query = new GetClinic.Query() { Id = 9999, FacilityId = institusjon.Id };
+            var query = new GetUnit.Query() { Id = 9999, FacilityId = institusjon.Id };
             var res = await hentKlinikkHandler.Handle(query, new System.Threading.CancellationToken());
 
             // Assert
@@ -34,23 +34,23 @@ namespace HyFive.Services.Tests.Klinikk
         {
             // Arrange
             var institusjon = new Domain.Place.Facility { Id = 9999 };
-            var klinikk = new Domain.Place.Clinic { Id = 9999, Facility = institusjon };
-            var klinikk2 = new Domain.Place.Clinic { Id = 99999, Facility = institusjon };
+            var klinikk = new Domain.Place.Unit { Id = 9999, Facility = institusjon };
+            var klinikk2 = new Domain.Place.Unit { Id = 99999, Facility = institusjon };
             DatabaseContext.Facility.Add(institusjon);
-            DatabaseContext.Clinic.Add(klinikk);
-            DatabaseContext.Clinic.Add(klinikk2);
+            DatabaseContext.Unit.Add(klinikk);
+            DatabaseContext.Unit.Add(klinikk2);
 
             var annenInstitusjon = new Domain.Place.Facility { Id = 1111 };
-            var annenKlinikk = new Domain.Place.Clinic { Id = 1111, Facility = annenInstitusjon };
-            var annenKlinikk2 = new Domain.Place.Clinic { Id = 11111, Facility = annenInstitusjon };
+            var annenKlinikk = new Domain.Place.Unit { Id = 1111, Facility = annenInstitusjon };
+            var annenKlinikk2 = new Domain.Place.Unit { Id = 11111, Facility = annenInstitusjon };
             DatabaseContext.Facility.Add(annenInstitusjon);
-            DatabaseContext.Clinic.Add(annenKlinikk);
-            DatabaseContext.Clinic.Add(annenKlinikk2);
+            DatabaseContext.Unit.Add(annenKlinikk);
+            DatabaseContext.Unit.Add(annenKlinikk2);
 
             DatabaseContext.SaveChanges();
 
-            var hentKlinikkerForInstitusjon = new GetClinicsForFacility.Handler(DatabaseContext, Mapper);
-            var query = new GetClinicsForFacility.Query() { FacilityId = institusjon.Id };
+            var hentKlinikkerForInstitusjon = new GetUnitsForFacility.Handler(DatabaseContext, Mapper);
+            var query = new GetUnitsForFacility.Query() { FacilityId = institusjon.Id };
 
             // Act
             var res = await hentKlinikkerForInstitusjon.Handle(query, new System.Threading.CancellationToken());
@@ -59,7 +59,7 @@ namespace HyFive.Services.Tests.Klinikk
             Assert.Multiple(() =>
             {
                 Assert.That(res.ToList(), Has.Count.EqualTo(2));
-                Assert.That(res, Has.All.Property(nameof(Models.V1.Facility.Clinic.FacilityId)).EqualTo(institusjon.Id));
+                Assert.That(res, Has.All.Property(nameof(Models.V1.Facility.Unit.FacilityId)).EqualTo(institusjon.Id));
                 Assert.That(res.Any(x => x.Id == klinikk.Id));
                 Assert.That(res.Any(x => x.Id == klinikk2.Id));
             });
@@ -71,7 +71,7 @@ namespace HyFive.Services.Tests.Klinikk
             // Arrange and Act
             var institusjon = DatabaseContext.Facility.Include(i => i.Departments).First();
             var opprettetKlinikk = await OpprettKlinikk(institusjon.Id);
-            var opprettetKlinikkFraDatabase = DatabaseContext.Clinic
+            var opprettetKlinikkFraDatabase = DatabaseContext.Unit
                 .Include(k => k.Facility)
                 .Include(k => k.Departments)
                 .FirstOrDefault(k => k.Id == opprettetKlinikk.Id);
@@ -127,10 +127,10 @@ namespace HyFive.Services.Tests.Klinikk
             var institusjon = DatabaseContext.Facility.Include(i => i.Departments).First();
             var avdelinger = institusjon.Departments.Take(1);
             var opprettetKlinikk = await OpprettKlinikk(institusjon.Id);
-            var oppdaterKlinikkHandler = new UpdateClinic.Handler(DatabaseContext, Mapper);
-            var oppdaterCommand = new UpdateClinic.Command()
+            var oppdaterKlinikkHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
+            var oppdaterCommand = new UpdateUnit.Command()
             {
-                Clinic = new Models.V1.Facility.Clinic
+                Unit = new Models.V1.Facility.Unit
                 {
                     Id = opprettetKlinikk.Id,
                     Name = "Leverpostei",
@@ -148,7 +148,7 @@ namespace HyFive.Services.Tests.Klinikk
                 Assert.That(resultatOppdater.Id, Is.EqualTo(opprettetKlinikk.Id));
                 Assert.That(resultatOppdater.Name, Is.Not.EqualTo(opprettetKlinikk.Name));
                 Assert.That(resultatOppdater.FacilityId, Is.EqualTo(opprettetKlinikk.FacilityId));
-                Assert.That(resultatOppdater.Departments.Count, Is.EqualTo(oppdaterCommand.Clinic.Departments.Count));
+                Assert.That(resultatOppdater.Departments.Count, Is.EqualTo(oppdaterCommand.Unit.Departments.Count));
             });
         }
 
@@ -159,11 +159,11 @@ namespace HyFive.Services.Tests.Klinikk
             var institusjon = DatabaseContext.Facility.Include(i => i.Departments).First();
             var avdelinger = institusjon.Departments.Take(1);
             var opprettetKlinikk = await OpprettKlinikk(institusjon.Id);
-            var oppdaterKlinikkHandler = new UpdateClinic.Handler(DatabaseContext, Mapper);
+            var oppdaterKlinikkHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
             var nyinstitusjon = DatabaseContext.Facility.Include(i => i.Departments).First(x => x.Id != institusjon.Id);
-            var oppdaterCommand = new UpdateClinic.Command()
+            var oppdaterCommand = new UpdateUnit.Command()
             {
-                Clinic = new Models.V1.Facility.Clinic
+                Unit = new Models.V1.Facility.Unit
                 {
                     Id = opprettetKlinikk.Id,
                     Name = "Leverpostei",
@@ -188,12 +188,12 @@ namespace HyFive.Services.Tests.Klinikk
             // Arrange
             var institusjon = DatabaseContext.Facility.Include(i => i.Departments).First();
             var opprettetKlinikk = await OpprettKlinikk(institusjon.Id);
-            var oppdaterKlinikkHandler = new UpdateClinic.Handler(DatabaseContext, Mapper);
+            var oppdaterKlinikkHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
 
             var annenInstitusjon = DatabaseContext.Facility.Include(i => i.Departments).First(x => x.Id != institusjon.Id);
-            var oppdaterCommand = new UpdateClinic.Command()
+            var oppdaterCommand = new UpdateUnit.Command()
             {
-                Clinic = new Models.V1.Facility.Clinic
+                Unit = new Models.V1.Facility.Unit
                 {
                     Id = opprettetKlinikk.Id,
                     Name = "Leverpostei",
@@ -214,17 +214,17 @@ namespace HyFive.Services.Tests.Klinikk
 
         #region Helper-methods
 
-        private async Task<Models.V1.Facility.Clinic> OpprettKlinikk(int institusjonsId, List<Domain.Place.Department> avdelinger = null)
+        private async Task<Models.V1.Facility.Unit> OpprettKlinikk(int institusjonsId, List<Domain.Place.Department> avdelinger = null)
         {
-            var opprettKlinikkHandler = new CreateClinic.Handler(DatabaseContext, Mapper);
+            var opprettKlinikkHandler = new CreateUnit.Handler(DatabaseContext, Mapper);
             var avdelingerForInstitusjon = avdelinger ?? DatabaseContext.Facility
                 .Include(i => i.Departments)
                 .FirstOrDefault(x => x.Id == institusjonsId)?.Departments.ToList();
             var avdelingerForInstitusjonModeller =
                 Mapper.Map<List<Domain.Place.Department>, List<Models.V1.Facility.Department>>(avdelingerForInstitusjon ?? new List<Domain.Place.Department>());
-            var opprettCommand = new CreateClinic.Command()
+            var opprettCommand = new CreateUnit.Command()
             {
-                Clinic = new Models.V1.Facility.Clinic
+                Unit = new Models.V1.Facility.Unit
                 {
                     Name = "Test",
                     FacilityId = institusjonsId,

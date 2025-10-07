@@ -4,7 +4,7 @@ using Reinforced.Typings.Attributes;
 namespace HyFive.Models.V1.Facility
 {
     [TsInterface(AutoI = false, IncludeNamespace = false)]
-    public class Clinic
+    public class Unit
     {
         public int Id { get; set; }
         public int FacilityId { get; set; }

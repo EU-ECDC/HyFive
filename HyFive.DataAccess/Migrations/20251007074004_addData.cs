@@ -538,16 +538,16 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""Department"" (""Id"", ""FacilityId"", ""Name"", ""DepartmentTypeId"") VALUES (62, 1, N'Surgical', 1) ON CONFLICT (""Id"") DO NOTHING");
 
 
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (1, N'The General Clinic', 1) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (2, N'Nervo', 1) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (3, N'Clinic for Orthopedics, Rheumatology and Dermatology', 2) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (4, N'Medical Clinic', 2) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (5, N'Neurology Clinic', 2) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (6, N'Clinic for Pulmonary and Occupational Medicine and Orkdal Medicine', 2) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (7, N'Clinic for Cardiology', 2) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (12, N'Cardiology', 1) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (13, N'Øistein’s Clinic', 1) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""Clinic"" (""Id"", ""Name"", ""FacilityId"") VALUES (14, N'Surgical Clinic', 1) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (1, N'The General Unit', 1) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (2, N'Nervo', 1) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (3, N'Unit for Orthopedics, Rheumatology and Dermatology', 2) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (4, N'Medical Unit', 2) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (5, N'Neurology Unit', 2) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (6, N'Unit for Pulmonary and Occupational Medicine and Orkdal Medicine', 2) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (7, N'Unit for Cardiology', 2) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (12, N'Cardiology', 1) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (13, N'Øistein’s Unit', 1) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""Unit"" (""Id"", ""Name"", ""FacilityId"") VALUES (14, N'Surgical Unit', 1) ON CONFLICT (""Id"") DO NOTHING");
 
 
             migrationBuilder.Sql(@"INSERT INTO ""Role"" (""Id"", ""Name"", ""Description"") VALUES (1, N'Doctor', NULL) ON CONFLICT (""Id"") DO NOTHING");
@@ -4558,7 +4558,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Facility""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Facility"";");
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""DepartmentType""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""DepartmentType"";");
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Department""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Department"";");
-            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Clinic""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Clinic"";");
+            migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Unit""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Unit"";");
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""Role""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""Role"";");
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""User""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""User"";");
             migrationBuilder.Sql(@"SELECT setval(pg_get_serial_sequence('""ProtectiveEquipment""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""ProtectiveEquipment"";");

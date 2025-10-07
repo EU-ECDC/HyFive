@@ -10,7 +10,7 @@ namespace HyFive.Services.Reports.FiveIndicators
         public FiveIndicatorsReport Department { get; set; } = new FiveIndicatorsReport();
         public FiveIndicatorsReport Facility { get; set; } = new FiveIndicatorsReport();
         public FiveIndicatorsReport ComparableDepartments { get; set; } = new FiveIndicatorsReport();
-        public List<FiveIndicatorsReport> Clinics { get; set; } = new List<FiveIndicatorsReport>();
+        public List<FiveIndicatorsReport> Units { get; set; } = new List<FiveIndicatorsReport>();
 
         public void SetDisplayTimestamps(DateTime startTime, DateTime endTime)
         {
@@ -22,7 +22,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             Facility.ToDate = endTime;
             ComparableDepartments.FromDate = startTime;
             ComparableDepartments.ToDate = endTime;
-            Clinics.ForEach(k =>
+            Units.ForEach(k =>
             {
                 k.FromDate = startTime;
                 k.ToDate = endTime;
