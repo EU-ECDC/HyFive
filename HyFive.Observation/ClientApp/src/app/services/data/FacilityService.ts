@@ -28,8 +28,8 @@ export class FacilityService {
                                                 map(data => data.filter(x => x != null)),
                                                 map(data => {
                                                               let distinctSorted = [...new Map(data.map(item => [item.id, item])).values()]
-                                                                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-                                                              distinctSorted.forEach(facility => facility.departments.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })));
+                                                                          ?.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+                                                              distinctSorted.forEach(facility => facility.departments?.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })));
                                                               return distinctSorted;
                                                             }
                                                     )
