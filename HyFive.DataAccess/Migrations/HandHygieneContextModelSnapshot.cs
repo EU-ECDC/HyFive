@@ -22,21 +22,6 @@ namespace HyFive.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ClinicDepartment", b =>
-                {
-                    b.Property<int>("ClinicsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ClinicsId", "DepartmentsId");
-
-                    b.HasIndex("DepartmentsId");
-
-                    b.ToTable("ClinicDepartment");
-                });
-
             modelBuilder.Entity("DepartmentRole", b =>
                 {
                     b.Property<int>("DepartmentsId")
@@ -50,6 +35,21 @@ namespace HyFive.DataAccess.Migrations
                     b.HasIndex("RolesId");
 
                     b.ToTable("DepartmentRole");
+                });
+
+            modelBuilder.Entity("DepartmentUnit", b =>
+                {
+                    b.Property<int>("DepartmentsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UnitsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DepartmentsId", "UnitsId");
+
+                    b.HasIndex("UnitsId");
+
+                    b.ToTable("DepartmentUnit");
                 });
 
             modelBuilder.Entity("FiveIndicationsObservationIndicationTypes", b =>
@@ -637,30 +637,6 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("City");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Clinic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("FacilityId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FacilityId");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("Clinic");
-                });
-
             modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -811,6 +787,30 @@ namespace HyFive.DataAccess.Migrations
                     b.HasIndex("FacilityId");
 
                     b.ToTable("PredefinedComment");
+                });
+
+            modelBuilder.Entity("HyFive.Domain.Place.Unit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacilityId");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("Unit");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
@@ -1015,21 +1015,6 @@ namespace HyFive.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("Observer");
                 });
 
-            modelBuilder.Entity("ClinicDepartment", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.Clinic", null)
-                        .WithMany()
-                        .HasForeignKey("ClinicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HyFive.Domain.Place.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DepartmentRole", b =>
                 {
                     b.HasOne("HyFive.Domain.Place.Department", null)
@@ -1041,6 +1026,21 @@ namespace HyFive.DataAccess.Migrations
                     b.HasOne("HyFive.Domain.Observation.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DepartmentUnit", b =>
+                {
+                    b.HasOne("HyFive.Domain.Place.Department", null)
+                        .WithMany()
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HyFive.Domain.Place.Unit", null)
+                        .WithMany()
+                        .HasForeignKey("UnitsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1236,15 +1236,6 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("ProtectiveEquipmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Clinic", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.Facility", "Facility")
-                        .WithMany("Clinic")
-                        .HasForeignKey("FacilityId");
-
-                    b.Navigation("Facility");
-                });
-
             modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
                 {
                     b.HasOne("HyFive.Domain.Place.DepartmentType", "DepartmentType")
@@ -1286,13 +1277,22 @@ namespace HyFive.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HyFive.Domain.Place.Unit", b =>
+                {
+                    b.HasOne("HyFive.Domain.Place.Facility", "Facility")
+                        .WithMany("Units")
+                        .HasForeignKey("FacilityId");
+
+                    b.Navigation("Facility");
+                });
+
             modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
                 {
                     b.HasOne("HyFive.Domain.Place.Department", "Department")
                         .WithMany("Sessions")
                         .HasForeignKey("DepartmentId");
 
-                    b.HasOne("HyFive.Domain.User.Observer", "Observer")
+                    b.HasOne("HyFive.Domain.User.User", "Observer")
                         .WithMany()
                         .HasForeignKey("ObserverId");
 
@@ -1355,11 +1355,11 @@ namespace HyFive.DataAccess.Migrations
 
             modelBuilder.Entity("HyFive.Domain.Place.Facility", b =>
                 {
-                    b.Navigation("Clinic");
-
                     b.Navigation("Departments");
 
                     b.Navigation("PredefinedComment");
+
+                    b.Navigation("Units");
 
                     b.Navigation("Users");
                 });

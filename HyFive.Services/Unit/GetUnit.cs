@@ -7,17 +7,17 @@ using HyFive.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyFive.Services.Clinic
+namespace HyFive.Services.Unit
 {
-    public class GetClinic
+    public class GetUnit
     {
-        public class Query : IRequest<Models.V1.Facility.Clinic>
+        public class Query : IRequest<Models.V1.Facility.Unit>
         {
             public int Id { get; set; }
             public int FacilityId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.Facility.Clinic>
+        public class Handler : IRequestHandler<Query, Models.V1.Facility.Unit>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,13 +28,13 @@ namespace HyFive.Services.Clinic
                 _mapper = mapper;
             }
 
-            public async Task<Models.V1.Facility.Clinic> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.Facility.Unit> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Clinic
+                return await _context.Unit
                     .AsNoTracking()
                     .Include(k => k.Facility)
                     .Where(k => k.Id == request.Id && k.Facility.Id == request.FacilityId)
-                    .ProjectTo<Models.V1.Facility.Clinic>(_mapper.ConfigurationProvider)
+                    .ProjectTo<Models.V1.Facility.Unit>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
             }
         }

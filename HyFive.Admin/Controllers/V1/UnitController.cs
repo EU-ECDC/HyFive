@@ -7,87 +7,87 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HyFive.Services.Clinic;
+using HyFive.Services.Unit;
 //using HyFive.Domain.Place;
 
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.AdminOrCoordinator)]
-    [Route("api/v1/clinic")]
-    public class ClinicController : ControllerBase
+    [Route("api/v1/unit")]
+    public class UnitController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IUserService _userService;
 
-        public ClinicController(IMediator mediator, IUserService userService)
+        public UnitController(IMediator mediator, IUserService userService)
         {
             _mediator = mediator;
             _userService = userService;
         }
 
         /// <summary>
-        /// Get Clinic
+        /// Get Unit
         /// </summary>
         /// <param name="id"></param>
         /// <param name="facilityId"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Clinic), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Clinic>> GetClinic(int id, int facilityId)
+        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Models.V1.Facility.Unit>> GetUnit(int id, int facilityId)
         {
             if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
-                return await _mediator.Send(new GetClinic.Query() { Id = id, FacilityId = facilityId });
+                return await _mediator.Send(new GetUnit.Query() { Id = id, FacilityId = facilityId });
             }
 
             return Unauthorized();
         }
 
         /// <summary>
-        /// Get Clinics For Facility
+        /// Get Units For Facility
         /// </summary>
         /// <param name="facilityId"></param>
         /// <returns></returns>
         [HttpGet("facility/{facilityId}")]
-        [ProducesResponseType(typeof(IEnumerable<Clinic>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Clinic>>> GetClinicsForFacility(int facilityId)
+        [ProducesResponseType(typeof(IEnumerable<Models.V1.Facility.Unit>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<Models.V1.Facility.Unit>>> GetUnitsForFacility(int facilityId)
         {
             if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
-                var clinics = await _mediator.Send(new GetClinicsForFacility.Query() { FacilityId = facilityId });
-                return Ok(clinics);
+                var units = await _mediator.Send(new GetUnitsForFacility.Query() { FacilityId = facilityId });
+                return Ok(units);
             }
 
             return Unauthorized();
         }
 
         /// <summary>
-        /// Create clinic
+        /// Create unit
         /// </summary>
         /// <returns></returns>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Clinic>> CreateClinic([FromBody] Clinic clinic)
+        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Models.V1.Facility.Unit>> CreateUnit([FromBody] Models.V1.Facility.Unit unit)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(clinic.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
             {
-                return await _mediator.Send(new CreateClinic.Command() { Clinic = clinic });
+                return await _mediator.Send(new CreateUnit.Command() { Unit = unit });
             }
 
             return Unauthorized();
         }
 
         /// <summary>
-        /// Update clinic
+        /// Update unit
         /// </summary>
         /// <returns></returns>
         [HttpPut("update")]
-        [ProducesResponseType(typeof(Clinic), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Clinic>> UpdateClinic([FromBody] Clinic clinic)
+        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Models.V1.Facility.Unit>> UpdateUnit([FromBody] Models.V1.Facility.Unit unit)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(clinic.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
             {
-                return await _mediator.Send(new UpdateClinic.Command() { Clinic = clinic });
+                return await _mediator.Send(new UpdateUnit.Command() { Unit = unit });
             }
 
             return Unauthorized();

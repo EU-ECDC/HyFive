@@ -290,25 +290,6 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clinic",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
-                    FacilityId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clinic", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clinic_Facility_FacilityId",
-                        column: x => x.FacilityId,
-                        principalTable: "Facility",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Department",
                 columns: table => new
                 {
@@ -356,6 +337,25 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Unit",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    FacilityId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Unit", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Unit_Facility_FacilityId",
+                        column: x => x.FacilityId,
+                        principalTable: "Facility",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -382,30 +382,6 @@ namespace HyFive.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClinicDepartment",
-                columns: table => new
-                {
-                    ClinicsId = table.Column<int>(type: "integer", nullable: false),
-                    DepartmentsId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClinicDepartment", x => new { x.ClinicsId, x.DepartmentsId });
-                    table.ForeignKey(
-                        name: "FK_ClinicDepartment_Clinic_ClinicsId",
-                        column: x => x.ClinicsId,
-                        principalTable: "Clinic",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClinicDepartment_Department_DepartmentsId",
-                        column: x => x.DepartmentsId,
-                        principalTable: "Department",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DepartmentRole",
                 columns: table => new
                 {
@@ -425,6 +401,30 @@ namespace HyFive.DataAccess.Migrations
                         name: "FK_DepartmentRole_Role_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DepartmentUnit",
+                columns: table => new
+                {
+                    DepartmentsId = table.Column<int>(type: "integer", nullable: false),
+                    UnitsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepartmentUnit", x => new { x.DepartmentsId, x.UnitsId });
+                    table.ForeignKey(
+                        name: "FK_DepartmentUnit_Department_DepartmentsId",
+                        column: x => x.DepartmentsId,
+                        principalTable: "Department",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DepartmentUnit_Unit_UnitsId",
+                        column: x => x.UnitsId,
+                        principalTable: "Unit",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -750,21 +750,6 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clinic_FacilityId",
-                table: "Clinic",
-                column: "FacilityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clinic_Name",
-                table: "Clinic",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClinicDepartment_DepartmentsId",
-                table: "ClinicDepartment",
-                column: "DepartmentsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Department_DepartmentTypeId",
                 table: "Department",
                 column: "DepartmentTypeId");
@@ -794,6 +779,11 @@ namespace HyFive.DataAccess.Migrations
                 name: "IX_DepartmentType_Name",
                 table: "DepartmentType",
                 column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentUnit_UnitsId",
+                table: "DepartmentUnit",
+                column: "UnitsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Facility_Abbreviation",
@@ -1100,6 +1090,16 @@ namespace HyFive.DataAccess.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Unit_FacilityId",
+                table: "Unit",
+                column: "FacilityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Unit_Name",
+                table: "Unit",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_FacilityId",
                 table: "User",
                 column: "FacilityId");
@@ -1119,10 +1119,10 @@ namespace HyFive.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClinicDepartment");
+                name: "DepartmentRole");
 
             migrationBuilder.DropTable(
-                name: "DepartmentRole");
+                name: "DepartmentUnit");
 
             migrationBuilder.DropTable(
                 name: "FiveIndicationsObservationIndicationTypes");
@@ -1146,7 +1146,7 @@ namespace HyFive.DataAccess.Migrations
                 name: "ProtectiveEquipmentSettingTypeProtectiveEquipmentType");
 
             migrationBuilder.DropTable(
-                name: "Clinic");
+                name: "Unit");
 
             migrationBuilder.DropTable(
                 name: "FiveIndicationsObservation");

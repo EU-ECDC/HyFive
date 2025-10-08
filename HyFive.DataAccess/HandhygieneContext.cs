@@ -37,7 +37,7 @@ namespace HyFive.DataAccess
         public DbSet<GloveWithIndicationType> GloveWithIndicationType { get; set; }
         public DbSet<GloveWithoutIndicationType> GloveWithoutIndicationType { get; set; }
         public DbSet<HandHygieneAfterGloveUseType> HandHygieneAfterGloveUseType { get; set; }
-        public DbSet<Clinic> Clinic { get; set; }
+        public DbSet<Unit> Unit { get; set; }
         public DbSet<FiveIndicationsObservation> FiveIndicationsObservation { get; set; }
         public DbSet<GloveObservation> GloveObservation { get; set; }
         public DbSet<HandJewelryObservation> HandJewelryObservation { get; set; }
@@ -146,8 +146,8 @@ namespace HyFive.DataAccess
             mb.Entity<Department>().Property(a => a.Name).HasMaxLength(250);
             mb.Entity<Department>().HasIndex(a => a.Name);
 
-            mb.Entity<Clinic>().Property(k => k.Name).HasMaxLength(250);
-            mb.Entity<Clinic>().HasIndex(k => k.Name);
+            mb.Entity<Unit>().Property(k => k.Name).HasMaxLength(250);
+            mb.Entity<Unit>().HasIndex(k => k.Name);
 
             mb.Entity<User>().Property(b => b.FirstName).HasMaxLength(100).IsRequired();
             mb.Entity<User>().Property(b => b.LastName).HasMaxLength(100).IsRequired();

@@ -1,0 +1,51 @@
+<div class="container">
+  <ng-container *ngIf="!unitAsEdited">
+    <div class="row">
+      <h3>Maintenance of units</h3>
+    </div>
+    <app-create-unit (unitCreatedEvent)="getUnits()" [facilityId]="facilityId" *ngIf="facilityId > 0 && unitId == 0"></app-create-unit>
+    <div class="row mb-5 mt-5">
+      <ng-container>
+        <div class="table-responsive">
+          <table class="table" sortable-table (sorted)="sort($event)">
+            <thead>
+              <tr>
+                <td sortable-column="Name"></td>
+                <td sortable-column="Departments"></td>
+                <td class="text-end" scope="col">Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let unit of units">
+                <td>{{unit.name}}</td>
+                <td>{{getDepartmentName(unit)}}</td>
+                <td class="text-end py-2 align-middle">
+                  <button class="btn fhi-btn-icon" (click)="navigateToUnit(unit.id)">
+                    <i class="icon-pencil"></i><span class="btn__text">Edit unit</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      
+    </div>
+  </ng-container>
+  <ng-container *ngIf="unitAsEdited">
+    <app-edit-a-unit [unit]="unitAsEdited" [units]="units"></app-edit-a-unit>
+  </ng-container>
+  <div class="row" *ngIf="!loading && units?.length == 0">
+    <div class="col-12">
+      <p>There are no units registered at this healthcare facility.</p>
+    </div>
+  </div>
+  <div class="row" *ngIf="loading">
+    <app-spinner class="col-12">Loading units</app-spinner>
+  </div>
+</div>
+
+
+
+
+
