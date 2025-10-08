@@ -1,6 +1,6 @@
 {
-  "name": "ECDC (FHI)",
-  "short_name": "ECDC",
+  "name": "ECDC-HyFive",
+  "short_name": "HyFive",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
