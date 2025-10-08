@@ -12,7 +12,7 @@ import { EditingOfObserversComponent } from "./coordinator/editing-observers/edi
 import { ProfilsideComponent } from "./profile-page/profile-page.component";
 import { TransferSessionsComponent } from './coordinator/transfer-sessions/transfer-sessions.component';
 import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefined-comments/edit-predefined-comments.component';
-import { EditingClinicsComponent } from "./coordinator/redigering-av-klinikker/editing-of-clinic.component";
+import { EditingUnitsComponent } from "./coordinator/redigering-av-klinikker/editing-of-unit.component";
 import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EmailComponent } from './fhiadmin/email/email.component';
@@ -59,8 +59,8 @@ const routes: Routes = [
     component: EditingDepartmentsComponent
   },
   {
-    path: UrlPaths.editingByClinics,
-    component: EditingClinicsComponent
+    path: UrlPaths.editingByUnits,
+    component: EditingUnitsComponent
   },
   {
     path: UrlPaths.editingByCoordinators,

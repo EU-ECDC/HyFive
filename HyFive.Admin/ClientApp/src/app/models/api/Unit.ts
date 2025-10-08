@@ -4,7 +4,7 @@
 
 import { Department } from './Department';
 
-export interface Clinic
+export interface Unit
 {
 	id: number;
 	facilityId: number;

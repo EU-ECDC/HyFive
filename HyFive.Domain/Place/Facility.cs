@@ -16,7 +16,7 @@ namespace HyFive.Domain.Place
         public string HERId { get; set; }
         public DateTime CreatedTime { get; set; }
         public string Name { get; set; }
-        public ICollection<Clinic> Clinic { get; set; }
+        public ICollection<Unit> Units { get; set; }
         public ICollection<Department> Departments { get; set; }
         public string Abbreviation { get; set; }
         [Column("User")]

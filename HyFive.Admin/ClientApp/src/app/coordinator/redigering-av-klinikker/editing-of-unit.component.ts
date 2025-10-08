@@ -2,60 +2,60 @@ import { Component, OnInit } from '@angular/core';
 import { Department} from '../../models/api/Department';
 import { FacilityService } from '../../services/data/facility.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Clinic } from '../../models/api/Clinic';
-import { ClinicService } from '../../services/data/clinic.service';
+import { Unit } from '../../models/api/Unit';
+import { UnitService } from '../../services/data/unit.service';
 import { QueryParameters } from "../../_common/constants/queryparameters";
 import { Facility } from '../../models/api/Facility';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 
 @Component({
-  selector: 'app-editing-of-clinic',
-  templateUrl: './editing-of-clinic.component.html'
+  selector: 'app-editing-of-unit',
+  templateUrl: './editing-of-unit.component.html'
 })
-export class EditingClinicsComponent implements OnInit {
+export class EditingUnitsComponent implements OnInit {
 
-  clinics: Clinic[] = [];
+  units: Unit[] = [];
   facilityName: string;
   facilityId: number;
-  clinicId = 0;
-  clinicAsEdited: Clinic;
+  unitId = 0;
+  unitAsEdited: Unit;
 
   loading: boolean = false;
 
   constructor(private facilityService: FacilityService,
-    private clinicService: ClinicService,
+    private unitService: UnitService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getClinics();
+    this.getUnits();
   }
 
-  getClinics() {
+  getUnits() {
     this.loading = true;
     let selectedFacilityId = this.facilityService.getSelectedFacilityId();
     this.facilityService.getFacility(selectedFacilityId).subscribe((result: Facility) => {
       this.facilityName = result.name;
       this.facilityId = result.id;
-      this.clinicService.getClinicsForFacility(this.facilityId).subscribe(clinics => {
+      this.unitService.getUnitsForFacility(this.facilityId).subscribe(units => {
         this.loading = false;
-        this.clinics = clinics;
+        this.units = units;
         this.route.queryParams.subscribe(
           params => {
-            const ClinicIdFromQuery = params[QueryParameters.id] || 0;
-            this.clinicId = parseInt(ClinicIdFromQuery, 0);
-            this.clinicAsEdited = this.clinics.find(a => a.id === this.clinicId);
+            const UnitIdFromQuery = params[QueryParameters.id] || 0;
+            this.unitId = parseInt(UnitIdFromQuery, 0);
+            this.unitAsEdited = this.units.find(a => a.id === this.unitId);
           }
         );
       });
     });
   }
 
-  getDepartmentName(clinic: Clinic) {
-    return clinic.departments?.map(r => r.name).join(',');
+  getDepartmentName(unit: Unit) {
+    return unit.departments?.map(r => r.name).join(',');
   }
 
-  navigateToClinic(id: number) {
+  navigateToUnit(id: number) {
     if (id === 0) {
       this.router.navigate([], { relativeTo: this.route });
     }
@@ -71,20 +71,20 @@ export class EditingClinicsComponent implements OnInit {
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: Clinic) => any;
+    let propertyOf: (x: Unit) => any;
     switch ($event.columnName) {
       case "Name":
-        propertyOf = (x: Clinic) => x.name;
+        propertyOf = (x: Unit) => x.name;
         break;
       case "Departments":
-        propertyOf = (x: Clinic) => x.departments;
+        propertyOf = (x: Unit) => x.departments;
         break;
       default:
         throw new Error("Invalid sort column");
     }
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-    const sortFunc = (a: Clinic, b: Clinic) => {
-      if(typeof propertyOf(this.clinics[0]) === 'string') {
+    const sortFunc = (a: Unit, b: Unit) => {
+      if(typeof propertyOf(this.units[0]) === 'string') {
         const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
         return result * sortOrder;
       } else {
@@ -93,6 +93,6 @@ export class EditingClinicsComponent implements OnInit {
       }
     };
 
-    this.clinics = this.clinics.sort(sortFunc);
+    this.units = this.units.sort(sortFunc);
   }
 }

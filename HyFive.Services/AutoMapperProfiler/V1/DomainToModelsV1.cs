@@ -153,8 +153,8 @@ namespace HyFive.Services.AutoMapperProfiler.V1
 
             CreateMap<Domain.Place.PredefinedComment, Models.V1.Facility.PredefinedComment>(MemberList.None);
 
-            // Clinic
-            CreateMap<Domain.Place.Clinic, Models.V1.Facility.Clinic>(MemberList.None)
+            // Unit
+            CreateMap<Domain.Place.Unit, Models.V1.Facility.Unit>(MemberList.None)
                 .ForMember(dest => dest.FacilityId, opt => opt.MapFrom(src => src.Facility.Id));
 
             // Five Indications obsrvation-report

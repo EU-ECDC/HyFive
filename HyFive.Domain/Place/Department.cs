@@ -12,7 +12,7 @@ namespace HyFive.Domain.Place
         public Facility Facility { get; set; }
         public ICollection<Role> Roles { get; set; }
         public ICollection<Session.Session> Sessions { get; set; }
-        public ICollection<Clinic> Clinics { get; set; }
+        public ICollection<Unit> Units { get; set; }
         public DepartmentType DepartmentType { get; set; }
     }
 }
