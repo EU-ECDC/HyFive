@@ -224,3 +224,8 @@ a:hover {
 .fhi-header__project::before {
   background-color: #333333;
 }
+
+.form-check-input:checked[type=radio] ~ .form-check-label::after {
+    background-color: #3e8064;
+    color: #3e8064 !important;
+}
