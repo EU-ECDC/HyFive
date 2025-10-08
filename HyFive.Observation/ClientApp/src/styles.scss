@@ -242,4 +242,9 @@ a:hover {
         display: none;
       }
     }
+  }
+  
+.form-check-input:checked[type=radio] ~ .form-check-label::after {
+    background-color: #3e8064;
+    color: #3e8064 !important;
 }
