@@ -36,6 +36,7 @@
 // FHI design system overrides
 @import "styles/overrides/fhi-card.block";
 @import "styles/overrides/fhi-accordion.block";
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -223,4 +224,22 @@ a:hover {
 
 .fhi-header__project::before {
   background-color: #333333;
+}
+
+.mat-mdc-paginator {
+    background-color: #ddf3bf !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 8px !important;
+
+    .mat-mdc-paginator-container {
+      justify-content: center !important;
+      flex-wrap: nowrap;
+      flex-direction: row-reverse;
+
+      .mat-mdc-paginator-page-size-label {
+        display: none;
+      }
+    }
 }

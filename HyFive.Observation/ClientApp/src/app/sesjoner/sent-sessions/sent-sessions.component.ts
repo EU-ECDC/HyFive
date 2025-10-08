@@ -6,6 +6,7 @@ import { SentSessionsService } from "../../services/data/sent-sessions.service";
 import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: "app-sent-sessions",
@@ -23,6 +24,10 @@ export class SentSessionsComponent {
   onlineEvent: Observable<Event>;
   subscriptions: Subscription[] = [];
   isOnline: boolean = true;
+  totalItems = 0; // total number of items, e.g. from API
+  currentPage = 0;
+  offset = 0;
+  pageSize = 25;
 
   faCalendar = faCalendar;
   faSearch = faSearch;
@@ -33,19 +38,26 @@ export class SentSessionsComponent {
 
   loadSessions() {
     this.hasLoadedSessions = false;
-    this.sentSessionsService.getSessions().subscribe((x) => {
-      this.sessions = x.sort((a, b) => {
-        if (a.startDate > b.startDate) {
-          return -1;
-        }
-        if (a.startDate < b.startDate) {
-          return 1;
-        }
-        return 0;
-      });
-      this.sessionsFiltered = this.sessions;
-      this.hasLoadedSessions = true;
+    this.sentSessionsService.getSessions().subscribe((result) => {
+      this.totalItems = result.length;
     });
+  }
+
+    loadSessionsPaginated(offset, limit) {
+        this.sentSessionsService.getSessionsPaginated(offset, limit).subscribe((result) => {
+        this.sessions = result
+          .sort((a, b) => {
+            if (a.startDate > b.startDate) {
+              return -1;
+            }
+            if (a.startDate < b.startDate) {
+              return 1;
+            }
+            return 0;
+          });
+        this.sessionsFiltered = this.sessions;
+        this.hasLoadedSessions = true;
+      });
   }
 
   filterSessions() {
@@ -67,6 +79,14 @@ export class SentSessionsComponent {
     }
   }
 
+    onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    
+    this.offset = this.currentPage * this.pageSize;
+    this.loadSessionsPaginated(this.offset, this.pageSize);
+  }
+
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
       case SessionType.FiveIndications:
@@ -86,6 +106,7 @@ export class SentSessionsComponent {
     this.isOnline = hasInternet;
     if (this.isOnline) {
       this.loadSessions();
+      this.loadSessionsPaginated(this.offset, this.pageSize);
     }
   }
 }

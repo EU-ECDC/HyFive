@@ -21,6 +21,11 @@ export class SentSessionsService {
     return this.httpClient.get<SessionReport[]>(url);
   }
 
+  getSessionsPaginated(offset: number, limit: number): Observable<SessionReport[]> {
+    const url = `${environment.apiBaseUrl}/v1/session/`;
+    return this.httpClient.get<SessionReport[]>(url);
+  }
+
   getFiveIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
