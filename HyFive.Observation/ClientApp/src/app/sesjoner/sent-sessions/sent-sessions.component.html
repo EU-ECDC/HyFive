@@ -27,10 +27,10 @@
         </div>
       </div>
       <div class="row p-3">
-        <mat-paginator
+        <mat-paginator *ngIf="hasLoadedSessions && totalItems > 0"
           [length]="totalItems"
           [pageSize]="pageSize"
-          [pageSizeOptions]="[25, 30, totalItems]"
+          [pageSizeOptions]="pageSizeOptions"
           (page)="onPageChange($event)">
         </mat-paginator>
       </div>

@@ -12,6 +12,7 @@ import { ToastrService } from "ngx-toastr";
 import { GloveSessionService } from "../../services/data/glove-session.service";
 import { forkJoin, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -29,6 +30,11 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   hasSelectedASession: boolean = false;
 
   faCalendar = faCalendar;
+  totalItems = 0; // total number of items, e.g. from API
+  currentPage = 0;
+  offset = 0;
+  pageSize = 25;
+  pageSizeOptions = [25,30];
 
   constructor(
     private fiveIndicationsSessionService: FiveIndicationsSessionService,
@@ -41,14 +47,14 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadSessions();
+    this.loadSessions(this.offset, this.pageSize);
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
   }
 
-  loadSessions() {
+  loadSessions(offset, limit) {
     this.sessions = this.fiveIndicationsSessionService
       .getSessions()
       .map((f) => this.createSessionView(f, SessionType.FiveIndications))
@@ -76,6 +82,11 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
         }
         return 0;
       });
+    this.totalItems = this.sessions?.length;
+    if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+      this.pageSizeOptions.push(this.totalItems);
+    }
+    this.sessions = this.sessions.slice(offset, offset + limit);
     this.sessionsFiltered = this.sessions;
   }
 
@@ -95,6 +106,14 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     } else {
       this.sessionsFiltered = this.sessions;
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    
+    this.offset = this.currentPage * this.pageSize;
+    this.loadSessions(this.offset, this.pageSize);
   }
 
   createSessionView(

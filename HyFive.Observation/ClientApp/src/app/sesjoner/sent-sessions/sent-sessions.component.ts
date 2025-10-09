@@ -28,6 +28,7 @@ export class SentSessionsComponent {
   currentPage = 0;
   offset = 0;
   pageSize = 25;
+  pageSizeOptions = [25,30];
 
   faCalendar = faCalendar;
   faSearch = faSearch;
@@ -40,6 +41,10 @@ export class SentSessionsComponent {
     this.hasLoadedSessions = false;
     this.sentSessionsService.getSessions().subscribe((result) => {
       this.totalItems = result.length;
+      if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+        this.pageSizeOptions.push(this.totalItems);
+      }
+      this.hasLoadedSessions = true;
     });
   }
 
@@ -56,7 +61,6 @@ export class SentSessionsComponent {
             return 0;
           });
         this.sessionsFiltered = this.sessions;
-        this.hasLoadedSessions = true;
       });
   }
 
@@ -79,7 +83,7 @@ export class SentSessionsComponent {
     }
   }
 
-    onPageChange(event: PageEvent) {
+  onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     
