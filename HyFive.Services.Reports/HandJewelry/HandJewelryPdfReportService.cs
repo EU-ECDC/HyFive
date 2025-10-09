@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using Image = iTextSharp.text.Image;
 using Microsoft.Extensions.Hosting;
+using iTextSharp.text;
 
 namespace HyFive.Services.Reports.HandJewelry
 {
@@ -205,7 +206,7 @@ namespace HyFive.Services.Reports.HandJewelry
                 Scales = new Scales
                 {
                     XAxes = new[] { new Xax { Stacked = false } },
-                    YAxes = new[] { new Yax { Stacked = false, Ticks = new Ticks { BeginAtZero = true }, ScaleLabel = new ScaleLabel { LabelString = "[%]", Display = true } } }
+                    YAxes = new[] { new Yax { Stacked = false, Ticks = new Ticks { BeginAtZero = true }, ScaleLabel = new ScaleLabel { LabelString = "Compliance (%)", Display = true } } }
                 }
             };
 
@@ -218,13 +219,12 @@ namespace HyFive.Services.Reports.HandJewelry
         /// </summary>
         private static readonly List<string> Colors = new()
         {
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Blue.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Brown.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.DarkOrange.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Red.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Green.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Purple.ToArgb())),
+            ColorTranslator.ToHtml(Color.FromArgb(Color.Teal.ToArgb())),
             ColorTranslator.ToHtml(Color.FromArgb(Color.LimeGreen.ToArgb())),
+            ColorTranslator.ToHtml(Color.FromArgb(Color.Navy.ToArgb())),
+            ColorTranslator.ToHtml(Color.FromArgb(Color.Magenta.ToArgb())),
+            ColorTranslator.ToHtml(Color.FromArgb(Color.Purple.ToArgb())),
+            ColorTranslator.ToHtml(Color.FromArgb(Color.GreenYellow.ToArgb())),
             ColorTranslator.ToHtml(Color.FromArgb(Color.DodgerBlue.ToArgb())),
             ColorTranslator.ToHtml(Color.FromArgb(Color.Plum.ToArgb())),
             ColorTranslator.ToHtml(Color.FromArgb(Color.Fuchsia.ToArgb())),
@@ -243,11 +243,11 @@ namespace HyFive.Services.Reports.HandJewelry
             return color;
         }
 
-        private const int YStartWithHeader = 200;
+        private const int YStartWithHeader = 400;
         private const int YStartWithoutHeader = 450;
         private const int ImageWidth = 500;
-        private const int ImageHeight = 300;
-        private const int YSpacing = 50;
+        private const int ImageHeight = 250;
+        private const int YSpacing = 40;
         private const int LeftMargin = 50;
 
         private static PdfResult CreatePdf(byte[] graphForDepartment, byte[] graphForFacility, JewelryReportForJewelryTypeAndRole report)
@@ -258,15 +258,20 @@ namespace HyFive.Services.Reports.HandJewelry
 
             FillOutHeader(report, pdfStamper);
 
-            const int sideNr = 2;
-            var yStart = YStartWithoutHeader;
-            pdfStamper.InsertPage(sideNr, copyOfTemplate.GetPageSize(1));
+            const int sideNr = 1; // ✅ draw on the first page
+
+            float yStart = AddReportLabel(pdfStamper, sideNr, report);
+            yStart -= 210f;
+            //var yStart = YStartWithHeader; // ✅ start lower to avoid overlapping the header
             var pdfContent = pdfStamper.GetOverContent(sideNr);
-            var image = CreateImage(graphForDepartment, yStart);
+
+            // Draw first graph (department)
+            var image = CreateImage(graphForDepartment, (int)yStart);
             pdfContent.AddImage(image);
 
+            // Draw second graph below the first
             yStart -= ImageHeight + YSpacing;
-            image = CreateImage(graphForFacility, yStart);
+            image = CreateImage(graphForFacility, (int)yStart);
             pdfContent.AddImage(image);
 
             pdfStamper.FormFlattening = true;
@@ -275,7 +280,7 @@ namespace HyFive.Services.Reports.HandJewelry
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-HandJewelry-DepartmentReport-{report.Department}.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-ECDC hyFive Hand Jewelry.pdf"
             };
 
             return pdfResult;
@@ -283,13 +288,13 @@ namespace HyFive.Services.Reports.HandJewelry
 
         private static void FillOutHeader(JewelryReportForJewelryTypeAndRole report, PdfStamper pdfStamper)
         {
-            pdfStamper.AcroFields.SetField("title", "Report on Observations of Transmission Prevention Measures (NOST)");
+            pdfStamper.AcroFields.SetField("title", "Report on Observations of Transmission Prevention Measures");
             pdfStamper.AcroFields.SetField("subtitle", "Module 2: Jewelry, Watches, and Nails");
             pdfStamper.AcroFields.SetField("facility", $"Facility: {report.Facility}");
             pdfStamper.AcroFields.SetField("department", $"Department: {report.Department}");
             pdfStamper.AcroFields.SetField("time period", "Registered time period: " +
                                                       $"{report.FromDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)} - " +
-                                                      $"{report.ToTime.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)}");
+                                                      $"{report.ToDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)}");
             pdfStamper.AcroFields.SetField("report date", $"Report date: {DateTime.Today.ToString(Helpers.DateFormat)}");
 
             FillOutUnitInfo(report.ReportForDepartment, pdfStamper, "Number of observations - Department", "Department info");
@@ -320,6 +325,91 @@ namespace HyFive.Services.Reports.HandJewelry
             image.ScaleAbsolute(ImageWidth, ImageHeight);
 
             return image;
+        }
+
+        private static float AddReportLabel(PdfStamper pdfStamper, int page, JewelryReportForJewelryTypeAndRole report)
+        {
+            var pdfContent = pdfStamper.GetOverContent(page);
+            var font = LoadRobotoFont();
+
+            pdfContent.BeginText();
+            pdfContent.SetFontAndSize(font, 7);
+            pdfContent.SetColorFill(BaseColor.Black);
+
+            float startX = 50;
+            float startY = 730; // Position below the logo/header
+            float maxWidth = 600f; // available width for text before wrapping
+            float lineHeight = 14f;
+
+            // Prepare text lines
+            string timePeriod = $"{report.FromDate:dd.MM.yyyy} - {report.ToDate:dd.MM.yyyy}";
+            var lines = new[]
+            {
+                $"Departments: {report.Department}",
+                $"Facilities: {report.Facility}",
+                $"Time Period: {timePeriod}"
+            };
+
+            // Draw each line with word wrapping
+            foreach (var line in lines)
+            {
+                var wrappedLines = WrapText(line, font, 10, maxWidth);
+                foreach (var wrapped in wrappedLines)
+                {
+                    pdfContent.ShowTextAligned(iTextSharp.text.Element.ALIGN_LEFT, wrapped, startX, startY, 0);
+                    startY -= lineHeight;
+                }
+                startY -= 5; // small spacing between sections
+            }
+
+            pdfContent.EndText();
+
+            // Return Y position below the label block (with a bit of padding)
+            return startY - 20;
+        }
+
+        private static List<string> WrapText(string text, BaseFont font, float fontSize, float maxWidth)
+        {
+            var result = new List<string>();
+            var words = text.Split(' ');
+            var currentLine = "";
+
+            foreach (var word in words)
+            {
+                string testLine = string.IsNullOrEmpty(currentLine) ? word : currentLine + " " + word;
+                float width = font.GetWidthPoint(testLine, fontSize);
+
+                if (width > maxWidth)
+                {
+                    result.Add(currentLine);
+                    currentLine = word;
+                }
+                else
+                {
+                    currentLine = testLine;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(currentLine))
+                result.Add(currentLine);
+
+            return result;
+        }
+
+        private static BaseFont LoadRobotoFont()
+        {
+            var assembly = typeof(HandJewelryPdfReportService).Assembly;
+            var resourcePath = "HyFive.Services.Reports.Assets.Fonts.Roboto-Regular.ttf";
+
+            using var stream = assembly.GetManifestResourceStream(resourcePath);
+            if (stream == null)
+                throw new Exception("Roboto font not found in embedded resources.");
+
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            var fontData = ms.ToArray();
+
+            return BaseFont.CreateFont("Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, true, fontData, null);
         }
     }
 }

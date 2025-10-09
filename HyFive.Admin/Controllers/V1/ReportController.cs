@@ -301,8 +301,8 @@ namespace HyFive.Admin.Controllers.V1
 
         private FileStreamResult CreateFile(PdfResult pdf)
         {
-            var fil = File(new MemoryStream(pdf.Content), "application/pdf", pdf.Filename);
-            return fil;
+            var file = File(new MemoryStream(pdf.Content), "application/pdf", pdf.Filename);
+            return file;
         }
     }
 }
