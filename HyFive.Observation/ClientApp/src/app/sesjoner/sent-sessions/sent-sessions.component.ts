@@ -7,6 +7,7 @@ import { SessionType } from "../../models/api/SessionType";
 import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";
 import { PageEvent } from '@angular/material/paginator';
+import { PaginationRequest } from "src/app/models/api/PaginationRequest";
 
 @Component({
   selector: "app-sent-sessions",
@@ -37,31 +38,13 @@ export class SentSessionsComponent {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
-  loadSessions() {
-    this.hasLoadedSessions = false;
-    this.sentSessionsService.getSessions().subscribe((result) => {
-      this.totalItems = result.length;
-      if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
-        this.pageSizeOptions.push(this.totalItems);
-      }
-      this.hasLoadedSessions = true;
-    });
-  }
 
     loadSessionsPaginated(offset, limit) {
-        this.sentSessionsService.getSessionsPaginated(offset, limit).subscribe((result) => {
-        this.sessions = result
-          .sort((a, b) => {
-            if (a.startDate > b.startDate) {
-              return -1;
-            }
-            if (a.startDate < b.startDate) {
-              return 1;
-            }
-            return 0;
-          });
-        this.sessionsFiltered = this.sessions;
-      });
+        const paginationRequest: PaginationRequest = {
+          take: offset,
+          skip: limit
+        };
+        return this.sentSessionsService.getSessionsPaginated(paginationRequest);
   }
 
   filterSessions() {
@@ -88,7 +71,19 @@ export class SentSessionsComponent {
     this.pageSize = event.pageSize;
     
     this.offset = this.currentPage * this.pageSize;
-    this.loadSessionsPaginated(this.offset, this.pageSize);
+    this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result) => {
+        this.sessions = result
+          .sort((a, b) => {
+            if (a.startDate > b.startDate) {
+              return -1;
+            }
+            if (a.startDate < b.startDate) {
+              return 1;
+            }
+            return 0;
+          });
+        this.sessionsFiltered = this.sessions;
+      });
   }
 
   getSessionTypeUrl(sessionType: SessionType): string {
@@ -109,8 +104,14 @@ export class SentSessionsComponent {
   receivedInternetStatus(hasInternet: boolean) {
     this.isOnline = hasInternet;
     if (this.isOnline) {
-      this.loadSessions();
-      this.loadSessionsPaginated(this.offset, this.pageSize);
+      this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result) => {
+      this.totalItems = result.length;
+      // this.totalItems = result.count;
+      if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+        this.pageSizeOptions.push(this.totalItems);
+      }
+      this.hasLoadedSessions = true;
+    });
     }
   }
 }
