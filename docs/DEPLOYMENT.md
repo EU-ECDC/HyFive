@@ -4,7 +4,65 @@ This guide provides instructions for deploying HyFive using containers on
 kubernetes. It covers environment setup, database configuration, and user 
 management integration.
 
-## Review the configuration
+## Fetching the code for the system
+
+The code for the HyFive application is available at 
+[github.com/EU-ECDC/HyFive](https://github.com/EU-ECDC/HyFive). To create a 
+local copy of the repository for deployment, click the green button on the 
+page that says `<> Code 🞃`, and select one of the "Clone" options.
+
+This will create a local copy of the full source code and deployment code.
+This is recommended for deployment, and local testing.
+
+If you wish to contribute to the code, or to create your own project based
+on this source code, you should instead use the gray "Fork" button to make
+a clone of the repository under your github user or organisation.
+
+## Overview of the system
+
+The HyFive system has two application parts, the observation interface and the 
+administration interface. The observation interface is used in facilities for 
+hand hygiene observation, and the administation interface is used to work with
+the data collected from observations as well as assign user roles.
+
+Data from observations are stored in a PostgreSQL database, which the 
+administration interface reads. It is possible to deploy only the observation
+interface for data collection, but a separate system would then be needed to 
+consume the collected data and assign user roles.
+
+User authentication is done by connecting to a Single Sign-On provider using 
+the OpenID Connect (OIDC) protocol. This allows the app to be connected to 
+most organisations existing user management system to avoid requiring users to
+have multiple sets of credentials.
+
+![HyFive-Overview](./hyfive-overview.svg "HyFive system overview")
+
+## Security considerations
+
+We have done our best to make this a secure product, but there are a number of 
+things that need to be considered when deploying to further improve security.
+First of all **Consult your IT department to review how this product fits into
+your current infrastructure and security requirements.**
+
+Some other considerations:
+ - How should sensitive values used for deployment be stored and handled?
+ - Can the app be served only on an internal network instead of externally 
+   accessible?
+ - Who should have access to the observation and admin interfaces?
+ - What access monitoring and alerting can be used?
+
+## Deployment Environment
+
+While not strictly necessary, it's recommended to start by deploying the system
+to a non-production environment. This is useful for reviewing permissions, 
+testing the configuration, and training users without producing "junk data" in 
+the production system. 
+
+The testing system does of course not have the same security requirements as a
+production system, but our recommendation is to set up a system as similar to 
+what is needed for production as possible.
+
+## Configuration of the system
 
 Regardless of deployment option, there are a number of things that need to be
 configured for the solution to run. Where possible, sane defaults are used to
@@ -99,7 +157,7 @@ which access:
 
 ```json
   "Security": {
-    "EnvironmentAccess": "DEV",
+    "EnvironmentAccess": "TEST",
   }
 ```
 
@@ -114,11 +172,32 @@ ex.
   "EnvironmentAccessClaimType": "http://sso/supo/env",
 },
 "Security": {
-  "EnvironmentAccess": "DEV",
+  "EnvironmentAccess": "TEST",
 }
 ```
 means that the value at `http://sso/supo/env` in the user JWT needs to be set
-to `"DEV"` to have access to the environment. 
+to `"TEST"` to have access to the environment. 
+
+The `"RoleClaimType"` is then used to define the field that should be used for 
+role assignment. This is commonly the email address field in the SSO provider. 
+The user role assignment is done in the admin application, referencing this 
+field.
+Note that this means that the initial administrator needs to be added "by hand"
+in the database.
+ex.
+```SQL
+INSERT INTO "User" (
+    "InstitutionId", 
+    "Discriminator", 
+    "LastName", 
+    "FirstName", 
+    "CreatedTime", 
+    "IsDeactivated", 
+    "Email"
+    ) 
+    VALUES 
+    (NULL, N'Admin', N'Ada', N'Min', NOW(), FALSE, N'admin@hyfive.eu');
+```
 
 #### Redirect pages
 
@@ -137,11 +216,11 @@ RedirectPagesSettings__RedirectLogInUri: "https://<your-observation-domain>/sign
 RedirectPagesSettings__RedirectLogOutUri: "https://<your-observation-domain>/"
 ```
 
-RedirectLogInUri: The callback URI where the identity provider should
+**RedirectLogInUri**: The callback URI where the identity provider should
 send the user after a successful login. For both modules this is normally the
 /signin-oidc endpoint.
 
-RedirectLogOutUri: The page the user should be redirected to after logging
+**RedirectLogOutUri**: The page the user should be redirected to after logging
 out. This is usually the root of the respective application or a public landing page.
 
 Choosing the domain:
