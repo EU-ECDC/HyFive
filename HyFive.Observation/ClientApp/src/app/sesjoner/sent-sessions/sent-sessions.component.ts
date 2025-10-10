@@ -8,6 +8,7 @@ import { Observable, Subscription } from "rxjs";
 import { SessionReport } from "../../models/api/SessionReport";
 import { PageEvent } from '@angular/material/paginator';
 import { PaginationRequest } from "src/app/models/api/PaginationRequest";
+import { SessionsPaginatedResponse } from "src/app/models/api/SessionsPaginatedResponse";
 
 @Component({
   selector: "app-sent-sessions",
@@ -71,8 +72,8 @@ export class SentSessionsComponent {
     this.pageSize = event.pageSize;
     
     this.offset = this.currentPage * this.pageSize;
-    this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result) => {
-        this.sessions = result
+    this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
+        this.sessions = result.sessionReports
           .sort((a, b) => {
             if (a.startDate > b.startDate) {
               return -1;
@@ -104,12 +105,22 @@ export class SentSessionsComponent {
   receivedInternetStatus(hasInternet: boolean) {
     this.isOnline = hasInternet;
     if (this.isOnline) {
-      this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result) => {
-      this.totalItems = result.length;
-      // this.totalItems = result.count;
+      this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
+      this.totalItems = result?.totalPages ? result.totalPages : 0;
       if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
         this.pageSizeOptions.push(this.totalItems);
       }
+      this.sessions = result.sessionReports
+        .sort((a, b) => {
+          if (a.startDate > b.startDate) {
+            return -1;
+          }
+          if (a.startDate < b.startDate) {
+            return 1;
+          }
+          return 0;
+        });
+        this.sessionsFiltered = this.sessions;
       this.hasLoadedSessions = true;
     });
     }

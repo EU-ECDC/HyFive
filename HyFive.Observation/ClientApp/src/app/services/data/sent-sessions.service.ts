@@ -9,6 +9,7 @@ import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSe
 import { GloveSession } from '../../models/api/GloveSession';
 import {map} from 'rxjs/operators';
 import { PaginationRequest } from 'src/app/models/api/PaginationRequest';
+import { SessionsPaginatedResponse } from 'src/app/models/api/SessionsPaginatedResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,9 @@ export class SentSessionsService {
     return this.httpClient.get<SessionReport[]>(url);
   }
 
-  getSessionsPaginated(paginationRequest: PaginationRequest): Observable<SessionReport[]> {
+  getSessionsPaginated(paginationRequest: PaginationRequest): Observable<SessionsPaginatedResponse> {
     const url = `${environment.apiBaseUrl}/v1/session/`;
-    return this.httpClient.post<SessionReport[]>(url, paginationRequest);
+    return this.httpClient.post<SessionsPaginatedResponse>(url, paginationRequest);
   }
 
   getFiveIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
