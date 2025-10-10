@@ -229,7 +229,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-ECDC hyFive Five Indications - DepartmentReport.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-ECDC hyFive Five Indications.pdf"
             };
 
             return pdfResult;
