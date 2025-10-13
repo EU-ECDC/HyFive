@@ -15,28 +15,28 @@ export class SessionStatisticsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  calculateOccasionsComplied() : number{
+  calculateOpportunitiesComplied() : number{
     if(this.session.observations.length == 0)
       return 0;
     return this.session.observations.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsCompliedPercent(): number {
+  calculateOpportunitiesCompliedPercent(): number {
     if (this.session.observations.length == 0)
       return 0;
-    return (this.calculateOccasionsComplied() / this.session.observations.length) * 100;
+    return (this.calculateOpportunitiesComplied() / this.session.observations.length) * 100;
   }
 
-  calculateOccasionsOmitted() : number{
+  calculateOpportunitiesOmitted() : number{
     if(this.session.observations.length == 0)
       return 0;
     return this.session.observations.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsOmittedPercent() : number{
+  calculateOpportunitiesOmittedPercent() : number{
     if(this.session.observations.length == 0)
       return 0;
-    return (this.calculateOccasionsOmitted() / this.session.observations.length)*100
+    return (this.calculateOpportunitiesOmitted() / this.session.observations.length)*100
   }
 
 }
