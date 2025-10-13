@@ -258,7 +258,7 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(hasData);
         }
 
-        [HttpPost("fiveΙndications/compliance")]
+        [HttpPost("fiveIndications/compliance")]
         public async Task<IActionResult> FiveIndicationsCompliance([FromBody] FiveIndicationsComplianceRequest request)
         {
             foreach(var facilityId in request.FacilityIds)
