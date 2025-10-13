@@ -171,9 +171,12 @@ namespace HyFive.Services.Reports.FiveIndicators
         private static PdfResult CreatePdfReport(FiveIndicatorsReport report, string label)
         {
             var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.FHI-five-indications-report-template.pdf");
+           
             using var pdfMemoryStream = new MemoryStream();
 
             var pdfStamper = new PdfStamper(copyOfDepartmentTemplate, pdfMemoryStream);
+
+            
 
             var timePeriod = $"{report.FromDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)} - " +
                                 $"{report.ToDate.ToString(Helpers.DateFormat, CultureInfo.InvariantCulture)}";
@@ -190,7 +193,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             var labelNames = $"{report.Name}\nTime Period: {timePeriod}  |  Number of Observations: {report.NumberOfObservations}";
 
-            float labelY = pdfStamper.Reader.GetPageSize(1).Height - 170f;
+            float labelY = pdfStamper.Reader.GetPageSize(1).Height - 190f;
             float startingYposition = AddSectionLabel(pdfContentOver, label, labelNames, X_SPACER, labelY, 450f);
             startingYposition -= 180f;
             foreach (var graf in report.Roles.Select(r => r.Chart))
