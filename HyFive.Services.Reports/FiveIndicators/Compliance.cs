@@ -113,7 +113,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 RemoveElementsWithNoRecordsAtEndOfSearchPeriod(complianceGraphData);
 
                 var graphPercentage = CreateGraph(complianceGraphData, "Compliance (%)", true);
-                var graphCount = CreateGraph(complianceGraphData, "Compliance number", false);
+                var graphCount = CreateGraph(complianceGraphData, "Compliance (N)", false);
 
                 return new List<GrafDto> { graphPercentage, graphCount };
             }
