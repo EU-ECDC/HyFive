@@ -249,6 +249,14 @@ a:hover {
     color: #3e8064 !important;
 }
 
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+  background-color: #edf2e8 !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: #000 !important;
+}
+
 mat-option:last-child:before{
 content: 'All';
 float: left;
