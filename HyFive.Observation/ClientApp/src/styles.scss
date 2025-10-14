@@ -248,3 +248,18 @@ a:hover {
     background-color: #3e8064;
     color: #3e8064 !important;
 }
+
+mat-option:last-child:before{
+content: 'All';
+float: left;
+text-transform: none;
+top: 4px;
+position: relative;
+}
+
+mat-option:last-child {
+  span {
+    display: none;
+    position: absolute;
+  }
+}
