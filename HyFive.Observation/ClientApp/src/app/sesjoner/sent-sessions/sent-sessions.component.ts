@@ -42,8 +42,8 @@ export class SentSessionsComponent {
 
     loadSessionsPaginated(offset, limit) {
         const paginationRequest: PaginationRequest = {
-          take: offset,
-          skip: limit
+          take: limit,
+          skip: offset
         };
         return this.sentSessionsService.getSessionsPaginated(paginationRequest);
   }
@@ -106,7 +106,7 @@ export class SentSessionsComponent {
     this.isOnline = hasInternet;
     if (this.isOnline) {
       this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
-      this.totalItems = result?.totalPages ? result.totalPages : 0;
+      this.totalItems = result?.totalCount ? result.totalCount : 0;
       if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
         this.pageSizeOptions.push(this.totalItems);
       }
