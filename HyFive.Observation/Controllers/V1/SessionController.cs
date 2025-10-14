@@ -25,13 +25,19 @@ namespace HyFive.Observation.Controllers.V1
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<List<SessionReport>> GetSessions()
+        /// <summary>
+        /// Search sessions
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<SearchSessionsResult>> GetSessions([FromBody] SearchSessions search)
         {
             
             var result = await _mediator.Send(new GetMySessions.Query()
             {
-                Email = _userService.GetEmail()
+                Email = _userService.GetEmail(),
+                Search = search
             });
             return result;
         }
