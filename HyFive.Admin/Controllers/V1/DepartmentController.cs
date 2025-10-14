@@ -54,7 +54,7 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
         public async Task<ActionResult<Department>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {
-            if (_userService.IsCoordinatorForCityOrAdmin(request.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
                 var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
                 return CreatedAtRoute("GetDepartment", new { id = result.FacilityId }, result);
@@ -70,7 +70,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("update")]
         public async Task<ActionResult<Department>> UpdateDepartment([FromBody] Department department)
         {
-            if (_userService.IsCoordinatorForCityOrAdmin(department.FacilityId))
+            if (_userService.IsCoordinatorForFacilityOrAdmin(department.FacilityId))
             {
                 var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
