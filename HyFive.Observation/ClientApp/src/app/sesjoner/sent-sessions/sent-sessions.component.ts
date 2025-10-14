@@ -74,6 +74,9 @@ export class SentSessionsComponent {
 
     this.loadSessionsCallEnded = false;
     this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
+        if (result.totalCount !== this.totalItems) {
+          this.totalItems = result.totalCount;
+        }
         this.sessions = result.sessionReports
           .sort((a, b) => {
             if (a.startDate > b.startDate) {
