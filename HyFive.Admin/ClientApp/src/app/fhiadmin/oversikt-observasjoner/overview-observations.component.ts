@@ -29,7 +29,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   sessiontypes = [
     {name: 'All', value: null},
-    { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
+    // { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
     { name: 'Five Indications', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
     { name: 'Hand Jewelry', value: SessionType.HandJewelry }
