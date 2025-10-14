@@ -19,7 +19,7 @@ export class SentSessionsComponent {
 
   sessions: SessionReport[];
   sessionsFiltered: SessionReport[];
-  hasLoadedSessions = false;
+  loadSessionsCallEnded = false;
   keyword: string = null;
   sessionNameMap: Map<SessionType, string>;
   offlineEvent: Observable<Event>;
@@ -70,8 +70,9 @@ export class SentSessionsComponent {
   onPageChange(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    
     this.offset = this.currentPage * this.pageSize;
+
+    this.loadSessionsCallEnded = false;
     this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
         this.sessions = result.sessionReports
           .sort((a, b) => {
@@ -84,7 +85,12 @@ export class SentSessionsComponent {
             return 0;
           });
         this.sessionsFiltered = this.sessions;
-      });
+        this.loadSessionsCallEnded = true;
+      },
+      (error) => {
+        this.loadSessionsCallEnded = true;
+      }
+    );
   }
 
   getSessionTypeUrl(sessionType: SessionType): string {
@@ -105,6 +111,7 @@ export class SentSessionsComponent {
   receivedInternetStatus(hasInternet: boolean) {
     this.isOnline = hasInternet;
     if (this.isOnline) {
+      this.loadSessionsCallEnded = false;
       this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
       this.totalItems = result?.totalCount ? result.totalCount : 0;
       if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
@@ -120,9 +127,13 @@ export class SentSessionsComponent {
           }
           return 0;
         });
-        this.sessionsFiltered = this.sessions;
-      this.hasLoadedSessions = true;
-    });
+      this.sessionsFiltered = this.sessions;
+      this.loadSessionsCallEnded = true;
+    },
+    (error) => {
+      this.loadSessionsCallEnded = true;
+    }
+    );
     }
   }
 }
