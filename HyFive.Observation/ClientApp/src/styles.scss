@@ -229,3 +229,9 @@ a:hover {
     background-color: #3e8064;
     color: #3e8064 !important;
 }
+
+@media (max-width: 1199.98px) {
+    .fhi-admin-view .fhi-main-menu__toggler {
+        top: 1.5rem;
+    }
+}
