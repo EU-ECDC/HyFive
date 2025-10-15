@@ -10,7 +10,7 @@ namespace HyFive.Models.V1.Authentication
         public string IdentityPseudonym { get; set; }
         public string Name { get; set; }
         public bool IsCoordinator { get; set; }
-        public bool IsFhiAdmin { get; set; }
+        public bool IsAdmin { get; set; }
         public bool IsObserver { get; set; }
         public List<int> FacilityIds { get; set; }
         public string FirstName { get; set; }
