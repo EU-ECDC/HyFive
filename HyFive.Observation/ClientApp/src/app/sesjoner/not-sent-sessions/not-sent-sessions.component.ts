@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Renderer2, Inject } from "@angular/core";
 import { FiveIndicationsSessionService } from "../../services/data/five-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
@@ -13,6 +13,7 @@ import { GloveSessionService } from "../../services/data/glove-session.service";
 import { forkJoin, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -21,6 +22,7 @@ import { PageEvent } from "@angular/material/paginator";
 export class NotSentSessionsComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
+  private styleEl?: HTMLStyleElement;
   sessions: SessionReport[];
   sessionsFiltered: SessionReport[];
   keyword: string = null;
@@ -41,17 +43,21 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private renderer: Renderer2,
+     @Inject(DOCUMENT) private document: Document
   ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
   ngOnInit(): void {
+    this.styleEl = this.renderer.createElement('style');
     this.loadSessions(this.offset, this.pageSize);
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
+    this.removeDynamicCss();
   }
 
   loadSessions(offset, limit) {
@@ -85,6 +91,9 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     this.totalItems = this.sessions?.length;
     if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
       this.pageSizeOptions.push(this.totalItems);
+      this.addDynamicCss();
+    } else {
+      this.removeDynamicCss()
     }
     this.sessions = this.sessions.slice(offset, offset + limit);
     this.sessionsFiltered = this.sessions;
@@ -230,4 +239,29 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     this.sessionsFiltered.forEach((s) => (s.isSelected = true));
     this.hasSelectedASession = true;
   }
+
+    private addDynamicCss() {
+    this.styleEl.textContent = `
+      mat-option:last-child::before {
+        content: 'All';
+        float: left;
+        text-transform: none;
+        top: 4px;
+        position: relative;
+      }
+
+      mat-option:last-child span {
+        display: none;
+        position: absolute;
+      }
+    `;
+    this.renderer.appendChild(this.document.head, this.styleEl);
+  }
+
+  removeDynamicCss() {
+  if (this.styleEl) {
+    this.renderer.removeChild(this.document.head, this.styleEl);
+    this.styleEl = undefined;
+  }
+}
 }

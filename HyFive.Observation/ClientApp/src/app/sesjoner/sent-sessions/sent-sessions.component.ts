@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, Renderer2 } from "@angular/core";
 import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SessionTypeMapper } from "../../utils/session-type-mapper";
@@ -9,6 +9,7 @@ import { SessionReport } from "../../models/api/SessionReport";
 import { PageEvent } from '@angular/material/paginator';
 import { PaginationRequest } from "src/app/models/api/PaginationRequest";
 import { SessionsPaginatedResponse } from "src/app/models/api/SessionsPaginatedResponse";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: "app-sent-sessions",
@@ -16,7 +17,7 @@ import { SessionsPaginatedResponse } from "src/app/models/api/SessionsPaginatedR
 })
 export class SentSessionsComponent {
   Urls = Urls;
-
+  private styleEl?: HTMLStyleElement;
   sessions: SessionReport[];
   sessionsFiltered: SessionReport[];
   loadSessionsCallEnded = false;
@@ -35,10 +36,16 @@ export class SentSessionsComponent {
   faCalendar = faCalendar;
   faSearch = faSearch;
 
-  constructor(private sentSessionsService: SentSessionsService) {
+  constructor(private sentSessionsService: SentSessionsService,
+        private renderer: Renderer2,
+         @Inject(DOCUMENT) private document: Document
+  ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
+  ngOnDestroy(): void {
+    this.removeDynamicCss();
+  }
 
     loadSessionsPaginated(offset, limit) {
         const paginationRequest: PaginationRequest = {
@@ -77,6 +84,10 @@ export class SentSessionsComponent {
         if (result.totalCount !== this.totalItems) {
           this.totalItems = result.totalCount;
         }
+      if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+        this.addDynamicCss();
+        this.pageSizeOptions.push(this.totalItems);
+      }
         this.sessions = result.sessionReports
           .sort((a, b) => {
             if (a.startDate > b.startDate) {
@@ -118,6 +129,7 @@ export class SentSessionsComponent {
       this.loadSessionsPaginated(this.offset, this.pageSize).subscribe((result: SessionsPaginatedResponse) => {
       this.totalItems = result?.totalCount ? result.totalCount : 0;
       if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+        this.addDynamicCss();
         this.pageSizeOptions.push(this.totalItems);
       }
       this.sessions = result.sessionReports
@@ -139,4 +151,30 @@ export class SentSessionsComponent {
     );
     }
   }
+
+   private addDynamicCss() {
+    this.styleEl = this.renderer.createElement('style');
+    this.styleEl.textContent = `
+      mat-option:last-child::before {
+        content: 'All';
+        float: left;
+        text-transform: none;
+        top: 4px;
+        position: relative;
+      }
+
+      mat-option:last-child span {
+        display: none;
+        position: absolute;
+      }
+    `;
+    this.renderer.appendChild(this.document.head, this.styleEl);
+  }
+
+    removeDynamicCss() {
+  if (this.styleEl) {
+    this.renderer.removeChild(this.document.head, this.styleEl);
+    this.styleEl = undefined;
+  }
+}
 }

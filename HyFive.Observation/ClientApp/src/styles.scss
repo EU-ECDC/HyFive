@@ -227,11 +227,12 @@ a:hover {
 }
 
 .mat-mdc-paginator {
-    background-color: #ddf3bf !important;
+    background-color: #b8d18c !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     padding: 8px !important;
+    border-radius: 6px;
 
     .mat-mdc-paginator-container {
       justify-content: center !important;
@@ -257,20 +258,6 @@ a:hover {
   color: #000 !important;
 }
 
-mat-option:last-child:before{
-content: 'All';
-float: left;
-text-transform: none;
-top: 4px;
-position: relative;
-}
-
-mat-option:last-child {
-  span {
-    display: none;
-    position: absolute;
-  }
-}
 
 .mdc-notched-outline__trailing,
 .mdc-notched-outline__notch,
