@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
     }
 
   // Otherwise show main menu only if user is an Observer and we are not on the front page.
-    return ((this.user?.isObserver || this.user?.isCoordinator || this.user?.isFhiAdmin) && this.hasFacilities);
+    return ((this.user?.isObserver || this.user?.isCoordinator || this.user?.isAdmin) && this.hasFacilities);
   }
   
   shouldShowAppBrand() {
