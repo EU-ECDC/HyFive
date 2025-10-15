@@ -219,18 +219,12 @@ namespace HyFive.Services.Reports.HandJewelry
         /// </summary>
         private static readonly List<string> Colors = new()
         {
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Teal.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.LimeGreen.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Navy.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Magenta.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Purple.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.GreenYellow.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.DodgerBlue.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Plum.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Fuchsia.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.SlateGray.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Peru.ToArgb())),
-            ColorTranslator.ToHtml(Color.FromArgb(Color.Turquoise.ToArgb())),
+            "#008c75", //All professions 
+            "#b81a5d", //Nurce
+            "#3e5b84", //Doctor
+            "#82428d", //Student
+            "#c7c09a", //Other
+            "#c0d236", //Auxiliary staff
         };
 
         /// <summary>
