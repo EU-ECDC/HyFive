@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Renderer2, Inject } from "@angular/core";
 import { FiveIndicationsSessionService } from "../../services/data/five-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
@@ -12,6 +12,8 @@ import { ToastrService } from "ngx-toastr";
 import { GloveSessionService } from "../../services/data/glove-session.service";
 import { forkJoin, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { PageEvent } from "@angular/material/paginator";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -20,6 +22,7 @@ import { tap } from "rxjs/operators";
 export class NotSentSessionsComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
+  private styleEl?: HTMLStyleElement;
   sessions: SessionReport[];
   sessionsFiltered: SessionReport[];
   keyword: string = null;
@@ -29,26 +32,35 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   hasSelectedASession: boolean = false;
 
   faCalendar = faCalendar;
+  totalItems = 0; // total number of items, e.g. from API
+  currentPage = 0;
+  offset = 0;
+  pageSize = 25;
+  pageSizeOptions = [25,30];
 
   constructor(
     private fiveIndicationsSessionService: FiveIndicationsSessionService,
     private handJewelrySessionService: HandJewelrySessionService,
     private gloveSessionService: GloveSessionService,
     private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private renderer: Renderer2,
+     @Inject(DOCUMENT) private document: Document
   ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
 
   ngOnInit(): void {
-    this.loadSessions();
+    this.styleEl = this.renderer.createElement('style');
+    this.loadSessions(this.offset, this.pageSize);
   }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
+    this.removeDynamicCss();
   }
 
-  loadSessions() {
+  loadSessions(offset, limit) {
     this.sessions = this.fiveIndicationsSessionService
       .getSessions()
       .map((f) => this.createSessionView(f, SessionType.FiveIndications))
@@ -76,6 +88,14 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
         }
         return 0;
       });
+    this.totalItems = this.sessions?.length;
+    if (this.totalItems && this.totalItems > this.pageSizeOptions.slice(-1)[0]) {
+      this.pageSizeOptions.push(this.totalItems);
+      this.addDynamicCss();
+    } else {
+      this.removeDynamicCss()
+    }
+    this.sessions = this.sessions.slice(offset, offset + limit);
     this.sessionsFiltered = this.sessions;
   }
 
@@ -95,6 +115,14 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     } else {
       this.sessionsFiltered = this.sessions;
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    
+    this.offset = this.currentPage * this.pageSize;
+    this.loadSessions(this.offset, this.pageSize);
   }
 
   createSessionView(
@@ -211,4 +239,29 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     this.sessionsFiltered.forEach((s) => (s.isSelected = true));
     this.hasSelectedASession = true;
   }
+
+    private addDynamicCss() {
+    this.styleEl.textContent = `
+      mat-option:last-child::before {
+        content: 'All';
+        float: left;
+        text-transform: none;
+        top: 4px;
+        position: relative;
+      }
+
+      mat-option:last-child span {
+        display: none;
+        position: absolute;
+      }
+    `;
+    this.renderer.appendChild(this.document.head, this.styleEl);
+  }
+
+  removeDynamicCss() {
+  if (this.styleEl) {
+    this.renderer.removeChild(this.document.head, this.styleEl);
+    this.styleEl = undefined;
+  }
+}
 }

@@ -54,8 +54,8 @@ namespace HyFive.Services.Authentication.Requirements
             }
             if (userType == UserType.AdminOrCoordinator)
             {
-                var IsFhiAdminOrCoordinator = _userService.IsAdminOrCoordinator(email);
-                if(IsFhiAdminOrCoordinator)
+                var IsAdminOrCoordinator = _userService.IsAdminOrCoordinator(email);
+                if(IsAdminOrCoordinator)
                     context.Succeed(requirement);
             }
             return Task.CompletedTask;

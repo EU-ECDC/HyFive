@@ -46,5 +46,12 @@
             <param name="session"></param>
             <returns></returns>
         </member>
+        <member name="M:HyFive.Observation.Controllers.V1.SessionController.GetSessions(HyFive.Models.V1.Session.SearchSessions)">
+            <summary>
+            Search sessions
+            </summary>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
