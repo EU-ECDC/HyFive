@@ -71,6 +71,7 @@ import { SessionStatisticsComponent } from './sesjoner/fire-indikasjoner/session
 import { GloveComponent } from './sesjoner/glove/glove.component';
 import { SentGloveSessionComponent } from './sesjoner/sent-sessions/sent-glove-session/sent-glove-session.component';
 import { EditGloveObservationComponent } from './sesjoner/edit-glove-observation/edit-glove-observation.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 export const httpInterceptorProviders = [
@@ -147,7 +148,8 @@ export const httpInterceptorProviders = [
         FontAwesomeModule,
         //FhiAccordionModule,
         NgSelectModule,
-        DragDropModule
+        DragDropModule,
+        MatPaginatorModule
     ],
     bootstrap: [AppComponent],
     providers: [FiveIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],

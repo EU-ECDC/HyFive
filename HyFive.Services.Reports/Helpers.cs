@@ -12,7 +12,7 @@ namespace HyFive.Services.Reports
     public class Helpers
     {
         public const string DateFormat = "dd.MM.yyyy";
-        public const string FileNamePrefix = "dd-MM-yyyy-HH-mm-ss";
+        public const string FileNamePrefix = "dd.MM.yyyy-HH.mm.ss";
 
         public static PdfReader ReadCopyOfPdfTemplateFromFile(string resourceName)
         {

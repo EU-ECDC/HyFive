@@ -60,7 +60,7 @@ namespace HyFive.Services.Authentication.User
             user.Id = CreateHash(email + user.Name + HashSalt);
             user.IsObserver = IsObserver(email);
             user.IsCoordinator = IsCoordinator(email);
-            user.IsFhiAdmin = IsAdmin(email);
+            user.IsAdmin = IsAdmin(email);
             //user.HPRNumber = hprNumber;
             //user.IdentityPseudonym = pseudonym;
             user.FacilityIds = await _context.User.AsNoTracking().Include(k => k.Facility)
@@ -119,9 +119,9 @@ namespace HyFive.Services.Authentication.User
             if (string.IsNullOrEmpty(email))
                 return false;
 
-            bool isFhiAdmin = _context.User.AsNoTracking().OfType<Admin>().AsNoTracking()
+            bool isAdmin = _context.User.AsNoTracking().OfType<Admin>().AsNoTracking()
                     .Where(HasEmailAndIsActive<Admin>(email)).Any();
-            return isFhiAdmin;
+            return isAdmin;
         }
 
         public bool IsAdmin()

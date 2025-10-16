@@ -26,6 +26,15 @@
           </div>
         </div>
       </div>
+      <div class="row p-3">
+        <mat-paginator *ngIf="totalItems > 0"
+          [length]="totalItems"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          [showFirstLastButtons]="true"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
       <div class="row" data-hj-suppress>
         <div
           class="col-12 col-md-6 col-lg-4 col-xxl-3 mb-3 mb-md-5"
@@ -59,7 +68,7 @@
           </article>
         </div>
       </div>
-      <app-spinner *ngIf="!hasLoadedSessions"></app-spinner>
+      <app-spinner *ngIf="!loadSessionsCallEnded"></app-spinner>
     </ng-container>
   </app-session-overview>
 </div>

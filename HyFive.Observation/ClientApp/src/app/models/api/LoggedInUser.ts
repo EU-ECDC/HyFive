@@ -8,7 +8,7 @@ export interface LoggedInUser
 	identityPseudonym: string;
 	name: string;
 	isCoordinator: boolean;
-	isFhiAdmin: boolean;
+	isAdmin: boolean;
 	isObserver: boolean;
 	facilityIds: number[];
 	firstName: string;

@@ -65,7 +65,7 @@
                             [disabled]="canChange(observerAsChanged) == false">
                       <i class="icon-pencil"></i><span class="btn__text">Save</span>
                     </button>
-                    <div *ngIf="user.isFhiAdmin">
+                    <div *ngIf="user.isAdmin">
                       <app-confirmation-dialog 
                                                     [buttonText]="'Delete'"
                                                     (confirmEvent)="deleteObserver(observer.id)"
