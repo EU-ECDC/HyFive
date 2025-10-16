@@ -3734,7 +3734,7 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryObservation"" (""Id"", ""HandJewelrySessionId"", ""CreatedTime"", ""RoleId"", ""RegisteredTime"", ""Comment"") VALUES (N'9242853f-3bee-4336-af48-fdfeda41d7af'::uuid, N'5cf079fe-2200-4d8a-8f48-8eb9471b2ad6'::uuid, TIMESTAMP '2021-09-24T07:56:44.4803265', 1, TIMESTAMP '2021-09-24T07:51:19.4730000', NULL) ON CONFLICT (""Id"") DO NOTHING");
 
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (1, N'ARTIFICIAL_NAIL_SHELLAC', N'Artificial nail Shellac', 1, TRUE) ON CONFLICT (""Id"") DO NOTHING");
-            migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (2, N'LONG_NAIL', N'Long nail', 2, TRUE) ON CONFLICT (""Id"") DO NOTHING");
+            migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (2, N'LONG_NAILS', N'Long nails', 2, TRUE) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (3, N'WATCH_BRACELET', N'Watch Bracelet', 3, TRUE) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (4, N'RING', N'Ring', 4, TRUE) ON CONFLICT (""Id"") DO NOTHING");
             migrationBuilder.Sql(@"INSERT INTO ""HandJewelryType"" (""Id"", ""Code"", ""Name"", ""Order"", ""IsActive"") VALUES (5, N'ALL_OK', N'All is ok', 99, TRUE) ON CONFLICT (""Id"") DO NOTHING");

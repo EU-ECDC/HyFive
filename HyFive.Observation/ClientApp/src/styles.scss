@@ -288,4 +288,9 @@ a:hover {
 
 .mat-mdc-paginator {
   padding: 8px 0px !important;
+@media (max-width: 1199.98px) {
+    .fhi-admin-view .fhi-main-menu__toggler {
+        top: 1.5rem;
+    }
+  }
 }

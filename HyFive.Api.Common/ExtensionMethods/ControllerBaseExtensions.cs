@@ -12,7 +12,7 @@ namespace HyFive.Api.Common.ExtensionMethods
     {
         public static async Task<IActionResult> ExcelFileContentResult(this ControllerBase controller, IEnumerable<object> objects, string fileName)
         {
-            var fileNameExcel = $"{DateTime.UtcNow:yyyyMMddHHmmss_}{fileName}.xlsx";
+            var fileNameExcel = $"{DateTime.UtcNow:dd.MM.yyyy-HH.mm.ss-}{fileName}.xlsx";
             var excel = await CreateExcelFileContent(objects);
             return controller.File(excel, "application/xlsx", fileNameExcel);
         }

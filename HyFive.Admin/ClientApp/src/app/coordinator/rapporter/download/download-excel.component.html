@@ -1,15 +1,6 @@
 <div class="container">
   <h4>Downloading data for a healthcare facility or department on Excel-format</h4>
   <div class="row mt-4" *ngIf="canSelectFacility">
-    <!-- <div class="col-md-4">
-      <label for="facilitiesTypes">Facility Types</label>
-        <ng-multiselect-dropdown [placeholder]="'Select'"
-                                [settings]="dropdownSettings"
-                                [data]="facilityTypes"
-                                [(ngModel)]="selectedFacilityTypes"
-                                (ngModelChange)="filterFacilitiesByType()">
-        </ng-multiselect-dropdown>
-    </div>  -->
     <div class="col-md-5">
       <label for="facility">Healthcare facilities</label>
       <div #dropdownRef>
@@ -28,16 +19,7 @@
       <label class="custom-control-label ms-2">Download for healthcare facility</label>
     </div>
   </div>
-  <div class="row mt-4 mb-4">
-    <!-- <div class="col-md-4" >
-      <label for="departmentType">Department Types</label>
-        <ng-multiselect-dropdown [placeholder]="'Select department types'"
-                                  [settings]="dropdownSettings"
-                                  [data]="departmentTypes"
-                                  [(ngModel)]="selectedDepartmentTypes"
-                                  (ngModelChange)="filterDepartmentsByType()">
-        </ng-multiselect-dropdown>
-    </div> -->
+  <div class="row mt-4 mb-2">
     <div class="col-md-5" [class.dropdown-disabled]="createFacilityReport">
       <label for="department">Departments</label>
       <ng-multiselect-dropdown [placeholder]="'Select departments'"
@@ -59,16 +41,18 @@
           >
         </ng-select>
     </div>
+  </div>
+  <div class="row mb-4">
     <div class="col-md-3">
       <label for="fromDate">From date</label>
       <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" [max]="toDate || null" />
     </div>
-    <div class="col-3">
+    <div class="col-md-3">
       <label for="toDate">To date</label>
       <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" [min]="fromDate || null" />
     </div>
   </div>
-  <div class="row mt-2">
+  <div class="row mt-4">
     <div class="form-group col-12">
       <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Download file</button>
       <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>

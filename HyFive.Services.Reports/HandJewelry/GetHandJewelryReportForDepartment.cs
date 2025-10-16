@@ -48,7 +48,7 @@ namespace HyFive.Services.Reports.HandJewelry
                     Department = departmentNames,
                     Facility = facilityNames,
                     FromDate = request.FromDateTime,
-                    ToTime = request.ToDateTime,
+                    ToDate = request.ToDateTime,
                     ReportForDepartment = departmentReport,
                     ReportForFacility = facilityReport
                 };

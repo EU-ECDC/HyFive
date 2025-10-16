@@ -5,9 +5,13 @@
   <ItemGroup>
     <None Remove="Assets\FHI-graph-template-onepage.pdf" />
     <None Remove="Assets\FHI-institusjonsrapport-template.pdf" />
+    <None Remove="Assets\Fonts\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\FHI-five-indications-report-template.pdf" />
+    <EmbeddedResource Include="Assets\Fonts\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Report-template.pdf" />
   </ItemGroup>
   <ItemGroup>
