@@ -9,7 +9,7 @@
       <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.name' placeholder="Name">
     </div>
     <div class="col-7">
-      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.description' placeholder="Description">
+      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.description' (ngModelChange)="newRole.description = $event.trim()" placeholder="Description">
     </div>
     <div class="col-2">
       <label></label>
@@ -42,7 +42,7 @@
               <ng-container *ngIf="roleAsChanged?.id === role.id">
                 <td>{{roleAsChanged.name}}</td>
                 <td>
-                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="roleAsChanged.description">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="roleAsChanged.description" (ngModelChange)="roleAsChanged.description = $event.trim()">
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateRole(roleAsChanged)">
