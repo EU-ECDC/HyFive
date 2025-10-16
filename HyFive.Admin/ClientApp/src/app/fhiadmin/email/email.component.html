@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
         <h5>Email</h5>
-        <button class="btn fhi-btn-primary mb-5 ms-3 col-3" (click)="OpenEmailClient()">Open Email client</button>
+        <button class="btn fhi-btn-primary mb-5 ms-3 col-3" (click)="OpenEmailClient()" [disabled]="!facilityId || (!coordinatorsSelected && !observerSelected)">Open Email client</button>
+        
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
