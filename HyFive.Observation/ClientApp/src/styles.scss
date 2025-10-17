@@ -280,10 +280,13 @@ a:hover {
 .mat-mdc-paginator-page-size-select {
   margin: 0px !important;
   width: 75px !important;
+  min-height: 45px;
 }
 
 .mat-mdc-paginator-range-label {
   margin: 0px !important;
+  width: 100%;
+  text-align: center;
 }
 
 .mat-mdc-paginator {
@@ -293,4 +296,9 @@ a:hover {
         top: 1.5rem;
     }
   }
+}
+
+.mat-mdc-paginator-range-actions {
+  flex-wrap: wrap;
+  justify-content: center;
 }
