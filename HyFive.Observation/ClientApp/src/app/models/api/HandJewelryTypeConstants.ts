@@ -7,7 +7,7 @@ export abstract class HandJewelryTypeConstants
 	public static AllOk: string = `ALL_OK`;
 	public static Ring: string = `RING`;
 	public static WatchBracelet: string = `WATCH_BRACELET`;
-	public static LongNail: string = `LONG_NAIL`;
+	public static LongNail: string = `LONG_NAILS`;
 	public static ArtificialNailShellac: string = `ARTIFICIAL_NAIL_SHELLAC`;
 	public static ShortSleeves: string = `SHORT_SLEEVES`;
 	public static LongSleeves: string = `LONG_SLEEVES`;
