@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using HyFive.Domain.Observation;
+using HyFive.Domain.User;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -4487,6 +4489,11 @@ namespace HyFive.DataAccess.Migrations
             migrationBuilder.Sql(@"INSERT INTO ""PredefinedComment"" (""Id"", ""Comment"", ""FacilityId"", ""SessionType"") VALUES (17, N'Comment', 28, 5) ON CONFLICT (""Id"") DO NOTHING");
 
 
+            migrationBuilder.Sql(@"DELETE FROM ""FiveIndicationsObservation"" WHERE ""FiveIndicationsSessionId"" IN (SELECT ""Id"" FROM ""Session"" WHERE ""ObserverId"" IN (4,7,14,20,116,120,122,123,124,127,128,131,133,134,135,136,137,138,139,140,141,142,143,144,145,148,149,150,151,155,156,157,158,159,160,161,162,163,167,168,169,170,174,175,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193));");
+            migrationBuilder.Sql(@"DELETE FROM ""GloveObservation"" WHERE ""GloveSessionId"" IN (SELECT ""Id"" FROM ""Session"" WHERE ""ObserverId"" IN (4,7,14,20,116,120,122,123,124,127,128,131,133,134,135,136,137,138,139,140,141,142,143,144,145,148,149,150,151,155,156,157,158,159,160,161,162,163,167,168,169,170,174,175,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193));");
+            migrationBuilder.Sql(@"DELETE FROM ""HandJewelryObservation"" WHERE ""HandJewelrySessionId"" IN (SELECT ""Id"" FROM ""Session"" WHERE ""ObserverId"" IN (4,7,14,20,116,120,122,123,124,127,128,131,133,134,135,136,137,138,139,140,141,142,143,144,145,148,149,150,151,155,156,157,158,159,160,161,162,163,167,168,169,170,174,175,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193));");
+            migrationBuilder.Sql(@"DELETE FROM ""ProtectiveEquipmentObservation"" WHERE ""ProtectiveEquipmentSessionId"" IN (SELECT ""Id"" FROM ""Session"" WHERE ""ObserverId"" IN (4,7,14,20,116,120,122,123,124,127,128,131,133,134,135,136,137,138,139,140,141,142,143,144,145,148,149,150,151,155,156,157,158,159,160,161,162,163,167,168,169,170,174,175,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193));");
+            migrationBuilder.Sql(@"DELETE FROM ""Session"" WHERE ""ObserverId"" IN (4,7,14,20,116,120,122,123,124,127,128,131,133,134,135,136,137,138,139,140,141,142,143,144,145,148,149,150,151,155,156,157,158,159,160,161,162,163,167,168,169,170,174,175,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193);");
 
 
             // Sequence fixes after inserts
