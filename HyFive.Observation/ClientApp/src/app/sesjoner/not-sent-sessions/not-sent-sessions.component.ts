@@ -168,7 +168,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.fiveIndicationsSessionService.deleteSession(s.id);
+                  this.fiveIndicationsSessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
                 })
               );
             break;
@@ -181,7 +181,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.handJewelrySessionService.deleteSession(s.id);
+                  this.handJewelrySessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
                 })
               );
             break;
@@ -194,7 +194,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.gloveSessionService.deleteSession(s.id);
+                  this.gloveSessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
                 })
               );
             break;
@@ -207,7 +207,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.protectiveEquipmentSessionService.deleteSession(s.id);
+                  this.protectiveEquipmentSessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
                 })
               );
             break;
@@ -221,9 +221,11 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
    
     forkJoin(observables).subscribe({
       next: () => {
+        this.loadSessions(this.offset, this.pageSize);
         this.toastrService.success("The sessions were sent to the server");
       },
       error: (err) => {
+        this.loadSessions(this.offset, this.pageSize);
         this.toastrService.error("Error sending sessions to server");
       }
     });

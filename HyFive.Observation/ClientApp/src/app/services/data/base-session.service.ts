@@ -29,6 +29,13 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
     this.saveSessionViews(sessionViews);
   }
 
+    public deleteSessionPaginated(sessionId: string, offset, limit) {
+    let sessions = this.getSessions().filter(s => s.id !== sessionId).slice(offset, offset + limit);
+    this.saveSessions(sessions);
+    let sessionViews = this.getSessionViews().filter(s => s.sessionId !== sessionId);
+    this.saveSessionViews(sessionViews);
+  }
+
   public getSessions(): TSession[] {
     let sessions: TSession[] = [];
     const sessionsString = localStorage.getItem(this.sessionLocalStoragePath);
