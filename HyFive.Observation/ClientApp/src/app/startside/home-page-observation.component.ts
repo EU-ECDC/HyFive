@@ -121,10 +121,10 @@ export class HomePageForObservationComponent implements OnInit {
       case SessionType.Gloves:
         this.startGloveSession();
         break;
-      case SessionType.ProtectiveEquipment:
-        this.showHomePage = false;
-        this.showProtectiveEquipment = true;
-        break;
+      // case SessionType.ProtectiveEquipment:
+      //   this.showHomePage = false;
+      //   this.showProtectiveEquipment = true;
+      //   break;
       default:
         alert(
           `Observation of ${

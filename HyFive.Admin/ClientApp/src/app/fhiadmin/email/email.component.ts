@@ -3,6 +3,7 @@ import { User } from 'src/app/models/api/User';
 import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { AuthorizationService } from '../../_common/services/authorization.service';
 
 @Component({
   selector: 'app-email',
@@ -17,13 +18,16 @@ export class EmailComponent implements OnInit {
   observerList: User[];
   filteredUserList: User[];
 
+ 
+  
+
   facilityId: number;
   facilities: FacilityReport[];
 
   coordinatorsSelected: boolean;
   observerSelected: boolean;
 
-  constructor(private facilityService: FacilityService) {}
+  constructor(private facilityService: FacilityService, private authorizationService: AuthorizationService) {}
 
   ngOnInit(): void {
     this.coordinatorList = [];
@@ -99,6 +103,10 @@ export class EmailComponent implements OnInit {
   }
 
   OpenEmailClient() {
+    if (!this.facilityId || (!this.coordinatorsSelected && !this.observerSelected)) {
+    console.warn('Please select a facility and at least one user type before opening email client.');
+    return;
+  }
     this.updateEmailList();
     window.location.href = `mailto:?bcc=${this.emailList.join(';')}`
   }

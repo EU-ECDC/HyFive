@@ -18,7 +18,7 @@
         <app-role-selection-dropdown *ngIf="roleSelected" [roleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <div class="row mt-5 text-break">
-          <div class="col-4 col-md-3 text-center mb-4" *ngFor="let selection of handJewelrySelection; let i = index;">
+          <div class="col-4 col-md-4 text-center mb-4" *ngFor="let selection of handJewelrySelection; let i = index;">
             <label [htmlFor]="'handjewelry'+card.id.substr(4)+handJewelrySelection.indexOf(selection)" [ngStyle]="{ 'opacity': selection.disabled ? '0.5' : '1' }">
               <input type="checkbox"
                      [(ngModel)]="selection.isSelected"

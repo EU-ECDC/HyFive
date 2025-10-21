@@ -38,7 +38,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 var reportDto = new FiveIndicatorsReportForDepartment();
 
                 reportDto.Department = GetDepartmentData(request);
-                reportDto.Clinics = GetReportsForClinics(request);
+                reportDto.Units = GetReportsForUnits(request);
                 reportDto.Facility = GetFacilityData(request);
                 reportDto.ComparableDepartments = await GetComparableDepartmentData(request);
                 reportDto.SetDisplayTimestamps(request.FromDate, request.ToDate);
@@ -228,39 +228,39 @@ namespace HyFive.Services.Reports.FiveIndicators
                 };
             }
 
-            private List<FiveIndicatorsReport> GetReportsForClinics(Query request)
+            private List<FiveIndicatorsReport> GetReportsForUnits(Query request)
             {
-                var clinicReports = new List<FiveIndicatorsReport>();
+                var unitReports = new List<FiveIndicatorsReport>();
 
-                var departmentClinicIds = _context.Department
+                var departmentUnitIds = _context.Department
                     .AsNoTracking()
                     .Where(d => request.DepartmentIds.Contains(d.Id))
-                    .Include(d => d.Clinics)
-                    .SelectMany(d => d.Clinics.Select(c => c.Id))
+                    .Include(d => d.Units)
+                    .SelectMany(d => d.Units.Select(c => c.Id))
                     .Distinct()
                     .ToList();
 
-                foreach (var clinicId in departmentClinicIds)
+                foreach (var unitId in departmentUnitIds)
                 {
-                    var report = GetClinicReport(clinicId, request);
-                    clinicReports.Add(report);
+                    var report = GetUnitReport(unitId, request);
+                    unitReports.Add(report);
                 }
 
-                return clinicReports;
+                return unitReports;
             }
 
-            private FiveIndicatorsReport GetClinicReport(int clinicId, Query request)
+            private FiveIndicatorsReport GetUnitReport(int unitId, Query request)
             {
                 var fromDateUtc = DateTime.SpecifyKind(request.FromDate.Date, DateTimeKind.Utc);
                 var toDateUtc = DateTime.SpecifyKind(request.ToDate.Date, DateTimeKind.Utc);
 
-                var AssociatedClinicSessions = _context.Session.OfType<FiveIndicationsSession>()
+                var AssociatedUnitSessions = _context.Session.OfType<FiveIndicationsSession>()
                     .AsNoTracking()
                     .Include(s => s.TransferStatus)
                     .Include(s => s.Department)
                         .ThenInclude(a => a.DepartmentType)
                     .Include(s => s.Department)
-                        .ThenInclude(a => a.Clinics)
+                        .ThenInclude(a => a.Units)
                     .Include(s => s.Observations)
                         .ThenInclude(o => o.Role)
                     .Include(o => o.Observations)
@@ -269,17 +269,17 @@ namespace HyFive.Services.Reports.FiveIndicators
                     .Include(o => o.Observations)
                         .ThenInclude(o => o.IndicationTypes)
                     .Where(s =>
-                        s.Department.Clinics.Any(k => k.Id == clinicId)
+                        s.Department.Units.Any(k => k.Id == unitId)
                         && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
                         && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
                     .ToList();
 
                 if (request.Role == AuthorizedRole.Administrator)
                 {
-                    AssociatedClinicSessions = AssociatedClinicSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
+                    AssociatedUnitSessions = AssociatedUnitSessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
                 }
 
-                foreach (var session in AssociatedClinicSessions)
+                foreach (var session in AssociatedUnitSessions)
                 {
                     session.Observations = session.Observations.Where(o =>
                             o.RegisteredTime.Date >= fromDateUtc &&
@@ -287,17 +287,17 @@ namespace HyFive.Services.Reports.FiveIndicators
                         .ToList();
                 }
 
-                var observationsNumber = AssociatedClinicSessions.SelectMany(o => o.Observations).Count();
-                var clinicName = _context.Clinic.FirstOrDefault(k => k.Id == clinicId)?.Name ?? "Without a name";
+                var observationsNumber = AssociatedUnitSessions.SelectMany(o => o.Observations).Count();
+                var unitName = _context.Unit.FirstOrDefault(k => k.Id == unitId)?.Name ?? "Without a name";
 
                 var report = new FiveIndicatorsReport()
                 {
-                    Name = $"Clinic: {clinicName}",
+                    Name = $"Unit: {unitName}",
                     FromDate = request.FromDate,
                     ToDate = request.ToDate,
-                    Roles = GetRoleWithCombinationsReportList(AssociatedClinicSessions),
+                    Roles = GetRoleWithCombinationsReportList(AssociatedUnitSessions),
                     NumberOfObservations = observationsNumber,
-                    DebugObservationsStringList = AssociatedClinicSessions.SelectMany(o => o.Observations)
+                    DebugObservationsStringList = AssociatedUnitSessions.SelectMany(o => o.Observations)
                         .Select(o => DebugObservation(o))
                         .ToArray()
                 };
@@ -311,13 +311,13 @@ namespace HyFive.Services.Reports.FiveIndicators
             ///  * 2: Aseptic
             ///  * 3: Bodily fluids
             ///  * 4: After patient
+            ///  * 5: After patient’s surroundings
             ///  *
             ///  * Suggestion from the medical department by Mette Fagernes for grouping indications:
             ///  A (before patient) = 1, 1+2
             ///  B (before aseptic – inside the zone) = 2, 3+2
-            ///  C (after bodily fluids – primarily inside the zone) = 3, 
-            ///  D (after patient) = 4, 3+4, 
-            ///  E (transition between patients) = 4+1, 3+4+1, 3+1, 3+1+2, 4+2, 4+1+2, 3+4+1+2, 3+4+2,
+            ///  C (after patient) = 4, 3+4, 
+            ///  D (transition between patients) = 4+1, 3+4+1, 3+1, 3+1+2, 4+2, 4+1+2, 3+4+1+2, 3+4+2,
             /// 
             /// </summary>
             /// <param name="sessions"></param>
@@ -345,11 +345,15 @@ namespace HyFive.Services.Reports.FiveIndicators
                             .Where(o => o.Activity.TimingWasPerformed && o.Activity.ActivityType.Code == ActivityTypeConstants.Disinfection)
                             .Select(o => o.Activity.SecondsUsed));
 
+                    dto.Combinations.Add(CreateCombination1(observations));
+                    dto.Combinations.Add(CreateCombination2(observations));
+                    dto.Combinations.Add(CreateCombination3(observations));
+                    dto.Combinations.Add(CreateCombination4(observations));
+                    dto.Combinations.Add(CreateCombination5(observations));
                     dto.Combinations.Add(CreateCombinationA(observations));
                     dto.Combinations.Add(CreateCombinationB(observations));
                     dto.Combinations.Add(CreateCombinationC(observations));
                     dto.Combinations.Add(CreateCombinationD(observations));
-                    dto.Combinations.Add(CreateCombinationE(observations));
 
                     dtoList.Add(dto);
 
@@ -363,6 +367,97 @@ namespace HyFive.Services.Reports.FiveIndicators
                     }
                 }
                 return dtoList;
+            }
+
+            /// <summary>
+            /// * 1: Before patient
+            /// * 2: Aseptic
+            /// * 3: Body fluid
+            /// * 4: After patient
+            /// </summary>
+            /// <param name="observations"></param>
+            /// <returns></returns>
+            private Combination CreateCombination1(List<FiveIndicationsObservation> observations)
+            {
+                var name = "1";
+                var combinations = new[]
+                {
+                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.BeforePatient}}, // 1
+                };
+                return CreateCombination(observations, name, combinations);
+            }
+
+            /// <summary>
+            /// * 1: Before patient
+            /// * 2: Aseptic
+            /// * 3: Body fluid
+            /// * 4: After patient
+            /// </summary>
+            /// <param name="observations"></param>
+            /// <returns></returns>
+            private Combination CreateCombination2(List<FiveIndicationsObservation> observations)
+            {
+                var name = "2";
+                var combinations = new[]
+                {
+                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.AsepticProcedures}}, // 2
+                };
+                return CreateCombination(observations, name, combinations);
+            }
+
+            /// <summary>
+            /// * 1: Before patient
+            /// * 2: Aseptic
+            /// * 3: Body fluid
+            /// * 4: After patient
+            /// </summary>
+            /// <param name="observations"></param>
+            /// <returns></returns>
+            private Combination CreateCombination3(List<FiveIndicationsObservation> observations)
+            {
+                var name = "3";
+                var combinations = new[]
+                {
+                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.BodyFluid}}, // 3
+                };
+                return CreateCombination(observations, name, combinations);
+            }
+
+            /// <summary>
+            /// * 1: Before patient
+            /// * 2: Aseptic
+            /// * 3: Body fluid
+            /// * 4: After patient
+            /// </summary>
+            /// <param name="observations"></param>
+            /// <returns></returns>
+            private Combination CreateCombination4(List<FiveIndicationsObservation> observations)
+            {
+                var name = "4";
+                var combinations = new[]
+                {
+                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.AfterPatient}}, // 4
+                };
+                return CreateCombination(observations, name, combinations);
+            }
+
+            /// <summary>
+            /// * 1: Before patient
+            /// * 2: Aseptic
+            /// * 3: Body fluid
+            /// * 4: After patient
+            /// * 5: After patient’s surroundings
+            /// </summary>
+            /// <param name="observations"></param>
+            /// <returns></returns>
+            private Combination CreateCombination5(List<FiveIndicationsObservation> observations)
+            {
+                var name = "5";
+                var combinations = new[]
+                {
+                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.PatientsSurroundings}}, // 5
+                };
+                return CreateCombination(observations, name, combinations);
             }
 
             /// <summary>
@@ -408,7 +503,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             }
 
             /// <summary>
-            /// C (after body fluid – primarily inside the zone) = 3,
+            /// C (after patient) = 4, 3+4
             /// * 1: Before patient
             /// * 2: Aseptic
             /// * 3: Body fluid
@@ -418,29 +513,8 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// <returns></returns>
             private Combination CreateCombinationC(List<FiveIndicationsObservation> observations)
             {
-                //var name = "C (after body fluid – primarily inside the zone)";
-                var name = "C";
-                var combinations = new[]
-                {
-                    new IndicationCombination() {Code = new[] {IndicationTypeConstants.BodyFluid}} // 3
-                };
-                return CreateCombination(observations, name, combinations);
-            }
-
-
-            /// <summary>
-            /// D (after patient) = 4, 3+4
-            /// * 1: Before patient
-            /// * 2: Aseptic
-            /// * 3: Body fluid
-            /// * 4: After patient
-            /// </summary>
-            /// <param name="observations"></param>
-            /// <returns></returns>
-            private Combination CreateCombinationD(List<FiveIndicationsObservation> observations)
-            {
                 //var name = "D (after pasient)";
-                var name = "D";
+                var name = "C";
 
                 var combinations = new[]
                 {
@@ -451,7 +525,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             }
 
             /// <summary>
-            /// E (transition between patients) = 4+1, 3+4+1, 3+1, 3+1+2, 4+2, 4+1+2, 3+4+1+2, 3+4+2
+            /// D (transition between patients) = 4+1, 3+4+1, 3+1, 3+1+2, 4+2, 4+1+2, 3+4+1+2, 3+4+2
             /// * 1: Before patient
             /// * 2: Aseptic
             /// * 3: Body fluid
@@ -459,10 +533,10 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// </summary>
             /// <param name="observations"></param>
             /// <returns></returns>
-            private Combination CreateCombinationE(List<FiveIndicationsObservation> observations)
+            private Combination CreateCombinationD(List<FiveIndicationsObservation> observations)
             {
-                //var name = "E (transition between patients)";
-                var name = "E";
+                //var name = "D (transition between patients)";
+                var name = "D";
                 var combinations = new[]
                 {
                     new IndicationCombination() {Code = new[] {IndicationTypeConstants.AfterPatient, IndicationTypeConstants.BeforePatient}}, // 4 + 1

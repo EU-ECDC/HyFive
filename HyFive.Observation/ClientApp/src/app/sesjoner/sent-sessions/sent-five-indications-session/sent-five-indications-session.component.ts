@@ -65,28 +65,28 @@ export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
     this.router.navigate([Urls.SentSessionsUrl])
   }
 
-  calculateOccasionsComplied(session: FiveIndicationsSession) : number{
+  calculateOpportunitiesComplied(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code != ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsCompliedPercent(session: FiveIndicationsSession): number {
+  calculateOpportunitiesCompliedPercent(session: FiveIndicationsSession): number {
     if (session?.observations?.length == 0)
       return 0;
-    return (this.calculateOccasionsComplied(session) / session?.observations?.length) * 100;
+    return (this.calculateOpportunitiesComplied(session) / session?.observations?.length) * 100;
   }
 
-  calculateOccasionsOmitted(session: FiveIndicationsSession) : number{
+  calculateOpportunitiesOmitted(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
     return session?.observations?.filter(f => f.activity.activityType?.code == ActivityTypeConstants.NotPerformed).length
   }
 
-  calculateOccasionsOmittedPercent(session: FiveIndicationsSession) : number{
+  calculateOpportunitiesOmittedPercent(session: FiveIndicationsSession) : number{
     if(session?.observations?.length == 0)
       return 0;
-    return (this.calculateOccasionsOmitted(session) / session?.observations?.length)*100
+    return (this.calculateOpportunitiesOmitted(session) / session?.observations?.length)*100
   }
 
   getIngress(observation: FiveIndicationsObservation) {

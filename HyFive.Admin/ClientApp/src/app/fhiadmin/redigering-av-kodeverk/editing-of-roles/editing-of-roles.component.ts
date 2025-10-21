@@ -53,6 +53,9 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
   }
 
   createRole() {
+    if (this.newRole.description == "") {
+      this.newRole.description = null;
+    }
     this.roleService.createRole(this.newRole).subscribe(
       (opprettetRolle) => this.toastrService.success('Role created'),
       error => this.toastrService.error('An error occurred while creating the role: ' + error?.message, '', { disableTimeOut: true}),
@@ -66,6 +69,9 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
   }
 
   updateRole(role: Role) {
+        if (role.description == "") {
+      role.description = null;
+    }
     this.roleService.updateRole(role).subscribe(
       (updateRole) => {
         this.toastrService.success("Role updated");

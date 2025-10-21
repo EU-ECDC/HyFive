@@ -23,33 +23,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.GetClinic(System.Int32,System.Int32)">
-            <summary>
-            Get Clinic
-            </summary>
-            <param name="id"></param>
-            <param name="facilityId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.GetClinicsForFacility(System.Int32)">
-            <summary>
-            Get Clinics For Facility
-            </summary>
-            <param name="facilityId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.CreateClinic(HyFive.Models.V1.Facility.Clinic)">
-            <summary>
-            Create clinic
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ClinicController.UpdateClinic(HyFive.Models.V1.Facility.Clinic)">
-            <summary>
-            Update clinic
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:HyFive.Admin.Controllers.V1.ActivityTypeController.GetAllActivityTypes">
             <summary>
             Get all available activity types <see cref="T:HyFive.Models.V1.Observation.ActivityType"/>
@@ -441,6 +414,33 @@
             Update role
             </summary>
             <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.UnitController.GetUnit(System.Int32,System.Int32)">
+            <summary>
+            Get Unit
+            </summary>
+            <param name="id"></param>
+            <param name="facilityId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.UnitController.GetUnitsForFacility(System.Int32)">
+            <summary>
+            Get Units For Facility
+            </summary>
+            <param name="facilityId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.UnitController.CreateUnit(HyFive.Models.V1.Facility.Unit)">
+            <summary>
+            Create unit
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.UnitController.UpdateUnit(HyFive.Models.V1.Facility.Unit)">
+            <summary>
+            Update unit
+            </summary>
             <returns></returns>
         </member>
         <member name="M:HyFive.Admin.Controllers.V1.UserController.UpdateObserver(HyFive.Models.V1.User.User)">

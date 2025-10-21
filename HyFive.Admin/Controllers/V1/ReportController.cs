@@ -258,7 +258,7 @@ namespace HyFive.Admin.Controllers.V1
             return Ok(hasData);
         }
 
-        [HttpPost("fiveΙndications/compliance")]
+        [HttpPost("fiveIndications/compliance")]
         public async Task<IActionResult> FiveIndicationsCompliance([FromBody] FiveIndicationsComplianceRequest request)
         {
             foreach(var facilityId in request.FacilityIds)
@@ -301,8 +301,8 @@ namespace HyFive.Admin.Controllers.V1
 
         private FileStreamResult CreateFile(PdfResult pdf)
         {
-            var fil = File(new MemoryStream(pdf.Content), "application/pdf", pdf.Filename);
-            return fil;
+            var file = File(new MemoryStream(pdf.Content), "application/pdf", pdf.Filename);
+            return file;
         }
     }
 }

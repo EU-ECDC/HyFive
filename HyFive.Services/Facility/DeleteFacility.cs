@@ -34,7 +34,7 @@ namespace HyFive.Services.Facility
                 var facility = GetFacility(command.FacilityId);
 
                 DeleteDepartmentWithRelatedData(facility);
-                DeleteClinics(facility.Id);
+                DeleteUnits(facility.Id);
                 DeletePredefinedComments(facility.Id);
                 DeleteUsers(facility.Id);
                 DeleteFacility(facility);
@@ -68,10 +68,10 @@ namespace HyFive.Services.Facility
                 _context.User.RemoveRange(usersForFacility);
             }
 
-            private void DeleteClinics(int facilityId)
+            private void DeleteUnits(int facilityId)
             {
-                var clinics = _context.Clinic.Where(k => k.Facility.Id == facilityId);
-                _context.Clinic.RemoveRange(clinics);
+                var units = _context.Unit.Where(k => k.Facility.Id == facilityId);
+                _context.Unit.RemoveRange(units);
             }
 
             private void DeletePredefinedComments(int facilityId)

@@ -7,7 +7,7 @@ export class UrlPaths {
   static editingByCodeworks = 'fhiadmin/codeworks';
   static editingofhandjewelrytypes = 'fhiadmin/typesofhandjewelry';
   static editingOfDepartments = 'coordinator/departments';
-  static editingByClinics = 'coordinator/clinics';
+  static editingByUnits = 'coordinator/units';
   static editingByCoordinators = 'coordinator/coordinators';
   static editingByObservers = 'coordinator/observers';
   static editingPredefinedComments = 'coordinator/predefinedcomments';

@@ -132,7 +132,7 @@
             </div>
           </div>
           
-          <div class="col-md-6 col-xl-3">
+          <!-- <div class="col-md-6 col-xl-3">
             <div class="fhi-form-check-tile">
               <input
                 class="fhi-form-check-tile__input form-check-input"
@@ -147,7 +147,7 @@
                 <span class="fhi-form-check-tile__label-text">PPE</span>
               </label>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -174,7 +174,7 @@
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? "GloveUse" : "Handhygiene" }}</h2>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? "Glove Use" : "Hand Hygiene" }}</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Off</span>
               <label class="hh-switch">
@@ -228,12 +228,12 @@
   </div>
 </div>
 
-<ng-container *ngIf="showProtectiveEquipment">
+<!-- <ng-container *ngIf="showProtectiveEquipment">
   <app-selection-for-protective-equipment
     [roles]="roleSelected"
     [department]="getSelectedDepartment()"
   ></app-selection-for-protective-equipment>
-</ng-container>
+</ng-container> -->
 
 <app-help-text [title]="'Tips and trciks - start observation'">
   <p>

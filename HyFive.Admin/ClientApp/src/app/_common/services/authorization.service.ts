@@ -16,7 +16,7 @@ export class AuthorizationService {
     return this.http.get<LoggedInUser>('/account').pipe(tap(user => {
       let selectedRole = this.getSelectedRole();
       if (!selectedRole) {
-        if (user.isFhiAdmin) {
+        if (user.isAdmin) {
           this.saveSelectedRole(AuthorizedRole.Administrator);
         } else if (user.isCoordinator) {
           this.saveSelectedRole(AuthorizedRole.Coordinator);
@@ -28,7 +28,7 @@ export class AuthorizationService {
   getRoles(): Observable<AuthorizedRole[]> {
     return this.getUser().pipe(map(user => {
       const authorizedRoles: AuthorizedRole[] = [];
-      if (user.isFhiAdmin) {
+      if (user.isAdmin) {
         authorizedRoles.push(AuthorizedRole.Administrator);
       }
       
