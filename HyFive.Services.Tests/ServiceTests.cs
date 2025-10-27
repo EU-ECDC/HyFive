@@ -45,8 +45,15 @@ namespace HyFive.Services.Tests
 
             Mapper = new Mapper(config);
 
-            var seed = new Seed(DatabaseContext);
-            seed.SeedData();
+            var city = new HyFive.Domain.Place.City { Id = 666, Name = "Oslo" };
+            var facilityType = new HyFive.Domain.Place.FacilityType { Code = "HOSP", Name = "Hospital" };
+            var deptType = new HyFive.Domain.Place.DepartmentType { Code = "SURGERY", Name = "Surgery" };
+
+            DatabaseContext.City.Add(city);
+            DatabaseContext.FacilityType.Add(facilityType);
+            DatabaseContext.DepartmentType.Add(deptType);
+
+            DatabaseContext.SaveChanges();
         }
 
         [TearDown]
@@ -68,24 +75,23 @@ namespace HyFive.Services.Tests
             return databaseContext;
         }
 
-        protected async Task<(Models.V1.Facility.Facility, Models.V1.User.User)> CreateInstitution()
+        protected async Task<(Models.V1.Facility.Facility, Models.V1.User.User)> CreateFacility()
         {
             var CreateInstitutionHandler = new CreateFacility.Handler(DatabaseContext, Mapper);
 
             DatabaseContext.Role.AddRange(new Domain.Observation.Role("Doctor"), new Domain.Observation.Role("Nurse"));
             DatabaseContext.SaveChanges();
-            var institution = await CreateInstitutionHandler.Handle(new CreateFacility.Command()
+            var facility = await CreateInstitutionHandler.Handle(new CreateFacility.Command()
             {
                 Request = new CreateFacilityRequest()
                 {
-                    CoordinatorHPRNumber = Seed.SeedKoordinatorHprNummer,
-                    CoordinatorLastName = Seed.SeedKoordinatorFornavn,
-                    CoordinatorFirstName = Seed.SeedKoordinatorFornavn,
-                    Abbreviation = "FHI",
-                    HERId = "85217",
+                    CoordinatorEmail = "test@gmail.com",
+                    CoordinatorLastName = "Test",
+                    CoordinatorFirstName = "User",
+                    Abbreviation = "test1",
                     FacilityTypeId = DatabaseContext.FacilityType.First().Id,
-                    FacilityName = "FOLKEHELSEINSTITUTTET",
-                    RegionId = DatabaseContext.Region.First().Id
+                    FacilityName = "FacilityTest",
+                    CityId = DatabaseContext.City.First().Id
                 }
             }, CancellationToken.None);
 
@@ -95,18 +101,18 @@ namespace HyFive.Services.Tests
             {
                 User = new Models.V1.User.User()
                 {
-                    HPRNumber = Seed.SeedObservatorHprNummer,
-                    FacilityId = institution.Id,
+                    Email = "test@gmail.com",
+                    FacilityId = facility.Id,
                     IsDisabled = false,
                     LastName = "Stangeland",
                     FirstName = "Stian Pål",
                 }
             }, CancellationToken.None);
 
-            return (institution, observer);
+            return (facility, observer);
         }
 
-        protected async Task<Guid> CreateFourIndicatorsSession(
+        protected async Task<Guid> CreateFiveIndicatorsSession(
             Guid sessionId,
             Guid observationId,
             Domain.Place.Department department,
@@ -125,7 +131,7 @@ namespace HyFive.Services.Tests
             var activityTypes = DatabaseContext.ActivityType.ToList();
             var indicationTypesList = DatabaseContext.IndicationTypes.ToList();
 
-            var SaveFourIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
+            var saveFiveIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
             var observation = new FiveIndicatorsObservation()
             {
                 Activity = useDefaultActivity
@@ -148,13 +154,13 @@ namespace HyFive.Services.Tests
                         Id = indicationTypesList.FirstOrDefault(x => x.Code == IndicationTypeConstants.AfterPatient).Id
                     }
                 },
-                Comment = "Comment til observasjonen",
+                Comment = "Cooment for observation",
                 RegisteredTime = DateTime.UtcNow,
                 Role = useDefaultRole ? departmentModel.Roles.First() : role,
                 SessionId = sessionId.ToString()
             };
 
-            var fourIndicatorsSessionGuid = await SaveFourIndicatorsSessionHandler.Handle(new SaveSession.Command()
+            var fiveIndicatorsSessionGuid = await saveFiveIndicatorsSessionHandler.Handle(new SaveSession.Command()
             {
                 Session = new FiveIndicationsSession
                 {
@@ -166,12 +172,12 @@ namespace HyFive.Services.Tests
                     {
                         observation
                     },
-                    Comment = "Comment til sesjonen",
+                    Comment = "Comment for Session",
                     CreatedDate = DateTime.UtcNow
                 }
             }, CancellationToken.None);
 
-            return fourIndicatorsSessionGuid;
+            return fiveIndicatorsSessionGuid;
         }
     }
 }

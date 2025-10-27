@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faNewCardArrow } from '../../utils/customIconer';
+import { faNewCardArrow } from '../../utils/customIcons';
 
 @Component({
   selector: 'app-new-card-info',

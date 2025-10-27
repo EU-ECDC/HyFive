@@ -1,0 +1,14 @@
+.hh-department-dropdown {
+  & .ng-select-container {
+    border-color: #4f841a;
+  }
+
+  & .ng-placeholder,
+  & .ng-option-disabled {
+    color: black !important;
+  }
+
+  &.ng-select.ng-select-single .ng-select-container {
+    height: $fhi-core-px * 38;
+  }
+}

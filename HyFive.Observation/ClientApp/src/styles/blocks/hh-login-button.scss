@@ -1,0 +1,23 @@
+.hh-login-button {
+  cursor: pointer;
+  display:block;
+  text-decoration: none;
+  &:visited,&:hover{
+    text-decoration: none;
+  }
+  border-radius: 10px;
+  border: 1px solid black;
+  background: $fhi-core-white;
+  padding: 1rem;
+  &__ikon {
+
+  }
+  &__tittel {
+    display: block;
+    color: black;
+  }
+  &__undertittel {
+    display: block;
+    color: $fhi-core-grey-1
+  }
+}

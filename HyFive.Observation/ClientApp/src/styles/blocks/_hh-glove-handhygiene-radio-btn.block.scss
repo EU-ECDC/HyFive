@@ -1,0 +1,17 @@
+.hh-glove-handhygiene-radio-btn {
+
+    border: 1px solid black;
+    color: black;
+    background-color: white;
+    white-space: nowrap;
+
+    &:hover{
+        background-color: whitesmoke;
+    }
+
+    &.active {
+        color: white;
+        background-color: lightslategray;
+    }
+
+}

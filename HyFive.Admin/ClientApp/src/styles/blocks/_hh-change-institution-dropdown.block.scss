@@ -1,0 +1,44 @@
+.hh-change-institution-dropdown {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  color: white;
+  background-color: black;
+  border-radius: 21px;
+  padding: 7px 15px;
+  box-shadow: 0px 4px 6px -1px rgb(0 0 0 / 90%);
+  z-index: 20000;
+
+
+  &__menu {
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 3px 14px -4px rgb(0 0 0 / 90%);
+    box-shadow: 0px 3px 14px -4px rgb(0 0 0 / 90%);
+    z-index: 1000;
+  }
+
+  &__item {
+    color: black;
+
+    &:hover {
+      background-color: #eee;
+      color: lighten(black, 20%);
+    }
+  }
+
+  &__toggle {
+
+    &__text {
+      font-size: 20px;
+      color: white;
+    }
+
+    &::after {
+      display: none;
+    }
+
+    fa-icon {
+      color: white;
+    }
+  }
+}

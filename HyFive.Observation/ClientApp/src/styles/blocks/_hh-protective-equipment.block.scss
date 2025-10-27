@@ -1,0 +1,20 @@
+.hh-protective-equipment {
+  border: 1px solid #4f841a;
+  border-radius: 6px;
+  padding: 15px 40px;
+  margin-bottom: 7px;
+
+  &--active {
+    border: 2px solid black;
+    padding: 14px 39px;
+  }
+
+  & label {
+    width: 100%;
+
+    & span {
+      top: -3px;
+      width: 100%;
+    }
+  }
+}

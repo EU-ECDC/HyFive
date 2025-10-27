@@ -143,7 +143,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Administrators',
-        routerLink: `/${UrlPaths.fhiAdminOverview}`,
+        routerLink: `/${UrlPaths.adminOverview}`,
         roles: [AuthorizedRole.Administrator]
       },
       {

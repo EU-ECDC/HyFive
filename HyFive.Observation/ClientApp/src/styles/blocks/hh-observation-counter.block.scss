@@ -1,0 +1,25 @@
+.hh-observation-counter {
+  height: $fhi-core-px * 44;
+  
+  &__obs-card {
+    color: $fhi-core-grey-4;
+  }
+  &__text{
+    color: $fhi-core-white;
+    font-weight: bold;
+  }
+  &__circle {
+    color: $fhi-core-grey-4;
+  }
+}
+
+@include media-breakpoint-down(xl) {
+  .hh-observation-counter {
+    &__link {
+      display: inline-block;
+      margin-bottom: $fhi-core-px * -20;
+      position: relative;
+      top: $fhi-core-px * -30;
+    }
+  }
+}

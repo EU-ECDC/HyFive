@@ -42,7 +42,7 @@
         </select> -->
         <div *ngIf="facilityOptions" class="fhi-ng-select-wrapper fhi-autosuggest">
           <ng-select
-            class="hh-avdeling-dropdown"
+            class="hh-department-dropdown"
             [items]="facilityOptions"
             bindLabel="name"
             bindValue="id"
@@ -60,7 +60,7 @@
       <h2 class="h5">Department</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
-        class="hh-avdeling-dropdown"
+        class="hh-department-dropdown"
         [items]="facility?.departments"
           bindLabel="name"
           bindValue="id"

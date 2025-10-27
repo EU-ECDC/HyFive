@@ -18,14 +18,14 @@
         <app-role-selection-dropdown *ngIf="roleSelected" [roleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
 
         <div class="mt-3 text-break">
-          <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="resetTab()" class="nav-tabs nav-justified hh-hanske-tabs">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="resetTab()" class="nav-tabs nav-justified hh-glove-tabs">
             <li ngbNavItem="with">
-              <a ngbNavLink class="hh-hanske-tabs__tab">
+              <a ngbNavLink class="hh-glove-tabs__tab">
                 Glove with indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
-                  <div class="col-auto hh-hanske-tabs__label-td">
+                  <div class="col-auto hh-glove-tabs__label-td">
                     <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
                       <strong>{{type.name}}</strong>
@@ -60,12 +60,12 @@
               </ng-template>
             </li>
             <li ngbNavItem="without">
-              <a ngbNavLink class="hh-hanske-tabs__tab">
+              <a ngbNavLink class="hh-glove-tabs__tab">
                 Glove without indication
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
-                  <div class="col-aitp hh-hanske-tabs__label-td">
+                  <div class="col-aitp hh-glove-tabs__label-td">
                     <label class="form-check-label" [for]="type.code">
                       <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
                       <strong>{{type.name}}</strong>

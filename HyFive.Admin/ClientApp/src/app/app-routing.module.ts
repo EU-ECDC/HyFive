@@ -3,24 +3,24 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { UrlPaths } from './_common/constants/url-paths';
 import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
-import { EditingOfFacilitiesComponent } from './fhiadmin/redigering-av-institusjoner/editing-of-facilities.component';
-import { EditingCodeworkComponent } from './fhiadmin/redigering-av-kodeverk/editing-code-works.component';
-import { OverviewObservationsComponent } from './fhiadmin/oversikt-observasjoner/overview-observations.component';
+import { EditingOfFacilitiesComponent } from './admin/edit-facilities/editing-of-facilities.component';
+import { EditingCodeworkComponent } from './admin/edit-codeworks/editing-code-works.component';
+import { OverviewObservationsComponent } from './admin/overview-observations/overview-observations.component';
 import { EditingDepartmentsComponent } from './_common/editing-of-departments/editing-of-departments.component';
-import { OverviewDepartmentSessionsComponent } from './fhiadmin/oversikt-observasjoner/overview-department-sessions/overview-department-sessions.component';
+import { OverviewDepartmentSessionsComponent } from './admin/overview-observations/overview-department-sessions/overview-department-sessions.component';
 import { EditingOfObserversComponent } from "./coordinator/editing-observers/editing-of-observers.component";
 import { ProfilsideComponent } from "./profile-page/profile-page.component";
 import { TransferSessionsComponent } from './coordinator/transfer-sessions/transfer-sessions.component';
 import { EditingPredefinedCommentsComponent } from './coordinator/edit-predefined-comments/edit-predefined-comments.component';
-import { EditingUnitsComponent } from "./coordinator/redigering-av-klinikker/editing-of-unit.component";
-import { OverviewFhiAdminComponent } from './fhiadmin/oversikt-fhiadmin/overview-fhiadmin.component';
+import { EditingUnitsComponent } from "./coordinator/edit-units/editing-of-unit.component";
+import { OverviewAdminComponent } from './admin/overview-admin/overview-admin.component';
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
-import { EmailComponent } from './fhiadmin/email/email.component';
-import { ReportComponent } from './coordinator/rapporter/report.component';
-import { ComplianceComponent } from './coordinator/rapporter/fireIndikasjoner/compliance/compliance.component';
-import { DownloadExcelComponent } from './coordinator/rapporter/download/download-excel.component';
-import { ComplianceFiveIndicationsPdfComponent } from './coordinator/rapporter/predefined/compliance-five-indications-pdf.component';
-import { ComplianceHandJewelryPdfComponent } from './coordinator/rapporter/predefined/compliance-handJewelry-pdf.component';
+import { EmailComponent } from './admin/email/email.component';
+import { ReportComponent } from './coordinator/reports/report.component';
+import { ComplianceComponent } from './coordinator/reports/five-indications/compliance/compliance.component';
+import { DownloadExcelComponent } from './coordinator/reports/download/download-excel.component';
+import { ComplianceFiveIndicationsPdfComponent } from './coordinator/reports/predefined/compliance-five-indications-pdf.component';
+import { ComplianceHandJewelryPdfComponent } from './coordinator/reports/predefined/compliance-handJewelry-pdf.component';
 
 const defaultPath = `/${UrlPaths.homePage}`;
 
@@ -83,8 +83,8 @@ const routes: Routes = [
     component: EditingOfFacilitiesComponent
   },
   {
-    path: UrlPaths.fhiAdminOverview,
-    component: OverviewFhiAdminComponent
+    path: UrlPaths.adminOverview,
+    component: OverviewAdminComponent
   },
   {
     path: UrlPaths.email,

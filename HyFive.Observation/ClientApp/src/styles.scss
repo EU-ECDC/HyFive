@@ -7,30 +7,30 @@
 @import "styles/bootstrap/form-control";
 @import "styles/blocks/hh-switch.block";
 @import "styles/blocks/hh-card.block";
-@import "styles/blocks/hh-sesjontype-radio.block";
+@import "styles/blocks/hh-sessiontype-radio.block";
 @import "styles/blocks/hh-vertical-stadium-buttons.block";
 @import "styles/blocks/hh-toggle-badge-button.block";
-@import "styles/blocks/hh-registrer-aktivitet.block";
+@import "styles/blocks/hh-register-activity.block";
 @import "styles/blocks/hh-transparent-button.block";
 @import "styles/blocks/hh-input-with-icon.block";
-@import "styles/blocks/hh-sesjonstatistikk.block";
-@import "styles/blocks/hh-observasjoner-under-arbeid.block";
-@import "styles/blocks/hh-nytt-kort-dropdown.block";
+@import "styles/blocks/hh-session-statistics.block";
+@import "styles/blocks/hh-observations-during-work.block";
+@import "styles/blocks/hh-new-card-dropdown.block";
 @import "styles/blocks/hh-round-checkbox-list.block";
-@import "styles/blocks/hh-beskyttelsesutstyrsetting.block";
-@import "styles/blocks/hh-navigasjonslenke.block";
+@import "styles/blocks/hh-protective-equipment.block";
+@import "styles/blocks/hh-navigation-link.block";
 @import "styles/blocks/hh-accordion.block";
 @import "styles/blocks/hh-modal.block";
-@import "styles/blocks/hh-observasjonsteller.block";
+@import "styles/blocks/hh-observation-counter.block";
 @import "styles/blocks/hh-offlinemessage.block";
 @import "styles/blocks/hh-stadium-checkbox.block";
 @import "styles/blocks/hh-horizontal-separator.block";
-@import "styles/blocks/hh-sesjon-card.block.scss";
-@import "styles/blocks/hh-hanske-tabs.block.scss";
-@import "styles/blocks/hh-hanske-handhygiene-radio-btn.block.scss";
-@import "styles/blocks/hh-avdeling-dropdown.block";
-@import "styles/blocks/hh-nytt-kort-info.block";
-@import "styles/blocks/hh-loginknapp";
+@import "styles/blocks/hh-session-card.block.scss";
+@import "styles/blocks/hh-glove-tabs.block.scss";
+@import "styles/blocks/hh-glove-handhygiene-radio-btn.block.scss";
+@import "styles/blocks/hh-department-dropdown.block";
+@import "styles/blocks/hh-new-card-info.block";
+@import "styles/blocks/hh-login-button";
 @import "styles/ng-bootstrap-hacks";
 
 // FHI design system overrides
@@ -208,7 +208,7 @@ a:hover {
   border: 1px solid #4f841a;
 }
 
-.hh-nytt-kort-dropdown__toggle {
+.hh-new-card-dropdown__toggle {
   background-color: #4f841a;
   border: #4f841a;
   box-shadow: none;

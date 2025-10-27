@@ -8,16 +8,16 @@ import { RegisterFiveIndicationsComponent } from './registrering/register-five-i
 import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
 import { RegisterGloveComponent } from './registrering/register-glove/register-glove.component';
-import { NotSentSessionsComponent } from './sesjoner/not-sent-sessions/not-sent-sessions.component';
-import { SentSessionsComponent } from './sesjoner/sent-sessions/sent-sessions.component';
-import { FiveIndicationsComponent } from './sesjoner/fire-indikasjoner/five-indications.component';
-import { HandJewelryComponent } from './sesjoner/handJewelry/handJewelry.component';
-import { ProtectiveEquipmentComponent } from './sesjoner/protection-equipment/protection-equipment.component';
-import { SentFiveIndicationsSessionComponent } from './sesjoner/sent-sessions/sent-five-indications-session/sent-five-indications-session.component';
-import { SentHandJewelrySessionComponent } from './sesjoner/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
-import { SentProtectiveEquipmentSessionComponent } from './sesjoner/sent-sessions/sent-protective-equipment-session/sent-protective-equipment-session.component';
-import { GloveComponent } from './sesjoner/glove/glove.component';
-import { SentGloveSessionComponent } from './sesjoner/sent-sessions/sent-glove-session/sent-glove-session.component';
+import { NotSentSessionsComponent } from './sessions/not-sent-sessions/not-sent-sessions.component';
+import { SentSessionsComponent } from './sessions/sent-sessions/sent-sessions.component';
+import { FiveIndicationsComponent } from './sessions/five-indications/five-indications.component';
+import { HandJewelryComponent } from './sessions/handJewelry/handJewelry.component';
+import { ProtectiveEquipmentComponent } from './sessions/protection-equipment/protection-equipment.component';
+import { SentFiveIndicationsSessionComponent } from './sessions/sent-sessions/sent-five-indications-session/sent-five-indications-session.component';
+import { SentHandJewelrySessionComponent } from './sessions/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
+import { SentProtectiveEquipmentSessionComponent } from './sessions/sent-sessions/sent-protective-equipment-session/sent-protective-equipment-session.component';
+import { GloveComponent } from './sessions/glove/glove.component';
+import { SentGloveSessionComponent } from './sessions/sent-sessions/sent-glove-session/sent-glove-session.component';
 
 const defaultPath = Urls.ProfileUrl;
 

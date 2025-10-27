@@ -1,5 +1,5 @@
-<div class="hh-registrer-aktivitet" [ngClass]="{'hh-registrer-aktivitet--registrert': isRegistered }">
-  <span *ngIf="timingExecuted" class="hh-registrer-aktivitet__circle" [ngStyle]="{'transform':'rotate('+(138+(6 * (this.seconds % 60)))+'deg)'}"> </span>
+<div class="hh-register-activity" [ngClass]="{'hh-register-activity--register': isRegistered }">
+  <span *ngIf="timingExecuted" class="hh-register-activity__circle" [ngStyle]="{'transform':'rotate('+(138+(6 * (this.seconds % 60)))+'deg)'}"> </span>
   <button class="hh-transparent-button hh-transparent-button--large hh-transparent-button--wide" style="z-index: 2; position: relative"
           [disabled]="disabled"
           (click)="registerActivity(modal)">
@@ -7,7 +7,7 @@
     <span class="form-check-label" style="line-height: 45%" *ngIf="showText || seconds === 0">
       <small><strong>{{getActivityText()}}</strong></small>
     </span>
-    <small class="hh-registrer-aktivitet__sekunder-brukt" *ngIf="(timingExecuted || isRegistered) && seconds > 0">
+    <small class="hh-register-activity__seconds-used" *ngIf="(timingExecuted || isRegistered) && seconds > 0">
       <strong>{{seconds}}s</strong>
     </small>
   </button>

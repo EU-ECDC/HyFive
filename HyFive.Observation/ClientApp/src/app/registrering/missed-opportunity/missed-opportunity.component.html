@@ -1,11 +1,11 @@
-<div class="hh-registrer-aktivitet" [ngClass]="{'hh-registrer-aktivitet--registrert':isRegistered}">
+<div class="hh-register-activity" [ngClass]="{'hh-register-activity--register':isRegistered}">
   <button [disabled]="disabled"
           type="button"
           class="hh-transparent-button hh-transparent-button--large hh-transparent-button--wide"
           (click)="registerNotExecutedActivity(modal)">
 
     <fa-icon [icon]="faTimesCircle" class="hh-vertical-stadium-buttons__icon"></fa-icon>
-    <span class="hh-registrer-aktivitet__missed-opportunity-text mt-n1" style="line-height: 45%"><small><strong>Not done</strong></small></span>
+    <span class="hh-register-activity__missed-opportunity-text mt-n1" style="line-height: 45%"><small><strong>Not done</strong></small></span>
   </button>
 </div>
 

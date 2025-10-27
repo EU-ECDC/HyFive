@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IndicationTypeConstants } from '../models/api/IndicationTypeConstants';
 import { IndicationType } from '../models/api/IndicationType';
 import { IndicationTypeSelection } from '../models/registration/indicationType-selection.model';
-import { faFour, faOne, faThree, faTwo } from './customIconer';
+import { faFour, faOne, faThree, faTwo } from './customIcons';
 
 export class IndicationTypeMapper {
 

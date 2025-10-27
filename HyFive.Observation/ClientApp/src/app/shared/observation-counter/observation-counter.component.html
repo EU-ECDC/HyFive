@@ -1,11 +1,11 @@
-<div class="hh-observasjonsteller">
-  <a class="hh-observasjonsteller__link"
+<div class="hh-observation-counter">
+  <a class="hh-observation-counter__link"
      [routerLink]="numberOfObservations() > 0 ? ['/' + url] : []"
      [queryParams]="{ sessionId: sessionsdata?.id }">
     <fa-layers [fixedWidth]="true" size="2x">
-      <fa-icon class="hh-observasjonsteller__obs-card" [icon]="faObservationCard"></fa-icon>
-      <fa-icon class="hh-observasjonsteller__circle" [inverse]="false" [icon]="faCircle" transform="shrink-2 down-0 right-9" content="2"></fa-icon>
-      <fa-layers-text class="hh-observasjonsteller__text" content="{{numberOfObservations()}}" transform="shrink-8 down-0.8 right-9"></fa-layers-text>
+      <fa-icon class="hh-observation-counter__obs-card" [icon]="faObservationCard"></fa-icon>
+      <fa-icon class="hh-observation-counter__circle" [inverse]="false" [icon]="faCircle" transform="shrink-2 down-0 right-9" content="2"></fa-icon>
+      <fa-layers-text class="hh-observation-counter__text" content="{{numberOfObservations()}}" transform="shrink-8 down-0.8 right-9"></fa-layers-text>
     </fa-layers>
   </a>
 </div>

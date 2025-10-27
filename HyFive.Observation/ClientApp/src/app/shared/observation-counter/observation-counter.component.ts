@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { Session } from '../../models/api/Session';
 import { faPlus, faClipboard, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { faObservationCard } from '../../utils/customIconer';
+import { faObservationCard } from '../../utils/customIcons';
 
 @Component({
   selector: 'app-observation-counter',

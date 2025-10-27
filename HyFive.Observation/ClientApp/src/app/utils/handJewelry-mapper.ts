@@ -4,7 +4,7 @@ import { faTshirt } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelrySelection } from '../models/registration/handJewelry-selection.model';
 import { HandJewelryType } from '../models/api/HandJewelryType';
-import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIconer';
+import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './customIcons';
 
 export class HandJewelryMapper {
 

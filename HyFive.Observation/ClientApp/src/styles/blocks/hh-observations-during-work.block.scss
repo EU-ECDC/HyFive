@@ -1,0 +1,29 @@
+.hh-observations-during-work {
+
+  padding: 0;
+
+  .fhi-btn-primary {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: lighter;
+  }
+
+  .fhi-btn-outline-secondary {
+    font-weight: lighter;
+  }
+
+  .fhi-btn-secondary {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .fhi-btn-outline-primary {
+    border: none;
+    text-decoration: underline;
+
+    fa-icon {
+      margin-right: 7px;
+      color: red;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { ProtectiveEquipment } from '../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentTypeConstants } from '../models/api/ProtectiveEquipmentTypeConstants';
 import { faHeadSideMask } from '@fortawesome/free-solid-svg-icons';
 import { faHandPaper } from '@fortawesome/free-regular-svg-icons';
-import { faAnderettsvern, faHette, faPlastforkle, faSmittefrakk, faStellefrakk, faVernebriller } from './customIconer';
+import { faAnderettsvern, faHette, faPlastforkle, faSmittefrakk, faStellefrakk, faVernebriller } from './customIcons';
 
 export class ProtectiveEquipmentMapper {
 

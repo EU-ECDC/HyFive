@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../models/api/User';
-import { CreateFhiAdminRequest } from '../../models/api/CreateFhiAdminRequest';
+import { CreateAdminRequest } from '../../models/api/CreateAdminRequest';
 import { CoordinatorForCity } from '../../models/api/CoordinatorForCity';
 
 @Injectable({
@@ -54,17 +54,17 @@ export class UserService {
 
   // ---- FhiAdmin ----
 
-  getFhiAdmin(): Observable<User[]> {
+  getAdmin(): Observable<User[]> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.get<User[]>(url);
   }
 
-  createAdmin(user: CreateFhiAdminRequest): Observable<User> {
+  createAdmin(user: CreateAdminRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.post<User>(url, user);
   }
 
-  updateFhiAdmin(user: User): Observable<User> {
+  updateAdmin(user: User): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
     return this.http.put<User>(url, user);
   }
