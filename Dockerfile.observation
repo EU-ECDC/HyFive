@@ -1,23 +1,64 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# ------------------------------------
+# Build Container
+# ------------------------------------
 
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
+# ------------------------------------
+# Dockerfile Arguments
+# ------------------------------------
 
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS with-node
+ARG RUN_SONARQUBE \
+    SONAR_PROJECT_KEY \
+    SONAR_HOST_URL \
+    SONAR_LOGIN_TOKEN \
+    SONAR_BRANCH \
+    SONAR_PR_BRANCH \
+    SONAR_PR_BASE \
+    SONAR_PR_KEY \
+# Define build arguments for credentials
+    PIPE_ACCESS_TOKEN \
+# Version from Azure DevOps Tag
+    RELEASE_VERSION \
+# Build Number from the Pull Request Id
+    BUILD_NUMBER
+
+# ------------------------------------
+# Project Variables
+# ------------------------------------
+
+ENV sources="/src"
+
+ENV projectPath="$sources/HyFive.Observation/HyFive.Observation.csproj"
+ENV testPath="$sources/HyFive.sln"
+
+# ------------------------------------
+# Dependencies for SonarQube
+# ------------------------------------
+
+RUN echo "##[section]Installing dependencies"
+
+RUN if [ "$RUN_SONARQUBE" = "True" ]; then  \
+    dotnet tool install --global dotnet-sonarscanner; \
+fi
+
+# ------------------------------------
+# Dependencies for Node.js
+# ------------------------------------
+
 RUN apt-get update
 RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 RUN apt-get -y install nodejs
 
-FROM with-node AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+# ------------------------------------
+# Copy Source Code
+# ------------------------------------
+
+RUN echo "##[section]Copying sources"
+RUN mkdir -p "${sources}"
+WORKDIR "${sources}"
+
 COPY ["HyFive.Observation/Directory.Build.props", "HyFive.Observation/"]
 COPY ["HyFive.Observation/HyFive.Observation.csproj", "HyFive.Observation/"]
 COPY ["HyFive.Api.Common/HyFive.Api.Common.csproj", "HyFive.Api.Common/"]
@@ -27,18 +68,105 @@ COPY ["HyFive.DataAccess/HyFive.DataAccess.csproj", "HyFive.DataAccess/"]
 COPY ["HyFive.Domain/HyFive.Domain.csproj", "HyFive.Domain/"]
 COPY ["HyFive.Services.Reports/HyFive.Services.Reports.csproj", "HyFive.Services.Reports/"]
 COPY ["HyFive.Services/HyFive.Services.csproj", "HyFive.Services/"]
-RUN dotnet restore "./HyFive.Observation/HyFive.Observation.csproj"
+RUN dotnet restore "$projectPath"
 COPY . .
-WORKDIR "/src/HyFive.Observation"
-RUN dotnet build "./HyFive.Observation.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HyFive.Observation.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# ------------------------------------
+# Create version file
+# ------------------------------------
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
+RUN echo "##[section]Creating Version File"
+
+RUN buildId="${BUILD_NUMBER:-$(date +%4N)}"; \
+    major="$(echo "$RELEASE_VERSION" | awk -F \. {'print $1'})"; \
+    minor="$(echo "$RELEASE_VERSION" | awk -F \. {'print $2'})"; \
+    revision="$(echo "$RELEASE_VERSION" | awk -F \. {'print $3'})"; \
+    projectVersion="${major:-0}.${minor:-0}.${revision:-0}.$buildId"; \
+    echo "Build version is ${projectVersion}"; \
+    printf "${projectVersion}" > "Version.txt"
+
+# ----------------------
+# SonarQube Analysis Variables
+# ----------------------
+
+RUN echo "##[section]Set SonarQube analysis variables" 
+
+ENV verbose='false' \
+    scanAll='true'
+
+# ------------------------------------
+# Start Sonar Scanner 
+# ------------------------------------
+
+# add dotnet tools to path for sonarscanner
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+RUN if [ "$RUN_SONARQUBE" = "True" ]; then  \
+    echo "##[command]Starting Sonar Scanner" \
+    export projectVersion="$(cat Version.txt)"; \
+    echo "using project version: $projectVersion"; \
+    if [ -n "$SONAR_PR_KEY" ]; then \
+        dotnet sonarscanner begin "/k:$SONAR_PROJECT_KEY" "/d:sonar.token=$SONAR_LOGIN_TOKEN" "/d:sonar.scanner.scanAll=$scanAll" "/d:sonar.host.url=$SONAR_HOST_URL" "/d:sonar.pullrequest.base=$SONAR_PR_BASE" "/d:sonar.pullrequest.branch=$SONAR_PR_BRANCH" "/d:sonar.pullrequest.key=$SONAR_PR_KEY" "/d:sonar.cs.opencover.reportsPaths=**/*coverage.opencover.xml" "/d:sonar.cs.xunit.reportsPaths=**/*Results.xml" "/v:$projectVersion" "/d:sonar.scm.disabled=true" "/d:sonar.qualitygate.wait=true" "/d:sonar.verbose=$verbose"; \
+    # Else, check if SONAR_BRANCH is not empty for branch name
+    elif [ -n "$SONAR_BRANCH" ]; then \
+        dotnet sonarscanner begin "/k:$SONAR_PROJECT_KEY" "/d:sonar.token=$SONAR_LOGIN_TOKEN" "/d:sonar.scanner.scanAll=$scanAll" "/d:sonar.host.url=$SONAR_HOST_URL" "/d:sonar.branch.name=$SONAR_BRANCH" "/d:sonar.cs.opencover.reportsPaths=**/*coverage.opencover.xml" "/d:sonar.cs.xunit.reportsPaths=**/*Results.xml" "/v:$projectVersion" "/d:sonar.scm.disabled=true" "/d:sonar.qualitygate.wait=true" "/d:sonar.verbose=$verbose"; \
+    else \
+        dotnet sonarscanner begin "/k:$SONAR_PROJECT_KEY" "/d:sonar.token=$SONAR_LOGIN_TOKEN" "/d:sonar.scanner.scanAll=$scanAll" "/d:sonar.host.url=$SONAR_HOST_URL" "/d:sonar.cs.opencover.reportsPaths=**/*coverage.opencover.xml" "/d:sonar.cs.xunit.reportsPaths=**/*Results.xml" "/v:$projectVersion" "/d:sonar.scm.disabled=true" "/d:sonar.qualitygate.wait=true" "/d:sonar.verbose=$verbose"; \
+    fi; \
+fi
+
+# ------------------------------------
+# Run Unit Tests
+# ------------------------------------
+
+RUN echo "##[command]Running Unit Tests."
+RUN dotnet test "$testPath" -c Release --logger 'xunit;LogFileName=TestResults.xml' --collect:'XPlat Code Coverage;Format=opencover' /property:WarningLevel=0 --verbosity quiet
+
+# ------------------------------------
+# Build project
+# ------------------------------------
+
+RUN echo "##[command]Building and Packaging Projects"
+
+RUN infoVersion="$(cat Version.txt)"; \
+    releaseVersion="$(cat Version.txt | cut -d. -f1-3)"; \
+    dotnet publish "$projectPath" /p:Version="$releaseVersion" /p:InformationalVersion="$infoVersion" -c Release -o /app/publish --verbosity quiet
+
+# ------------------------------------
+# Submit Sonar Analysis
+# ------------------------------------
+
+RUN if [ "$RUN_SONARQUBE" = "True" ]; then  \
+    dotnet sonarscanner end /d:sonar.token=$SONAR_LOGIN_TOKEN; \
+fi
+
+# ------------------------------------
+# Deployment Container
+# ------------------------------------
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+EXPOSE 8080
+EXPOSE 8443 
+
+# Create a non-root user to run the application
+RUN addgroup --system --gid 1000 appgroup && \
+    adduser --system --uid 1000 --ingroup appgroup --shell /bin/sh appuser
+
+# Configure container for Kubernetes best practices
+ENV \
+    # Enable faster app startup
+    DOTNET_EnableDiagnostics=0 \
+    # Use invariant mode for better performance
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    # Ensure proper timezone handling
+    TZ=UTC \
+    DOTNET_RUNNING_IN_CONTAINER=true
+
+WORKDIR /app
+COPY --from=build --chown=appuser:appgroup /app/publish .
+
+USER appuser
+
 ENTRYPOINT ["dotnet", "HyFive.Observation.dll"]

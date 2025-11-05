@@ -18,3 +18,7 @@ extends:
     k8sManifestFolderNamePath: "hyfive/hyfive-observation" #To Alter the name of the folder / path up to overlays folder. ex K8s_Kustomization_File_Path: /K8s_Manifest_Prod/$(k8sManifestFolderNamePath)/overlays/prod/kustomization.yaml
     Dockerfile_location: "$(Build.Repository.Name)/Dockerfile.observation" #To be altered only if is not in Root. Copy relative path from VS. Use <GitRepoName>/<path_to_Dockerfile>
     agentPoolName: "az_vmss_ubuntu22.04" #Use the agent where the stages will be running with.
+    # SonarQube in Docker
+    enable_sonar: true
+    sonarProjectKey: 'HyFive.Observation'
+  
