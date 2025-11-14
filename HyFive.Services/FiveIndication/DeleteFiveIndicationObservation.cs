@@ -40,18 +40,18 @@ namespace HyFive.Services.FiveIndication
 
                     if (observation == null)
                     {
-                        throw new Exception("S-FIO-01: Did not find observation with ID: " + request.ObservationId);
+                        throw new ArgumentException("S-FIO-01: Did not find observation with ID: " + request.ObservationId);
                     }
 
-                    var indicationTypes = _context.IndicationTypes.Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    var indicationTypes = await _context.IndicationTypes.Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToListAsync(cancellationToken);
                     observation.IndicationTypes = indicationTypes;
 
-                    var activity = _context.Activity.FirstOrDefault(a => a.Id == observation.Activity.Id);
+                    var activity = await _context.Activity.FirstOrDefaultAsync(a => a.Id == observation.Activity.Id, cancellationToken);
                     observation.Activity = activity;
 
-                    var session = _context.FiveIndicationsSession
+                    var session = await _context.FiveIndicationsSession
                         .Include(s => s.Observations)
-                        .FirstOrDefault(s => s.Id == new Guid(request.SessionId));
+                        .FirstOrDefaultAsync(s => s.Id == new Guid(request.SessionId), cancellationToken);
 
                     if (activity != null)
                     {
@@ -64,12 +64,12 @@ namespace HyFive.Services.FiveIndication
                     }
 
                     _context.Remove(observation);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-FIO-02: Error while deleting five indication observations with ID: {request.ObservationId}");
-                    throw;
+                    _logger.LogError(e, "Error while deleting five indication observations with ID: {ObservationId}", request.ObservationId);
+                    return false;
                 }
 
                 return true;

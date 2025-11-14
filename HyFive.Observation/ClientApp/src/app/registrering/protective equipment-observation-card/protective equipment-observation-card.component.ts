@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Role } from "src/app/models/api/Role";
@@ -58,7 +58,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(modalService: NgbModal,
-              private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService) {
+              private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService) {
     super(modalService);
   }
 
@@ -141,7 +141,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
       selectedEquipment.equipmentType.isRequired = result.isRequired;
       selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
       selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
-    }, (reason) => {
+    }, () => {
       selectedEquipment.wasUsed = false;
     });
   }
@@ -188,7 +188,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   }
 
   handleSelectDragDrop($event: CdkDragDrop<any>, selectionRequired: boolean){
-    var droppedSelection = $event.item.data;
+    let droppedSelection = $event.item.data;
     let select = this.ProtectiveEquipmentSelection.find(b => b.equipmentType.id == droppedSelection.equipmentType.id);
     select.isRequired = selectionRequired;
     select.equipmentType.isRequired = selectionRequired;
@@ -199,8 +199,8 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   private updateProtectiveEquipmentSelection() {
     this.sessionView.setting.equipmentTypes
     for(let i = 0; i < this.ProtectiveEquipmentSelection.length; i++){
-      var select = this.ProtectiveEquipmentSelection[i];
-      var equipmentType = this.sessionView.setting.equipmentTypes.find(u => u.code == select.equipmentType.code);
+      let select = this.ProtectiveEquipmentSelection[i];
+      let equipmentType = this.sessionView.setting.equipmentTypes.find(u => u.code == select.equipmentType.code);
       select.isRequired = equipmentType.isRequired;
       select.equipmentType = equipmentType;
     }

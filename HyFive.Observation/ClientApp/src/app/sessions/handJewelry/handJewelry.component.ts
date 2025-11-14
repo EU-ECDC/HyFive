@@ -38,11 +38,11 @@ export class HandJewelryComponent implements OnInit {
   handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
-    private sessionService: HandJewelrySessionService,
-    private handJewelryTypeService: HandJewelryTypeService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService) {
+    private readonly sessionService: HandJewelrySessionService,
+    private readonly handJewelryTypeService: HandJewelryTypeService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastrService: ToastrService) {
 
   }
 
@@ -78,7 +78,7 @@ export class HandJewelryComponent implements OnInit {
   }
 
   showHandJewelry(handJewelry: HandJewelryType[]): string {
-    return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected == true).map(h => h.name).join(', ');
+    return HandJewelryMapper.getHandjewelrySelection(this.handJewelryTypes, handJewelry.map(x => x.code)).filter(h => h.isSelected === true).map(h => h.name).join(', ');
   }
 
   sendToCoordinator() {

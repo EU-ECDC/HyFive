@@ -53,7 +53,7 @@ namespace HyFive.Services.Reports.HandJewelry
             }
         }
 
-        private class RoleToColorMap
+        private sealed class RoleToColorMap
         {
             public string Role { get; init; }
             public string Color { get; init; }
@@ -237,8 +237,6 @@ namespace HyFive.Services.Reports.HandJewelry
             return color;
         }
 
-        private const int YStartWithHeader = 400;
-        private const int YStartWithoutHeader = 450;
         private const int ImageWidth = 500;
         private const int ImageHeight = 250;
         private const int YSpacing = 40;
@@ -397,7 +395,7 @@ namespace HyFive.Services.Reports.HandJewelry
 
             using var stream = assembly.GetManifestResourceStream(resourcePath);
             if (stream == null)
-                throw new Exception("Roboto font not found in embedded resources.");
+                throw new ArgumentException("Roboto font not found in embedded resources.");
 
             using var ms = new MemoryStream();
             stream.CopyTo(ms);

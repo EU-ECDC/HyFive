@@ -46,21 +46,21 @@ namespace HyFive.Services.Glove
 
                 if (observation == null)
                 {
-                    throw new Exception("O-H-01: Did not find observation with ID: " + request.Observation.Id);
+                    throw new ArgumentException("Did not find observation with ID: " + request.Observation.Id);
                 }
 
                 if (observation.GloveSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new Exception("O-H-02: The observation has already been transferred to FHI and cannot be modified.");
+                    throw new ArgumentException("The observation has already been transferred to FHI and cannot be modified.");
                 }
 
                 var observationFromRequest =
                     _mapper.Map<Domain.Observation.Gloves.GloveObservation>(request.Observation);
                 GloveObservationValidator.ValidateObservation(observationFromRequest);
 
-                var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
-                var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
-                var handHygieneAfterGloveUseTypes = _context.HandHygieneAfterGloveUseType.ToList();
+                var gloveWithIndicationTypes = await _context.GloveWithIndicationType.ToListAsync(cancellationToken);
+                var gloveWithoutIndicationTypes = await _context.GloveWithoutIndicationType.ToListAsync(cancellationToken);
+                var handHygieneAfterGloveUseTypes = await _context.HandHygieneAfterGloveUseType.ToListAsync(cancellationToken);
                 
                 try
                 {
@@ -77,18 +77,18 @@ namespace HyFive.Services.Glove
                         ? handHygieneAfterGloveUseTypes.FirstOrDefault(he => he.Id == observationFromRequest.PostGloveHandHygieneType.Id)
                         : null;
                     
-                    var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
+                    var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == request.Observation.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
                     observation.Comment = request.Observation.Comment;
 
                     _context.Update(observation);
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {   
-                    _logger.LogError(e, "O-H-03: Error while updating Glove observation.");
-                    throw;
+                    _logger.LogError(e, "Error while updating Glove observation.");
+                    return false;
                 }
 
                 return true;

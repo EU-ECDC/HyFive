@@ -4,7 +4,7 @@ import { IndicationTypeChoice } from '../models/five-indications/IndicationTypeC
 export class IndicationTypeMapper {
 
   public static getIndicationTypeSelection(indicationTypes: IndicationType[], selectedIndicationTypes: IndicationType[]): IndicationTypeChoice[] {
-    var to = indicationTypes.reduce((acc, item) => {
+    let to = indicationTypes.reduce((acc, item) => {
       acc.push({
         isSelected: selectedIndicationTypes.some(x => x.code === item.code),
         name: item.name,

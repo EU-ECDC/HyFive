@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 export const DialogModalComponentConfig = {
@@ -9,15 +9,13 @@ export const DialogModalComponentConfig = {
   selector: 'app-dialog-modal',
   templateUrl: './dialog-modal.component.html',
 })
-export class DialogModalComponent implements OnInit {
+export class DialogModalComponent {
 
   @Input() message: string;
 
-  constructor(private activeModal: NgbActiveModal) {
+  constructor(private readonly activeModal: NgbActiveModal) {
   }
 
-  ngOnInit(): void {
-  }
 
   close(result: boolean) {
     this.activeModal.close(result);

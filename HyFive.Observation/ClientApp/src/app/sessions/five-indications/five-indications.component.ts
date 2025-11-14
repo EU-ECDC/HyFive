@@ -5,7 +5,7 @@ import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObse
 import { ActivatedRoute, Router } from '@angular/router';
 import { Urls } from '../../constants/urls';
 import { Queryparameters } from '../../constants/queryparameters';
-import { faArrowLeft, faTrashAlt, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { ToastrService } from 'ngx-toastr';
 import { ActivityService } from '../../services/data/activity.service';
@@ -32,11 +32,11 @@ export class FiveIndicationsComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sessionService: FiveIndicationsSessionService,
-    private activityService: ActivityService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService) {
+    private readonly sessionService: FiveIndicationsSessionService,
+    private readonly activityService: ActivityService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastrService: ToastrService) {
 
   }
 
@@ -67,7 +67,6 @@ export class FiveIndicationsComponent implements OnInit {
   }
 
   observationDeletedEventHandler($event: FiveIndicationsObservation) {
-    // Mulig TODO: pop observasjonen rett fra lista istedet for å laste på nytt fra LocalStorage
     this.session = this.sessionService.getSession(this.session.id);
   }
 

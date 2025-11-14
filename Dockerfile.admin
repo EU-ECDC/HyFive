@@ -120,7 +120,7 @@ fi
 # ------------------------------------
 
 RUN echo "##[command]Running Unit Tests."
-# RUN dotnet test "$testPath" -c Release --logger 'xunit;LogFileName=TestResults.xml' --collect:'XPlat Code Coverage;Format=opencover' /property:WarningLevel=0 --verbosity quiet
+RUN dotnet test "$testPath" -c Release --logger 'xunit;LogFileName=TestResults.xml' --collect:'XPlat Code Coverage;Format=opencover' /property:WarningLevel=0 --verbosity quiet
 
 # ------------------------------------
 # Build project

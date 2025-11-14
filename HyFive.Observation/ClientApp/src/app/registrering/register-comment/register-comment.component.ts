@@ -25,8 +25,8 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
   @Output() commentRegisteredEvent = new EventEmitter<string>();
 
   constructor(
-    private modalService: NgbModal,
-    private predefinedCommentsService: PredefinedCommentsService) {
+    private readonly modalService: NgbModal,
+    private readonly predefinedCommentsService: PredefinedCommentsService) {
   }
 
   ngOnInit(): void {

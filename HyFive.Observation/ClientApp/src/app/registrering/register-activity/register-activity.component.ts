@@ -34,7 +34,8 @@ export class RegisterActivityComponent implements OnInit {
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
   activityTypeConstants = ActivityTypeConstants;
 
-  constructor(private observationEventService: ObservationEventService, private modalService: NgbModal) {
+  constructor(private readonly observationEventService: ObservationEventService, 
+              private readonly modalService: NgbModal) {
   }
 
   ngOnInit(): void {

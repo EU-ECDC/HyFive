@@ -39,15 +39,15 @@ namespace HyFive.Services.HandJewelry
 
                     if (observation == null)
                     {
-                        throw new Exception("S-HS-03: Did not find observation with ID: " + request.ObservationId);
+                        throw new ArgumentException("S-HS-03: Did not find observation with ID: " + request.ObservationId);
                     }
 
-                    var handJewelry = _context.HandJewelryType.Where(i => observation.HandJewelries.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    var handJewelry = await _context.HandJewelryType.Where(i => observation.HandJewelries.Select(oi => oi.Id).Contains(i.Id)).ToListAsync(cancellationToken);
                     observation.HandJewelries = handJewelry;
 
-                    var session = _context.HandJewelrySession
+                    var session = await _context.HandJewelrySession
                         .Include(s => s.Observations)
-                        .FirstOrDefault(s => s.Id == new Guid(request.SessionId));
+                        .FirstOrDefaultAsync(s => s.Id == new Guid(request.SessionId), cancellationToken);
 
                     if (session != null && session.Observations.Count == 1 && session.Observations.Select(o => o.Id).Contains(observation.Id))
                     {
@@ -55,12 +55,12 @@ namespace HyFive.Services.HandJewelry
                     }
 
                     _context.Remove(observation);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-HS-02: Error while deleting jewelry observation with ID: {request.ObservationId}");
-                    throw;
+                    _logger.LogError(e, "Error while deleting jewelry observation with ID:{ObservationId}", request.ObservationId);
+                    return false;
                 }
 
                 return true;

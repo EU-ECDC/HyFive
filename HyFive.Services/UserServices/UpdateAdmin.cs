@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.User;
-using HyFive.Services.Authentication.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using HyFive.Services.User;
 using Bruker = HyFive.Models.V1.User.User;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace HyFive.Services.UserServices
 {
@@ -38,23 +38,32 @@ namespace HyFive.Services.UserServices
             {
                 if (string.IsNullOrWhiteSpace(command.User.FirstName))
                 {
-                    throw new Exception("Missing first name.");
+                    throw new ArgumentException("Missing first name.");
                 }
                 if (string.IsNullOrWhiteSpace(command.User.LastName))
                 {
-                    throw new Exception("Missing last name.");
+                    throw new ArgumentException("Missing last name.");
                 }
 
                 var user = await _context.User.OfType<Admin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
                 if (user == null)
-                    throw new Exception($"User with Id not found {command.User.Id}");
-                //if (_currentUser.PidPseudonym == user.IdentityPseudonym)
-                //    throw new Exception($"User cannot change themselves.");
-                if (user.IdentityPseudonym != command.User.IdentityPseudonym)
+                    throw new ArgumentException($"User not found with Id: {command.User.Id}");
+
+                var currentUserEmail = _httpContextAccessor.HttpContext?.User?
+                    .Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email || c.Type == "email")?.Value;
+
+                // Prevent self-update if emails match
+                if (!string.IsNullOrEmpty(currentUserEmail) &&
+                    string.Equals(currentUserEmail, user.Email, StringComparison.OrdinalIgnoreCase))
                 {
-                    var existingPseudonym = await _context.User.OfType<Admin>().AnyAsync(x => x.IdentityPseudonym == command.User.IdentityPseudonym);
-                    if (existingPseudonym)
-                        throw new Exception("User cannot be updated. The pseudonym is already in use.");
+                    throw new ArgumentException("User cannot change themselves");
+                }
+
+                if (user.Email != command.User.Email)
+                {
+                    var existingEmail = await _context.User.OfType<Admin>().AnyAsync(x => x.Email == command.User.Email, cancellationToken);
+                    if (existingEmail)
+                        throw new ArgumentException("User cannot be updated. The email is already in use.");
                 }
 
                 user.FirstName = command.User.FirstName;

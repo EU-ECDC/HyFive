@@ -21,7 +21,7 @@ namespace HyFive.Services.Tests.HandJewelry
         private Guid observationId = Guid.NewGuid();
         private readonly string hprnumber = "9383840";
 
-        #region HandsmykkeSesjon
+        #region HandJewelrySession
 
         //[Test]
         //public async Task LagreSesjonTest()
@@ -119,7 +119,32 @@ namespace HyFive.Services.Tests.HandJewelry
         public async Task GetHandJewelryTypes_Test()
         {
             // Arrange
-            var existingTypes = DatabaseContext.HandJewelryType.Where(x => x.IsActive).Select(x => x.Id).ToList();
+            if (!await DatabaseContext.HandJewelryType.AnyAsync())
+            {
+                DatabaseContext.HandJewelryType.AddRange(
+                    new Domain.Observation.HandJewelryType
+                    {
+                        Name = "Rings",
+                        Code = "HJ-R",
+                        IsActive = true
+                    },
+                    new Domain.Observation.HandJewelryType
+                    {
+                        Name = "Bracelets",
+                        Code = "HJ-B",
+                        IsActive = true
+                    },
+                    new Domain.Observation.HandJewelryType
+                    {
+                        Name = "Necklace",
+                        Code = "HJ-N",
+                        IsActive = false // won’t be returned, since you filter by IsActive
+                    }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.HandJewelryType.Where(x => x.IsActive).Select(x => x.Id).ToListAsync();
             var getHandJewelryTypes = new GetHandJewelryTypes.Handler(DatabaseContext, Mapper);
             var query = new GetHandJewelryTypes.Query();
 
@@ -219,7 +244,7 @@ namespace HyFive.Services.Tests.HandJewelry
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Fant ikke handsmykketype"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find jewelry type with id 99999999"),
                 async () =>
                 {
                     await updateHandJewelryTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

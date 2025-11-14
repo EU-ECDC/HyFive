@@ -38,7 +38,7 @@ export class FacilityService {
 
   getSelectedFacilityId(): number | null {
     const selectedFacilityIdString = localStorage.getItem(Localstoragepaths.SelectedFacility);
-    return selectedFacilityIdString ? parseInt(selectedFacilityIdString) : null;
+    return selectedFacilityIdString ? Number.parseInt(selectedFacilityIdString) : null;
   }
 
   updateSelectedFacilityId(facilityId: number): number | null {

@@ -144,7 +144,7 @@ export class DownloadExcelComponent {
     // this.selectedDepartmentTypes = [];
     this.selectedDepartments = [];
     if (this.selectedFacilities != null && this.selectedFacilities?.length > 0) {
-      var facilityIds = this.selectedFacilities?.map(inst => inst.id);
+      let facilityIds = this.selectedFacilities?.map(inst => inst.id);
       this.loadFacilitiesDepartments(facilityIds)
     }
   };

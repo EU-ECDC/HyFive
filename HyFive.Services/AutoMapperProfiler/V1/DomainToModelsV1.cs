@@ -54,7 +54,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.FacilityName, opt => opt.MapFrom(src => src.Observer.Facility.Name))
                 .ForMember(dst => dst.FacilityId, opt => opt.MapFrom(src => src.Observer.Facility.Id));
             CreateMap<HandJewelryObservation, Models.V1.Observation.HandJewelryObservation>(MemberList.None);
-            CreateMap<HandJewelryType, Models.V1.Observation.HandJewelryType>(MemberList.None);
+            CreateMap<HandJewelryType, Models.V1.Observation.HandJewelryType>();
 
             CreateMap<ProtectiveEquipmentSession, Models.V1.Session.ProtectiveEquipmentSession>(MemberList.None)
                 .ForMember(dst => dst.FacilityName, opt => opt.MapFrom(src => src.Observer.Facility.Name))
@@ -90,12 +90,9 @@ namespace HyFive.Services.AutoMapperProfiler.V1
                 .ForMember(dst => dst.FacilityName, opt => opt.MapFrom(src => src.Observer.Facility.Name))
                 .ForMember(dst => dst.FacilityId, opt => opt.MapFrom(src => src.Observer.Facility.Id));
             CreateMap<GloveObservation, Models.V1.Observation.Gloves.GloveObservation>(MemberList.None);
-            CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.GloveWithIndicationType>(MemberList
-                .None);
-            CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GloveWithoutIndicationType>(MemberList
-                .None);
-            CreateMap<HandHygieneAfterGloveUseType, Models.V1.Observation.Gloves.PostGloveHandHygieneType>(
-                MemberList.None);
+            CreateMap<GloveWithIndicationType, Models.V1.Observation.Gloves.GloveWithIndicationType>();
+            CreateMap<GloveWithoutIndicationType, Models.V1.Observation.Gloves.GloveWithoutIndicationType>();
+            CreateMap<HandHygieneAfterGloveUseType, Models.V1.Observation.Gloves.PostGloveHandHygieneType>();
 
             CreateMap<Domain.Place.Facility, Models.V1.Facility.FacilityReport>(MemberList.None);
 

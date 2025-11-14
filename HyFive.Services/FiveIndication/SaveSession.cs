@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using HyFive.Domain.Observation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ObserverUser = HyFive.Domain.User.User;
+using HyFive.Services.Helpers;
 
 namespace HyFive.Services.FiveIndication
 {
@@ -40,27 +41,27 @@ namespace HyFive.Services.FiveIndication
                 _logger = logger;
                 _userService = userService;
             }
-
+            // NOSONAR: constructor duplicated across session handlers for consistency
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Verify that the observer is an observer at the facility
-                var observer = await GetObserver(request, cancellationToken);
+                var observer = await SessionHelper.GetObserverAsync(_context, _userService, request.Email, request.Session.Department.FacilityId, cancellationToken);
                 if (observer == null)
-                    throw new Exception(
+                    throw new ArgumentException(
                         $"Did not find an observer with email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
 
-                var indicationTypes = _context.IndicationTypes.ToList();
-                var activityTypes = _context.ActivityType.ToList();
+                var indicationTypes = await _context.IndicationTypes.ToListAsync(cancellationToken);
+                var activityTypes = await _context.ActivityType.ToListAsync(cancellationToken);
 
                 var session = _mapper.Map<Domain.Session.FiveIndicationsSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
-                session.Department = await GetDepartment(request, cancellationToken);
+                session.Department = await SessionHelper.GetDepartmentAsync(_context, request.Session.Department.Id, cancellationToken);
 
                 // This is how we want to handle errors if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning("Did not find department with ID {DepartmentId}", request.Session.Department.Id);
                     return session.Id;
                 }
 
@@ -78,34 +79,12 @@ namespace HyFive.Services.FiveIndication
                         : null;
                 }
 
-                var transferStatuses = _context.TransferStatusType.ToList();
+                var transferStatuses = await _context.TransferStatusType.ToListAsync(cancellationToken);
                 session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(session);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
                 return session.Id;
-            }
-
-            private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
-            {
-                return await _context.Department.Include(a => a.Roles)
-                    .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
-            }
-
-
-            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
-            {
-                var facility = await _context.Facility
-                    .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
-
-                if (facility == null)
-                    throw new Exception(
-                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
-
-                return facility.Users
-                    .Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile())
-                    .FirstOrDefault();
             }
         }
     }

@@ -36,8 +36,8 @@ export class EditHandJewelryObservationComponent implements OnInit {
   faTrashAlt = faTrashAlt;
 
   constructor(
-    private sessionService: HandJewelrySessionService,
-    private handJewelryTypeService: HandJewelryTypeService
+    private readonly sessionService: HandJewelrySessionService,
+    private readonly handJewelryTypeService: HandJewelryTypeService
   ) { }
 
   @Input() isReadonly: boolean = false;

@@ -2,7 +2,7 @@ export class Colors {
 
   public static getFhiColorHexFromText(text: string) : string {
 
-    var fhiColors = [
+    let fhiColors = [
       "#BFD8DC",
       "#E6E1D9",
       "#CCCCCC",
@@ -13,8 +13,8 @@ export class Colors {
     ]
 
     fhiColors = fhiColors.concat(fhiColors)
-    var charcodeSum = text.split('').map((c) => { return c.charCodeAt(0)}).reduce((a,b) => a+b,0)
-    var colorIndex =  charcodeSum % (fhiColors.length-1) !== undefined
+    let charcodeSum = text.split('').map((c) => { return c.charCodeAt(0)}).reduce((a,b) => a+b,0)
+    let colorIndex =  charcodeSum % (fhiColors.length-1) !== undefined
       ? charcodeSum % (fhiColors.length-1)
       : 0;
     return fhiColors[colorIndex];

@@ -16,8 +16,6 @@ namespace HyFive.Services.Reports.FiveIndicators
     /// </summary>
     public class FiveIndicationsPDFReportService
     {
-        const int STARTPOSITION_WITH_HEADER = 470;
-        const int STARTPOSITION_WITHOUT_HEADER = 550;
         const int IMAGE_HEIGHT = 180;
         const int IMAGE_WIDTH = 200;
         const int Y_SPACER = 95;
@@ -205,7 +203,6 @@ namespace HyFive.Services.Reports.FiveIndicators
                     page++;
                     pdfStamper.InsertPage(page, copyOfDepartmentTemplate.GetPageSize(1));
                     pdfContentUnder = pdfStamper.GetUnderContent(page);
-                    pdfContentOver = pdfStamper.GetOverContent(page);
 
                     startingYposition = pdfStamper.Reader.GetPageSize(1).Height - 170f;
 
@@ -311,7 +308,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             using var fontStream = assembly.GetManifestResourceStream(resourcePath);
             if (fontStream == null)
-                throw new Exception($"Font resource '{resourcePath}' not found.");
+                throw new ArgumentException($"Font resource '{resourcePath}' not found.");
 
             using var ms = new MemoryStream();
             fontStream.CopyTo(ms);

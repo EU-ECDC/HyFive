@@ -8,7 +8,7 @@ import { HandJewelryType } from '../../models/api/HandJewelryType';
 })
 export class HandJewelryTypeService {
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getHandJewelryTypes(): Observable<HandJewelryType[]> {

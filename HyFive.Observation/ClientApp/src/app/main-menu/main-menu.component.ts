@@ -1,9 +1,8 @@
 import { Component, HostListener, Input } from "@angular/core";
-import { faBars, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCircle, faClipboard, faHospital, faInbox, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { MainMenuItem } from "./main-menu-item.model";
 import { Urls } from "../constants/urls";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { MainMenuEventService } from "../services/events/main-menu-event.service";
 import { MenuParameters } from "../constants/menu-parameters";
 
@@ -23,7 +22,7 @@ export class MainMenuComponent {
   mainMenuItems: MainMenuItem[] = [];
   
 
-  constructor(private mainMenuEventService: MainMenuEventService){
+  constructor(private readonly mainMenuEventService: MainMenuEventService){
     this.loadMenuOptions();
   }
 
@@ -46,7 +45,7 @@ export class MainMenuComponent {
     return this.screenWidth < MenuParameters.mobileMenuWidth;
   }
   isDesktopMenu() {
-    return this.isMobileMenu() == false;
+    return this.isMobileMenu() === false;
   }
 
   private loadMenuOptions(): void {

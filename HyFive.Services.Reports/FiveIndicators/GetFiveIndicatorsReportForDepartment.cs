@@ -98,7 +98,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
             private async Task<FiveIndicatorsReport> GetComparableDepartmentData(Query request)
             {
-                var comparedDepartments = _context.Department.AsNoTracking().Include(a => a.DepartmentType).Where(d => request.DepartmentIds.Contains(d.Id)).ToList();
+                var comparedDepartments = await _context.Department.AsNoTracking().Include(a => a.DepartmentType).Where(d => request.DepartmentIds.Contains(d.Id)).ToListAsync();
 
                 var departmentTypeCodes = comparedDepartments
                     .Select(d => d.DepartmentType.Code)
@@ -142,9 +142,6 @@ namespace HyFive.Services.Reports.FiveIndicators
                 }
 
                 var observationsNumber = SessionsOfComparableDepartments.SelectMany(o => o.Observations).Count();
-
-                var departmentNames = string.Join(", ", comparedDepartments.Select(d => d.Name));
-
 
                 return new FiveIndicatorsReport()
                 {
@@ -471,7 +468,6 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// <returns></returns>
             private Combination CreateCombinationA(List<FiveIndicationsObservation> observations)
             {
-                //var name = "A (For patient)";
                 var name = "A";
                 var combinations = new[]
                 {
@@ -492,7 +488,6 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// <returns></returns>
             private Combination CreateCombinationB(List<FiveIndicationsObservation> observations)
             {
-                //var name = "B (before aseptic – inside the zone)";
                 var name = "B";
                 var combinations = new[]
                 {
@@ -513,7 +508,6 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// <returns></returns>
             private Combination CreateCombinationC(List<FiveIndicationsObservation> observations)
             {
-                //var name = "D (after pasient)";
                 var name = "C";
 
                 var combinations = new[]
@@ -535,7 +529,6 @@ namespace HyFive.Services.Reports.FiveIndicators
             /// <returns></returns>
             private Combination CreateCombinationD(List<FiveIndicationsObservation> observations)
             {
-                //var name = "D (transition between patients)";
                 var name = "D";
                 var combinations = new[]
                 {
@@ -556,16 +549,16 @@ namespace HyFive.Services.Reports.FiveIndicators
             {
                 var relevantObservations = observations
                     .Where(o => MeetsTheCombinationCriteria(o.IndicationTypes.Select(i => i.Code), combinationsOfIndication)).ToList();
-                var count = relevantObservations.Count();
+                var count = relevantObservations.Count;
                 var complied = relevantObservations
-                    .Count(o => o.Activity.ActivityType.Code != ActivityTypeConstants.NotExecuted);
+                    .Count(o => o.Activity.ActivityType.Code != ActivityTypeConstants.NotPerformed);
 
                 var compliancePercentage = CalculateCompliancePercentage(count, complied);
                 var nonCompliancePercentage = CalculateNonCompliancePercentage(count, compliancePercentage);
                 var combination = new Combination()
                 {
                     Name = $"{combinationName}",
-                    Role = observations.First().Role.Name,
+                    Role = observations[0].Role.Name,
                     NumberOfObservations = count,
                     PercentComplied = compliancePercentage,
                     PercentNotComplied = nonCompliancePercentage,
@@ -573,14 +566,14 @@ namespace HyFive.Services.Reports.FiveIndicators
                 return combination;
             }
 
-            private double CalculateCompliancePercentage(int count, int complied)
+            private static double CalculateCompliancePercentage(int count, int complied)
             {
                 if (count == 0 || complied == 0)
                     return 0.0f;
                 return (complied / (double)count) * 100;
             }
 
-            private double CalculateNonCompliancePercentage(int count, double complied)
+            private static double CalculateNonCompliancePercentage(int count, double complied)
             {
                 if (count > 0)
                 {
@@ -590,20 +583,14 @@ namespace HyFive.Services.Reports.FiveIndicators
                 return 0.0d;
             }
 
-            private bool MeetsTheCombinationCriteria(IEnumerable<string> indicationTypes, IndicationCombination[] combinationsOfIndication)
+            private static bool MeetsTheCombinationCriteria(IEnumerable<string> indicationTypes, IndicationCombination[] combinationsOfIndication)
             {
-                foreach (var combination in combinationsOfIndication)
-                {
-                    if (indicationTypes.OrderBy(i => i).SequenceEqual(combination.Code.OrderBy(k => k)))
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return combinationsOfIndication.Any(combination =>
+                    indicationTypes.OrderBy(i => i).SequenceEqual(combination.Code.OrderBy(k => k)));
             }
             #endregion
 
-            private string DebugObservation(FiveIndicationsObservation o)
+            private static string DebugObservation(FiveIndicationsObservation o)
             {
                 return
                     $"{o.Id}, rolle: {o.Role.Name} (id:{o.Role.Id} {o.Activity.ActivityType.Code} {string.Join(',', o.IndicationTypes.Select(i => i.Code))}";

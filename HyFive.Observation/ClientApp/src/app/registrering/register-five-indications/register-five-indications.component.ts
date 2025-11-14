@@ -30,11 +30,11 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sessionService: FiveIndicationsSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private facilityService: FacilityService,
-    private toastrService: ToastrService) {
+    private readonly sessionService: FiveIndicationsSessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly facilityService: FacilityService,
+    private readonly toastrService: ToastrService) {
     this.facilityService
       .getSelectedFacility()
       .subscribe(i => this.roles = i?.departments.find(a => a.id === this.sessionView?.department?.id)?.roles);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Activity } from '../../models/api/Activity';
 import { faHandsWash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,7 @@ import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
   templateUrl: './missed-opportunity.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MissedOpportunityComponent implements OnInit {
+export class MissedOpportunityComponent {
 
   faHandsWash = faHandsWash;
   faTimesCircle = faTimesCircle;
@@ -24,7 +24,8 @@ export class MissedOpportunityComponent implements OnInit {
 
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
 
-  constructor(private modalService: NgbModal, private activityService: ActivityService) {
+  constructor(private readonly modalService: NgbModal, 
+              private readonly activityService: ActivityService) {
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
       this.activity = {
         activityType: activityTypes.find(x => x.code === ActivityTypeConstants.NotPerformed),
@@ -34,10 +35,7 @@ export class MissedOpportunityComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
-  registerNotExecutedActivity(modalName): void {
+  registerNotPerformedActivity(modalName): void {
     if (this.gloveUseMustBeRegistered) {
       this.modalService.open(modalName, { windowClass: 'hh-modal' });
     } else {

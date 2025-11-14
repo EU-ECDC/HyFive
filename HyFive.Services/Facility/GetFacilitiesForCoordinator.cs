@@ -31,14 +31,7 @@ namespace HyFive.Services.Facility
 
             public async Task<Models.V1.Facility.FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                /*if (string.IsNullOrEmpty(request.CoordinatorHprNumber) && string.IsNullOrEmpty(request.CoordinatorPseudonym))
-                {
-                    throw new ArgumentException(
-                        $"The coordinator's HPR number must be greater than 0, or CoordinatorPseudonym must be filled in. HPR number was: {request.CoordinatorHprNumber}. ");
-                }*/
-
-
-                
+                                
                 var query = _context.Facility
                     .AsNoTracking()
                     .Include(i => i.Departments)
@@ -47,8 +40,8 @@ namespace HyFive.Services.Facility
                     .Include(i => i.PredefinedComment)
                     .Include(i => i.FacilityType)
                     .Where(i => i.Users
-                        .Where(b => b.IsDeactivated == false
-                                    && ((HasEmail(request.CoordinatorEmail) && b.Email == request.CoordinatorEmail)))
+                        .Where(b => !b.IsDeactivated 
+                                    && (HasEmail(request.CoordinatorEmail) && b.Email == request.CoordinatorEmail))
                         .Any(b => b.Discriminator == nameof(Coordinator))
                     )
                     .OrderBy(i => i.Name);

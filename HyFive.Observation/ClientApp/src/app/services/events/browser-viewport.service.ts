@@ -7,10 +7,10 @@ import { Subject, BehaviorSubject } from 'rxjs';
 export class BrowserViewportService {
 
   private innerWidth: number;
-  private isMobileSource = new Subject<boolean>();
-  private isDesktopSource = new Subject<boolean>();
-  private breakpointSource = new Subject<string>();
-  private windowInnerHeightSource = new BehaviorSubject<number>(window.innerHeight);
+  private readonly isMobileSource = new Subject<boolean>();
+  private readonly isDesktopSource = new Subject<boolean>();
+  private readonly breakpointSource = new Subject<string>();
+  private readonly windowInnerHeightSource = new BehaviorSubject<number>(window.innerHeight);
 
   isMobile$ = this.isMobileSource.asObservable();
   isDesktop$ = this.isDesktopSource.asObservable();

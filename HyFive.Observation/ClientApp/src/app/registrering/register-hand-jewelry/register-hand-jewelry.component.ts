@@ -35,11 +35,11 @@ export class RegisterHandjewelryComponent implements OnInit, OnDestroy {
   faArrowDown = faArrowDown;
 
   constructor(
-    private sessionService: HandJewelrySessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private facilityService: FacilityService,
-    private toastrService: ToastrService) {
+    private readonly sessionService: HandJewelrySessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly facilityService: FacilityService,
+    private readonly toastrService: ToastrService) {
     this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }

@@ -38,16 +38,15 @@ export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sessionService: ProtectiveEquipmentSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private facilityService: FacilityService,
-    private mainMenuService: MainMenuEventService,
-    private toastrService: ToastrService
+    private readonly sessionService: ProtectiveEquipmentSessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly facilityService: FacilityService,
+    private readonly mainMenuService: MainMenuEventService,
+    private readonly toastrService: ToastrService
   ) {
     this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
-    //this.mainMenuService.mainMenuIsOpenEvent.subscribe(m => this.mainMenuIsOpen = m);
   }
 
   ngOnInit(): void {

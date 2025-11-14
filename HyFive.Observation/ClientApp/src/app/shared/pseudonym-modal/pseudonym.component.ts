@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Output, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -12,7 +12,7 @@ export class PseudonymComponent implements AfterViewInit{
 
   showInfoModal = true;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private readonly modalService: NgbModal) {
   }
 
   ngAfterViewInit(): void {

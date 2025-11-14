@@ -37,7 +37,7 @@ namespace HyFive.Services.User
                 var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
                 if (facility == null)
                 {
-                    throw new Exception("Did not find facility with ID. " + command.User.FacilityId);
+                    throw new ArgumentException("Did not find facility with ID. " + command.User.FacilityId);
                 }
 
                 var observer = new Observer()

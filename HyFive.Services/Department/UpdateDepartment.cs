@@ -43,19 +43,19 @@ namespace HyFive.Services.Department
 
                 if (command.DepartmentTypeId > 0)
                 {
-                    var departmentType = _context.DepartmentType.FirstOrDefault(a => a.Id == command.DepartmentTypeId);
+                    var departmentType = await _context.DepartmentType.FirstOrDefaultAsync(a => a.Id == command.DepartmentTypeId, cancellationToken);
                     if (departmentType == null)
-                        throw new Exception("Did not find department type with ID " + command.DepartmentTypeId);
+                        throw new ArgumentException("Did not find department type with ID " + command.DepartmentTypeId);
                     department.DepartmentType = departmentType;
                 }
 
                 if (command.Role.Any())
                 {
                     var departmentRoleIds = command.Role.Select(ar => ar.Id).ToList();
-                    var departmentRoles = _context.Role
+                    var departmentRoles = await _context.Role
                                                              .Include(r => r.Departments)
                                                              .Where(r => departmentRoleIds.Contains(r.Id))
-                                                             .ToList();
+                                                             .ToListAsync(cancellationToken);
                     department.Roles = departmentRoles;
                 }
 

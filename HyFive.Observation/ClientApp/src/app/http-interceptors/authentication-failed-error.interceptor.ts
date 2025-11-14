@@ -14,7 +14,7 @@ import {AuthenticationEventService} from '../services/events/authentication-even
 @Injectable()
 export class AuthenticationFailedErrorInterceptor implements HttpInterceptor {
 
-  constructor(private authenticationEventService: AuthenticationEventService) {
+  constructor(private readonly authenticationEventService: AuthenticationEventService) {
   }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(

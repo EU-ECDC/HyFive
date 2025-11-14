@@ -66,9 +66,9 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(
-    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
-    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
-    private postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
+    private readonly gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private readonly gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
+    private readonly postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
     protected modalService: NgbModal
   ) {
     super(modalService);
@@ -76,13 +76,13 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
 
   ngOnInit(): void {
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe((gloveWithIndicationTypes) => {
-      this.gloveWithIndicationTypes = gloveWithIndicationTypes;
+      this.gloveWithIndicationTypes = gloveWithIndicationTypes.toSorted((a, b) => b.id - a.id);
     });
     this.gloveWithoutIndicationTypeService.getGloveWithoutIndicationTypes().subscribe((gloveWithoutIndicationTypes) => {
       this.gloveWithoutIndicationTypes = gloveWithoutIndicationTypes;
     });
     this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
-      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.sort((a, b) => a.id - b.id);
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.toSorted((a, b) => a.id - b.id);
     });
     this.uuid = Uuid.generateUUID();
     this.facilityid = this.sessionView.department.facilityId;

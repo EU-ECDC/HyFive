@@ -33,7 +33,7 @@ namespace HyFive.Services.User
                 var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
                 if (facility == null)
                 {
-                    throw new Exception("Did not find facility with ID: " + command.User.FacilityId);
+                    throw new ArgumentException("Did not find facility with ID: " + command.User.FacilityId);
                 }
 
                 if (!UserValidator.HasNameAndEmail(command.User))
@@ -42,20 +42,6 @@ namespace HyFive.Services.User
                 }
 
                 var coordinator = new Coordinator()
-                {
-                    FirstName = command.User.FirstName,
-                    LastName = command.User.LastName,
-                    Email = command.User.Email,
-                    Facility = facility,
-                    HPRNumber = command.User.HPRNumber,
-                    IdentityPseudonym = command.User.IdentityPseudonym,
-                    CreatedTime = DateTime.UtcNow,
-                    IsDeactivated = false
-                };
-
-
-                // The coordinator must also be an observer for the same facility
-                var observer = new Observer()
                 {
                     FirstName = command.User.FirstName,
                     LastName = command.User.LastName,

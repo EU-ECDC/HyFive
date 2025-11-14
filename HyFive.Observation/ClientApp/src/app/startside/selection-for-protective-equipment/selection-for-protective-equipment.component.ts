@@ -31,9 +31,9 @@ export class SelectionForProtectiveEquipmentComponent implements OnInit {
   @Output("settingEquipmentWasChanged") settingEquipmentWasChanged: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(
-    private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService,
-    private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
-    private router: Router) { }
+    private readonly protectiveEquipmentCodingService: ProtectiveEquipmentCodingService,
+    private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
+    private readonly router: Router) { }
 
   ngOnInit(): void {
     this.protectiveEquipmentCodingService.getProtectiveEquipmentSettings().subscribe(
@@ -51,8 +51,8 @@ export class SelectionForProtectiveEquipmentComponent implements OnInit {
   }
 
   startObservation() {
-    var selectedRoles = this.roles.filter(roleSelected => roleSelected.isSelected).map(roleSelected => roleSelected.role);
-    var sessionId = this.protectiveEquipmentSessionService.createSessionView(selectedRoles, this.department, this.selectedSetting);
+    let selectedRoles = this.roles.filter(roleSelected => roleSelected.isSelected).map(roleSelected => roleSelected.role);
+    let sessionId = this.protectiveEquipmentSessionService.createSessionView(selectedRoles, this.department, this.selectedSetting);
     this.router.navigate([Urls.RegisterProtectiveEquipmentUrl], { queryParams: { sessionId: sessionId } });
   }
 

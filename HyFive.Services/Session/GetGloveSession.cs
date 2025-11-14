@@ -45,7 +45,7 @@ namespace HyFive.Services.Session
                     .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 
                 if (!_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile()(session.Observer))
-                    throw new Exception(
+                    throw new ArgumentException(
                         $"The session with ID {request.SessionId} is not linked to the user with email {request.Email}");
 
                 var gloveSession = _mapper.Map<GloveSession>(session);

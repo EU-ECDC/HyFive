@@ -40,14 +40,14 @@ namespace HyFive.Services.Glove
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                var observator = await GetObserver(request, cancellationToken);
+                var observator = await GetObserver(request);
                 if (observator == null)
-                    throw new Exception(
+                    throw new ArgumentException(
                         $"Did not find an observer with email { request.Email } at facility with ID: {request.Session.Department.FacilityId}");
 
-                var gloveWithIndicationTypes = _context.GloveWithIndicationType.ToList();
-                var gloveWithoutIndicationTypes = _context.GloveWithoutIndicationType.ToList();
-                var handHygieneAfterGloveUseTypes = _context.HandHygieneAfterGloveUseType.ToList();
+                var gloveWithIndicationTypes = await _context.GloveWithIndicationType.ToListAsync(cancellationToken);
+                var gloveWithoutIndicationTypes = await _context.GloveWithoutIndicationType.ToListAsync(cancellationToken);
+                var handHygieneAfterGloveUseTypes = await _context.HandHygieneAfterGloveUseType.ToListAsync(cancellationToken);
 
                 var session = _mapper.Map<Domain.Session.GloveSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
@@ -58,7 +58,7 @@ namespace HyFive.Services.Glove
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning("Did not find department with ID: {DepartmentId}", request.Session.Department.Id);
                     return session.Id;
                 }
 
@@ -79,11 +79,11 @@ namespace HyFive.Services.Glove
                     GloveObservationValidator.ValidateObservation(observation);
                 }
 
-                var transferStatuses = _context.TransferStatusType.ToList();
+                var transferStatuses = await _context.TransferStatusType.ToListAsync(cancellationToken);
                 session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(session);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return session.Id;
             }
@@ -94,17 +94,17 @@ namespace HyFive.Services.Glove
                     .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
                     .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
                 if (facility == null)
-                    throw new Exception(
+                    throw new ArgumentException(
                         $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
-                return facility.Users.Where(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile()).FirstOrDefault();
+                return facility.Users.FirstOrDefault(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile());
             }
         }
     }

@@ -9,7 +9,7 @@ import { faLangermet, faKunstigNegl, faLangNegl, faKlokke, faRing } from './cust
 export class HandJewelryMapper {
 
   public static getIconTypeMap(): Map<HandJewelryTypeConstants, IconProp> {
-    var iconmap = new Map<HandJewelryTypeConstants, IconProp>();
+    let iconmap = new Map<HandJewelryTypeConstants, IconProp>();
     iconmap.set(HandJewelryTypeConstants.AllOk, faThumbsUp);
     iconmap.set(HandJewelryTypeConstants.Ring, faRing);
     iconmap.set(HandJewelryTypeConstants.WatchBracelet, faKlokke);

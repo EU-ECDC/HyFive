@@ -215,7 +215,24 @@ namespace HyFive.Services.Tests.Glove
         public async Task GetGloveWithIndicationTypes_Test()
         {
             // Arrange
-            var existingTypes = DatabaseContext.GloveWithIndicationType.Select(x => x.Id).ToList();
+            if (!await DatabaseContext.GloveWithIndicationType.AnyAsync())
+            {
+                DatabaseContext.GloveWithIndicationType.AddRange(
+                    new Domain.Observation.Gloves.GloveWithIndicationType
+                    {
+                        Name = "Glove with indication type A",
+                        Code = "GWI-A"
+                    },
+                    new Domain.Observation.Gloves.GloveWithIndicationType
+                    {
+                        Name = "Glove with indication type B",
+                        Code = "GWI-B"
+                    }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.GloveWithIndicationType.Select(x => x.Id).ToListAsync();
             var getGloveWithIndicationTypes = new GetGloveWithIndicationTypes.Handler(DatabaseContext, Mapper);
             var query = new GetGloveWithIndicationTypes.Query();
 
@@ -277,7 +294,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("GloveWithIndicatorType not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find GloveWithIndicationType with ID: 99999999"),
                 async () =>
                 {
                     await UpdateGloveWithIndicationTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -293,7 +310,24 @@ namespace HyFive.Services.Tests.Glove
         public async Task GetGloveWithoutIndicationTypes_Test()
         {
             // Arrange
-            var existingTypes = DatabaseContext.GloveWithoutIndicationType.Select(x => x.Id).ToList();
+            if (!await DatabaseContext.GloveWithoutIndicationType.AnyAsync())
+            {
+                DatabaseContext.GloveWithoutIndicationType.AddRange(
+                    new Domain.Observation.Gloves.GloveWithoutIndicationType
+                    {
+                        Name = "Glove without indication type A",
+                        Code = "GWIO-A"
+                    },
+                    new Domain.Observation.Gloves.GloveWithoutIndicationType
+                    {
+                        Name = "Glove without indication type B",
+                        Code = "GWIO-B"
+                    }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.GloveWithoutIndicationType.Select(x => x.Id).ToListAsync();
             var getGloveWithoutIndicationTypes = new GetGloveWithoutIndicationTypes.Handler(DatabaseContext, Mapper);
             var query = new GetGloveWithoutIndicationTypes.Query();
 
@@ -355,7 +389,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("GloveWithoutIndicatorType not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find gloveWithoutIndicationType with ID: 99999999"),
                 async () =>
                 {
                     await updateGloveWithoutIndicationType.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -371,7 +405,24 @@ namespace HyFive.Services.Tests.Glove
         public async Task GetHandHygieneAfterGloveUseTypes_Test()
         {
             // Arrange
-            var existingTypes = DatabaseContext.HandHygieneAfterGloveUseType.Select(x => x.Id).ToList();
+            if (!await DatabaseContext.HandHygieneAfterGloveUseType.AnyAsync())
+            {
+                DatabaseContext.HandHygieneAfterGloveUseType.AddRange(
+                    new Domain.Observation.Gloves.HandHygieneAfterGloveUseType
+                    {
+                        Name = "After glove removal",
+                        Code = "HHGU-1"
+                    },
+                    new Domain.Observation.Gloves.HandHygieneAfterGloveUseType
+                    {
+                        Name = "After contact with patient surroundings",
+                        Code = "HHGU-2"
+                    }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.HandHygieneAfterGloveUseType.Select(x => x.Id).ToListAsync();
             var getHandHygieneAfterGloveUseTypes = new GetHandHygieneAfterGloveUseTypes.Handler(DatabaseContext, Mapper);
             var query = new GetHandHygieneAfterGloveUseTypes.Query();
 
@@ -433,7 +484,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("HandHygieneAfterGloveUseType not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find handHygieneAfterGloveUseType with ID: 99999999"),
                 async () =>
                 {
                     await updateHandHygieneAfterGloveUseTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

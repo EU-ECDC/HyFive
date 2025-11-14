@@ -24,10 +24,10 @@ export class SentGloveSessionComponent implements OnInit, OnDestroy {
 
   private downloadAsExcel: boolean;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private sessionService: SentSessionsService,
-              private toastrService: ToastrService) { }
+  constructor(private readonly router: Router,
+              private readonly route: ActivatedRoute,
+              private readonly sessionService: SentSessionsService,
+              private readonly toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -46,8 +46,8 @@ export class SentGloveSessionComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  showIndications(item: GloveObservation): string { // TODO Choose between displaying indications/types, or showing whether the observation was with or without indications
-    if (item.gloveWithIndicationTypes?.length) return item.gloveWithIndicationTypes?.map(x => x.name).join(', ');;
+  showIndications(item: GloveObservation): string { // Choose between displaying indications/types, or showing whether the observation was with or without indications
+    if (item.gloveWithIndicationTypes?.length) return item.gloveWithIndicationTypes?.map(x => x.name).join(', ');
     return item.gloveWithoutIndicationTypes?.map(x => x.name).join(', ');
   }
 

@@ -1,36 +1,22 @@
-import {AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModalConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-help-text',
   templateUrl: './help-text.component.html'
 })
-export class HelpTextComponent implements AfterViewInit{
+export class HelpTextComponent{
 
-  static HelpTextPrefix = "helptext_";
+  static readonly HelpTextPrefix = "helptext_";
   @Input() title: string;
   @Input() confirmButtonText: string = "Not show again";
   @ViewChild('content') modalContent: TemplateRef<any>;
 
   hasSetValue = "has_set";
 
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(config: NgbModalConfig, private readonly modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
-  }
-
-  ngAfterViewInit(): void {
-    // if(localStorage.getItem(this.getHelpTextId()) !== this.hasSetValue){
-    //   const modalRef = this.modalService.open(this.modalContent, {
-    //     ariaLabelledBy: 'modal-basic-title'
-    //   });
-
-    //   modalRef.result.then((r) => {
-    //     if(r == this.hasSetValue){
-    //       localStorage.setItem(this.getHelpTextId(), this.hasSetValue)
-    //     }
-    //   });
-    // }
   }
 
   private getHelpTextId() {

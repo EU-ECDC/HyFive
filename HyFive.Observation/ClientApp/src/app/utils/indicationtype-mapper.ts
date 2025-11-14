@@ -7,7 +7,7 @@ import { faFour, faOne, faThree, faTwo } from './customIcons';
 export class IndicationTypeMapper {
 
   public static getIconTypeMap(): Map<IndicationTypeConstants, IconProp> {
-    var iconmap = new Map<IndicationTypeConstants, IconProp>();
+    let iconmap = new Map<IndicationTypeConstants, IconProp>();
     iconmap.set(IndicationTypeConstants.BeforePatient, faOne);
     iconmap.set(IndicationTypeConstants.AsepticProcedures, faTwo);
     iconmap.set(IndicationTypeConstants.BodyFluid, faThree);

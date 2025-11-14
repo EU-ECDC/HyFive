@@ -44,20 +44,28 @@ namespace HyFive.Services.Facility
                     .ProjectTo<Models.V1.Facility.Facility>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                //if (facility == null)
-                //{
-                //    throw new Exception($"Could not find facility with ID: {request.FacilityId}");
-                //}
+                var departmentIdsWithObservations = await _context.Session
+                .Select(s => s.Department.Id)
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+                var departmentIdsSet = new HashSet<int>(departmentIdsWithObservations);
 
                 foreach (var facility in facilities)
                 {
-                    facility.HasObservations =
-                        facility.Departments != null &&
-                        facility.Departments.Any() &&
-                        _context.Session.Include(s => s.Department)
-                            .Any(s => facility.Departments.Select(d => d.Id).Contains(s.Department.Id));
+                    if (facility.Departments == null || facility.Departments.Count == 0)
+                    {
+                        facility.HasObservations = false;
+                    }
+                    else
+                    {
+                        facility.HasObservations = facility.Departments
+                            .Any(d => departmentIdsSet.Contains(d.Id));
 
-                    facility.Departments = facility.Departments.OrderBy(d => d.Name).ToList();
+                        facility.Departments = facility.Departments
+                            .OrderBy(d => d.Name)
+                            .ToList();
+                    }
                 }
 
                 return facilities;

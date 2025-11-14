@@ -16,7 +16,7 @@ namespace HyFive.Services.Facility
     {
         public class Query : IRequest<Models.V1.Facility.Facility>
         {
-            public int FacilityId = 0;
+            public int FacilityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Models.V1.Facility.Facility>
@@ -45,16 +45,23 @@ namespace HyFive.Services.Facility
                 
                 if (facility == null)
                 {
-                    throw new Exception($"Did not find facility with ID: {request.FacilityId}");
+                    throw new KeyNotFoundException($"Did not find facility with ID: {request.FacilityId}");
                 }
-                
-                facility.HasObservations = 
-                    facility.Departments != null 
-                    && facility.Departments.Any() 
-                    && _context.Session.Include(s => s.Department)
-                        .Any(s => facility.Departments.Select(a => a.Id).Contains(s.Department.Id));
 
-                facility.Departments = facility.Departments.OrderBy(a => a.Name).ToList();
+                // Pre-fetch the department IDs for this facility that have sessions
+                var departmentIds = facility.Departments?.Select(d => d.Id).ToList() ?? new List<int>();
+
+                var hasObservations = departmentIds.Count > 0 &&
+                    await _context.Session
+                        .Where(s => departmentIds.Contains(s.Department.Id))
+                        .AnyAsync(cancellationToken);
+
+                facility.HasObservations = hasObservations;
+
+                // Sort the departments
+                facility.Departments = facility.Departments?
+                    .OrderBy(d => d.Name)
+                    .ToList() ?? new List<Models.V1.Facility.Department>();
 
                 return facility;
             }

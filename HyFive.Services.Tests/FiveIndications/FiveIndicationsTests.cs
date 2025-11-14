@@ -337,7 +337,17 @@ namespace HyFive.Services.Tests.FiveIndications
         public async Task GetActivityTypesTest()
         {
             // Arrange
-            var existingTypes = DatabaseContext.ActivityType.Select(x => x.Id).ToList();
+            if (!await DatabaseContext.ActivityType.AnyAsync())
+            {
+                DatabaseContext.ActivityType.AddRange(
+                    new Domain.Observation.ActivityType { Name = "Hand hygiene before patient contact", Code = "Act1" },
+                    new Domain.Observation.ActivityType { Name = "After patient contact", Code = "Act2" }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+
+            var existingTypes = await DatabaseContext.ActivityType.Select(x => x.Id).ToListAsync();
             var getActivityTypes = new GetActivityTypes.Handler(DatabaseContext, Mapper);
             var query = new GetActivityTypes.Query();
 
@@ -398,7 +408,7 @@ namespace HyFive.Services.Tests.FiveIndications
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Activity type not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find activity type with ID: 99999999"),
                 async () =>
                 {
                     await updateActivityTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -414,7 +424,17 @@ namespace HyFive.Services.Tests.FiveIndications
         public async Task GetIndicationTypesTest()
         {
             // Arrange
-            var existingTypes = DatabaseContext.IndicationTypes.Select(x => x.Id).ToList();
+            if (!await DatabaseContext.IndicationTypes.AnyAsync())
+            {
+                DatabaseContext.IndicationTypes.AddRange(
+                    new Domain.Observation.IndicationTypes { Name = "Before patient contact", Code="ind1", Number = "1" },
+                    new Domain.Observation.IndicationTypes { Name = "After patient contact", Code = "ind2", Number = "2" },
+                    new Domain.Observation.IndicationTypes { Name = "After exposure to body fluids", Code = "ind3", Number = "3" }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.IndicationTypes.Select(x => x.Id).ToListAsync();
             var getIndicationTypes = new GetIndicationTypes.Handler(DatabaseContext, Mapper);
             var query = new GetIndicationTypes.Query();
 
@@ -475,7 +495,7 @@ namespace HyFive.Services.Tests.FiveIndications
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Indication type not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find indication type with ID: 99999999"),
                 async () =>
                 {
                     await updateIndicationTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

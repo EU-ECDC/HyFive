@@ -25,7 +25,7 @@ namespace HyFive.Services.City
             }
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var city = _context.City.FirstOrDefault(h => h.Name.ToLower() == request.City.Name.ToLower());
+                var city = await _context.City.FirstOrDefaultAsync(h => h.Name.ToLower() == request.City.Name.ToLower(), cancellationToken);
 
                 if (city != null)
                     return false;
@@ -36,7 +36,7 @@ namespace HyFive.Services.City
                 };
 
                 _context.City.Add(city);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return true;
             }
         }

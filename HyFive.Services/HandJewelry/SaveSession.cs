@@ -40,11 +40,11 @@ namespace HyFive.Services.HandJewelry
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Verify that observer is an observer at the facility
-                var observer = await GetObserver(request, cancellationToken);
+                var observer = await GetObserver(request);
                 if (observer == null)
-                    throw new Exception($"Did not find an observer with Email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
+                    throw new ArgumentException($"Did not find an observer with Email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
 
-                var handJewelryTypes = _context.HandJewelryType.ToList();
+                var handJewelryTypes = await _context.HandJewelryType.ToListAsync(cancellationToken);
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
@@ -53,7 +53,7 @@ namespace HyFive.Services.HandJewelry
                 // This is the way we want to handle the error if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning("Did not find department with ID: {DepartmentId}", request.Session.Department.Id);
                     return session.Id;
                 }
                     
@@ -68,11 +68,11 @@ namespace HyFive.Services.HandJewelry
                     observation.Comment = string.IsNullOrEmpty(observation.Comment) ? null : observation.Comment;
                 }
 
-                var transferStatuses = _context.TransferStatusType.ToList();
+                var transferStatuses = await _context.TransferStatusType.ToListAsync(cancellationToken);
                 session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
 
                 _context.Add(session);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
                 return session.Id;
             }
 
@@ -81,14 +81,14 @@ namespace HyFive.Services.HandJewelry
                 return await _context.Department.Include(a => a.Roles).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
             }
 
-            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
+            private async Task<ObserverUser> GetObserver(Command request)
             {
                 var facility = await _context.Facility
                     .Include(i => i.Users)
                     .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
                 if (facility == null)
-                    throw new Exception($"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
+                    throw new ArgumentException($"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
 
                 return facility
                     .Users

@@ -38,12 +38,12 @@ namespace HyFive.Services.Glove
 
                     if (observation == null)
                     {
-                        throw new Exception("S-BU-01: Did not find Protective Equipment observation with ID: " + request.ObservationId);
+                        throw new ArgumentException("S-BU-01: Did not find Protective Equipment observation with ID: " + request.ObservationId);
                     }
 
-                    var session = _context.ProtectiveEquipmentSession
+                    var session = await _context.ProtectiveEquipmentSession
                         .Include(s => s.Observations)
-                        .FirstOrDefault(s => s.Id == new Guid(request.SessionId));
+                        .FirstOrDefaultAsync(s => s.Id == new Guid(request.SessionId), cancellationToken);
 
                     if (session != null && session.Observations.Count == 1 && session.Observations.Select(o => o.Id).Contains(observation.Id))
                     {
@@ -55,12 +55,12 @@ namespace HyFive.Services.Glove
                         _context.RemoveRange(observation.ProtectiveEquipmentList);    
                     }
                     _context.Remove(observation);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"S-BU-02: Error while deleting Protective Equipment observation with ID: {request.ObservationId}");
-                    throw;
+                    _logger.LogError(e, "Error while deleting Protective Equipment observation with ID: {ObservationId}", request.ObservationId);
+                    return false;
                 }
 
                 return true;

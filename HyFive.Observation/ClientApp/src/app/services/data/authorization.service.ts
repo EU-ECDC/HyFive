@@ -20,11 +20,6 @@ export class AuthorizationService {
 
   getUser(): Observable<LoggedInUser> {
     return this.http.get<LoggedInUser>('/account').pipe(tap(user => {
-      // TODO: midlertidig
-      // let innloggetbruker = this.getLocalUserId();
-      // if(innloggetbruker != user.id){
-      //   localStorage.clear();
-      // }
       this.setLocalUserId(user.id);
     }));
   }

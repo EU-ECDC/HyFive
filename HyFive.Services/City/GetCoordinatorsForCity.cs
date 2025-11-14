@@ -30,7 +30,7 @@ namespace HyFive.Services.City
 
             public async Task<CityCoordinator[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var coordinatorsForFacilitiesInCity = GetCoordinatorsForFacilitiesInCity(request.CityId);
+                var coordinatorsForFacilitiesInCity = await GetCoordinatorsForFacilitiesInCity(request.CityId);
 
                 List<CityCoordinator> coordinatorForCityList = CreateCoordinatorsForCityList(coordinatorsForFacilitiesInCity);
 
@@ -91,18 +91,18 @@ namespace HyFive.Services.City
                 return coordinatorForCity;
             }
 
-            private List<Coordinator> GetCoordinatorsForFacilitiesInCity(int cityId)
+            private async Task<List<Coordinator>> GetCoordinatorsForFacilitiesInCity(int cityId)
             {
-                return _context.User.OfType<Coordinator>()
+                return await _context.User.OfType<Coordinator>()
                     .AsNoTracking()
                     .Include(b => b.Facility)
                         .ThenInclude(i => i.City)
                     .Include(b => b.Facility)
                         .ThenInclude(i => i.FacilityType)
                     .Where(b => b.Facility.City.Id == cityId &&
-                                b.IsDeactivated == false)
+                                !b.IsDeactivated)
                     .OrderBy(b => b.LastName)
-                    .ToList();
+                    .ToListAsync();
             }
         }
     }

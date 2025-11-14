@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Bruker = HyFive.Models.V1.User.User;
@@ -13,7 +14,7 @@ namespace HyFive.Services.Tests.UserServices
 {
     public class UserServicesTests : ServiceTests
     {
-        private readonly string _email = System.Convert.ToBase64String(Encoding.UTF8.GetBytes("hellohellohellohellohellohellohel"));
+        private readonly string _email = "testEmail@test.com";
         private IHttpContextAccessor _httpContextAccessorSubstitute;
 
 
@@ -27,7 +28,7 @@ namespace HyFive.Services.Tests.UserServices
         public async Task GetAdmin_Test()
         {
             // Arrange
-            var Admin = await CreateAdmin();
+            var Admin = await CreateAdmin("testEmail@gmail.com");
 
             var getAdminHandler = new GetAdmin.Handler(DatabaseContext, Mapper);
             var query = new GetAdmin.Query() { };
@@ -49,7 +50,7 @@ namespace HyFive.Services.Tests.UserServices
         public async Task CreateAdmin_Test()
         {
             // Arrange and Act
-            var createAdmin = await CreateAdmin();
+            var createAdmin = await CreateAdmin("testEmail@gmail.com");
             var createAdminFromDatabase = DatabaseContext.Admin.FirstOrDefault(r => r.Id == createAdmin.Id);
 
             // Assert
@@ -63,24 +64,11 @@ namespace HyFive.Services.Tests.UserServices
         }
 
         [Test]
-        public void CreateAdmin_MissingPseudonym_ThrowsException()
-        {
-            // Assert
-            Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Missing"),
-                async () =>
-                {
-                    await CreateAdmin(email: "");
-                }
-            );
-        }
-
-        [Test]
         public void CreateAdmin_InvalidEmail_ThrowsException()
         {
             // Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("not valid."),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Email '1234567890123456789012345678901234567890123@' is not valid."),
                 async () =>
                 {
                     await CreateAdmin(email: "1234567890123456789012345678901234567890123@");
@@ -96,7 +84,7 @@ namespace HyFive.Services.Tests.UserServices
 
             // Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("already in use"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Email 'testEmail@test.com' is already in use"),
                 async () =>
                 {
                     await CreateAdmin(email: _email);
@@ -108,7 +96,7 @@ namespace HyFive.Services.Tests.UserServices
         public async Task UpdateAdmin_Test()
         {
             // Arrange
-            var createAdmin = await CreateAdmin();
+            var createAdmin = await CreateAdmin("testEmail@gmail.com");
             var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
             var command = new UpdateAdmin.Command()
             {
@@ -153,95 +141,14 @@ namespace HyFive.Services.Tests.UserServices
                     Id = 1234567890,
                     FirstName = "Da",
                     LastName = "Vinci",
-                    IdentityPseudonym = _email,
+                    Email = _email,
                     IsDisabled = false
                 }
             };
 
             // Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Did not find user with Id"),
-                async () =>
-                {
-                    await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
-                }
-            );
-        }
-
-        [Test]
-        public void UpdateAdmin_MissingPseudonym_ThrowsException()
-        {
-            // Arrange
-            var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
-            var command = new UpdateAdmin.Command()
-            {
-                User = new Models.V1.User.User()
-                {
-                    Id = 1234567890,
-                    FirstName = "Da",
-                    LastName = "Vinci",
-                    IdentityPseudonym = null,
-                    IsDisabled = false
-                }
-            };
-
-            // Assert
-            Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Missing"),
-                async () =>
-                {
-                    await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
-                }
-            );
-        }
-
-        [Test]
-        public void UpdateAdmin_InvalidPseudonym_ThrowsException()
-        {
-            // Arrange
-            var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
-            var command = new UpdateAdmin.Command()
-            {
-                User = new Models.V1.User.User()
-                {
-                    Id = 1234567890,
-                    FirstName = "Da",
-                    LastName = "Vinci",
-                    IdentityPseudonym = "1234567890123456789012345678901234567890123@",
-                    IsDisabled = false
-                }
-            };
-
-            // Assert
-            Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("not valid."),
-                async () =>
-                {
-                    await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
-                }
-            );
-        }
-
-        [Test]
-        public void UpdateAdmin_TooShortEmail_ThrowsException()
-        {
-            // Arrange
-            var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
-            var command = new UpdateAdmin.Command()
-            {
-                User = new Models.V1.User.User()
-                {
-                    Id = 1234567890,
-                    FirstName = "Da",
-                    LastName = "Vinci",
-                    Email = "test",
-                    IsDisabled = false
-                }
-            };
-
-            // Assert
-            Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("not valid."),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("User not found with Id: 1234567890"),
                 async () =>
                 {
                     await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
@@ -254,7 +161,7 @@ namespace HyFive.Services.Tests.UserServices
         {
             // Arrange
             var user1 = await CreateAdmin(_email);
-            var user2 = await CreateAdmin(Convert.ToBase64String(Encoding.UTF8.GetBytes("oellooellooellooellooellooellooel")));
+            var user2 = await CreateAdmin("user2@test.com");
 
             var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
             var command = new UpdateAdmin.Command()
@@ -271,7 +178,7 @@ namespace HyFive.Services.Tests.UserServices
 
             // Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("The email is already in use"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("The email is already in use"),
                 async () =>
                 {
                     await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
@@ -284,6 +191,17 @@ namespace HyFive.Services.Tests.UserServices
         {
             // Arrange
             var user1 = await CreateAdmin(_email);
+
+            _httpContextAccessorSubstitute.HttpContext = new DefaultHttpContext();
+            _httpContextAccessorSubstitute.HttpContext.User = new ClaimsPrincipal(
+                new ClaimsIdentity(
+                    new[]
+                    {
+                new Claim(ClaimTypes.Email, _email)
+                    },
+                    "TestAuth"
+                )
+            );
 
             var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper, _httpContextAccessorSubstitute);
             var command = new UpdateAdmin.Command()
@@ -300,7 +218,7 @@ namespace HyFive.Services.Tests.UserServices
 
             // Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("User cannot change themselves"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("User cannot change themselves"),
                 async () =>
                 {
                     await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
@@ -310,7 +228,7 @@ namespace HyFive.Services.Tests.UserServices
 
         #region Helper-methods
 
-        private async Task<Models.V1.User.User> CreateAdmin(string email = null)
+        private async Task<Models.V1.User.User> CreateAdmin(string email)
         {
             var createAdminHandler = new CreateAdmin.Handler(DatabaseContext, Mapper);
             var command = new CreateAdmin.Command()
@@ -319,7 +237,7 @@ namespace HyFive.Services.Tests.UserServices
                 {
                     FirstName = "Test",
                     LastName = "Testesen",
-                    IdentityPseudonym = email ?? _email,
+                    Email = email ?? _email,
                 }
             };
 

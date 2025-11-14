@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Renderer2 } from "@angular/core";
+import { Component, Inject, Renderer2 } from "@angular/core";
 import { Urls } from "../../constants/urls";
 import { faCalendar, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { SessionTypeMapper } from "../../utils/session-type-mapper";
@@ -36,9 +36,9 @@ export class SentSessionsComponent {
   faCalendar = faCalendar;
   faSearch = faSearch;
 
-  constructor(private sentSessionsService: SentSessionsService,
-        private renderer: Renderer2,
-         @Inject(DOCUMENT) private document: Document
+  constructor(private readonly sentSessionsService: SentSessionsService,
+              private renderer: Renderer2,
+              @Inject(DOCUMENT) private document: Document
   ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }
@@ -89,7 +89,7 @@ export class SentSessionsComponent {
         this.pageSizeOptions.push(this.totalItems);
       }
         this.sessions = result.sessionReports
-          .sort((a, b) => {
+          .toSorted((a, b) => {
             if (a.startDate > b.startDate) {
               return -1;
             }
@@ -133,7 +133,7 @@ export class SentSessionsComponent {
         this.pageSizeOptions.push(this.totalItems);
       }
       this.sessions = result.sessionReports
-        .sort((a, b) => {
+        .toSorted((a, b) => {
           if (a.startDate > b.startDate) {
             return -1;
           }

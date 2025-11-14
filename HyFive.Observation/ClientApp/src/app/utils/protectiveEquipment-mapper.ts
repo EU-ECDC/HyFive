@@ -10,7 +10,7 @@ import { faAnderettsvern, faHette, faPlastforkle, faSmittefrakk, faStellefrakk, 
 export class ProtectiveEquipmentMapper {
 
   public static getIconTypeMap(): Map<string, IconProp> {
-    var iconmap = new Map<string, IconProp>();
+    let iconmap = new Map<string, IconProp>();
     iconmap.set(ProtectiveEquipmentTypeConstants.Gloves, faHandPaper);
     iconmap.set(ProtectiveEquipmentTypeConstants.InfectionGown, faSmittefrakk);
     iconmap.set(ProtectiveEquipmentTypeConstants.FaceMask, faHeadSideMask);

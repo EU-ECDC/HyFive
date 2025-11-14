@@ -33,7 +33,7 @@ export class EditSessionDataComponent implements OnInit {
 
   save() {
     if(this.canSave()){
-      var request: Partial<UpdateSessionRequest> = {
+      let request: Partial<UpdateSessionRequest> = {
         sessionId: this.sessionCopy.id,
         facilityId:  this.facilityId,
       }

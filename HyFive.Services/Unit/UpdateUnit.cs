@@ -36,7 +36,7 @@ namespace HyFive.Services.Unit
                     .FirstOrDefaultAsync(a => a.Id == command.Unit.Id);
                 if (unit.Facility.Id != command.Unit.FacilityId)
                 {
-                    throw new Exception($"Unit with id {command.Unit.Id} is not associated with facility with id: {command.Unit.FacilityId}");
+                    throw new ArgumentException($"Unit with id {command.Unit.Id} is not associated with facility with id: {command.Unit.FacilityId}");
                 }
                 else if (command.Unit.Departments.Any(x => x.FacilityId != unit.Facility.Id))
                 {

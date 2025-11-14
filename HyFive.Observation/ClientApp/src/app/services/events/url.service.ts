@@ -9,8 +9,8 @@ export class UrlService {
 
   private urlUpdatedTime: number;
 
-  private allUrlParametersSubject = new Subject<Params>();
-  private urlSegmentsSubject = new Subject<UrlSegment[]>();
+  private readonly allUrlParametersSubject = new Subject<Params>();
+  private readonly urlSegmentsSubject = new Subject<UrlSegment[]>();
   allUrlParameters$ = this.allUrlParametersSubject.asObservable();
   urlSegments$ = this.urlSegmentsSubject.asObservable();
 

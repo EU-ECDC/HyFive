@@ -15,7 +15,7 @@ import { Localstoragepaths } from "./constants/localstoragepaths";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   isMobile: boolean;
   isLoggedIn = false;
   user: LoggedInUser;
@@ -27,11 +27,11 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(
-    private router: Router,
-    private viewportScroller: ViewportScroller,
-    private browserViewportService: BrowserViewportService,
-    private urlService: UrlService,
-    private authorizationService: AuthorizationService
+    private readonly router: Router,
+    private readonly viewportScroller: ViewportScroller,
+    private readonly browserViewportService: BrowserViewportService,
+    private readonly urlService: UrlService,
+    private readonly authorizationService: AuthorizationService
   ) {}
 
   ngOnInit(): void {
@@ -102,9 +102,9 @@ export class AppComponent implements OnInit {
   }
   
   shouldShowAppBrand() {
-    var isRootPage       = window.location.pathname === "/";
-    var isLoginPage     = window.location.pathname === "/"+Urls.LoginPageUrl;
-    var isHomePage     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
+    let isRootPage       = window.location.pathname === "/";
+    let isLoginPage     = window.location.pathname === "/"+Urls.LoginPageUrl;
+    let isHomePage     = window.location.pathname === "/"+Urls.HomePageForObservationUrl;
     return isLoginPage || isRootPage || isHomePage;
   }
 }

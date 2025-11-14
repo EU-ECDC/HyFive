@@ -26,10 +26,10 @@ export class SentProtectiveEquipmentSessionComponent implements OnInit, OnDestro
   DialogueTexts = DialogueTexts;
 
   constructor(
-    private sentSessionsService: SentSessionsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService) {
+    private readonly sentSessionsService: SentSessionsService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastrService: ToastrService) {
 
   }
 

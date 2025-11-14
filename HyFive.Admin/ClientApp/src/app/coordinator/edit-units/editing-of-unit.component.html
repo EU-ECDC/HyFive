@@ -1,7 +1,7 @@
 <div class="container">
   <ng-container *ngIf="!unitAsEdited">
     <div class="row">
-      <h3>Maintenance of units</h3>
+      <h3>Create Unit</h3>
     </div>
     <app-create-unit (unitCreatedEvent)="getUnits()" [facilityId]="facilityId" *ngIf="facilityId > 0 && unitId == 0"></app-create-unit>
     <div class="row mb-5 mt-5">

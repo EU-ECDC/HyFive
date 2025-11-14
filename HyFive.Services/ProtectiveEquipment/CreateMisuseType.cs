@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
+using HyFive.Services.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,26 +18,14 @@ namespace HyFive.Services.ProtectiveEquipment
             public CreateIncorrectUseTypeRequest MisuseType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, MisuseType>
+        public class Handler : BaseHandler, IRequestHandler<Command, MisuseType>
         {
-            private readonly HandHygieneContext _context;
-            private readonly IMapper _mapper;
-
             public Handler(HandHygieneContext context, IMapper mapper)
-            {
-                _context = context;
-                _mapper = mapper;
-            }
+               : base(context, mapper) { }
 
             public async Task<MisuseType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var equipmentType = await _context.ProtectiveEquipmentType
-                    .Include(but => but.MisuseTypes)
-                    .FirstOrDefaultAsync(but => but.Id == request.EquipmentTypeId, cancellationToken);
-                if (equipmentType == null)
-                {
-                    throw new Exception("Did not find equipment type with ID: " + request.EquipmentTypeId);
-                }
+                var equipmentType = await GetEquipmentTypeWithMisuseTypesAsync(request.EquipmentTypeId, cancellationToken);
 
                 var misuseType = new Domain.Observation.ProtectiveEquipment.MisuseType()
                 {

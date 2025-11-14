@@ -7,7 +7,7 @@ import {ProtectiveEquipment} from "../models/api/ProtectiveEquipment";
 export class ProtectiveEquipmentMapper {
 
   public static getIconTypeMap(): Map<string, IconProp> {
-    var iconmap = new Map<string, IconProp>();
+    let iconmap = new Map<string, IconProp>();
     iconmap.set(ProtectiveEquipmentTypeConstants.Gloves, faUserTimes);
     iconmap.set(ProtectiveEquipmentTypeConstants.IsolationGown, faUserTimes);
     iconmap.set(ProtectiveEquipmentTypeConstants.FaceMask, faUserTimes);

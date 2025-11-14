@@ -10,8 +10,8 @@ import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { ActivityType } from '../../models/api/ActivityType';
 import { ActivityService } from '../../services/data/activity.service';
-import { ActivityTypeNotExecuted } from '../../models/api/ActivityTypeNotExecuted';
-import { ActivityTypeNotExecutedMapper } from '../../utils/ActivityTypeNotExecutedMapper';
+import { ActivityTypeNotPerformed } from '../../models/api/ActivityTypeNotPerformed';
+import { ActivityTypeNotPerformedMapper as ActivityTypeNotPerformedMapper } from '../../utils/ActivityTypeNotPerformedMapper';
 import { Uuid } from '../../utils/uuid';
 import { ActivityTypeNotPerformedId } from '../../models/api/ActivityTypeNotPerformedId';
 import { Activities } from '../../constants/Activities';
@@ -30,10 +30,10 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   activityTypes: ActivityType[];
   Colors = Colors;
   dialogueTexts = DialogueTexts;
-  activityTypeNotExecutedSelection: ActivityTypeNotExecuted[];
-  selectedActivityTypeNotExecutedSelectionId: string;
+  activityTypeNotPerformedSelection: ActivityTypeNotPerformed[];
+  selectedActivityTypeNotPerformedSelectionId: string;
   id: string = Uuid.generateUUID().substr(4);
-  showActivityTypeNotExecuted: boolean = false;
+  showActivityTypeNotPerformed: boolean = false;
   gloveUseText: string;
   notPerformedActivity: Activity;
   alcohol: string = Activities.Alcohol;
@@ -47,10 +47,10 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
   faTimesCircle = faTimesCircle;
 
   constructor(
-    private sessionService: FiveIndicationsSessionService,
-    private activityService: ActivityService
+    private readonly sessionService: FiveIndicationsSessionService,
+    private readonly activityService: ActivityService
   ) {
-    this.activityTypeNotExecutedSelection = ActivityTypeNotExecutedMapper.getNameMap();
+    this.activityTypeNotPerformedSelection = ActivityTypeNotPerformedMapper.getNameMap();
   }
 
   @Input("isReadonly") isReadonly: boolean = false;
@@ -63,8 +63,8 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
-      this.showActivityTypeNotExecuted = true;
-      this.selectedActivityTypeNotExecutedSelectionId = this.getSelectedActivityTypeNotPerformedId(this.observation.activity);
+      this.showActivityTypeNotPerformed = true;
+      this.selectedActivityTypeNotPerformedSelectionId = this.getSelectedActivityTypeNotPerformedId(this.observation.activity);
     }
 
     this.activityService.getActivityTypes().subscribe((activityTypes) => {
@@ -73,11 +73,11 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
 
     if (this.isReadonly && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       if (this.observation.activity.glovesUsed === null)
-        this.gloveUseText = this.activityTypeNotExecutedSelection[0].name;
+        this.gloveUseText = this.activityTypeNotPerformedSelection[0].name;
       else if (this.observation.activity.glovesUsed === true)
-        this.gloveUseText = this.activityTypeNotExecutedSelection[1].name;
+        this.gloveUseText = this.activityTypeNotPerformedSelection[1].name;
       else if (this.observation.activity.glovesUsed === false)
-        this.gloveUseText = this.activityTypeNotExecutedSelection[2].name;
+        this.gloveUseText = this.activityTypeNotPerformedSelection[2].name;
     }
   }
 
@@ -98,19 +98,19 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
       this.notPerformedActivity = this.observation.activity;
     }
     if (activity.activityType.code === ActivityTypeConstants.NotPerformed) {
-      this.showActivityTypeNotExecuted = true;
+      this.showActivityTypeNotPerformed = true;
       if (this.notPerformedActivity) {
-        this.selectedActivityTypeNotExecutedSelectionId = this.selectedActivityTypeNotExecuted(this.notPerformedActivity?.glovesUsed);
+        this.selectedActivityTypeNotPerformedSelectionId = this.selectedActivityTypeNotPerformed(this.notPerformedActivity?.glovesUsed);
       }
       else {
-        this.selectedActivityTypeNotExecutedSelectionId = ActivityTypeNotPerformedId.NotPerformed.toString();
+        this.selectedActivityTypeNotPerformedSelectionId = ActivityTypeNotPerformedId.NotPerformed.toString();
       }
       activity.secondsUsed = this.observation.activity.secondsUsed;
       this.observation.activity = !this.notPerformedActivity ? activity : this.notPerformedActivity;
       this.notPerformedActivity = null;
     }
     else {
-      this.showActivityTypeNotExecuted = false;
+      this.showActivityTypeNotPerformed = false;
       activity.secondsUsed = !this.observation.activity.secondsUsed ? 0 : this.observation.activity.secondsUsed;
       activity.TimingWasPerformed = activity.secondsUsed > 0;
       this.observation.activity = activity;
@@ -125,7 +125,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     }
   }
 
-  selectedActivityTypeNotExecuted(glovesUsed: boolean): string {
+  selectedActivityTypeNotPerformed(glovesUsed: boolean): string {
     if (glovesUsed === true) {
       return ActivityTypeNotPerformedId.GloveWasUsed.toString();
     }
@@ -143,7 +143,7 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
 
   saveObservation() {
     if (this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
-      this.observation = this.registerActivityTypeNotExecuted(this.observation);
+      this.observation = this.registerActivityTypeNotPerformed(this.observation);
     }
     else if (!this.gloveUseMustBeRegistered && this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {
       this.observation.activity.secondsUsed = 0;
@@ -166,18 +166,18 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     return this.activityTypes?.find(x => x.code === code);
   }
 
-  selectedActivityTypeNotExecutedChanged(selectedId) {
-    this.selectedActivityTypeNotExecutedSelectionId = selectedId;
+  selectedActivityTypeNotPerformedChanged(selectedId) {
+    this.selectedActivityTypeNotPerformedSelectionId = selectedId;
   }
 
-  private registerActivityTypeNotExecuted(observation: FiveIndicationsObservation): FiveIndicationsObservation {
-    if ((!this.selectedActivityTypeNotExecutedSelectionId || this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.NotPerformed.toString())) {
+  private registerActivityTypeNotPerformed(observation: FiveIndicationsObservation): FiveIndicationsObservation {
+    if ((!this.selectedActivityTypeNotPerformedSelectionId || this.selectedActivityTypeNotPerformedSelectionId === ActivityTypeNotPerformedId.NotPerformed.toString())) {
       observation.activity.glovesUsed = null;
     }
-    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasUsed.toString()) {
+    else if (this.selectedActivityTypeNotPerformedSelectionId === ActivityTypeNotPerformedId.GloveWasUsed.toString()) {
       observation.activity.glovesUsed = true;
     }
-    else if (this.selectedActivityTypeNotExecutedSelectionId === ActivityTypeNotPerformedId.GloveWasNotUsed.toString()) {
+    else if (this.selectedActivityTypeNotPerformedSelectionId === ActivityTypeNotPerformedId.GloveWasNotUsed.toString()) {
       observation.activity.glovesUsed = false;
     }
     observation.activity.TimingWasPerformed = false;

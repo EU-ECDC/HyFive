@@ -87,8 +87,8 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   }
   
   showDisabledObserversBottom(observers): User[] {
-    var observersList = observers.filter(o => o.isDisabled === false);
-    var observersWhoAreDisabled = observers.filter(o => o.isDisabled);
+    let observersList = observers.filter(o => o.isDisabled === false);
+    let observersWhoAreDisabled = observers.filter(o => o.isDisabled);
     observersList.push.apply(observersList, observersWhoAreDisabled);
     return observersList;
   }

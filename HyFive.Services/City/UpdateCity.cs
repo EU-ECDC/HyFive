@@ -24,7 +24,7 @@ namespace HyFive.Services.City
             }
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var city = _context.City.FirstOrDefault(h => h.Id == command.City.Id);
+                var city = await _context.City.FirstOrDefaultAsync(h => h.Id == command.City.Id, cancellationToken);
 
                 city.Name = command.City.Name;
 

@@ -32,7 +32,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var protectiveEquipmentType = await _context.ProtectiveEquipmentType
                     .FirstOrDefaultAsync(x => x.Id == request.EquipmentType.Id, cancellationToken);
 
-                if (protectiveEquipmentType == null) throw new Exception($"Did not find protective equipment type with ID: {request.EquipmentType.Id}");
+                if (protectiveEquipmentType == null) throw new ArgumentException($"Did not find protective equipment type with ID: {request.EquipmentType.Id}");
 
                 protectiveEquipmentType.Name = request.EquipmentType.Name;
 

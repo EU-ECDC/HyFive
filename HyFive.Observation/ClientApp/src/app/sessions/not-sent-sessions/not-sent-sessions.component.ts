@@ -10,7 +10,7 @@ import { SessionType } from "../../models/api/SessionType";
 import { SessionReport } from "../../models/api/SessionReport";
 import { ToastrService } from "ngx-toastr";
 import { GloveSessionService } from "../../services/data/glove-session.service";
-import { forkJoin, of } from "rxjs";
+import { forkJoin } from "rxjs";
 import { tap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 import { DOCUMENT } from "@angular/common";
@@ -39,13 +39,13 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   pageSizeOptions = [25,30];
 
   constructor(
-    private fiveIndicationsSessionService: FiveIndicationsSessionService,
-    private handJewelrySessionService: HandJewelrySessionService,
-    private gloveSessionService: GloveSessionService,
-    private protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
-    private toastrService: ToastrService,
-    private renderer: Renderer2,
-     @Inject(DOCUMENT) private document: Document
+    private readonly fiveIndicationsSessionService: FiveIndicationsSessionService,
+    private readonly handJewelrySessionService: HandJewelrySessionService,
+    private readonly gloveSessionService: GloveSessionService,
+    private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
+    private readonly toastrService: ToastrService,
+    private readonly renderer: Renderer2,
+     @Inject(DOCUMENT) private  document: Document
   ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
   }

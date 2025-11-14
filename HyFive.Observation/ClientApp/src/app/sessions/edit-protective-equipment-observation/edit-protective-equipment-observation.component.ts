@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
 import { ProtectiveEquipmentMapper } from 'src/app/utils/protectiveEquipment-mapper';
@@ -36,9 +36,9 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
   faCheck = faCheck;
 
   constructor(
-    private sessionService: ProtectiveEquipmentSessionService,
-    private modalService: NgbModal,
-    private toastrService: ToastrService) { }
+    private readonly sessionService: ProtectiveEquipmentSessionService,
+    private readonly modalService: NgbModal,
+    private readonly toastrService: ToastrService) { }
 
   @Input("isReadonly") isReadonly: boolean = false;
   @Input("observation") observation: ProtectiveEquipmentObservation;
@@ -135,7 +135,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
         selectedEquipment.misuseTypes = result.equipmentType.misuseTypes.filter(x => x.isSelected);
         selectedEquipment.wasUsed = result.wasUsedCorrectly || selectedEquipment.misuseTypes.length > 0 || selectedEquipment.comment !== '';
       }
-    }, (reason) => {
+    }, () => {
       if (this.isEditMode) {
         selectedEquipment.wasUsed = false;
         this.resetEquipment(selectedEquipment);

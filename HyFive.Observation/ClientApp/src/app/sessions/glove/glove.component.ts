@@ -34,10 +34,10 @@ export class GloveComponent implements OnInit {
   Urls = Urls;
 
   constructor(
-    private sessionService: GloveSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService) {
+    private readonly sessionService: GloveSessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastrService: ToastrService) {
 
   }
 
@@ -70,8 +70,8 @@ export class GloveComponent implements OnInit {
     this.router.navigate([Urls.SentSessionsUrl]);
   }
 
-  showIndications(item: GloveObservation): string { // TODO Choose between displaying indications/types, or showing whether the observation was with or without indications
-    if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');;
+  showIndications(item: GloveObservation): string { // Choose between displaying indications/types, or showing whether the observation was with or without indications
+    if (item.gloveWithIndicationTypes.length) return item.gloveWithIndicationTypes.map(x => x.name).join(', ');
     return item.gloveWithoutIndicationTypes.map(x => x.name).join(', ');
   }
 

@@ -113,10 +113,10 @@ export class EditAdminComponent implements OnInit, OnDestroy {
     sort($event: IColumnSortedEvent) {
       let propertyOf: (x: User) => any;
       switch ($event.columnName) {
-        case "Firstname":
+        case "First name":
           propertyOf = (x: User) => x.firstName;
           break;
-          case "Lastname":
+          case "Last name":
             propertyOf = (x: User) => x.lastName;
           break;
         default:

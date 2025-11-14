@@ -35,7 +35,7 @@ namespace HyFive.Services.Unit
                     .FirstOrDefaultAsync(i => i.Id == command.Unit.FacilityId);
                 if (facility == null)
                 {
-                    throw new Exception("Did not find facility with ID: " + command.Unit.FacilityId);
+                    throw new ArgumentException("Did not find facility with ID: " + command.Unit.FacilityId);
                 }
                 else if (command.Unit.Departments.Any(x => x.FacilityId != facility.Id))
                 {

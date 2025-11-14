@@ -42,7 +42,7 @@ namespace HyFive.Services.Department
                 };
 
                 _context.DepartmentType.Add(avdelingtype);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return _mapper.Map<DepartmentType>(avdelingtype);
             }

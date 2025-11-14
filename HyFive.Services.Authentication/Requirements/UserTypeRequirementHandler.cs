@@ -26,9 +26,7 @@ namespace HyFive.Services.Authentication.Requirements
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserTypeRequirement requirement)
         {
             var userType = requirement.UserType;
-            //var hprNumber = context.User.Claims.FirstOrDefault(x => x.Type == ClaimsPrincipalExtensions.HprNummer)?.Value;
-            //var pseudonym = context.User.Claims.FirstOrDefault(x => x.Type == IdentityClaims.PidPseudonym)?.Value;
-
+            
             var email = GetEmail();
 
 

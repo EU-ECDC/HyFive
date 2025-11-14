@@ -472,12 +472,38 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         public async Task GetProtectiveEquipmentTypes_Test()
         {
             // Arrange
-            var existingTypes = DatabaseContext.ProtectiveEquipmentType.Select(x => x.Id).ToList();
-            var getProtectiveEquipmentTypes = new GetProtectiveEquipmentTypes.Handler(DatabaseContext, Mapper);
+            if (!await DatabaseContext.ProtectiveEquipmentType.AnyAsync())
+            {
+                DatabaseContext.ProtectiveEquipmentType.AddRange(
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
+                    {
+                        Name = "Gloves",
+                        Code = "PE-G"
+                    },
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
+                    {
+                        Name = "Mask",
+                        Code = "PE-M"
+                    },
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
+                    {
+                        Name = "Gown",
+                        Code = "PE-GW"
+                    }
+                );
+
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.ProtectiveEquipmentType
+         .Select(x => x.Id)
+         .ToListAsync();
+
+            var handler = new GetProtectiveEquipmentTypes.Handler(DatabaseContext, Mapper);
             var query = new GetProtectiveEquipmentTypes.Query();
 
             // Act
-            var res = await getProtectiveEquipmentTypes.Handle(query, new System.Threading.CancellationToken());
+            var res = await handler.Handle(query, new System.Threading.CancellationToken());
 
             // Assert
             Assert.Multiple(() =>
@@ -534,7 +560,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Did not find protectiveEquipmentType"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find protective equipment type with ID: 99999999"),
                 async () =>
                 {
                     await updateProtectiveEquipmentTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -549,13 +575,32 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         [Test]
         public async Task GetProtectiveEquipmentSettingTypes_Test()
         {
-            // Arrange
-            var existingTypes = DatabaseContext.ProtectiveEquipmentSettingType.Select(x => x.Id).ToList();
-            var getProtectiveEquipmentSettingTypes = new GetProtectiveEquipmentSettingTypes.Handler(DatabaseContext, Mapper);
+            if (!await DatabaseContext.ProtectiveEquipmentSettingType.AnyAsync())
+            {
+                DatabaseContext.ProtectiveEquipmentSettingType.AddRange(
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
+                    {
+                        Name = "In patient room",
+                        Code = "SET-1"
+                    },
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentSettingType
+                    {
+                        Name = "Operating theatre",
+                        Code = "SET-2"
+                    }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var existingTypes = await DatabaseContext.ProtectiveEquipmentSettingType
+                .Select(x => x.Id)
+                .ToListAsync();
+
+            var handler = new GetProtectiveEquipmentSettingTypes.Handler(DatabaseContext, Mapper);
             var query = new GetProtectiveEquipmentSettingTypes.Query();
 
             // Act
-            var res = await getProtectiveEquipmentSettingTypes.Handle(query, new System.Threading.CancellationToken());
+            var res = await handler.Handle(query, new System.Threading.CancellationToken());
 
             // Assert
             Assert.Multiple(() =>
@@ -612,7 +657,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("Did not find protectiveEquipmentSettingType"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find protective equipment setting type with ID: 99999999"),
                 async () =>
                 {
                     await updateProtectiveEquipmentSettingTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -628,16 +673,37 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         public async Task GetMisuseTypes_Test()
         {
             // Arrange
-            var existingMisuseTypesForEquipment = DatabaseContext.ProtectiveEquipmentType
+            if (!await DatabaseContext.ProtectiveEquipmentType.AnyAsync())
+            {
+                var gloves = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
+                {
+                    Name = "Gloves",
+                    Code = "PE-G"
+                };
+
+                gloves.MisuseTypes = new List<Domain.Observation.ProtectiveEquipment.MisuseType>
+                    {
+                        new Domain.Observation.ProtectiveEquipment.MisuseType { Name = "Worn incorrectly" },
+                        new Domain.Observation.ProtectiveEquipment.MisuseType { Name = "Not replaced when damaged" }
+                    };
+
+                DatabaseContext.ProtectiveEquipmentType.Add(gloves);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var equipment = await DatabaseContext.ProtectiveEquipmentType
                 .Include(x => x.MisuseTypes)
-                .First().MisuseTypes
+                .FirstAsync();
+
+            var existingMisuseTypesForEquipment = equipment.MisuseTypes
                 .Select(x => x.Id)
                 .ToList();
-            var getMisuseTypes = new GetMisuseTypes.Handler(DatabaseContext, Mapper);
-            var query = new GetMisuseTypes.Query() { EquipmentTypeId = DatabaseContext.ProtectiveEquipmentType.First().Id };
+
+            var handler = new GetMisuseTypes.Handler(DatabaseContext, Mapper);
+            var query = new GetMisuseTypes.Query { EquipmentTypeId = equipment.Id };
 
             // Act
-            var res = await getMisuseTypes.Handle(query, new System.Threading.CancellationToken());
+            var res = await handler.Handle(query, CancellationToken.None);
 
             // Assert
             Assert.Multiple(() =>
@@ -669,11 +735,20 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         public async Task CreateMisuseType_Test()
         {
             // Arrange and Act
+            if (!await DatabaseContext.ProtectiveEquipmentType.AnyAsync())
+            {
+                DatabaseContext.ProtectiveEquipmentType.AddRange(
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType { Name = "Gloves", Code = "PE-1" },
+                    new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType { Name = "Mask", Code = "PE-2" }
+                );
+                await DatabaseContext.SaveChangesAsync();
+            }
+
             var name = "test";
-            var equipmentType = DatabaseContext.ProtectiveEquipmentType.First();
+            var equipmentType = await DatabaseContext.ProtectiveEquipmentType.FirstAsync();
             var createdMisuseType = await CreatedMisuseType(name: name, equipmentTypeId: equipmentType.Id);
-            var createdMisuseTypeFromDatabase = DatabaseContext.MisuseType
-                .FirstOrDefault(a => a.Id == createdMisuseType.Id);
+            var createdMisuseTypeFromDatabase = await DatabaseContext.MisuseType
+                .FirstOrDefaultAsync(a => a.Id == createdMisuseType.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -690,7 +765,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         {
             // Act
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("equipment type not found"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find equipment type with ID: 123456789"),
                 async () =>
                 {
                     await CreatedMisuseType(equipmentTypeId: 123456789);
@@ -702,77 +777,136 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         public async Task UpdateMisuseType_Test()
         {
             // Arrange
-            var equipmentType = DatabaseContext.ProtectiveEquipmentType.First();
-            var createdMisuseType = await CreatedMisuseType(equipmentTypeId: equipmentType.Id);
-            var updateMisuseTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
-            var updateCommand = new UpdateMisuseType.Command()
+            // Ensure at least one ProtectiveEquipmentType exists
+            if (!await DatabaseContext.ProtectiveEquipmentType.AnyAsync())
             {
-                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType()
+                var gloves = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
                 {
-                    Id = createdMisuseType.Id,
-                    Name = "Da Vinci",
+                    Name = "Gloves",
+                    Code = "PE-G"
+                };
+                DatabaseContext.ProtectiveEquipmentType.Add(gloves);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var equipmentType = await DatabaseContext.ProtectiveEquipmentType.FirstAsync();
+
+            // Create a misuse type linked via navigation property
+            var misuse = new Domain.Observation.ProtectiveEquipment.MisuseType
+            {
+                Name = "Incorrect use",
+                ProtectiveEquipmentType = equipmentType
+            };
+            DatabaseContext.MisuseType.Add(misuse);
+            await DatabaseContext.SaveChangesAsync();
+
+            var updateHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+
+            var updateCommand = new UpdateMisuseType.Command
+            {
+                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType
+                {
+                    Id = misuse.Id,
+                    Name = "Da Vinci"
                 },
                 EquipmentTypeId = equipmentType.Id
             };
 
             // Act
-            var updateResults = await updateMisuseTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
+            var updateResults = await updateHandler.Handle(updateCommand, new System.Threading.CancellationToken());
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(updateResults.Id, Is.EqualTo(createdMisuseType.Id));
+                Assert.That(updateResults.Id, Is.EqualTo(misuse.Id));
                 Assert.That(updateResults.Name, Is.EqualTo(updateCommand.MisuseType.Name));
             });
         }
 
         [Test]
-        public void UpdateMisuseType_NonExistentEquipmentTypeId()
+        public async  Task UpdateMisuseType_NonExistentEquipmentTypeId()
         {
             // Arrange
-            var updateMisuseTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
-            var updateCommand = new UpdateMisuseType.Command()
+            // Ensure there’s at least one MisuseType in the DB
+            if (!await DatabaseContext.MisuseType.AnyAsync())
             {
-                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType()
+                var fakeEquipmentType = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
                 {
-                    Id = DatabaseContext.MisuseType.First().Id,
-                    Name = "Da Vinci",
+                    Name = "Gloves",
+                    Code = "PE-G"
+                };
+
+                var misuse = new Domain.Observation.ProtectiveEquipment.MisuseType
+                {
+                    Name = "Incorrect use",
+                    ProtectiveEquipmentType = fakeEquipmentType
+                };
+
+                DatabaseContext.MisuseType.Add(misuse);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var misuseType = await DatabaseContext.MisuseType.FirstAsync();
+
+            var handler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+
+            var command = new UpdateMisuseType.Command
+            {
+                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType
+                {
+                    Id = misuseType.Id,
+                    Name = "Da Vinci"
                 },
+                // Invalid equipment type ID
                 EquipmentTypeId = 123456789
             };
 
+
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("ikke finne utstyrType"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find equipment type with ID: 123456789"),
                 async () =>
                 {
-                    await updateMisuseTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
+                    await handler.Handle(command, new System.Threading.CancellationToken());
                 }
             );
         }
 
         [Test]
-        public void UpdateMisuseType_NonExistentMisuseTypeId()
+        public async Task UpdateMisuseType_NonExistentMisuseTypeId()
         {
             // Arrange
-            var equipmentType = DatabaseContext.ProtectiveEquipmentType.First();
-            var updateMisuseTypeHandler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
-            var updateCommand = new UpdateMisuseType.Command()
+            if (!await DatabaseContext.ProtectiveEquipmentType.AnyAsync())
             {
-                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType()
+                var gloves = new Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType
                 {
-                    Id = 123456789,
-                    Name = "Da Vinci",
+                    Name = "Gloves",
+                    Code = "PE-G"
+                };
+                DatabaseContext.ProtectiveEquipmentType.Add(gloves);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var equipmentType = await DatabaseContext.ProtectiveEquipmentType.FirstAsync();
+
+            var handler = new UpdateMisuseType.Handler(DatabaseContext, Mapper);
+
+            var command = new UpdateMisuseType.Command
+            {
+                MisuseType = new Models.V1.Observation.ProtectiveEquipment.MisuseType
+                {
+                    Id = 123456789,   // non-existent MisuseType
+                    Name = "Da Vinci"
                 },
                 EquipmentTypeId = equipmentType.Id
             };
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<Exception>().And.Message.Contains("ikke finne feilbruktype"),
+                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find misuse type with ID: 123456789"),
                 async () =>
                 {
-                    await updateMisuseTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
+                    await handler.Handle(command, new System.Threading.CancellationToken());
                 }
             );
         }

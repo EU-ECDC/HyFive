@@ -45,21 +45,21 @@ namespace HyFive.Services.FiveIndication
                 
                 if (observation == null)
                 {
-                    throw new Exception("O-FI-01: Did not find observation with ID: " + request.Observation.Id);
+                    throw new ArgumentException("O-FI-01: Did not find observation with ID: " + request.Observation.Id);
                 }
                 if (observation.FiveIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new Exception("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
+                    throw new ArgumentException("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
                 }
 
                 FiveIndicatorsObservationValidator.ValidateObservation(_mapper.Map<Domain.Observation.FiveIndicationsObservation>(request.Observation));
 
                 try
                 {
-                    var indicationTypesFromRequest = _context.IndicationTypes.Where(i => request.Observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToList();
+                    var indicationTypesFromRequest = await _context.IndicationTypes.Where(i => request.Observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToListAsync(cancellationToken);
                     observation.IndicationTypes = indicationTypesFromRequest;
 
-                    var activityTypeFromRequest = _context.ActivityType.FirstOrDefault(a => a.Code == request.Observation.Activity.ActivityType.Code);
+                    var activityTypeFromRequest = await _context.ActivityType.FirstOrDefaultAsync(a => a.Code == request.Observation.Activity.ActivityType.Code, cancellationToken);
                     observation.Activity.ActivityType = activityTypeFromRequest;
                     observation.Activity.GlovesUsed = request.Observation.Activity.GlovesUsed;
                     observation.Activity.SecondsUsed = request.Observation.Activity.SecondsUsed;
@@ -67,19 +67,19 @@ namespace HyFive.Services.FiveIndication
 
                     observation.RegisteredTime = request.Observation.RegisteredTime;
 
-                    var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == request.Observation.Role.Id);
+                    var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == request.Observation.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
 
                     observation.Comment = request.Observation.Comment;
 
                     _context.Update(observation);
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {   
-                    _logger.LogError(e, "O-FI-03: Error while updating Five Indication observation.");
-                    throw;
+                    _logger.LogError(e, "Error while updating Five Indication observation.");
+                    return false;
                 }
 
                 return true;

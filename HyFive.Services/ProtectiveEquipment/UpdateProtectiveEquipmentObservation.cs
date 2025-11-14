@@ -48,12 +48,12 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (observation == null)
                 {
-                    throw new Exception("O-BU-01: Did not find observation with ID: " + request.Observation.Id);
+                    throw new ArgumentException("O-BU-01: Did not find observation with ID: " + request.Observation.Id);
                 }
 
                 if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new Exception("O-BU-02: The observation has already been transferred to FHI, and cannot be changed");
+                    throw new ArgumentException("O-BU-02: The observation has already been transferred to FHI, and cannot be changed");
                 }
 
                 var observationFromRequest =
@@ -82,25 +82,25 @@ namespace HyFive.Services.ProtectiveEquipment
                        equipment.Comment = string.IsNullOrWhiteSpace(equipmentFromRequest.Comment) ? null : equipmentFromRequest.Comment;
                        var misuseTypeIDsFromRequest = equipmentFromRequest.MisuseTypes.Select(ft => ft.Id);
                        var misuseTypesFromRequest =
-                           _context.MisuseType.Where(f => misuseTypeIDsFromRequest.Contains(f.Id)).ToList();
+                           await _context.MisuseType.Where(f => misuseTypeIDsFromRequest.Contains(f.Id)).ToListAsync(cancellationToken);
 
                        equipment.MisuseTypes = misuseTypesFromRequest;
                        
                        _context.Entry(equipment).State = EntityState.Modified;
                     }
 
-                    var roleFromRequest = _context.Role.FirstOrDefault(r => r.Id == observationFromRequest.Role.Id);
+                    var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == observationFromRequest.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
                     observation.Comment = observationFromRequest.Comment;
 
                     _context.UpdateRange(observation.ProtectiveEquipmentList);
                     _context.Update(observation);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception e)
                 {   
-                    _logger.LogError(e, "O-BU-03: Error while updating Protective Equipment observation");
-                    throw;
+                    _logger.LogError(e, "Error while updating Protective Equipment observation");
+                    return false;
                 }
 
                 return true;

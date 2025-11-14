@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export class ProtectiveEquipmentCodingService {
 
-  constructor(private httpClient: HttpClient){}
+  constructor(private readonly httpClient: HttpClient){}
 
   getProtectiveEquipmentSettings() : Observable<ProtectiveEquipmentSettingType[]> {
     const url = `${environment.apiBaseUrl}/v1/protectiveequipment/`;

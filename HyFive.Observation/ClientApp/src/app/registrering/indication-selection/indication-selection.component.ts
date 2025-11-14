@@ -29,8 +29,8 @@ export class IndicationSelectionComponent implements OnInit {
   @Input("isReadonly") isReadonly: boolean;
   @Output() indicationSelectionChangedEvent = new EventEmitter<IndicationType[]>();
 
-  constructor(private observationEventService: ObservationEventService,
-    private indicationService: IndicationService) { }
+  constructor(private readonly observationEventService: ObservationEventService,
+              private readonly indicationService: IndicationService) { }
 
   ngOnInit(): void {
     this.indicationService.getIndicationTypes().subscribe((indicationTypes) => {

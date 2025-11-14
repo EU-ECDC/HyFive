@@ -10,7 +10,7 @@ namespace HyFive.Models.V1.Constants
         [TsProperty(Constant = true)]
         public static string Handwash = "HANDWASH";
         [TsProperty(Constant = true)]
-        public static string NotExecuted = "NOT_EXECUTTED";
+        public static string NotPerformed = "NOT_PERFORMED";
         [TsProperty(Constant = true)]
         public static string NotRegistered = "NOT_REGISTERED";
     }

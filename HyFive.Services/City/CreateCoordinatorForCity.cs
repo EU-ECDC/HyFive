@@ -59,7 +59,7 @@ namespace HyFive.Services.City
                         }
                     }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 
                 }
@@ -108,12 +108,12 @@ namespace HyFive.Services.City
             private Coordinator GetCoordinator(int facilityId, string email)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Facility.Id == facilityId &&
-                                                                        ((!string.IsNullOrEmpty(k.Email) &&
-                                                                        k.Email == email)));
+                                                                        (!string.IsNullOrEmpty(k.Email) &&
+                                                                        k.Email == email));
                 return coordinator;
             }
 
-            private bool CanCoordinatorBeUpdated(CityCoordinator coordinator, out string errorMessage)
+            private static bool CanCoordinatorBeUpdated(CityCoordinator coordinator, out string errorMessage)
             {
                 errorMessage = "";
 
@@ -134,12 +134,6 @@ namespace HyFive.Services.City
                     errorMessage = "Email must be filled in";
                     return false;
                 }
-
-                //if (!string.IsNullOrWhiteSpace(coordinator.IdentityPseudonym) && !UserValidator.IsValidIdentityPseudonym(coordinator.IdentityPseudonym))
-                //{
-                //    errorMessage = " Identity pseudonym is not valid";
-                //    return false;
-                //}
 
                 return true;
             }

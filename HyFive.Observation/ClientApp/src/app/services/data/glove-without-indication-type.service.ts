@@ -8,7 +8,7 @@ import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicat
 })
 export class GloveWithoutIndicationTypeService {
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getGloveWithoutIndicationTypes(): Observable<GloveWithoutIndicationType[]> {

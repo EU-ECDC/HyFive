@@ -28,7 +28,7 @@ namespace HyFive.Services.City
 
             public async Task<List<Models.V1.Facility.City>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (_context.City.Any())
+                if (await _context.City.AnyAsync(cancellationToken))
                 {
                     var allCities = await _context.City
                                                          .AsNoTracking()

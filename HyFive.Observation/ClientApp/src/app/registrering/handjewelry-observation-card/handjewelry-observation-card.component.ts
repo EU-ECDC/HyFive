@@ -60,7 +60,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
   @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(
-    private handJewelryTypeService: HandJewelryTypeService,
+    private readonly handJewelryTypeService: HandJewelryTypeService,
     protected modalService: NgbModal) {
     super(modalService);
   }

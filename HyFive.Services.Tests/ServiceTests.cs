@@ -53,7 +53,7 @@ namespace HyFive.Services.Tests
             DatabaseContext.FacilityType.Add(facilityType);
             DatabaseContext.DepartmentType.Add(deptType);
 
-            DatabaseContext.SaveChanges();
+            await DatabaseContext.SaveChangesAsync();
         }
 
         [TearDown]
@@ -80,7 +80,11 @@ namespace HyFive.Services.Tests
             var CreateInstitutionHandler = new CreateFacility.Handler(DatabaseContext, Mapper);
 
             DatabaseContext.Role.AddRange(new Domain.Observation.Role("Doctor"), new Domain.Observation.Role("Nurse"));
-            DatabaseContext.SaveChanges();
+            await DatabaseContext.SaveChangesAsync();
+
+            var facilityTypeId = (await DatabaseContext.FacilityType.FirstAsync()).Id;
+            var cityId = (await DatabaseContext.City.FirstAsync()).Id;
+
             var facility = await CreateInstitutionHandler.Handle(new CreateFacility.Command()
             {
                 Request = new CreateFacilityRequest()
@@ -89,9 +93,9 @@ namespace HyFive.Services.Tests
                     CoordinatorLastName = "Test",
                     CoordinatorFirstName = "User",
                     Abbreviation = "test1",
-                    FacilityTypeId = DatabaseContext.FacilityType.First().Id,
+                    FacilityTypeId = facilityTypeId,
                     FacilityName = "FacilityTest",
-                    CityId = DatabaseContext.City.First().Id
+                    CityId = cityId
                 }
             }, CancellationToken.None);
 
@@ -126,10 +130,10 @@ namespace HyFive.Services.Tests
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
             var departmentModel = Mapper.Map<Models.V1.Facility.Department>(
-                department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
-            var institution = DatabaseContext.Facility.First(x => x.Id == departmentModel.FacilityId);
-            var activityTypes = DatabaseContext.ActivityType.ToList();
-            var indicationTypesList = DatabaseContext.IndicationTypes.ToList();
+                department ?? await DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).FirstAsync());
+            var institution = await DatabaseContext.Facility.FirstAsync(x => x.Id == departmentModel.FacilityId);
+            var activityTypes = await DatabaseContext.ActivityType.ToListAsync();
+            var indicationTypesList = await DatabaseContext.IndicationTypes.ToListAsync();
 
             var saveFiveIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
             var observation = new FiveIndicatorsObservation()
@@ -156,7 +160,7 @@ namespace HyFive.Services.Tests
                 },
                 Comment = "Cooment for observation",
                 RegisteredTime = DateTime.UtcNow,
-                Role = useDefaultRole ? departmentModel.Roles.First() : role,
+                Role = useDefaultRole ? departmentModel.Roles[0] : role,
                 SessionId = sessionId.ToString()
             };
 

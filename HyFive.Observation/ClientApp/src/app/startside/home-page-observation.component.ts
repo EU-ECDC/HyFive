@@ -38,12 +38,12 @@ export class HomePageForObservationComponent implements OnInit {
   faCheck = faCheck;
 
   constructor(
-    private router: Router,
-    private fiveIndicationsSessionService: FiveIndicationsSessionService,
-    private handJewelrySessionService: HandJewelrySessionService,
-    private gloveSessionService: GloveSessionService,
-    private facilityService: FacilityService,
-    private authorizationService: AuthorizationService
+    private readonly router: Router,
+    private readonly fiveIndicationsSessionService: FiveIndicationsSessionService,
+    private readonly handJewelrySessionService: HandJewelrySessionService,
+    private readonly gloveSessionService: GloveSessionService,
+    private readonly facilityService: FacilityService,
+    private readonly authorizationService: AuthorizationService
   ) {}
 
   ngOnInit() {
@@ -187,13 +187,13 @@ export class HomePageForObservationComponent implements OnInit {
 
   getSelectedDepartment(): Department {
     return this.facility.departments.find(
-      (x) => x.id === parseInt(this.selectedDepartmentId)
+      (x) => x.id === Number.parseInt(this.selectedDepartmentId)
     );
   }
 
   selectedDepartmentChanged() {
     this.roleSelected = this.facility?.departments
-      .find((x) => x.id === parseInt(this.selectedDepartmentId))
+      .find((x) => x.id === Number.parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;
       });

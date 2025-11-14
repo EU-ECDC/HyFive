@@ -30,11 +30,17 @@ namespace HyFive.Services.Department
 
             public async Task<Models.V1.Facility.Department> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Department
+                var entity = await _context.Department
                     .AsNoTracking()
-                    .Where(a => a.Id == request.Id)
-                    .ProjectTo<Models.V1.Facility.Department>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync();
+                    .Include(d => d.Facility)
+                    .Include(d => d.Roles)
+                    .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
+
+                if (entity == null)
+                    return null;
+
+                return _mapper.Map<Models.V1.Facility.Department>(entity);
+
             }
         }
     }

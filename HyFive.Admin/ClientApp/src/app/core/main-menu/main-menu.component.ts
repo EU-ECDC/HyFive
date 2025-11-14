@@ -42,7 +42,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   setSelectedRole() {
-    var selectedRole = this.authorizationService.getSelectedRole();
+    let selectedRole = this.authorizationService.getSelectedRole();
     if (selectedRole != null) {
       let authorizedrolle = this.authorizedRoles.find(p => p === selectedRole);
       if (authorizedrolle != null) {

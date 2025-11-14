@@ -7,7 +7,6 @@ import { Role } from "src/app/models/api/Role";
 import { Department } from "src/app/models/api/Department";
 import { Uuid } from "src/app/utils/uuid";
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
-import { Card } from '../../models/registration/card.model';
 import { ProtectiveEquipmentCard } from "src/app/models/registration/protectiveEquipment-card.model";
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Observable } from 'rxjs';
@@ -28,14 +27,14 @@ export class ProtectiveEquipmentSessionService extends BaseSessionService<Protec
 
   constructor(
     public facilityService: FacilityService,
-    private httpClient: HttpClient) {
+    private readonly httpClient: HttpClient) {
     super(facilityService);
   }
 
   public sendToServer(sessionId: string): Observable<string> {
-    var sessions = this.getSessions();
-    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
-    var sessionToSend = sessions[sessionIndex];
+    let sessions = this.getSessions();
+    let sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    let sessionToSend = sessions[sessionIndex];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/protectiveEquipment`, sessionToSend)
   }
 
@@ -54,7 +53,7 @@ export class ProtectiveEquipmentSessionService extends BaseSessionService<Protec
       setting: setting
     };
 
-    var sessionViews = this.getSessionViews();
+    let sessionViews = this.getSessionViews();
     sessionViews.push(sessionView);
     this.saveSessionViews(sessionViews);
 
@@ -62,8 +61,8 @@ export class ProtectiveEquipmentSessionService extends BaseSessionService<Protec
   }
 
   updateSessionEquipmentTypes(sessionId: string, equipmentTypes: ProtectiveEquipmentType[]){
-    var sessionViews = this.getSessionViews();
-    var sessionviewToBeUpdated = sessionViews.find(s => s.sessionId == sessionId);
+    let sessionViews = this.getSessionViews();
+    let sessionviewToBeUpdated = sessionViews.find(s => s.sessionId == sessionId);
     sessionviewToBeUpdated.setting.equipmentTypes = equipmentTypes;
     this.saveSessionViews(sessionViews);
     this.protectiveEquipmentUpdated.emit(equipmentTypes);

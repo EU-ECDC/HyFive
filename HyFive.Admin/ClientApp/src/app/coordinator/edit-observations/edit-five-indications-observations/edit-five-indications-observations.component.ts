@@ -76,7 +76,7 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
   }
 
   updateFiveIndicationsObservation() {
-    if (this.fiveIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotExecuted
+    if (this.fiveIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotPerformed
       || this.fiveIndicationsObservationWhichChanged.activity.activityType.code === ActivityTypeConstants.NotRegistered) {
       this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
       this.fiveIndicationsObservationWhichChanged.activity.timingWasPerformed = false;

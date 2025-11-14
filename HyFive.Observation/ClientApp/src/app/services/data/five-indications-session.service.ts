@@ -23,14 +23,14 @@ export class FiveIndicationsSessionService extends BaseSessionService<FiveIndica
 
   constructor(
     public facilityService: FacilityService,
-    private httpClient: HttpClient) {
+    private readonly httpClient: HttpClient) {
     super(facilityService);
   }
 
   public sendToServer(sessionId: string): Observable<string> {
-    var sessions = this.getSessions();
-    var sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
-    var sessionToSend = sessions[sessionIndex];
+    let sessions = this.getSessions();
+    let sessionIndex = sessions.map(s => s.id).indexOf(sessionId);
+    let sessionToSend = sessions[sessionIndex];
     return this.httpClient.post<string>(`${environment.apiBaseUrl}/v1/fiveindications`, sessionToSend)
   }
 
@@ -49,7 +49,7 @@ export class FiveIndicationsSessionService extends BaseSessionService<FiveIndica
       timeShouldBeRegistred: timeShouldBeRegistred,
       card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
-    var sessionViews = this.getSessionViews()
+    let sessionViews = this.getSessionViews()
     sessionViews.push(fiveIndicationsSessionView);
     this.saveSessionViews(sessionViews);
 

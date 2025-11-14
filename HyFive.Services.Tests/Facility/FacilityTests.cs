@@ -1,3 +1,4 @@
+using HyFive.Domain.User;
 using HyFive.Models.V1.Facility;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Facility;
@@ -48,7 +49,7 @@ namespace HyFive.Services.Tests.Facility
             Assert.Multiple(() =>
             {
                 Assert.That(res.Select(r => r.Id).ToList(), Contains.Item(facility.Id));
-                Assert.That(res.Count(), Is.EqualTo(DatabaseContext.Facility.ToList().Count));
+                Assert.That(res.Count, Is.EqualTo(DatabaseContext.Facility.ToList().Count));
             });
         }
 
@@ -56,16 +57,48 @@ namespace HyFive.Services.Tests.Facility
         public async Task GetFacilitiesForCoordinatorTest()
         {
             // Arrange
-            var getFacilitiesForCoordinatorHandler =
-                new GetFacilitiesForCoordinator.Handler(DatabaseContext, Mapper);
+            
+                var facilityType = await DatabaseContext.FacilityType.FirstOrDefaultAsync() ??
+                    new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
+
+                if (facilityType.Id == 0)
+                {
+                    DatabaseContext.FacilityType.Add(facilityType);
+                    await DatabaseContext.SaveChangesAsync();
+                }
+
+                var facility = new Domain.Place.Facility
+                {
+                    Name = "Coordinator Facility",
+                    Abbreviation = "CF",
+                    HERId = "HER999",
+                    FacilityType = facilityType,
+                    City = new Domain.Place.City { Name = "Oslo" }
+                };
+
+            var coordinator = new Domain.User.User
+            {
+                Email = "test@gmail.com",
+                FirstName = "Test",
+                LastName = "Coordinator",
+                Discriminator = nameof(Coordinator),
+                IsDeactivated = false
+            };
+            coordinator.Facility = facility;
+            facility.Users.Add(coordinator);
+            DatabaseContext.Facility.Add(facility);
+                await DatabaseContext.SaveChangesAsync();
+            
+
+            var handler = new GetFacilitiesForCoordinator.Handler(DatabaseContext, Mapper);
+
 
             // Act
-            var facilities = await getFacilitiesForCoordinatorHandler.Handle(
-                new GetFacilitiesForCoordinator.Query()
-                {
-                    CoordinatorEmail = "test@gmail.com"
-                }, CancellationToken.None);
-
+            var facilities = await handler.Handle(
+             new GetFacilitiesForCoordinator.Query
+             {
+                 CoordinatorEmail = "test@gmail.com"
+             }, CancellationToken.None);
 
             // Assert
             Assert.That(facilities.Length, Is.GreaterThan(0));
@@ -77,7 +110,7 @@ namespace HyFive.Services.Tests.Facility
         {
             // Arrange
             var handler = new GetFacilityTypes.Handler(DatabaseContext, Mapper);
-            var existingTypeCodes = DatabaseContext.FacilityType.Select(i => i.Code).ToList();
+            var existingTypeCodes = await DatabaseContext.FacilityType.Select(i => i.Code).ToListAsync();
 
             // Act
             var types = await handler.Handle(new GetFacilityTypes.Query(), CancellationToken.None);
@@ -93,9 +126,9 @@ namespace HyFive.Services.Tests.Facility
             (var facility, _) = await CreateFacility();
             var handler = new GetCoordinatorsForFacility.Handler(DatabaseContext, Mapper);
             var numberOfCoordinatorsAssignedToFacility =
-                DatabaseContext.Coordinator
+                await DatabaseContext.Coordinator
                     .Include(k => k.Facility)
-                    .Count(k => k.Facility.Id == facility.Id);
+                    .CountAsync(k => k.Facility.Id == facility.Id);
 
             // Act
             var coordinators =
@@ -114,9 +147,9 @@ namespace HyFive.Services.Tests.Facility
             (var facility, var observer) = await CreateFacility();
             var handler = new GetObserversForFacility.Handler(DatabaseContext, Mapper);
             var numberOfCoordinatorsAssignedToFacility =
-                DatabaseContext.Observer
+                await DatabaseContext.Observer
                     .Include(k => k.Facility)
-                    .Count(k => k.Facility.Id == facility.Id);
+                    .CountAsync(k => k.Facility.Id == facility.Id);
 
             // Act
             var observers =
@@ -136,9 +169,22 @@ namespace HyFive.Services.Tests.Facility
         {
             // Arrange
             var getPredefinedCommentsHandler = new GetPredefinedComments.Handler(DatabaseContext);
-            var facility = (await new GetFacilitiesForCoordinator.Handler(DatabaseContext, Mapper).Handle(
-                new GetFacilitiesForCoordinator.Query()
-                { CoordinatorEmail = "test@gmail.com" }, CancellationToken.None)).First();
+            var facilityEntity = await DatabaseContext.Facility.FirstOrDefaultAsync();
+            if (facilityEntity == null)
+            {
+                facilityEntity = new Domain.Place.Facility
+                {
+                    Name = "Test Facility",
+                    Abbreviation = "TF",
+                    HERId = "HER123",
+                    FacilityType = new Domain.Place.FacilityType { Name = "HospitalTest", Code = "TESTHOSP" },
+                    City = new Domain.Place.City { Name = "Oslo" }
+                };
+                DatabaseContext.Facility.Add(facilityEntity);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var facilityId = facilityEntity.Id;
 
             var createPredefinedCommentHandler = new CreatePredefinedComment.Handler(DatabaseContext);
 
@@ -150,11 +196,11 @@ namespace HyFive.Services.Tests.Facility
             // Act
 
             var couldCreateComment = await createPredefinedCommentHandler.Handle(
-                new CreatePredefinedComment.Command() { NewPredefinedComment = commentsRequest, FacilityId = facility.Id }, CancellationToken.None);
+                new CreatePredefinedComment.Command() { NewPredefinedComment = commentsRequest, FacilityId = facilityId }, CancellationToken.None);
 
             var comments = await getPredefinedCommentsHandler.Handle(new GetPredefinedComments.Query()
             {
-                FacilityId = facility.Id,
+                FacilityId = facilityId,
                 SessionType = SessionType.ProtectiveEquipment
             }, CancellationToken.None);
 
@@ -182,7 +228,7 @@ namespace HyFive.Services.Tests.Facility
             { Facility = facility }, CancellationToken.None);
 
             // Assert
-            Assert.That(DatabaseContext.Facility.First(i => i.Id == facility.Id).Name, Is.EqualTo(newName));
+            Assert.That((await DatabaseContext.Facility.FirstAsync(i => i.Id == facility.Id)).Name, Is.EqualTo(newName));
 
         }
 
@@ -191,8 +237,8 @@ namespace HyFive.Services.Tests.Facility
         {
             // Arrange
             var updateFacilityTypeHandler = new UpdateFacilityType.Handler(DatabaseContext, Mapper);
-            var originalType = DatabaseContext.FacilityType.First();
-            var newName = $"NAVN{Guid.NewGuid()}";
+            var originalType = await DatabaseContext.FacilityType.FirstAsync();
+            var newName = $"NAME{Guid.NewGuid()}";
 
             // Act
             await updateFacilityTypeHandler.Handle(new UpdateFacilityType.Command()
@@ -206,7 +252,7 @@ namespace HyFive.Services.Tests.Facility
             }, CancellationToken.None);
 
             // Assert
-            var typeAfterUpdate = DatabaseContext.FacilityType.First(k => k.Id == originalType.Id);
+            var typeAfterUpdate = await DatabaseContext.FacilityType.FirstAsync(k => k.Id == originalType.Id);
             Assert.That(typeAfterUpdate.Name, Is.EqualTo(newName));
             Assert.That(typeAfterUpdate.Code, Is.EqualTo(originalType.Code));
         }
@@ -216,7 +262,7 @@ namespace HyFive.Services.Tests.Facility
         {
             // Arrange and Act
             (var createFacility, _) = await CreateFacility();
-            var createFacilityFromDatabase = DatabaseContext.Facility.Include(i => i.Departments).FirstOrDefault(i => i.Id == createFacility.Id);
+            var createFacilityFromDatabase = await DatabaseContext.Facility.Include(i => i.Departments).FirstOrDefaultAsync(i => i.Id == createFacility.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -233,7 +279,7 @@ namespace HyFive.Services.Tests.Facility
         {
             // Arrange and Act
             var createType = await CreateFacilityType();
-            var createTypeFromDatabase = DatabaseContext.FacilityType.First(i => i.Id == createType.Id);
+            var createTypeFromDatabase = await DatabaseContext.FacilityType.FirstAsync(i => i.Id == createType.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -247,7 +293,7 @@ namespace HyFive.Services.Tests.Facility
         public async Task CreateFacilityType_ExistingCode_ThrowsException()
         {
             // Arrange
-            var createdType = await CreateFacilityType(code: "CODE");
+            _ = await CreateFacilityType(code: "CODE");
 
             // Act and Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>

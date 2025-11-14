@@ -17,9 +17,17 @@ namespace HyFive.Services.Tests.Department
             var getDepartmentHandler = new GetDepartment.Handler(DatabaseContext, Mapper);
             var query = new GetDepartment.Query() { Id = 9999 };
 
-            var department = new Domain.Place.Department { Id = 9999, FacilityId = DatabaseContext.Facility.First().Id };
+            var facility = await DatabaseContext.Facility.FirstOrDefaultAsync();
+            if (facility == null)
+            {
+                facility = new Domain.Place.Facility { Name = "Test Facility" };
+                DatabaseContext.Facility.Add(facility);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var department = new Domain.Place.Department { Id = 9999, FacilityId = facility.Id };
             DatabaseContext.Department.Add(department);
-            DatabaseContext.SaveChanges();
+            await DatabaseContext.SaveChangesAsync();
 
             // Act
             var res = await getDepartmentHandler.Handle(query, new System.Threading.CancellationToken());
@@ -51,7 +59,7 @@ namespace HyFive.Services.Tests.Department
             DatabaseContext.Facility.Add(facility);
             DatabaseContext.Department.Add(department);
             DatabaseContext.Department.Add(department2);
-            DatabaseContext.SaveChanges();
+            await DatabaseContext.SaveChangesAsync();
 
             var getDepartmentsForFacility = new GetDepartmentsForFacility.Handler(DatabaseContext, Mapper);
             var query = new GetDepartmentsForFacility.Query() { FacilityId = 9999 };
@@ -87,12 +95,30 @@ namespace HyFive.Services.Tests.Department
         [Test]
         public async Task CreateDepartmentTest()
         {
+            // Arrange: seed required data if missing
+            if (!await DatabaseContext.Facility.AnyAsync())
+            {
+                DatabaseContext.Facility.Add(new Domain.Place.Facility { Name = "Test Facility" });
+            }
+
+            if (!await DatabaseContext.DepartmentType.AnyAsync())
+            {
+                DatabaseContext.DepartmentType.Add(new Domain.Place.DepartmentType { Name = "Test Type" });
+            }
+
+            if (!await DatabaseContext.Role.AnyAsync())
+            {
+                DatabaseContext.Role.Add(new Domain.Observation.Role { Name = "Test Role" });
+            }
+
+            await DatabaseContext.SaveChangesAsync();
+
             // Arrange and Act
             var createDepartment = await CreateDepartment();
-            var createdDepartmentFromDatabase = DatabaseContext.Department
+            var createdDepartmentFromDatabase = await DatabaseContext.Department
                 .Include(a => a.Facility)
                 .Include(a => a.Roles)
-                .FirstOrDefault(a => a.Id == createDepartment.Id);
+                .FirstOrDefaultAsync(a => a.Id == createDepartment.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -109,8 +135,8 @@ namespace HyFive.Services.Tests.Department
         {
             // Arrange and Act
             var createDepartmentType = await CreateDepartmentType();
-            var createdDepartmentTypeFromDatabase = DatabaseContext.DepartmentType
-                .FirstOrDefault(a => a.Id == createDepartmentType.Id);
+            var createdDepartmentTypeFromDatabase = await DatabaseContext.DepartmentType
+                .FirstOrDefaultAsync(a => a.Id == createDepartmentType.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -128,14 +154,37 @@ namespace HyFive.Services.Tests.Department
             var roleIds = new List<int>() { 1 };
             var updateDepartment = await CreateDepartment(roleIds: roleIds);
             var updateDepartmentHandler = new UpdateDepartment.Handler(DatabaseContext, Mapper);
+
+            var otherDepartmentType = await DatabaseContext.DepartmentType
+                .FirstOrDefaultAsync(at => at.Id != updateDepartment.DepartmentTypeId);
+
+            if (otherDepartmentType == null)
+            {
+                // Create another department type if none exists
+                otherDepartmentType = new Domain.Place.DepartmentType { Name = "Another Test Type", Code = "AAA"};
+                DatabaseContext.DepartmentType.Add(otherDepartmentType);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var otherRole = await DatabaseContext.Role
+                .FirstOrDefaultAsync(x => !roleIds.Contains(x.Id));
+
+            if (otherRole == null)
+            {
+                // Create another role if none exists
+                otherRole = new Domain.Observation.Role { Name = "Extra Role" };
+                DatabaseContext.Role.Add(otherRole);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
             var updateCommand = new UpdateDepartment.Command()
             {
                 Id = updateDepartment.Id,
                 Name = "Da Vinci",
-                DepartmentTypeId = DatabaseContext.DepartmentType.FirstOrDefault(at => at.Id != updateDepartment.DepartmentTypeId).Id,
+                DepartmentTypeId = otherDepartmentType.Id,
                 Role = new List<Models.V1.Observation.Role>()
                 {
-                    Mapper.Map<Domain.Observation.Role, Models.V1.Observation.Role>(DatabaseContext.Role.First(x => !roleIds.Contains(x.Id)))
+                    Mapper.Map<Domain.Observation.Role, Models.V1.Observation.Role>(otherRole)
                 }
             };
 
@@ -149,7 +198,7 @@ namespace HyFive.Services.Tests.Department
                 Assert.That(updateResults.Name, Is.Not.EqualTo(updateDepartment.Name));
                 Assert.That(updateResults.DepartmentTypeId, Is.Not.EqualTo(updateDepartment.DepartmentTypeId));
                 Assert.That(updateResults.Roles.Count, Is.EqualTo(updateCommand.Role.Count));
-                Assert.That(updateResults.Roles, Does.Not.Contain(updateDepartment.Roles.First().Id));
+                Assert.That(updateResults.Roles, Does.Not.Contain(updateDepartment.Roles[0].Id));
             });
         }
 
@@ -167,8 +216,6 @@ namespace HyFive.Services.Tests.Department
 
             // Act
             var updateResults = await updateDepartmentHandler.Handle(updateCommand, new System.Threading.CancellationToken());
-
-            var a = DatabaseContext.Department.FirstOrDefault(x => x.Id == updateDepartment.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -237,22 +284,47 @@ namespace HyFive.Services.Tests.Department
 
         #region Helper-methods
 
-        private async Task<Models.V1.Facility.Department> CreateDepartment(int institusjonsId = 0, List<int> roleIds = null, int avdelingTypeId = 0)
+        private async Task<Models.V1.Facility.Department> CreateDepartment(int institutionsId = 0, List<int> roleIds = null, int departmentTypeId = 0)
         {
             var createDepartmentHandler = new CreateDepartment.Handler(DatabaseContext, Mapper);
+
+            var facility = await DatabaseContext.Facility.FirstOrDefaultAsync();
+            if (facility == null)
+            {
+                facility = new Domain.Place.Facility { Name = "Test Facility" };
+                DatabaseContext.Facility.Add(facility);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var deptType = await DatabaseContext.DepartmentType.FirstOrDefaultAsync();
+            if (deptType == null)
+            {
+                deptType = new Domain.Place.DepartmentType { Name = "Test Type" };
+                DatabaseContext.DepartmentType.Add(deptType);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var role = await DatabaseContext.Role.FirstOrDefaultAsync();
+            if (role == null)
+            {
+                role = new Domain.Observation.Role { Name = "Test Role" };
+                DatabaseContext.Role.Add(role);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
             var createCommand = new CreateDepartment.Command()
             {
                 Request = new Models.V1.Facility.CreateDepartmentRequest()
                 {
                     Name = "Test",
-                    FacilityId = institusjonsId == 0 ? DatabaseContext.Facility.First().Id : institusjonsId,
-                    DepartmentTypeId = avdelingTypeId == 0 ? DatabaseContext.DepartmentType.First().Id : avdelingTypeId,
-                    RoleIds = roleIds ?? new List<int>() { DatabaseContext.Role.First().Id }
+            FacilityId = institutionsId != 0 ? institutionsId : facility.Id,
+            DepartmentTypeId = departmentTypeId != 0 ? departmentTypeId : deptType.Id,
+            RoleIds = roleIds ?? new List<int> { role.Id }
                 }
             };
 
             var createResults = await createDepartmentHandler.Handle(createCommand, new System.Threading.CancellationToken());
-
+            
             return createResults;
         }
 

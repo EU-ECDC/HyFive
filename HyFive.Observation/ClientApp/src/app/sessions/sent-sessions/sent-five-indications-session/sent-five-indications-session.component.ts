@@ -30,11 +30,11 @@ export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
   Urls = Urls;
 
   constructor(
-    private sessionService: SentSessionsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private activityService: ActivityService,
-    private toastrService: ToastrService) {
+    private readonly sessionService: SentSessionsService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly activityService: ActivityService,
+    private readonly toastrService: ToastrService) {
 
   }
 
@@ -95,9 +95,6 @@ export class SentFiveIndicationsSessionComponent implements OnInit, OnDestroy {
 
   receivedInternetStatus(hasInternet: boolean){
     this.isOnline = hasInternet;
-    if(this.isOnline) {
-
-    }
   }
 
   downloadAsExcelFnct() {

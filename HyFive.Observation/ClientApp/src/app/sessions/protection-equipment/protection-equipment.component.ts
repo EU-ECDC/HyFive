@@ -34,10 +34,10 @@ export class ProtectiveEquipmentComponent implements OnInit {
 
 
   constructor(
-    private sessionService: ProtectiveEquipmentSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastrService: ToastrService) {
+    private readonly sessionService: ProtectiveEquipmentSessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastrService: ToastrService) {
 
   }
 

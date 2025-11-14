@@ -50,21 +50,21 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                 if (request.Interval == IntervalMonth)
                 {
-                    fromDate = new DateTime(request.FromYear, request.FromMonth, 1);
-                    toDate = new DateTime(request.ToYear, request.ToMonth, 1).AddMonths(1); // exclusive
+                    fromDate = new DateTime(request.FromYear, request.FromMonth, 1, 0, 0, 0, DateTimeKind.Utc);
+                    toDate = new DateTime(request.ToYear, request.ToMonth, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1); // exclusive
                 }
                 else if (request.Interval == IntervalQuarter)
                 {
                     int fromMonth = ((request.FromQuarter - 1) * 3) + 1; // Q1 = 1, Q2 = 4, Q3 = 7, Q4 = 10
                     int toMonth = ((request.ToQuarter - 1) * 3) + 1;
 
-                    fromDate = new DateTime(request.FromYear, fromMonth, 1);
-                    toDate = new DateTime(request.ToYear, toMonth, 1).AddMonths(3); // add full quarter (exclusive end)
+                    fromDate = new DateTime(request.FromYear, fromMonth, 1, 0, 0, 0, DateTimeKind.Utc);
+                    toDate = new DateTime(request.ToYear, toMonth, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(3); // add full quarter (exclusive end)
                 }
                 else // IntervalYear
                 {
-                    fromDate = new DateTime(request.FromYear, 1, 1);
-                    toDate = new DateTime(request.ToYear + 1, 1, 1); // exclusive end
+                    fromDate = new DateTime(request.FromYear, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                    toDate = new DateTime(request.ToYear + 1, 1, 1, 0, 0, 0, DateTimeKind.Utc); // exclusive end
                 }
 
                 var fromDateUtc = DateTime.SpecifyKind(fromDate, DateTimeKind.Utc);
@@ -106,7 +106,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code != TransferStatusTypeConstants.TransferredToAdmin);
                 }
 
-                var observationsInCurrentTimePeriod = observationsInCurrentTimePeriodQuery.ToList();
+                var observationsInCurrentTimePeriod = await observationsInCurrentTimePeriodQuery.ToListAsync(cancellationToken);
                 var complianceGraphData = CreateComplianceGraphData(observationsInCurrentTimePeriod, request.Interval, fromDateUtc, toDateUtc);
 
                 RemoveElementsWithNoRegistrationsAtTheBeginningOfTheSearchPeriod(complianceGraphData);
@@ -201,7 +201,7 @@ namespace HyFive.Services.Reports.FiveIndicators
 
                     decimal numberOfCompliedIndications = compliedIndications.Sum(item => item.Count);
 
-                    string periodName = CalculatePeriodName(interval, PeriodFromDate, PeriodToDate);
+                    string periodName = CalculatePeriodName(interval, PeriodFromDate);
                     var point = CreatePoint(numberOfIndicators, numberOfCompliedIndications, periodName);
                     ListOfPoints.Add(point);
                 }
@@ -238,7 +238,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                     decimal numberOfObservationsInPeriod = observationsInPeriod.Count();
                     decimal numberOfCompliedObservationsInPeriod = compliedObservationsInPeriod.Count();
 
-                    string periodName = CalculatePeriodName(interval, periodFromDate, periodToDate);
+                    string periodName = CalculatePeriodName(interval, periodFromDate);
                     var point = CreatePoint(numberOfObservationsInPeriod, numberOfCompliedObservationsInPeriod, periodName);
 
                     pointList.Add(point);
@@ -265,7 +265,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 return points;
             }
 
-            private static string CalculatePeriodName(string interval, DateTime periodFromDate, DateTime periodToDate)
+            private static string CalculatePeriodName(string interval, DateTime periodFromDate)
             {
                 if (interval == IntervalMonth)
                 {
@@ -324,7 +324,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 }
             }
 
-            private void RemoveElementsWithNoRecordsAtEndOfSearchPeriod(List<ComplianceGraphData> complianceGraphData)
+            private static void RemoveElementsWithNoRecordsAtEndOfSearchPeriod(List<ComplianceGraphData> complianceGraphData)
             {
                 var allIndicatorsGraphData = complianceGraphData.First(x => x.Name == "All indications");
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { Session } from '../../models/api/Session';
 import { faPlus, faClipboard, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -19,10 +19,10 @@ export class ObservationCounterComponent {
 
   @Input() sessionsdata: Session<any>;
   @Input() url;
-  constructor(private mainMenuEventService: MainMenuEventService) { }
+  constructor(private readonly mainMenuEventService: MainMenuEventService) { }
 
   numberOfObservations() : number {
-    var number =  this.sessionsdata?.observations?.length;
+    let number =  this.sessionsdata?.observations?.length;
     if(number != null)
     {
       return number;

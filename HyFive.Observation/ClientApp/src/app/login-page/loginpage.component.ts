@@ -18,8 +18,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   hasFacilities: boolean = false;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private toastrService: ToastrService
+    private readonly authorizationService: AuthorizationService,
+    private readonly toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {

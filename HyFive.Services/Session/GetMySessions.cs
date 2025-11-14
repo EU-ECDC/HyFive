@@ -35,12 +35,12 @@ namespace HyFive.Services.Session
                 var sessions = await _context.Session
                     .Include(s => s.Department)
                     .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
-                    .Where(s => s.Observer.IsDeactivated == false &&
+                    .Where(s => !s.Observer.IsDeactivated &&
                             s.Observer.Email == request.Email)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                int count = sessions.Count();
+                int count = sessions.Count;
                 sessions = sessions.Skip(request.Search.Skip).Take(request.Search.Take).ToList(); 
 
                 var mapped = _mapper.Map<List<Domain.Session.Session>, List<SessionReport>>(sessions);

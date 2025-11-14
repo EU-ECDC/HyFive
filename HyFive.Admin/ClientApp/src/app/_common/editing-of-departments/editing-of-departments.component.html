@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row" *ngIf="canEdit && !loading">
-    <h3>Department maintenance</h3>
+    <h3>Create Department</h3>
   </div>
   <app-create-department (departmentCreatedEvent)="getDepartments()" [facilityId]="facilityId" [departments]="filteredDepartments" *ngIf="canCreate()"></app-create-department>
   <div class="row mb-5 mt-5" *ngIf="departments?.length > 0">

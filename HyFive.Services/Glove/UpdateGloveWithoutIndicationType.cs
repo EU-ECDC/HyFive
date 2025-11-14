@@ -32,7 +32,7 @@ namespace HyFive.Services.Glove
                 var gloveWithoutIndicationType = await _context.GloveWithoutIndicationType
                     .FirstOrDefaultAsync(x => x.Id == request.GloveWithoutIndicationType.Id);
 
-                if (gloveWithoutIndicationType == null) throw new Exception($"Did not find gloveWithoutIndicationType with ID: {request.GloveWithoutIndicationType.Id}");
+                if (gloveWithoutIndicationType == null) throw new ArgumentException($"Did not find gloveWithoutIndicationType with ID: {request.GloveWithoutIndicationType.Id}");
 
                 gloveWithoutIndicationType.Name = request.GloveWithoutIndicationType.Name;
 

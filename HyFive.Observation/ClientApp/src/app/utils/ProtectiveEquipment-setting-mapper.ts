@@ -5,7 +5,7 @@ import { faDroplet, faFaceSideCough, faBacteria } from './customIcons';
 
 export class ProtectiveEquipmentSettingMapper {
   public static getIconTypeMap() : Map<string, IconProp>{
-    var iconmap = new Map<string, IconProp>();
+    let iconmap = new Map<string, IconProp>();
     iconmap.set(ProtectiveEquipmentSettingTypeConstants.BasicIsolationRoutines, faBacteria);
     iconmap.set(ProtectiveEquipmentSettingTypeConstants.ContactTransmission, faHandSpock);
     iconmap.set(ProtectiveEquipmentSettingTypeConstants.DropletTransmission, faDroplet);

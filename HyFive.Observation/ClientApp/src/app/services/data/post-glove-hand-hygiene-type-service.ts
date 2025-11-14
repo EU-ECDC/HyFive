@@ -8,7 +8,7 @@ import { PostGloveHandHygieneType } from '../../models/api/PostGloveHandHygieneT
 })
 export class PostGloveHandHygieneTypeService {
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getPostGloveHandHygieneTypes(): Observable<PostGloveHandHygieneType[]> {

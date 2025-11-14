@@ -32,7 +32,7 @@ export class NewCardModalComponent implements OnChanges, OnInit {
   @Output() onClose = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
 
-  constructor(private modalService: NgbModal) {
+  constructor(private readonly modalService: NgbModal) {
   }
 
   ngOnChanges(): void {
@@ -66,9 +66,9 @@ export class NewCardModalComponent implements OnChanges, OnInit {
       this.onClose.emit(result);
       this.resetRoleSelection();
 
-    }, (reason) => {
+    }, (error) => {
 
-      this.onDismiss.emit(reason);
+      this.onDismiss.emit(error);
       this.resetRoleSelection();
 
     });

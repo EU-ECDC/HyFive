@@ -3,13 +3,14 @@ using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.User;
 using HyFive.Models.V1.User;
+using HyFive.Services.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Services.User;
 using Bruker = HyFive.Models.V1.User.User;
 
 namespace HyFive.Services.UserServices
@@ -37,23 +38,35 @@ namespace HyFive.Services.UserServices
             {
                 if (string.IsNullOrWhiteSpace(command.Request.FirstName))
                 {
-                    throw new Exception("Missing first name.");
+                    throw new ArgumentException("Missing first name.");
                 }
                 if (string.IsNullOrWhiteSpace(command.Request.LastName))
                 {
-                    throw new Exception("Missing last name.");
+                    throw new ArgumentException("Missing last name.");
                 }
                 if (string.IsNullOrWhiteSpace(command.Request.Email))
                 {
-                    throw new Exception("Missing email.");
+                    throw new ArgumentException("Missing email.");
                 }
 
-                //var existingPseudonym = await _context.User.OfType<Admin>().AnyAsync(x => x.IdentityPseudonym == command.Request.IdentityPseudonym);
-                //if (existingPseudonym)
-                //    throw new Exception("User cannot be created. The pseudonym is already in use.");
-                
+                try
+                {
+                    _ = new MailAddress(command.Request.Email);
+                }
+                catch
+                {
+                    throw new ArgumentException($"Email '{command.Request.Email}' is not valid.");
+                }
 
-                var fhiAdmin = new Admin()
+
+                var existingUser = await _context.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == command.Request.Email, cancellationToken);
+
+                if (existingUser != null)
+                    throw new ArgumentException($"Email '{command.Request.Email}' is already in use.");
+
+                var admin = new Admin()
                 {
                     IdentityPseudonym = command.Request.IdentityPseudonym,
                     FirstName = command.Request.FirstName,
@@ -63,10 +76,10 @@ namespace HyFive.Services.UserServices
                     CreatedTime = DateTime.UtcNow,
                 };
 
-                _context.User.Add(fhiAdmin);
+                _context.User.Add(admin);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<Models.V1.User.User>(fhiAdmin);
+                return _mapper.Map<Models.V1.User.User>(admin);
             }
 
             

@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-info-modal',
   templateUrl: './info-modal.component.html'
 })
-export class InfoModalComponent implements OnInit {
+export class InfoModalComponent implements OnChanges {
 
   @Input() showInfoModal: boolean;
   @Input() modalText: string;
@@ -19,9 +19,7 @@ export class InfoModalComponent implements OnInit {
     }
   }
 
-  constructor(private modalService: NgbModal) { }
-
-  ngOnInit(): void { }
+  constructor(private readonly modalService: NgbModal) { }
 
   close(): void {
     this.showInfoModal = false;

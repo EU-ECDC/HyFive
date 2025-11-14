@@ -9,13 +9,12 @@ import { Card } from '../../models/registration/card.model';
 import { faSave, faTrashAlt, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { Colors } from '../../utils/colors';
 import { BaseCardSwipe } from '../../shared/card-swipe/card-swipe';
-import { faHandHoldingWater, faDivide, faEraser, faHandsWash } from '@fortawesome/free-solid-svg-icons';
+import { faHandHoldingWater, faDivide, faEraser, faHandsWash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../models/api/Role';
 import { IndicationType } from '../../models/api/IndicationType';
 import { ActivityTypeConstants } from 'src/app/models/api/ActivityTypeConstants';
 import { ActivityService } from '../../services/data/activity.service';
 import { ActivityType } from '../../models/api/ActivityType';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activities } from '../../constants/Activities';
@@ -65,8 +64,8 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(
-    private observationEventService: ObservationEventService,
-    private activityService: ActivityService,
+    private readonly observationEventService: ObservationEventService,
+    private readonly activityService: ActivityService,
     protected modalService: NgbModal
   ) {
     super(modalService);

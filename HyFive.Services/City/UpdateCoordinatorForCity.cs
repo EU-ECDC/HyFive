@@ -44,7 +44,7 @@ namespace HyFive.Services.City
 
                     UpdateFacilityForCoordinator(command.Coordinator, facilityIdList, coordinators);
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch(Exception e)
                 {
@@ -55,7 +55,7 @@ namespace HyFive.Services.City
                 return new Status { Success = true };
             }
 
-            private bool CanCoordinatorBeUpdated(CityCoordinator coordinator, out string errorMessage)
+            private static bool CanCoordinatorBeUpdated(CityCoordinator coordinator, out string errorMessage)
             {
                 errorMessage = "";
 
@@ -70,18 +70,7 @@ namespace HyFive.Services.City
                     errorMessage = "Last name must be filled in";
                     return false;
                 }
-
-                /*if(string.IsNullOrWhiteSpace(coordinator.ModifiedHPRNumber) && string.IsNullOrWhiteSpace(coordinator.ModifiedPseudonym))
-                {
-                    errorMessage = "HPR number or identity pseudonym must be filled in";
-                    return false;
-                }*/
-
-                if(!string.IsNullOrWhiteSpace(coordinator.ModifiedPseudonym) && !UserValidator.IsValidIdentityPseudonym(coordinator.ModifiedPseudonym))
-                {
-                    errorMessage = "Identity pseudonym is not valid";
-                    return false;
-                }
+                
 
                 return true;
             }
@@ -125,8 +114,8 @@ namespace HyFive.Services.City
             private List<Coordinator> FindCoordinatorForFacilityInCity(Command request)
             {
                 return _context.Coordinator.Where(k => k.Facility.City.Id == request.CityId &&
-                                                    ((!string.IsNullOrEmpty(k.Email) &&
-                                                    k.Email == request.Coordinator.Email))).ToList();
+                                                    (!string.IsNullOrEmpty(k.Email) &&
+                                                    k.Email == request.Coordinator.Email)).ToList();
             }
 
             private Coordinator CreateCoordinatorForFacility(CityCoordinator coordinator, int facilityId)
@@ -144,17 +133,20 @@ namespace HyFive.Services.City
                 return newCoordinator;
             }
 
-            private void DeactivateCoordinatorForFacilityNotInList(List<Coordinator> coordinators, IEnumerable<int> facilityIds)
+            private static void DeactivateCoordinatorForFacilityNotInList(List<Coordinator> coordinators, IEnumerable<int> facilityIds)
             {
                 var coordinatorsNotInList = coordinators.Where(k => !facilityIds.Contains(k.Id));
 
-                coordinatorsNotInList.All(k => k.IsDeactivated = true);
+                foreach (var coordinator in coordinatorsNotInList)
+                {
+                    coordinator.IsDeactivated = true;
+                }
             }
 
             private Coordinator GetCoordinator(int facilityId, string email)
             {
                 var coordinator = _context.Coordinator.FirstOrDefault(k => k.Facility.Id == facilityId &&
-                                                                        ((!string.IsNullOrEmpty(k.Email) && k.Email == email)));
+                                                                        (!string.IsNullOrEmpty(k.Email) && k.Email == email));
                 return coordinator;
             }
         }

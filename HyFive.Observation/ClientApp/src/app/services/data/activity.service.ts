@@ -8,7 +8,7 @@ import { ActivityType } from '../../models/api/ActivityType';
 })
 export class ActivityService {
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getActivityTypes(): Observable<ActivityType[]> {

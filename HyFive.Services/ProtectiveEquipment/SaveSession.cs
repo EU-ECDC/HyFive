@@ -12,6 +12,7 @@ using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.ProtectiveEquipment.Helpers;
 using Microsoft.Extensions.Logging;
+using HyFive.Services.Helpers;
 
 namespace HyFive.Services.ProtectiveEquipment
 {
@@ -37,25 +38,24 @@ namespace HyFive.Services.ProtectiveEquipment
                 _logger = logger;
                 _userService = userService;
             }
-
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Verify that the observer is an observer at the facility
-                var observer = await GetObserver(request, cancellationToken);
+                var observer = await SessionHelper.GetObserverAsync(_context, _userService, request.Email, request.Session.Department.FacilityId, cancellationToken);
                 if (observer == null)
-                    throw new Exception(
+                    throw new ArgumentException(
                         $"Did not find an observer with email {request.Email} at the facility with ID {request.Session.Department.FacilityId}");
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
                 session.StartDate = DateTime.UtcNow;
-                session.Department = await GetDepartment(request, cancellationToken);
+                session.Department = await SessionHelper.GetDepartmentAsync(_context, request.Session.Department.Id, cancellationToken);
                 session.Observer = observer;
 
                 // This is the way we want to handle errors if we try to save a session with a department that no longer exists
                 if (session.Department == null)
                 {
-                    _logger.LogWarning($"Did not find department with ID: {request.Session.Department.Id}");
+                    _logger.LogWarning("Did not find department with ID: {DepartmentId}", request.Session.Department.Id);
                     return session.Id;
                 }
 
@@ -72,7 +72,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     foreach (var equipment in observation.ProtectiveEquipmentList)
                     {
                         equipment.EquipmentType = equipmentTypes.First(u => u.Id == equipment.EquipmentType.Id);
-                        if (equipment.WasUsedCorrectly == false && equipment.MisuseTypes.Any())
+                        if (!equipment.WasUsedCorrectly  && equipment.MisuseTypes.Any())
                         {
                             var misuseTypeIds = equipment.MisuseTypes.Select(ft => ft.Id);
                             equipment.MisuseTypes = equipment.EquipmentType.MisuseTypes
@@ -84,35 +84,11 @@ namespace HyFive.Services.ProtectiveEquipment
                     ProtectiveEquipmentObservationValidator.ValidateObservation(observation);
                 }
 
-                var transferStatuses = _context.TransferStatusType.ToList();
-                session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
+                var transferStatuses = await _context.TransferStatusType.ToListAsync(cancellationToken);
+                session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator); // NOSONAR
                 _context.Add(session);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken); 
                 return session.Id;
-            }
-
-            private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
-            {
-                return await _context.Department.Include(a => a.Roles)
-                    .FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
-            }
-
-
-            private async Task<ObserverUser> GetObserver(Command request, CancellationToken cancellationToken)
-            {
-                var facility = await _context.Facility
-                    .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
-
-                if (facility == null)
-                    throw new Exception(
-                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
-
-                return facility
-                    .Users
-                    .FirstOrDefault(_userService
-                        .HasEmailAndIsActive<ObserverUser>(request.Email)
-                        .Compile());
             }
         }
     }

@@ -25,11 +25,11 @@ export class SentHandJewelrySessionComponent implements OnInit, OnDestroy {
   downloadAsExcel = false;
   DialogueTexts = DialogueTexts;
 
-  constructor(private router: Router,
-    private route: ActivatedRoute,
-    private sessionService: SentSessionsService,
-    private handJewelryTypeService: HandJewelryTypeService,
-    private toastrService: ToastrService) { }
+  constructor(private readonly router: Router,
+              private readonly route: ActivatedRoute,
+              private readonly sessionService: SentSessionsService,
+              private readonly handJewelryTypeService: HandJewelryTypeService,
+              private readonly toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

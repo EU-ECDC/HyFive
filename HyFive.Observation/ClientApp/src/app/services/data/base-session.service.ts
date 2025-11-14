@@ -57,7 +57,7 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
     let existingSessionView = this.getSessionViewForSession(sessionView.sessionId);
     if (existingSessionView) {
       let sessionViews = this.getSessionViews();
-      var existingSessionViewIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
+      let existingSessionViewIndex = sessionViews.map(s => s.sessionId).indexOf(sessionView.sessionId);
       sessionViews[existingSessionViewIndex] = sessionView;
       this.saveSessionViews(sessionViews);
       return sessionView;
@@ -65,7 +65,7 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
   }
 
   public updateSession(session: TSession) {
-    var sessions = this.getSessions();
+    let sessions = this.getSessions();
     sessions[sessions.map(s => s.id).indexOf(session.id)] = session;
     this.saveSessions(sessions);
   }
@@ -89,33 +89,33 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
   }
 
   public async registerObservation(observation: TObservation): Promise<void> {
-    var existsExistingSession = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
+    let existsExistingSession = this.getSessions().filter(s => s.id == observation.sessionId).length > 0;
     if (existsExistingSession == false) {
       await this.createSessionWithObservation(observation);
       return;
     }
 
     let sessions = this.getSessions();
-    var existingSessionIndex = sessions.map(s => s.id).indexOf(observation.sessionId);
+    let existingSessionIndex = sessions.map(s => s.id).indexOf(observation.sessionId);
     sessions[existingSessionIndex].observations.push(observation);
     this.saveSessions(sessions);
   }
 
   public changeObservation(changedObservation: TObservation) {
-    var sessions = this.getSessions();
-    var currentSession = sessions.find(s => s.id == changedObservation.sessionId);
-    var currentSessionIndex = sessions.indexOf(currentSession);
-    var observationAsChanged = currentSession.observations.find(o => o.id === changedObservation.id);
-    var observationIndex = currentSession.observations.indexOf(observationAsChanged);
+    let sessions = this.getSessions();
+    let currentSession = sessions.find(s => s.id == changedObservation.sessionId);
+    let currentSessionIndex = sessions.indexOf(currentSession);
+    let observationAsChanged = currentSession.observations.find(o => o.id === changedObservation.id);
+    let observationIndex = currentSession.observations.indexOf(observationAsChanged);
     currentSession.observations[observationIndex] = changedObservation;
     sessions[currentSessionIndex] = currentSession;
     this.saveSessions(sessions);
   }
 
   public deleteObservation(observationToBeDeleted: TObservation) {
-    var sessions = this.getSessions();
-    var currentSession = sessions.find(s => s.id == observationToBeDeleted.sessionId);
-    var currentSessionIndex = sessions.indexOf(currentSession);
+    let sessions = this.getSessions();
+    let currentSession = sessions.find(s => s.id == observationToBeDeleted.sessionId);
+    let currentSessionIndex = sessions.indexOf(currentSession);
     currentSession.observations = currentSession.observations.filter(o => o.id !== observationToBeDeleted.id)
     sessions[currentSessionIndex] = currentSession;
     this.saveSessions(sessions);

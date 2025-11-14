@@ -6,20 +6,20 @@ import { PostGloveHandHygieneTypeService } from './post-glove-hand-hygiene-type-
 import { GloveWithIndicationTypeService } from './glove-with-indication-type.service';
 import { GloveWithoutIndicationTypeService } from './glove-without-indication-type.service';
 import { ProtectiveEquipmentCodingService } from './protectiveEquipment-coding-service';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CodeWorkCacheService {
 
-  constructor(private activityService: ActivityService,
-    private indicationService: IndicationService,
-    private handJewelryTypeService: HandJewelryTypeService,
-    private postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
-    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
-    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,   
-    private protectiveEquipmentCodingService: ProtectiveEquipmentCodingService ) {
+  constructor(private readonly activityService: ActivityService,
+              private readonly indicationService: IndicationService,
+              private readonly handJewelryTypeService: HandJewelryTypeService,
+              private readonly postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
+              private readonly gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+              private readonly gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,   
+              private readonly protectiveEquipmentCodingService: ProtectiveEquipmentCodingService ) {
   }
 
   loadCodeworks(){

@@ -43,10 +43,10 @@ export class EditGloveObservationComponent implements OnInit {
   faHandPaper = faHandPaper;
 
   constructor(
-    private sessionService: GloveSessionService,
-    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
-    private gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
-    private postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
+    private readonly sessionService: GloveSessionService,
+    private readonly gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private readonly gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
+    private readonly postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
   ) { }
 
   @Input() isReadonly: boolean = false;
@@ -84,7 +84,7 @@ export class EditGloveObservationComponent implements OnInit {
       }
     });
     this.postGloveHandHygieneTypeService.getPostGloveHandHygieneTypes().subscribe((postGloveHandHygieneTypes) => {
-      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.sort((a, b) => a.id - b.id);
+      this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.toSorted((a, b) => a.id - b.id);
     });
 
     this.glovesUsed = this.observation.glovesUsed;

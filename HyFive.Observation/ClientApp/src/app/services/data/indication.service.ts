@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class IndicationService {
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
   getIndicationTypes(): Observable<IndicationType[]> {
     return this.http.get<IndicationType[]>('api/v1/fiveindications/indicationTypes').pipe()

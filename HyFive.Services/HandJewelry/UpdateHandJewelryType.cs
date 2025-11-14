@@ -33,7 +33,7 @@ namespace HyFive.Services.HandJewelry
                 var handJewelryType = await _context.HandJewelryType
                     .FirstOrDefaultAsync(i => i.Id == command.HandJewelryType.Id, cancellationToken);
 
-                if (handJewelryType == null) throw new Exception($"Did not find jewelry type with id {command.HandJewelryType.Id}");
+                if (handJewelryType == null) throw new ArgumentException($"Did not find jewelry type with id {command.HandJewelryType.Id}");
 
                 handJewelryType.Name = command.HandJewelryType.Name;
 

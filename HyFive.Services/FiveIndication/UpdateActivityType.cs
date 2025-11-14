@@ -33,7 +33,7 @@ namespace HyFive.Services.FiveIndication
                 var activityType = await _context.ActivityType
                     .FirstOrDefaultAsync(i => i.Id == command.ActivityType.Id, cancellationToken);
 
-                if (activityType == null) throw new Exception($"Did not find activity type with ID: {command.ActivityType.Id}");
+                if (activityType == null) throw new ArgumentException($"Did not find activity type with ID: {command.ActivityType.Id}");
 
                 activityType.Name = command.ActivityType.Name;
 

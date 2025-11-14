@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.Facility
 {
@@ -20,12 +21,10 @@ namespace HyFive.Services.Facility
         public class Handler : IRequestHandler<Command, bool>
         {
             private readonly HandHygieneContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(HandHygieneContext context, IMapper mapper)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
 
@@ -51,7 +50,7 @@ namespace HyFive.Services.Facility
 
                 if (facility == null)
                 {
-                    throw new Exception($"Did not find Facility With Id: {facilityId}");
+                    throw new ArgumentException($"Did not find Facility With Id: {facilityId}");
                 }
 
                 return facility;
@@ -82,14 +81,16 @@ namespace HyFive.Services.Facility
 
             private void DeleteDepartmentWithRelatedData(Domain.Place.Facility facility)
             {
-                foreach (var department in facility.Departments)
-                {
-                    DeleteFiveIndicationsSessionsAndObservations(department.Id);
-                    DeleteHandJewelrySessionsAndObservations(department.Id);
-                    DeleteGloveSessionsAndObservations(department.Id);
-                    DeleteProtectiveEquipmentSessionsAndObservations(department.Id);
+                var departmentIds = facility.Departments?.Select(d => d.Id).ToList() ?? new List<int>();
 
-                    DeleteDepartment(department.Id);
+                foreach (var departmentId in departmentIds)
+                {
+                    DeleteFiveIndicationsSessionsAndObservations(departmentId);
+                    DeleteHandJewelrySessionsAndObservations(departmentId);
+                    DeleteGloveSessionsAndObservations(departmentId);
+                    DeleteProtectiveEquipmentSessionsAndObservations(departmentId);
+
+                    DeleteDepartment(departmentId);
                 }
             }
 

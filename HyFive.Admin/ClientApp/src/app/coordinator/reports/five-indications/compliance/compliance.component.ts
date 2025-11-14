@@ -199,7 +199,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.selectedDepartments = [];
     this.selectedDepartmentTypes = [];
     if (this.selectedFacilities != null && this.selectedFacilities?.length > 0) {
-      var facilityIds = this.selectedFacilities?.map(inst => inst.id);
+      let facilityIds = this.selectedFacilities?.map(inst => inst.id);
       this.loadFacilitiesDepartments(facilityIds)
     }
   };
@@ -312,7 +312,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   }
 
   loadDepartments() {
-    var facilityIds = this.selectedFacilities.map(inst => inst.id);
+    let facilityIds = this.selectedFacilities.map(inst => inst.id);
     this.facilityService.getDepartmentsByFacilities(facilityIds).subscribe(
       (departments) => this.departments = departments,
       (error) => this.toastrService.error('An error occurred while loading departments: ' + error?.message, '', { disableTimeOut: true })
@@ -331,7 +331,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
 
   getComplianceForFiveIndications() {
     //if(this.selectedRole === AuthorizedRole.Coordinator)
-      //var facilityId = this.facilityService.getSelectedFacilityId();
+      //let facilityId = this.facilityService.getSelectedFacilityId();
     this.showGraphError = false;
 
     const roleIds = this.selectedRoles?.map(role => role.id) ?? [];
