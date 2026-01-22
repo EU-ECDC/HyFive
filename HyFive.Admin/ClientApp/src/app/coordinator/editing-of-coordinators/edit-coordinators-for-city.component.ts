@@ -11,6 +11,8 @@ import { AuthorizationService } from '../../_common/services/authorization.servi
 import { ObservationService } from 'src/app/services/data/observation.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { SortHelper } from 'src/app/utils/sort-helper';
 
 
 @Component({
@@ -24,7 +26,6 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
   facilitiesCity: FacilityReport[];
 
   coordinatorAsChanged: CoordinatorForCity = null;
-  newCoordinator: CoordinatorForCity = null;
 
   dropdownSettings: IDropdownSettings;
   selectedFacilities: FacilityReport[] = [];
@@ -32,14 +33,17 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
   keyword: string = '';
   filteredCoordinators: CoordinatorForCity[];
   mailValidatorHelper;
+  showCreateForm: boolean = false;
 
   constructor(
-    private cityService: CityService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService,
-    private facilityForCoordinatorEventService: FacilityForCoordinatorEventService,
-    private authorizationService: AuthorizationService,
-    private observationService: ObservationService
+    private readonly cityService: CityService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly facilityForCoordinatorEventService: FacilityForCoordinatorEventService,
+    private readonly authorizationService: AuthorizationService,
+    private readonly observationService: ObservationService,
+    private readonly translate: TranslateService
+
   ) {
     this.mailValidatorHelper = MailValidatorHelper;
    }
@@ -60,8 +64,9 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select all',
-      unSelectAllText: 'Select all',
+      selectAllText: this.translate.instant('Select all'),
+      unSelectAllText: this.translate.instant('Select all'),
+      noDataAvailablePlaceholderText: this.translate.instant('No data available'),
       itemsShowLimit: 3
     };
 
@@ -71,14 +76,20 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
     this.toastrService.clear();
   }
 
-  loadCoordinators() {
-    this.cityService.getCoordinators(this.facility.city.id).subscribe(
-      (coordinators) => {
+  loadCoordinators(): void {
+    this.cityService.getCoordinators(this.facility.city.id).subscribe({
+      next: (coordinators) => {
         this.coordinators = coordinators;
-        this.filteredCoordinators = this.coordinators
+        this.filteredCoordinators = this.coordinators;
       },
-      (error) => this.toastrService.error('An error occurred while loading coordinators: ' + error?.message, '', { disableTimeOut: true }),
-    );
+      error: (error) => {
+        this.toastrService.error(
+          this.translate.instant('An error occurred while loading coordinators: ') + error?.message,
+          '',
+          { disableTimeOut: true }
+        );
+      }
+    });
   }
 
   loadFacilities() {
@@ -86,60 +97,67 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
       (facilities) => {
         this.facilitiesCity = facilities
       },
-      (error) => this.toastrService.error('An error occurred while loading facilities: ' + error?.message, '', { disableTimeOut: true }),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading facilities: ') + error?.message, '', { disableTimeOut: true }),
     );
   }
 
-  createEmptyCoordinator() {
+  toggleCreateForm() {
+    this.showCreateForm = !this.showCreateForm;
     this.cancelEdit();
     this.resetSelectedFacilitys();
-
-    this.newCoordinator = {
-      lastName: '',
-      firstName: '',
-      email: '',
-      hprNumber: null,
-      identityPseudonym: null,
-      createdTime: new Date(),
-      isDisabled: false,
-      facilities: [this.facility]
-    };
   }
 
-  createCoordinator() {
-    if (this.newCoordinator.modifiedPseudonym == "") {
-        this.newCoordinator.modifiedPseudonym = null;
+
+  createCoordinator(newCoordinator: CoordinatorForCity): void {
+    if (newCoordinator.modifiedPseudonym === '') {
+      newCoordinator.modifiedPseudonym = null;
     }
-    this.newCoordinator.facilities = this.selectedFacilities;
-    this.cityService.createCoordinator(this.facility.city.id, this.newCoordinator).subscribe(
-      (status) => {
-        if (status.success) {
-          this.toastrService.success('Coordinator(s) and observer(s) created');
-          this.newCoordinator = null;
-          this.loadCoordinators();
+
+    this.cityService
+      .createCoordinator(this.facility.city.id, newCoordinator)
+      .subscribe({
+        next: (status) => {
+          this.showCreateForm = false;
+
+          if (status.success) {
+            this.toastrService.success(
+              this.translate.instant('Coordinator(s) and observer(s) created')
+            );
+            this.loadCoordinators();
+          } else {
+            this.toastrService.error(
+              status.errorMessage,
+              '',
+              { disableTimeOut: true }
+            );
+          }
+        },
+        error: (error) => {
+          this.toastrService.error(
+            this.translate.instant(
+              'An error occurred while creating coordinator(s) and/or observer(s): '
+            ) + error?.message,
+            '',
+            { disableTimeOut: true }
+          );
         }
-        else {
-          this.toastrService.error(status.errorMessage, '', { disableTimeOut: true });
-        }
-      },
-      (error) => this.toastrService.error('An error occurred while creating coordinator(s) and/or observer(s): ' + error?.message, '', { disableTimeOut: true })
-    );
+      });
   }
 
   setCoordinatorAsChanged(coordinator: CoordinatorForCity) {
+    this.showCreateForm = false;
     if (this.isCoordinatorAsChanged(coordinator)) return;
 
-    this.newCoordinator = null;
     this.resetSelectedFacilitys();
     let me = this;
-    coordinator.facilities.forEach(function (facility) {
+    for (const facility of coordinator.facilities) {
       me.selectedFacilities.push(facility);
-    });
+    };
 
     coordinator.modifiedHPRNumber = coordinator.hprNumber;
     coordinator.modifiedPseudonym = coordinator.identityPseudonym
 
-    this.coordinatorAsChanged = JSON.parse(JSON.stringify(coordinator));
+    this.coordinatorAsChanged = structuredClone(coordinator);
   }
 
   isCoordinatorAsChanged(coordinator: CoordinatorForCity) {
@@ -161,7 +179,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
     this.cityService.updateCoordinator(this.facility.city.id, coordinator).subscribe(
       (status) => {
         if (status.success) {
-          this.toastrService.success('Coordinator updated');
+          this.toastrService.success(this.translate.instant('Coordinator updated'));
 
           if (isCoordinatorAsChangedLikeLoggedInUser) {
             if (coordinator.isDisabled)
@@ -172,7 +190,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
           }
 
           if (isCoordinatorAsChangedLikeLoggedInUser && !CurrentFacilityIsStillSelected)
-            window.location.reload();
+            globalThis.location.reload();
           else {
             this.coordinatorAsChanged = null;
             this.loadCoordinators();
@@ -184,7 +202,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
           this.toastrService.error(status.errorMessage, '', { disableTimeOut: true });
         }
       },
-      (error) => this.toastrService.error('An error occurred while updating coordinator: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while updating coordinator: ') + error?.message, '', { disableTimeOut: true })
     );
   }
 
@@ -196,23 +214,14 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  canCreate() {
-    return this.newCoordinator.firstName.length > 0
-      && this.newCoordinator.lastName.length > 0
-      && this.newCoordinator.email.length > 0
-      && this.mailValidatorHelper.validateMail(this.newCoordinator.email)
-      && this.coordinators.find(coord => coord?.email == this.newCoordinator?.email) == undefined
-      && this.selectedFacilities?.length > 0;
-  }
-
   canChange(coordinator: CoordinatorForCity) {
     return coordinator.firstName.length > 0
       && coordinator.lastName.length > 0
       && coordinator.email.length > 0
       && this.mailValidatorHelper.validateMail(coordinator.email)
-      && this.coordinators
+      && !this.coordinators
                       .filter(coord => coord.id !== coordinator.id)
-                      .find(coord => coord?.email == coordinator?.email) == undefined
+                      .some(coord => coord?.email == coordinator?.email)
       && this.selectedFacilities?.length > 0;
   }
 
@@ -228,7 +237,10 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
       $event.preventDefault();
     }
     this.coordinatorAsChanged = null;
-    this.newCoordinator = null;
+  }
+
+  cancelEditEmitted() {
+    this.showCreateForm = false;
   }
 
   showfacilitiesForCoordinator(coordinator: CoordinatorForCity): string {
@@ -254,25 +266,10 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: CoordinatorForCity) => any;
-    switch ($event.columnName) {
-      case "First name":
-        propertyOf = (x: CoordinatorForCity) => x.firstName;
-        break;
-      case "Last name":
-        propertyOf = (x: CoordinatorForCity) => x.lastName;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: CoordinatorForCity, b: CoordinatorForCity) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+    const userSortConfig = {
+      [this.translate.instant("First name")]: (x: CoordinatorForCity) => x.firstName,
+      [this.translate.instant("Last name")]: (x: CoordinatorForCity) => x.lastName,
     };
-
-    this.filteredCoordinators = this.filteredCoordinators.sort(sortFunc);
+    this.filteredCoordinators = SortHelper.sort(this.filteredCoordinators, $event, userSortConfig);
   }
 }

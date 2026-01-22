@@ -22,11 +22,11 @@ export class IndicationSelectionComponent implements OnInit {
 
   indicationTypeSelection: IndicationTypeSelection[] = [];
 
-  @Input("isActive") isActive: boolean;
-  @Input("parentId") parentId: string;
-  @Input("availableIndications") availableIndications: IndicationType[];
-  @Input("selectedIndications") selectedIndications: IndicationType[] = [];
-  @Input("isReadonly") isReadonly: boolean;
+  @Input() isActive: boolean;
+  @Input() parentId: string;
+  @Input() availableIndications: IndicationType[];
+  @Input() selectedIndications: IndicationType[] = [];
+  @Input() isReadonly: boolean;
   @Output() indicationSelectionChangedEvent = new EventEmitter<IndicationType[]>();
 
   constructor(private readonly observationEventService: ObservationEventService,

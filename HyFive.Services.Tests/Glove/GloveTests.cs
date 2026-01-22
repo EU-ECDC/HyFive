@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Castle.Core.Logging;
+﻿using Castle.Core.Logging;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.Gloves;
 using HyFive.Models.V1.Session;
@@ -13,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.Tests.Glove
 {
@@ -294,7 +295,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find GloveWithIndicationType with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("GloveWithIndicationTypeNotFound"),
                 async () =>
                 {
                     await UpdateGloveWithIndicationTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -389,7 +390,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find gloveWithoutIndicationType with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("GloveWithoutIndicationTypeNotFound"),
                 async () =>
                 {
                     await updateGloveWithoutIndicationType.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -484,7 +485,7 @@ namespace HyFive.Services.Tests.Glove
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find handHygieneAfterGloveUseType with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("HandHygieneAfterGloveUseTypeNotFound"),
                 async () =>
                 {
                     await updateHandHygieneAfterGloveUseTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

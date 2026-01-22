@@ -30,22 +30,15 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (!UserValidator.HasNameAndEmail(command.User))
-                {
-                    throw new ArgumentException("Coordinator must have first name, last name, and email");
-                }
-                var user = await _context.User.OfType<Coordinator>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
-                user.FirstName = command.User.FirstName;
-                user.LastName = command.User.LastName;
-                user.Email = command.User.Email;
-                user.HPRNumber = command.User.HPRNumber;
-                user.IdentityPseudonym = command.User.IdentityPseudonym;
-                user.IsDeactivated = command.User.IsDisabled;
-                _context.User.Update(user);
+                await UserUpdateHelper.UpdateUserBaseFields<Coordinator>(
+                    _context,
+                    command.User,
+                    cancellationToken
+                );
 
-                await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Models.V1.User.User>(user);
-                return mapped;
+                return _mapper.Map<Models.V1.User.User>(
+                    await _context.User.OfType<Coordinator>().FirstAsync(u => u.Id == command.User.Id, cancellationToken)
+                );
             }
         }
     }

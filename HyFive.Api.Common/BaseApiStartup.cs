@@ -1,33 +1,32 @@
 ﻿using HyFive.Api.Common.ExtensionMethods;
-using HyFive.Api.Common.HealthChecks;
+using HyFive.Api.Common.Infrastructure.Helpers;
 using HyFive.Api.Common.Logging;
 using HyFive.DataAccess;
-using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Configuration;
 using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Authentication.User;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
-using DocumentFormat.OpenXml.Packaging;
-using HyFive.Api.Common.Infrastructure.Helpers;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HyFive.Api.Common
 {
@@ -76,6 +75,24 @@ namespace HyFive.Api.Common
 
             services.AddControllers();
             services.AddHttpContextAccessor();
+
+            services.AddLocalization();
+
+            var supportedCultures = new[] { "el", "en" };
+            
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var cultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = cultures;
+                options.SupportedUICultures = cultures;
+
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    new AcceptLanguageHeaderRequestCultureProvider()
+                };
+            });
+
             services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
             services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPagesSettings"));
             services.AddCors();
@@ -99,77 +116,83 @@ namespace HyFive.Api.Common
 
                 })
                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-               {
-                   options.CorrelationCookie.SameSite = SameSiteMode.None;
-                   options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
-                   options.NonceCookie.SameSite = SameSiteMode.None;
-                   options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
-                   options.Authority = securitySettings.OpenIdConnect.Authority;
-                   options.ClientId = securitySettings.OpenIdConnect.ClientId;
-                   var clientSecret = Configuration["OpenIdConnect:ClientSecret"];
+                {
+                    options.CorrelationCookie.SameSite = SameSiteMode.None;
+                    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.NonceCookie.SameSite = SameSiteMode.None;
+                    options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Authority = securitySettings.OpenIdConnect.Authority;
+                    options.ClientId = securitySettings.OpenIdConnect.ClientId;
+                    // Only disable https requirement on specifically "false" value
+                    options.RequireHttpsMetadata = Configuration["OpenIdConnect:RequireHttpsMetadata"] != "false";
 
-                   
-                   options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-                   options.SignedOutCallbackPath = new PathString(_redirectPagesSettings.LoggedOut);
-                   options.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
+                    if (Configuration["OpenIdConnect:SaveTokens"] == "true") {
+                        // Persist tokens so we can supply the id_token as an id_token_hint when signing out
+                        options.SaveTokens = true;
+                    }
+                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                    options.SignedOutCallbackPath = new PathString(_redirectPagesSettings.LoggedOut);
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
 
-                   };
-                   options.Events = new OpenIdConnectEvents
-                   {
-                       OnAuthorizationCodeReceived = async context =>
-                       {
-                           var request = context.TokenEndpointRequest;
-                           request.ClientSecret = null;
+                    };
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnAuthorizationCodeReceived = async context =>
+                        {
+                            var request = context.TokenEndpointRequest;
+                            request.ClientSecret = null;
 
-                           var clientSecret = Configuration["OpenIdConnect:ClientSecret"];
-                           var creds = Convert.ToBase64String(
-                               System.Text.Encoding.ASCII.GetBytes($"{context.Options.ClientId}:{clientSecret}"));
+                            var clientSecret = Configuration["OpenIdConnect:ClientSecret"];
+                            var creds = Convert.ToBase64String(
+                                System.Text.Encoding.ASCII.GetBytes($"{context.Options.ClientId}:{clientSecret}"));
 
-                           context.Backchannel.DefaultRequestHeaders.Authorization =
-                               new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", creds);
-                       },
+                            context.Backchannel.DefaultRequestHeaders.Authorization =
+                                new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", creds);
+                        },
 
-                       OnRedirectToIdentityProvider = context =>
-                       {
-                           if (context.Request != null && Helper.IsAjaxRequest(context.Request))
-                           {
-                               context.HttpContext.Response.StatusCode = 401;
-                               context.Response.ContentType = "application/json";
-                               context.HttpContext.Response.WriteAsync("{data:'access denied - ajax call' }");
-                               context.HandleResponse();
-                           }
-                           else
-                           {
-                               var request = context.Request;
-                               var redirectUri = _redirectPagesSettings.RedirectLogInUri;
-                               context.ProtocolMessage.RedirectUri = redirectUri;
-                           }
-                           return Task.CompletedTask;
-                       },
+                        OnRedirectToIdentityProvider = context =>
+                        {
+                            if (context.Request != null && Helper.IsAjaxRequest(context.Request))
+                            {
+                                context.HttpContext.Response.StatusCode = 401;
+                                context.Response.ContentType = "application/json";
+                                context.HttpContext.Response.WriteAsync("{data:'access denied - ajax call' }");
+                                context.HandleResponse();
+                            }
+                            else
+                            {
+                                var redirectUri = _redirectPagesSettings.RedirectLogInUri;
+                                context.ProtocolMessage.RedirectUri = redirectUri;
+                            }
+                            return Task.CompletedTask;
+                        },
 
-                       OnRedirectToIdentityProviderForSignOut = context =>
-                       {
-                           var request = context.Request;
-                           var postLogoutRedirectLogOutUri = _redirectPagesSettings.RedirectLogOutUri;
+                        OnRedirectToIdentityProviderForSignOut = async context =>
+                        {
+                            var postLogoutRedirectLogOutUri = _redirectPagesSettings.RedirectLogOutUri;
 
-                           context.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectLogOutUri;
+                            context.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectLogOutUri;
 
-                           return Task.CompletedTask;
-                       }
-                   };
-               });
-               /*.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-               {
-                   options.Authority = portalSettings.Security.OpenIdConnect.Authority;
-                   options.Audience = portalSettings.JwtBearerAudience;
-                   options.TokenValidationParameters = new TokenValidationParameters()
-                   {
-                       ValidIssuer = portalSettings.Security.JwtBearerValidIssuer,
-                       RoleClaimType = portalSettings.Security.ClaimTypes.RoleClaimType
-                   };
-               });*/
+                            // Try to include the id_token as an id_token_hint
+                            try
+                            {
+                                var idToken = await context.HttpContext.GetTokenAsync("id_token");
+                                if (!string.IsNullOrEmpty(idToken))
+                                {
+                                    context.ProtocolMessage.IdTokenHint = idToken;
+                                }
+                            }
+                            catch
+                            {
+                                // Silently continue on failure in case the 
+                                // provider accepts client_id.
+                            }
+                        }
+                    };
+                });
+
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();
@@ -192,10 +215,6 @@ namespace HyFive.Api.Common
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            //var serviceProvider = services.BuildServiceProvider();
-            //var mapper = serviceProvider.GetRequiredService<AutoMapper.IMapper>();
-            //mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -244,6 +263,10 @@ namespace HyFive.Api.Common
             });
 
             app.UseRouting();
+            
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+            
 
             app.Use(async (context, next) =>
             {
@@ -267,9 +290,10 @@ namespace HyFive.Api.Common
 
             app.UseAuthorization();
 
+            app.UseMiddleware<HyFive.Api.Common.Middleware.ExceptionHandlingMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
 

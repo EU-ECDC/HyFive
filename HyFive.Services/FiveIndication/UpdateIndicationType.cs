@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using HyFive.Models.V1.Observation;
 using System;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.FiveIndication
 {
@@ -32,7 +33,7 @@ namespace HyFive.Services.FiveIndication
                 var indicationTypes = await _context.IndicationTypes
                     .FirstOrDefaultAsync(i => i.Id == request.IndicationType.Id, cancellationToken);
 
-                if (indicationTypes == null) throw new ArgumentException($"Did not find indication type with ID: {request.IndicationType.Id}");
+                if (indicationTypes == null) throw new DomainException("IndicationTypeNotFound", request.IndicationType.Id);
 
                 indicationTypes.Name = request.IndicationType.Name;
                 indicationTypes.Number = request.IndicationType.Number;

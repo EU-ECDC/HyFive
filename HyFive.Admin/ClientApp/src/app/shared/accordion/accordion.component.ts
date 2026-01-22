@@ -1,6 +1,5 @@
-import { Component, Input, Output, TemplateRef } from '@angular/core';
+import { Component, Input, Output, TemplateRef, EventEmitter } from '@angular/core';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { EventEmitter } from '@angular/core';
 
 /*
    Eksempelbruk

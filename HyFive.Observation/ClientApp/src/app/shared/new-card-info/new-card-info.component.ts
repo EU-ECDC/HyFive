@@ -1,19 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faNewCardArrow } from '../../utils/customIcons';
 
 @Component({
   selector: 'app-new-card-info',
   templateUrl: './new-card-info.component.html'
 })
-export class NewCardInfoComponent implements OnInit {
+export class NewCardInfoComponent {
 
   constructor() { }
 
   faNewCardArrow = faNewCardArrow;
 
-  @Input("showEmptyForShortText") showEmptyForShortText: boolean;
-
-  ngOnInit(): void {
-  }
+  @Input() showEmptyForShortText: boolean;
 
 }

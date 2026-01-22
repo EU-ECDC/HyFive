@@ -1,10 +1,11 @@
+using HyFive.Domain.Exceptions;
+using HyFive.Services.Unit;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HyFive.Services.Unit;
-using System;
 
 namespace HyFive.Services.Tests.Unit
 {
@@ -127,7 +128,7 @@ namespace HyFive.Services.Tests.Unit
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find facility with ID: 9999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("FacilityNotFound"),
                 async () =>
                 {
                     await CreateUnit(nonExistentFacilityId);
@@ -197,7 +198,7 @@ namespace HyFive.Services.Tests.Unit
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<InvalidOperationException>().And.Message.Contains("At least one department is not linked to the facility with ID: 1"),
+                Is.TypeOf<DomainException>().And.Message.Contains("DepartmentNotLinkedToFacility"),
                 (AsyncTestDelegate)(async () =>
                 {
                     await CreateUnit(facility.Id, otherFacility2.Departments.ToList());
@@ -352,7 +353,7 @@ namespace HyFive.Services.Tests.Unit
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Unit with id 1 is not associated with facility with id: 2"),
+                Is.TypeOf<DomainException>().And.Message.Contains("UnitNotLinkedToFacility"),
                 async () =>
                 {
                     await updatedUnitHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -440,7 +441,7 @@ namespace HyFive.Services.Tests.Unit
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<InvalidOperationException>().And.Message.Contains("At least one department is not associated with the facility with id: 1"),
+                Is.TypeOf<DomainException>().And.Message.Contains("DepartmentNotLinkedToFacility"),
                 async () =>
                 {
                     await updateUnitHandler.Handle(updateCommand, new System.Threading.CancellationToken());

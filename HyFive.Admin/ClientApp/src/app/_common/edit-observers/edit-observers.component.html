@@ -1,40 +1,29 @@
   <div class="row">
     <div class="col-12">
-      <button class="btn fhi-btn-primary mb-5 mt-3" (click)="createEmptyObserver()">Create observer</button>
+      <button class="btn fhi-btn-primary mb-5 mt-3" (click)="toggleCreateForm()">{{"Create observer" | translate }}</button>
     </div>
   </div>
+  <div *ngIf="showCreateForm" class="row">
+    <app-create-observer-form [facilityId]="facilityId" [observers]="observers" (createObserverEvent)="createObserver($event)" (cancelCreateEvent)="cancelCreateEmitted()"></app-create-observer-form>
+  </div>
   <div class="row" *ngIf="observers">
-    <input type="text" autocomplete="off" *ngIf="observers.length > 0" placeholder="Search for...(First name/Last name)" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
-    <label class="col-12" *ngIf="observers.length === 0 && !newObserver">No observers found at this facility</label>
+    <input type="text" autocomplete="off" *ngIf="observers.length > 0" [placeholder]="'Search for...(First name/Last name)' | translate" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="keyword" (ngModelChange)="filterObservers()">
+    <p class="col-12" *ngIf="observers.length === 0">{{"No observers found at this facility" | translate}}</p>
     
     <ng-container>
       <div class="table-responsive">
-        <table class="table" *ngIf="observers.length > 0 || newObserver" sortable-table (sorted)="sort($event)">
+        <table class="table" *ngIf="observers.length > 0" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <td sortable-column="First name"></td>
-              <td sortable-column="Last name"></td>
-              <td scope="col">Email</td>
-              <td scope="col">Disabled</td>
-              <td class="text-end" scope="col">Action</td>
+
+              <th [sortable-column]="'First Name' | translate"></th>
+              <th [sortable-column]="'Last Name' | translate"></th>
+              <th scope="col">{{"Email" | translate }}</th>
+              <th scope="col">{{"Disabled" | translate }}</th>
+              <th class="text-end" scope="col">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="newObserver != null">
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.firstName" (ngModelChange)="newObserver.firstName = $event.trim()" name="firstName" (keypress)="omitSpecialChar($event)" placeholder="First name"></td>
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newObserver.lastName" (ngModelChange)="newObserver.lastName = $event.trim()" name="lastName" (keypress)="omitSpecialChar($event)" placeholder="Last name"></td>
-              <td><input type="email" class="form-control" [(ngModel)]="newObserver.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
-              <td></td>
-              <td>
-                <button class="btn fhi-btn-icon" [disabled]="canCreate() == false" (click)="createObserver()">
-                  <i class="icon-plus"></i><span class="btn__text">Create</span>
-                </button>
-                <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
-                  <i class="icon-x"></i><span class="btn__text">Cancel</span>
-                </button>
-              </td>
-            </tr>
-      
             <tr *ngFor="let observer of filteredObservers">
               
               <ng-container *ngIf="observerAsChanged?.id != observer.id">
@@ -45,15 +34,15 @@
               
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="setObserverAsChanged(observer)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
               
               <ng-container *ngIf="observerAsChanged?.id == observer.id">
-                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.firstName" (ngModelChange)="observerAsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
-                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.lastName" (ngModelChange)="observerAsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
-                <td><input type="email" class="form-control" [(ngModel)]="observerAsChanged.email" disabled (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" placeholder="Email"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.firstName" (ngModelChange)="observerAsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" [placeholder]="'First Name' | translate"></td>
+                <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="observerAsChanged.lastName" (ngModelChange)="observerAsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" [placeholder]="'Last Name' | translate"></td>
+                <td><input type="email" class="form-control" [(ngModel)]="observerAsChanged.email" disabled (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" [placeholder]="'Email' | translate"></td>
                 <td>
                   <input type="checkbox" class="form-check-input" [(ngModel)]="observerAsChanged.isDisabled" name="isDisabled">
                 </td>
@@ -63,19 +52,19 @@
                     <button class="btn fhi-btn-icon mr-2 w-100"
                             (click)="updateObserver(observerAsChanged)"
                             [disabled]="canChange(observerAsChanged) == false">
-                      <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                      <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                     </button>
                     <div *ngIf="user.isAdmin">
                       <app-confirmation-dialog 
-                                                    [buttonText]="'Delete'"
+                                                    [buttonText]="'Delete' | translate"
                                                     (confirmEvent)="deleteObserver(observer.id)"
-                                                    [dialogMessage]="'Are you sure you want to delete the observer ' + observer.firstName + ' ' +  observer.lastName +  ' from the system?'"
+                                                    [dialogMessage]="dialogMessageService.translateText('Are you sure you want to delete the observer') + ' ' + observer.firstName + ' ' +  observer.lastName +  '?'"
                                                     [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
                                                     [shouldUseIcon]=true>
                       </app-confirmation-dialog>
                     </div>
                     <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">
-                      <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                      <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                     </button>
                   </ng-container>
                 </td>

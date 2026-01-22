@@ -3,6 +3,7 @@ import { IndicationTypesService } from '../../../services/data/indicationTypes.s
 import { IndicationType } from '../../../models/api/IndicationType';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-editing-indication-types',
@@ -14,9 +15,11 @@ export class EditingIndicationTypesComponent implements OnInit, OnDestroy {
   indicationtypeAsChanged: IndicationType = null;
 
   constructor(
-    private indicationTypesService: IndicationTypesService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly indicationTypesService: IndicationTypesService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
+
   ) { }
 
   ngOnInit(): void {
@@ -34,23 +37,23 @@ export class EditingIndicationTypesComponent implements OnInit, OnDestroy {
   loadIndicationtypes() {
     this.indicationTypesService.getIndicationTypes().subscribe(
       (result) => this.indicationtypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Indication Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Indication Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedIndicationtype(indicationtype: IndicationType): void {
     if (this.indicationtypeAsChanged?.id == indicationtype.id) return;
-    this.indicationtypeAsChanged = JSON.parse(JSON.stringify(indicationtype));
+    this.indicationtypeAsChanged = structuredClone(indicationtype);
   }
 
   updateIndicationtype(indicationtype: IndicationType): void {
     indicationtype.number = indicationtype.number.toString();
     this.indicationTypesService.updateIndicationTypes(indicationtype).subscribe(
       (updatedIndicationtype) => {
-        this.toastrService.success("Indicationstype updated");
+        this.toastrService.success(this.translate.instant("Indications Type updated"));
         this.loadIndicationtypes();
       },
-      error => this.toastrService.error('An error occurred while updating Indicationstype: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Indications Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.indicationtypeAsChanged = null
     );
   }

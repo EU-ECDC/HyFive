@@ -7,7 +7,7 @@ export interface ReportForSessionTypeHasDataModel {
     facilityIds: number[], 
     // departmentTypeIds: number[], 
     departmentIds: number[],
-    fromDate: Date, 
-    toDate: Date, 
+    fromDate: string, 
+    toDate: string, 
     roleId: AuthorizedRole 
     };

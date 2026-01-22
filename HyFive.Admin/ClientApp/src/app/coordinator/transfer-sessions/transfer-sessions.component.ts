@@ -3,14 +3,14 @@ import { FacilityService } from '../../services/data/facility.service';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { ObservationService } from '../../services/data/observation.service';
 import { SessionType } from '../../models/api/SessionType';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { User } from '../../models/api/User';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
 import { Facility } from '../../models/api/Facility';
-import { forEach } from 'lodash-es';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-transfer-sessions',
@@ -29,7 +29,16 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     { name: "Hand Jewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
   ];
 
+  transferStatusOptions = [
+    { name: 'All', value: null },
+    { name: 'Transferred to Admin', value: TransferStatusTypeConstants.TransferredToAdmin },
+    { name: 'Transferred to Coordinator', value:  TransferStatusTypeConstants.TransferredToCoordinator },
+  ];
+
+
   selectedSessiontype: SessionType = null;
+  selectedTransferStatus: string | null = null;
+
   fromDate: Date = null;
   toDate: Date = null;
 
@@ -48,9 +57,10 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   SearchDone: boolean = false;
 
   constructor(
-    private facilityService: FacilityService,
-    private observationService: ObservationService,
-    private toastrService: ToastrService
+    private readonly facilityService: FacilityService,
+    private readonly observationService: ObservationService,
+    private readonly toastrService: ToastrService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -64,19 +74,28 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
         name: result.name,
       } as FacilityReport;
 
+      this.translate.get(this.sessionTypeOptions.map(it => it.name)).pipe(take(1)).subscribe(() => {
+        this.sessionTypeOptions = this.sessionTypeOptions.map(opt => {
+          return {
+            ...opt,
+            name: this.translate.instant(opt.name)
+          }
+        })
+      });
+
       this.facilityService.getObservers(this.facility.id).subscribe((observers) => {
         let editedObservers = [];
-        observers.forEach(obs => {
+        for (const obs of observers) {
         let firstLast = `${obs.firstName} ${obs.lastName}`;
         if (obs.isDisabled) {
-          firstLast += ' (disabled user)';
+          firstLast += this.translate.instant(' (disabled user)');
         }
         const o = {...obs, firstLast}; 
         editedObservers.push(o);
-        });
-        editedObservers = editedObservers.sort(this.compareFirstNameForUsers);
+        };
+        editedObservers = editedObservers.toSorted(this.compareFirstNameForUsers);
         editedObservers = this.showDisabledObserversBottom(editedObservers);
-        editedObservers.unshift({ id: null, firstLast: "All" });
+        editedObservers.unshift({ id: null, firstLast: this.translate.instant("All") });
         this.observers = editedObservers;
       });
     });
@@ -99,6 +118,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
       this.facility.id,
       this.selectedObserver,
       this.selectedSessiontype,
+      this.selectedTransferStatus,
       this.fromDate,
       this.toDate
     ).subscribe((results) => {
@@ -122,29 +142,41 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
     this.observationService.transferSessionToFHI(this.facility.id, sessionId).subscribe((result) => {
       if (result) {
         this.sessions.find(x => x.id === result.id).transferStatus = result.transferStatus;
-        this.toastrService.success('The session(s) was transferred');
+        this.toastrService.success(this.translate.instant('The session(s) was transferred'));
         this.updateLists();
         this.loading = false;
       }
-      else this.toastrService.error('An error occurred during the transfer. Please try again.', '', { disableTimeOut: true});
+      else this.toastrService.error(this.translate.instant('An error occurred during the transfer. Please try again.'), '', { disableTimeOut: true});
     });
   }
 
-  markAllSessions() {
-    this.sessionsCoordinator.forEach(s => s.isSelected = true);
+  get allSessionsSelected(): boolean {
+    return (
+      this.sessionsCoordinator.length > 0 &&
+      this.sessionsCoordinator.every(s => s.isSelected === true)
+    );
+  }
+
+  markAllSessions(): void {
+    const shouldSelectAll = !this.allSessionsSelected;
+
+    for (const s of this.sessionsCoordinator) {
+      s.isSelected = shouldSelectAll;
+    }
   }
 
   transferSessions() {
     let selectedSessions = this.sessionsCoordinator.filter(s => s.isSelected);
   
-    selectedSessions.forEach(session => {
+    for (const session of selectedSessions) {
       this.transfer(session.id);
-    });
+    };
   }
 
   reset(): void {
     this.selectedObserver = null;
     this.selectedSessiontype = null;
+    this.selectedTransferStatus = null; 
     this.fromDate = null;
     this.toDate = null;
     this.resetSearchresults();

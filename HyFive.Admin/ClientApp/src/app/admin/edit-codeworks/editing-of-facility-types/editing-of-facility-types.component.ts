@@ -16,9 +16,9 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
   facilitytypeAsChanged: FacilityType = null;
 
   constructor(
-    private FacilitiesTypesService: FacilitiesTypesService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly FacilitiesTypesService: FacilitiesTypesService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
   loadtFacilityTypes() {
     this.FacilitiesTypesService.getFacilityTypes().subscribe(
       (result) => this.facilityTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Facility type: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading Facility type: ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -50,14 +50,14 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
   createFacilityType(): void {
     this.FacilitiesTypesService.createFacilityType(this.newFacilityType).subscribe(
       (createdFacilitytype) => this.toastrService.success(`Facility type created.`),
-      error => this.toastrService.error(`An error occurred while creating the  type ${this.newFacilityType.name}. Error: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`An error occurred while creating the  type ${this.newFacilityType.name}. Error: "${error.error.message}"`, '', { disableTimeOut: true}),
       () => { this.newFacilityType = this.emptyRequest(); this.loadtFacilityTypes(); }
     );
   }
 
   selectedFacilitytype(facilitytype: FacilityType): void {
     if (this.facilitytypeAsChanged?.id == facilitytype.id) return;
-    this.facilitytypeAsChanged = JSON.parse(JSON.stringify(facilitytype));
+    this.facilitytypeAsChanged = structuredClone(facilitytype);
   }
 
   updateFacilityType(facilitytype: FacilityType): void {
@@ -66,7 +66,7 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
         this.toastrService.success("Facility type updated");
         this.loadtFacilityTypes();
       },
-      error => this.toastrService.error('An error occurred while updating Facilitytype: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating Facilitytype: ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.facilitytypeAsChanged = null
     );
   }

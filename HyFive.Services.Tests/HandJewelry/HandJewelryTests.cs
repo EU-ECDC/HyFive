@@ -1,4 +1,5 @@
-﻿using HyFive.Models.V1.Constants;
+﻿using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
 using HyFive.Services.HandJewelry;
@@ -244,7 +245,7 @@ namespace HyFive.Services.Tests.HandJewelry
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find jewelry type with id 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("HandJewelryTypeNotFound"),
                 async () =>
                 {
                     await updateHandJewelryTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

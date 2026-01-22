@@ -4,18 +4,18 @@
       <thead>
         <tr>
           <td class="w-75"></td>
-          <th class="text-end">Number</th>
-          <th class="text-end">Percentage</th>
+          <th id="Number" class="text-end">{{"Number" | translate}}</th>
+          <th id="Percentage" class="text-end">{{"Percentage" | translate}}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>Opportunities observed</th>
+          <th id="Opportunities_observed">{{"Opportunities observed" | translate}}</th>
           <td class="text-end">{{ calculateOpportunitiesComplied() }}</td>
           <td class="text-end">{{ calculateOpportunitiesCompliedPercent().toFixed(2)  }}</td>
         </tr>
         <tr>
-          <th>Opportunities omitted</th>
+          <th id="Opportunities_omitted">{{"Opportunities omitted" | translate }}</th>
           <td class="text-end">{{ calculateOpportunitiesOmitted() }}</td>
           <td class="text-end">{{ calculateOpportunitiesOmittedPercent().toFixed(2) }}</td>
         </tr>

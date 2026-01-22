@@ -4,10 +4,10 @@
   <div class="row">
     <div class="row align-items-end mb-4">
       <div class="col-md-2">
-        <label for="sessionType">Session Type</label>
+        <label for="sessionType">{{ "Session Type" | translate }}</label>
         <ng-select
             [searchable]="false"
-            placeholder="All"
+            [placeholder]="'All' | translate"
             [clearable]="false"
             [items]="sessiontypes"
             bindLabel="name"
@@ -17,19 +17,23 @@
             >
         </ng-select>
       </div>
-      <div class="col-md-2">
-        <label for="fra">From date</label>
-        <input id="fra" class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" (ngModelChange)="resetSearchresults()" [max]="toDate || null" />
+      <div class="col-md-2" style="position: relative;">
+        <label for="fromDate">{{ "From Date" | translate }}</label>
+        <input class="form-control" id="fromDate" matInput [(ngModel)]="fromDate" [max]="toDate || null" [placeholder]="'mm/dd/yyyy' | translate" [matDatepicker]="pickerFrom">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerFrom" style="position: absolute; top: 15px; right: 10px;"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom></mat-datepicker>
       </div>
-      <div class="col-md-2">
-        <label for="to">To date</label>
-        <input id="to" class="form-control" id="toDate" type="date" [(ngModel)]="toDate" (ngModelChange)="resetSearchresults()" [min]="fromDate || null" />
+      <div class="col-md-2" style="position: relative;">
+        <label for="toDate">{{ "To Date" | translate }}</label>
+        <input class="form-control" id="toDate" matInput [(ngModel)]="toDate" [min]="fromDate || null" [placeholder]="'mm/dd/yyyy' | translate" [matDatepicker]="pickerTo">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerTo" style="position: absolute; top: 15px; right: 10px;"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo></mat-datepicker> 
       </div>
       <div *ngIf="canSelectFacility" class="col-md-3">
-        <label for="facilities">Facility</label>
+        <label for="facilities">{{"Facility" | translate}}</label>
         <ng-select
           [searchable]="false"
-          placeholder="All"
+          [placeholder]="'All' | translate"
           [clearable]="false"
           [items]="facilities"
           bindLabel="name"
@@ -40,16 +44,15 @@
         </ng-select>
       </div>
       <div style="display: flex;" class="form-group col-12 col-md-3">
-        <label style="opacity:0;">-</label>
         <br />
-        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getFacilitiesWithSessions()">Search</button>
-        <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getFacilitiesWithSessions()">{{ "Search" | translate }}</button>
+        <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">{{ "Clear Filters" | translate }}</button>
       </div>
     </div>
   </div>
 
   <div class="row" *ngIf="searching">
-    <app-spinner class="col-12">Searching...</app-spinner>
+    <app-spinner class="col-12">{{"Searching" | translate}}...</app-spinner>
   </div>
 
   <!-- Search result -->
@@ -62,20 +65,20 @@
     </app-accordion>
 
     <ng-template #headerFacilityOverviewReport let-item="item">
-      {{item.name}}. Sessions: {{item.numberOfSessions}}. Observations: {{item.numberOfObservations}}.
+      {{item.name}}. {{"Sessions" | translate}}: {{item.numberOfSessions}}. {{"Observations" | translate }}: {{item.numberOfObservations}}.
     </ng-template>
 
     <ng-template #contentFacilityOverviewReport let-item="item">
-      <h5>Departments</h5>
+      <h5>{{"Departments" | translate}}</h5>
       <ng-container>
         <div class="table-responsive">
           <table class="table" sortable-table (sorted)="sort($event)">
             <thead>
               <tr>
-                <th sortable-column="Name"></th>
-                <th>Number of sessions</th>
-                <th>Number of observations</th>
-                <th scope="col">Action</th>
+                <th [sortable-column]="'Name' | translate"></th>
+                <th>{{"Number of sessions" | translate}}</th>
+                <th>{{"Number of observations" | translate}}</th>
+                <th scope="col">{{"Action" | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -87,7 +90,7 @@
                   <button class="btn fhi-btn-icon"
                           (click)="navigateToObservationsForTheDepartment(department)"
                           [disabled]="department.numberOfSessions === 0">
-                    View sessions
+                    {{"View sessions" | translate}}
                     <fa-icon [icon]="faArrowRight"></fa-icon>
                   </button>
                 </td>

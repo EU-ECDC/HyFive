@@ -4,17 +4,17 @@
       <div class="mb-3">
         <button *ngIf="!isEditMode" class="btn fhi-btn-icon" (click)="isEditMode = true">
           <i class="icon-pencil"></i>
-          Edit
+          {{"Edit" | translate}}
         </button>
         <button *ngIf="isEditMode" class="btn fhi-btn-icon" (click)="saveObservation()">
           <i class="icon-check-circle"></i>
-          Save
+          {{"Save" | translate }}
         </button>
       </div>
       <div class="mr-3">
         <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
-                                      [dialogMessage]="DialogueTexts.ObservationDeleteConfirmation">
-          <fa-icon [icon]="faTrashAlt"></fa-icon> Delete
+                                      [dialogMessage]="DialogueTexts.ObservationDeleteConfirmation | translate">
+          <fa-icon [icon]="faTrashAlt"></fa-icon> {{"Delete" | translate}}
         </app-delete-confirmation-dialog>
       </div>
     </div>
@@ -67,7 +67,7 @@
               </app-register-comment>
             </ng-container>
             <ng-container *ngIf="!isEditMode && observation.comment">
-              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+              <p class="ellipsis-10-chars"><small>{{"Comment" | translate}}: <strong data-hj-suppress>{{observation.comment}}</strong></small></p>
             </ng-container>
           </div>
         </div>

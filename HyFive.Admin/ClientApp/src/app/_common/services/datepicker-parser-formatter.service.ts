@@ -13,9 +13,9 @@ export class DatepickerParserFormatterService extends NgbDateParserFormatter {
     if (value) {
       const date = value.split(this.DELIMITER);
       result = {
-        day : parseInt(date[0], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[2], 10)
+        day : Number.parseInt(date[0], 10),
+        month : Number.parseInt(date[1], 10),
+        year : Number.parseInt(date[2], 10)
       };
     }
     return result;

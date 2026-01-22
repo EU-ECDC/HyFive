@@ -23,10 +23,10 @@ export class ChangeFacilityComponent implements OnInit {
   facilities: FacilityReport[] = [];
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private facilityService: FacilityService,
-    private roleEventService: RoleEventService,
-    private facilityForCoordinatorEventService: FacilityForCoordinatorEventService
+    private readonly authorizationService: AuthorizationService,
+    private readonly facilityService: FacilityService,
+    private readonly roleEventService: RoleEventService,
+    private readonly facilityForCoordinatorEventService: FacilityForCoordinatorEventService
   ) { }
 
   ngOnInit(): void {
@@ -74,6 +74,6 @@ export class ChangeFacilityComponent implements OnInit {
   changeFacility(facility: FacilityReport) {  
     this.selectedFacility = facility;
     this.facilityService.updateSelectedFacilityId(this.selectedFacility.id);
-    window.location.reload();
+    globalThis.location.reload();
   }
 }

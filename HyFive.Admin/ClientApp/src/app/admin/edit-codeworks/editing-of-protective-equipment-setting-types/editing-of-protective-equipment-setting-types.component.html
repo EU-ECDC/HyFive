@@ -11,9 +11,9 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Code</th>
-              <th>Name</th>
-              <th class="text-end" scope="col">Action</th>
+              <th>{{"Code" | translate }}</th>
+              <th>{{"Name" | translate }}</th>
+              <th class="text-end" scope="col">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +23,7 @@
                 <td>{{settingType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="selectedSettingType(settingType)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -34,10 +34,10 @@
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateSettingType(settingTypeAsChanged)">
-                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                 </td>
               </ng-container>

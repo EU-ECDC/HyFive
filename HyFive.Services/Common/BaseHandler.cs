@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Observation.ProtectiveEquipment;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,7 +38,8 @@ namespace HyFive.Services.Common
 
             if (equipmentType == null)
             {
-                throw new ArgumentException($"Did not find equipment type with ID: {equipmentTypeId}");
+                throw new DomainException("EquipmentTypeNotFound", equipmentTypeId);
+
             }
 
             return equipmentType;

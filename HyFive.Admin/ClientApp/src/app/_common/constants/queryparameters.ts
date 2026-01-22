@@ -5,5 +5,5 @@ export class QueryParameters {
   static ToDate = 'to';
   static FacilityIdeas = 'facilityideas';
   static DepartmentId = 'departmentid';
-  static facilityIdIsOk = 'facilityidIsok';
+  static facilityIdSearch = 'facilityIdSearch';
 }

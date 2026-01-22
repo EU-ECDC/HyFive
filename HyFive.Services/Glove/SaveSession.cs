@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using GloveSession = HyFive.Models.V1.Session.GloveSession;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.Glove
 {
@@ -42,8 +43,7 @@ namespace HyFive.Services.Glove
             {
                 var observator = await GetObserver(request);
                 if (observator == null)
-                    throw new ArgumentException(
-                        $"Did not find an observer with email { request.Email } at facility with ID: {request.Session.Department.FacilityId}");
+                    throw new DomainException("ObserverNotFoundAtFacility", request.Email, request.Session.Department.FacilityId);
 
                 var gloveWithIndicationTypes = await _context.GloveWithIndicationType.ToListAsync(cancellationToken);
                 var gloveWithoutIndicationTypes = await _context.GloveWithoutIndicationType.ToListAsync(cancellationToken);
@@ -101,8 +101,7 @@ namespace HyFive.Services.Glove
                     .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
                 if (facility == null)
-                    throw new ArgumentException(
-                        $"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
+                    throw new DomainException("FacilityNotFound", request.Session.Department.FacilityId);
 
                 return facility.Users.FirstOrDefault(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile());
             }

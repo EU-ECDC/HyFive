@@ -1,7 +1,7 @@
 <div class="container">
   <div class="ml-n3 mb-3">
-    <app-navigation-bar [routerLink]="'/'+ UrlPaths.editingByFacilities"> Back to overview</app-navigation-bar>
-    <h4 class="col-12">Facility: {{facility?.name}}</h4>
+    <app-navigation-bar [routerLink]="'/'+ UrlPaths.editingByFacilities"> {{"Back to overview" | translate }}</app-navigation-bar>
+    <h4 class="col-12">{{"Facility" | translate }}: {{facility?.name}}</h4>
   </div>
 </div>
 
@@ -10,23 +10,23 @@
 <div class="container" *ngIf="facility">
   <ul ngbNav #nav="ngbNav" class="nav nav-tabs mt-4 fhi-nav-tabs fhi-main-menu__nav" [(activeId)]="active">
     <li [ngbNavItem]="1" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Facility</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>{{"Facility" | translate }}</a>
       <ng-template ngbNavContent>
         <div class="row border-bottom pb-2">
           <div class="col-12">
             <div class="row mb-3">
               <div class="col-md-3">
-                <label for="facilityName">Name</label>
+                <label for="facilityName">{{"Name" | translate }}</label>
                 <input type="text" autocomplete="off" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.name" (ngModelChange)="facility.name = $event.trim()">
               </div>
               <div class="col-md-2">
-                <label for="abbreviation">Short Name</label>
+                <label for="abbreviation">{{"Short Name" | translate }}</label>
                 <input type="text" autocomplete="off" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="facility.abbreviation" (ngModelChange)="facility.abbreviation = $event.trim()">
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <label for="facilityType">Facility Type</label>
+                <label for="facilityType">{{"Facility Type" | translate }}</label>
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
@@ -39,7 +39,7 @@
                 </ng-select>
               </div>
               <div class="form-group col-12 col-md-3">
-                <label for="city">City</label>
+                <label for="city">{{"City" | translate }}</label>
                 <ng-select
                   [searchable]="false"
                   [clearable]="false"
@@ -55,14 +55,14 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <button (click)="saveFacility()" class="btn fhi-btn-primary" [disabled]="canNotSavefacility()">Update healthcare facility</button>
+              <button (click)="saveFacility()" class="btn fhi-btn-primary" [disabled]="canNotSavefacility()">{{"Update Healthcare Facility" | translate }}</button>
             </div>
             <div class="col-md-4">
               <app-confirmation-dialog
                 [buttonClass]="'btn fhi-btn-secondary'"
-                [buttonText]="'Delete healthcare facility'"
+                [buttonText]="'Delete Healthcare Facility' | translate"
                 (confirmEvent)="deleteFacility()"
-                [dialogMessage]="'Deleting the facility means that all data associated with the facility will be deleted. Do you want to delete?'">
+                [dialogMessage]="'Deleting the facility means that all data associated with the facility will be deleted. Do you want to delete?' | translate">
               </app-confirmation-dialog>
             </div>
           </div>
@@ -70,7 +70,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="2" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Coordinators</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>{{"Coordinators" | translate }}</a>
       <ng-template ngbNavContent>
         <div class="border-bottom">
           <app-edit-coordinators [facilityId]="facilityId"></app-edit-coordinators>
@@ -78,7 +78,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="3" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Observers</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>{{"Observers" | translate }}</a>
       <ng-template ngbNavContent>
         <div class="border-bottom">
           <app-edit-observers [facilityId]="facilityId"></app-edit-observers>
@@ -86,7 +86,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="4" class="fhi-main-menu__nav-item">
-      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>Departments</a>
+      <a class="nav-link fhi-main-menu__nav-link" ngbNavLink>{{"Departments" | translate }}</a>
       <ng-template ngbNavContent>
         <app-editing-of-departments [facilityId]="facilityId"></app-editing-of-departments>
       </ng-template>

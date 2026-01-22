@@ -9,7 +9,7 @@ import { LoggedInUser } from 'src/app/models/api/LoggedInUser';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   getUser(): Observable<LoggedInUser> {
@@ -42,7 +42,7 @@ export class AuthorizationService {
 
   logout() {
     localStorage.clear();
-    window.location.href = '/account/logout';
+    globalThis.location.href = '/account/logout';
   }
 
   saveSelectedRole(role: AuthorizedRole): AuthorizedRole | null {
@@ -52,7 +52,7 @@ export class AuthorizationService {
 
   getSelectedRole(): AuthorizedRole {
     const selectedRoleString = localStorage.getItem(Localstoragepaths.SelectedRole);
-    return selectedRoleString ? parseInt(selectedRoleString) : null;
+    return selectedRoleString ? Number.parseInt(selectedRoleString) : null;
   }
 
 }

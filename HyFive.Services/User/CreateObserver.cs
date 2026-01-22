@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,13 +32,13 @@ namespace HyFive.Services.User
             {
                 if (!UserValidator.HasNameAndEmail(command.User))
                 {
-                    throw new ArgumentException("Observer must have first name, last name, email");
+                    throw new ValidationException("ObserverMissingDetails");
                 }
                 
                 var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
                 if (facility == null)
                 {
-                    throw new ArgumentException("Did not find facility with ID. " + command.User.FacilityId);
+                    throw new DomainException("FacilityNotFound", command.User.FacilityId);
                 }
 
                 var observer = new Observer()

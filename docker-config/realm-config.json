@@ -1,0 +1,79 @@
+{
+  "realm": "hyfive",
+  "enabled": true,
+  "users": [
+    {
+      "username": "admin",
+      "email": "ad@m.in",
+      "firstName": "Ad",
+      "lastName": "Min",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin"
+        }
+      ],
+      "realmRoles": [
+        "admin"
+      ]
+    },
+    {
+      "username": "observer",
+      "email": "obs@erv.er",
+      "firstName": "Obs",
+      "lastName": "Erver",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "observer"
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "admin"
+      },
+      {
+        "name": "user"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "hyfive",
+      "name": "HyFive",
+      "description": "HyFive development and testing client.",
+      "rootUrl": "http://observation.localhost:8000",
+      "enabled": true,
+      "implicitFlowEnabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "0tp5C8PgqbcsX3WrfS483rsiNgK0El8H",
+      "redirectUris": [
+        "http://admin.localhost:8001/signin-oidc",
+        "http://observation.localhost:8000/signin-oidc"
+      ],
+      "protocol": "openid-connect",
+      "attributes": {
+        "request.object.signature.alg": "any",
+        "post.logout.redirect.uris": "http://observation.localhost:8000##http://admin.localhost:8001",
+        "oauth2.device.authorization.grant.enabled": "true"
+      },
+      "defaultClientScopes": [
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ]
+    }
+  ]
+}

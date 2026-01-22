@@ -1,9 +1,12 @@
 ﻿using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using HyFive.Models.V1;
 using HyFive.Models.V1.User;
+using HyFive.Services.Localization;
 using HyFive.Services.User;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,57 +27,29 @@ namespace HyFive.Services.City
         public class Handler : IRequestHandler<Command, Status>
         {
             private readonly HandHygieneContext _context;
-            private readonly ILogger<Handler> _logger;
+            
 
-            public Handler(HandHygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
-                _logger = logger;
             }
             public async Task<Status> Handle(Command command, CancellationToken cancellationToken)
             {
-                try
-                {
-                    if(!CanCoordinatorBeUpdated(command.Coordinator, out var errorMessage))
-                        return new Status { Success = false, ErrorMessage = errorMessage };
+                
+                if(!CoordinatorForCityValidator.CanBeUpdated(command.Coordinator, out var errorCode, out var args))
+                    throw new ValidationException(errorCode, args);
 
-                    var facilityIdList = command.Coordinator.Facilities.Select(x => x.Id);
-                    List<Coordinator> coordinators = FindCoordinatorForFacilityInCity(command);
-                    UpdateCoordinatorsForFacilityInCity(command.Coordinator, coordinators);
+                var facilityIdList = command.Coordinator.Facilities.Select(x => x.Id);
+                List<Coordinator> coordinators = FindCoordinatorForFacilityInCity(command);
+                UpdateCoordinatorsForFacilityInCity(command.Coordinator, coordinators);
 
-                    UpdateFacilityForCoordinator(command.Coordinator, facilityIdList, coordinators);
+                UpdateFacilityForCoordinator(command.Coordinator, facilityIdList, coordinators);
 
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch(Exception e)
-                {
-                    _logger.LogError(e, "Error while updating coordinator");
-                    return new Status { Success = false, ErrorMessage = e.Message };
-                }
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return new Status { Success = true };
             }
-
-            private static bool CanCoordinatorBeUpdated(CityCoordinator coordinator, out string errorMessage)
-            {
-                errorMessage = "";
-
-                if(string.IsNullOrWhiteSpace(coordinator.FirstName))
-                {
-                    errorMessage = "First name must be filled in";
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(coordinator.LastName))
-                {
-                    errorMessage = "Last name must be filled in";
-                    return false;
-                }
-                
-
-                return true;
-            }
-
+            
             private void UpdateFacilityForCoordinator(CityCoordinator coordinatorForCity, IEnumerable<int> facilityIds, List<Coordinator> coordinators)
             {
                 if (coordinatorForCity.IsDisabled)
@@ -84,7 +59,7 @@ namespace HyFive.Services.City
 
                 foreach (var facilityId in facilityIds)
                 {
-                    var coordinator = GetCoordinator(facilityId, coordinatorForCity.Email);
+                    var coordinator = CoordinatorForCityHelper.GetCoordinator(_context, facilityId, coordinatorForCity.Email);
                     if (coordinator != null)
                     {
                         if (coordinator.IsDeactivated)
@@ -92,7 +67,7 @@ namespace HyFive.Services.City
                     }
                     else
                     {
-                        var newCoordinator = CreateCoordinatorForFacility(coordinatorForCity, facilityId);
+                        var newCoordinator = CoordinatorForCityHelper.CreateCoordinatorForFacility(_context, coordinatorForCity, facilityId);
                         _context.Add(newCoordinator);
                     }
                 }
@@ -117,22 +92,6 @@ namespace HyFive.Services.City
                                                     (!string.IsNullOrEmpty(k.Email) &&
                                                     k.Email == request.Coordinator.Email)).ToList();
             }
-
-            private Coordinator CreateCoordinatorForFacility(CityCoordinator coordinator, int facilityId)
-            {
-                var facility = _context.Facility.FirstOrDefault(i => i.Id == facilityId);
-                var newCoordinator = new Coordinator
-                {
-                    FirstName = coordinator.FirstName,
-                    LastName = coordinator.LastName,
-                    Email = coordinator.Email,
-                    HPRNumber = coordinator.HPRNumber,
-                    IdentityPseudonym = coordinator.IdentityPseudonym,
-                    Facility = facility
-                };
-                return newCoordinator;
-            }
-
             private static void DeactivateCoordinatorForFacilityNotInList(List<Coordinator> coordinators, IEnumerable<int> facilityIds)
             {
                 var coordinatorsNotInList = coordinators.Where(k => !facilityIds.Contains(k.Id));
@@ -141,13 +100,6 @@ namespace HyFive.Services.City
                 {
                     coordinator.IsDeactivated = true;
                 }
-            }
-
-            private Coordinator GetCoordinator(int facilityId, string email)
-            {
-                var coordinator = _context.Coordinator.FirstOrDefault(k => k.Facility.Id == facilityId &&
-                                                                        (!string.IsNullOrEmpty(k.Email) && k.Email == email));
-                return coordinator;
             }
         }
     }

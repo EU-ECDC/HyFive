@@ -2,16 +2,15 @@
   <div class="container">
 
     <div class="row">
-      <div class="col-12 col-lg-8 mb-5">
-        <h5>Predefined comments</h5>
+      <div class="col-12 col-lg-9 mb-5">
+        <h5>{{"Predefined comments" | translate }}</h5>
         <div class="container">
           <div class="row">
-            <div class="col-6 col-md-8">
-              <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newPredefinedComment.comment' (ngModelChange)="newPredefinedComment.comment = $event.trim()" placeholder="Comment">
+            <div class="col-6 col-md-7">
+              <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newPredefinedComment.comment' (ngModelChange)="newPredefinedComment.comment = $event.trim()" [placeholder]="'Comment' | translate">
             </div>
-            <div class="col-6 col-md-4">
-              <label></label>
-              <button class="btn fhi-btn-primary" (click)="createPredefinedComment()" [disabled]="!newPredefinedComment.comment">Add to comment</button>
+            <div class="col-6 col-md-5">
+              <button class="btn fhi-btn-primary" (click)="createPredefinedComment()" [disabled]="!newPredefinedComment.comment">{{"Add to comment" | translate }}</button>
             </div>
           </div>
         </div>
@@ -23,8 +22,8 @@
         <table class="table">
           <thead>
             <tr>
-              <td>Comment</td>
-              <td class="text-end">Action</td>
+              <th>{{"Comment" | translate }}</th>
+              <th class="text-end">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +32,7 @@
                 <td class="col-8">{{predefinedComment.comment}}</td>
                 <td class="text-end">
                   <button class="btn fhi-btn-icon" (click)="selectedPredefinedComment(predefinedComment)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                   </button>
               </ng-container>
               <ng-container *ngIf="predefinedCommentAsChanged?.id === predefinedComment.id">
@@ -44,10 +43,10 @@
                   <button class="btn fhi-btn-icon"
                           (click)="updatePredefinedComment(predefinedCommentAsChanged)"
                           [disabled]="!predefinedCommentAsChanged.comment">
-                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -58,11 +57,11 @@
     </div>
     <div class="row" *ngIf="!loading && predefinedComments?.length == 0">
       <div class="col-12">
-        <p>No predefined comments have been registered at this healthcare facility.</p>
+        <p>{{"No predefined comments have been registered at this healthcare facility." | translate }}</p>
       </div>
     </div>
     <div class="row" *ngIf="loading">
-      <app-spinner class="col-12">Loading predefined comments</app-spinner>
+      <app-spinner class="col-12">{{"Loading predefined comments" | translate }}</app-spinner>
     </div>
   </div>
 </div>

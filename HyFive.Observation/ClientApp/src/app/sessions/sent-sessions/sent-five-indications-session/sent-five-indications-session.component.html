@@ -1,7 +1,7 @@
 <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
 <div class="container" *ngIf='isOnline'>
-  <app-navigation-link (linkClicked)="navigateToSentSessions()">Back</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Send session - Five indications'"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToSentSessions()">{{"Back" | translate }}</app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Sent sessions - Five indications' | translate"></app-session-edit-header>
 </div>
 <app-session-statistics *ngIf='isOnline' [session]="session"> </app-session-statistics>
 
@@ -27,12 +27,12 @@
     </ng-template>
   </div>
   
-  <p *ngIf="session?.comment">Comment: <small><strong data-hj-suppress>{{session.comment}}</strong></small></p>
+  <p *ngIf="session?.comment">{{"Comment" | translate}}: <small><strong data-hj-suppress>{{session.comment}}</strong></small></p>
 
   <div class="text-end" *ngIf="session?.observations?.length > 0">
     <button  class="btn fhi-btn-icon" (click)="downloadAsExcelFnct()" >
       <i class="icon-download"></i>
-      {{ DialogueTexts.DownloadDataAsExcel }}
+      {{ DialogueTexts.DownloadDataAsExcel | translate }}
     </button>
       <app-spinner *ngIf="downloadAsExcel"></app-spinner>
   </div>

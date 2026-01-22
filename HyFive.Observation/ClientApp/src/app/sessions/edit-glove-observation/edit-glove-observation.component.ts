@@ -52,7 +52,7 @@ export class EditGloveObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: GloveObservation;
   @Input() department: Department;
-  @Input("facilityid") facilityid: number;
+  @Input() facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
   showInfoModal = false;
   observationMissingText: any;

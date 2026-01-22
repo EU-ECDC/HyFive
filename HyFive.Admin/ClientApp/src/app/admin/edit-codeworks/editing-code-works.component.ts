@@ -11,6 +11,8 @@ import { EditingGlovewithoutindicationtypesComponent } from './editing-of-gloves
 import { EditingHandHygieneAfterGloveUseTypesComponent } from './editing-of-hand-hygiene-after-glove-usetypes/editing-of-hand-hygiene-after-glove-usetypes.component';
 import { EditingOfDepartmentTypesComponent } from './editing-of-departmenttypes/editing-of-departmentstype.component';
 import { EditingOfRolesComponent } from './editing-of-roles/editing-of-roles.component';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-editing-code-works',
@@ -37,18 +39,27 @@ export class EditingCodeworkComponent implements OnInit {
   codeworkSelected = false;
 
   constructor(
-    private resolver: ComponentFactoryResolver) { }
+    private readonly resolver: ComponentFactoryResolver, // NOSONAR
+    private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
+      this.translate.get(this.codeworks.map(item => item.name)).pipe(take(1)).subscribe(_res => {
+        this.codeworks = this.codeworks.map( codework => {
+          return {
+            ...codework,
+            name: this.translate.instant(codework.name)
+          }
+        });
+      });
   }
 
   openComponent(codework: CodeworksSidemenuModel) {
     this.codeworkSelected = true;
     this.codeworkContainer.clear();
 
-    this.codeworks = this.codeworks.map(x => { x.isActive = (x.name === codework.name) ? true : false; return x; });
+    this.codeworks = this.codeworks.map(x => { x.isActive = (x.name === codework.name); return x; });
 
     const factory = this.resolver.resolveComponentFactory(codework.component);
-    const componentRef = this.codeworkContainer.createComponent(factory);
+    this.codeworkContainer.createComponent(factory);
   }
 }

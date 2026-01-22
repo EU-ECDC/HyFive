@@ -11,10 +11,10 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 })
 export class RoleSelectDropdownComponent implements OnInit{
 
-  @Input('isReadonly') isReadonly = false;
-  @Input('roleSelectedI') roleSelectedI : Role[];
-  @Input('roleId') roleId: number;
-  @Output('roleSelectedEvent') roleSelectedEvent: EventEmitter<Role> = new EventEmitter<Role>();
+  @Input() isReadonly = false;
+  @Input() roleSelectedI : Role[];
+  @Input() roleId: number;
+  @Output() roleSelectedEvent: EventEmitter<Role> = new EventEmitter<Role>();
   selectedRole: Role;
 
   selectedRoleId: number;

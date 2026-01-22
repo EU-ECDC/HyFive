@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HandJewelryType } from '../../../models/api/HandJewelryType';
 import { HandJewelryTypeService } from '../../../services/data/handJewelryType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-editing-of-handjewelry-type',
@@ -14,9 +15,10 @@ export class EditingByHandjewelryTypeComponent implements OnInit, OnDestroy {
   handJewelryTypeAsChanged: HandJewelryType = null;
 
   constructor(
-    private handJewelryTypeService: HandJewelryTypeService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly handJewelryTypeService: HandJewelryTypeService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -35,22 +37,22 @@ export class EditingByHandjewelryTypeComponent implements OnInit, OnDestroy {
   loadHandJewelryTypes() {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe(
       (result) => this.handJewelryTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Hand Jewelry Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Hand Jewelry Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedHandJewelryType(handjewelryType: HandJewelryType): void {
     if (this.handJewelryTypeAsChanged?.id == handjewelryType.id) return;
-    this.handJewelryTypeAsChanged = JSON.parse(JSON.stringify(handjewelryType));
+    this.handJewelryTypeAsChanged = structuredClone(handjewelryType);
   }
 
   updateHandJewelryType(handjewelryType: HandJewelryType): void {
     this.handJewelryTypeService.updateHandJewelryType(handjewelryType).subscribe(
       (updateHandJewelryType) => {
-        this.toastrService.success("HandJewelryType updated");
+        this.toastrService.success(this.translate.instant("HandJewelry Type updated"));
         this.loadHandJewelryTypes();
       },
-      error => this.toastrService.error('An error occurred while updating HandJewelryType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating HandJewelry Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.handJewelryTypeAsChanged = null
     );
   }

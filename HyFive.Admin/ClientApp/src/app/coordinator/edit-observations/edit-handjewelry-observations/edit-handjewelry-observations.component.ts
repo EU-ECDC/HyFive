@@ -9,6 +9,8 @@ import {ToastrService} from "ngx-toastr";
 import {HandJewelrySelection} from "../../../../../../../HyFive.Observation/ClientApp/src/app/models/registration/handJewelry-selection.model";
 import {HandJewelryTypeService} from "../../../services/data/handJewelryType.service";
 import {HandJewelryType} from "../../../models/api/HandJewelryType";
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-handjewelry-observations',
@@ -29,10 +31,12 @@ export class EditHandjewelryObservationsComponent implements OnInit {
   handJewelryTypes: HandJewelryType[] = [];
 
   constructor(
-    private observationService: ObservationService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService,
-    private handJewelryTypeService: HandJewelryTypeService
+    private readonly observationService: ObservationService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly handJewelryTypeService: HandJewelryTypeService,
+    private readonly dialogMessageService: DialogMessageService,
+    private readonly translate: TranslateService
     ) { }
 
   ngOnInit(): void {
@@ -79,11 +83,11 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     this.observationService.updateHandJewelryObservation(this.handjewelryObservationAsChanged).subscribe(
       (isUpdated) => {
         this.handjewelryObservationAsChanged = null;
-        this.toastrService.success('The observation was updated');
+        this.toastrService.success(this.translate.instant("The observation was updated"));
         this.observationUpdatedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error updating observation: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when updating the observation"), { disableTimeOut: true});
       }
     );
 
@@ -93,11 +97,11 @@ export class EditHandjewelryObservationsComponent implements OnInit {
     this.observationService.deleteHandJewelryObservation(this.handjewelryObservationAsChanged.id, this.sessionId).subscribe(
       () => {
         this.handjewelryObservationAsChanged = null;
-        this.toastrService.success('The observation was deleted');
+        this.toastrService.success(this.translate.instant("The observation was deleted"));
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error deleting observation', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when deleting observation"), { disableTimeOut: true});
       });
   }
 

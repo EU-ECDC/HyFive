@@ -14,6 +14,7 @@ import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquip
 import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { MainMenuEventService } from '../../services/events/main-menu-event.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-protective-equipment',
@@ -43,7 +44,8 @@ export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly facilityService: FacilityService,
     private readonly mainMenuService: MainMenuEventService,
-    private readonly toastrService: ToastrService
+    private readonly toastrService: ToastrService,
+    private readonly translate: TranslateService
   ) {
     this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
@@ -68,7 +70,7 @@ export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
 
   async registerObservation(observation: ProtectiveEquipmentObservation) {
     await this.sessionService.registerObservation(observation);
-    this.toastrService.success("Observation was saved");
+    this.toastrService.success(this.translate.instant("Observation was saved"));
     this.loadSessionData();
   }
 

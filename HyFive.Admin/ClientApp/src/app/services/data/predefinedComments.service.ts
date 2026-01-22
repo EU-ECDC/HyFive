@@ -13,8 +13,8 @@ import { PredefinedComment } from "src/app/models/api/PredefinedComment";
 export class PredefinedCommentsService {
 
   constructor(
-    private httpClient: HttpClient,
-    private facilityService: FacilityService
+    private readonly httpClient: HttpClient,
+    private readonly facilityService: FacilityService
   ) { }
 
   getPredefinedComments(): Observable<PredefinedComment[]> {

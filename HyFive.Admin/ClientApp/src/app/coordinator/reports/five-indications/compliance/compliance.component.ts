@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FhiDiagramOptions } from '@folkehelseinstituttet/angular-highcharts';
 import { ToastrService } from 'ngx-toastr';
 import { Department} from '../../../../models/api/Department';
@@ -14,13 +14,16 @@ import { LoggedInUser } from 'src/app/models/api/LoggedInUser';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { DepartmentService } from 'src/app/services/data/department.service';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs';
+import { DownloadComplianceFacilitiesHelper } from 'src/app/utils/download-compliance-facilities-helper';
 
 @Component({
   selector: 'app-compliance',
   templateUrl: './compliance.component.html',
   styleUrls: ['./showGraphErrorStyle.scss']
 })
-export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked  {
+export class ComplianceComponent implements OnInit, AfterViewChecked  {
 
   @ViewChild('dropdownRef', { static: false }) dropdownRef: ElementRef;
   isDropdownFocused: boolean = false;
@@ -103,30 +106,61 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   
   constructor(
     public authorizationService: AuthorizationService,
-    private graphService: ReportService,
-    private facilityService: FacilityService,
-    private departmentService: DepartmentService,
-    private roleService: RoleService,
-    private toastrService: ToastrService,
-    private cdref: ChangeDetectorRef) { }
+    private readonly graphService: ReportService,
+    private readonly facilityService: FacilityService,
+    private readonly departmentService: DepartmentService,
+    private readonly roleService: RoleService,
+    private readonly toastrService: ToastrService,
+    private readonly cdref: ChangeDetectorRef,
+    private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
+
+    this.translate.get(this.intervalsList.map(item => item.name)).pipe(take(1)).subscribe(_res => {
+      this.intervalsList = this.intervalsList.map( interval => {
+        return {
+          value: interval.value,
+          name: this.translate.instant(interval.name)
+        }
+      });
+    });
+
+    this.translate.get(this.TransferredLists.map(item => item.name)).pipe(take(1)).subscribe(_res => {
+      this.TransferredLists = this.TransferredLists.map( transferredItem => {
+        return {
+          value: transferredItem.value,
+          name: this.translate.instant(transferredItem.name)
+        }
+      })
+    });
+
+    this.translate.get("Select all").pipe(take(1)).subscribe(_res => {
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: this.translate.instant('Select all'),
+        unSelectAllText: this.translate.instant('Select all'),
+        noDataAvailablePlaceholderText: this.translate.instant('No data available'),
+        itemsShowLimit: 3
+      };
+    });
 
     this.authorizationService.getUser().subscribe((user) => {
       this.user = user;
     },
-      (error) => (this.toastrService.error("An error occurred while loading user: " + error?.message ? error.message : error, '', {disableTimeOut: true}))
+      (error) => (this.toastrService.error(this.translate.instant("An error occurred while loading user:") + ' ' + error?.error.message ? error.error.message : error, '', {disableTimeOut: true}))
     );
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select all',
-      unSelectAllText: 'Select all',
-      itemsShowLimit: 3
-    };
 
     this.months = this.initMonths();
+    this.translate.get(this.months.map(item => item.description)).pipe(take(1)).subscribe(_res => {
+      this.months = this.months.map(month => {
+        return {
+          value: month.value,
+          description: this.translate.instant(month.description)
+        }
+      })
+    });
     this.loadRoles();
 
     this.selectedRole = this.authorizationService.getSelectedRole();
@@ -214,34 +248,19 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
   }
 
-  ngOnDestroy(): void {
-  }
-
   loadAdminFacilityTypes() {
     this.facilityService.getFacilityTypes().subscribe((result) => {
       this.facilityTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading facility types: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading facility types:') + ' ' + error?.error.message, '', { disableTimeOut: true })
     });
   }
 
   loadFacilitiesDepartments(facilityIds: number[]) {
   this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
-    const allDepartments = facilities.reduce((all, inst) => {
-      return all.concat(inst.departments);
-    }, []);
 
-    let uniqueDepartments = Array.from(
-      new Map(allDepartments.map(dep => [dep.id, dep])).values()
-    );
-
-    const uniqueDepartmentTypes = Array.from(
-      new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
-    );
-      uniqueDepartments = uniqueDepartments
-                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-    this.departmentTypes = uniqueDepartmentTypes;
-    this.departments = uniqueDepartments;
-    this.allDepartments = uniqueDepartments;
+    this.departmentTypes = DownloadComplianceFacilitiesHelper.handleUniqueDepartmentTypes(facilities);
+    this.departments = DownloadComplianceFacilitiesHelper.handleUniqueDepartments(facilities);
+    this.allDepartments = this.departments;
   });
 }
 
@@ -259,7 +278,6 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   filterDepartmentsByType() {
     this.selectedDepartments = [];
     if (this.selectedDepartmentTypes?.length > 0) {
-      console
       this.departments =  this.allDepartments.filter(item => this.selectedDepartmentTypes.some(sd => sd.id == item.departmentTypeId));
     } else {
       this.departments = this.allDepartments;
@@ -307,7 +325,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
   loadRoles() {
     this.roleService.getRoles().subscribe(
       (roles) => this.roles = roles,
-      (error) => this.toastrService.error('An error occurred while loading roles: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Roles:') + ' ' + error?.error.message, '', { disableTimeOut: true })
     );
   }
 
@@ -315,7 +333,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
     let facilityIds = this.selectedFacilities.map(inst => inst.id);
     this.facilityService.getDepartmentsByFacilities(facilityIds).subscribe(
       (departments) => this.departments = departments,
-      (error) => this.toastrService.error('An error occurred while loading departments: ' + error?.message, '', { disableTimeOut: true })
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading departments:') + ' ' + error?.error.message, '', { disableTimeOut: true })
     );
   }
 
@@ -325,7 +343,7 @@ export class ComplianceComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.departmentTypes = departmentTypes;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Loading departmentType failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Loading Department Types failed'), {disableTimeOut: true});
     });
   }
 

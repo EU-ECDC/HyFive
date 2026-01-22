@@ -1,9 +1,10 @@
+using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
+using MediatR;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.DataAccess;
-using MediatR;
 
 namespace HyFive.Services.Session
 {
@@ -34,8 +35,7 @@ namespace HyFive.Services.Session
 
                 if (session == null)
                 {
-                    throw new ArgumentException(
-                        $"Did not find session with ID:  {request.SessionId}");
+                    throw new DomainException("SessionNotFound", request.SessionId);
                 }
 
                 if (request.Comment != null)

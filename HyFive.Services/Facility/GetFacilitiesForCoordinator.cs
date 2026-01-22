@@ -31,7 +31,6 @@ namespace HyFive.Services.Facility
 
             public async Task<Models.V1.Facility.FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                                
                 var query = _context.Facility
                     .AsNoTracking()
                     .Include(i => i.Departments)

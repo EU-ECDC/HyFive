@@ -9,6 +9,8 @@ import { CityService } from 'src/app/services/data/City.service';
 import { FacilityTypeConstants } from 'src/app/models/api/FacilityTypeConstants';
 import { User } from 'src/app/models/api/User';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
 
 @Component({
   selector: 'app-create-facility',
@@ -24,10 +26,13 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
   @Input() facilities: Facility[] = [];
   @Input() coordinators: User[] = [];
   @Output() facilityCreatedEvent: EventEmitter<Facility> = new EventEmitter<Facility>();
+  @Output() resetFormEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private facilityService: FacilityService,
-              private toastrService: ToastrService,
-              private cityService: CityService) {
+  constructor(private readonly facilityService: FacilityService,
+              private readonly toastrService: ToastrService,
+              private readonly cityService: CityService,
+              private readonly translate: TranslateService,
+              private readonly dialogMessageService: DialogMessageService) {
                 this.mailValidatorHelper = MailValidatorHelper;
                }
 
@@ -45,6 +50,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.newfacility = this.createDefaultFacility();
     this.toastrService.clear();
   }
 
@@ -54,10 +60,11 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   createFacility() {
     this.facilityService.createFacility(this.newfacility).subscribe((result) => {
-        this.toastrService.success('Facility created', `Facility with ID: ${result.id} created`);
+        this.toastrService.success(this.translate.instant('Facility created'), `${this.translate.instant('Facility with ID:')} ${result.id} ${this.translate.instant('created')}`);
         this.facilityCreatedEvent.emit(result);
+        this.cancelForm();
       },
-        (err) => this.toastrService.error(`An error occurred while creating the healthcare facility. Error message from server: ${err}`, 'Error creating healthcare facility', { disableTimeOut: true }),
+        (err) => this.toastrService.error(`${ this.translate.instant('An error occurred while creating the healthcare facility. Error message from server:')} ${err.error.message}`, this.translate.instant('Error creating healthcare facility'), { disableTimeOut: true }),
       () => {
         this.newfacility = this.createDefaultFacility();
 
@@ -90,15 +97,19 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       && this.newfacility.cityId > 0
       && this.newfacility?.coordinatorFirstName?.length > 0
       && this.newfacility?.coordinatorLastName?.length > 0
-      && this.coordinators.find(fc => fc.email == this.newfacility?.coordinatorEmail) == undefined
+      && !this.coordinators.some(fc => fc.email == this.newfacility?.coordinatorEmail)
       && this.newfacility?.coordinatorEmail?.length > 0
       && this.mailValidatorHelper.validateMail(this.newfacility?.coordinatorEmail)
-      && this.facilities.find(i => i.name === this.newfacility.facilityName) == undefined;
+      && !this.facilities.some(i => i.name === this.newfacility.facilityName);
   }
 
   omitSpecialChar(event) {   
     let k;  
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+  }
+
+  cancelForm() {
+    this.resetFormEvent.emit(true);
   }
 }

@@ -8,20 +8,20 @@ import {ActivityTypeService} from "../../../../services/data/activity-type.servi
 })
 export class ActivityChoiceDropdownComponent implements OnInit{
 
-  @Input('aktivitetTypeId') aktivitetTypeId: number;
-  @Output('activityTypeSelected') activityTypeSelected: EventEmitter<ActivityType> = new EventEmitter<ActivityType>();
+  @Input() activityTypeId: number;
+  @Output() activityTypeSelected: EventEmitter<ActivityType> = new EventEmitter<ActivityType>();
   selectedActivityType: ActivityType;
   activityTypes: ActivityType[] = [];
 
   selectedActivityTypeId: string;
 
-  constructor(private activityTypeService: ActivityTypeService){}
+  constructor(private readonly activityTypeService: ActivityTypeService){}
 
   ngOnInit() {
     this.activityTypeService.getActivityTypes().subscribe(
       (activityTypes) => {
       this.activityTypes = activityTypes;
-      this.selectedActivityTypeId = this.aktivitetTypeId+'';
+      this.selectedActivityTypeId = this.activityTypeId+'';
       this.selectActivityType();
       }
     );
@@ -34,7 +34,7 @@ export class ActivityChoiceDropdownComponent implements OnInit{
 
   selectActivityType() {
     if (this.activityTypes){
-      this.selectedActivityType = this.activityTypes[this.activityTypes.map(r => r.id).indexOf(parseInt(this.selectedActivityTypeId))];
+      this.selectedActivityType = this.activityTypes[this.activityTypes.map(r => r.id).indexOf(Number.parseInt(this.selectedActivityTypeId))];
     }
   }
 }

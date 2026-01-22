@@ -13,6 +13,8 @@ import { GloveSessionService } from "../services/data/glove-session.service";
 import { AuthorizationService } from "../services/data/authorization.service";
 import { LoggedInUser } from "../models/api/LoggedInUser";
 import { FacilityService } from "../services/data/FacilityService";
+import { TranslateService } from "@ngx-translate/core";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: "app-home-page-observation",
@@ -36,6 +38,8 @@ export class HomePageForObservationComponent implements OnInit {
   faCircle = faCircle;
   faUserNurse = faUserNurse;
   faCheck = faCheck;
+  gloveUseLabel = { name: "Glove use" ,value: "Glove use"};
+  handHygieneLabel = { name: "Hand Hygiene", value: "Hand Hygiene" };
 
   constructor(
     private readonly router: Router,
@@ -43,7 +47,8 @@ export class HomePageForObservationComponent implements OnInit {
     private readonly handJewelrySessionService: HandJewelrySessionService,
     private readonly gloveSessionService: GloveSessionService,
     private readonly facilityService: FacilityService,
-    private readonly authorizationService: AuthorizationService
+    private readonly authorizationService: AuthorizationService,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -52,6 +57,11 @@ export class HomePageForObservationComponent implements OnInit {
       if (e instanceof NavigationEnd) {
         this.resetState();
       }
+    });
+
+    this.translate.get([this.gloveUseLabel.name, this.handHygieneLabel.name]).pipe(take(1)).subscribe(_res => {
+      this.gloveUseLabel.value = this.translate.instant(this.gloveUseLabel.name);
+      this.handHygieneLabel.value = this.translate.instant(this.handHygieneLabel.name);
     });
   }
 
@@ -99,18 +109,18 @@ export class HomePageForObservationComponent implements OnInit {
 
   startObservation() {
     if (!this.selectedDepartmentId) {
-      alert("Select a department");
+      alert(this.translate.instant("Select a department"));
       return;
     }
 
     if (!this.roleSelected.filter((r) => r.isSelected).length) {
-      alert("Select one or more roles");
+      alert(this.translate.instant("Select one or more roles"));
       return;
     }
 
     switch (this.selectedSessionType) {
       case SessionType.NotSelected:
-        alert("Select the sessionType you want to start");
+        alert(this.translate.instant("Select the sessionType you want to start"));
         break;
       case SessionType.FiveIndications:
         this.startFiveIndicationsSession();
@@ -127,9 +137,9 @@ export class HomePageForObservationComponent implements OnInit {
       //   break;
       default:
         alert(
-          `Observation of ${
+          this.translate.instant('Observation of') + ` ${
             Object.values(SessionType)[this.selectedSessionType]
-          } is not supported yet`
+          } `  + this.translate.instant('is not supported yet')
         );
         break;
     }

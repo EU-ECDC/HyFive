@@ -1,14 +1,14 @@
 <div class="container mb-3">
-  <app-navigation-bar (linkClicked)="navigateToObservationsForFacilities()">Back to overview</app-navigation-bar>
+  <app-navigation-bar (linkClicked)="navigateToObservationsForFacilities()">{{"Back to overview" | translate }}</app-navigation-bar>
 </div>
 
 <div class="container" *ngIf="department">
   <div class="row mb-3">
     <div class="col">
-      <h4>Department: {{department.name}}</h4>
+      <h4>{{"Department" | translate }}: {{department.name}}</h4>
       <p>
-        <span *ngIf="fromDate">From date: {{showFormattedDate(fromDate)}}</span> <br />
-        <span *ngIf="toDate">to date: {{showFormattedDate(toDate)}}</span>
+        <span *ngIf="fromDate">{{ "From Date" | translate }}: {{showFormattedDate(fromDate)}}</span> <br />
+        <span *ngIf="toDate">{{ "To Date" | translate }}: {{showFormattedDate(toDate)}}</span>
       </p>
     </div>
   </div>
@@ -28,7 +28,7 @@
 
   <div class="row mb-2">
     <div class="col">
-      <h5>Sessions</h5>
+      <h5>{{"Sessions" | translate }}</h5>
     </div>
   </div>
 

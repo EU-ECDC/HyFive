@@ -1,24 +1,25 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
 import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
 import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { SessionType } from 'src/app/models/api/SessionType';
-import { DepartmentService } from 'src/app/services/data/department.service';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
-import { RoleService } from 'src/app/services/data/role.service';
+import { DateMomentHelper } from 'src/app/utils/date-moment-helper';
+import { DownloadComplianceFacilitiesHelper } from 'src/app/utils/download-compliance-facilities-helper';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
 
 @Component({
   selector: 'app-compliance-pdf',
   templateUrl: './compliance-pdf.component.html'
 })
-export class CompliancePdfComponent {
+export class CompliancePdfComponent implements OnInit {
 
   @Input() sessionType: SessionType;
 
@@ -45,10 +46,11 @@ export class CompliancePdfComponent {
   dropdownSettings: IDropdownSettings;
 
   constructor(
-    private facilityService: FacilityService,
-    private reportService: ReportService,
-    private toastrService: ToastrService,
-    private authorizationService: AuthorizationService) { }
+    private readonly facilityService: FacilityService,
+    private readonly reportService: ReportService,
+    private readonly toastrService: ToastrService,
+    private readonly authorizationService: AuthorizationService,
+    private readonly translate: TranslateService) { }
 
   @ViewChild('dropdownRef', { static: false }) dropdownRef: ElementRef;
   isDropdownFocused: boolean = false;
@@ -88,15 +90,19 @@ export class CompliancePdfComponent {
           this.facilities = facilities;
           this.allFacilities = facilities;
         });
-      }
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select all',
-      unSelectAllText: 'Select all',
-      itemsShowLimit: 3
-    };
+    }
+
+    this.translate.get("Select all").pipe(take(1)).subscribe(_res => {
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: this.translate.instant('Select all'),
+        unSelectAllText: this.translate.instant('Select all'),
+        noDataAvailablePlaceholderText: this.translate.instant('No data available'),
+        itemsShowLimit: 3
+      };
+    });
   }
 
   // filterFacilitiesByType() {
@@ -158,6 +164,7 @@ export class CompliancePdfComponent {
 
   reset(): void {
     this.selectedDepartments = [];
+    this.selectedFacilities = [];
     // this.selectedDepartmentTypes = [];
     this.departments = [];
     this.fromDate = null;
@@ -188,8 +195,8 @@ export class CompliancePdfComponent {
       facilityIds,
       // departmentTypeIds,
       departmentIds,
-      fromDate: this.fromDate, 
-      toDate: this.toDate,
+      fromDate: DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD"), 
+      toDate: DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD"),
       roleId: this.selectedRole
       }).subscribe(
         reportHasData => {
@@ -200,11 +207,10 @@ export class CompliancePdfComponent {
             },
               (error) => {
                 this.storedReport = false
-                this.toastrService.error(error?.message ? error.message : error, 'Error while downloading report', { disableTimeOut: true });
+                this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant('Error while downloading report'), { disableTimeOut: true });
               });
           } else {
-            // this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
-            this.toastrService.info('There are no observations for selected values', '');
+            this.toastrService.info(this.translate.instant('There are no observations for selected values'), '');
           }
         })
   }
@@ -219,16 +225,11 @@ export class CompliancePdfComponent {
     }
 
     url += '/department/pdf/';
-    // url += `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
-    // url += `&role=${this.selectedRole}`;
-    // this.selectedFacilities.forEach(inst =>  {url += `&facilityId=${inst.id}`});
-    // this.selectedDepartments.forEach(dep => { url += `&departmentId=${dep.id}`});
-    // url += `&facilityId=${this.selectedFacilityId}&departmentId=${this.selectedDepartmentId}`;
     const payload: DownloadExcelModel = {
       departmentIds:  this.selectedDepartments?.map(dep => dep.id) ?? [],
       facilityIds: this.selectedFacilityId ? [this.selectedFacilityId] : this.selectedFacilities?.map(t => t.id) ?? [],
-      fromDate: this.fromDate,
-      toDate: this.toDate,
+      fromDate: DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD"),
+      toDate: DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD"),
       role: this.selectedRole
     } 
 
@@ -263,23 +264,9 @@ export class CompliancePdfComponent {
 
   loadFacilitiesDepartments(facilityIds: number[]) {
   this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
-    const allDepartments = facilities.reduce((all, inst) => {
-      return all.concat(inst.departments);
-    }, []);
-
-    let uniqueDepartments = Array.from(
-      new Map(allDepartments.map(dep => [dep.id, dep])).values()
-    );
-
-    const uniqueDepartmentTypes = Array.from(
-      new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
-    );
-
-      // this.departmentTypes = uniqueDepartmentTypes;
-      uniqueDepartments = uniqueDepartments
-                          .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-      this.departments = uniqueDepartments;
-      this.allDepartments = uniqueDepartments;
+    
+      this.departments = DownloadComplianceFacilitiesHelper.handleUniqueDepartments(facilities);
+      this.allDepartments = this.departments;
     });
   }
 }

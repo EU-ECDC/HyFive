@@ -12,6 +12,6 @@ export class IndicationTypeMapper {
         number: item.number
       });
       return acc;
-    }, [] as IndicationTypeChoice[]).sort((a, b) => { return parseInt(a.number) > parseInt(b.number) ? 1 : -1 }); return to;
+    }, [] as IndicationTypeChoice[]).sort((a, b) => { return Number.parseInt(a.number) > Number.parseInt(b.number) ? 1 : -1 }); return to;
   }
 }

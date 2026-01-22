@@ -11,7 +11,8 @@ export class AuthenticationFailedModalComponent implements OnInit {
   @ViewChild("content")
   content : ViewContainerRef;
 
-  constructor(private authenticationEventService: AuthenticationEventService, private modalService: NgbModal) { }
+  constructor(private readonly authenticationEventService: AuthenticationEventService, 
+              private readonly modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.authenticationEventService.authenticationFailedEvent.subscribe(authenticationFailed => {
@@ -26,6 +27,6 @@ export class AuthenticationFailedModalComponent implements OnInit {
   }
 
   logIn(): void {
-  window.location.href = '/account/login';
+  globalThis.location.href = '/account/login';
 }
 }

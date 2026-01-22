@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 })
 export class SortableTableDirective implements OnInit, OnDestroy {
 
-  constructor(private sortService: SortService) { }
+  constructor(private readonly sortService: SortService) { }
 
   @Output() sorted = new EventEmitter();
 

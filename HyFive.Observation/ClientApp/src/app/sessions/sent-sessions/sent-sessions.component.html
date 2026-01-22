@@ -1,5 +1,5 @@
 <div class="container d-xl-none pb-3 mt-n5">
-  <h1 class="h2">Sessions</h1>
+  <h1 class="h2">{{"Sessions" | translate}}</h1>
 </div>
 
 <div class="container px-0">
@@ -13,13 +13,13 @@
         <div class="col-lg-8 mb-4">
           <div class="d-flex">
             <label class="icon-search mt-2 me-3" for="search-sent-items"
-              ><span class="visually-hidden">Filter list</span></label
+              ><span class="visually-hidden">{{"Filter list" | translate}}</span></label
             >
             <input
               id="search-sent-items"
               type="search"
               class="form-control"
-              placeholder="Search for..."
+              [placeholder]="'Search for...' | translate"
               [(ngModel)]="keyword"
               (ngModelChange)="filterSessions()"
             />
@@ -43,7 +43,7 @@
           <article class="fhi-card h-100">
             <div class="fhi-card__content d-flex flex-column h-100">
               <h2 class="h4 mb-0">{{ sessionView.facilityName }}</h2>
-              <p>Dep: {{ sessionView.departmentName }}</p>
+              <p>{{'Dep' | translate}}: {{ sessionView.departmentName }}</p>
 
               <p class="small">{{ sessionNameMap.get(sessionView.type) }}</p>
 
@@ -60,7 +60,7 @@
                   [queryParams]="{ sessionId: sessionView.id }"
                   class="btn fhi-btn-shortcut-link mb-n2"
                 >
-                  <span class="btn__text">See details</span>
+                  <span class="btn__text">{{"See details" | translate}}</span>
                   <i class="icon-arrow-right me-0 ms-2"></i>
                 </a>
               </div>

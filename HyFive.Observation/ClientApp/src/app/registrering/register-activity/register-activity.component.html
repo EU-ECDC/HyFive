@@ -4,11 +4,11 @@
           [disabled]="disabled"
           (click)="registerActivity(modal)">
     <fa-icon [icon]="icon" class="hh-vertical-stadium-buttons__icon" [ngStyle]="{'color': (this.activityType?.code === activityTypeConstants.NotPerformed && isRegistered) ? '#e0271a' : '' }"></fa-icon>
-    <span class="form-check-label" style="line-height: 45%" *ngIf="showText || seconds === 0">
+    <span class="form-check-label" style="line-height: 45%; word-break: break-word; overflow-wrap: break-word;" *ngIf="showText || seconds === 0">
       <small><strong>{{getActivityText()}}</strong></small>
     </span>
     <small class="hh-register-activity__seconds-used" *ngIf="(timingExecuted || isRegistered) && seconds > 0">
-      <strong>{{seconds}}s</strong>
+      <strong>{{seconds}}{{"s" | translate}}</strong>
     </small>
   </button>
 </div>
@@ -23,15 +23,15 @@
     <div class="container">
       <div class="row">
         <div class="col text-center">
-          <p class="font-weight-bold">Were gloves used??</p>
+          <p class="font-weight-bold">{{"Were gloves used?" | translate}}</p>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <div class="btn-group" role="group">
-      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Yes'); confirmRegistration(true)">Yes</button>
-      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('No'); confirmRegistration(false)">No</button>
+      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Yes'); confirmRegistration(true)">{{"Yes" | translate}}</button>
+      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('No'); confirmRegistration(false)">{{"No" | translate}}</button>
     </div>
   </div>
 </ng-template>

@@ -11,6 +11,7 @@ using HandJewelrySession = HyFive.Models.V1.Session.HandJewelrySession;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
 using Microsoft.Extensions.Logging;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.HandJewelry
 {
@@ -42,7 +43,7 @@ namespace HyFive.Services.HandJewelry
                 // Verify that observer is an observer at the facility
                 var observer = await GetObserver(request);
                 if (observer == null)
-                    throw new ArgumentException($"Did not find an observer with Email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
+                    throw new DomainException("ObserverNotFoundAtFacility", request.Email, request.Session.Department.FacilityId);
 
                 var handJewelryTypes = await _context.HandJewelryType.ToListAsync(cancellationToken);
                 var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
@@ -88,7 +89,7 @@ namespace HyFive.Services.HandJewelry
                     .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
 
                 if (facility == null)
-                    throw new ArgumentException($"Did not find the specified facility with ID: {request.Session.Department.FacilityId}");
+                    throw new DomainException("FacilityNotFound", request.Session.Department.FacilityId);
 
                 return facility
                     .Users

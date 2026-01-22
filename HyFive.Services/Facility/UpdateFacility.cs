@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,14 +34,12 @@ namespace HyFive.Services.Facility
                 // Check facility type:
                 var facilityType = await _context.FacilityType.FirstOrDefaultAsync(i => i.Id == command.Facility.FacilityType.Id);
                 if (facilityType == null)
-                    throw new ArgumentException(
-                        $"Facility type with ID {command.Facility.FacilityType.Id} was not found in the database.");
+                    throw new DomainException("FacilityNotFound", command.Facility.FacilityType.Id);
 
                 //check city:
                 var city = await _context.City.FirstOrDefaultAsync(i => i.Id == command.Facility.City.Id);
                 if (city == null)
-                    throw new ArgumentException(
-                        $"City with ID {command.Facility.City.Id} was not found in the database.");
+                    throw new DomainException("CityNotFound", command.Facility.City.Id);
 
                 var facility = await _context.Facility
                                                 .Include(i => i.City)

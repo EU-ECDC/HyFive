@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Facility;
+using HyFive.Services.Localization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Facility;
 
 namespace HyFive.Services.Department
 {
@@ -22,6 +25,8 @@ namespace HyFive.Services.Department
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
+
+
 
             public Handler(HandHygieneContext context, IMapper mapper)
             {
@@ -39,16 +44,17 @@ namespace HyFive.Services.Department
 
                 if (facility == null)
                 {
-                    throw new ArgumentException("Did not find facility with ID " + command.Request.FacilityId);
+                    throw new DomainException("FacilityNotFound", command.Request.FacilityId);
+                   
                 }
 
                 if (!command.Request.RoleIds.Any())
-                    throw new ArgumentException($"Role list is empty. Department must be created with at least one role.");
+                    throw new DomainException("EmptyRoleList");
 
                 var departmentType = await _context.DepartmentType.FirstOrDefaultAsync(a => a.Id == command.Request.DepartmentTypeId, cancellationToken);
                 if (departmentType == null)
                 {
-                    throw new ArgumentException("Did not find department type with ID " + command.Request.DepartmentTypeId);
+                    throw new DomainException("DepartmentTypeNotFound", command.Request.DepartmentTypeId);
                 }
 
                 var selectedRoles = await _context.Role
@@ -62,7 +68,7 @@ namespace HyFive.Services.Department
                     .AnyAsync(d => d.Name == command.Request.Name && d.FacilityId == command.Request.FacilityId);
                 if(nameExists)
                 {
-                    throw new ArgumentException($"A department with the name '{command.Request.Name}' already exists in this facility.");
+                    throw new ValidationException("DepartmentNameExists", command.Request.Name);
                 }
 
                 var department = new Domain.Place.Department()

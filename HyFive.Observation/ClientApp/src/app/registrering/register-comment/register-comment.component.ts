@@ -3,7 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { SessionType } from '../../models/api/SessionType';
 import { PredefinedCommentsService } from '../../services/data/predefined-comments.service';
-
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-comment',
@@ -14,24 +15,29 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
 
   predefinedComments: string[];
   comment: string = "";
-  labelText: string = "Comment";
+  labelText = { name: "Comment", value: "Comment" };
 
   faCommentLines = faCommentDots;
 
-  @Input("commentInput") commentInput;
-  @Input('disabled') disabled = false;
-  @Input('facilityid') facilityid;
-  @Input("sessiontype") sessiontype: SessionType;
+  @Input() commentInput;
+  @Input() disabled = false;
+  @Input() facilityid;
+  @Input() sessiontype: SessionType;
   @Output() commentRegisteredEvent = new EventEmitter<string>();
 
   constructor(
     private readonly modalService: NgbModal,
-    private readonly predefinedCommentsService: PredefinedCommentsService) {
+    private readonly predefinedCommentsService: PredefinedCommentsService,
+    private readonly translate: TranslateService) {
   }
 
   ngOnInit(): void {
     if (this.facilityid && this.sessiontype)
       this.getPredefinedComments();
+
+    this.translate.get(this.labelText.name).pipe(take(1)).subscribe(_res => {
+      this.labelText.value = this.translate.instant(this.labelText.name);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -57,5 +63,27 @@ export class RegisterCommentComponent implements OnInit, OnChanges {
 
   registerComment() {
     this.commentRegisteredEvent.emit(this.comment);
+  }
+
+  // BLOCK ALL EMOJI
+  private readonly emojiRegex = /[\p{Emoji}\p{Extended_Pictographic}]/gu;
+
+  stripEmoji() {
+    if (this.comment) {
+      this.comment = this.comment.replace(this.emojiRegex, '');
+    }
+  }
+
+  // BLOCK IMAGE PASTE
+  blockImagePaste(event: ClipboardEvent) {
+    if (!event.clipboardData) return;
+
+    const hasImage = Array.from(event.clipboardData.items)
+      .some(item => item.type.startsWith('image/'));
+
+    if (hasImage) {
+      event.preventDefault();
+      alert(this.translate.instant('Images are not allowed.'));
+    }
   }
 }

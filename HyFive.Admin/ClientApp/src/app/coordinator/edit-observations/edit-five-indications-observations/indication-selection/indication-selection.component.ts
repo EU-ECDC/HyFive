@@ -13,12 +13,12 @@ export class IndicationSelectionComponent implements OnInit {
 
   indicationTypeChoice: IndicationTypeChoice[] = [];
 
-  @Input("parentId") parentId: string;
-  @Input("availableIndications") availableIndications: IndicationType[];
-  @Input("selectedIndications") selectedIndications: IndicationType[] = [];
+  @Input() parentId: string;
+  @Input() availableIndications: IndicationType[];
+  @Input() selectedIndications: IndicationType[] = [];
   @Output() indicationOptionChangedEvent = new EventEmitter<IndicationType[]>();
 
-  constructor(private indicationTypesService: IndicationTypesService) { }
+  constructor(private readonly indicationTypesService: IndicationTypesService) { }
 
   ngOnInit(): void {
     this.indicationTypesService.getIndicationTypes().subscribe((indicationTypes) => {

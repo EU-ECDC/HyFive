@@ -3,7 +3,7 @@
         [disabled]="disabled">
   <span class="d-flex align-items-center" data-hj-suppress>
     <fa-icon [icon]="faCommentLines" class="me-1"></fa-icon>
-    {{labelText}} <ng-container *ngIf="comment?.length > 0">: {{comment}}</ng-container>
+    {{labelText.value}} <ng-container *ngIf="comment?.length > 0">: <span class="ellipsis-10-chars">{{comment}}</span></ng-container>
   </span>
 </button>
 
@@ -21,14 +21,14 @@
               <strong data-hj-suppress>{{predefinedComment}}</strong>
             </li>
           </ul>
-          <textarea [(ngModel)]="comment" class="form-control" placeholder="Write a note" rows="2"></textarea>
+          <textarea [(ngModel)]="comment" class="form-control" [placeholder]="'Write a note' | translate" rows="2"></textarea>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Ok'); registerComment()">
-      Back to card
+      {{"Back to card" | translate}}
     </button>
   </div>
 </ng-template>

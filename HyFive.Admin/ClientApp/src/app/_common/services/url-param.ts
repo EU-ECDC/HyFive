@@ -3,13 +3,13 @@ import { UrlService } from './url.service';
 
 export class UrlParam {
   constructor(
-    private name: string,
-    private urlService: UrlService
+    private readonly name: string,
+    private readonly urlService: UrlService
   ) {
     this.urlService.registerNewParameter(this.name);
   }
 
-  private paramSubject = new Subject<string>();
+  private readonly paramSubject = new Subject<string>();
 
   get observable$(): Observable<string> {
     return this.paramSubject.asObservable();

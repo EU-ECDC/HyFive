@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation;
 using HyFive.Models.V1.Session;
@@ -12,6 +8,11 @@ using HyFive.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.Tests.FiveIndications
 {
@@ -408,7 +409,7 @@ namespace HyFive.Services.Tests.FiveIndications
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find activity type with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("ActivityTypeNotFound"),
                 async () =>
                 {
                     await updateActivityTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -495,7 +496,7 @@ namespace HyFive.Services.Tests.FiveIndications
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find indication type with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("IndicationTypeNotFound"),
                 async () =>
                 {
                     await updateIndicationTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());

@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-glove',
@@ -35,20 +36,21 @@ export class GloveComponent implements OnInit {
 
   constructor(
     private readonly sessionService: GloveSessionService,
-    private readonly router: Router,
+    private readonly toastrService: ToastrService,
     private readonly route: ActivatedRoute,
-    private readonly toastrService: ToastrService) {
+    private readonly router: Router,
+    
+    private readonly translate: TranslateService) {
 
   }
 
   ngOnInit(): void {
-    this.route
-      .queryParams
-      .subscribe(params => {
-        const sessionId = params[Queryparameters.SessionId] || 0;
-        this.session = this.sessionService.getSession(sessionId);
+    this.route.queryParams.subscribe(params => {
+        this.session = this.sessionService.getSession(params[Queryparameters.SessionId] || 0);
         this.facilityid = this.session.department.facilityId;
-        if (!this.session) this.router.navigate(['']);
+        if (!this.session) {
+          this.router.navigate(['']);
+        } 
       });
   }
 
@@ -78,15 +80,15 @@ export class GloveComponent implements OnInit {
   sendToCoordinator() {
     this.sessionSentToServer = true;
     this.sessionService.sendToServer(this.session.id).subscribe(res => {
-      this.toastrService.success("Session was sent to coordinator");
-      this.sessionService.deleteSession(this.session.id);
       this.sessionIsSentToServer = true;
+      this.sessionService.deleteSession(this.session.id);
+      this.toastrService.success(this.translate.instant("Session was sent to coordinator"));
     },
-      error => {
-        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
-        this.toastrService.error(message, '', { disableTimeOut: true});
-      },
-      () => this.sessionSentToServer = false);
+    (error) => {
+      const message = this.translate.instant("Something went wrong while sending session to coordinator:") + " " + (error?.error ? error.error.substr(0, 300)+'...' : error);
+      this.toastrService.error(message, '', { disableTimeOut: true});
+    },
+    () => this.sessionSentToServer = false);
   };
 
   navigateToSentSession() {

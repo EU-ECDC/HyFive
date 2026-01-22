@@ -1,8 +1,9 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { HomePageForObservationComponent } from './startside/home-page-observation.component';
@@ -72,11 +73,31 @@ import { GloveComponent } from './sessions/glove/glove.component';
 import { SentGloveSessionComponent } from './sessions/sent-sessions/sent-glove-session/sent-glove-session.component';
 import { EditGloveObservationComponent } from './sessions/edit-glove-observation/edit-glove-observation.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { LanguageService } from './services/data/language-service';
+import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+import localeEn from '@angular/common/locales/en';
 
+registerLocaleData(localeEl);
+registerLocaleData(localeEn);
 
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationFailedErrorInterceptor, multi: true },
 ];
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+
+export function languageInitializer(langService: LanguageService) {
+  return () => langService.initLanguage();
+}
+
+export function getLocale(): string {
+  return localStorage.getItem('lang') || 'en';
+}
 
 
 @NgModule({
@@ -133,7 +154,8 @@ export const httpInterceptorProviders = [
         AuthenticationFailedModalComponent,
         HelpTextComponent,
         HelpTextSettingsComponent,
-        PseudonymComponent
+        PseudonymComponent,
+        LanguageSelectorComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -149,10 +171,34 @@ export const httpInterceptorProviders = [
         //FhiAccordionModule,
         NgSelectModule,
         DragDropModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
     ],
     bootstrap: [AppComponent],
-    providers: [FiveIndicationsSessionService, HandJewelrySessionService, HandHygieneHammerJS, httpInterceptorProviders],
+    providers: [DatePipe,
+                FiveIndicationsSessionService,
+                HandJewelrySessionService,
+                HandHygieneHammerJS,
+                httpInterceptorProviders,
+                {
+                provide: APP_INITIALIZER,
+                useFactory: languageInitializer,
+                deps: [LanguageService],
+                multi: true
+              },
+              { provide: LOCALE_ID, useFactory: getLocale },
+              // {
+              //   provide: LOCALE_ID,
+              //   deps: [LanguageService],
+              //   useFactory: (langService: LanguageService) => langService.getLocale()
+              // }
+            ],
     exports: [
         EditProtectiveEquipmentObservationComponent,
         RegisterCommentComponent

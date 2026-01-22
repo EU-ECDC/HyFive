@@ -5,7 +5,7 @@ using Reinforced.Typings.Attributes;
 namespace HyFive.Models.V1.Constants
 {
     [TsClass(IncludeNamespace = false)]
-    public static class TransferStatusTypeConstants
+    public class TransferStatusTypeConstants
     {
         [TsProperty(Constant = true)]
         public const string TransferredToAdmin = "TRANSFERRED_TO_ADMIN";
@@ -15,14 +15,9 @@ namespace HyFive.Models.V1.Constants
         [TsIgnore]
         public static IEnumerable<string> GetTransferStatusTypes(string transferStatusType)
         {
-            ValidateTransferStatusType(transferStatusType);
-
-            return GetTransferStatusTypesInternal(transferStatusType);
-        }
-
-        private static IEnumerable<string> GetTransferStatusTypesInternal(string transferStatusType)
-        {
-            if (transferStatusType == TransferredToCoordinator)
+            if (transferStatusType == null)
+                throw new ArgumentException("Validation:TransferStatusTypeRequired");
+            if (transferStatusType == TransferStatusTypeConstants.TransferredToCoordinator)
             {
                 yield return TransferredToCoordinator;
                 yield return TransferredToAdmin;
@@ -30,12 +25,6 @@ namespace HyFive.Models.V1.Constants
             }
 
             yield return transferStatusType;
-        }
-
-        private static void ValidateTransferStatusType(string transferStatusType)
-        {
-            if (transferStatusType == null)
-                throw new ArgumentException("TransferStatusType must have a value");
         }
     }
 }

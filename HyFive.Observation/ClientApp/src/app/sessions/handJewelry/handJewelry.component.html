@@ -1,6 +1,6 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">Back to observation</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: HandJewelry'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">{{"Back to observation" | translate}}</app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Session: HandJewelry' | translate" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">
@@ -30,7 +30,7 @@
                id="FormInput"
                class="form-control"
               
-               placeholder="Add comment"
+               [placeholder]="'Add comment' | translate"
                [(ngModel)]="session.comment"
                (ngModelChange)="sessionService.updateSession(session)">
       </div>
@@ -47,21 +47,21 @@
     <div class="col ms-auto mb-3">
       <app-delete-confirmation-dialog (deletedEvent)="sessionDeletedEventHandler(session.id)" [dialogMessage]="DialogueTexts.SessionDeleteConfirmation" [isBlackColor]="false">
         <i class="icon-trash3"></i>
-        Delete session
+        {{"Delete session" | translate}}
       </app-delete-confirmation-dialog>
     </div>
     <div class="col-auto text-end ms-auto" *ngIf="isOnline">
       <button class="btn fhi-btn-primary"
               (click)="sendToCoordinator()"
               [disabled]="!(session?.observations?.length > 0)">
-        Send to coordinator
+        {{"Send to coordinator" | translate}}
       </button>
     </div>
   </div>
 
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">Back to observation</app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override-noeffect'" (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">{{"Back to observation" | translate}}</app-navigation-link>
     </div>
   </div>
 </div>

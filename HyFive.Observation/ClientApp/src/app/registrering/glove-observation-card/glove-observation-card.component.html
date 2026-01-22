@@ -21,7 +21,7 @@
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (activeIdChange)="resetTab()" class="nav-tabs nav-justified hh-glove-tabs">
             <li ngbNavItem="with">
               <a ngbNavLink class="hh-glove-tabs__tab">
-                Glove with indication
+                {{"Glove with indication" | translate}}
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithIndicationTypes">
@@ -42,16 +42,16 @@
                   <div class="col">
                     <div class="d-flex">
                       <div class="d-flex flex-column justify-content-center">
-                        <p class="mb-0 me-2">Gloves used?</p>
+                        <p class="mb-0 me-2">{{"Gloves used?" | translate}}</p>
                       </div>
 
                       <div class="ms-auto">
                         <div class="btn-group fhi-btn-group" role="group">
                           <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-ja-{{uuid}}"  [value]="true" [(ngModel)]="glovesUsed" />
-                          <label class="btn fhi-btn-group__btn" for="btn-ja-{{uuid}}">Yes</label>
+                          <label class="btn fhi-btn-group__btn" for="btn-ja-{{uuid}}">{{"Yes" | translate}}</label>
                           
                           <input type="radio" class="btn-check fhi-btn-group__check" name="name-{{uuid}}" id="btn-nei-{{uuid}}" [value]="false"[(ngModel)]="glovesUsed" />
-                          <label class="btn fhi-btn-group__btn" for="btn-nei-{{uuid}}">No</label>
+                          <label class="btn fhi-btn-group__btn" for="btn-nei-{{uuid}}">{{"No" | translate}}</label>
                         </div>
                       </div>
                     </div>
@@ -61,7 +61,7 @@
             </li>
             <li ngbNavItem="without">
               <a ngbNavLink class="hh-glove-tabs__tab">
-                Glove without indication
+                {{"Glove without indication" | translate }}
               </a>
               <ng-template ngbNavContent>
                 <div class="row py-1 px-3" *ngFor="let type of gloveWithoutIndicationTypes">
@@ -83,7 +83,7 @@
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
 
           <div class="mt-3" *ngIf="sessionView.gloveUseMustBeRegistered && glovesUsed">
-            <h3 class="h5 text-center">Hand hygiene after using gloves?</h3>
+            <h3 class="h5 text-center">{{"Hand hygiene after using gloves?" | translate}}</h3>
             <div class="d-flex">
               <div class="mx-auto btn-group fhi-btn-group btn-group-vertical">
                 <ng-container *ngFor="let type of postGloveHandHygieneTypes">
@@ -102,7 +102,7 @@
                                 (commentRegisteredEvent)="registerComment($event)">
           </app-register-comment>
           <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Clear card</span>
+            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>{{"Clear card" | translate}}</span>
           </button>
         </div>
       </div>

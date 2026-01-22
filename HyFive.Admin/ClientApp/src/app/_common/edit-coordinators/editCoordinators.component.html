@@ -1,40 +1,28 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5 mt-3" (click)="createEmptyCoordinator()">Create coordinator</button>
+    <button class="btn fhi-btn-primary mb-5 mt-3" [disabled]="showCreateForm" (click)="toggleCreateForm()">{{"Create coordinator" | translate }}</button>
   </div>
 </div>
+<div *ngIf="showCreateForm">
+  <app-create-coordinator-form [facilityId]="facilityId" [coordinators]="coordinators" (CreateCoordinatorEvent)="createCoordinator($event)" (CancelCreateEvent)="CancelCreateEmitted()"></app-create-coordinator-form>
+</div>
 <div class="row" *ngIf="coordinators">
-  <input type="text" autocomplete="off" *ngIf="coordinators.length > 0" placeholder="Search for...(First name/Last name)" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="searchWord" (ngModelChange)="filterCoordinators()">
-  <label class="col-12" *ngIf="coordinators.length === 0 && !newCoordinator">No coordinators found at this facility</label>
+  <input type="text" autocomplete="off" *ngIf="coordinators.length > 0" [placeholder]="'Search for...(First name/Last name)' | translate" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 400px;" [(ngModel)]="searchWord" (ngModelChange)="filterCoordinators()">
+  <p class="col-12" *ngIf="coordinators.length === 0">{{"No coordinators found at this facility" | translate}}</p>
   
   <ng-container>
     <div class="table-responsive">
-      <table class="table" *ngIf="coordinators.length > 0 || newCoordinator" sortable-table (sorted)="sorting($event)">
+      <table class="table" *ngIf="coordinators.length > 0" sortable-table (sorted)="sorting($event)">
         <thead>
           <tr>
-            <th sortable-column="First name"></th>
-            <th sortable-column="Last name"></th>
-            <th>Email</th>
-            <th>Disabled</th>
-            <th class="text-end" scope="col">Action</th>
+            <th [sortable-column]="'First Name' | translate"></th>
+            <th [sortable-column]="'Last Name' | translate"></th>
+            <th>{{"Email" | translate }}</th>
+            <th>{{"Disabled" | translate }}</th>
+            <th class="text-end" scope="col">{{"Action" | translate }}</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngIf="newCoordinator != null">
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.firstName" (ngModelChange)="newCoordinator.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name"></td>
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newCoordinator.lastName" (ngModelChange)="newCoordinator.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name"></td>
-            <td><input type="email" class="form-control" [(ngModel)]="newCoordinator.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email"></td>
-            <td></td>
-            <td class="text-end py-2 align-middle">
-              <button class="btn fhi-btn-icon" [disabled]="canBeCreated() == false" (click)="createCoordinator()">
-                <i class="icon-plus"></i><span class="btn__text">Create</span>
-              </button>
-              <button class="my-2 btn fhi-btn-icon" (click)="cancelEdit($event)">
-                <i class="icon-x"></i><span class="btn__text">Cancel</span>
-              </button>
-            </td>
-          </tr>
-  
+        <tbody>  
           <tr *ngFor="let coordinator of filteredCoordinators">
             <ng-container *ngIf="coordinatorIsChanged?.id != coordinator.id">
               <td>{{coordinator.firstName}}</td>
@@ -46,20 +34,20 @@
               
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="setCoordinatorAsChanged(coordinator)">
-                  <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                  <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                 </button>
               </td>
             
             </ng-container>
             <ng-container *ngIf="coordinatorIsChanged?.id == coordinator.id">
               <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" (ngModelChange)="coordinatorIsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" placeholder="First name">
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.firstName" (ngModelChange)="coordinatorIsChanged.firstName = $event.trim()" (keypress)="omitSpecialChar($event)" name="firstName" [placeholder]="'First Name' | translate">
               </td>
               <td>
-                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (ngModelChange)="coordinatorIsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" placeholder="Last name">
+                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="coordinatorIsChanged.lastName" (ngModelChange)="coordinatorIsChanged.lastName = $event.trim()" (keypress)="omitSpecialChar($event)" name="lastName" [placeholder]="'Last Name' | translate">
               </td>
               <td>
-                <input type="email" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" placeholder="Email">
+                <input type="email" class="form-control" [(ngModel)]="coordinatorIsChanged.email" name="email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" disabled [placeholder]="'Email' | translate">
               </td>
 
               <td>
@@ -71,20 +59,20 @@
                   <button class="btn fhi-btn-icon mr-2 w-100"
                           (click)="updateCoordinator(coordinatorIsChanged)"
                           [disabled]="canbeChanged(coordinatorIsChanged) == false">
-                          <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                          <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <div *ngIf="canDelete">
                     <app-confirmation-dialog 
-                                                  [buttonText]="'Delete'"
+                                                  [buttonText]="'Delete' | translate"
                                                   (confirmEvent)="deleteCoordinator(coordinator)"
-                                                  [dialogMessage]='"Do you want to delete " + coordinator.firstName + " " + coordinator.lastName + "?"'
+                                                  [dialogMessage]="dialogMessageService.translateText('Do you want to delete the coordinator') + ', ' + coordinator.firstName + ' ' + coordinator.lastName + '?'"
                                                   [buttonClass]="'mt-2 btn fhi-btn-icon w-100'"
                                                   [shouldUseIcon]=true>
                     </app-confirmation-dialog>
                   </div>
     
                   <button class="my-2 btn fhi-btn-icon w-100" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                 </ng-container>
               </td>

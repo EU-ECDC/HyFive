@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Observation", "HyFive.Observation\HyFive.Observation.csproj", "{3C856E79-4309-4932-B286-5E08FA2F1762}"
+	ProjectSection(ProjectDependencies) = postProject
+		{63B2914B-7F15-44F7-95FE-33D8D57F3E40} = {63B2914B-7F15-44F7-95FE-33D8D57F3E40}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyFive.Admin", "HyFive.Admin\HyFive.Admin.csproj", "{7871E8AC-DC8A-4041-ADDB-C611F74FBCC5}"
 EndProject
@@ -39,7 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{193E
 		Scripts\Oppdater opprettettidspunkt.sql = Scripts\Oppdater opprettettidspunkt.sql
 	EndProjectSection
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9B898DC9-8339-4D2B-8EBF-E16BEA1AF7EA}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "compose", "compose.dcproj", "{9B898DC9-8339-4D2B-8EBF-E16BEA1AF7EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

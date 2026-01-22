@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,24 +21,21 @@ namespace HyFive.Services.Glove
         public class Handler : IRequestHandler<Command, bool>
         {
             private readonly HandHygieneContext _context;
-            private readonly ILogger<Handler> _logger;
 
-            public Handler(HandHygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
-                _logger = logger;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                try
-                {
+                
                     var observation = await _context.GloveObservation
                         .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservationId), cancellationToken);
 
                     if (observation == null)
                     {
-                        throw new ArgumentException(" Did not find glove observation with ID: " + request.ObservationId);
+                        throw new DomainException("ObservationNotFound", request.ObservationId);
                     }
 
                     var session = await _context.GloveSession
@@ -51,13 +49,7 @@ namespace HyFive.Services.Glove
 
                     _context.Remove(observation);
                     await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Error while deleting glove observation with ID: {ObservationId}",request.ObservationId);
-                    return false;
-                }
-
+                
                 return true;
             }
         }

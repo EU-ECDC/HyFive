@@ -1,6 +1,6 @@
 <div class="container">
-  <app-navigation-link (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">Back to observation </app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: Five indications'" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-navigation-link (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">{{"Back to observation" | translate}} </app-navigation-link>
+  <app-session-edit-header [session]="session" [header]="'Session: Five indications' | translate" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <app-session-statistics [session]="session"></app-session-statistics>
 <div *ngIf="sessionIsSentToServer == false" class="container">
@@ -35,7 +35,7 @@
                id="FormInput"
                class="form-control"
                style="font-size: 17px;"
-               placeholder="Add comment"
+               [placeholder]="'Add comment' | translate"
                [(ngModel)]="session.comment"
                (ngModelChange)="sessionService.updateSession(session)">
       </div>
@@ -51,7 +51,7 @@
     <div class="col ms-auto mb-3">
       <app-delete-confirmation-dialog (deletedEvent)="sessionDeletedEventHandler(session.id)" [dialogMessage]="DialogueTexts.SessionDeleteConfirmation" [isBlackColor]="false">
         <i class="icon-trash3"></i>
-        Delete session
+        {{"Delete session" | translate}}
       </app-delete-confirmation-dialog>
     </div>
 
@@ -59,13 +59,13 @@
       <button class="btn fhi-btn-primary"
               (click)="sendToCoordinator()"
               [disabled]="!(session?.observations?.length > 0)">
-        Send to coordinator
+        {{"Send to coordinator" | translate}}
       </button>
     </div>
   </div>
   <div class="row mb-3">
     <div class="col">
-      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">Back to observation </app-navigation-link>
+      <app-navigation-link [mobileCssClass]="'override--noeffect'" (linkClicked)="navigateToRegistrationPageForFiveIndications(session.id)">{{"Back to observation" | translate}} </app-navigation-link>
     </div>
   </div>
 </div>

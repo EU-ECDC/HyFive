@@ -4,6 +4,7 @@ import { GloveWithIndicationTypeService
  } from '../../../services/data/gloveWithIndicationType.service';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-editing-glove-indicationtypes',
@@ -15,9 +16,10 @@ export class EditingGlovesWithIndicationTypesComponent implements OnInit, OnDest
   gloveWithIndicationTypeAsChanged: GloveWithIndicationType = null;
 
   constructor(
-    private gloveWithIndicationTypeService: GloveWithIndicationTypeService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly gloveWithIndicationTypeService: GloveWithIndicationTypeService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -35,22 +37,22 @@ export class EditingGlovesWithIndicationTypesComponent implements OnInit, OnDest
   loadGloveByIndicationType() {
     this.gloveWithIndicationTypeService.getGloveWithIndicationTypes().subscribe(
       (result) => this.gloveWithIndicationTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading GloveByIndicationType: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Glove By Indication Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedGloveWithIndicationType(gloveWithIndicationType: GloveWithIndicationType): void {
     if (this.gloveWithIndicationTypeAsChanged?.id == gloveWithIndicationType.id) return;
-    this.gloveWithIndicationTypeAsChanged = JSON.parse(JSON.stringify(gloveWithIndicationType));
+    this.gloveWithIndicationTypeAsChanged = structuredClone(gloveWithIndicationType);
   }
 
   updateGloveWithIndicationType(): void {
     this.gloveWithIndicationTypeService.updateGloveWithIndicationType(this.gloveWithIndicationTypeAsChanged).subscribe(
       (updatedGloveWithIndicationType) => {
-        this.toastrService.success("GloveByIndicationType updated");
+        this.toastrService.success(this.translate.instant("Glove By Indication Type updated"));
         this.loadGloveByIndicationType();
       },
-      error => this.toastrService.error('An error occurred while updating GloveByIndicationType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Glove By Indication Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.gloveWithIndicationTypeAsChanged = null
     );
   }

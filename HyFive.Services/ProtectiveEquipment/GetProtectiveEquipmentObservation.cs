@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (!isGuid)
                 {
-                    throw new ArgumentException($"IUserService: Error parsing ID as GUID: {request.ObservationId}.");
+                    throw new ValidationException("ObservationIdInvalid", request.ObservationId);
                 }
 
                 var observation = await _context.ProtectiveEquipmentObservation

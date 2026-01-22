@@ -15,23 +15,23 @@ export class DatepickerDateAdapterService extends NgbDateAdapter<string> {
       {
         const date = value.split(this.DELIMITER);
         result = {
-          day: parseInt(date[0], 10),
-          month: parseInt(date[1], 10),
-          year: parseInt(date[2], 10)
+          day: Number.parseInt(date[0], 10),
+          month: Number.parseInt(date[1], 10),
+          year: Number.parseInt(date[2], 10)
         };
       }
       else if(value.day > 0) {
         result = {
-          day: parseInt(value.day,10),
-          month: parseInt(value.month, 10),
-          year: parseInt(value.year, 10)
+          day: Number.parseInt(value.day,10),
+          month: Number.parseInt(value.month, 10),
+          year: Number.parseInt(value.year, 10)
         };
       }
       else {
         result = {
-          day: parseInt(value.getDate(),10),
-          month: parseInt(value.getMonth(), 10),
-          year: parseInt(value.getFullYear(), 10)
+          day: Number.parseInt(value.getDate(),10),
+          month: Number.parseInt(value.getMonth(), 10),
+          year: Number.parseInt(value.getFullYear(), 10)
         };
       }
     }

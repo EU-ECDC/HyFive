@@ -6,49 +6,51 @@
     </div>
     <app-offline-message (hasInternetEvent)="receivedInternetStatus($event)"></app-offline-message>
     <div class="col-12" *ngIf="!receivedUserStatusFromServer">
-      Waiting for response from server - checking user status
+      {{"Waiting for response from server - checking user status" | translate}}
       <app-spinner> </app-spinner>
     </div>
 
     <div class="col-12" *ngIf="user?.name && isOnline">
-      <p class="mb-2">Hello, {{user.name}}. </p>
-      <p>Welcome to the ECDC hyFive Hand Hygiene Monitoring Tool.</p>
+      <p class="mb-2">{{'Hello' | translate}}, {{user.name}}. </p>
+      <p>{{"Welcome to the ECDC hyFive Hand Hygiene Monitoring Tool." | translate }}</p>
     </div>
   </div>
 
   <ng-container *ngIf="receivedUserStatusFromServer">
     <div class="row" *ngIf="isOnline && isLoggedIn == false">
       <div class="col-lg-4">
-        <p *ngIf="isLoggedIn == false">You are not logged in. <br />
-        <b>Log in</b> to access ECDC.</p>
+        <p *ngIf="isLoggedIn == false">{{"You are not logged in." | translate}} <br />
+        <b>{{"Log in" | translate }}</b> {{"to access ECDC." | translate}}</p>
         <a href="/account/login" class="btn fhi-btn-primary">
-          Log in
+          {{"Log in" | translate }}
         </a>
       </div>
     </div>
     <ng-container *ngIf="isOnline && isLoggedIn">
       <div class="row mt-3 word">
         <div class="col">
-          <p>Find more information about ECDC hyFive at <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. Questions or inquiries can be directed to<a href="mailto:HAI-net@ecdc.europa.eu​"> HAI-net&#64;ecdc.europa.eu​</a>.</p>
-          <p class="mb-4"><a href="https://www.fhi.no/nettpub/ecdc/generelt-om-losningen2/personvernerklaring-for-ecdc/" target="_blank">Open the privacy policy</a></p>
+          <p>{{"Find more information about ECDC hyFive at" | translate}} <a href="https://www.ecdc.europa.eu/en" target="_blank">https://www.ecdc.europa.eu/en</a>. {{"Questions or inquiries can be directed to" | translate}} <a href="mailto:HAI-net@ecdc.europa.eu​"> HAI-net&#64;ecdc.europa.eu​</a>.</p>
         </div>
+      </div>
+      <div class="row h-50 w-100 mb-3">
+        <app-language-selector></app-language-selector>
       </div>
       <div *ngIf="hasFacilities; else noFacilities" class="row">
         <div class="col-lg-8">
           <a [routerLink]="'/register'" class="btn fhi-btn-primary w-100">
-            Start observation
+            {{"Start observation" | translate}}
           </a>
         </div>
       </div>
       <ng-template #noFacilities>
-        <p><strong>Υou are not registered as an observer to a healthcare facility and therefore do not have access to the observation module. Contact the coordinator at your facility for access.</strong></p>
+        <p><strong>{{"Υou are not registered as an observer to a healthcare facility and therefore do not have access to the observation module. Contact the coordinator at your facility for access." | translate}}</strong></p>
       </ng-template>
       
     </ng-container>
   </ng-container>
   <div class="row" *ngIf="isLoggedIn">
     <div class="col-lg-4 mt-3">
-      <button class="btn fhi-btn-secondary" (click)="logout()">Log out</button>
+      <button class="btn fhi-btn-primary" (click)="logout()">{{"Log out" | translate}}</button>
     </div>
   </div>
 </div>

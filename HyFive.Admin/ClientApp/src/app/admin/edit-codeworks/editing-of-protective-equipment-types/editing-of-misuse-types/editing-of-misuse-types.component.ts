@@ -23,9 +23,9 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
   @Output() showEditingOfProtectiveEquipmentTypesEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
-    private protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
   loadMisuseTypes() {
     this.protectiveEquipmentTypeqsService.getMisuseTypes(this.equipmentType.id).subscribe(
       (misuseType) => this.misuseType = misuseType,
-      (error) => this.toastrService.error('An error occurred while loading Misuse Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading Misuse Types: ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -57,14 +57,14 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
   createMisuseType(): void {
     this.protectiveEquipmentTypeqsService.createMisuseType(this.equipmentType.id, this.newMisuseType).subscribe(
       (createdMisuseType) => this.toastrService.success(`Misuse Type create.`),
-      error => this.toastrService.error(`An error occurred while creating Misuse Type ${this.newMisuseType.name}. Error: "${error.error}"`, '', { disableTimeOut: true}),
+      error => this.toastrService.error(`An error occurred while creating Misuse Type ${this.newMisuseType.name}. Error: "${error.error.message}"`, '', { disableTimeOut: true}),
       () => { this.newMisuseType = this.emptyRequest(); this.loadMisuseTypes(); }
     );
   }
 
   selectedMisuseType(misusetype: MisuseType) {
     if (this.misusetypeAsChanged?.id == misusetype.id) return;
-    this.misusetypeAsChanged = JSON.parse(JSON.stringify(misusetype));
+    this.misusetypeAsChanged = structuredClone(misusetype);
   }
 
   updateMisuseType(misusetype: MisuseType): void {
@@ -74,7 +74,7 @@ export class EditingMisuseTypesComponent implements OnInit, OnDestroy {
         this.loadMisuseTypes();
       },
       (error) => {
-        this.toastrService.error('An error occurred while updating misusetype: ' + error?.error, '', { disableTimeOut: true});
+        this.toastrService.error('An error occurred while updating misusetype: ' + error?.error.message, '', { disableTimeOut: true});
       },
       () => this.misusetypeAsChanged = null
     );

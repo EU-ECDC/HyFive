@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Uuid } from "src/app/utils/uuid";
 import { faSave, faTrashAlt, faTimes, faEraser, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Role } from "src/app/models/api/Role";
@@ -19,6 +19,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from '../../models/api/SessionType';
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import {ProtectiveEquipmentSessionService} from "../../services/data/protectiveEquipment-session.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-protective-equipment-observation-card',
@@ -48,9 +49,9 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   colors = Colors;
   iconTypeMap: Map<string, IconProp> = ProtectiveEquipmentMapper.getIconTypeMap();
 
-  @Input("card") card: ProtectiveEquipmentCard;
-  @Input("roleSelected") roleSelected: Role[];
-  @Input("sessionView") sessionView: ProtectiveEquipmentSessionView;
+  @Input() card: ProtectiveEquipmentCard;
+  @Input() roleSelected: Role[];
+  @Input() sessionView: ProtectiveEquipmentSessionView;
 
   @Output() observationRegister = new EventEmitter();
   @Output() observationUpdate = new EventEmitter();
@@ -58,8 +59,9 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
   @Output() cardIsSelectedEvent = new EventEmitter<Card>();
 
   constructor(modalService: NgbModal,
-              private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService) {
-    super(modalService);
+              private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
+              protected translate: TranslateService) {
+    super(modalService, translate);
   }
 
   ngOnInit(): void {

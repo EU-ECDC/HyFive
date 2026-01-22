@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Observation.Gloves;
 
 namespace HyFive.Services.Glove.Helpers
@@ -8,37 +9,32 @@ namespace HyFive.Services.Glove.Helpers
     {
         public static bool ValidateObservation(GloveObservation observation)
         {
-            if (observation.GlovesUsed == false && observation.PostGloveHandHygieneType != null)
+            if (!observation.GlovesUsed  && observation.PostGloveHandHygieneType != null)
             {
-                throw new GloveObservationValidationException("H-V-02: If gloves were not used, 'Hand hygiene after glove use' should not be answered");
+                throw new ValidationException("GloveObservationInvalidPostHygiene");
             }
 
-            if (observation.GloveWithIndicationTypes?.Any() == true && observation.GloveWithoutIndicationTypes?.Any() == true)
+            if ((observation.GloveWithIndicationTypes?.Count > 0) && (observation.GloveWithoutIndicationTypes?.Count > 0))
             {
-                throw new GloveObservationValidationException("H-V-03: One cannot register both 'With indication' and 'Without indication' at the same time");
+                throw new ValidationException("GloveObservationWithAndWithoutConflict");
             }
-            
-            if (observation.GloveWithIndicationTypes?.Any() == false && observation.GloveWithoutIndicationTypes?.Any() == false)
+
+            if ((observation.GloveWithIndicationTypes?.Count > 0 ) && (observation.GloveWithoutIndicationTypes?.Count > 0))
             {
-                throw new GloveObservationValidationException("H-V-04: At least 1 indication type (With/Without) must be registered");
+                throw new ValidationException("GloveObservationMissingIndication");
             }
-            
-            if (observation.GlovesUsed == false && observation.GloveWithoutIndicationTypes?.Any() == true )
+
+            if (!observation.GlovesUsed && (observation.GloveWithoutIndicationTypes?.Count > 0))
             {
-                throw new GloveObservationValidationException("H-V-05: If gloves were not used, 'GloveWithoutIndicationTypes' should not be registered");
+                throw new ValidationException("GloveObservationInvalidWithoutUsage");
             }
-            
+
             if (observation.Role == null)
             {
-                throw new GloveObservationValidationException("H-V-06: Role må registreres.");
+                throw new ValidationException("GloveObservationRoleMissing");
             }
 
             return true;
         }
-    }
-    
-    public class GloveObservationValidationException : Exception
-    {
-        public GloveObservationValidationException(string message) : base(message) { }
     }
 }

@@ -13,6 +13,7 @@ import { GloveSession } from '../../models/api/GloveSession';
 import { GloveSessionService } from '../../services/data/glove-session.service';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-glove',
@@ -34,11 +35,12 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
   faCircle = faCircle;
 
   constructor(
-    private sessionService: GloveSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private facilityService: FacilityService,
-    private toastrService: ToastrService) {
+    private readonly sessionService: GloveSessionService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly facilityService: FacilityService,
+    private readonly toastrService: ToastrService,
+    private readonly translate: TranslateService) {
     this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
@@ -67,7 +69,7 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
 
   async registerObservation(observation: GloveObservation) {
     await this.sessionService.registerObservation(observation);
-    this.toastrService.success("Observation was saved");
+    this.toastrService.success(this.translate.instant("Observation was saved"));
     this.loadSessionData();
   }
 

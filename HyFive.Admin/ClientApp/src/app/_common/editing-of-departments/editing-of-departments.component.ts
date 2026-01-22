@@ -11,6 +11,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { KeyEventService } from 'src/app/services/events/key-event.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { TranslateService } from '@ngx-translate/core';
+import { SortHelper } from 'src/app/utils/sort-helper';
 @Component({
 selector: 'app-editing-of-departments',
   templateUrl: './editing-of-departments.component.html'
@@ -31,13 +33,15 @@ export class EditingDepartmentsComponent implements OnInit {
   keyword: string;
   loading: boolean = false;
   dropdownSettings: IDropdownSettings;
+  showCreateDepartmentForm: boolean = false;
 
-  constructor(private facilityService: FacilityService,
-    private authorizationService: AuthorizationService,
-    private departmentService: DepartmentService,
-    private roleService: RoleService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService) { }
+  constructor(private readonly facilityService: FacilityService,
+            private readonly authorizationService: AuthorizationService,
+            private readonly departmentService: DepartmentService,
+            private readonly roleService: RoleService,
+            private readonly toastrService: ToastrService,
+            private readonly keyEventService: KeyEventService,
+            private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -52,8 +56,9 @@ export class EditingDepartmentsComponent implements OnInit {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select all',
-      unSelectAllText: 'Select all',
+      selectAllText: this.translate.instant('Select all'),
+      unSelectAllText: this.translate.instant('Select all'),
+      noDataAvailablePlaceholderText: this.translate.instant('No data available'),
       itemsShowLimit: 5
     };
 
@@ -72,6 +77,7 @@ export class EditingDepartmentsComponent implements OnInit {
 
   getDepartments() {
     let selectedFacilityId = this.facilityId ?? this.facilityService.getSelectedFacilityId();
+    this.showCreateDepartmentForm = false;
     this.facilityService.getFacility(selectedFacilityId).subscribe(
       (facility) => {
         this.facilityName = facility.name;
@@ -80,7 +86,7 @@ export class EditingDepartmentsComponent implements OnInit {
         this.filteredDepartments = this.departments;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Loading facilities failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Loading facilities failed'), {disableTimeOut: true});
     });
   }
 
@@ -90,7 +96,7 @@ export class EditingDepartmentsComponent implements OnInit {
         this.departmentTypes = departmentTypes;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Loading departmentType failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Loading departmentType failed'), {disableTimeOut: true});
     });
   }
 
@@ -100,7 +106,7 @@ export class EditingDepartmentsComponent implements OnInit {
         this.roles = roles;
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Loading roles failed', {disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Loading roles failed'), {disableTimeOut: true});
     });
   }
 
@@ -125,10 +131,10 @@ export class EditingDepartmentsComponent implements OnInit {
     if(!this.canEdit || this.departmentAsChanged?.id === department.id) return;
 
     this.resetSelectedRoles();
-    department.roles.forEach((role) => 
-      this.selectedRoles.push(role)
-    );
-    this.departmentAsChanged = JSON.parse(JSON.stringify(department)) ;
+    for (const role of department.roles) {
+      this.selectedRoles.push(role);
+    }
+    this.departmentAsChanged = structuredClone(department);
   }
 
   resetSelectedRoles() {
@@ -136,15 +142,21 @@ export class EditingDepartmentsComponent implements OnInit {
   }
 
   updateDepartment(department: Department): void {
+    department.name = this.sanitizeDepartmentName(department.name);
+
+    if (!department.name) {
+      return;
+    }
+    
     department.roles = this.selectedRoles;
     this.departmentService.updateDepartment(department).subscribe(
       () => {
         this.departmentAsChanged = null;
         this.getDepartments();
-        this.toastrService.success("Department updated");
+        this.toastrService.success(this.translate.instant("Department updated"));
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Department update failed', { disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Department update failed'), { disableTimeOut: true});
       }
     );
   }
@@ -154,29 +166,29 @@ export class EditingDepartmentsComponent implements OnInit {
       (result) => {
         if (result) 
         {
-          this.toastrService.error('The department has observations and cannot be deleted', 'Department deletion failed', { disableTimeOut: true });
+          this.toastrService.error(this.translate.instant('The department has observations and cannot be deleted'), this.translate.instant('Department deletion failed'), { disableTimeOut: true });
         }
         else
         {
           this.departmentService.deleteDepartment(department.id).subscribe(
             () => {
               this.getDepartments();
-              this.toastrService.success("Department deleted");
+              this.toastrService.success(this.translate.instant("Department was deleted"));
             },
             (error) => {
-              this.toastrService.error(error.error.message, 'Department deletion failed', { disableTimeOut: true});
+              this.toastrService.error(error.error.message, this.translate.instant('Department deletion failed'), { disableTimeOut: true});
             }
           );
         }
       },
       (error) => {
-        this.toastrService.error(error.error.message, 'Department deletion failed', { disableTimeOut: true});
+        this.toastrService.error(error.error.message, this.translate.instant('Department deletion failed'), { disableTimeOut: true});
       });
   }
 
   canBeSaved(): boolean {
     if(this.departmentAsChanged?.name.length > 0
-      && this.filteredDepartments.filter(dep => dep.id !== this.departmentAsChanged.id).find(dep => dep.name == this.departmentAsChanged.name) == undefined 
+      && !this.filteredDepartments.filter(dep => dep.id !== this.departmentAsChanged.id).some(dep => dep.name == this.departmentAsChanged.name)
       && this.departmentAsChanged?.departmentTypeId > 0 
       && this.selectedRoles?.length > 0)
       return true;
@@ -191,32 +203,44 @@ export class EditingDepartmentsComponent implements OnInit {
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: Department) => any;
-    switch ($event.columnName) {
-      case "Name":
-        propertyOf = (x: Department) => x.name;
-        break;
-      case "Department Type":
-        propertyOf = (x: Department) => x.departmentType.name;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: Department, b: Department) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+    const userSortConfig = {
+      [this.translate.instant("Name")]: (x: Department) => x.name,
+      [this.translate.instant("Department Type")]: (x: Department) => x.departmentType.name,
     };
 
-    this.filteredDepartments = this.filteredDepartments.sort(sortFunc);
+    this.filteredDepartments = SortHelper.sort(this.filteredDepartments, $event, userSortConfig);
   }
 
   omitSpecialChar(event) {   
-    let k;  
-    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    const char = event.key;
+
+    // Allow letters, numbers, spaces, basic punctuation
+    const allowed = /^[a-zA-Z0-9\s.,'-]$/;
+
+    if (!allowed.test(char)) {
+      event.preventDefault();
+      return false;
+  }
+
+  return true;
+  }
+
+    toggleShowForm() {
+    this.showCreateDepartmentForm = !this.showCreateDepartmentForm;
+  }
+
+  sanitizeDepartmentName(value: string): string {
+    if (!value) {
+      return value;
+    }
+
+    // Remove emojis, pictographs, symbols (covers paste & unicode images)
+    const noEmojis = value.replaceAll(
+      /[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Symbol}]/gu,
+      ''
+    );
+
+    return noEmojis.trim();
   }
 
 }

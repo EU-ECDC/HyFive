@@ -7,10 +7,10 @@ import { Subject, BehaviorSubject } from 'rxjs';
 export class BrowserViewportService {
 
   private innerWidth: number;
-  private isMobileSource = new Subject<boolean>();
-  private isDesktopSource = new Subject<boolean>();
-  private breakpointSource = new Subject<string>();
-  private windowInnerHeightSource = new BehaviorSubject<number>(window.innerHeight);
+  private readonly isMobileSource = new Subject<boolean>();
+  private readonly isDesktopSource = new Subject<boolean>();
+  private readonly breakpointSource = new Subject<string>();
+  private readonly windowInnerHeightSource = new BehaviorSubject<number>(globalThis.innerHeight);
 
   isMobile$ = this.isMobileSource.asObservable();
   isDesktop$ = this.isDesktopSource.asObservable();
@@ -29,12 +29,12 @@ export class BrowserViewportService {
   }
 
   updateWindowInnerHeight(): void {
-    this.windowInnerHeightSource.next(window.innerHeight);
+    this.windowInnerHeightSource.next(globalThis.innerHeight);
   }
 
   updateIsMobile(): void {
-    if (window.innerWidth !== this.innerWidth) {
-      this.innerWidth = window.innerWidth;
+    if (globalThis.innerWidth !== this.innerWidth) {
+      this.innerWidth = globalThis.innerWidth;
       if (this.innerWidth < 1200) {
         this.isMobile = true;
         this.isMobileSource.next(true);
@@ -46,8 +46,8 @@ export class BrowserViewportService {
   }
 
   updateIsDesktop(): void {
-    if (window.innerWidth !== this.innerWidth) {
-      this.innerWidth = window.innerWidth;
+    if (globalThis.innerWidth !== this.innerWidth) {
+      this.innerWidth = globalThis.innerWidth;
       if (this.innerWidth >= 1200) {
         this.isDesktop = true;
         this.isDesktopSource.next(true);
@@ -59,8 +59,8 @@ export class BrowserViewportService {
   }
 
   updateBreakpoint(): void {
-    if (window.innerWidth !== this.innerWidth) {
-      this.innerWidth = window.innerWidth;
+    if (globalThis.innerWidth !== this.innerWidth) {
+      this.innerWidth = globalThis.innerWidth;
 
       if (this.innerWidth < 576) {
         this.breakpoint = 'xs';

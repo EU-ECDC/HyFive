@@ -174,15 +174,9 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> GetFhiAdmin()
         {
-            try
-            {
-                var response = await _mediator.Send(new GetAdmin.Query() { });
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var response = await _mediator.Send(new GetAdmin.Query() { });
+            return Ok(response);
+            
         }
 
         /// <summary>
@@ -195,16 +189,10 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateAdminRequest request)
         {
-            try
-            {
-                var response = await _mediator.Send(new CreateAdmin.Command() { Request = request });
-                return Ok(response);
-                //return CreatedAtRoute("GetAdmin", new { id = response.CityId }, response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var response = await _mediator.Send(new CreateAdmin.Command() { Request = request });
+            return Ok(response);
+            //return CreatedAtRoute("GetAdmin", new { id = response.CityId }, response);
+            
         }
 
         /// <summary>
@@ -217,15 +205,8 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<ActionResult<User>> UpdateFhiAdmin([FromBody] User user)
         {
-            try
-            {
-                var response = await _mediator.Send(new UpdateAdmin.Command() { User = user });
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var response = await _mediator.Send(new UpdateAdmin.Command() { User = user });
+            return Ok(response);            
         }
 
         #endregion

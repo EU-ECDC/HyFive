@@ -4,12 +4,12 @@
     <table class="table mb-0">
       <thead>
       <tr>
-        <th>Role</th>
-        <th>Setting</th>
-        <th>Equipment used</th>
-        <th>Unused equipment</th>
-        <th>Registered date</th>
-        <th>Comment</th>
+        <th>{{"Role" | translate }}</th>
+        <th>{{"Setting" | translate }}</th>
+        <th>{{"Equipment used" | translate }}</th>
+        <th>{{"Unused equipment" | translate }}</th>
+        <th>{{"Registered Date" | translate }}</th>
+        <th>{{"Comment" | translate }}</th>
       </tr>
       </thead>
       <tbody>
@@ -21,14 +21,14 @@
             <ul style="padding-left: 20px;">
               <ng-container *ngFor="let bu of observation.protectiveEquipment">
                 <li *ngIf="bu.wasUsed">
-                  {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
+                  {{bu.equipmentName}} ({{bu.isIndicated ? dialogMessageService.translateText('Indicated') : dialogMessageService.translateText('Not indicated') }})
                   <ul>
                     <li>
-                      {{ bu.wasUsedCorrectly ? 'Used correctly' : 'Used incorrectly' }}
+                      {{ bu.wasUsedCorrectly ? dialogMessageService.translateText('Used correctly') : dialogMessageService.translateText('Used incorrectly') }}
                       <ng-container *ngIf="!bu.wasUsedCorrectly">
                         <ul>
                           <li *ngFor="let fbt of bu.misuseTypes">{{fbt}}</li>
-                          <li *ngIf="bu.comment">Comment: {{bu.comment}}</li>
+                          <li *ngIf="bu.comment">{{"Comment" | translate }}: {{bu.comment}}</li>
                         </ul>
                       </ng-container>
                     </li>
@@ -41,7 +41,7 @@
             <ul style="padding-left: 20px;">
               <ng-container *ngFor="let bu of observation.protectiveEquipment">
                 <li *ngIf="!bu.wasUsed">
-                  {{bu.equipmentName}} ({{bu.isIndicated ? 'Indicated' : 'Not indicated' }})
+                  {{bu.equipmentName}} ({{bu.isIndicated ? dialogMessageService.translateText('Indicated') : dialogMessageService.translateText('Not indicated') }})
                 </li>
               </ng-container>
             </ul>
@@ -74,22 +74,22 @@
                 <div class="col mt-3">
     
                   <app-confirmation-dialog       
-                    [buttonText]="'Save'"
+                    [buttonText]="'Save' | translate"
                     [disabled]="!canUpdateProtectiveEquipmentObservation"
                     [buttonClass]="'btn fhi-btn-primary me-3'"
                     (confirmEvent)="updateProtectiveEquipmentObservation()"
-                    [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'" >                          
+                    [dialogMessage]="dialogMessageService.translateDialogMessage('Are you sure you want to save changes to observation with id:', observation.id)">
                   </app-confirmation-dialog>
                   <app-confirmation-dialog 
-                                      [buttonText]="'Delete'"
+                                      [buttonText]="'Delete' | translate"
                                       [buttonClass]="'btn fhi-btn-secondary me-3'"
                                       (confirmEvent)="deleteProtectiveEquipmentObservation()" 
-                                      [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
-                    Delete
+                                      [dialogMessage]="dialogMessageService.translateDialogMessage('Do you want to delete observation with id:', observation.id)">
+                    {{"Delete" | translate }}
                   </app-confirmation-dialog>
                   <button class="btn fhi-btn-primary bg-dark me-3"
                           (click)="cancelEditObservation($event)">
-                    Cancel
+                    {{ "Cancel" | translate }}
                   </button>
                 </div>
               </div>

@@ -4,6 +4,8 @@ import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { AuthorizationService } from '../../_common/services/authorization.service';
+import { TranslateService } from '@ngx-translate/core';
+import { SortHelper } from 'src/app/utils/sort-helper';
 
 @Component({
   selector: 'app-email',
@@ -27,7 +29,9 @@ export class EmailComponent implements OnInit {
   coordinatorsSelected: boolean;
   observerSelected: boolean;
 
-  constructor(private facilityService: FacilityService, private authorizationService: AuthorizationService) {}
+  constructor(private readonly facilityService: FacilityService, 
+              private readonly authorizationService: AuthorizationService,
+              private readonly translate: TranslateService) {}
 
   ngOnInit(): void {
     this.coordinatorList = [];
@@ -38,10 +42,10 @@ export class EmailComponent implements OnInit {
 
     this.facilityService.getFacilities().subscribe((facilities) => {
       
-      facilities.forEach(facility => {
+      for (const facility of facilities) {
         this.GetCoordinatorsForFacility(facility.id);
         this.getObserversForFacility(facility.id);
-      });
+      };
 
       this.facilities = [ 
                             { name: '', 
@@ -58,23 +62,23 @@ export class EmailComponent implements OnInit {
 
   GetCoordinatorsForFacility(id: number) {
     this.facilityService.getCoordinators(id).subscribe((coordinators) => {
-      coordinators.forEach(coordinator => {
+      for (const coordinator of coordinators) {
         if(coordinator.email != null && coordinator.email != "") {
           this.coordinatorList.push(coordinator);
           this.allUsersList.push(coordinator);
         }
-      });
+      };
     });
   }
 
   getObserversForFacility(id: number) {
     this.facilityService.getObservers(id).subscribe((observers) => {
-      observers.forEach(observer => {
+      for (const observer of observers) {
         if(observer.email != null && observer.email != "") {
           this.observerList.push(observer);
           this.allUsersList.push(observer);
         }
-      });
+      };
     });
   }
 
@@ -90,48 +94,33 @@ export class EmailComponent implements OnInit {
     }
     if (this.coordinatorsSelected && this.observerSelected) {
       this.filteredUserList = this.allUsersList.filter(user => user.facilityId === this.facilityId);
-      this.filteredUserList = this.filteredUserList.sort((a, b) => a.lastName.localeCompare(b.lastName));
+      this.filteredUserList = this.filteredUserList.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
     }
   }
 
   updateEmailList() {
     this.emailList = [];
 
-    this.filteredUserList.forEach(user => {
+    for (const user of this.filteredUserList) {
       this.emailList.push(user.email)
-    });
+    };
   }
 
   OpenEmailClient() {
     if (!this.facilityId || (!this.coordinatorsSelected && !this.observerSelected)) {
-    console.warn('Please select a facility and at least one user type before opening email client.');
+    console.warn(this.translate.instant('Please select a facility and at least one user type before opening email client.'));
     return;
   }
     this.updateEmailList();
-    window.location.href = `mailto:?bcc=${this.emailList.join(';')}`
+    globalThis.location.href = `mailto:?bcc=${this.emailList.join(';')}`
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: User) => any;
-    switch ($event.columnName) {
-      case "First name":
-        propertyOf = (x: User) => x.firstName;
-        break;
-      case "Last name":
-        propertyOf = (x: User) => x.lastName;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: User, b: User) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+    const userSortConfig = {
+      [this.translate.instant("First name")]: (x: User) => x.firstName,
+      [this.translate.instant("Last name")]: (x: User) => x.lastName,
     };
-
     this.updateUserList();
-    this.filteredUserList = this.filteredUserList.sort(sortFunc);
+    this.filteredUserList = SortHelper.sort(this.filteredUserList, $event, userSortConfig);
   }
 }

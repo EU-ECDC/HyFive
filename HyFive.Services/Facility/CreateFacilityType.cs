@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,8 +32,7 @@ namespace HyFive.Services.Facility
             {
                 var exists = await _context.FacilityType.AnyAsync(r => r.Code == request.FacilityType.Code);
                 if (exists)
-                    throw new InvalidOperationException(
-                        $"\"Code {{request.FacilityType.Code}} is already in use. Please try with a different code.");
+                    throw new ValidationException("CodeExists", request.FacilityType.Code);
 
                 var facilityType = new Domain.Place.FacilityType
                 {

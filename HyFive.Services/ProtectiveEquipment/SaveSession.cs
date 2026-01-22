@@ -12,6 +12,7 @@ using HyFive.Models.V1.Constants;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.ProtectiveEquipment.Helpers;
 using Microsoft.Extensions.Logging;
+using HyFive.Domain.Exceptions;
 using HyFive.Services.Helpers;
 
 namespace HyFive.Services.ProtectiveEquipment
@@ -43,8 +44,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 // Verify that the observer is an observer at the facility
                 var observer = await SessionHelper.GetObserverAsync(_context, _userService, request.Email, request.Session.Department.FacilityId, cancellationToken);
                 if (observer == null)
-                    throw new ArgumentException(
-                        $"Did not find an observer with email {request.Email} at the facility with ID {request.Session.Department.FacilityId}");
+                    throw new DomainException("ObserverNotFoundAtFacility", request.Email, request.Session.Department.FacilityId);
 
                 var session = _mapper.Map<Domain.Session.ProtectiveEquipmentSession>(request.Session);
                 session.CreatedDate = DateTime.UtcNow;
@@ -72,7 +72,7 @@ namespace HyFive.Services.ProtectiveEquipment
                     foreach (var equipment in observation.ProtectiveEquipmentList)
                     {
                         equipment.EquipmentType = equipmentTypes.First(u => u.Id == equipment.EquipmentType.Id);
-                        if (!equipment.WasUsedCorrectly  && equipment.MisuseTypes.Any())
+                        if (!equipment.WasUsedCorrectly && equipment.MisuseTypes.Any())
                         {
                             var misuseTypeIds = equipment.MisuseTypes.Select(ft => ft.Id);
                             equipment.MisuseTypes = equipment.EquipmentType.MisuseTypes

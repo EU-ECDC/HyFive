@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using HyFive.Services.Common;
 using MediatR;
@@ -31,7 +32,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var misuseType = equipmentType.MisuseTypes.FirstOrDefault(fbt => fbt.Id == request.MisuseType.Id);
                 if (misuseType == null)
                 {
-                    throw new ArgumentException("Did not find misuse type with ID: " + request.MisuseType.Id);
+                    throw new DomainException("MisuseTypeNotFound", request.MisuseType.Id);
                 }
 
                 misuseType.Name = request.MisuseType.Name;

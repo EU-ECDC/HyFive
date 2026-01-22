@@ -5,6 +5,7 @@ import { UrlPaths } from '../../_common/constants/url-paths';
 import { AuthorizedRole } from '../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../_common/services/authorization.service';
 import { RoleEventService } from 'src/app/services/events/role-event.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html'
@@ -23,8 +24,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   allMenuOptions: MainMenuItem[];
   currentMenuSelection: MainMenuItem[];
 
-  constructor(private authorizationService: AuthorizationService,
-    private roleEventService: RoleEventService) {
+  constructor(private readonly authorizationService: AuthorizationService,
+              private readonly roleEventService: RoleEventService,
+              private readonly translate: TranslateService) {
     this.createAllMenuOptions();
   }
 
@@ -84,6 +86,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       selectedRole = AuthorizedRole.Observer;
     }
 
+    this.allMenuOptions = this.allMenuOptions.map(mOpt => ({
+      ...mOpt,
+      name: this.translate.instant(mOpt.name)
+    }));
+
     this.currentMenuSelection = this.allMenuOptions.filter(menuOption => {
       for (const role of menuOption.roles) {
         if (selectedRole === role) {
@@ -92,72 +99,73 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       }
       return false;
     });
+
   }
 
   private createAllMenuOptions() {
-    this.allMenuOptions = [
+        this.allMenuOptions = [
       {
-        name: 'Home Page',
+        name: `Home Page`,
         routerLink: `/${UrlPaths.homePage}`,
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator, AuthorizedRole.Observer]
       },
       {
-        name: 'Observations',
+        name: `Observations`,
         routerLink: `/${UrlPaths.observations}`,
         roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },
       {
-        name: 'Transfer Sessions',
+        name: `Transfer Sessions`,
         routerLink: `/${UrlPaths.transferSessions}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Healthcare Facilities',
+        name: `Healthcare Facilities`,
         routerLink: `/${UrlPaths.editingByFacilities}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Departments',
+        name: `Departments`,
         routerLink: `/${UrlPaths.editingOfDepartments}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Units',
+        name: `Units`,
         routerLink: `/${UrlPaths.editingByUnits}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Coordinators',
+        name: `Coordinators`,
         routerLink: `/${UrlPaths.editingByCoordinators}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Observers',
+        name: `Observers`,
         routerLink: `/${UrlPaths.editingByObservers}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Coding',
+        name: `Coding`,
         routerLink: `/${UrlPaths.editingByCodeworks}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Administrators',
+        name: `Administrators`,
         routerLink: `/${UrlPaths.adminOverview}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-        name: 'Predefined comments',
+        name: `Predefined comments`,
         routerLink: `/${UrlPaths.editingPredefinedComments}`,
         roles: [AuthorizedRole.Coordinator]
       },
       {
-        name: 'Email',
+        name: `Email`,
         routerLink: `/${UrlPaths.email}`,
         roles: [AuthorizedRole.Administrator]
       },
       {
-       name: 'Reports',
+       name: `Reports`,
        routerLink: `/${UrlPaths.reports}`,
        roles: [AuthorizedRole.Administrator, AuthorizedRole.Coordinator]
       },

@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { LanguageInterceptor } from '../app/http-interceptors/language.intercetptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageForAdministrationComponent } from './home-page-for-administration/home-page-for-administration.component';
@@ -24,7 +25,6 @@ import { EditingProtectiveEquipmentTypeComponent } from './admin/edit-codeworks/
 import { EditingMisuseTypesComponent } from './admin/edit-codeworks/editing-of-protective-equipment-types/editing-of-misuse-types/editing-of-misuse-types.component';
 import { EditingOfProtectiveEquipmentSettingTypesComponent } from './admin/edit-codeworks/editing-of-protective-equipment-setting-types/editing-of-protective-equipment-setting-types.component';
 import { OverviewObservationsComponent } from './admin/overview-observations/overview-observations.component';
-import { DatePipe } from '@angular/common';
 import { OverviewDepartmentSessionsComponent } from './admin/overview-observations/overview-department-sessions/overview-department-sessions.component';
 import { EditingOfObserversComponent } from './coordinator/editing-observers/editing-of-observers.component';
 import { ProfilsideComponent } from './profile-page/profile-page.component';
@@ -44,7 +44,6 @@ import { EditingOfRolesComponent } from './admin/edit-codeworks/editing-of-roles
 import { OverviewAdminComponent } from './admin/overview-admin/overview-admin.component';
 import { EditAdminComponent } from './admin/overview-admin/edit-admin/edit-admin.component';
 import {AuthenticationFailedModalComponent} from './shared/authentication-failed-modal/authentication-failed-modal.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {EditFiveIndicationsObservationsComponent} from "./coordinator/edit-observations/edit-five-indications-observations/edit-five-indications-observations.component";
@@ -63,22 +62,51 @@ import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinat
 import { EditCoordinatorsComponent } from './_common/edit-coordinators/editCoordinators.component';
 import { PseudonymDialogComponent } from './_common/edit-coordinators/pseudonym-dialog.component';
 import { EmailComponent } from './admin/email/email.component';
-import { FhiAngularComponentsModule, FhiMultiselectComponent } from '@folkehelseinstituttet/angular-components';
+import { FhiAngularComponentsModule } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
 import { ReportComponent } from './coordinator/reports/report.component';
 import { ComplianceComponent } from './coordinator/reports/five-indications/compliance/compliance.component';
-import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
-import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
-import { SortService } from './shared/sorting/sort.service';
 import { DownloadExcelComponent } from './coordinator/reports/download/download-excel.component';
 import { ComplianceFiveIndicationsPdfComponent } from './coordinator/reports/predefined/compliance-five-indications-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/reports/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './coordinator/reports/common/compliance-pdf.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SortableColumnComponent } from './shared/sorting/sortable-column.component';
+import { SortableTableDirective } from './shared/sorting/sortable-table.directive';
+import { SortService } from './shared/sorting/sort.service';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './_common/services/language-service';
+import { LanguageSelectorComponent } from './coordinator/rapporter/common/language-selector/language-selector.component';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+import localeEn from '@angular/common/locales/en';
+import { CreateCoordinatorFormComponent } from './_common/edit-coordinators/create-coordinator-form/create-coordinator-form.component';
+import { CreateCoordinatorForCityFormComponent } from './coordinator/editing-of-coordinators/create-coordinator-for-city-form/create-coordinator-for-city-form.component';
+import { CreateObserverFormComponent } from './_common/edit-observers/create-observer-form/create-observer-form.component';
+
+registerLocaleData(localeEl);
+registerLocaleData(localeEn);
+
 
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthenticationFailedErrorInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
 ];
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+
+export function languageInitializer(langService: LanguageService) {
+  return () => langService.initLanguage();
+}
+
+export function getLocale(): string {
+  return localStorage.getItem('lang') || 'en';
+}
 
 @NgModule({
   declarations: [
@@ -140,7 +168,11 @@ export const httpInterceptorProviders = [
     DownloadExcelComponent,
     ComplianceFiveIndicationsPdfComponent,
     ComplianceHandJewelryPdfComponent,
-    CompliancePdfComponent
+    CompliancePdfComponent,
+    LanguageSelectorComponent,
+    CreateCoordinatorFormComponent,
+    CreateCoordinatorForCityFormComponent,
+    CreateObserverFormComponent
   ],
   imports: [
     BrowserModule,
@@ -152,9 +184,33 @@ export const httpInterceptorProviders = [
     NgMultiSelectDropDownModule.forRoot(),
     FhiAngularComponentsModule,
     FhiAngularHighchartsModule,
-    MatPaginatorModule
-  ],
+    MatPaginatorModule,
+    MatDatepickerModule,
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        }
+    })
+],
   bootstrap: [AppComponent],
-  providers: [DatePipe, httpInterceptorProviders, SortService, provideAnimationsAsync()]
+  providers: [DatePipe, httpInterceptorProviders,
+              provideNativeDateAdapter(),
+              SortService,
+              {
+                provide: APP_INITIALIZER,
+                useFactory: languageInitializer,
+                deps: [LanguageService],
+                multi: true
+              },
+              { provide: LOCALE_ID, useFactory: getLocale },
+              // {
+              //   provide: LOCALE_ID,
+              //   deps: [LanguageService],
+              //   useFactory: (langService: LanguageService) => langService.getLocale()
+              // }
+              provideAnimationsAsync()
+            ],
 })
 export class AppModule { }

@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Bruker = HyFive.Models.V1.User.User;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.UserServices
 {
@@ -38,33 +39,27 @@ namespace HyFive.Services.UserServices
             {
                 if (string.IsNullOrWhiteSpace(command.Request.FirstName))
                 {
-                    throw new ArgumentException("Missing first name.");
+                    throw new ValidationException("FirstNameRequired");
                 }
                 if (string.IsNullOrWhiteSpace(command.Request.LastName))
                 {
-                    throw new ArgumentException("Missing last name.");
+                    throw new ValidationException("LastNameRequired");
                 }
                 if (string.IsNullOrWhiteSpace(command.Request.Email))
                 {
-                    throw new ArgumentException("Missing email.");
+                    throw new ValidationException("EmailRequired");
                 }
-
                 try
                 {
-                    _ = new MailAddress(command.Request.Email);
+                    var addr = new MailAddress(command.Request.Email);
+
+                    if (addr.Address != command.Request.Email)
+                        throw new ValidationException("EmailNotValid", command.Request.Email);
                 }
-                catch
+                catch (FormatException)
                 {
-                    throw new ArgumentException($"Email '{command.Request.Email}' is not valid.");
+                    throw new ValidationException("EmailNotValid", command.Request.Email);
                 }
-
-
-                var existingUser = await _context.User
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(u => u.Email == command.Request.Email, cancellationToken);
-
-                if (existingUser != null)
-                    throw new ArgumentException($"Email '{command.Request.Email}' is already in use.");
 
                 var admin = new Admin()
                 {

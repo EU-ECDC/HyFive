@@ -43,7 +43,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observation: HandJewelryObservation;
   @Input() department: Department;
-  @Input("facilityid") facilityid: number;
+  @Input() facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
 
 

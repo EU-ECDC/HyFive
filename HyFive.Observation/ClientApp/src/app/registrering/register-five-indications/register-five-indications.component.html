@@ -1,6 +1,6 @@
 <div class="container">
   <app-observation-counter [url]="Urls.FiveIndicationsSessionUrl" [sessionsdata]="sessionsdata"></app-observation-counter>
-  <h1 class="h3 mt-n4 mt-xl-0">Five Indications</h1>
+  <h1 class="h3 mt-n4 mt-xl-0">{{"Five Indications" | translate}}</h1>
 </div>
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
@@ -22,20 +22,20 @@
 <app-help-text
   [title]="'Tips and tricks - observe five indications'">
   <p>
-    You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
+    {{"You can now observe the professions you selected on the" | translate}} <b>{{"Start observation" | translate}}</b> {{"page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the" | translate}} <b>{{"New card" | translate}}</b> {{"button at the bottom right." | translate}}
 
-    You record indications and activities by clicking on the icons in the card.
+    {{"You record indications and activities by clicking on the icons in the card." | translate}}
 
   </p>
   <p>
-    The following requirements meet a valid observation:  </p>
+    {{"The following requirements meet a valid observation:" | translate}}  </p>
   <ol>
-    <li>At least 1 indication</li>
-    <li><i>Only</i> 1 activity</li>
+    <li>{{"At least 1 indication" | translate}}</li>
+    <li><i>{{"Only" | translate}}</i> {{"1 activity" | translate}}</li>
   </ol>
   <p>
-    When you are finished, you can drag the card to the right to save the observation.
-    If you have registered an error, you must press "Clear card" - then the card will reset itself.
-    If you want to remove a card from the list, you can drag the card to the left.
+  {{"When you are finished, you can drag the card to the right to save the observation." | translate}}
+  {{"If you have registered an error, you must press 'Clear card' - then the card will reset itself." | translate}}
+  {{"If you want to remove a card from the list, you can drag the card to the left." | translate}}
   </p>
 </app-help-text>

@@ -1,4 +1,5 @@
 ﻿using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using HyFive.Models.V1.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -182,7 +183,7 @@ namespace HyFive.Services.Authentication.User
 
             if (!isGuid)
             {
-                throw new ArgumentException($"HealthIdUSerService: Error parsing ID: {sessionId}. {sessionId} must be of type Guid");
+                throw new ValidationException("InvalidSessionIdFormat", sessionId);
             }
 
             var facilityId = _context.Session.AsNoTracking().Include(s => s.Department).ThenInclude(a => a.Facility)

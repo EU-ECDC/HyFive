@@ -6,7 +6,7 @@
     <div class="container fhi-main-menu__container">
       <a class="fhi-main-menu__home-link" href="javascript:void(0)">
         <img style="object-fit: cover; width: auto; height: 50px;" src="../../assets/logos/ecdc-light-menu.png" alt="ECDC-Logo">
-        <span class="visually-hidden">FHI ProductName</span>
+        <span class="visually-hidden">{{"Product Name" | translate}}</span>
       </a>
       <button
         type="button"
@@ -18,7 +18,7 @@
         <i class="icon-x fhi-main-menu__toggler-close-icon"></i>
         <i class="icon-list fhi-main-menu__toggler-menu-icon"></i>
         <span class="fhi-main-menu__toggler-text">{{
-          !mainMenuIsOpen ? "Menu" : "Close"
+          !mainMenuIsOpen ? menu.value : close.value
         }}</span>
       </button>
       <div

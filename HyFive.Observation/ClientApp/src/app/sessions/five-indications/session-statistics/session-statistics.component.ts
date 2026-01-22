@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {FiveIndicationsSession} from '../../../models/api/FiveIndicationsSession';
 import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
 
@@ -6,14 +6,11 @@ import {ActivityTypeConstants} from '../../../models/api/ActivityTypeConstants';
   selector: 'app-session-statistics',
   templateUrl: './session-statistics.component.html'
 })
-export class SessionStatisticsComponent implements OnInit {
+export class SessionStatisticsComponent {
 
   @Input() session: FiveIndicationsSession;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   calculateOpportunitiesComplied() : number{
     if(this.session.observations.length == 0)

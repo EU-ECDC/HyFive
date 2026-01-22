@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,23 +32,14 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                if (!UserValidator.HasNameAndEmail(command.User))
-                {
-                    throw new ArgumentException("Observer must have first name, last name, and email.");
-                }
-                
-                var user = await _context.User.OfType<Observer>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
-                user.FirstName = command.User.FirstName;
-                user.LastName = command.User.LastName;
-                user.Email = command.User.Email;
-                user.HPRNumber = command.User.HPRNumber;
-                user.IdentityPseudonym = command.User.IdentityPseudonym;
-                user.IsDeactivated = command.User.IsDisabled;
-                _context.User.Update(user);
-                
-                await _context.SaveChangesAsync();
-                var mapped = _mapper.Map<Models.V1.User.User>(user);
-                return mapped;
+                await UserUpdateHelper.UpdateUserBaseFields<Observer>(
+                    _context,
+                    command.User,
+                    cancellationToken
+                );
+
+                return _mapper.Map<Models.V1.User.User>(
+                await _context.User.OfType<Observer>().FirstAsync(u => u.Id == command.User.Id, cancellationToken));
             }
         }
     }

@@ -1,7 +1,7 @@
 <div class="row mt-4" *ngIf="canSelectFacility">
     <!-- <div class="col-md-4">
-      <label for="facilitiesTypes">Facility Types</label>
-        <ng-multiselect-dropdown [placeholder]="'Select'"
+      <label for="facilitiesTypes">{{"Facility Types" | translate }}</label>
+        <ng-multiselect-dropdown [placeholder]="'Select' | translate"
                                 [settings]="dropdownSettings"
                                 [data]="facilityTypes"
                                 [(ngModel)]="selectedFacilityTypes"
@@ -9,9 +9,9 @@
         </ng-multiselect-dropdown>
     </div>  -->
     <div class="col-md-4">
-      <label for="facility">Healthcare facilities</label>
+      <label for="facility">{{"Healthcare facilities" | translate }}</label>
       <div #dropdownRef>
-        <ng-multiselect-dropdown placeholder="Select healthcare facilities"
+        <ng-multiselect-dropdown [placeholder]="'Select healthcare facilities' | translate"
                                 [settings]="dropdownSettings"
                                 [data]="facilities"
                                 [(ngModel)]="selectedFacilities"
@@ -22,8 +22,8 @@
 </div>
   <div class="row mt-4">
     <!-- <div class="col-md-4" >
-      <label for="departmentType">Department Types</label>
-        <ng-multiselect-dropdown [placeholder]="'Select department types'"
+      <label for="departmentType">{{"Department Types" | translate }}</label>
+        <ng-multiselect-dropdown [placeholder]="'Select department types' | translate"
                                   [settings]="dropdownSettings"
                                   [data]="departmentTypes"
                                   [(ngModel)]="selectedDepartmentTypes"
@@ -31,8 +31,8 @@
         </ng-multiselect-dropdown>
     </div> -->
     <div class="col-md-4">
-      <label for="department">Departments</label>
-      <ng-multiselect-dropdown [placeholder]="'Select departments'"
+      <label for="department">{{"Departments" | translate }}</label>
+      <ng-multiselect-dropdown [placeholder]="'Select departments' | translate"
                               [disabled]="createFacilityReport"
                               [settings]="dropdownSettings"
                               [data]="departments"
@@ -41,19 +41,23 @@
     </div>
   </div>
   <div class="row mt-4">
-        <div class="col-md-3">
-      <label for="fromDate">From date</label>
-      <input class="form-control" id="fromDate" type="date" [(ngModel)]="fromDate" [max]="toDate || null" />
+        <div class="col-md-3" style="position: relative;">
+      <label for="fromDate">{{ "From Date" | translate }}</label>
+      <input class="form-control" id="fromDate" matInput [(ngModel)]="fromDate" [max]="toDate || null" [placeholder]="'mm/dd/yyyy' | translate" [matDatepicker]="pickerFrom">
+      <mat-datepicker-toggle matIconSuffix [for]="pickerFrom" style="position: absolute; top: 15px; right: 10px;"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFrom></mat-datepicker>
     </div>
-    <div class="col-md-3">
-      <label for="toDate">To date</label>
-      <input class="form-control" id="toDate" type="date" [(ngModel)]="toDate" [min]="fromDate || null" />
+    <div class="col-md-3" style="position: relative;">
+      <label for="toDate">{{ "To Date" | translate }}</label>
+      <input class="form-control" id="toDate" matInput [(ngModel)]="toDate" [min]="fromDate || null" [placeholder]="'mm/dd/yyyy' | translate" [matDatepicker]="pickerTo">
+      <mat-datepicker-toggle matIconSuffix [for]="pickerTo" style="position: absolute; top: 15px; right: 10px;"></mat-datepicker-toggle>
+      <mat-datepicker #pickerTo></mat-datepicker>    
     </div>
   </div>
   <div class="row mt-4">
     <div class="form-group col-12">
-      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">Save report</button>
-      <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">Clear filters</button>
+      <button class="btn btn-sm fhi-btn-primary me-2" (click)="saveReport()" [disabled]="!canCreateReport()">{{"Save report" | translate}}</button>
+      <button class="btn btn-sm fhi-btn-secondary ms-2" (click)="reset()">{{ "Clear Filters" | translate }}</button>
     </div>
   </div>
 

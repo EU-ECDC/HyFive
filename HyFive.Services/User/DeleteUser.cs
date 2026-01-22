@@ -42,7 +42,7 @@ namespace HyFive.Services.User
                     user = await _context.User.OfType<Observer>()
                         .FirstOrDefaultAsync(i => i.Id == command.UserId, cancellationToken: cancellationToken);
 
-                    var hasUserSessions = _context.Session.Any(s => s.Observer.Id == user.Id);
+                    var hasUserSessions = await _context.Session.AnyAsync(s => s.Observer.Id == user.Id, cancellationToken);
 
                     if (hasUserSessions)
                     {

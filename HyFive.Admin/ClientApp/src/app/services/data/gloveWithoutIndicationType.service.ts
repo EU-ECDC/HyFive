@@ -9,7 +9,7 @@ import { GloveWithoutIndicationType } from '../../models/api/GloveWithoutIndicat
 })
 
 export class GloveWithoutIndicationTypeService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getGloveWithoutIndicationTypes(): Observable<GloveWithoutIndicationType[]> {
     const url = `${environment.apiBaseUrl}/v1/glovewithoutindicationtype`;

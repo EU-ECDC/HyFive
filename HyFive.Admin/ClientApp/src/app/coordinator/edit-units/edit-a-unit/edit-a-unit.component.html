@@ -1,14 +1,14 @@
-<app-navigation-bar [routerLink]="'/'+UrlPaths.editingByUnits">Back to unit overview</app-navigation-bar>
+<app-navigation-bar [routerLink]="'/'+UrlPaths.editingByUnits">{{"Back to unit overview" | translate }}</app-navigation-bar>
 <div class="row">
-  <h5 class="col-12 mt-2">Edit unit</h5>
+  <h5 class="col-12 mt-2">{{"Edit unit" | translate }}</h5>
   <div class="col-12 col-lg-6">
     <div class="form-row">
       <div class="form-group col-12 mb-3">
-        <label for="unitname">Name</label>
-        <input type="text" autocomplete="off" id="unitname" class="form-control" placeholder="e.g. Neurological department" (keypress)="omitSpecialChar($event)" [(ngModel)]="unitCopy.name" (ngModelChange)="unitCopy.name = $event.trim()">
+        <label for="unitname">{{"Name" | translate }}</label>
+        <input type="text" autocomplete="off" id="unitname" class="form-control" [placeholder]="'e.g. Neurological Department' | translate" (keypress)="omitSpecialChar($event)" [(ngModel)]="unitCopy.name" (ngModelChange)="unitCopy.name = sanitizeUnitName($event)">
       </div>
       <div class="form-group col-12 mb-3">
-        Departments to be associated with the unit
+        {{"Departments to be associated with the unit" | translate }}
         <div class="custom-control custom-checkbox my-1" *ngFor="let selection of departmentsSelection">
           <input type="checkbox" [(ngModel)]="selection.isSelected" [id]="'role'+departmentsSelection.indexOf(selection)" class="form-check-input">
           <label [htmlFor]="'role'+departmentsSelection.indexOf(selection)" class="custom-control-label ms-2">
@@ -22,5 +22,5 @@
 </div>
 
 <div class="row col-3">
-  <button class="btn fhi-btn-primary ms-3 mt-1" [disabled]="canNotSaveUnit()" (click)="saveUnit()">Save unit</button>
+  <button class="btn fhi-btn-primary ms-3 mt-1" [disabled]="canNotSaveUnit()" (click)="saveUnit()">{{"Save Unit" | translate }}</button>
 </div>

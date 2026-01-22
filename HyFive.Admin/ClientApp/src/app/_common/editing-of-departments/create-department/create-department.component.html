@@ -2,7 +2,7 @@
   <div class="col-12 col-lg-6">
     <div class="form-row">
       <div class="form-group col-12 mb-3" >
-        <label for="departmenttype">Department type</label>
+        <label for="departmenttype">{{"Department Type" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -14,11 +14,11 @@
         </ng-select>
       </div>
       <div class="form-group col-12 mb-3">
-        <label for="facilityName">Name</label>
-        <input type="text" autocomplete="off" id="facilityName" class="form-control" (keypress)="omitSpecialChar($event)" placeholder="e.g. Neurological Department" [(ngModel)]="newDepartment.name" (ngModelChange)="newDepartment.name = $event.trim()">
+        <label for="facilityName">{{"Name" | translate }}</label>
+        <input type="text" autocomplete="off" id="facilityName" class="form-control" (keypress)="omitSpecialChar($event)" [placeholder]="'e.g. Neurological Department' | translate" [(ngModel)]="newDepartment.name" (ngModelChange)="newDepartment.name = sanitizeDepartmentName($event)">
       </div>
       <div class="form-group col-12 mb-4" >
-        Roles that must be observable
+        {{"Roles that must be observable" | translate}}
         <div class="custom-control custom-checkbox my-1" *ngFor=  "let selection of roleSelected">
           <input type="checkbox" [(ngModel)]="selection.isSelected" [id]="'role'+roleSelected.indexOf(selection)" class="form-check-input">
           <label [htmlFor]="'role'+roleSelected.indexOf(selection)" class="custom-control-label ms-2">
@@ -31,6 +31,14 @@
   </div>
 </div>
 
-<div class="row col-3">
-  <button class="btn fhi-btn-primary ms-3 mt-1" [disabled]="canNotCreateDepartment()" (click)="createDepartment()">Save</button>
+<div class="row">
+  <div class="col-md-3">
+      <button class="btn fhi-btn-primary ms-3 w-100 mt-1" [disabled]="canNotCreateDepartment()" (click)="createDepartment()">{{"Save" | translate}}</button>
+  </div>
+  <div class="col-md-3">
+    <button class="btn fhi-btn-secondary mt-1 me-3"
+            (click)="cancelForm()">
+      {{ "Cancel" | translate }}
+    </button>
+  </div>
 </div>

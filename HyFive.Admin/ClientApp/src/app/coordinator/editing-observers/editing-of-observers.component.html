@@ -1,8 +1,5 @@
 <div class="container">
   <ng-container *ngIf="facilityReport else spinner ">
-    <div class="row">
-      <h3>Maintenance of observers</h3>
-    </div>
     <div>
     <app-edit-observers [facilityId]="facilityReport.id"> </app-edit-observers>
     </div>

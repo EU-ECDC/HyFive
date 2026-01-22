@@ -5,25 +5,25 @@
       <div class="mb-3">
         <button *ngIf="!isEditMode" class="btn fhi-btn-icon" (click)="isEditMode = true">
           <i class="icon-pencil"></i>
-          Edit
+          {{"Edit" | translate}}
         </button>
         <button *ngIf="isEditMode" class="btn fhi-btn-icon" (click)="saveObservation()">
           <i class="icon-check-circle"></i>
-          Save
+          {{"Save" | translate }}
         </button>
       </div>
 
       <div class="mb-3">
         <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
-                                      [dialogMessage]="dialogueTexts.ObservationDeleteConfirmation">
-          <i class="icon-trash3"></i> Delete
+                                      [dialogMessage]="dialogueTexts.ObservationDeleteConfirmation | translate">
+          <i class="icon-trash3"></i> {{"Delete" | translate}}
         </app-delete-confirmation-dialog>
       </div>
     </div>
     <div class="hh-card-slider__card"
          [ngClass]="{ 'hh-card-slider__card--active': isEditMode || isReadonly }"
          [ngStyle]="(isEditMode || isReadonly) && {'background-color': Colors.getFhiColorHexFromText(observation?.role?.name)}">
-      <div class="d-flex flex-row pt-3">
+      <div class="d-flex flex-row pt-3 align-items-end">
         <div class="flex-column justify-content-start">
           <ng-container *ngIf="isEditMode">
             <app-role-selection-dropdown [roleId]="observation.role.id"
@@ -80,16 +80,16 @@
           </div>
         </div>
       </div>
-      <div class="row mt-n3" *ngIf="isEditMode && observation.activity.secondsUsed > 0 && !showActivityTypeNotPerformed">
-        <div class="col-12 text-center mb-2">
+      <div class="row mt-n3 pt-3" *ngIf="isEditMode && observation.activity.secondsUsed > 0 && !showActivityTypeNotPerformed">
+        <div class="col-12 text-center">
           <button class="btn hh-transparent-button hh-transparent-button--small" (click)="observation.activity.secondsUsed = 0">
-            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
+            <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>{{"Remove time registration" | translate}}</span>
           </button>
         </div>
       </div>
       <ng-container *ngIf="isReadonly == false">
         <div *ngIf="gloveUseMustBeRegistered && showActivityTypeNotPerformed" class="form-group col-3 mt-n4" [style]="{ 'min-width': '300px !important', 'margin-left': '-5px' }">
-          <label class="ml-2" [htmlFor]="'gloveUse-'+id"><small>Observation of gloves:</small></label>
+          <label class="ml-2" [htmlFor]="'gloveUse-'+id"><small>{{"Observation of gloves" | translate}}:</small></label>
           <select [disabled]="!isEditMode"
                   [id]="'gloveUse-'+id"
                   class="form-control form-control--rounded form-control--smaller form-control--arrow bg-secondary"
@@ -103,12 +103,12 @@
       <ng-container *ngIf="isReadonly && gloveUseText">
         <div class="row">
           <div class="col">
-            <label>
+            <p>
               <small>
-                Observation of gloves:
+                {{"Observation of gloves" | translate}}:
                 <strong>{{gloveUseText}}</strong>
               </small>
-            </label>
+            </p>
           </div>
         </div>
       </ng-container>
@@ -124,7 +124,7 @@
               </app-register-comment>
             </ng-container>
             <ng-container *ngIf="!isEditMode && observation.comment">
-              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+              <p class="ellipsis-10-chars"><small>{{"Comment" | translate}}: <strong data-hj-suppress>{{observation.comment}}</strong></small></p>
             </ng-container>
           </div>
         </div>

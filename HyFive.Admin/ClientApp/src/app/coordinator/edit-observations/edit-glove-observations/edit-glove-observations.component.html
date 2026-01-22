@@ -3,21 +3,21 @@
     <table class="table mb-0">
       <thead>
       <tr>
-        <th>Role</th>
-        <th>With/Without Indications</th>
-        <th>Indications</th>
-        <th>Gloves used</th>
-        <th>Hand hygiene after wearing gloves</th>
-        <th>Registered date</th>
-        <th>Comment</th>
+        <th>{{"Role" | translate }}</th>
+        <th>{{"With/Without  Indications" | translate }}</th>
+        <th>{{"Indications" | translate }}</th>
+        <th>{{"Gloves Used" | translate }}</th>
+        <th>{{"Hand hygiene after wearing gloves" | translate }}</th>
+        <th>{{"Registered Date" | translate }}</th>
+        <th>{{"Comment" | translate }}</th>
       </tr>
       </thead>
       <tbody>
       <ng-container *ngFor="let observation of observations">
         <tr (click)="selectObservation(observation)" *ngIf="gloveObservationAsChanged?.id !== observation.id" >
           <td>{{observation.role.name}}</td>
-          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes?.length > 0">Glove with indications</td>
-          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes?.length > 0">Glove without indications</td>
+          <td *ngIf="observation.gloveObservation.gloveWithIndicationTypes?.length > 0">{{"Glove with indications" | translate }}</td>
+          <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes?.length > 0">{{"Glove without indications" | translate }}</td>
           <td *ngIf="observation.gloveObservation.gloveWithoutIndicationTypes?.length <= 0 && observation.gloveObservation.gloveWithIndicationTypes?.length <= 0">-</td>
           <td>
             <ul style="padding-left: 20px;" *ngIf="observation.gloveObservation.gloveWithIndicationTypes?.length > 0">
@@ -31,7 +31,7 @@
               </li>
             </ul>
           </td>
-          <td>{{observation.gloveObservation.glovesUsed ? "Yes" : 'No'}}</td>
+          <td>{{observation.gloveObservation.glovesUsed ? dialogMessageService.translateText("Yes") : dialogMessageService.translateText("No")}}</td>
           <td>
                   <span>
                     {{ observation.gloveObservation.postGloveHandHygieneType?.name
@@ -56,10 +56,10 @@
               <div class="w-100">
                 <div class="d-flex justify-content-center">
                   <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnmedindication" [value]="true" [(ngModel)]="gloveWithIndicationsSelected" >
-                  <label class="btn fhi-btn-group__btn" for="btnmedindication">With indications</label>
+                  <label class="btn fhi-btn-group__btn" for="btnmedindication">{{"With indications" | translate }}</label>
                   
                   <input type="radio" class="btn-check fhi-btn-group__check" name="btnradio" id="btnwithoutindication" [value]="false" [(ngModel)]="gloveWithIndicationsSelected" >
-                  <label class="btn fhi-btn-group__btn" for="btnwithoutindication">Without indications</label>
+                  <label class="btn fhi-btn-group__btn" for="btnwithoutindication">{{"Without indications" | translate }}</label>
                 </div>
               </div>
             </td>
@@ -93,7 +93,7 @@
                        (change)="gloveObservationAsChanged.glovesUsed = !gloveObservationAsChanged.glovesUsed"
                        >
                 <label class="form-check-label" for="glovesUsed">
-                  Gloves used?
+                  {{"Gloves Used" | translate }}?
                 </label>
               </div>
             </td>
@@ -120,20 +120,20 @@
                 <div class="col mt-3" style="display: flex; gap: 15px;">
     
                   <app-confirmation-dialog 
-                                        [buttonText]="'Save'"
+                                        [buttonText]="'Save' | translate"
                                         [buttonClass]="'btn fhi-btn-primary me-3'"
                                         (confirmEvent)="updateGloveObservation()"
-                                        [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
+                                        [dialogMessage]="dialogMessageService.translateDialogMessage('Are you sure you want to save changes to observation with id:', observation.id)">
                   </app-confirmation-dialog>
                   <app-confirmation-dialog 
-                                        [buttonText]="'Delete'"
+                                        [buttonText]="'Delete' | translate"
                                         [buttonClass]="'btn fhi-btn-secondary me-3'"
                                         (confirmEvent)="deleteGloveObservation()" 
-                                        [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
+                                        [dialogMessage]="dialogMessageService.translateDialogMessage('Do you want to delete observation with id:', observation.id)">
                   </app-confirmation-dialog>
                   <button class="btn fhi-btn-primary bg-dark me-3"
                           (click)="cancelEditObservation($event)">
-                    Cancel
+                    {{ "Cancel" | translate }}
                   </button>
     
                 </div>

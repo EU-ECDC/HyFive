@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using HyFive.Domain.Observation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ObserverUser = HyFive.Domain.User.User;
+using HyFive.Domain.Exceptions;
 using HyFive.Services.Helpers;
 
 namespace HyFive.Services.FiveIndication
@@ -47,8 +48,7 @@ namespace HyFive.Services.FiveIndication
                 // Verify that the observer is an observer at the facility
                 var observer = await SessionHelper.GetObserverAsync(_context, _userService, request.Email, request.Session.Department.FacilityId, cancellationToken);
                 if (observer == null)
-                    throw new ArgumentException(
-                        $"Did not find an observer with email {request.Email} at facility with ID {request.Session.Department.FacilityId}");
+                    throw new DomainException("ObserverNotFoundAtFacility", request.Email, request.Session.Department.FacilityId);
 
                 var indicationTypes = await _context.IndicationTypes.ToListAsync(cancellationToken);
                 var activityTypes = await _context.ActivityType.ToListAsync(cancellationToken);

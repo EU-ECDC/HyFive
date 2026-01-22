@@ -1,4 +1,5 @@
-﻿using HyFive.Domain.Observation;
+﻿using HyFive.Domain.Exceptions;
+using HyFive.Domain.Observation;
 using HyFive.Models.V1.Constants;
 using System;
 using System.Linq;
@@ -9,33 +10,32 @@ namespace HyFive.Services.FiveIndication.Helpers
     {
         public static bool ValidateObservation(FiveIndicationsObservation observation)
         {
-            if (observation.IndicationTypes.Any() == false)
+            if (observation.IndicationTypes == null || observation.IndicationTypes?.Count == 0)
             {
-                throw new FiveIndicatorsObservationValidationException("FIO-V-01: At least one indicator type must be registered.");
+                throw new ValidationException("ObservationIndicatorTypeMissing");
             }
+
             if (observation.Activity == null)
             {
-                throw new FiveIndicatorsObservationValidationException("FIO-V-02: Activity must be registered.");
+                throw new ValidationException("ObservationActivityMissing");
             }
+
             if (observation.Activity.ActivityType == null)
             {
-                throw new FiveIndicatorsObservationValidationException("FIO-V-03: ActivityType is missing.");
+                throw new ValidationException("ObservationActivityTypeMissing");
             }
+
             if (observation.Activity.TimingWasPerformed && observation.Activity.SecondsUsed < 1)
             {
-                throw new FiveIndicatorsObservationValidationException("FIO-V-04: It is recorded that time tracking was performed, but no time was recorded.");
+                throw new ValidationException("ObservationTimingInvalid");
             }
+
             if (observation.Role == null)
             {
-                throw new FiveIndicatorsObservationValidationException("FIO-V-05: Role must be registered.");
+                throw new ValidationException("ObservationRoleMissing");
             }
 
             return true;
         }
-    }
-
-    public class FiveIndicatorsObservationValidationException : Exception
-    {
-        public FiveIndicatorsObservationValidationException(string message) : base(message) { }
     }
 }

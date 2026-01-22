@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 
 export class IndicationTypesService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
 
   }
 

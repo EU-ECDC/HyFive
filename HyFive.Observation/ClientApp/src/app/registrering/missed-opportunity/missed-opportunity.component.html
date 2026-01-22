@@ -5,7 +5,7 @@
           (click)="registerNotPerformedActivity(modal)">
 
     <fa-icon [icon]="faTimesCircle" class="hh-vertical-stadium-buttons__icon"></fa-icon>
-    <span class="hh-register-activity__missed-opportunity-text mt-n1" style="line-height: 45%"><small><strong>Not done</strong></small></span>
+    <span class="hh-register-activity__missed-opportunity-text mt-n1" style="line-height: 45%; word-break: break-word; overflow-wrap: break-word;"><small><strong>{{"Not Done" | translate}}</strong></small></span>
   </button>
 </div>
 
@@ -18,15 +18,15 @@
     <div class="container">
       <div class="row">
         <div class="col text-center">
-          <p class="font-weight-bold">Were gloves used??</p>
+          <p class="font-weight-bold">{{"Were gloves used?" | translate}}</p>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <div class="btn-group" role="group">
-      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Yes'); registerActivity(true)">Yes</button>
-      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('No'); registerActivity(false)">No</button>
+      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('Yes'); registerActivity(true)">{{"Yes" | translate}}</button>
+      <button type="button" class="btn fhi-btn-secondary" (click)="modal.close('No'); registerActivity(false)">{{"No" | translate}}</button>
     </div>
   </div>
 </ng-template>

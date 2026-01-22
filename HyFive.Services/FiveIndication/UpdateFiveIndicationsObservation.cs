@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.FiveIndication.Helpers;
 using MediatR;
@@ -24,13 +25,11 @@ namespace HyFive.Services.FiveIndication
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
-            private readonly ILogger<Handler> _logger;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _logger = logger;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -45,17 +44,16 @@ namespace HyFive.Services.FiveIndication
                 
                 if (observation == null)
                 {
-                    throw new ArgumentException("O-FI-01: Did not find observation with ID: " + request.Observation.Id);
+                    throw new DomainException("ObservationNotFound", request.Observation.Id);
                 }
                 if (observation.FiveIndicationsSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new ArgumentException("O-FI-02: The observation has already been transferred to FHI and cannot be changed.");
+                    throw new DomainException("ObservationAlreadyTransferred");
                 }
 
                 FiveIndicatorsObservationValidator.ValidateObservation(_mapper.Map<Domain.Observation.FiveIndicationsObservation>(request.Observation));
 
-                try
-                {
+                
                     var indicationTypesFromRequest = await _context.IndicationTypes.Where(i => request.Observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToListAsync(cancellationToken);
                     observation.IndicationTypes = indicationTypesFromRequest;
 
@@ -65,22 +63,16 @@ namespace HyFive.Services.FiveIndication
                     observation.Activity.SecondsUsed = request.Observation.Activity.SecondsUsed;
                     observation.Activity.TimingWasPerformed = request.Observation.Activity.TimingWasPerformed;
 
-                    observation.RegisteredTime = request.Observation.RegisteredTime;
+                observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == request.Observation.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
 
-                    observation.Comment = request.Observation.Comment;
+                observation.Comment = request.Observation.Comment;
 
-                    _context.Update(observation);
+                _context.Update(observation);
 
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch (Exception e)
-                {   
-                    _logger.LogError(e, "Error while updating Five Indication observation.");
-                    return false;
-                }
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return true;
             }

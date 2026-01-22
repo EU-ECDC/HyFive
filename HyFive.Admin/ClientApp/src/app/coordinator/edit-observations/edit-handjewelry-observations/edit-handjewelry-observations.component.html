@@ -3,10 +3,10 @@
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Role</th>
-          <th>Hand jewelry</th>
-          <th>Registered date</th>
-          <th>Comment</th>
+          <th>{{"Role" | translate }}</th>
+          <th>{{"Hand jewelry" | translate }}</th>
+          <th>{{"Registered Date" | translate }}</th>
+          <th>{{"Comment" | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -56,20 +56,20 @@
                   <div class="col mt-3" style="display: flex; gap: 15px;">
     
                     <app-confirmation-dialog
-                                          [buttonText]="'Save'" 
+                                          [buttonText]="'Save' | translate" 
                                           [buttonClass]="'btn fhi-btn-primary me-3'"
                                           (confirmEvent)="updateHandJewelryObservation()"
-                                          [dialogMessage]="'Are you sure you want to save changes to observation with id ' + observation.id + '?'">
+                                          [dialogMessage]="dialogMessageService.translateDialogMessage('Are you sure you want to save changes to observation with id:', observation.id)">
                     </app-confirmation-dialog>
                     <app-confirmation-dialog 
-                                          [buttonText]="'Delete'"
+                                          [buttonText]="'Delete' | translate"
                                           [buttonClass]="'btn fhi-btn-secondary me-3'"
                                           (confirmEvent)="deleteHandJewelryObservation()" 
-                                          [dialogMessage]='"Do you want to delete observation with id: " + observation.id + "?"'>
+                                          [dialogMessage]="dialogMessageService.translateDialogMessage('Do you want to delete observation with id:', observation.id)">
                     </app-confirmation-dialog>
                     <button class="btn fhi-btn-primary bg-dark me-3"
                             (click)="cancelEditObservation($event)">
-                      Cancel
+                      {{ "Cancel" | translate }}
                     </button>
                   </div>
                 </div>

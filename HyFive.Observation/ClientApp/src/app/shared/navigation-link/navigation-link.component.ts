@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import {MenuParameters} from '../../constants/menu-parameters';
 
@@ -6,17 +6,14 @@ import {MenuParameters} from '../../constants/menu-parameters';
   selector: 'app-navigation-link',
   templateUrl: './navigation-link.component.html',
 })
-export class NavigationLinkComponent implements OnInit {
+export class NavigationLinkComponent {
 
   faChevronLeft = faChevronLeft;
-  @Input('mobileCssClass') mobileCssClass = 'mt-n5';
-  @Output('linkClicked') linkClicked = new EventEmitter<any>();
+  @Input() mobileCssClass = 'mt-n5';
+  @Output() linkClicked = new EventEmitter<any>();
 
   constructor() {
 
-  }
-
-  ngOnInit(): void {
   }
 
   isMobileMenu(): boolean{

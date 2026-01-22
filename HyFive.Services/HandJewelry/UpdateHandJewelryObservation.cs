@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Services.HandJewelry.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using HandJewelryObservation = HyFive.Models.V1.Observation.HandJewelryObservation;
 
 namespace HyFive.Services.HandJewelry
@@ -24,13 +25,11 @@ namespace HyFive.Services.HandJewelry
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
-            private readonly ILogger<Handler> _logger;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _logger = logger;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -44,52 +43,44 @@ namespace HyFive.Services.HandJewelry
 
                 if (observation == null)
                 {
-                    throw new ArgumentException("O-HS-01: Did not find observation with ID " + request.Observation.Id);
+                    throw new DomainException("ObservationNotFound", request.Observation.Id);
                 }
                 
                 if (observation.HandJewelrySession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new ArgumentException("O-HS-02: The observation has already been transferred to FHI and cannot be changed");
+                    throw new DomainException("ObservationAlreadyTransferred");
                 }
 
                 HandJewelryObservationValidator.ValidateObservation(_mapper.Map<Domain.Observation.HandJewelryObservation>(request.Observation));
 
-                try
+                
+                var handJewelryTypeIds = request.Observation.HandJewelries.Select(h => h.Id);
+                var handJewelryFromDatabase = await _context.HandJewelryType.Where(h => handJewelryTypeIds.Contains(h.Id)).ToListAsync(cancellationToken);
+
+                var handJewelryIdsFromRequest = string.Join(',', handJewelryTypeIds);
+                if (!handJewelryFromDatabase.Any())
                 {
-                    var handJewelryTypeIds = request.Observation.HandJewelries.Select(h => h.Id);
-                    var handJewelryFromDatabase = await _context.HandJewelryType.Where(h => handJewelryTypeIds.Contains(h.Id)).ToListAsync(cancellationToken);
+                    throw new DomainException("HandJewelryNotFoundByIds", handJewelryIdsFromRequest);
+                }
 
-                    var handJewelryIdsFromRequest = string.Join(',', handJewelryTypeIds);
-                    if (!handJewelryFromDatabase.Any() )
-                    {
-                        throw new ArgumentException($"O-HS-03:Did not find any hand jewelry with IDs {handJewelryIdsFromRequest}");
-                    }
-
-                    if (handJewelryFromDatabase.Count != request.Observation.HandJewelries.Count)
-                    {
-                        throw new ArgumentException($"O-HS-04: The number of bracelets in the observation does not match the number of bracelet types found in the database. " +
-                                            $"Hand jewelry in the database: {string.Join(',',handJewelryFromDatabase.Select(h => h.Id))} / " + 
-                                            $"Hand jewelry in request: {handJewelryIdsFromRequest} ");
-                    }
+                if (handJewelryFromDatabase.Count != request.Observation.HandJewelries.Count)
+                {
+                    throw new DomainException("HandJewelryCountMismatch", string.Join(',', handJewelryFromDatabase.Select(h => h.Id)), handJewelryIdsFromRequest);
+                }
                     
                     
-                    observation.HandJewelries = handJewelryFromDatabase;
+                observation.HandJewelries = handJewelryFromDatabase;
                     
-                    observation.RegisteredTime = request.Observation.RegisteredTime;
+                observation.RegisteredTime = request.Observation.RegisteredTime;
 
                     var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == request.Observation.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
                     observation.Comment = request.Observation.Comment;
 
-                    _context.Update(observation);
+                _context.Update(observation);
 
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch (Exception e)
-                {   
-                    _logger.LogError(e, "O-HS-05: Error while updating Bracelet observation");
-                    return false;
-                }
+                await _context.SaveChangesAsync(cancellationToken);
+                
 
                 return true;
             }

@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HyFive.Api.Common.ExtensionMethods;
+﻿using HyFive.Api.Common.ExtensionMethods;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.Gloves;
 using HyFive.Models.V1.Report.Glove;
 using HyFive.Models.V1.Session;
+using HyFive.Observation.Controllers.V1.Shared;
 using HyFive.Services;
-using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Authentication.User;
 using HyFive.Services.Glove;
 using HyFive.Services.Report.Observations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HyFive.Observation.Controllers.V1
 {
@@ -25,11 +28,14 @@ namespace HyFive.Observation.Controllers.V1
     {
         private readonly IMediator _mediator;
         private readonly IUserService _userService;
+        private readonly IStringLocalizer<Services.Localization.Validation> _validation;
 
-        public GloveController(IMediator mediator, IUserService userService)
+
+        public GloveController(IMediator mediator, IUserService userService, IStringLocalizer<Services.Localization.Validation> validation)
         {
             _mediator = mediator;
             _userService = userService;
+            _validation = validation;
         }
 
         /// <summary>
@@ -42,23 +48,19 @@ namespace HyFive.Observation.Controllers.V1
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> SaveSession([FromBody] GloveSession session)
         {
-            if (!session.Observations.Any())
-            {
-                return BadRequest("The session must contain at least one observation");
-            }
-
-            if (_userService.IsObserverForFacility(session.Department.FacilityId))
-            {
-                var result = await _mediator.Send(new SaveSession.Command
+            return await SessionSaveHelper.SaveSessionAsync(
+                controller: this,
+                session: session,
+                routeName: "GetGloveSession",
+                mediator: _mediator,
+                userService: _userService,
+                validation: _validation,
+                commandFactory: (s, email) => new HyFive.Services.Glove.SaveSession.Command
                 {
-                    Email = _userService.GetEmail(),
-                    Session = session
-                });
-
-                return CreatedAtRoute("GetGloveSession", new { sessionId = session.Id }, result);
-            }
-
-            return Unauthorized();
+                    Email = email,
+                    Session = (GloveSession)s
+                }
+            );
         }
 
         [HttpGet("gloveWithIndicationType")]
@@ -100,7 +102,7 @@ namespace HyFive.Observation.Controllers.V1
                 return observations;
             }
 
-            throw new UnauthorizedAccessException("You do not have access to inquire about the observations for this institution");
+            throw new DomainException("InstitutionAccessDenied");
         }
 
         [HttpGet("myObservations/excel")]

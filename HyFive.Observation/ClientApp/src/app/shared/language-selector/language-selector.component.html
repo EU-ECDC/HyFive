@@ -1,0 +1,13 @@
+<div class="col-md-2">
+  <label for="sessionType">{{"Select Language" | translate}}</label>
+  <ng-select
+      [placeholder]="'language' | translate"
+      [clearable]="false"
+      [items]="availableLanguages"
+      bindLabel="label"
+      bindValue="code"
+      [(ngModel)]="selectedLanguage.code"
+      (ngModelChange)="changeLanguage()"
+      >
+  </ng-select>
+</div>

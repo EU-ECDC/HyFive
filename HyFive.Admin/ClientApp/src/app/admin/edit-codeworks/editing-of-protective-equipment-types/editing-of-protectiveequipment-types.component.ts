@@ -15,9 +15,9 @@ export class EditingProtectiveEquipmentTypeComponent implements OnInit, OnDestro
   showEditOfProtectiveEquipmentTypes: boolean;
 
   constructor(
-    private protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly protectiveEquipmentTypeqsService: ProtectiveEquipmentTypeqsService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
@@ -37,13 +37,13 @@ export class EditingProtectiveEquipmentTypeComponent implements OnInit, OnDestro
   loadProtectiveEquipmentTypes() {
     this.protectiveEquipmentTypeqsService.getProtectiveEquipmentTypes().subscribe(
       (result) => this.equipmentTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Protective Equipment Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading Protective Equipment Types: ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedEquipmentType(equipmentType: ProtectiveEquipmentTypeq): void {
     if (this.equipmentTypeAsChanged?.id == equipmentType.id) return;
-    this.equipmentTypeAsChanged = JSON.parse(JSON.stringify(equipmentType));
+    this.equipmentTypeAsChanged = structuredClone(equipmentType);
   }
 
   updateProtectiveEquipmentType(equipmentType: ProtectiveEquipmentTypeq): void {
@@ -52,7 +52,7 @@ export class EditingProtectiveEquipmentTypeComponent implements OnInit, OnDestro
         this.toastrService.success("Protective equipment type updated");
         this.loadProtectiveEquipmentTypes();
       },
-      error => this.toastrService.error('An error occurred while updating Protective equipment type: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating Protective equipment type: ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.equipmentTypeAsChanged = null
     );
   }

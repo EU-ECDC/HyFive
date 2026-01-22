@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit } from '@angular/core';
 import {SessionOverviewReport} from "../../../models/api/SessionOverviewReport";
 import {SessionService} from "../../../services/data/session.service";
 import {UpdateSessionRequest} from "../../../models/api/UpdateSessionRequest";
 import {ToastrService} from "ngx-toastr";
-import {DateHelper} from "../../../utils/dateHelper";
 
 @Component({
   selector: 'app-edit-sessionsdata',
@@ -23,11 +22,12 @@ export class EditSessionDataComponent implements OnInit {
 
   sessionCopy: SessionOverviewReport;
 
-  constructor(private sessionService : SessionService, private toastrService: ToastrService) {
+  constructor(private readonly sessionService : SessionService, 
+              private readonly toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.sessionCopy = JSON.parse(JSON.stringify(this.session));
+    this.sessionCopy = structuredClone(this.session);
     this.resetState();
   }
 
@@ -49,7 +49,7 @@ export class EditSessionDataComponent implements OnInit {
           }
           this.resetState();
         },
-        (error) => this.toastrService.error('An error occurred while updating session data: ' + error?.message, '', { disableTimeOut: true})
+        (error) => this.toastrService.error('An error occurred while updating session data: ' + error?.error.message, '', { disableTimeOut: true})
       );
     }
 
@@ -59,7 +59,7 @@ export class EditSessionDataComponent implements OnInit {
     this.hasChangedComment = false;
     this.hasChangedDate = false;
     this.editingMode = false;
-    this.sessionCopy = JSON.parse(JSON.stringify(this.session))
+    this.sessionCopy = structuredClone(this.session);
   }
 
   canSave() {

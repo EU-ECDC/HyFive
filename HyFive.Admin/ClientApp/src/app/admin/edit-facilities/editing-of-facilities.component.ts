@@ -8,6 +8,8 @@ import { FacilityReport } from '../../models/api/FacilityReport';
 import { User } from 'src/app/models/api/User';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
+import { TranslateService } from '@ngx-translate/core';
+import { SortHelper } from 'src/app/utils/sort-helper';
 
 @Component({
   selector: 'app-editing-of-facilities',
@@ -22,11 +24,13 @@ export class EditingOfFacilitiesComponent implements OnInit {
   keyword: string = '';
   keywordPerson: string = '';
   users: User[] = [];
+  showCreateFacilityForm: boolean = false;
 
-  constructor(private facilityService: FacilityService,
-    private toastrService: ToastrService,
-    private route: ActivatedRoute,
-    private router: Router) { }
+  constructor(private readonly facilityService: FacilityService,
+    private readonly toastrService: ToastrService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly translate: TranslateService) { }
 
 
   ngOnInit(): void {
@@ -45,9 +49,9 @@ export class EditingOfFacilitiesComponent implements OnInit {
       this.facilities = result;
       this.filteredFacilities = this.facilities;
       
-      this.facilities.forEach(i => {
+      for (const i of this.facilities) {
         this.getUsers(i.id);
-      });
+      };
     });
   }
 
@@ -106,26 +110,15 @@ export class EditingOfFacilitiesComponent implements OnInit {
   }
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: Facility) => any;
-    switch ($event.columnName) {
-      case "Name":
-        propertyOf = (x: Facility) => x.name;
-        break;
-        case "City":
-          propertyOf = (x: Facility) => x.city?.name;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: Facility, b: Facility) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+    const userSortConfig = {
+      [this.translate.instant("Name")]: (x: Facility) => x.name,
+      [this.translate.instant("City")]: (x: Facility) => x.city?.name,
     };
 
-    this.filteredFacilities.sort(sortFunc);
+    this.filteredFacilities = SortHelper.sort(this.filteredFacilities, $event, userSortConfig);
   }
 
+  toggleShowForm() {
+    this.showCreateFacilityForm = !this.showCreateFacilityForm;
+  }
 }

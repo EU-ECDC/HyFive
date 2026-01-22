@@ -1,18 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-delete-shadow',
   templateUrl: './delete-shadow.component.html'
 })
-export class DeleteShadowComponent implements OnInit {
+export class DeleteShadowComponent {
 
-  @Input("show") show: Boolean;
+  @Input() show: boolean;
 
   faTrashAlt = faTrashAlt;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
 }

@@ -25,10 +25,10 @@ export class SelectionForProtectiveEquipmentComponent implements OnInit {
   protectiveEquipmentSettingMapper = ProtectiveEquipmentSettingMapper;
 
 
-  @Input("sessionView") sessionView: ProtectiveEquipmentSessionView = null;
-  @Input("roles") roles: RoleSelected[];
-  @Input("department") department: Department;
-  @Output("settingEquipmentWasChanged") settingEquipmentWasChanged: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
+  @Input() sessionView: ProtectiveEquipmentSessionView = null;
+  @Input() roles: RoleSelected[];
+  @Input() department: Department;
+  @Output() settingEquipmentWasChanged: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(
     private readonly protectiveEquipmentCodingService: ProtectiveEquipmentCodingService,

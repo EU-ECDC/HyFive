@@ -1,27 +1,32 @@
 <div class="container">
   <ng-container *ngIf="!unitAsEdited">
-    <div class="row">
-      <h3>Create Unit</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="showCreateUnitForm" (click)="toggleShowForm()">{{"Create Unit" | translate }}</button>
     </div>
-    <app-create-unit (unitCreatedEvent)="getUnits()" [facilityId]="facilityId" *ngIf="facilityId > 0 && unitId == 0"></app-create-unit>
+  </div>
+  <div *ngIf="showCreateUnitForm">
+    <app-create-unit (unitCreatedEvent)="getUnits()" (resetFormEvent)="toggleShowForm()" [facilityId]="facilityId" *ngIf="facilityId > 0 && unitId == 0"></app-create-unit>
+  </div>
     <div class="row mb-5 mt-5">
+      <input type="text" autocomplete="off" [placeholder]="'Search for Unit ...' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterUnits()">
       <ng-container>
         <div class="table-responsive">
           <table class="table" sortable-table (sorted)="sort($event)">
             <thead>
               <tr>
-                <td sortable-column="Name"></td>
-                <td sortable-column="Departments"></td>
-                <td class="text-end" scope="col">Action</td>
+                <td [sortable-column]="'Name' | translate"></td>
+                <td [sortable-column]="'Departments' | translate"></td>
+                <td class="text-end" scope="col">{{"Action" | translate }}</td>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let unit of units">
+              <tr *ngFor="let unit of filteredUnits">
                 <td>{{unit.name}}</td>
                 <td>{{getDepartmentName(unit)}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="navigateToUnit(unit.id)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit unit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit unit" | translate}}</span>
                   </button>
                 </td>
               </tr>
@@ -37,11 +42,11 @@
   </ng-container>
   <div class="row" *ngIf="!loading && units?.length == 0">
     <div class="col-12">
-      <p>There are no units registered at this healthcare facility.</p>
+      <p>{{"There are no units registered at this healthcare facility." | translate}}</p>
     </div>
   </div>
   <div class="row" *ngIf="loading">
-    <app-spinner class="col-12">Loading units</app-spinner>
+    <app-spinner class="col-12">{{"Loading units" | translate}}</app-spinner>
   </div>
 </div>
 

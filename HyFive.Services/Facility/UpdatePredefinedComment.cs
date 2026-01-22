@@ -36,7 +36,7 @@ namespace HyFive.Services.Facility
                 comment.Comment = request.PredefinedComment.Comment;
 
                 _context.Update(comment);
-                _context.SaveChanges();
+                await  _context.SaveChangesAsync(cancellationToken);
 
                 return true;
             }

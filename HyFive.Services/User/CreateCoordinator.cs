@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.User
 {
@@ -33,12 +34,12 @@ namespace HyFive.Services.User
                 var facility = await _context.Facility.FirstOrDefaultAsync(i => i.Id == command.User.FacilityId);
                 if (facility == null)
                 {
-                    throw new ArgumentException("Did not find facility with ID: " + command.User.FacilityId);
+                    throw new DomainException("FacilityNotFound", command.User.FacilityId);
                 }
 
                 if (!UserValidator.HasNameAndEmail(command.User))
                 {
-                    throw new ArgumentException("Coordinator must have first name, last name, and email");
+                    throw new ValidationException("CoordinatorMissingDetails");
                 }
 
                 var coordinator = new Coordinator()

@@ -1,19 +1,18 @@
 <div>
   <div class="row ms-1">
     <div class="col">
-      <h5>Roles</h5>
+      <h5>{{"Roles" | translate }}</h5>
     </div>
   </div>
   <div class="row ms-1">
     <div class="col-3">
-      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.name' placeholder="Name">
+      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.name' [placeholder]="'Name' | translate">
     </div>
-    <div class="col-7">
-      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.description' (ngModelChange)="newRole.description = $event.trim()" placeholder="Description">
+    <div class="col-6">
+      <input type="text" autocomplete="off" class="form-control" [(ngModel)]='newRole.description' (ngModelChange)="newRole.description = $event.trim()" [placeholder]="'Description' | translate">
     </div>
-    <div class="col-2">
-      <label></label>
-      <button class="form-control btn fhi-btn-primary" (click)="createRole()" [disabled]="!newRole.name">Add to</button>
+    <div class="col-3">
+      <button class="form-control btn fhi-btn-primary" (click)="createRole()" [disabled]="!newRole.name">{{"Add to" | translate}}</button>
     </div>
   </div>
 
@@ -23,9 +22,9 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th class="text-end" scope="col">Action</th>
+              <th>{{"Name" | translate }}</th>
+              <th>{{"Description" | translate }}</th>
+              <th class="text-end" scope="col">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -35,7 +34,7 @@
                 <td>{{role.description}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="selectedRole(role)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -46,10 +45,10 @@
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateRole(roleAsChanged)">
-                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -60,5 +59,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="roles?.length == 0">Loading roles</app-spinner>
+  <app-spinner class="col-12" *ngIf="roles?.length == 0">{{"Loading Roles" | translate }}</app-spinner>
 </div>

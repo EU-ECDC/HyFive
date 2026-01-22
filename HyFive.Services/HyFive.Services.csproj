@@ -4,6 +4,11 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Overforingsstatus\**" />
+    <EmbeddedResource Remove="Overforingsstatus\**" />
+    <None Remove="Overforingsstatus\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
@@ -14,7 +19,11 @@
     <ProjectReference Include="..\HyFive.Services.Authentication\HyFive.Services.Authentication.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Overforingsstatus\" />
     <Folder Include="Report\NewFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Exceptions.en.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

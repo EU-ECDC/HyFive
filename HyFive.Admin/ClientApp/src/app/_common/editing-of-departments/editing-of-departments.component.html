@@ -1,20 +1,24 @@
 <div class="container">
-  <div class="row" *ngIf="canEdit && !loading">
-    <h3>Create Department</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="showCreateDepartmentForm" (click)="toggleShowForm()">{{"Create Department" | translate }}</button>
+    </div>
   </div>
-  <app-create-department (departmentCreatedEvent)="getDepartments()" [facilityId]="facilityId" [departments]="filteredDepartments" *ngIf="canCreate()"></app-create-department>
+  <div *ngIf="showCreateDepartmentForm">
+    <app-create-department (departmentCreatedEvent)="getDepartments()" [facilityId]="facilityId" [departments]="filteredDepartments" (resetFormEvent)="toggleShowForm()" *ngIf="canCreate()"></app-create-department>
+  </div>
   <div class="row mb-5 mt-5" *ngIf="departments?.length > 0">
-    <input type="text" autocomplete="off" placeholder="Search by name or department type..." autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
+    <input type="text" autocomplete="off" [placeholder]="'Search by name or department type...' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
   
     <ng-container>
       <div class="table-responsive">
         <table class="table" sortable-table (sorted)="sort($event)">
           <thead>
             <tr>
-              <th sortable-column="Name"></th>
-              <th sortable-column="Department Type"></th>
-              <th>Roles</th>
-              <th class="text-end" *ngIf="canEdit">Action</th>
+              <th [sortable-column]="'Name' | translate"></th>
+              <th [sortable-column]="'Department Type' | translate"></th>
+              <th>{{"Roles" | translate }}</th>
+              <th class="text-end" *ngIf="canEdit">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -31,21 +35,21 @@
                   <td>{{getRoleDescriptions(department)}}</td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="setDepartmentAsChanged(department)">
-                      <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                      <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                     </button>
                   </td>
                 </ng-container>
               </ng-container>
               <ng-container *ngIf="canEdit && departmentAsChanged?.id === department.id">
-                <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name" (ngModelChange)="departmentAsChanged.name = $event.trim()"></td>
+                <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name" (ngModelChange)="departmentAsChanged.name = sanitizeDepartmentName($event)"></td>
                 <td>
                   <select class="form-control" id="departmenttype" [(ngModel)]="departmentAsChanged.departmentTypeId">
-                    <option value="0">Not selected</option>
+                    <option value="0">{{"Not selected" | translate}}</option>
                     <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="departmentAsChanged.departmentTypeId == type.id">{{type.name}}</option>
                   </select>
                 </td>
                 <td>
-                  <ng-multiselect-dropdown [placeholder]="'Select'"
+                  <ng-multiselect-dropdown [placeholder]="'Select' | translate"
                                            [settings]="dropdownSettings"
                                            [data]="roles"
                                            [(ngModel)]="selectedRoles">
@@ -55,17 +59,17 @@
                   <button class="btn fhi-btn-icon mr-2" style="width: 100%;"
                                 (click)="updateDepartment(departmentAsChanged)"
                                 [disabled]="!canBeSaved()">
-                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <button class="my-2 btn fhi-btn-icon" style="width: 100%;" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                     <app-confirmation-dialog
                       [buttonClass]="'my-2 btn fhi-btn-icon'"
-                      [buttonText]="'Delete'"
+                      [buttonText]="'Delete' | translate"
                       [shouldUseIcon] = true
                       (confirmEvent)="deleteDepartment(departmentAsChanged)"
-                      [dialogMessage]="'By continuing, the department and all data will be deleted. Do you want to continue?'">
+                      [dialogMessage]="'By continuing, the department and all data will be deleted. Do you want to continue?' | translate">
                     </app-confirmation-dialog>
                 </td>
               </ng-container>
@@ -78,11 +82,11 @@
   </div>
   <div class="row m-3" *ngIf="!loading && departments?.length == 0">
     <div class="col-12">
-      <p>There are no departments registered at this facility.</p>
+      <p>{{"There are no departments registered at this facility." | translate}}</p>
     </div>
   </div>
   <div class="row" *ngIf="loading">
-    <app-spinner class="col-12">Loading departments</app-spinner>
+    <app-spinner class="col-12">{{"Loading departments" | translate}}</app-spinner>
   </div>
 </div>
 

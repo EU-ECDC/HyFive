@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.Facility
 {
@@ -45,7 +46,7 @@ namespace HyFive.Services.Facility
                 
                 if (facility == null)
                 {
-                    throw new KeyNotFoundException($"Did not find facility with ID: {request.FacilityId}");
+                    throw new DomainException("FacilityNotFound", request.FacilityId);
                 }
 
                 // Pre-fetch the department IDs for this facility that have sessions

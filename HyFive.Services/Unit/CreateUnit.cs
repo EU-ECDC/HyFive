@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -35,11 +36,11 @@ namespace HyFive.Services.Unit
                     .FirstOrDefaultAsync(i => i.Id == command.Unit.FacilityId);
                 if (facility == null)
                 {
-                    throw new ArgumentException("Did not find facility with ID: " + command.Unit.FacilityId);
+                    throw new DomainException("FacilityNotFound", command.Unit.FacilityId);
                 }
                 else if (command.Unit.Departments.Any(x => x.FacilityId != facility.Id))
                 {
-                    throw new InvalidOperationException($"At least one department is not linked to the facility with ID: {command.Unit.FacilityId}");
+                    throw new DomainException("DepartmentNotLinkedToFacility", command.Unit.FacilityId);
                 }
 
                 var unit = new Domain.Place.Unit()

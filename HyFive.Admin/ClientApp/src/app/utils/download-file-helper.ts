@@ -23,9 +23,9 @@ export class DownloadFileHelper {
     
       private static async handleDownloadSuccess(response: AjaxResponse<any>) {
         const downloadLink = document.createElement('a');
-        const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+        const isIEOrEdge = /msie\s|trident\/|edge\//i.test(globalThis.navigator.userAgent);
         let filename = '';
-        downloadLink.href = window.URL.createObjectURL(response.response);
+        downloadLink.href = globalThis.URL.createObjectURL(response.response);
         const disposition = response.xhr.getResponseHeader('Content-Disposition');
         if (disposition) {
           const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -36,7 +36,6 @@ export class DownloadFileHelper {
           }
         }
         if (isIEOrEdge) {
-          //window.navigator.msSaveBlob(response.response, filename);
           return true;
         } else {
           document.body.appendChild(downloadLink);

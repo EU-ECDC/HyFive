@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace HyFive.Services.Glove
                 var gloveWithoutIndicationType = await _context.GloveWithoutIndicationType
                     .FirstOrDefaultAsync(x => x.Id == request.GloveWithoutIndicationType.Id);
 
-                if (gloveWithoutIndicationType == null) throw new ArgumentException($"Did not find gloveWithoutIndicationType with ID: {request.GloveWithoutIndicationType.Id}");
+                if (gloveWithoutIndicationType == null) throw new DomainException("GloveWithoutIndicationTypeNotFound", request.GloveWithoutIndicationType.Id);
 
                 gloveWithoutIndicationType.Name = request.GloveWithoutIndicationType.Name;
 

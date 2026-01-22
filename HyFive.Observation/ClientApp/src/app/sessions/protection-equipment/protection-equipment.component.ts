@@ -10,6 +10,7 @@ import {DialogueTexts} from '../../constants/dialogueTexts';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
 import {ToastrService} from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-protection-equipment',
@@ -37,7 +38,8 @@ export class ProtectiveEquipmentComponent implements OnInit {
     private readonly sessionService: ProtectiveEquipmentSessionService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly toastrService: ToastrService) {
+    private readonly toastrService: ToastrService,
+    private readonly translate: TranslateService) {
 
   }
 
@@ -79,14 +81,14 @@ export class ProtectiveEquipmentComponent implements OnInit {
   sendToCoordinator() {
     this.sessionSentToServer = true;
     this.sessionService.sendToServer(this.session.id).subscribe(res => {
-        this.toastrService.success("Session was sent to coordinator");
+      this.toastrService.success(this.translate.instant("Session was sent to coordinator"));
         this.sessionService.deleteSession(this.session.id);
         this.sessionIsSentToServer = true;
         this.sessionSentToServer = false;
       },
       error => {
         this.sessionSentToServer = false;
-        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
+        const message = this.translate.instant("Something went wrong while sending session to coordinator:") + " " + (error?.error ? error.error.substr(0, 300)+'...' : error);
         this.toastrService.error(message, '', { disableTimeOut: true});
       },
       () => this.sessionSentToServer = false);

@@ -1,7 +1,7 @@
 <div class="container">
   <ng-container *ngIf="facilityReport else spinner ">
     <div class="row">
-      <h3>Maintenance of coordinators</h3>
+      <h3>{{"Maintenance of coordinators" | translate}}</h3>
     </div>
     <div *ngIf="!facilityReport.city">
       <app-edit-coordinators [facilityId]="facilityReport.id"></app-edit-coordinators>

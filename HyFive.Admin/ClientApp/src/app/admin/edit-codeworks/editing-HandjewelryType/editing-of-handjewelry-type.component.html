@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="col">
-      <h5>HandJewelry Type</h5>
+      <h5>{{"HandJewelry Type" | translate}}</h5>
     </div>
   </div>
 
@@ -11,9 +11,9 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Code</th>
-              <th>Name</th>
-              <th class="text-end" scope="col">Action</th>
+              <th>{{"Code" | translate }}</th>
+              <th>{{"Name" | translate }}</th>
+              <th class="text-end" scope="col">{{"Action" | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +23,7 @@
                 <td>{{handJewelryType.name}}</td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="selectedHandJewelryType(handJewelryType)">
-                    <i class="icon-pencil"></i><span class="btn__text">Edit</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -34,10 +34,10 @@
                 </td>
                 <td class="text-end py-2 align-middle">
                   <button class="btn fhi-btn-icon" (click)="updateHandJewelryType(handJewelryTypeAsChanged)">
-                    <i class="icon-pencil"></i><span class="btn__text">Save</span>
+                    <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                   </button>
                   <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
-                    <i class="icon-x"></i><span class="btn__text">Cancel</span>
+                    <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
                   </button>
                 </td>
               </ng-container>
@@ -48,5 +48,5 @@
   </div>
 </div>
 <div class="row">
-  <app-spinner class="col-12" *ngIf="handJewelryTypes?.length == 0">Loading handJewelryTypes</app-spinner>
+  <app-spinner class="col-12" *ngIf="handJewelryTypes?.length == 0">{{"Loading handJewelry Types" | translate}}</app-spinner>
 </div>

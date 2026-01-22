@@ -1,12 +1,12 @@
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">You have been logged out </h4>
+    <h4 class="modal-title" id="modal-basic-title">{{"You have been logged out" | translate}} </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-      You have been logged out the solution. Click the button below to log in again.</div>
+      {{"You have been logged out the solution. Click the button below to log in again." | translate}}</div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-dark" (click)="logIn()">Log in again</button>
+    <button type="button" class="btn fhi-btn-primary" (click)="logIn()">{{"Log in again" | translate}}</button>
   </div>
 </ng-template>
 

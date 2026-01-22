@@ -9,7 +9,7 @@ import { HandHygieneAfterGloveUseType } from '../../models/api/HandHygieneAfterG
 })
 
 export class HandHygieneAfterGloveUseTypeService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getHandHygieneAfterGloveUseTypes(): Observable<HandHygieneAfterGloveUseType[]> {
     const url = `${environment.apiBaseUrl}/v1/handHygieneAfterGloveUseTypes`;

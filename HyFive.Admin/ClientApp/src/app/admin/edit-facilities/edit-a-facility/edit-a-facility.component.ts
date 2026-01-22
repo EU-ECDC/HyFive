@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_common/constants/url-paths';
 import { City } from 'src/app/models/api/City';
 import { CityService } from 'src/app/services/data/City.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-a-facility',
@@ -13,9 +14,10 @@ import { CityService } from 'src/app/services/data/City.service';
 })
 export class EditFacilityComponent implements OnInit {
 
-  constructor(private facilityService: FacilityService,
-              private toastrService: ToastrService,
-              private cityService: CityService) { }
+  constructor(private readonly facilityService: FacilityService,
+              private readonly toastrService: ToastrService,
+              private readonly cityService: CityService,
+              private readonly translate: TranslateService) { }
 
   facility: Facility = null;
   facilityTypes: FacilityType[] = [];
@@ -59,7 +61,7 @@ export class EditFacilityComponent implements OnInit {
           this.facilityDeletedEvent.emit(this.facilityId);
         },
           (error =>
-            this.toastrService.error(`An error occurred: ${error?.error} / ${error?.message}`, 'Error while deleting facility', { disableTimeOut: true})));
+            this.toastrService.error(this.translate.instant('An error occurred:') + ` ${error?.error.message}`, this.translate.instant('Error while deleting facility'), { disableTimeOut: true})));
       }
   }
 
@@ -72,10 +74,10 @@ export class EditFacilityComponent implements OnInit {
   saveFacility() {
     this.facilityService.updateFacility(this.facility).subscribe(
       (facility) => {
-        this.toastrService.success('The facility was updated');
+        this.toastrService.success(this.translate.instant('The facility was updated'));
         this.facilityUpdatedEvent.emit(facility);
       },
-      (error) => this.toastrService.error(`An error occurred: ${error?.error} / ${error?.message}`, 'Error during update', { disableTimeOut: true}));
+      (error) => this.toastrService.error(this.translate.instant('An error occurred:') +  ` ${error?.error.message}`, this.translate.instant('Error during update'), { disableTimeOut: true}));
   }
 
   cityChanged() {
@@ -90,7 +92,7 @@ export class EditFacilityComponent implements OnInit {
     if (this.facility.facilityType.id > 0 
       && this.facility.name?.length > 0
       && this.facility.city?.id > 0
-      && this.facilities.filter(i => i.id !== this.facility.id).find(i => i.name === this.facility.name) == undefined
+      && !this.facilities.filter(i => i.id !== this.facility.id).some(i => i.name === this.facility.name)
     )
       return false;
     else

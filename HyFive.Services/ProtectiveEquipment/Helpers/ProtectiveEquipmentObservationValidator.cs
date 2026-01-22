@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Observation.ProtectiveEquipment;
 
 namespace HyFive.Services.ProtectiveEquipment.Helpers
@@ -11,44 +12,32 @@ namespace HyFive.Services.ProtectiveEquipment.Helpers
         {
             if (observation.ProtectiveEquipmentList?.Any(b => b.IsRequired || b.WasUsed) == false)
             {
-                throw new ProtectiveEquipmentValidationException("BU-V-01: \"A protective equipment observation must have at least 1 indicated OR 1 used protective equipment registered.");
+                throw new ValidationException("ProtectiveEquipmentObservationMissingUsage");
             }
 
-            
-            var equipmentErrorsCollection = new StringBuilder();
             foreach (var equipment in observation.ProtectiveEquipmentList)
             {
                 if (equipment.EquipmentType == null)
                 {
-                    equipmentErrorsCollection.AppendLine($"BU-V-02: Equipment type must be registered on the protective equipment.");
+                    throw new ValidationException("ProtectiveEquipmentObservationMissingType");
                 }
 
-                if (equipment.WasUsed && equipment.WasUsedCorrectly == false)
+                if (equipment.WasUsed &&
+                    !equipment.WasUsedCorrectly &&
+                    string.IsNullOrEmpty(equipment.Comment) &&
+                    (equipment.MisuseTypes?.Count ?? 0) == 0)
                 {
-                    if (string.IsNullOrEmpty(equipment.Comment) && equipment.MisuseTypes?.Any() == false)
-                    {
-                        equipmentErrorsCollection.AppendLine("BU-V-03: If used equipment was used incorrectly, then either misuse or a comment must be registered.");
-                    }
+                    throw new ValidationException("ProtectiveEquipmentObservationInvalidMisuse");
                 }
-            }
-
-            var equipmentErrors = equipmentErrorsCollection.ToString();
-            if (!string.IsNullOrEmpty(equipmentErrors))
-            {
-                throw new ProtectiveEquipmentValidationException(equipmentErrors);
             }
 
             if (observation.SettingType == null)
             {
-                throw new ProtectiveEquipmentValidationException("BU-V-04: An observation must have a registered setting type.");
+                throw new ValidationException("ProtectiveEquipmentObservationMissingSettingType");
             }
+
             return true;
         }
-        
-    }
-    
-    public class ProtectiveEquipmentValidationException : Exception
-    {
-        public ProtectiveEquipmentValidationException(string message) : base(message) { }
+
     }
 }

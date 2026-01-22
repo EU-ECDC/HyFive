@@ -59,19 +59,14 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(FacilityType), StatusCodes.Status201Created)]
         public async Task<ActionResult<FacilityType>> CreateFacilityType([FromBody] CreateFacilityTypeRequest facilityType)
         {
-            try
+            
+            var response = await _mediator.Send(new CreateFacilityType.Command()
             {
-                var response = await _mediator.Send(new CreateFacilityType.Command()
-                {
-                    FacilityType = facilityType
-                });
+                FacilityType = facilityType
+            });
 
-                return CreatedAtRoute("GetFacilityTypes", response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return CreatedAtRoute("GetFacilityTypes", response);
+            
         }
     }
 }

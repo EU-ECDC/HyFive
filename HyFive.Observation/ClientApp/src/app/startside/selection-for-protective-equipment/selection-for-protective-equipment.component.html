@@ -2,7 +2,7 @@
   <ng-container *ngIf='!selectedSetting'>
     <div class="row mb-5">
       <div class="col">
-        <h4 class="mb-4">Protective equipment</h4>
+        <h4 class="mb-4">{{"Protective equipment" | translate}}</h4>
         <div (click)='changeSelectedSetting(setting)' class="hh-protective-equipment d-flex px-2 justify-content-between align-items-center" *ngFor='let setting of settings'>
           <p class="mb-1 mx-3 font-weight-bold">{{setting.name}}</p>
           <div>
@@ -19,7 +19,7 @@
     <!-- The link below should probably not say "For protective equipment" but rather "Select setting".
     For now, we'll leave it as it is, as it says "For protective equipment" in the sketch.
     -->
-    <app-navigation-link (linkClicked)="selectedSetting = null">For protective equipment </app-navigation-link>
+    <app-navigation-link (linkClicked)="selectedSetting = null">{{"For protective equipment" | translate}} </app-navigation-link>
     <div class="d-flex align-items-center mb-5">
       <div>
         <fa-stack size="lg">
@@ -33,7 +33,7 @@
     </div>
     <div class="row ml-5">
       <div class="col">
-        <p><strong>Required protective equipment</strong></p>
+        <p><strong>{{"Required protective equipment" | translate}}</strong></p>
         <div class="custom-control custom-checkbox mb-3" *ngFor='let equipment of selectedSetting.equipmentTypes'>
           <input type='checkbox' [id]="'equipment' + equipment.id" [(ngModel)]="equipment.isRequired" class="form-check-input me-3">
           <label class="custom-control-label" [htmlFor]="'equipment' + equipment.id">
@@ -43,11 +43,11 @@
       </div>
     </div>
     <div class='d-flex justify-content-center'>
-      <button *ngIf="sessionView == null" class='btn fhi-btn-primary text-center' (click)='startObservation()'>Start observation</button>
-      <button *ngIf="sessionView != null" class='btn fhi-btn-primary text-center' (click)='changeSettingsAndEquipment()'>Continue observation</button>
+      <button *ngIf="sessionView == null" class='btn fhi-btn-primary text-center' (click)='startObservation()'>{{"Start observation" | translate}}</button>
+      <button *ngIf="sessionView != null" class='btn fhi-btn-primary text-center' (click)='changeSettingsAndEquipment()'>{{"Continue observation" | translate}}</button>
     </div>
     <app-help-text [title]="'Tips and tricks for choosing predefined protective equipment for '+selectedSetting.name">
-      <p>You have chosen {{selectedSetting.name}}. It is predefined what is required protective equipment for this infection regime.<br /> You can remove or add required protective equipment by checking the box in the list.</p>
+      <p>{{"You have chosen" | translate}} {{selectedSetting.name}}. {{"It is predefined what is required protective equipment for this infection regime." | translate}}<br /> {{"You can remove or add required protective equipment by checking the box in the list." | translate}}</p>
     </app-help-text>
   </ng-container>
 </div>

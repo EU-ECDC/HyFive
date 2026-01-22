@@ -19,7 +19,7 @@ export class ObservationService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getFacilitiesWithSessions(facilityId: string, sessionType: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<FacilityOverviewReport[]> {
+  getFacilitiesWithSessions(facilityId: string, sessionType: SessionType, fromDate: string, toDate: string, selectedRole: AuthorizedRole): Observable<FacilityOverviewReport[]> {
     let url = `${environment.apiBaseUrl}/v1/observation/facilitiesWithSessions`;
 
     let params = new HttpParams();
@@ -39,7 +39,9 @@ export class ObservationService {
 
     return this.http.get<FacilityOverviewReport[]>(url, { params: params })
                     .pipe(
-                            map(data => data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
+                            map(data => {
+                              return data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
+                            })
                           );
   }
 
@@ -64,7 +66,7 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport[]>(url, { params: params });
   }
 
-  getSessionsForFacility(facilityId: number, observer?: User, sessiontype?: SessionType, fromDate?: Date, toDate?: Date): Observable<SessionOverviewReport[]> {
+  getSessionsForFacility(facilityId: number, observer?: User, sessiontype?: SessionType, transferStatus?: string, fromDate?: Date, toDate?: Date): Observable<SessionOverviewReport[]> {
     const url = `${environment.apiBaseUrl}/v1/observation/facility`;
     let params = new HttpParams();
 
@@ -75,6 +77,9 @@ export class ObservationService {
 
     if (sessiontype && sessiontype.toString() !== 'null' )
       params = params.append("sessiontype", sessiontype?.toString());
+
+    if (transferStatus && transferStatus != null )
+      params = params.append("transferStatus", transferStatus);
 
     if (fromDate)
       params = params.append("fromdate", fromDate?.toString());

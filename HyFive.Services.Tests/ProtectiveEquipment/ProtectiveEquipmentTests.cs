@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using HyFive.Models.V1.Session;
@@ -13,6 +9,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.Tests.ProtectiveEquipment
 {
@@ -560,7 +561,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find protective equipment type with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("ProtectiveEquipmentTypeNotFound"),
                 async () =>
                 {
                     await updateProtectiveEquipmentTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -657,7 +658,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find protective equipment setting type with ID: 99999999"),
+                Is.TypeOf<DomainException>().And.Message.Contains("ProtectiveEquipmentSettingTypeNotFound"),
                 async () =>
                 {
                     await updateProtectiveEquipmentSettingTypeHandler.Handle(updateCommand, new System.Threading.CancellationToken());
@@ -765,7 +766,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
         {
             // Act
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find equipment type with ID: 123456789"),
+                Is.TypeOf<DomainException>().And.Message.Contains("EquipmentTypeNotFound"),
                 async () =>
                 {
                     await CreatedMisuseType(equipmentTypeId: 123456789);
@@ -864,7 +865,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find equipment type with ID: 123456789"),
+                Is.TypeOf<DomainException>().And.Message.Contains("EquipmentTypeNotFound"),
                 async () =>
                 {
                     await handler.Handle(command, new System.Threading.CancellationToken());
@@ -903,7 +904,7 @@ namespace HyFive.Services.Tests.ProtectiveEquipment
 
             // Act and Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<ArgumentException>().And.Message.Contains("Did not find misuse type with ID: 123456789"),
+                Is.TypeOf<DomainException>().And.Message.Contains("MisuseTypeNotFound"),
                 async () =>
                 {
                     await handler.Handle(command, new System.Threading.CancellationToken());

@@ -25,14 +25,14 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
   fawarningicon = faExclamationTriangle;
 
   constructor(
-    private facilityService: FacilityService,
-    private departmentService: DepartmentService,
-    private toastrService: ToastrService,
-    private unitService: UnitService) { }
+    private readonly facilityService: FacilityService,
+    private readonly departmentService: DepartmentService,
+    private readonly toastrService: ToastrService,
+    private readonly unitService: UnitService) { }
 
   ngOnInit(): void {
     if (this.unit) {
-      this.unitCopy = JSON.parse(JSON.stringify(this.unit));
+      this.unitCopy = structuredClone(this.unit);
       this.loadDepartments();
     }
     else {
@@ -57,7 +57,7 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
               isAlreadyAtUnit: this.unitsList.some(k => k.departments.some(av => av.id === a.id) && k.id !== this.unitCopy.id)
             }));
         },
-        (err) => this.toastrService.error(`Could not load units: ${err?.message ? err.message : err}`, 'Technical error', { disableTimeOut: true})
+        (err) => this.toastrService.error(`Could not load units: ${err?.eeror.message ? err.error.message : err}`, 'Technical error', { disableTimeOut: true})
       );
 
      });
@@ -72,19 +72,44 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
   canSaveUnit(): boolean {
     return this.unitCopy.facilityId > 0
       && this.unitCopy.name?.length > 0
-      && this.units
+      && !this.units
                     .filter(cl => cl.id !== this.unitCopy.id)
-                    .find(cl => cl.name == this.unitCopy.name) == undefined
+                    .some(cl => cl.name == this.unitCopy.name)
       && this.departmentsSelection?.filter(r => r.isSelected)?.length > 0;
   }
 
-  omitSpecialChar(event) {   
-    let k;  
-    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+  omitSpecialChar(event: KeyboardEvent): boolean {
+    const char = event.key;
+    const allowed = /^[a-zA-Z0-9\s.,'-]$/;
+
+    if (!allowed.test(char)) {
+      event.preventDefault();
+      return false;
+    }
+
+    return true;
+  }
+
+  sanitizeUnitName(value: string): string {
+    if (!value) {
+      return value;
+    }
+
+    const noEmojis = value.replaceAll(
+      /[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Symbol}]/gu,
+      ''
+    );
+
+    return noEmojis.trim();
   }
 
   saveUnit() {
+    this.unitCopy.name = this.sanitizeUnitName(this.unitCopy.name);
+
+    if (!this.unitCopy.name) {
+      return;
+    }
+
     this.unitCopy.departments = this.departmentsSelection.filter(m => m.isSelected).map(r => r.department);
     this.unitService.updateUnit(this.unitCopy).subscribe(
       (k) => {
@@ -94,7 +119,8 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
         this.unit.departments = k.departments;
         this.toastrService.success('Unit updated');
       },
-      (err) => this.toastrService.error(`Technical error while updating: ${err?.message ? err.message : err}`, '', { disableTimeOut: true})
+      (err) => this.toastrService.error(`Technical error while updating: ${err?.error.message ? err.error.message : err}`, '', { disableTimeOut: true})
     );
   }
 }
+

@@ -18,8 +18,8 @@
   </div>
   <div class="modal-footer">
     <div class="d-flex justify-content-center">
-      <button type="button" class="btn fhi-btn-secondary me-3" (click)="modal.dismiss('No')">No</button>
-      <button type="button" class="btn fhi-btn-primary" (click)="modal.close('Yes'); delete()">Yes</button>
+      <button type="button" class="btn fhi-btn-secondary me-3" (click)="modal.dismiss('No')">{{"No" | translate}}</button>
+      <button type="button" class="btn fhi-btn-primary" (click)="modal.close('Yes'); delete()">{{"Yes" | translate}}</button>
     </div>
   </div>
 </ng-template>

@@ -335,7 +335,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetSessionsForFacility(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Models.V1.Session.SessionType},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:HyFive.Admin.Controllers.V1.ObservationController.GetSessionsForFacility(System.Int32,System.Nullable{System.Int32},System.Nullable{HyFive.Models.V1.Session.SessionType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Get all sessions for an facility <see cref="T:HyFive.Models.V1.Overview.SessionOverviewReport"/>
             </summary>

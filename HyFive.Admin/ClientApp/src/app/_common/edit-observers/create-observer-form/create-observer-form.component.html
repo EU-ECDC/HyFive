@@ -1,0 +1,27 @@
+<div class="col-12">
+
+    <div class="form-group col-5 mb-3">
+        <label for="firstName">{{"First Name" | translate }}</label>
+        <input type="text" autocomplete="off" class="form-control" id="firstName" [(ngModel)]="newObserver.firstName" (ngModelChange)="newObserver.firstName = $event.trim()" name="firstName" (keypress)="omitSpecialChar($event)" [placeholder]="'First Name' | translate">
+      </div>
+    <div class="form-group col-5 mb-3">
+        <label for="lastName">{{"Last Name" | translate }}</label>
+        <input type="text" autocomplete="off" class="form-control" id="lastName" [(ngModel)]="newObserver.lastName" (ngModelChange)="newObserver.lastName = $event.trim()" name="lastName" (keypress)="omitSpecialChar($event)" [placeholder]="'Last Name' | translate">
+      </div>
+    <div class="form-group col-5 mb-3">
+        <label for="email">{{"Email" | translate }}</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="newObserver.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" [placeholder]="'Email' | translate">
+      </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <button class="btn fhi-btn-primary w-100 mt-1" [disabled]="canCreate() == false" (click)="createObserver()">{{"Save" | translate}}</button>
+  </div>
+  <div class="col-md-3">
+    <button class="btn fhi-btn-secondary mt-1 me-3"
+            (click)="cancelEdit()">
+      {{ "Cancel" | translate }}
+    </button>
+  </div>
+</div>

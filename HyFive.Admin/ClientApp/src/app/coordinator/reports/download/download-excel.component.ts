@@ -1,7 +1,8 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { Department} from 'src/app/models/api/Department';
@@ -10,6 +11,8 @@ import { FacilityReport } from 'src/app/models/api/FacilityReport';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
+import { DateMomentHelper } from 'src/app/utils/date-moment-helper';
+import { DownloadComplianceFacilitiesHelper } from 'src/app/utils/download-compliance-facilities-helper';
 import { DownloadFileHelper } from 'src/app/utils/download-file-helper';
 import { SessionTypeReportUrlMapper } from 'src/app/utils/sessionstype-report-url-mapper';
 import { SessionTypes } from 'src/app/utils/sessionTypes';
@@ -20,12 +23,13 @@ import { SessionTypes } from 'src/app/utils/sessionTypes';
   styleUrls: ['download-excel.component.scss']
 })
 
-export class DownloadExcelComponent {
+export class DownloadExcelComponent implements OnInit {
   constructor(
-    private facilityService: FacilityService,
-    private reportService: ReportService,
-    private toastrService: ToastrService,
-    private authorizationService: AuthorizationService) { }
+    private readonly facilityService: FacilityService,
+    private readonly reportService: ReportService,
+    private readonly toastrService: ToastrService,
+    private readonly authorizationService: AuthorizationService,
+    private readonly translate: TranslateService) { }
 
     @ViewChild('dropdownRef', { static: false }) dropdownRef: ElementRef;
     isDropdownFocused: boolean = false;
@@ -58,17 +62,20 @@ export class DownloadExcelComponent {
           this.facilities = facilities;
         });
     }
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select all',
-      unSelectAllText: 'Select all',
-      itemsShowLimit: 3
-    };
+    this.translate.get("Select all").pipe(take(1)).subscribe(_res => {
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'name',
+        selectAllText: this.translate.instant('Select all'),
+        unSelectAllText: this.translate.instant('Select all'),
+        noDataAvailablePlaceholderText: this.translate.instant('No data available'),
+        itemsShowLimit: 3
+      };
+    });
   }
 
-  sessionTypes = [ {name: '', value: ""}, ...SessionTypes.GetSessionTypes()];
+  sessionTypes = [...SessionTypes.GetSessionTypes()];
 
   selectedSessiontype: SessionType = null;
   fromDate: Date = null;
@@ -151,27 +158,14 @@ export class DownloadExcelComponent {
 
   loadFacilitiesDepartments(facilityIds: number[]) {
     this.facilityService.getComplianceFacilities(facilityIds).subscribe(facilities => {
-    const allDepartments = facilities.reduce((all, inst) => {
-      return all.concat(inst.departments);
-    }, []);
 
-    let uniqueDepartments = Array.from(
-      new Map(allDepartments.map(dep => [dep.id, dep])).values()
-    );
-
-    const uniqueDepartmentTypes = Array.from(
-      new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
-    );
-
-      // this.departmentTypes = uniqueDepartmentTypes;
-      uniqueDepartments = uniqueDepartments
-                    .sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-      this.departments = uniqueDepartments;
-      this.allDepartments = uniqueDepartments;
+      this.departments = DownloadComplianceFacilitiesHelper.handleUniqueDepartments(facilities);
+      this.allDepartments = this.departments;
     });
   }
 
   reset(): void {
+    this.selectedFacilities = [];
     this.selectedDepartments = [];
     // this.selectedDepartmentTypes = [];
     this.selectedSessiontype = null;
@@ -217,8 +211,8 @@ export class DownloadExcelComponent {
         facilityIds: facilityIds,
         // departmentTypeIds: [],
         departmentIds: departmentIds,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
+                fromDate: DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD"),
+        toDate: DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD"),
         roleId: this.selectedRole
       }).subscribe(
         reportHasData => {
@@ -230,8 +224,8 @@ export class DownloadExcelComponent {
                 const payload: DownloadExcelModel = {
                   departmentIds: departmentIds,
                   facilityIds: facilityIds,
-                  fromDate: this.fromDate,
-                  toDate: this.toDate,
+                  fromDate: DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD"),
+                  toDate: DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD"),
                   role: this.selectedRole
                 } 
         
@@ -240,11 +234,11 @@ export class DownloadExcelComponent {
             },
               (error) => {
                 this.storedReport = false;
-                this.toastrService.error(error?.message ? error.message : error, 'An error occurred during download', { disableTimeOut: true });
+                this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant('An error occurred during download'), { disableTimeOut: true });
               });
           } else {
             // this.toastrService.info('There are no observations for selected values', '', { positionClass: 'toast-center-center' });
-            this.toastrService.info('There are no observations for selected values', '');
+            this.toastrService.info(this.translate.instant('There are no observations for selected values'), '');
 
           }
         })

@@ -2,7 +2,7 @@
   <div class="container">
     <app-observation-counter [sessionsdata]="sessionsdata" [url]="Urls.ProtectiveEquipmentSessionUrl"></app-observation-counter>
     <div class="mb-4">
-      <app-navigation-link (linkClicked)="changeSettingMode = true">For protective equipment</app-navigation-link>
+      <app-navigation-link (linkClicked)="changeSettingMode = true">{{"For protective equipment" | translate}}</app-navigation-link>
     </div>
     <h1 class="h3 mt-n4 mt-xl-0">{{sessionView.setting.name}}</h1>
     <div class="row">
@@ -33,19 +33,19 @@
 </ng-container>
 
 <app-help-text
-  [title]="'Tips and tricks - observe protective equipment'">
+  [title]="'Tips and tricks - observe protective equipment' | translate">
   <p>
-    You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
+    {{"You can now observe the professions you selected on the" | translate}} <b>{{"Start observation" | translate}}</b> {{"page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the" | translate}} <b>{{"New card" | translate}}</b> {{"button at the bottom right." | translate}}
 
-    You register protective equipment by clicking on the icons in the card.
+    {{"You register protective equipment by clicking on the icons in the card." | translate}}
     
-    If no protective equipment is used, you must save the card without any checkmarks to register the observation.
+    {{"If no protective equipment is used, you must save the card without any checkmarks to register the observation." | translate}}
     
-    If you find out along the way that an <b>Indicated</b> equipment is <b>Not indicated</b> or vice versa, you can drag and drop the equipment as you wish between the <b>Indicated</b> and <b>Not indicated</b> fields on the card.
+    {{"If you find out along the way that an" | translate }} <b>{{"Indicated" | translate}}</b> {{"equipment is" | translate}} <b>{{"Not indicated" | translate}}</b> {{"or vice versa, you can drag and drop the equipment as you wish between the" | translate}} <b>{{"Indicated" | translate}}</b> {{"and" | translate}} <b>{{"Not indicated" | translate}}</b> {{"fields on the card." | translate}}
   </p>
   <p>
-    When you are finished, you can drag the card to the right to save the observation.
-    If you have registered any errors, you must press "Clear card" - then the card will reset itself.
-    If you want to remove a card from the list, you can drag the card to the left.
+    {{"When you are finished, you can drag the card to the right to save the observation." | translate}}
+    {{"If you have registered an error, you must press 'Clear card' - then the card will reset itself." | translate}}
+    {{"If you want to remove a card from the list, you can drag the card to the left." | translate }}
   </p>
 </app-help-text>

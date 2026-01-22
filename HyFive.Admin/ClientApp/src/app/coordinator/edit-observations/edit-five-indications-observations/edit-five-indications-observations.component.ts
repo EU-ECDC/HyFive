@@ -11,6 +11,8 @@ import {HandJewelryObservation} from "../../../models/api/HandJewelryObservation
 import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 import { FiveIndicatorsObservation } from 'src/app/models/api/FiveIndicatorsObservation';
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-five-indications-observations',
@@ -35,9 +37,11 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
   SessionType = SessionType;
 
   constructor(
-    private observationService: ObservationService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService) { }
+    private readonly observationService: ObservationService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly dialogMessageService: DialogMessageService,
+    private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
     this.keyEventService.escapeKeyEvent.subscribe((event: KeyboardEvent) => {
@@ -51,7 +55,7 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
       return;
     }
 
-    this.fiveIndicationsObservationWhichChanged = JSON.parse(JSON.stringify(observation));
+    this.fiveIndicationsObservationWhichChanged = structuredClone(observation);
     this.fiveIndicationsObservationWhichChanged.sessionId = this.sessionId;
   }
 
@@ -68,7 +72,24 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
   }
 
   changeSecondsUsed(secondsUsed: number) {
+    if (secondsUsed == null || Number.isNaN(secondsUsed)) {
+    this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+    return;
+    }
+
+    if (secondsUsed < 0) {
+      this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 0;
+      return;
+    }
+
+    if (secondsUsed > 60) {
+      this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = 60;
+      return;
+    }
+
     this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = secondsUsed;
+
+    this.fiveIndicationsObservationWhichChanged.activity.secondsUsed = Math.floor(secondsUsed);
   }
 
   changeComment(comment: string) {
@@ -96,11 +117,11 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
       this.observationService.updateFiveIndicationsObservation(this.fiveIndicationsObservationWhichChanged).subscribe(
         (isUpdated) => {
           this.fiveIndicationsObservationWhichChanged = null;
-          this.toastrService.success('The observation was updated');
+          this.toastrService.success(this.translate.instant("The observation was updated"));
           this.observationUpdatedEvent.emit();
         },
         (error) => {
-          this.toastrService.error(error?.error ? error.error : error, 'Error when updating the observation', { disableTimeOut: true});
+          this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when updating the observation"), { disableTimeOut: true});
         }
       );
     }
@@ -110,11 +131,11 @@ export class EditFiveIndicationsObservationsComponent implements OnInit {
     this.observationService.deleteFiveIndicationsObservation(this.fiveIndicationsObservationWhichChanged.id, this.sessionId).subscribe(
       () => {
         this.fiveIndicationsObservationWhichChanged = null;
-        this.toastrService.success('The observation was deleted');
+        this.toastrService.success(this.translate.instant("The observation was deleted"));
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error,'Error when deleting observation', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error,this.translate.instant("Error when deleting observation"), { disableTimeOut: true});
       });
   }
 

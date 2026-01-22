@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
 })
-export class NavigationLinkComponent implements OnInit {
+export class NavigationLinkComponent {
 
   faChevronLeft = faChevronLeft;
   @Output('linkClicked') linkClicked = new EventEmitter<any>();
@@ -13,9 +13,6 @@ export class NavigationLinkComponent implements OnInit {
 
   constructor() {
 
-  }
-
-  ngOnInit(): void {
   }
 
 }

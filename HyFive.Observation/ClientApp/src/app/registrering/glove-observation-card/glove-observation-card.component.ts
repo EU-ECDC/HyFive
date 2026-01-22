@@ -19,6 +19,7 @@ import { PostGloveHandHygieneTypeService } from "../../services/data/post-glove-
 import { PostGloveHandHygieneType } from "../../models/api/PostGloveHandHygieneType";
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from "src/app/models/api/SessionType";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-glove-observation-card',
@@ -56,9 +57,9 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
   
   uuid: string;
 
-  @Input("card") card: Card;
-  @Input("roleSelected") roleSelected: Role[];
-  @Input("sessionView") sessionView: GloveSessionView;
+  @Input() card: Card;
+  @Input() roleSelected: Role[];
+  @Input() sessionView: GloveSessionView;
 
   @Output() observationRegister = new EventEmitter();
   @Output() observationUpdate = new EventEmitter();
@@ -69,9 +70,10 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
     private readonly gloveWithIndicationTypeService: GloveWithIndicationTypeService,
     private readonly gloveWithoutIndicationTypeService: GloveWithoutIndicationTypeService,
     private readonly postGloveHandHygieneTypeService: PostGloveHandHygieneTypeService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected translate: TranslateService
   ) {
-    super(modalService);
+    super(modalService, translate);
   }
 
   ngOnInit(): void {
@@ -126,19 +128,19 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
 
     if (this.activeTab === "with") {
       if (this.gloveWithIndicationTypes.filter(h => h.isSelected).length === 0) {
-        this.observationMissingText = "Indication(s) missing";
+        this.observationMissingText = this.translate.instant("Indication(s) missing");
         this.showInfoModal = true;
         return true;
       }
       else if (this.glovesUsed === null) {
-        this.observationMissingText = "\"Gloves used?\" must be answered";
+        this.observationMissingText = this.translate.instant("'Gloves used?' must be answered");
         this.showInfoModal = true;
         return true;
       }
     }
     else {
       if (this.gloveWithoutIndicationTypes.filter(h => h.isSelected).length === 0) {
-        this.observationMissingText = "Indication(s) missing";
+        this.observationMissingText = this.translate.instant("Indication(s) missing");
         this.showInfoModal = true;
         return true;
       }

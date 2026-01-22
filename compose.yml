@@ -1,0 +1,112 @@
+services:
+
+  hyfive.admin:
+    image: ${DOCKER_REGISTRY-}hyfive-admin
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    environment:
+      ASPNETCORE_URLS: http://+:8001 # Add ;https://+:8443 for https support
+      Serilog__WriteTo__0__Name: "Console"
+      Serilog__WriteTo__0__Args__outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+      ConnectionStrings__HandhygieneConnection: Server=postgres; Database=HandHygiene; Username=handhygiene; Password=SomeB4DSecur1ty; SSLMode=disable
+      OpenIdConnect__RequireHttpsMetadata: "false"
+      OpenIdConnect__SaveTokens: "true"
+      OpenIdConnect__Authority: http://auth.localhost:8080/realms/hyfive
+      OpenIdConnect__ClientId: hyfive
+      OpenIdConnect__ClientSecret: 0tp5C8PgqbcsX3WrfS483rsiNgK0El8H
+      RedirectPagesSettings__RedirectLogOutUri: http://admin.localhost:8001
+      RedirectPagesSettings__RedirectLogInUri: http://admin.localhost:8001/signin-oidc
+      RedirectPagesSettings__LoggedOut: /
+      RedirectPagesSettings__LoggedIn: /dashboard
+    networks:
+      hyfive:
+        aliases:
+          - admin.localhost 
+    extra_hosts:
+      - "admin.localhost:host-gateway"
+    ports:
+     - 8001:8001
+
+  hyfive.observation:
+    image: ${DOCKER_REGISTRY-}hyfive-observation
+    build:
+      context: .
+      dockerfile: Dockerfile.observation
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    environment:
+      ASPNETCORE_URLS: http://+:8000 # Add ;https://+:8443 for https support
+      Serilog__WriteTo__0__Name: "Console"
+      Serilog__WriteTo__0__Args__outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+      ConnectionStrings__HandhygieneConnection: Server=postgres; Database=HandHygiene; Username=handhygiene; Password=SomeB4DSecur1ty; SSLMode=disable
+      OpenIdConnect__RequireHttpsMetadata: "false"
+      OpenIdConnect__SaveTokens: "true"
+      OpenIdConnect__Authority: http://auth.localhost:8080/realms/hyfive
+      OpenIdConnect__ClientId: hyfive
+      OpenIdConnect__ClientSecret: 0tp5C8PgqbcsX3WrfS483rsiNgK0El8H
+      RedirectPagesSettings__RedirectLogOutUri: http://observation.localhost:8000 
+      RedirectPagesSettings__RedirectLogInUri: http://observation.localhost:8000/signin-oidc
+      RedirectPagesSettings__LoggedOut: /
+      RedirectPagesSettings__LoggedIn: /dashboard
+    networks:
+      hyfive:
+        aliases:
+          - observation.localhost 
+    extra_hosts:
+      - "observation.localhost:host-gateway"
+    ports:
+     - 8000:8000
+
+  postgres:
+    image: docker.io/postgres:17.2
+    environment:
+      POSTGRES_DB: HandHygiene
+      POSTGRES_USER: handhygiene
+      POSTGRES_PASSWORD: SomeB4DSecur1ty 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    networks:
+      hyfive:
+        aliases:
+          - postgres
+    ports:
+     - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+
+  auth:
+    image: quay.io/keycloak/keycloak:26.4.5
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/realm-config.json
+    command: ["start-dev", "--import-realm"]
+    networks:
+      hyfive:
+        aliases:
+          - auth.localhost 
+    extra_hosts:
+      - "auth.localhost:host-gateway"
+    ports:
+      - "8080:8080"
+    volumes:
+     - ./docker-config/realm-config.json:/opt/keycloak/data/import/realm-config.json
+     - keycloak_data:/opt/keycloak/data
+
+networks:
+  hyfive:
+
+volumes:
+  db-data:
+  keycloak_data:

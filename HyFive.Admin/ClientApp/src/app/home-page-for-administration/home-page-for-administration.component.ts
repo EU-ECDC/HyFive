@@ -18,14 +18,14 @@ export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
 
   constructor(
     public authorizationService: AuthorizationService,
-    private toastrService: ToastrService,
-    private clipboardService: ClipboardService) { }
+    private readonly toastrService: ToastrService,
+    private readonly clipboardService: ClipboardService) { }
 
   ngOnInit(): void {
     this.authorizationService.getUser().subscribe((user) => {
       this.user = user;
     },
-      (error) => (this.toastrService.error("An error occurred while loading user: " + error?.message ? error.message : error, '', {disableTimeOut: true})),
+      (error) => (this.toastrService.error($localize`:@@LoadingUserError:An error occurred while loading user: ` + error?.error.message ? error.error.message : error, '', {disableTimeOut: true})),
       () => this.loading = false
     );
     this.selectedRole = this.authorizationService.getSelectedRole();
@@ -37,11 +37,11 @@ export class HomePageForAdministrationComponent implements OnInit, OnDestroy {
 
   copyPseudonymClick() {
     this.clipboardService.copy(this.user?.identityPseudonym);
-    this.toastrService.success('Pseudonym copied to the clipboard and can be pasted elsewhere using Paste (CTRL+V)');
+    this.toastrService.success($localize`:@@PseudonymClipborad:Pseudonym copied to the clipboard and can be pasted elsewhere using Paste (CTRL+V)`);
   }
 
   logout() {
     localStorage.clear();
-    window.location.href = '/account/logout';
+    globalThis.location.href = '/account/logout';
   }
 }

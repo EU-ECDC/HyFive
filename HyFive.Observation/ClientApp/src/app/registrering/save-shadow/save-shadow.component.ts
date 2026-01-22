@@ -1,17 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faSave } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-save-shadow',
   templateUrl: './save-shadow.component.html'
 })
-export class SaveShadowComponent implements OnInit {
+export class SaveShadowComponent {
 
   faSave = faSave;
 
-  @Input("show") show: Boolean;
+  @Input() show: boolean;
 
   constructor() { }
 
-  ngOnInit(): void { }
 }

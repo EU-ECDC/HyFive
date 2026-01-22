@@ -13,7 +13,10 @@ import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { DepartmentOverviewReport } from 'src/app/models/api/DepartmentOverviewReport';
-import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs';
+import { SortHelper } from 'src/app/utils/sort-helper';
+import { DateMomentHelper } from 'src/app/utils/date-moment-helper';
 
 @Component({
   selector: 'app-overview-observations',
@@ -52,17 +55,25 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   private selectedRole: AuthorizedRole;
 
   constructor(
-    private facilityService: FacilityService,
-    private observationService: ObservationService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastrService: ToastrService,
-    private authorizationService: AuthorizationService,
-    private httpClient: HttpClient) { }
+    private readonly facilityService: FacilityService,
+    private readonly observationService: ObservationService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly toastrService: ToastrService,
+    private readonly authorizationService: AuthorizationService,
+    private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
     this.selectedRole = this.authorizationService.getSelectedRole();
     this.selectedFacilityId = this.getFacilityId();
+    this.translate.get(this.sessiontypes.map(item => item.name)).pipe(take(1)).subscribe(_res => {
+      this.sessiontypes = this.sessiontypes.map( session => {
+        return {
+          value: session.value,
+          name: this.translate.instant(session.name)
+        }
+      });
+    });
 
     this.route
       .queryParams
@@ -71,11 +82,17 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType], 10) || null;
+        this.selectedSessiontype = Number.parseInt(params[QueryParameters.SessionType], 10) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
+        if ( typeof(this.fromDate) === 'string' ) {
+            this.fromDate = new Date (this.fromDate);
+          }
+        if ( typeof(this.toDate) === 'string' ) {
+            this.toDate = new Date (this.toDate);
+          }
         if (this.selectedRole === AuthorizedRole.Administrator)
-          this.selectedFacilityId = params[QueryParameters.facilityIdIsOk] || null;
+          this.selectedFacilityId = params[QueryParameters.facilityIdSearch] || null;
         this.getFacilitiesWithSessions();
       });
 
@@ -124,12 +141,11 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     }
     this.searching = true;
     this.facilityOverviewReportList = new Array<FacilityOverviewReport>();
-
     this.observationService.getFacilitiesWithSessions(
       selectedFacilityId,
       this.selectedSessiontype ? this.selectedSessiontype : null,
-      this.fromDate,
-      this.toDate,
+      this.fromDate ?  DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD") : null,
+      this.toDate ? DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD") : null,
       this.selectedRole
     ).subscribe((results) => {
       if(this.selectedSessiontype !== SessionType.FiveIndications && this.selectedSessiontype !== SessionType.HandJewelry &&
@@ -151,8 +167,8 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
       queryParams: this.trim({
         departmentid: department.id,
         sessiontype: this.selectedSessiontype,
-        from: this.fromDate,
-        to: this.toDate,
+        from: this.fromDate ? DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD") : null,
+        to: this.toDate ? DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD") : null,
         facilityIdSearch: this.selectedFacilityId
       })
     });
@@ -197,30 +213,12 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   }
 
   sort($event: IColumnSortedEvent) {
-
-    event.stopPropagation();
-    event.preventDefault();
-
-    let propertyOf: (x: DepartmentOverviewReport) => any;
-    switch ($event.columnName) {
-      case "Name":
-        propertyOf = (x: DepartmentOverviewReport) => x.name;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: DepartmentOverviewReport, b: DepartmentOverviewReport) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
-    };
-
     let index = this.facilityOverviewReportList.findIndex(x => x.id == this.SelectedFacilityFromListId);
-
     if (index > -1) {
-      this.facilityOverviewReportList[index].departments = this.facilityOverviewReportList[index].departments.sort(sortFunc);
+          const userSortConfig = {
+      [this.translate.instant("Name")]: (x: DepartmentOverviewReport) => x.name
+    };
+    this.facilityOverviewReportList[index].departments = SortHelper.sort(this.facilityOverviewReportList[index].departments, $event, userSortConfig);
     }
   }
 }

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace HyFive.Services.Glove
                 var handHygieneAfterGloveUseType = await _context.HandHygieneAfterGloveUseType
                     .FirstOrDefaultAsync(x => x.Id == request.HandHygieneAfterGloveUseType.Id);
 
-                if (handHygieneAfterGloveUseType == null) throw new ArgumentException($"Did not find handHygieneAfterGloveUseType with ID: {request.HandHygieneAfterGloveUseType.Id}");
+                if (handHygieneAfterGloveUseType == null) throw new DomainException("HandHygieneAfterGloveUseTypeNotFound", request.HandHygieneAfterGloveUseType.Id);
 
                 handHygieneAfterGloveUseType.Name = request.HandHygieneAfterGloveUseType.Name;
 

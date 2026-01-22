@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
-import { faCheck, faCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProtectiveEquipment } from 'src/app/models/api/ProtectiveEquipment';
@@ -38,10 +37,10 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   faCheck = faCheck;
 
   constructor(
-    private modalService: NgbModal,
-    private observationService: ObservationService,
-    private settingService: ProtectiveEquipmentSettingTypesService,
-    private toastrService: ToastrService) { }
+    private readonly modalService: NgbModal,
+    private readonly observationService: ObservationService,
+    private readonly settingService: ProtectiveEquipmentSettingTypesService,
+    private readonly toastrService: ToastrService) { }
 
   @Input() isReadonly: boolean = false;
   @Input() observationId: string;
@@ -87,12 +86,14 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
     event.preventDefault();
 
     select.wasUsed = true;
-    select.equipmentType.misuseTypes.filter(fb => fb.isSelected == true).map(fb => fb.isSelected = false);
+    for (const type of select.equipmentType.misuseTypes.filter(fb => fb.isSelected === true)) {
+      type.isSelected = false;
+    }
 
-    select.misuseTypes.forEach(f => {
+    for (const f of select.misuseTypes) {
       const index = select.equipmentType.misuseTypes.findIndex(fb => fb.id == f.id);
       select.equipmentType.misuseTypes[index].isSelected = true;
-    });
+    };
 
     if (select.wasUsed) {
       this.showModal(select);
@@ -107,7 +108,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
       windowClass: ProtectiveEquipmentModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.selectedEquipment = JSON.parse(JSON.stringify(selectedEquipment)) as ProtectiveEquipment;
+    modalRef.componentInstance.selectedEquipment = structuredClone(selectedEquipment);
 
     modalRef.componentInstance.displayMode = false;
 
@@ -139,10 +140,10 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   }
 
   setAllEquipmentToProperUsed(event) {
-    this.protectiveEquipmentIndicated().forEach(x => {
+    for (const x of this.protectiveEquipmentIndicated()) {
       x.wasUsed = true;
       x.wasUsedCorrectly = true;
-    });
+    };
     this.update();
   }
 
@@ -167,7 +168,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   sortedSettings() : ProtectiveEquipmentSettingType[] {
     let combinedSettings = this.settings.filter(s => s.code != this.selectedSetting.code)
     combinedSettings.push(this.selectedSetting);
-    combinedSettings.sort((a, b) => {
+    combinedSettings = combinedSettings.toSorted((a, b) => {
       if(a.name < b.name) { return -1; }
       if(a.name > b.name) { return 1; }
       return 0;});

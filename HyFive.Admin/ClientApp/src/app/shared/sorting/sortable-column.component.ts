@@ -9,7 +9,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 })
 export class SortableColumnComponent implements OnInit, OnDestroy {
 
-  constructor(private sortService: SortService) { }
+  constructor(private readonly sortService: SortService) { }
 
   @Input("sortable-column") columnName: string = '';
   @Input("sort-direction") sortDirection: string = '';

@@ -9,7 +9,7 @@ import { environment } from "src/environments/environment";
 })
 
 export class ProtectiveEquipmentSettingTypesService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getProtectiveEquipmentSettingTypes(): Observable<ProtectiveEquipmentSettingType[]> {
     const url = `${environment.apiBaseUrl}/v1/protectiveEquipmentSettingTypes`;

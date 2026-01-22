@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,7 @@ namespace HyFive.Services.Department
 
                 if (department == null)
                 {
-                    throw new ArgumentException($"Did not find facility with ID {departmentId}");
+                    throw new DomainException("DepartmentNotFound", departmentId);
                 }
 
                 return department;

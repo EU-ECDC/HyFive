@@ -1,12 +1,12 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.User;
+using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.Domain.User;
-using HyFive.Models.V1.Facility;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.Facility
 {
@@ -20,6 +20,7 @@ namespace HyFive.Services.Facility
         public class Handler : IRequestHandler<Command, Models.V1.Facility.Facility>
         {
             private readonly HandHygieneContext _context;
+
             private readonly IMapper _mapper;
 
             public Handler(HandHygieneContext context, IMapper mapper)
@@ -34,14 +35,11 @@ namespace HyFive.Services.Facility
                 // check facility type
                 var facilityType = await _context.FacilityType.FirstOrDefaultAsync(i => i.Id  == command.Request.FacilityTypeId);
                 if (facilityType == null)
-                    throw new ArgumentException(
-                        $"FacilityType with id {command.Request.FacilityTypeId} was not found in the database");
+                    throw new DomainException("FacilityTypeNotFound", command.Request.FacilityTypeId);
                 
                 var city = await _context.City.FirstOrDefaultAsync(h => h.Id == command.Request.CityId);
                 if (city == null)
-                    throw new ArgumentException(
-                        $"City with id {command.Request.CityId} was not found in the database");
-
+                    throw new DomainException("CityNotFound", command.Request.CityId);
                 var coordinator = new Coordinator()
                 {
                     FirstName = command.Request.CoordinatorFirstName,

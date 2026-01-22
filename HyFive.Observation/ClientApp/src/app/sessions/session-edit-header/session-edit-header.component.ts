@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {Session} from '../../models/api/Session';
 import { faCircle, faClipboard } from '@fortawesome/free-solid-svg-icons';
 
@@ -6,7 +6,7 @@ import { faCircle, faClipboard } from '@fortawesome/free-solid-svg-icons';
   selector: 'app-session-edit-header',
   templateUrl: './session-edit-header.component.html'
 })
-export class SessionEditHeaderComponent implements OnInit {
+export class SessionEditHeaderComponent {
 
   faClipboard = faClipboard;
   faCircle = faCircle;
@@ -17,6 +17,4 @@ export class SessionEditHeaderComponent implements OnInit {
   @Input() header: string;
   constructor() { }
 
-  ngOnInit(): void {
-  }
 }

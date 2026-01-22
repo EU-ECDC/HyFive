@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.Department
 {
@@ -41,7 +42,7 @@ namespace HyFive.Services.Department
                     return _mapper.Map<Models.V1.Facility.DepartmentType>(departmentType);
                 }
 
-                throw new ArgumentException($"Did not find department type with ID {request.DepartmentType.Id}");
+                throw new DomainException("DepartmentTypeNotFound", request.DepartmentType.Id);
             }
         }
     }

@@ -1,12 +1,12 @@
 <div class="container" *ngIf="user">
   <div class="row">
     <div class="col-12">
-      <h2> <fa-icon [icon]="faUser"></fa-icon> Profile</h2>
+      <h2 > <fa-icon [icon]="faUser"></fa-icon> {{ "Profile" | translate }}</h2>
     </div>
   </div>
   <div class="row mt-1">
-    <div class="col-12">
-      Name: {{user.name}}
+    <div  class="col-12">
+      {{ "Name" | translate}}: {{user.name}}
     </div>
   </div>
 
@@ -18,7 +18,7 @@
                id="fhiAdmin"
                [(ngModel)]="selectedRole"
                value="Administrator" />
-        <label class="form-check-label" for="fhiAdmin">Administrator</label>
+        <label  class="form-check-label" for="fhiAdmin">{{ "Administrator" | translate}}</label>
       </div>
       <div class="form-check form-check-inline">
         <input type="radio" class="form-check-input"
@@ -26,21 +26,15 @@
                id="coordinator"
                [(ngModel)]="selectedRole"
                value="Coordinator" />
-        <label class="form-check-label" for="coordinator">Coordinator</label>
+        <label  class="form-check-label" for="coordinator">{{ "Coordinator" | translate}}</label>
       </div>
-      <a class="btn fhi-btn-primary ml-2" (click)="changeRole()">Change role</a>
+      <a  class="btn fhi-btn-primary ml-2" (click)="changeRole()">{{ "Change role" | translate}}</a>
     </div>
   </div>
-
-  <div class="row mt-3">
-    <div class="col-12">
-      <a href="https://www.fhi.no/nettpub/nost/generelt-om-losningen2/personvernerklaring-for-nost/" target="_blank">Open the privacy policy</a>
-    </div>
-  </div>
-
+  
   <div class="row mt-4">
     <div class="col-12">
-      <a class="btn fhi-btn-primary" (click)="logout()">Log out</a>
+      <a  class="btn fhi-btn-primary" (click)="logout()">{{"Log out" | translate }}</a>
     </div>
   </div>
 

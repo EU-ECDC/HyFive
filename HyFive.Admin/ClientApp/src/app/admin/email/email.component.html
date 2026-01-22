@@ -1,12 +1,12 @@
 <div class="container">
     <div class="row">
-        <h5>Email</h5>
-        <button class="btn fhi-btn-primary mb-5 ms-3 col-3" (click)="OpenEmailClient()" [disabled]="!facilityId || (!coordinatorsSelected && !observerSelected)">Open Email client</button>
+        <h5>{{"Email" | translate }}</h5>
+        <button class="btn fhi-btn-primary mb-5 ms-3 col-4" (click)="OpenEmailClient()" [disabled]="!facilityId || (!coordinatorsSelected && !observerSelected)">{{"Open Email client" | translate}}</button>
         
         <div class="row align-items-end mb-4">
             
             <div class="col-md-4">
-                <label for="facility">Healthcare facilities</label>
+                <label for="facility">{{"Healthcare facilities" | translate }}</label>
                 <ng-select
                     [searchable]="false"
                     [clearable]="false"
@@ -20,12 +20,12 @@
             </div>
             
             <div style="position: relative; bottom: 6px;" class="col-md-2">
-                <label style="margin-right: 10px;" for="coordinator">Coordinator</label>
+                <label style="margin-right: 10px;" for="coordinator">{{"Coordinator" | translate }}</label>
                 <input type="checkbox" class="form-check-input" id="coordinator" [(ngModel)]="coordinatorsSelected" (ngModelChange)="updateUserList()" name="coordinator">
             </div>
             
             <div style="position: relative; bottom: 6px;" class="col-md-2">
-                    <label style="margin-right: 10px;" for="observers">Observers</label>
+                    <label style="margin-right: 10px;" for="observers">{{"Observers" | translate }}</label>
                     <input type="checkbox" class="form-check-input" id="observers" [(ngModel)]="observerSelected" (ngModelChange)="updateUserList()" name="observer">
             </div>
         </div>
@@ -34,9 +34,9 @@
             <table class="table" sortable-table (sorted)="sort($event)" >
                 <thead>
                     <tr>
-                        <th sortable-column="First name"></th>
-                        <th sortable-column="Last name"></th>
-                        <th scope="col">Email</th>
+                        <th [sortable-column]="'First name' | translate"></th>
+                        <th [sortable-column]="'Last name' | translate"></th>
+                        <th scope="col">{{"Email" | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>

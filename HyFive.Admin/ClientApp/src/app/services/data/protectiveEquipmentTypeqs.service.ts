@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProtectiveEquipmentTypeq } from "src/app/models/api/ProtectiveEquipmentTypeq";
 import { environment } from "src/environments/environment";
-import { tap } from 'rxjs/operators';
 import { MisuseType } from '../../models/api/MisuseType';
 import { CreateMisueTypeRequest } from '../../models/api/CreateMisueTypeRequest';
 
@@ -13,7 +12,7 @@ import { CreateMisueTypeRequest } from '../../models/api/CreateMisueTypeRequest'
 
 export class ProtectiveEquipmentTypeqsService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getProtectiveEquipmentTypes(): Observable<ProtectiveEquipmentTypeq[]> {
     const url = `${environment.apiBaseUrl}/v1/protectiveEquipmentTypes`;

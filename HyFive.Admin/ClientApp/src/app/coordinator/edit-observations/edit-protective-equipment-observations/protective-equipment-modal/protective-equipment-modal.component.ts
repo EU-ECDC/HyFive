@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ export const ProtectiveEquipmentModalComponentConfig = {
   selector: 'app-protective-equipment-modal',
   templateUrl: './protective-equipment-modal.component.html',
 })
-export class ProtectiveEquipmentModalComponent implements OnInit {
+export class ProtectiveEquipmentModalComponent {
 
   faCircle = faCircle;
   colors = Colors;
@@ -29,10 +29,7 @@ export class ProtectiveEquipmentModalComponent implements OnInit {
   @Input() displayMode = false;
   @Input() showEquipmentDeleteButton: boolean = false;
 
-  constructor(private activeModal: NgbActiveModal) {
-  }
-
-  ngOnInit(): void {
+  constructor(private readonly activeModal: NgbActiveModal) {
   }
 
   close() {

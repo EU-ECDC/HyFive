@@ -40,11 +40,11 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
     private readonly modalService: NgbModal,
     private readonly toastrService: ToastrService) { }
 
-  @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observation") observation: ProtectiveEquipmentObservation;
-  @Input("department") department: Department;
-  @Input("facilityid") facilityid: number;
-  @Output("observationDeletedEvent") observationDeletedEvent = new EventEmitter();
+  @Input() isReadonly: boolean = false;
+  @Input() observation: ProtectiveEquipmentObservation;
+  @Input() department: Department;
+  @Input() facilityid: number;
+  @Output() observationDeletedEvent = new EventEmitter();
 
 
   ngOnInit(): void {

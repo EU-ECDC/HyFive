@@ -18,6 +18,7 @@ import { HandJewelryTypeService } from "../../services/data/hand-jewelry-type.se
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { SessionType } from "src/app/models/api/SessionType";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-handjewelry-observation-card',
@@ -50,9 +51,9 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
   handJewelrySessionType: number = SessionType.HandJewelry;
   facilityid: number;
 
-  @Input("card") card: Card;
-  @Input("roleSelected") roleSelected: Role[];
-  @Input("sessionView") sessionView: HandJewelrySessionView;
+  @Input() card: Card;
+  @Input() roleSelected: Role[];
+  @Input() sessionView: HandJewelrySessionView;
 
   @Output() observationRegister = new EventEmitter();
   @Output() observationUpdate = new EventEmitter();
@@ -61,8 +62,9 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
 
   constructor(
     private readonly handJewelryTypeService: HandJewelryTypeService,
-    protected modalService: NgbModal) {
-    super(modalService);
+    protected modalService: NgbModal,
+    protected translate: TranslateService) {
+    super(modalService, translate);
   }
 
   ngOnInit(): void {
@@ -96,7 +98,7 @@ export class HandJewelryObservationCardComponent extends BaseCardSwipe implement
     let numberOfHandJewelrySelected  = this.numberOfHandJewelrySelected ();
 
     if (numberOfHandJewelrySelected  < 1) {
-      this.observationMissingText = "HandJewelry missing";
+      this.observationMissingText = this.translate.instant("HandJewelry missing");
       this.showInfoModal = true;
     }
     return numberOfHandJewelrySelected  < 1;

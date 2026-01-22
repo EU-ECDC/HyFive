@@ -10,6 +10,8 @@ import { LoggedInUser } from './models/api/LoggedInUser';
 import { KeyEventService, KEY_CODE } from './services/events/key-event.service';
 import { UrlPaths } from './_common/constants/url-paths';
 import { FacilityService } from './services/data/facility.service';
+import { DateAdapter } from '@angular/material/core';
+import { LanguageService } from './_common/services/language-service';
 
 @Component({
   selector: 'app-root',
@@ -18,24 +20,27 @@ import { FacilityService } from './services/data/facility.service';
 
 export class AppComponent implements OnInit { 
 
-  private subscription = new Subscription(); 
+  private readonly subscription = new Subscription(); 
 
-  projectName = 'ECDC - Administration';
+  projectName = "ECDC - Administration";
   isMobile: boolean;
   profilRoute = UrlPaths.profile;
 
 
   constructor(
-    private router: Router,
-    private viewportScroller: ViewportScroller,
-    private browserViewportService: BrowserViewportService,
-    private urlService: UrlService,
+    private readonly router: Router,
+    private readonly viewportScroller: ViewportScroller,
+    private readonly browserViewportService: BrowserViewportService,
+    private readonly urlService: UrlService,
     public authorizationService: AuthorizationService,
-    private facilityService: FacilityService,
-    private keyEventService: KeyEventService
+    private readonly facilityService: FacilityService,
+    private readonly keyEventService: KeyEventService,
+    private readonly dateAdapter: DateAdapter<any>,
+    private readonly languageService: LanguageService
   ) { }
 
   ngOnInit() {
+    this.dateAdapter.setLocale(this.languageService.getCurrentLanguage());
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -51,7 +56,7 @@ export class AppComponent implements OnInit {
       });
 
     this.browserViewportService.updateResponsiveProperties();
-    fromEvent(window, 'resize')
+    fromEvent(globalThis, 'resize')
       .pipe(debounceTime(200))
       .subscribe(() => {
         this.browserViewportService.updateResponsiveProperties();
@@ -68,7 +73,7 @@ export class AppComponent implements OnInit {
         if (selectedFacilityId === null) {
           this.facilityService.getFacilities().subscribe((result) => {
             this.facilityService.updateSelectedFacilityId(result[0].id);
-            window.location.reload();
+            globalThis.location.reload();
           });
         }
       }

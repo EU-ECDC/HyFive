@@ -1,3 +1,4 @@
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using HyFive.Models.V1.Facility;
 using HyFive.Models.V1.Session;
@@ -296,7 +297,7 @@ namespace HyFive.Services.Tests.Facility
             _ = await CreateFacilityType(code: "CODE");
 
             // Act and Assert
-            Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            Assert.ThrowsAsync<ValidationException>(async () =>
             {
                 await CreateFacilityType(code: "CODE");
             });

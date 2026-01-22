@@ -15,7 +15,7 @@
             [items]="roleSelectedI"
             bindLabel="name"
             bindValue="id"
-            placeholder="Select Role"
+            [placeholder]="'Select Role' | translate"
             [clearable]="false"
             [searchable]="false"
             [(ngModel)]="selectedRoleId"

@@ -13,6 +13,7 @@ import { HandJewelryObservation } from '../../models/api/HandJewelryObservation'
 import { Card } from '../../models/registration/card.model';
 import { Uuid } from '../../utils/uuid';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-hand-jewelry',
@@ -39,7 +40,8 @@ export class RegisterHandjewelryComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly facilityService: FacilityService,
-    private readonly toastrService: ToastrService) {
+    private readonly toastrService: ToastrService,
+    private readonly translate: TranslateService) {
     this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
@@ -68,7 +70,7 @@ export class RegisterHandjewelryComponent implements OnInit, OnDestroy {
 
   async registerObservation(observation: HandJewelryObservation) {
     await this.sessionService.registerObservation(observation);
-    this.toastrService.success("Observation was saved");
+    this.toastrService.success(this.translate.instant("Observation was saved"));
     this.loadSessionData();
   }
 

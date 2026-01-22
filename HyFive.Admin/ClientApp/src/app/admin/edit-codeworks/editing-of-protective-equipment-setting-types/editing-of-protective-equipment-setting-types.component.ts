@@ -14,9 +14,9 @@ export class EditingOfProtectiveEquipmentSettingTypesComponent implements OnInit
   settingTypeAsChanged: ProtectiveEquipmentSettingType = null;
 
   constructor(
-    private protectiveEquipmentSettingTypesService: ProtectiveEquipmentSettingTypesService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly protectiveEquipmentSettingTypesService: ProtectiveEquipmentSettingTypesService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService
   ) { }
 
   ngOnInit(): void {
@@ -34,13 +34,13 @@ export class EditingOfProtectiveEquipmentSettingTypesComponent implements OnInit
   loadSettingtypes() {
     this.protectiveEquipmentSettingTypesService.getProtectiveEquipmentSettingTypes().subscribe(
       (settingtyper) => this.protectiveequipmentSettingTypes = settingtyper,
-      (error) => this.toastrService.error('An error occurred while loading Protective Equipment setting Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error('An error occurred while loading Protective Equipment setting Types: ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedSettingType(settingType: ProtectiveEquipmentSettingType): void {
     if (this.settingTypeAsChanged?.id == settingType.id) return;
-    this.settingTypeAsChanged = JSON.parse(JSON.stringify(settingType));
+    this.settingTypeAsChanged = structuredClone(settingType);
   }
 
   updateSettingType(settingType: ProtectiveEquipmentSettingType): void {
@@ -49,7 +49,7 @@ export class EditingOfProtectiveEquipmentSettingTypesComponent implements OnInit
         this.toastrService.success("ProtectiveEquipmentType was updated");
         this.loadSettingtypes();
       },
-      error => this.toastrService.error('An error occurred while updating ProtectiveEquipmentType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error('An error occurred while updating ProtectiveEquipmentType: ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.settingTypeAsChanged = null
     );
   }

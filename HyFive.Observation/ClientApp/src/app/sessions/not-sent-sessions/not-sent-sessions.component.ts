@@ -14,6 +14,7 @@ import { forkJoin } from "rxjs";
 import { tap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 import { DOCUMENT } from "@angular/common";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -45,6 +46,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
     private readonly toastrService: ToastrService,
     private readonly renderer: Renderer2,
+    private readonly translate: TranslateService,
      @Inject(DOCUMENT) private  document: Document
   ) {
     this.sessionNameMap = SessionTypeMapper.getNameMap();
@@ -222,11 +224,11 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     forkJoin(observables).subscribe({
       next: () => {
         this.loadSessions(this.offset, this.pageSize);
-        this.toastrService.success("The sessions were sent to the server");
+        this.toastrService.success(this.translate.instant("The sessions were sent to the server"));
       },
       error: (err) => {
         this.loadSessions(this.offset, this.pageSize);
-        this.toastrService.error("Error sending sessions to server");
+        this.toastrService.error(this.translate.instant("Error sending sessions to server"));
       }
     });
   }

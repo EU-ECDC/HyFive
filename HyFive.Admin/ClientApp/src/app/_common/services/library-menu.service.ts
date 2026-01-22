@@ -11,16 +11,16 @@ import { LibraryMenuLevel2Categories } from 'src/app/_common/constants/library-m
 export class LibraryMenuService {
 
   private allCategories: Array<string>;
-  private noCategory = LibraryMenuLevel2Categories.ukategorisert;
+  private readonly noCategory = LibraryMenuLevel2Categories.ukategorisert;
 
   getLevel2MenuItems(libraryExamples: LibraryExample[]): Array<LibraryMenuLevel2Item> {
     let i = 0;
     const items: LibraryMenuLevel2Item[] = [];
 
-    libraryExamples.forEach(example => {
+    for (const example of libraryExamples) {
       items[i] = this.getComponentMenuItem(example);
       i = i + 1;
-    });
+    };
     return items;
   }
 
@@ -29,7 +29,7 @@ export class LibraryMenuService {
     const categories: LibraryMenuLevel2Category[] = [];
     this.allCategories = [];
 
-    libraryExamples.forEach(example => {
+    for (const example of libraryExamples) {
       const isNewCategory = this.isNewCategoryAndUpdateCategoryNameList(example.category);
       const catId = this.getCurrentCategoryId(example.category);
 
@@ -41,18 +41,18 @@ export class LibraryMenuService {
       }
       categories[catId].items.push(this.getComponentMenuItem(example));
       i = i + 1;
-    });
+    };
     return this.moveUndefinedToEndOfList(categories);
   }
 
   addItemId(libraryExamples: LibraryExample[]): LibraryExample[] {
     const examples: LibraryExample[] = [];
     let i = 0;
-    libraryExamples.forEach(example => {
+    for (const example of libraryExamples) {
       example.id = this.createId(example.title);
       examples[i] = example;
       i++;
-    });
+    };
     return examples;
   }
 

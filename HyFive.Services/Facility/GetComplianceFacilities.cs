@@ -44,28 +44,22 @@ namespace HyFive.Services.Facility
                     .ProjectTo<Models.V1.Facility.Facility>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                var departmentIdsWithObservations = await _context.Session
-                .Select(s => s.Department.Id)
-                .Distinct()
-                .ToListAsync(cancellationToken);
+                // Load department IDs that have sessions
+                var departmentIdsWithSessions = await _context.Session
+                    .Select(s => s.Department.Id)
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
 
-                var departmentIdsSet = new HashSet<int>(departmentIdsWithObservations);
-
+                // Set HasObservations using local check
                 foreach (var facility in facilities)
                 {
-                    if (facility.Departments == null || facility.Departments.Count == 0)
-                    {
-                        facility.HasObservations = false;
-                    }
-                    else
-                    {
-                        facility.HasObservations = facility.Departments
-                            .Any(d => departmentIdsSet.Contains(d.Id));
+                    facility.HasObservations =
+                        facility.Departments != null &&
+                        facility.Departments.Any(d => departmentIdsWithSessions.Contains(d.Id));
 
                         facility.Departments = facility.Departments
                             .OrderBy(d => d.Name)
                             .ToList();
-                    }
                 }
 
                 return facilities;

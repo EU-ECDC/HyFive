@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +51,7 @@ namespace HyFive.Services.Facility
 
                 if (facility == null)
                 {
-                    throw new ArgumentException($"Did not find Facility With Id: {facilityId}");
+                    throw new DomainException("FacilityNotFound", facilityId);
                 }
 
                 return facility;

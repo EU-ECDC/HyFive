@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12 pb-2">
-    <h4>[ Edit mode active ]</h4>
-    <i>Observation: {{observationId}}</i><br/>
-    <i>Registered date: {{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</i>
+    <h4>[ {{"Edit mode active" | translate }} ]</h4>
+    <i>{{"Observation" | translate}}: {{observationId}}</i><br/>
+    <i>{{"Registered Date" | translate }}: {{observation.registeredTime | date:'dd.MM.yyyy HH:mm' }}</i>
     <app-spinner *ngIf="observationLoading"></app-spinner>
   </div>
 </div>
@@ -15,15 +15,15 @@
 
         <div class="row">
           <div class="col-12" *ngIf="protectiveEquipmentIndicated().length > 0">
-            <p><strong>Indicated</strong></p>
+            <p><strong>{{ "Indicated" | translate}}</strong></p>
             <div class="row text-break" *ngIf="protectiveEquipment?.length">
               <div class="col-4 col-md-3 text-center mb-3" *ngFor="let choice of protectiveEquipmentIndicated(); let i = index;">
-                <label [htmlFor]="'indikert'+observation.id.substr(4)+i">
+                <label [htmlFor]="'indicated'+observation.id.substr(4)+i">
                   <input type="checkbox"
                          class="hh-round-checkbox-list__input"
                          [(ngModel)]="choice.wasUsed"
                          (change)="changed($event, choice)"
-                         [id]="'indikert'+observation.id.substr(4)+i">
+                         [id]="'indicated'+observation.id.substr(4)+i">
 
                   <fa-stack class="hh-round-checkbox-list__iconstack">
                     <fa-icon [icon]="faCircle" stackItemSize="2x"
@@ -43,14 +43,14 @@
               <div class="btn-group btn-group-toggle">
                 <label class="w-50" ngbButtonLabel>
                   <input type="checkbox" ngbButton (click)="setAllEquipmentToProperUsed($event)">
-                  <span style="font-size: 17px;"><strong>All equipment used correctly</strong></span>
+                  <span style="font-size: 17px;"><strong>{{"All equipment used correctly" | translate }}</strong></span>
                 </label>
               </div>
             </div>
           </div>
         </div>
         <div class="hh-card-slider__stripe" *ngIf="protectiveEquipmentNotIndicated().length > 0">
-          <p><strong>Not indicated</strong></p>
+          <p><strong>{{"Not indicated" | translate }}</strong></p>
           <div class="custom-control custom-checkbox hh-stadium-checkbox"
                *ngFor="let choice of protectiveEquipmentNotIndicated(); let i = index;"
                [ngClass]="{ 'hh-stadium-checkbox--checked':choice.wasUsed }">
@@ -68,7 +68,7 @@
   </div>
   <div *ngIf="settings" class="row">
     <div class="col-10 col-lg-2 col-md-3 pb-2">
-      <label for="setting" class="form-label">Setting</label>
+      <label for="setting" class="form-label">{{"Setting" | translate }}</label>
       <select class="form-control" id="setting" [(ngModel)]="selectedSetting" (ngModelChange)="selectSetting()">
         <option *ngFor="let setting of sortedSettings()"
                 [ngValue]="setting"
@@ -78,7 +78,7 @@
   </div>
   <div class="row">
     <div class="col-10 col-lg-3 col-md-4">
-      <label class="form-label">Role</label>
+      <label class="form-label">{{"Role" | translate }}</label>
       <app-role-selection-dropdown [roleId]="observation.role.id"
                                [departmentId]="department.id"
                                (roleSelected)="selectRole($event)"
@@ -88,7 +88,7 @@
   </div>
   <div class="row">
     <div class="col-6">
-      <label for="comment" class="form-label">Comment</label>
+      <label for="comment" class="form-label">{{"Comment" | translate }}</label>
       <textarea [(ngModel)]="observation.comment" id="comment" (change)="registerComment(observation.comment)" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     </div>
   </div>

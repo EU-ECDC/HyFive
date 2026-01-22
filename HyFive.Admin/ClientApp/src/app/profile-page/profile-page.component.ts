@@ -22,7 +22,7 @@ export class ProfilsideComponent implements OnInit {
 
   constructor(
     public authorizationService: AuthorizationService,
-    private roleEventService: RoleEventService) { }
+    private readonly roleEventService: RoleEventService) { }
 
   ngOnInit(): void {
     this.authorizationService.getUser().subscribe((user) => {
@@ -60,6 +60,6 @@ export class ProfilsideComponent implements OnInit {
 
   logout() {
     localStorage.clear();
-    window.location.href = '/account/logout';
+    globalThis.location.href = '/account/logout';
   }
 }

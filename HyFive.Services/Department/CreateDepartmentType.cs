@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,19 +33,18 @@ namespace HyFive.Services.Department
             {
                 var exists = await _context.DepartmentType.AnyAsync(r => r.Code == request.DepartmentType.Code);
                 if (exists)
-                    throw new InvalidOperationException(
-                        $"Code {request.DepartmentType.Code} is already in use. Please try with another code.");
+                    throw new ValidationException("CodeExists", request.DepartmentType.Code);
 
-                var avdelingtype = new Domain.Place.DepartmentType()
+                var departmentType = new Domain.Place.DepartmentType()
                 {
                     Code = request.DepartmentType.Code,
                     Name = request.DepartmentType.Name
                 };
 
-                _context.DepartmentType.Add(avdelingtype);
+                _context.DepartmentType.Add(departmentType);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<DepartmentType>(avdelingtype);
+                return _mapper.Map<DepartmentType>(departmentType);
             }
         }
     }

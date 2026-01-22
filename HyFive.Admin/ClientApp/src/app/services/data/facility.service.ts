@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Facility } from '../../models/api/Facility';
 import { CreateFacilityRequest } from '../../models/api/CreateFacilityRequest';
 import { FacilityType } from '../../models/api/FacilityType';
@@ -62,7 +62,7 @@ export class FacilityService {
 
   getSelectedFacilityId(): number | null {
     const SelectedFacilityIdString = localStorage.getItem(Localstoragepaths.SelectedFacility);
-    return SelectedFacilityIdString ? parseInt(SelectedFacilityIdString) : null;
+    return SelectedFacilityIdString ? Number.parseInt(SelectedFacilityIdString) : null;
   }
 
   updateSelectedFacilityId(facilityId: number): number | null {

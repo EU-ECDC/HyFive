@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivityType } from '../../../models/api/ActivityType';
 import { ActivityTypeService } from '../../../services/data/activity-type.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-editing-activitytype',
@@ -14,9 +15,11 @@ export class EditingActivityTypeComponent implements OnInit, OnDestroy {
   activitytypeAsChanged: ActivityType = null;
 
   constructor(
-    private activityTypeService: ActivityTypeService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly activityTypeService: ActivityTypeService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
+
   ) { }
 
   ngOnInit(): void {
@@ -34,22 +37,22 @@ export class EditingActivityTypeComponent implements OnInit, OnDestroy {
   loadActivitytype() {
     this.activityTypeService.getActivityTypes().subscribe(
       (result) => this.activityTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Activity Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Activity Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedActivitytype(activitytype: ActivityType): void {
     if (this.activitytypeAsChanged?.id == activitytype.id) return;
-    this.activitytypeAsChanged = JSON.parse(JSON.stringify(activitytype));
+    this.activitytypeAsChanged = structuredClone(activitytype);
   }
 
   saveActivitytype(activitytype: ActivityType): void {
     this.activityTypeService.updateActivityType(activitytype).subscribe(
       (oppdatertAktivitettype) => {
-        this.toastrService.success("Activitytype updated");
+        this.toastrService.success(this.translate.instant("Activity Type updated"));
         this.loadActivitytype();
       },
-      error => this.toastrService.error('An error occurred while updating Activitytype: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Activitytype:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.activitytypeAsChanged = null
     );
   }

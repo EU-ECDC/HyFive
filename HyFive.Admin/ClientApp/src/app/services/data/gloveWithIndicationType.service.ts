@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 
 export class GloveWithIndicationTypeService
  {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getGloveWithIndicationTypes(): Observable<GloveWithIndicationType[]> {
     const url = `${environment.apiBaseUrl}/v1/gloveWithIndicationType`;

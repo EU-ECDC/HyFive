@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var protectiveEquipmentType = await _context.ProtectiveEquipmentType
                     .FirstOrDefaultAsync(x => x.Id == request.EquipmentType.Id, cancellationToken);
 
-                if (protectiveEquipmentType == null) throw new ArgumentException($"Did not find protective equipment type with ID: {request.EquipmentType.Id}");
+                if (protectiveEquipmentType == null) throw new DomainException("ProtectiveEquipmentTypeNotFound", request.EquipmentType.Id);
 
                 protectiveEquipmentType.Name = request.EquipmentType.Name;
 

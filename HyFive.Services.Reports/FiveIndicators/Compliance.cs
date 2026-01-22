@@ -1,4 +1,5 @@
 ﻿using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.Observation;
 using HyFive.Models.V1.Constants;
 using MediatR;
@@ -300,7 +301,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 }
                 else
                 {
-                    throw new ArgumentException("The interval must be 'month', 'quarter', or 'year'.", nameof(interval));
+                    throw new ValidationException("InvalidIntervalValue", interval);
                 }
             }
 

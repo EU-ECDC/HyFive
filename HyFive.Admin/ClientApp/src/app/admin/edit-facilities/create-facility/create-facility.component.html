@@ -2,17 +2,17 @@
   <div class="col-12">
     <div class="row mb-1">
       <div class="col-md-6">
-        <label for="facilityName" class="mb-1">Name</label>
-        <input type="text" autocomplete="off" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.facilityName" (ngModelChange)="newfacility.facilityName = $event.trim()">
+        <label for="facilityName" class="mb-1">{{"Name" | translate }}</label>
+        <input type="text" autocomplete="new-password" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.facilityName" (ngModelChange)="newfacility.facilityName = $event.trim()">
       </div>
       <div class="col-md-2">
-        <label for="abbreviation" class="mb-1">Short Name</label>
-        <input type="text" autocomplete="off" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.abbreviation" (ngModelChange)="newfacility.abbreviation = $event.trim()">
+        <label for="abbreviation" class="mb-1">{{"Short Name" | translate }}</label>
+        <input type="text" autocomplete="new-password" id="abbreviation" class="form-control" placeholder="e.g. OUS" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.abbreviation" (ngModelChange)="newfacility.abbreviation = $event.trim()">
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
-        <label for="facilitytype" class="mb-1">Facility Type</label>
+        <label for="facilitytype" class="mb-1">{{"Facility Type" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -24,7 +24,7 @@
         </ng-select>
       </div>
       <div class="col-md-6">
-        <label for="city" class="mb-1">City</label>
+        <label for="city" class="mb-1">{{"City" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -37,23 +37,29 @@
       </div>
     </div>
     <div class="row mb-2">
-      <h5 class="col-12">Coordinator</h5>
+      <h5 class="col-12">{{"Coordinator" | translate }}</h5>
       <div class="col-md-3">
-        <label for="coordinatorfirstname" class="mb-1">First Name</label>
-        <input type="text" autocomplete="off" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorFirstName" (ngModelChange)="newfacility.coordinatorFirstName = $event.trim()">
+        <label for="coordinatorfirstname" class="mb-1">{{"First Name" | translate }}</label>
+        <input type="text" autocomplete="new-password" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorFirstName" (ngModelChange)="newfacility.coordinatorFirstName = $event.trim()">
       </div>
       <div class="col-md-3">
-        <label for="coordinatorLastname" class="mb-1">Last Name</label>
-        <input type="text" autocomplete="off" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorLastName" (ngModelChange)="newfacility.coordinatorLastName = $event.trim()">
+        <label for="coordinatorLastname" class="mb-1">{{"Last Name" | translate }}</label>
+        <input type="text" autocomplete="new-password" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorLastName" (ngModelChange)="newfacility.coordinatorLastName = $event.trim()">
       </div>
       <div class="col-md-4">
-        <label for="coordinatorEmail" class="mb-1">Email</label>
-        <input type="email" id="coordinatorEmail" class="form-control" [(ngModel)]="newfacility.coordinatorEmail" (ngModelChange)="newfacility.coordinatorEmail = $event.trim()" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [maxlength]="2147483647">
+        <label for="coordinatorEmail" class="mb-1">{{"Email" | translate }}</label>
+        <input type="email" id="coordinatorEmail" autocomplete="email" class="form-control" [(ngModel)]="newfacility.coordinatorEmail" (ngModelChange)="newfacility.coordinatorEmail = $event.trim()" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [maxlength]="2147483647">
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
-        <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="canNotCreateFacility()" (click)="createFacility()">Create Healthcare Facility</button>
+      <div class="col-md-3">
+        <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="canNotCreateFacility()" (click)="createFacility()">{{"Save" | translate }}</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn fhi-btn-secondary mt-1 me-3"
+                (click)="cancelForm()">
+          {{ "Cancel" | translate }}
+        </button>
       </div>
     </div>
 

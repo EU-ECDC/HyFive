@@ -22,21 +22,11 @@
         </app-indication-selection>
 
         <div class="row mt-n3" *ngIf="activity?.secondsUsed > 0">
-          <div class="col-12 text-center mb-2 mt-4">
+          <div class="col-12 text-center mt-4">
             <button class="btn hh-transparent-button hh-transparent-button--small" (click)="removeTimeRegistration()">
-              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>Remove time registration</span>
+              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>{{"Remove time registration" | translate}}</span>
             </button>
           </div>
-        </div>
-        <div class=" d-flex flex-row mt-2 justify-content-around">
-          <app-register-comment [commentInput]="comment"
-                                [facilityid]="facilityid"
-                                [sessiontype]="fiveIndicationsSessionType"
-                                (commentRegisteredEvent)="registerComment($event)">
-          </app-register-comment>
-          <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
-            <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>Clear card</span>
-          </button>
         </div>
       </div>
       <div class="d-flex flex-column justify-content-center">
@@ -81,6 +71,16 @@
 
       </div>
 
+    </div>
+    <div class=" d-flex flex-row justify-content-around">
+      <app-register-comment [commentInput]="comment"
+                            [facilityid]="facilityid"
+                            [sessiontype]="fiveIndicationsSessionType"
+                            (commentRegisteredEvent)="registerComment($event)">
+      </app-register-comment>
+      <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
+        <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>{{"Clear card" | translate}}</span>
+      </button>
     </div>
 
   </div>

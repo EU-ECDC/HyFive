@@ -16,7 +16,7 @@ export class PseudonymDialogComponent {
   showModalDialog: boolean = false;
 
 
-  constructor(private userService: UserService) { }
+  constructor(private readonly userService: UserService) { }
 
   ok() {
     if (this.userService.isValidPseudonym(this.identityPseudonym)) {

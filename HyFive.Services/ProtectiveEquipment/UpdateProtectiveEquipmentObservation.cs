@@ -1,15 +1,16 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using HyFive.Services.ProtectiveEquipment.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HyFive.Services.ProtectiveEquipment
 {
@@ -24,13 +25,11 @@ namespace HyFive.Services.ProtectiveEquipment
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
-            private readonly ILogger<Handler> _logger;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _logger = logger;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -48,12 +47,12 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 if (observation == null)
                 {
-                    throw new ArgumentException("O-BU-01: Did not find observation with ID: " + request.Observation.Id);
+                    throw new DomainException("ObservationNotFound", request.Observation.Id);
                 }
 
                 if (observation.ProtectiveEquipmentSession.TransferStatus?.Code == TransferStatusTypeConstants.TransferredToAdmin)
                 {
-                    throw new ArgumentException("O-BU-02: The observation has already been transferred to FHI, and cannot be changed");
+                    throw new DomainException("ObservationAlreadyTransferred");
                 }
 
                 var observationFromRequest =
@@ -61,19 +60,18 @@ namespace HyFive.Services.ProtectiveEquipment
 
                 ProtectiveEquipmentObservationValidator.ValidateObservation(observationFromRequest);
                 
-                try
+                
+                observation.RegisteredTime = request.Observation.RegisteredTime;
+
+                var equipmentTypes = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
+                    .ToListAsync(cancellationToken);
+
+                var settingType = await _context.ProtectiveEquipmentSettingType.ToListAsync(cancellationToken);
+                observation.SettingType = settingType.First(s => s.Id == observationFromRequest.SettingType.Id);
+                foreach (var equipment in observation.ProtectiveEquipmentList)
                 {
-                    observation.RegisteredTime = request.Observation.RegisteredTime;
-
-                    var equipmentTypes = await _context.ProtectiveEquipmentType.Include(bt => bt.MisuseTypes)
-                        .ToListAsync(cancellationToken);
-
-                    var settingType = await _context.ProtectiveEquipmentSettingType.ToListAsync(cancellationToken);
-                    observation.SettingType = settingType.First(s => s.Id == observationFromRequest.SettingType.Id);
-                    foreach (var equipment in observation.ProtectiveEquipmentList)
-                    {
-                        var equipmentFromRequest =
-                            observationFromRequest.ProtectiveEquipmentList.First(u => u.Id == equipment.Id);
+                    var equipmentFromRequest =
+                        observationFromRequest.ProtectiveEquipmentList.First(u => u.Id == equipment.Id);
                         
                        equipment.IsRequired = equipmentFromRequest.IsRequired; 
                        equipment.EquipmentType = equipmentTypes.First(u => u.Id == equipmentFromRequest.EquipmentType.Id);
@@ -84,24 +82,19 @@ namespace HyFive.Services.ProtectiveEquipment
                        var misuseTypesFromRequest =
                            await _context.MisuseType.Where(f => misuseTypeIDsFromRequest.Contains(f.Id)).ToListAsync(cancellationToken);
 
-                       equipment.MisuseTypes = misuseTypesFromRequest;
+                    equipment.MisuseTypes = misuseTypesFromRequest;
                        
-                       _context.Entry(equipment).State = EntityState.Modified;
-                    }
+                    _context.Entry(equipment).State = EntityState.Modified;
+                }
 
                     var roleFromRequest = await _context.Role.FirstOrDefaultAsync(r => r.Id == observationFromRequest.Role.Id, cancellationToken);
                     observation.Role = roleFromRequest;
                     observation.Comment = observationFromRequest.Comment;
 
-                    _context.UpdateRange(observation.ProtectiveEquipmentList);
-                    _context.Update(observation);
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch (Exception e)
-                {   
-                    _logger.LogError(e, "Error while updating Protective Equipment observation");
-                    return false;
-                }
+                _context.UpdateRange(observation.ProtectiveEquipmentList);
+                _context.Update(observation);
+                await _context.SaveChangesAsync(cancellationToken);
+                
 
                 return true;
             }

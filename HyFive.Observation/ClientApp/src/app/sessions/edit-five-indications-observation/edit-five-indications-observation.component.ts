@@ -11,7 +11,7 @@ import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { ActivityType } from '../../models/api/ActivityType';
 import { ActivityService } from '../../services/data/activity.service';
 import { ActivityTypeNotPerformed } from '../../models/api/ActivityTypeNotPerformed';
-import { ActivityTypeNotPerformedMapper as ActivityTypeNotPerformedMapper } from '../../utils/ActivityTypeNotPerformedMapper';
+import { ActivityTypeNotPerformedMapper } from '../../utils/ActivityTypeNotPerformedMapper';
 import { Uuid } from '../../utils/uuid';
 import { ActivityTypeNotPerformedId } from '../../models/api/ActivityTypeNotPerformedId';
 import { Activities } from '../../constants/Activities';
@@ -53,13 +53,13 @@ export class EditFiveIndicationsObservationComponent implements OnInit {
     this.activityTypeNotPerformedSelection = ActivityTypeNotPerformedMapper.getNameMap();
   }
 
-  @Input("isReadonly") isReadonly: boolean = false;
-  @Input("observation") observation: FiveIndicationsObservation;
-  @Input("department") department: Department;
-  @Input("facilityid") facilityid: number;
-  @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
-  @Input("timeShouldBeRegistred") timeShouldBeRegistred: boolean;
-  @Output("observationDeletedEvent") observationDeletedEvent: EventEmitter<FiveIndicationsObservation> = new EventEmitter<FiveIndicationsObservation>();
+  @Input() isReadonly: boolean = false;
+  @Input() observation: FiveIndicationsObservation;
+  @Input() department: Department;
+  @Input() facilityid: number;
+  @Input() gloveUseMustBeRegistered: boolean;
+  @Input() timeShouldBeRegistred: boolean;
+  @Output() observationDeletedEvent: EventEmitter<FiveIndicationsObservation> = new EventEmitter<FiveIndicationsObservation>();
 
   ngOnInit(): void {
     if (this.observation.activity.activityType.code === ActivityTypeConstants.NotPerformed) {

@@ -2,6 +2,7 @@ import { Directive } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AnimationsConfig, AnimationStates } from '../animations/animations';
 import { DialogModalComponent, DialogModalComponentConfig } from "../dialog-modal/dialog-modal.component";
+import { TranslateService } from "@ngx-translate/core";
 
 @Directive()
 export abstract class BaseCardSwipe {
@@ -17,7 +18,9 @@ export abstract class BaseCardSwipe {
   cardLockedInPlace = false;
   MAX_SWIPE_PERCENTAGE: number = 0.7;
 
-  constructor(protected modalService: NgbModal) {
+  constructor(protected modalService: NgbModal,
+              protected translate: TranslateService
+  ) {
 
   }
 
@@ -120,7 +123,7 @@ export abstract class BaseCardSwipe {
       windowClass: DialogModalComponentConfig.windowClass
     });
 
-    modalRef.componentInstance.message = "Do you want to delete this card?";
+    modalRef.componentInstance.message = this.translate.instant("Do you want to delete this card?");
 
     return await modalRef.result.then((result: boolean) => {
       return result;

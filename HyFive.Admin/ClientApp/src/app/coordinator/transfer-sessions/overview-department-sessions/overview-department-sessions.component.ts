@@ -10,6 +10,7 @@ import { DepartmentService } from '../../../services/data/department.service';
 import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../../_common/services/authorization.service';
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
 
 @Component({
   selector: 'app-overview-department-sessions',
@@ -36,12 +37,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   selectedRole: AuthorizedRole;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private departmentService: DepartmentService,
-    private observationService: ObservationService,
-    private datepipe: DatePipe,
-    private authorizationService: AuthorizationService  ) { }
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly departmentService: DepartmentService,
+    private readonly observationService: ObservationService,
+    private readonly datepipe: DatePipe,
+    private readonly authorizationService: AuthorizationService,
+    private readonly dialogMessageService: DialogMessageService ) { }
 
 
   ngOnInit(): void {
@@ -51,11 +53,11 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
       .subscribe(params => {
         if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.selectedSessiontype = Number.parseInt(params[QueryParameters.SessionType]) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
-        this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
-        this.selectedFacilityOptions = parseInt(params[QueryParameters.FacilityIdeas]) || null;
+        this.departmentid = Number.parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.selectedFacilityOptions = Number.parseInt(params[QueryParameters.FacilityIdeas]) || null;
 
         this.getDepartment();
         this.getSessionsForDepartment();

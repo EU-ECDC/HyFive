@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivityService } from '../../services/data/activity.service';
 import { ActivityType } from '../../models/api/ActivityType';
 import { FiveIndicationsSessionView } from 'src/app/models/registration/FiveIndications-session-view.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-five-indications',
@@ -36,7 +37,8 @@ export class FiveIndicationsComponent implements OnInit {
     private readonly activityService: ActivityService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly toastrService: ToastrService) {
+    private readonly toastrService: ToastrService,
+  private readonly translate: TranslateService) {
 
   }
 
@@ -77,12 +79,12 @@ export class FiveIndicationsComponent implements OnInit {
   sendToCoordinator() {
     this.sessionSentToServer = true;
     this.sessionService.sendToServer(this.session.id).subscribe(res => {
-        this.toastrService.success("Session was sent to coordinator");
+        this.toastrService.success(this.translate.instant("Session was sent to coordinator"));
         this.sessionService.deleteSession(this.session.id);
         this.sessionIsSentToServer = true;
       },
       error => {
-        const message = "Something went wrong while sending session to coordinator: "+(error?.error ? error.error.substr(0, 300)+'...' : error);
+        const message = this.translate.instant("Something went wrong while sending session to coordinator") + ": "+(error?.error ? error.error.substr(0, 300)+'...' : error);
         this.toastrService.error(message, '', { disableTimeOut: true});
       },
       () => this.sessionSentToServer = false);

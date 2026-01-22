@@ -13,6 +13,8 @@ import {GloveWithoutIndicationType} from "../../../models/api/GloveWithoutIndica
 import {Role} from "../../../models/api/Role";
 import {GloveObservation} from "../../../models/api/GloveObservation";
 import {HandHygieneAfterGloveUseType} from "../../../models/api/HandHygieneAfterGloveUseType";
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-glove-observations',
@@ -38,12 +40,14 @@ export class EditGloveObservationsComponent implements OnInit{
   handHygieneAfterGloveUseTypes: HandHygieneAfterGloveUseType[];
 
   constructor(
-    private observationService: ObservationService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService,
-    private gloveWithIndicationService: GloveWithIndicationTypeService,
-    private gloveWithoutIndicationService: GloveWithoutIndicationTypeService,
-    private handhygieneAfterGloveuseService: HandHygieneAfterGloveUseTypeService
+    private readonly observationService: ObservationService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly gloveWithIndicationService: GloveWithIndicationTypeService,
+    private readonly gloveWithoutIndicationService: GloveWithoutIndicationTypeService,
+    private readonly handhygieneAfterGloveuseService: HandHygieneAfterGloveUseTypeService,
+    private readonly dialogMessageService: DialogMessageService,
+    private readonly translate: TranslateService
 
   ) { }
 
@@ -127,11 +131,11 @@ export class EditGloveObservationsComponent implements OnInit{
     this.observationService.updateGloveObservation(this.gloveObservationAsChanged).subscribe(
       (erOppdatert) => {
         this.gloveObservationAsChanged = null;
-        this.toastrService.success('Observation was updated');
+        this.toastrService.success(this.translate.instant("The observation was updated"));
         this.observationUpdatedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error updating observation: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when updating the observation"), { disableTimeOut: true});
       }
     );
   }
@@ -140,11 +144,11 @@ export class EditGloveObservationsComponent implements OnInit{
     this.observationService.deleteGloveObservation(this.gloveObservationAsChanged.id, this.sessionId).subscribe(
       () => {
         this.gloveObservationAsChanged = null;
-        this.toastrService.success('Observation was deleted');
+        this.toastrService.success(this.translate.instant("The observation was deleted"));
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error deleting observation', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when deleting observation"), { disableTimeOut: true});
       });
   }
 
@@ -159,7 +163,7 @@ export class EditGloveObservationsComponent implements OnInit{
   }
 
   setUsedGloveIfCurrent(gloveWithIndicationsSelected: boolean) {
-    if(gloveWithIndicationsSelected == false){
+    if(gloveWithIndicationsSelected === false){
       this.gloveObservationAsChanged.glovesUsed = true;
     }
   }

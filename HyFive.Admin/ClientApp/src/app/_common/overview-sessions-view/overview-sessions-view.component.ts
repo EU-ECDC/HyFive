@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
 import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
@@ -7,12 +7,13 @@ import { SessionType } from '../../models/api/SessionType';
 import { ObservationService } from '../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
 import {SessionService} from '../../services/data/session.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-overview-sessions-view',
   templateUrl: './overview-sessions-view.component.html'
 })
-export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
+export class OverviewSessionsViewComponent implements OnDestroy {
 
   faPaperPlane = faPaperPlane;
 
@@ -28,13 +29,11 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   SessionType = SessionType;
 
   constructor(
-    private observationService: ObservationService,
-    private sessionService: SessionService,
-    private toastrService: ToastrService,
-    private datePipe: DatePipe) { }
-
-  ngOnInit(): void {
-  }
+    private readonly observationService: ObservationService,
+    private readonly sessionService: SessionService,
+    private readonly toastrService: ToastrService,
+    private readonly datePipe: DatePipe,
+    private readonly translate: TranslateService) { }
 
   ngOnDestroy(): void {
     this.toastrService.clear();
@@ -55,11 +54,11 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
   }
 
   deleteSession(sessionOverviewReport: SessionOverviewReport) {
-    const errorMessage = `An error occurred while deleting session with id ${sessionOverviewReport.id}`;
+    const errorMessage = this.translate.instant("An error occurred while deleting session with id") + ` ${sessionOverviewReport.id}`;
     this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.department.facilityId).subscribe(
       (isDeleted) => {
         if (isDeleted){
-          this.toastrService.success(`Session with id ${sessionOverviewReport.id} was deleted`);
+          this.toastrService.success(this.translate.instant("Session with id") + ` ${sessionOverviewReport.id} ` + this.translate.instant("was deleted"));
           this.session = this.session.filter((s) => s.id !== sessionOverviewReport.id);
         }
         else {
@@ -67,14 +66,14 @@ export class OverviewSessionsViewComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        this.toastrService.error(errorMessage + ' : ' + error?.error ? error.error : error, '',  { disableTimeOut: true});
+        this.toastrService.error(errorMessage + ' : ' + error?.error.message ? error?.error.message : error, '',  { disableTimeOut: true});
       }
     );
   }
 
   getDeleteMessage(sessionOverviewReport: SessionOverviewReport) {
-    return `You are about to delete session registered by ${sessionOverviewReport.observerName},
-    created ${this.datePipe.transform(sessionOverviewReport.createdDate, 'dd.MM.yyyy HH:mm')} by ${sessionOverviewReport.observations?.length} associated observation${sessionOverviewReport.observations?.length > 1 ? 'is' : ''}.
-    Are you sure you want to delete this session?`;
+    return this.translate.instant("You are about to delete session registered by") +  ` ${sessionOverviewReport.observerName}, `
+    + this.translate.instant("created") + ` ${this.datePipe.transform(sessionOverviewReport.createdDate, 'dd.MM.yyyy HH:mm')} ` + this.translate.instant("by") + ` ${sessionOverviewReport.observations?.length} ` + this.translate.instant("associated observation") + ` ${sessionOverviewReport.observations?.length > 1 ? this.translate.instant('is') : ''}. `
+    + this.translate.instant("Are you sure you want to delete this session?");
   }
 }

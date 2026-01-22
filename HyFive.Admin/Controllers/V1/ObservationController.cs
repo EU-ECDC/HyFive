@@ -145,20 +145,22 @@ namespace HyFive.Admin.Controllers.V1
             [FromQuery] int facilityId,
             [FromQuery] int? observerId,
             [FromQuery] SessionType? sessionType,
+            [FromQuery] string transferStatus,
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate)
         {
             if (_userService.IsCoordinatorForFacility(facilityId))
             {
-                var resultat = await _mediator.Send(new GetSessionsForFacility.Query()
+                var results = await _mediator.Send(new GetSessionsForFacility.Query()
                 {
                     FacilityId = facilityId,
                     ObservatorId = observerId,
                     SessionType = sessionType,
+                    TransferStatus = transferStatus,
                     FromDate = fromDate,
                     ToDate = toDate
                 });
-                return Ok(resultat);
+                return Ok(results);
             }
 
             return Unauthorized();
@@ -192,19 +194,14 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(observation.SessionId))
             {
-                try
+                
+                var result = await _mediator.Send(new UpdateFiveIndicationsObservation.Command
                 {
-                    var result = await _mediator.Send(new UpdateFiveIndicationsObservation.Command
-                    {
-                        Observation = observation
-                    });
+                    Observation = observation
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -217,20 +214,14 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
-                try
+                var result = await _mediator.Send(new DeleteFiveIndicationObservation.Command
                 {
-                    var result = await _mediator.Send(new DeleteFiveIndicationObservation.Command
-                    {
-                        ObservationId = observtionId,
-                        SessionId = sessionId
-                    });
+                    ObservationId = observtionId,
+                    SessionId = sessionId
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }    
+                return Ok(result);
+                    
             }
 
             return Unauthorized();
@@ -243,19 +234,13 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(observation.SessionId))
             {
-                try
+                var result = await _mediator.Send(new UpdateHandJewelryObservation.Command
                 {
-                    var result = await _mediator.Send(new UpdateHandJewelryObservation.Command
-                    {
-                        Observation = observation
-                    });
+                    Observation = observation
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -267,20 +252,15 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
-                try
+                
+                var result = await _mediator.Send(new DeleteHandJewelryObservation.Command
                 {
-                    var result = await _mediator.Send(new DeleteHandJewelryObservation.Command
-                    {
-                        ObservationId = observationId,
-                        SessionId = sessionId
-                    });
+                    ObservationId = observationId,
+                    SessionId = sessionId
+                });
                     
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -292,19 +272,13 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(observation.SessionId))
             {
-                try
+                
+                var result = await _mediator.Send(new UpdateGloveObservation.Command
                 {
-                    var result = await _mediator.Send(new UpdateGloveObservation.Command
-                    {
-                        Observation = observation
-                    });
+                    Observation = observation
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
             }
 
             return Unauthorized();
@@ -316,20 +290,14 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
-                try
+                var result = await _mediator.Send(new DeleteGloveObservation.Command
                 {
-                    var result = await _mediator.Send(new DeleteGloveObservation.Command
-                    {
-                        ObservationId = observationId,
-                        SessionId = sessionId
-                    });
+                    ObservationId = observationId,
+                    SessionId = sessionId
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -341,19 +309,13 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(observation.SessionId))
             {
-                try
+                var result = await _mediator.Send(new UpdateProtectiveEquipmentObservation.Command
                 {
-                    var result = await _mediator.Send(new UpdateProtectiveEquipmentObservation.Command
-                    {
-                        Observation = observation
-                    });
+                    Observation = observation
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -365,20 +327,15 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
-                try
+                
+                var result = await _mediator.Send(new DeleteProtectiveEquipmentObservation.Command
                 {
-                    var result = await _mediator.Send(new DeleteProtectiveEquipmentObservation.Command
-                    {
-                        ObservationId = observationId,
-                        SessionId = sessionId
-                    });
+                    ObservationId = observationId,
+                    SessionId = sessionId
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();
@@ -390,19 +347,14 @@ namespace HyFive.Admin.Controllers.V1
         {
             if (_userService.IsCoordinatorForSession(sessionId))
             {
-                try
+                
+                var result = await _mediator.Send(new GetProtectiveEquipmentObservation.Query()
                 {
-                    var result = await _mediator.Send(new GetProtectiveEquipmentObservation.Query()
-                    {
-                        ObservationId = observationId
-                    });
+                    ObservationId = observationId
+                });
 
-                    return Ok(result);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
+                return Ok(result);
+                
             }
 
             return Unauthorized();

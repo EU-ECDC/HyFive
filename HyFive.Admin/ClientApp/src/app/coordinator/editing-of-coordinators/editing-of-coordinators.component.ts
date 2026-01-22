@@ -9,7 +9,7 @@ import { FacilityReport } from '../../models/api/FacilityReport';
 export class EditingCoordinatorsComponent implements OnInit {
 
   facilityReport: FacilityReport = null;
-  constructor(private facilityService: FacilityService) { }
+  constructor(private readonly facilityService: FacilityService) { }
 
   ngOnInit(): void {
     let selectedFacilityId = this.facilityService.getSelectedFacilityId();

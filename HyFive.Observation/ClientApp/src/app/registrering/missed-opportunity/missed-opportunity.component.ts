@@ -18,9 +18,9 @@ export class MissedOpportunityComponent {
 
   activity: Activity = null;
 
-  @Input("gloveUseMustBeRegistered") gloveUseMustBeRegistered: boolean;
-  @Input("disabled") disabled: boolean;
-  @Input("isRegistered") isRegistered: boolean;
+  @Input() gloveUseMustBeRegistered: boolean;
+  @Input() disabled: boolean;
+  @Input() isRegistered: boolean;
 
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
 

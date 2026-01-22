@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace HyFive.Services.ProtectiveEquipment
                 var settingType = await _context.ProtectiveEquipmentSettingType
                     .FirstOrDefaultAsync(bust => bust.Id == request.SettingType.Id, cancellationToken);
 
-                if (settingType == null) throw new ArgumentException($"Did not find protective equipment setting type with ID: {request.SettingType.Id}");
+                if (settingType == null) throw new DomainException("ProtectiveEquipmentSettingTypeNotFound", request.SettingType.Id);
 
                 settingType.Name = request.SettingType.Name;
 

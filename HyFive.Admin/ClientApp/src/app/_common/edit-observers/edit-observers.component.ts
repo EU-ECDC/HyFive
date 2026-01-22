@@ -9,6 +9,9 @@ import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { SortHelper } from 'src/app/utils/sort-helper';
 
 @Component({
   selector: 'app-edit-observers',
@@ -20,17 +23,19 @@ export class EditObserversComponent implements OnInit, OnDestroy {
   observers: User[];
 
   observerAsChanged: User = null;
-  newObserver: User = null;
   user: LoggedInUser = null;
   keyword: string = '';
   filteredObservers: User[];
   mailValidatorHelper;
+  showCreateForm: boolean = false;
 
-  constructor(private facilityService: FacilityService,
-    private userService: UserService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService,
-    private authorizationService: AuthorizationService
+  constructor(private readonly facilityService: FacilityService,
+              private readonly userService: UserService,
+              private readonly toastrService: ToastrService,
+              private readonly keyEventService: KeyEventService,
+              private readonly authorizationService: AuthorizationService,
+              private readonly translate: TranslateService,
+              private readonly dialogMessageService : DialogMessageService
   ) {
     this.mailValidatorHelper = MailValidatorHelper;
    }
@@ -58,40 +63,45 @@ export class EditObserversComponent implements OnInit, OnDestroy {
         this.observers = observers;
         this.filteredObservers = this.observers;
       },
-      (error) => this.toastrService.error('An error occurred while loading observers: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading observers:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
-  createEmptyObserver() {
-    this.cancelEdit();
-    this.newObserver = {
-      id: 0,
-      facilityId: this.facilityId,
-      lastName: '',
-      firstName: '',
-      email: '',
-      hprNumber: null,
-      identityPseudonym: null,
-      createdTime: new Date(),
-      isDisabled: false
-    };
+    toggleCreateForm() {
+    this.showCreateForm = !this.showCreateForm;
+    this.observerAsChanged = null;
   }
 
-  createObserver() {
-    if (this.newObserver.identityPseudonym == "") {
-      this.newObserver.identityPseudonym = null;
+  createObserver(newObserver) {
+    if (newObserver.identityPseudonym == "") {
+      newObserver.identityPseudonym = null;
     }
-    this.userService.createObserver(this.newObserver).subscribe(
-      () => this.toastrService.success('Observer created'),
-      error => this.toastrService.error('An error occurred while creating observer: ' + error?.message, '', { disableTimeOut: true}),
-      () => { this.newObserver = null; this.loadObservers(); }
-    );
+    this.userService.createObserver(newObserver).subscribe({
+      next: () => {
+        this.toastrService.success(
+          this.translate.instant('Observer created')
+        );
+      },
+      error: (error) => {
+        this.toastrService.error(
+          this.translate.instant('An error occurred while creating observer:') +
+            ' ' +
+            error?.error?.message,
+          '',
+          { disableTimeOut: true }
+        );
+      },
+      complete: () => {
+        this.loadObservers();
+        this.showCreateForm = false;
+      }
+    });
   }
 
   setObserverAsChanged(observer: User) {
     this.cancelEdit();
     if (this.observerAsChanged?.id == observer.id) return;
-    this.observerAsChanged = JSON.parse(JSON.stringify(observer));
+    this.observerAsChanged = structuredClone(observer);
   }
 
   updateObserver(observer: User) {
@@ -100,10 +110,10 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     }
     this.userService.updateObserver(observer).subscribe(
       (oppdatertBruker) => {
-        this.toastrService.success('Observer updated');
+        this.toastrService.success(this.translate.instant('Observer updated'));
         this.loadObservers();
       },
-      error => this.toastrService.error('An error occurred while updating observer: ' + error?.message, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating observer:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.observerAsChanged = null
     );
   }
@@ -113,18 +123,17 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.userService.hasTransferredSessionToFHI(observatorId).subscribe(
       (hasTranferedSession) => { 
         if (hasTranferedSession) {
-          this.toastrService.error('Observer has sessions transferred, and could not be deleted.', '', { disableTimeOut: true});
-          return;
+          this.toastrService.error(this.translate.instant('Observer has sessions transferred, and could not be deleted.'), '', { disableTimeOut: true});
         }
         else {
           this.userService.deleteObserver(observatorId).subscribe(
-            () => this.toastrService.success('Observer deleted'),
+            () => this.toastrService.success(this.translate.instant('Observer deleted')),
             (error) => {
               if (error.error.includes("NotSupportedException")) {
-                this.toastrService.error('The observer has sessions and could not be deleted.', '', { disableTimeOut: true});
+                this.toastrService.error(this.translate.instant('The observer has sessions and could not be deleted.'), '', { disableTimeOut: true});
               }
               else {
-                this.toastrService.error('Error deleting observer: ' + error?.message ? error.message : error, '', { disableTimeOut: true});
+                this.toastrService.error(this.translate.instant('Error deleting observer:') + ' ' + error?.error.message ? error.message : error, '', { disableTimeOut: true});
               }
             },
             () => this.loadObservers()
@@ -132,18 +141,9 @@ export class EditObserversComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        this.toastrService.error('Error deleting observer: ' + error?.message, '', { disableTimeOut: true});
+        this.toastrService.error(this.translate.instant('Error deleting observer:') + ' ' + error?.error.message, '', { disableTimeOut: true});
       }
     );
-  }
-
-  canCreate() {
-    return this.newObserver.firstName.length > 0
-      && this.newObserver.lastName.length > 0
-      && this.newObserver.email.length > 0
-      && this.mailValidatorHelper.validateMail(this.newObserver.email)
-      && this.observers.find(obs => obs?.email == this.newObserver?.email) == undefined
-      //&& this.filteredObservers.find(fo => fo.firstName == this.newObserver?.firstName && fo.lastName == this.newObserver?.lastName) == undefined
   }
 
   canChange(observer: User) {
@@ -151,9 +151,9 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       && observer.lastName.length > 0
       && observer.email.length > 0
       && this.mailValidatorHelper.validateMail(observer.email)
-      && this.observers
+      && !this.observers
                       .filter(obs => obs.id !== observer.id)
-                      .find(obs => obs?.email == observer?.email) == undefined
+                      .some(obs => obs?.email == observer?.email)
       //&& this.filteredObservers
       //                        .filter(fc => fc.id !== observer.id)
       ///                        .find(fc => fc.firstName == observer?.firstName && fc.lastName == observer?.lastName) == undefined
@@ -171,7 +171,11 @@ export class EditObserversComponent implements OnInit, OnDestroy {
       $event.preventDefault();
     }
     this.observerAsChanged = null;
-    this.newObserver = null;
+    this.showCreateForm = false;
+  }
+
+  cancelCreateEmitted() {
+    this.cancelEdit();
   }
 
   filterObservers(): void {
@@ -183,25 +187,11 @@ export class EditObserversComponent implements OnInit, OnDestroy {
 
 
   sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: User) => any;
-    switch ($event.columnName) {
-      case "First name":
-        propertyOf = (x: User) => x.firstName;
-        break;
-      case "Last name":
-        propertyOf = (x: User) => x.lastName;
-        break;
-      default:
-        throw new Error("Invalid sort column");
-    }
-
-    const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-
-    const sortFunc = (a: User, b: User) => {
-      const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-      return result * sortOrder;
+    const userSortConfig = {
+      [this.translate.instant("First Name")]: (x: User) => x.firstName,
+      [this.translate.instant("Last Name")]: (x: User) => x.lastName,
     };
 
-    this.filteredObservers = this.filteredObservers.sort(sortFunc);
+    this.filteredObservers = SortHelper.sort(this.filteredObservers, $event, userSortConfig);
   }
 }

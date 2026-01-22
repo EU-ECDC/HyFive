@@ -16,5 +16,9 @@ namespace HyFive.Services.Authentication.Configuration
         public string Authority { get; set; }
 
         public bool AuthUse { get; set; }
+
+        public string RequireHttpsMetadata { get; set; }
+
+        public string SaveTokens { get; set; }
     }
 }

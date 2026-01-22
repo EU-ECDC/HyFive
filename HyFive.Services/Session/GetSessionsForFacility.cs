@@ -19,6 +19,7 @@ namespace HyFive.Services.Session
             public int FacilityId { get; set; }
             public int? ObservatorId { get; set; }
             public SessionType? SessionType { get; set; }
+            public string TransferStatus { get; set; }
             public DateTime? FromDate { get; set; }
             public DateTime? ToDate { get; set; }
         }
@@ -79,6 +80,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
                                      .Where(s => s.Department.FacilityId == request.FacilityId)
                                      .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
+                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
+                                            || s.TransferStatus.Code == request.TransferStatus)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
                                      .AsNoTracking()
@@ -98,6 +101,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
                                      .Where(s => s.Department.FacilityId == request.FacilityId)
                                      .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
+                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
+                                            || s.TransferStatus.Code == request.TransferStatus)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
                                      .AsNoTracking()
@@ -119,6 +124,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
                                      .Where(s => s.Department.FacilityId == request.FacilityId)
                                      .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
+                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
+                                            || s.TransferStatus.Code == request.TransferStatus)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
                                      .AsNoTracking()
@@ -140,6 +147,8 @@ namespace HyFive.Services.Session
                                      .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
                                      .Where(s => s.Department.FacilityId == request.FacilityId)
                                      .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
+                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
+                                            || s.TransferStatus.Code == request.TransferStatus)
                                      .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
                                      .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
                                      .AsNoTracking()

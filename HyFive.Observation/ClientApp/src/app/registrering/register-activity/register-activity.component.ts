@@ -5,6 +5,7 @@ import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { ActivityType } from '../../models/api/ActivityType';
 import { ActivityTypeConstants } from '../../models/api/ActivityTypeConstants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class RegisterActivityComponent implements OnInit {
 
+  private readonly maxSeconds = 60;
+
   timerIsStarted: boolean = false;
   interval;
   timingExecuted: boolean = false;
@@ -22,23 +25,31 @@ export class RegisterActivityComponent implements OnInit {
 
   usedGloves?: boolean = null;
 
-  @Input("parentId") parentId: string;
-  @Input("time") time: boolean;
-  @Input("disabled") disabled: boolean;
-  @Input("activityType") activityType: ActivityType;
-  @Input("seconds") seconds: number;
-  @Input("isRegistered") isRegistered: boolean;
-  @Input("confirmationModalToShow") confirmationModalToShow: boolean;
-  @Input("icon") icon: string;
+  private clampSeconds(value: number): number {
+    if (value == null || Number.isNaN(value)) return 0;
+    return Math.max(0, Math.min(this.maxSeconds, Math.floor(value)));
+  }
+
+  @Input() parentId: string;
+  @Input() time: boolean;
+  @Input() disabled: boolean;
+  @Input() activityType: ActivityType;
+  @Input() seconds: number;
+  @Input() isRegistered: boolean;
+  @Input() confirmationModalToShow: boolean;
+  @Input() icon: string;
 
   @Output() activityRegisteredEvent = new EventEmitter<Activity>();
   activityTypeConstants = ActivityTypeConstants;
 
   constructor(private readonly observationEventService: ObservationEventService, 
-              private readonly modalService: NgbModal) {
+              private readonly modalService: NgbModal,
+              private readonly translate: TranslateService) {
   }
 
   ngOnInit(): void {
+    this.seconds = this.clampSeconds(this.seconds);
+
     if (this.seconds && this.seconds > 0) {
       this.showText = false;
     }
@@ -51,11 +62,11 @@ export class RegisterActivityComponent implements OnInit {
 
   getActivityText() {
     if (this.activityType?.code === ActivityTypeConstants.Disinfection)
-      return 'ABHR';
+      return this.translate.instant('ABHR');
     if (this.activityType?.code === ActivityTypeConstants.Handwash)
-      return 'Wash';
+      return this.translate.instant('Wash');
     if(this.activityType?.code === ActivityTypeConstants.NotPerformed)
-      return 'Not Done';
+      return this.translate.instant('Not Done');
   }
 
   registerActivity(modalName) {
@@ -114,10 +125,27 @@ export class RegisterActivityComponent implements OnInit {
     this.interval = 0;
   }
 
-  private startTimer() {
+  private startTimer(): void {
     this.timerIsStarted = true;
     this.seconds = 0;
+
     this.interval = setInterval(() => {
+      if (this.seconds >= this.maxSeconds) {
+        this.seconds = this.maxSeconds;
+        this.stoppTimer();
+        this.timingExecuted = false;
+
+        // ✅ Auto-save when reaching 60 seconds
+        this.activityRegisteredEvent.emit({
+          activityType: this.activityType,
+          secondsUsed: this.seconds,
+          TimingWasPerformed: true,
+          glovesUsed: this.usedGloves
+        });
+
+        return;
+      }
+
       this.seconds++;
     }, 1000);
   }

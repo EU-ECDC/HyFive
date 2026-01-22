@@ -3,11 +3,11 @@
         <div class="row align-items-end">
           
           <div class="form-group col col-md-3">
-            <label for="observer">Observer</label>
+            <label for="observer">{{ "Observer" | translate }}</label>
             <ng-select
               [searchable]="false"
               [clearable]="false"
-              placeholder="All"
+              [placeholder]="'All' | translate"
               [items]="observers"
               bindLabel="firstLast"
               bindValue="id"
@@ -16,12 +16,12 @@
               >
             </ng-select>
           </div>
-          <div class="form-group col col-md-2">
-            <label for="sessionType">Session type</label>
+          <div style="margin-right: 2rem;" class="form-group col col-md-2">
+            <label for="sessionType">{{ "Session Type" | translate }}</label>
             <ng-select
               [searchable]="false"
               [clearable]="false"
-              placeholder="All"
+              [placeholder]="'All' | translate"
               [items]="sessionTypeOptions"
               bindLabel="name"
               bindValue="value"
@@ -31,21 +31,42 @@
             </ng-select>
           </div>
 
-          <div class="form-group col-12 col-md-1 px-0">
-            <button class="btn btn-sm fhi-btn-primary me-2" (click)="getSessions()">Search</button>
-          </div>
-          <div style="position: relative; left: 25px;" class="form-group col-12 col-md-2 px-0">
-            <button class="btn btn-sm fhi-btn-secondary" (click)="reset()">Clear filters</button>
-          </div>
-          
-          <div class="form-group col col-md-2">
-            <label style="opacity:0;">-</label>
-            <button style="background-color: transparent !important; color: #4f841a;" class="btn btn-md fhi-btn-link" [disabled]="sessionsCoordinator.length < 1" (click)="markAllSessions()">Select all sessions</button>
+          <div style="margin-right: 2rem;" class="form-group col col-md-2">
+            <label for="transferStatus">{{ "Session status" | translate }}</label>
+            <ng-select
+              [searchable]="false"
+              [clearable]="false"
+              [placeholder]="'All' | translate"
+              [items]="transferStatusOptions"
+              bindLabel="name"
+              bindValue="value"
+              [(ngModel)]="selectedTransferStatus"
+              (ngModelChange)="resetSearchresults()">
+            </ng-select>
           </div>
 
-          <div class="form-group col col-md-2">
+          <div class="form-group col-12 col-md-2 px-0">
+            <button class="btn btn-sm fhi-btn-primary" (click)="getSessions()">{{ "Search" | translate }}</button>
+          </div>
+          <div class="form-group col-12 col-md-2 px-0">
+            <button class="btn btn-sm fhi-btn-secondary" (click)="reset()">{{ "Clear Filters" | translate }}</button>
+          </div>
+        </div>
+        <div class="row mt-2 align-items-center">
+          <div class="form-group col-12 col-lg-4">
             <label style="opacity:0;">-</label>
-            <button class="btn fhi-btn-link" style="background-color: transparent !important; color: #4f841a;" [disabled]="!hasSelectedAtLeastOneSession()" (click)="transferSessions()">Transfer selected sessions</button>
+            <button style="background-color: transparent !important; color: #4f841a;" 
+                    class="btn btn-md fhi-btn-link" 
+                    [disabled]="sessionsCoordinator.length < 1" 
+                    (click)="markAllSessions()">
+                    {{ allSessionsSelected ? ('Unselect all sessions' | translate)
+                    : ('Select all sessions' | translate) }}
+            </button>
+          </div>
+
+          <div class="form-group col-12 col-lg-4">
+            <label style="opacity:0;">-</label>
+            <button class="btn fhi-btn-link" style="background-color: transparent !important; color: #4f841a;" [disabled]="!hasSelectedAtLeastOneSession()" (click)="transferSessions()">{{ "Transfer selected sessions" | translate }}</button>
           </div>
         </div>
       </div>
@@ -56,7 +77,7 @@
   <div class="container mt-5" *ngIf="!loading && SearchDone && !sessions.length">
     <div class="row">
       <div class="col text-center">
-        No sessions found.
+        {{"No sessions found." | translate}}
       </div>
     </div>
   </div>
@@ -65,9 +86,9 @@
 
     <div class="row my-2">
       <div class="col">
-        <h5>Sessions</h5>
+        <h5>{{"Sessions" | translate }}</h5>
         <span *ngIf="SearchDone && !sessionsCoordinator.length">
-          No sessions ready for submission.
+          {{"No sessions ready for submission." | translate}}
         </span>
       </div>
     </div>
@@ -85,7 +106,7 @@
   <div class="container" *ngIf="sessionsFHI.length">
     <div class="row mb-2">
       <div class="col">
-        <h5>Transferred sessions</h5>
+        <h5>{{"Transferred sessions" | translate}}</h5>
       </div>
     </div>
 
@@ -94,5 +115,5 @@
     </app-overview-sessions-view>
   </div>
   <div class="row" *ngIf="loading">
-    <app-spinner class="col-12">Loading sessions</app-spinner>
+    <app-spinner class="col-12">{{"Loading sessions" | translate}}</app-spinner>
   </div>

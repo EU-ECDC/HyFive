@@ -8,9 +8,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class DeleteConfirmationDialogComponent {
 
-  @Input("dialogMessage") dialogMessage: string;
-  @Input("isBlackColor") isBlackColor: boolean = true;
-  @Output("deletedEvent") deletedEvent = new EventEmitter();
+  @Input() dialogMessage: string;
+  @Input() isBlackColor: boolean = true;
+  @Output() deletedEvent = new EventEmitter();
 
   constructor(private readonly modalService: NgbModal) {}
 

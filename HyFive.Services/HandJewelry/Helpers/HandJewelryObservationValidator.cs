@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using HyFive.Models.V1.Constants;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.HandJewelry.Helpers
 {
@@ -11,26 +12,21 @@ namespace HyFive.Services.HandJewelry.Helpers
         {
             if (observation.HandJewelries?.Any() == false)
             {
-                throw new HandJewelryObservationValidationException("HO-V-01: At least 1 hand jewelry must be registered");
+                throw new ValidationException("HandJewelryObservationMissingJewelry");
             }
-            
+
             if (observation.Role == null)
             {
-                throw new HandJewelryObservationValidationException("HO-V-02: Role must be registered.");
+                throw new ValidationException("HandJewelryObservationRoleMissing");
             }
-            
-            if(observation.HandJewelries.Count > 1 && observation.HandJewelries.Select(h => h.Code).Contains(HandJewelryTypeConstants.AllClear))
+
+            if (observation.HandJewelries.Count > 1 &&
+                observation.HandJewelries.Select(h => h.Code).Contains(HandJewelryTypeConstants.AllClear))
             {
-                throw new HandJewelryObservationValidationException($"HO-V-03: '{HandJewelryTypeConstants.AllClear}' cannot be combined with other types of  hand jewelries'");
+                throw new ValidationException("HandJewelryObservationInvalidCombination", HandJewelryTypeConstants.AllClear);
             }
-                
 
             return true;
         }
-    }
-    
-    public class HandJewelryObservationValidationException : Exception
-    {
-        public HandJewelryObservationValidationException(string message) : base(message) { }
     }
 }

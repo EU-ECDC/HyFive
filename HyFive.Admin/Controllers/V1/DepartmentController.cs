@@ -101,16 +101,11 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status201Created)]
         public async Task<ActionResult<DepartmentType>> CreateDepartmentType([FromBody] DepartmentType departmentType)
         {
-            try
-            {
-                var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = departmentType });
+            
+            var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = departmentType });
 
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
+            
         }
 
         /// <summary>

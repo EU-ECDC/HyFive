@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HyFive.DataAccess;
 using HyFive.Models.V1.Session;
 using Microsoft.EntityFrameworkCore;
+using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.Session
 {
@@ -42,8 +43,7 @@ namespace HyFive.Services.Session
 
                 if (sessionAndType == null)
                 {
-                    throw new ArgumentException(
-                        $"Did not find session with ID {request.SessionId} and transfer status code {request.TransferStatusCode}");
+                    throw new DomainException("SessionWithTransferStatusNotFound", request.SessionId, request.TransferStatusCode);
                 }
 
                 var sessionType = SessionHelper.GetSessionType(sessionAndType.Discriminator);
@@ -63,8 +63,7 @@ namespace HyFive.Services.Session
                         response.Success = DeleteSessionProtectiveEquipment(request.SessionId);
                         break;
                     default:
-                        throw new ArgumentException(
-                            $"Deletion of session type {sessionType} is not supported.");
+                        throw new DomainException("SessionTypeDeletionNotSupported", sessionType);
                 }
 
                 return response;

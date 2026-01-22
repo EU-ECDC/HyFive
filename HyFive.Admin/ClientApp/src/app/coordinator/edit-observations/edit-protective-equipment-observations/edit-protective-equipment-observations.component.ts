@@ -6,6 +6,8 @@ import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
 import {Role} from "../../../models/api/Role";
 import {ProtectiveEquipmentObservation} from "../../../models/api/ProtectiveEquipmentObservation";
+import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-protective-equipment-observations',
@@ -28,9 +30,11 @@ export class EditProtectiveEquipmentObservationsComponent implements OnInit {
 
 
   constructor(
-    private observationService: ObservationService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly observationService: ObservationService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly dialogMessageService: DialogMessageService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -67,11 +71,11 @@ export class EditProtectiveEquipmentObservationsComponent implements OnInit {
     this.observationService.updateProtectiveEquipmentObservation(this.protectiveEquipmentObservationAsChanged).subscribe(
       (isUpdated) => {
         this.protectiveEquipmentObservationAsChanged = null;
-        this.toastrService.success('Observation was updated');
+        this.toastrService.success(this.translate.instant("The observation was updated"));
         this.observationUpdatedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error updating observation: ', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when updating the observation"), { disableTimeOut: true});
       }
     );
   }
@@ -80,11 +84,11 @@ export class EditProtectiveEquipmentObservationsComponent implements OnInit {
     this.observationService.deleteProtectiveEquipmentObservation(this.protectiveEquipmentObservationAsChanged.id, this.sessionId).subscribe(
       () => {
         this.protectiveEquipmentObservationAsChanged = null;
-        this.toastrService.success('Observation was deleted');
+        this.toastrService.success(this.translate.instant("The observation was deleted"));
         this.observationDeletedEvent.emit();
       },
       (error) => {
-        this.toastrService.error(error?.error ? error.error : error, 'Error deleting observation', { disableTimeOut: true});
+        this.toastrService.error(error?.error.message ? error.error.message : error, this.translate.instant("Error when deleting observation"), { disableTimeOut: true});
       });
   }
 

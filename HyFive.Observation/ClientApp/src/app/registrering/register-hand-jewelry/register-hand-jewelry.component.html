@@ -1,6 +1,6 @@
 <div class="container">
   <app-observation-counter [sessionsdata]="sessionsdata" [url]="Urls.HandJewelrySessionUrl"></app-observation-counter>
-  <h1 class="h3 mt-n4 mt-xl-0">Jewelry, watches and nails</h1>
+  <h1 class="h3 mt-n4 mt-xl-0">{{"Jewelry, watches and nails" | translate}}</h1>
 </div>
 
 <div class="container" *ngIf="sessionView.sessionId != null && sessionView.card != null && sessionView.card.length > 0">
@@ -20,30 +20,29 @@
 <app-new-card-modal [roles]="roles" (onClose)="onCloseNewCardModal($event)" (onDismiss)="onDismissNewShortModal($event)">
 </app-new-card-modal>
 
-<app-help-text [title]="'Tips and tricks - observing hand jewelry'">
+<app-help-text [title]="'Tips and tricks - observing hand jewelry' | translate">
   <p>
-    You can now observe the professions you selected on the <b>Start observation</b> page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the <b>New card</b> button at the bottom right.
-
-    You register hand jewelry by clicking on the icons in the card.
-    </p>
-  <p>
-    The following requirements meet a valid observation:
+    {{"You can now observe the professions you selected on the" | translate}} <b>{{"Start observation" | translate}}</b> {{"page, change professions on the individual card by clicking the drop-down menu, or add new professions by clicking the" | translate}} <b>{{"New card" | translate}}</b> {{"button at the bottom right." | translate}}
+    {{"You register hand jewelry by clicking on the icons in the card." | translate}}
   </p>
   <p>
-    <b>Either</b>
+    {{"The following requirements meet a valid observation:" | translate }}
   </p>
-  <ol>
-    <li>Everything OK (No jewelry, watches or long/applied nails)</li>
-  </ol>
   <p>
-    <b>Or</b>
+    <b>{{"Either" | translate}}</b>
   </p>
   <ol>
-    <li>At least one observed deviation</li>
+    <li>{{"Everything OK (No jewelry, watches or long/applied nails)" | translate}}</li>
   </ol>
   <p>
-    When you are finished, you can drag the card to the right to save the observation.
-    If you have registered an error, you must press "Clear card" - then the card will reset itself.
-    If you want to remove a card from the list, you can drag the card to the left.
+    <b>{{"Or" | translate}}</b>
+  </p>
+  <ol>
+    <li>{{"At least one observed deviation" | translate}}</li>
+  </ol>
+  <p>
+    {{"When you are finished, you can drag the card to the right to save the observation." | translate}}
+    {{"If you have registered an error, you must press 'Clear card' - then the card will reset itself." | translate}}
+    {{"If you want to remove a card from the list, you can drag the card to the left." | translate }}
   </p>
 </app-help-text>

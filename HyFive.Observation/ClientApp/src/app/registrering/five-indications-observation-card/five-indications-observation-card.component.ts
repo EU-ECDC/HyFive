@@ -19,6 +19,7 @@ import { DialogueTexts } from '../../constants/dialogueTexts';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activities } from '../../constants/Activities';
 import { SessionType } from 'src/app/models/api/SessionType';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -54,9 +55,9 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   faTimesCircle = faTimesCircle;
   colors = Colors;
 
-  @Input("card") card: Card;
-  @Input("roleSelected") roleSelected: Role[]
-  @Input("sessionView") sessionView: FiveIndicationsSessionView
+  @Input() card: Card;
+  @Input() roleSelected: Role[]
+  @Input() sessionView: FiveIndicationsSessionView
 
   @Output() observationRegister = new EventEmitter();
   @Output() observationUpdate = new EventEmitter();
@@ -66,9 +67,10 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
   constructor(
     private readonly observationEventService: ObservationEventService,
     private readonly activityService: ActivityService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected translate: TranslateService
   ) {
-    super(modalService);
+    super(modalService, translate);
   }
 
   ngOnInit(): void {
@@ -106,11 +108,11 @@ export class FiveIndicationsObservationCardComponent extends BaseCardSwipe imple
 
   canNotSave(): boolean {
     if (this.selectedIndications?.length === 0) {
-      this.observationMissingText = "Indication(s) missing";
+      this.observationMissingText = this.translate.instant("Indication(s) missing");
       this.showInfoModal = true;
     }
     else if (!this.activity) {
-      this.observationMissingText = "Activity missing";
+      this.observationMissingText = this.translate.instant("Activity missing");
       this.showInfoModal = true;
     }
     return !(this.selectedIndications?.length && this.activity);

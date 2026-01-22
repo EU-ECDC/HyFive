@@ -12,6 +12,7 @@ import { Card } from '../../models/registration/card.model';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../constants/urls';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-five-indications',
@@ -34,7 +35,8 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly facilityService: FacilityService,
-    private readonly toastrService: ToastrService) {
+    private readonly toastrService: ToastrService,
+  private readonly translate: TranslateService) {
     this.facilityService
       .getSelectedFacility()
       .subscribe(i => this.roles = i?.departments.find(a => a.id === this.sessionView?.department?.id)?.roles);
@@ -60,7 +62,7 @@ export class RegisterFiveIndicationsComponent implements OnInit, OnDestroy {
 
   async registerObservation(observation: FiveIndicationsObservation) {
     await this.sessionService.registerObservation(observation);
-    this.toastrService.success("Observation was saved");
+    this.toastrService.success(this.translate.instant("Observation was saved"));
     this.loadSessionData();
   }
 

@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CityNotFound" xml:space="preserve">
+    <value>Η πόλη με Id {0} δεν βρέθηκε στην βάση</value>
+  </data>
+  <data name="EmptyRoleList" xml:space="preserve">
+    <value>Η λίστα με τους ρόλους είναι άδεια. Η υπηρεσία πρέπει να δημιουργηθεί με τουλάχιστον έναν ρόλο</value>
+  </data>
+  <data name="FacilityTypeNotFound" xml:space="preserve">
+    <value>Ο τύπος εγκατάστασης με Id {0} δεν βρέθηκε στη βάση.</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>Προέκυψε ένα απρόβλεπτο σφάλμα.</value>
+  </data>
+  <data name="DepartmentTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε ο τύπος τμήματος με ID {0}.</value>
+  </data>
+  <data name="DepartmentNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το τμήμα με ID {0}.</value>
+  </data>
+  <data name="ObservationNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε παρατήρηση με ID {0}.</value>
+  </data>
+  <data name="ObserverNotFoundAtFacility" xml:space="preserve">
+    <value>Δεν βρέθηκε παρατηρητής με email {0} στην εγκατάσταση με ID {1}.</value>
+  </data>
+  <data name="ActivityTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος δραστηριότητας με ID {0}.</value>
+  </data>
+  <data name="ObservationAlreadyTransferred" xml:space="preserve">
+    <value>Η παρατήρηση έχει ήδη μεταφερθεί στον διαχειριστή και δεν μπορεί να τροποποιηθεί.</value>
+  </data>
+  <data name="IndicationTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος ένδειξης με ID {0}.</value>
+  </data>
+  <data name="GloveWithIndicationTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος γαντιού με ένδειξη με ID {0}.</value>
+  </data>
+  <data name="GloveWithoutIndicationTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος γαντιού χωρίς ένδειξη με ID {0}.</value>
+  </data>
+  <data name="HandHygieneAfterGloveUseTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος υγιεινής χεριών μετά τη χρήση γαντιών με ID {0}.</value>
+  </data>
+  <data name="HandJewelryNotFoundByIds" xml:space="preserve">
+    <value>Δεν βρέθηκαν κοσμήματα χεριού με τα αναγνωριστικά {0}.</value>
+  </data>
+  <data name="HandJewelryCountMismatch" xml:space="preserve">
+    <value>Ο αριθμός των κοσμημάτων χεριού στην παρατήρηση δεν ταιριάζει με τον αριθμό που βρέθηκε στη βάση δεδομένων. IDs στη βάση: {0}. IDs στο αίτημα: {1}.</value>
+  </data>
+  <data name="HandJewelryTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος κοσμήματος χεριού με ID {0}.</value>
+  </data>
+  <data name="EquipmentTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος εξοπλισμού με ID {0}.</value>
+  </data>
+  <data name="FacilityNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε  η εγκατάσταση με ID {0}</value>
+  </data>
+  <data name="ProtectiveEquipmentObservationNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε παρατήρηση προστατευτικού εξοπλισμού με ID {0}.</value>
+  </data>
+  <data name="MisuseTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος κακής χρήσης με ID {0}.</value>
+  </data>
+  <data name="ProtectiveEquipmentSettingTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος χώρου προστατευτικού εξοπλισμού με ID {0}.</value>
+  </data>
+  <data name="ProtectiveEquipmentTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε τύπος προστατευτικού εξοπλισμού με ID {0}.</value>
+  </data>
+  <data name="SessionWithTransferStatusNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε συνεδρία με ID {0} και κωδικό κατάστασης μεταφοράς {1}.</value>
+  </data>
+  <data name="SessionTypeDeletionNotSupported" xml:space="preserve">
+    <value>Η διαγραφή του τύπου συνεδρίας {0} δεν υποστηρίζεται.</value>
+  </data>
+  <data name="SessionNotOwnedByUser" xml:space="preserve">
+    <value>Η συνεδρία με ID {0} δεν σχετίζεται με το email του συνδεδεμένου χρήστη ({1}).</value>
+  </data>
+  <data name="SessionNotLinkedToUser" xml:space="preserve">
+    <value>Η συνεδρία με ID {0} δεν είναι συνδεδεμένη με τον χρήστη με email {1}.</value>
+  </data>
+  <data name="SessionNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε συνεδρία με ID {0}.</value>
+  </data>
+  <data name="DepartmentNotLinkedToFacility" xml:space="preserve">
+    <value>Τουλάχιστον ένα τμήμα δεν είναι συνδεδεμένο με την εγκατάσταση με ID {0}.</value>
+  </data>
+  <data name="UnitNotLinkedToFacility" xml:space="preserve">
+    <value>Η μονάδα με ID {0} δεν είναι συνδεδεμένη με την εγκατάσταση με ID {1}.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε χρήστης με ID {0}.</value>
+  </data>
+  <data name="FacilityAccessDenied" xml:space="preserve">
+    <value>Δεν έχετε δικαίωμα πρόσβασης για να δείτε τις παρατηρήσεις αυτής της εγκατάστασης.</value>
+  </data>
+  <data name="InstitutionAccessDenied" xml:space="preserve">
+    <value>Δεν έχετε δικαίωμα πρόσβασης για να δείτε τις παρατηρήσεις αυτού του ιδρύματος.</value>
+  </data>
+</root>

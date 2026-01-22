@@ -280,7 +280,7 @@ required even if there is only one system deployed.
 
 ### Running locally with compose
 
-The solution contains the [docker-compose.yml](../../docker-compose.yml) file,
+The solution contains the [compose.yml](../../compose.yml) file,
 which can be used to run a local version of the system using a container 
 orchestrator. This has been tested using docker compose and podman compose.
 

@@ -4,6 +4,7 @@ import { PredefinedCommentsService } from '../../services/data/predefinedComment
 import { ToastrService } from 'ngx-toastr';
 import { CreatePredefinedCommentRequest } from '../../models/api/CreatePredefinedCommentRequest';
 import { KeyEventService } from '../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-predefined-comments',
@@ -17,9 +18,10 @@ export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   constructor(
-    private predefinedCommentsService: PredefinedCommentsService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly predefinedCommentsService: PredefinedCommentsService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.predefinedComments = predefinedComments
       },
-      (error) => this.toastrService.error('An error occurred while loading predefined comments: ' + error?.message , '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading predefined comments: ') + error?.error.message , '', { disableTimeOut: true}),
     );
   }
 
@@ -53,24 +55,24 @@ export class EditingPredefinedCommentsComponent implements OnInit, OnDestroy {
 
   createPredefinedComment() {
     this.predefinedCommentsService.createPredefinedComment(this.newPredefinedComment).subscribe(
-      (updatedPredefinedtComment) => this.toastrService.success('Predefined Comment created'),
-      error => this.toastrService.error('An error occurred while creating predefined comment: ' + error?.message , '', { disableTimeOut: true}),
+      (updatedPredefinedtComment) => this.toastrService.success(this.translate.instant('Predefined Comment created')),
+      error => this.toastrService.error(this.translate.instant('An error occurred while creating predefined comment: ') + error?.error.message , '', { disableTimeOut: true}),
       () => { this.newPredefinedComment = this.emptyRequest(); this.loadPredefinedComments(); }
     );
   }
 
   selectedPredefinedComment(predefinedComment: PredefinedComment): void {
     if (this.predefinedCommentAsChanged?.id == predefinedComment.id) return;
-    this.predefinedCommentAsChanged = JSON.parse(JSON.stringify(predefinedComment));
+    this.predefinedCommentAsChanged = structuredClone(predefinedComment);
   }
 
   updatePredefinedComment(predefinedComment: PredefinedComment): void {
     this.predefinedCommentsService.updatePredefinedComment(predefinedComment).subscribe(
       (updatedComment) => {
-        this.toastrService.success("Predefined comment updated");
+        this.toastrService.success(this.translate.instant("Predefined comment updated"));
         this.loadPredefinedComments();
       },
-      error => this.toastrService.error('An error occurred while updating predefined comment: ' + error?.error , '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating predefined comment: ') + error?.error.message , '', { disableTimeOut: true}),
       () => this.predefinedCommentAsChanged = null
     );
   }

@@ -1,7 +1,6 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeNb from '@angular/common/locales/nb';
 import localeNbExtra from '@angular/common/locales/extra/nb';

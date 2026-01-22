@@ -39,13 +39,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   selectedRole: AuthorizedRole;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private departmentService: DepartmentService,
-    private observationService: ObservationService,
-    private datepipe: DatePipe,
-    private authorizationService: AuthorizationService,
-    private facilityService: FacilityService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly departmentService: DepartmentService,
+    private readonly observationService: ObservationService,
+    private readonly datepipe: DatePipe,
+    private readonly authorizationService: AuthorizationService,
+    private readonly facilityService: FacilityService
   ) { }
 
 
@@ -59,11 +59,11 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
       .subscribe(params => {
         if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
-        this.selectedSessiontype = parseInt(params[QueryParameters.SessionType]) || null;
+        this.selectedSessiontype = Number.parseInt(params[QueryParameters.SessionType]) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
-        this.facilityIdSearch = params[QueryParameters.facilityIdIsOk] || null;
-        this.departmentid = parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.facilityIdSearch = params[QueryParameters.facilityIdSearch] || null;
+        this.departmentid = Number.parseInt(params[QueryParameters.DepartmentId]) || null;
       });
 
       const departmentSessionsRequest = [
@@ -132,8 +132,8 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
     this.router.navigate([`/${UrlPaths.observations}`], {
       queryParams: {
         sessiontype: this.selectedSessiontype,
-        fra: this.fromDate,
-        til: this.toDate,
+        from: this.fromDate,
+        to: this.toDate,
         facilityIdSearch: this.facilityIdSearch
       }
     });

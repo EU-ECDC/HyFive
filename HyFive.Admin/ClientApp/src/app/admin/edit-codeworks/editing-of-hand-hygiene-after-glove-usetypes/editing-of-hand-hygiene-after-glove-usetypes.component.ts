@@ -3,6 +3,7 @@ import { HandHygieneAfterGloveUseType } from '../../../models/api/HandHygieneAft
 import { ToastrService } from 'ngx-toastr';
 import { HandHygieneAfterGloveUseTypeService } from '../../../services/data/handHygieneAfterGloveUseType.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-editing-of-hand-hygiene-after-glove-usetypes',
@@ -14,9 +15,11 @@ export class EditingHandHygieneAfterGloveUseTypesComponent implements OnInit, On
   handHygieneAfterGloveUseTypeWhichChanges: HandHygieneAfterGloveUseType = null;
 
   constructor(
-    private HandhygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly HandhygieneAfterGloveUseTypeService: HandHygieneAfterGloveUseTypeService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
+
   ) { }
 
   ngOnInit(): void {
@@ -34,22 +37,22 @@ export class EditingHandHygieneAfterGloveUseTypesComponent implements OnInit, On
   loadHandhygieneAfterGloveUseTypes() {
     this.HandhygieneAfterGloveUseTypeService.getHandHygieneAfterGloveUseTypes().subscribe(
       (result) => this.handHygieneAfterGloveUseTypes = result,
-      (error) => this.toastrService.error('An error occurred while loading Hand Hygiene After Glove Use Types: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Hand Hygiene After Glove Use Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
   selectedHandHygieneAfterGloveUseType(postGloveHandHygieneType: HandHygieneAfterGloveUseType): void {
     if (this.handHygieneAfterGloveUseTypeWhichChanges?.id == postGloveHandHygieneType.id) return;
-    this.handHygieneAfterGloveUseTypeWhichChanges = JSON.parse(JSON.stringify(postGloveHandHygieneType));
+    this.handHygieneAfterGloveUseTypeWhichChanges = structuredClone(postGloveHandHygieneType);
   }
 
   updateHandHygieneAfterGloveUseType(): void {
     this.HandhygieneAfterGloveUseTypeService.updateHandHygieneAfterGloveUseType(this.handHygieneAfterGloveUseTypeWhichChanges).subscribe(
       (updateHandHygieneAfterGloveUseType) => {
-        this.toastrService.success("HandHygieneAfterGloveUseType updated");
+        this.toastrService.success(this.translate.instant("Hand Hygiene After Glove Use Type updated"));
         this.loadHandhygieneAfterGloveUseTypes();
       },
-      error => this.toastrService.error('An error occurred while updating HandHygieneAfterGloveUseType: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Hand Hygiene After Glove Use Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.handHygieneAfterGloveUseTypeWhichChanges = null
     );
   }

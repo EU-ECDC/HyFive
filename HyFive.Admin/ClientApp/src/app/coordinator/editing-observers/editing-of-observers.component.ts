@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FacilityService } from '../../services/data/facility.service';
-import { QueryParameters } from '../../_common/constants/queryparameters';
 import { FacilityReport } from '../../models/api/FacilityReport';
 
 @Component({
@@ -10,7 +9,7 @@ import { FacilityReport } from '../../models/api/FacilityReport';
 export class EditingOfObserversComponent implements OnInit {
 
   facilityReport: FacilityReport = null;
-  constructor(private facilityService: FacilityService) { }
+  constructor(private readonly facilityService: FacilityService) { }
 
   ngOnInit(): void {
     let selectedFacilityId = this.facilityService.getSelectedFacilityId();

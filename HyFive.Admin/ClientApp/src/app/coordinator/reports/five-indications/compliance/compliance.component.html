@@ -3,18 +3,18 @@
     <div class="row align-items-start mb-4" *ngIf="canSelectFacility">
 
       <div class="col-md-4">
-        <label for="facilitiesTypes">Facility Types</label>
-          <ng-multiselect-dropdown [placeholder]="'Select'"
+        <label for="facilitiesTypes">{{"Facility Types" | translate }}</label>
+          <ng-multiselect-dropdown [placeholder]="'Select' | translate"
                                         [settings]="dropdownSettings"
                                         [data]="facilityTypes"
                                         [(ngModel)]="selectedFacilityTypes"
                                         (ngModelChange)="filterFacilitiesByType()">
               </ng-multiselect-dropdown>
       </div>   
-      <div class="col-md-4">
-        <label for="facilities">Healthcare facilities</label>
+      <div class="col-md-5">
+        <label for="facilities">{{"Healthcare facilities" | translate }}</label>
         <div #dropdownRef>
-        <ng-multiselect-dropdown placeholder="Select healthcare facilities"
+        <ng-multiselect-dropdown [placeholder]="'Select healthcare facilities' | translate"
                                 [settings]="dropdownSettings"
                                 [data]="facilities"
                                 [(ngModel)]="selectedFacilities"
@@ -25,7 +25,7 @@
 </div>
 <div class = "row mb-4">
       <div class="col-md-2">
-        <label for="interval">Interval</label>
+        <label for="interval">{{"Interval" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -39,7 +39,7 @@
       </div>
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
-        <label for="fromQuarter">From quarter</label>
+        <label for="fromQuarter">{{"From quarter" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -53,12 +53,12 @@
       </div>
 
       <div class="col-md-2">
-        <label for="fromYear">From year</label>
+        <label for="fromYear">{{"From year" | translate }}</label>
         <input class="form-control" id="fromYear" type="number" [max]="toYear" [(ngModel)]="fromYear" (ngModelChange)="validateIntervalYear()" />
       </div>
 
       <div class="col-md-2" *ngIf="interval=='quarter'">
-        <label for="toQuarter">To quarter</label>
+        <label for="toQuarter">{{"To quarter" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -71,19 +71,19 @@
         </ng-select>
       </div>
       <div class="col-md-2">
-        <label for="toYear">To year</label>
+        <label for="toYear">{{"To year" | translate}}</label>
         <input class="form-control" id="toYear" type="number" [min]="fromYear" [(ngModel)]="toYear" (ngModelChange)="validateIntervalYear()" />
       </div>
     </div>
-    <div *ngIf="intervalYearError" style="color: #e0271a; margin: 0;" class="row">From year must be before To year</div>
-    <div *ngIf="showQuarterError" style="color: #e0271a; margin: 0;" class="row">From quarter must be before To quarter in the same year</div>
+    <div *ngIf="intervalYearError" style="color: #e0271a; margin: 0;" class="row">{{"From year must be before To year" | translate }}</div>
+    <div *ngIf="showQuarterError" style="color: #e0271a; margin: 0;" class="row">{{"From quarter must be before To quarter in the same year" | translate }}</div>
   </div>
   <div class="row">
     <div class="row align-items-start mb-4">
 
       <div class="col-md-3" >
-        <label for="departmentType">Department Types</label>
-          <ng-multiselect-dropdown [placeholder]="'Select'"
+        <label for="departmentType">{{"Department Types" | translate }}</label>
+          <ng-multiselect-dropdown [placeholder]="'Select' | translate"
                                     [settings]="dropdownSettings"
                                     [data]="departmentTypes"
                                     [(ngModel)]="selectedDepartmentTypes"
@@ -92,8 +92,8 @@
       </div>
 
             <div class="col-md-4">
-        <label for="department">Departments</label>
-            <ng-multiselect-dropdown [placeholder]="'Select departments'"
+        <label for="department">{{"Departments" | translate }}</label>
+            <ng-multiselect-dropdown [placeholder]="'Select departments' | translate"
                                     [settings]="dropdownSettings"
                                     [data]="departments"
                                     [(ngModel)]="selectedDepartments">
@@ -104,15 +104,15 @@
 
     <div class="row align-items-end mb-4">
       <div class="col-md-3">
-        <label for="role">Role</label>
-        <ng-multiselect-dropdown [placeholder]="'Select'"
+        <label for="role">{{"Role" | translate }}</label>
+        <ng-multiselect-dropdown [placeholder]="'Select' | translate"
                                     [settings]="dropdownSettings"
                                     [data]="roles"
                                     [(ngModel)]="selectedRoles">
             </ng-multiselect-dropdown>
       </div>
             <div class="col-md-3" *ngIf="!canSelectFacility">
-        <label for="transferredTo">Transferred to</label>
+        <label for="transferredTo">{{"Transferred to" | translate }}</label>
         <ng-select
           [searchable]="false"
           [clearable]="false"
@@ -124,24 +124,24 @@
         </ng-select>
         
       </div>
-      <div class="form-group col-12 col-md-3">
+      <div class="form-group col-12 col-md-4">
         <label style="opacity:0;">-</label>
         <br />
-        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getComplianceForFiveIndications()">Show graph</button>
+        <button class="btn btn-sm fhi-btn-primary me-2" (click)="getComplianceForFiveIndications()">{{"Show graph" | translate }}</button>
       </div>
     </div>
   </div>
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
-    <p><strong>Facility:</strong> {{facility.name}}</p>
-    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
-    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
+    <p><strong>{{"Facility" | translate }}:</strong> {{facility.name}}</p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
-    <p *ngIf="showSelectedFacilities.length>0"><strong>Healthcare facilities:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
-    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
-    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} qrt of {{showFromYear}} -  {{showToQuarter}} qrt of {{showToYear}}</p>   
+    <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div class="row" *ngIf="showGraph">
@@ -152,14 +152,14 @@
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
     <p><strong>Facility:</strong> {{facility.name}}</p>
-    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
-    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
-    <p *ngIf="showSelectedFacilities.length>0"><strong>Healthcare facilities:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
-    <p *ngIf="interval!=='quarter'"><strong>Period</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
-    <p *ngIf="interval=='quarter'"><strong>Quarters</strong>: {{showFromQuarter}} {{showFromYear}} -  {{showToQuarter}} {{showToYear}}</p>   
+    <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div class="row" *ngIf="showGraph">
@@ -170,7 +170,7 @@
 
   <div class="row showGraphErrorStyle" *ngIf="showGraphError">
     <p>
-      The chart type cannot be displayed with this filter selection. Choose a different chart type or modify the filter selection.
+      {{"The chart type cannot be displayed with this filter selection. Choose a different chart type or modify the filter selection." | translate}}
     </p>
   </div>
 </div>

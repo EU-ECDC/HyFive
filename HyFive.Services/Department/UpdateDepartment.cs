@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Facility;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ namespace HyFive.Services.Department
                 {
                     var departmentType = await _context.DepartmentType.FirstOrDefaultAsync(a => a.Id == command.DepartmentTypeId, cancellationToken);
                     if (departmentType == null)
-                        throw new ArgumentException("Did not find department type with ID " + command.DepartmentTypeId);
+                        throw new DomainException("DepartmentTypeNotFound", command.DepartmentTypeId);
                     department.DepartmentType = departmentType;
                 }
 

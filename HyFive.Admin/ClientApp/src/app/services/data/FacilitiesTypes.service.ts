@@ -12,7 +12,7 @@ import { CreateFacilityTypeRequest } from '../../models/api/CreateFacilityTypeRe
 
 export class FacilitiesTypesService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
 
   }
 

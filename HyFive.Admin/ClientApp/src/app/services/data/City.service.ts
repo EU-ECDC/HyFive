@@ -12,7 +12,7 @@ import { City } from '../../models/api/City';
 })
 export class CityService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   getAllCities() : Observable<City[]> {
     const url = `${environment.apiBaseUrl}/v1/city`;
@@ -27,8 +27,10 @@ export class CityService {
   getFacilities(id: number): Observable<FacilityReport[]> {
     const url = `${environment.apiBaseUrl}/v1/city/${id}/facilities`;
     return this.httpClient.get<FacilityReport[]>(url).pipe(
-                                                          map(data => data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })))
-                                                          );
+                                                          map(data => {
+                                                            return data.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
+                                                          })
+                                                      );
   }
 
   updateCoordinator(id: number, coordinator: CoordinatorForCity): Observable<Status> {

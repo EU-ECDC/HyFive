@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,28 +21,25 @@ namespace HyFive.Services.FiveIndication
         public class Handler : IRequestHandler<Command, bool>
         {
             private readonly HandHygieneContext _context;
-            private readonly ILogger<Handler> _logger;
 
-            public Handler(HandHygieneContext context, ILogger<Handler> logger)
+            public Handler(HandHygieneContext context)
             {
                 _context = context;
-                _logger = logger;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                try
-                {
-                    var observation = await _context.FiveIndicationsObservation
-                        .Include(o => o.IndicationTypes)
-                        .Include(o => o.Activity)
-                        .Include(o => o.Role)
-                        .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservationId));
+                
+                var observation = await _context.FiveIndicationsObservation
+                    .Include(o => o.IndicationTypes)
+                    .Include(o => o.Activity)
+                    .Include(o => o.Role)
+                    .FirstOrDefaultAsync(o => o.Id == new Guid(request.ObservationId));
 
-                    if (observation == null)
-                    {
-                        throw new ArgumentException("S-FIO-01: Did not find observation with ID: " + request.ObservationId);
-                    }
+                if (observation == null)
+                {
+                    throw new DomainException("ObservationNotFound", request.ObservationId);
+                }
 
                     var indicationTypes = await _context.IndicationTypes.Where(i => observation.IndicationTypes.Select(oi => oi.Id).Contains(i.Id)).ToListAsync(cancellationToken);
                     observation.IndicationTypes = indicationTypes;
@@ -53,24 +51,18 @@ namespace HyFive.Services.FiveIndication
                         .Include(s => s.Observations)
                         .FirstOrDefaultAsync(s => s.Id == new Guid(request.SessionId), cancellationToken);
 
-                    if (activity != null)
-                    {
-                        _context.Remove(activity);
-                    }
-
-                    if (session != null && session.Observations.Count == 1 && session.Observations.Select(o => o.Id).Contains(observation.Id))
-                    {
-                        _context.Remove(session);
-                    }
-
-                    _context.Remove(observation);
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
-                catch (Exception e)
+                if (activity != null)
                 {
-                    _logger.LogError(e, "Error while deleting five indication observations with ID: {ObservationId}", request.ObservationId);
-                    return false;
+                    _context.Remove(activity);
                 }
+
+                if (session != null && session.Observations.Count == 1 && session.Observations.Select(o => o.Id).Contains(observation.Id))
+                {
+                    _context.Remove(session);
+                }
+
+                _context.Remove(observation);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return true;
             }

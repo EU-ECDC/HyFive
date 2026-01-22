@@ -3,9 +3,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../../models/api/Role';
 import { RoleService } from '../../../services/data/role.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-redigering-av-roles',
+  selector: 'app-editing-of-roles',
   templateUrl: './editing-of-roles.component.html'
 
 })
@@ -19,9 +20,10 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private roleService: RoleService,
-    private toastrService: ToastrService,
-    private keyEventService: KeyEventService
+    private readonly roleService: RoleService,
+    private readonly toastrService: ToastrService,
+    private readonly keyEventService: KeyEventService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +41,7 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
   loadRoles() {
     this.roleService.getRoles().subscribe(
       (roles) => this.roles = roles,
-      (error) => this.toastrService.error('An error occurred while loading roles: ' + error?.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Roles:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -57,15 +59,15 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
       this.newRole.description = null;
     }
     this.roleService.createRole(this.newRole).subscribe(
-      (opprettetRolle) => this.toastrService.success('Role created'),
-      error => this.toastrService.error('An error occurred while creating the role: ' + error?.message, '', { disableTimeOut: true}),
+      (createdRole) => this.toastrService.success(this.translate.instant('Role created')),
+      error => this.toastrService.error(this.translate.instant('An error occurred while creating the Role:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => { this.newRole = this.createEmptyRole(); this.loadRoles(); }
     );
   }
 
   selectedRole(role: Role): void {
     if (this.roleAsChanged?.id == role.id) return;
-    this.roleAsChanged = JSON.parse(JSON.stringify(role));
+    this.roleAsChanged = structuredClone(role);
   }
 
   updateRole(role: Role) {
@@ -74,10 +76,10 @@ export class EditingOfRolesComponent implements OnInit, OnDestroy {
     }
     this.roleService.updateRole(role).subscribe(
       (updateRole) => {
-        this.toastrService.success("Role updated");
+        this.toastrService.success(this.translate.instant("Role updated"));
         this.loadRoles();
       },
-      error => this.toastrService.error('An error occurred while updating role: ' + error?.error, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Role:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.roleAsChanged = null
     );
   }

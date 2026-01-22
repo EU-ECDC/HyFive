@@ -20,10 +20,10 @@
     <div class="hh-horizontal-separator"></div>
     <div class="row"
          cdkDropList (cdkDropListDropped)="handleSelectDragDrop($event, true)"
-         #listIndikert="cdkDropList"
-         [cdkDropListConnectedTo]="[listIkkeIndikert]">
+         #listIndicated="cdkDropList"
+         [cdkDropListConnectedTo]="[listNotIndicated]">
       <div class="col-12">
-        <h2 class="h5 mb-3">Required</h2>
+        <h2 class="h5 mb-3">{{"Required" | translate}}</h2>
         <div class="row text-break">
           <div class="col-4 col-md-3 text-center mb-3 px-1"
                *ngFor="let select of protectiveEquipmentRequired(); let i = index;"
@@ -52,15 +52,15 @@
       </div>
       <div class="col-auto mx-auto">
         <div class="fhi-form-check-tile">
-          <button class="btn fhi-btn-icon btn-lg mt-3" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>All equipment correctly used</strong></button>
+          <button class="btn fhi-btn-icon btn-lg mt-3" id="allTypesOfEquipmentCorrectlyUsedDisabled"  (click)="setAllEquipmentToProperUsed($event)"><strong>{{"All equipment correctly used" | translate}}</strong></button>
         </div>
       </div>
     </div>
     <div class="hh-card-slider__stripe" style="background-color: white;"
          cdkDropList (cdkDropListDropped)="handleSelectDragDrop($event, false)"
-         #listIkkeIndikert="cdkDropList"
-         [cdkDropListConnectedTo]="[listIndikert]" >
-      <h2 class="h5 mb-3" style="opacity: 0.4;">Not required</h2>
+         #listNotIndicated="cdkDropList"
+         [cdkDropListConnectedTo]="[listIndicated]" >
+      <h2 class="h5 mb-3" style="opacity: 0.4;">{{"Not required" | translate}}</h2>
       <div class="custom-control custom-checkbox hh-stadium-checkbox"
            [ngClass]="{'hh-stadium-checkbox--checked':select.wasUsed}"
            style="opacity: 0.4;"
@@ -88,7 +88,7 @@
                                    (commentRegisteredEvent)="registerComment($event)">
           </app-register-comment>
           <button type="button" class="hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
-            <span class="d-flex align-items-center"><fa-icon class="me-1" [icon]="faEraser"></fa-icon>Clear card</span>
+            <span class="d-flex align-items-center"><fa-icon class="me-1" [icon]="faEraser"></fa-icon>{{"Clear card" | translate}}</span>
           </button>
         </div>
       </div>

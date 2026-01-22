@@ -4,18 +4,18 @@
       <div class="mb-3">
         <button *ngIf="!isEditMode" class="btn fhi-btn-icon" (click)="isEditMode = true">
           <i class="icon-pencil"></i>
-          Edit
+          {{"Edit" | translate}}
         </button>
         <button *ngIf="isEditMode" class="btn fhi-btn-icon" (click)="saveObservation()">
           <i class="icon-check-circle"></i>
-          Save
+          {{"Save" | translate }}
         </button>
       </div>
       
       <div class="mb-3">
         <app-delete-confirmation-dialog [isBlackColor]="false" (deletedEvent)="deleteObservation()"
-                                      [dialogMessage]="DialogueTexts.ObservationDeleteConfirmation">
-          <i class="icon-trash3"></i> Delete
+                                      [dialogMessage]="DialogueTexts.ObservationDeleteConfirmation | translate">
+          <i class="icon-trash3"></i> {{"Delete" | translate}}
         </app-delete-confirmation-dialog>
       </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="col">
           <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs nav-justified hh-glove-tabs">
             <li ngbNavItem="with" [disabled]="observation.gloveWithoutIndicationTypes?.length">
-              <a ngbNavLink class="hh-glove-tabs__tab">Gloves with indication</a>
+              <a ngbNavLink class="hh-glove-tabs__tab">{{"Gloves with indication" | translate}}</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -54,21 +54,22 @@
                                    [disabled]="isReadonly || !isEditMode"
                                    [(ngModel)]="type.isSelected">
                             <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
+                            <i class="icon-x icon-lg"  *ngIf="!type.isSelected"></i>
                           </label>
                         </td>
                       </tr>
                       <tr>
                         <td class="hh-glove-tabs__label-td" colspan="2">
                           <div class="d-flex">
-                            <strong class="pt-2" id="gloveIsUsedHeading">Gloves used?</strong>
+                            <strong class="pt-2" id="gloveIsUsedHeading">{{"Gloves used?" | translate}}</strong>
 
                             <div class="ms-auto">
                               <div class="btn-group fhi-btn-group" role="group" aria-labelledby="gloveIsUsedHeading">
                                 <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed1-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="true" [(ngModel)]="glovesUsed"/>
-                                <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">Yes</label>
+                                <label class="btn fhi-btn-group__btn" for="glovesUsed1-{{uuid}}">{{"Yes" | translate}}</label>
                                 
                                 <input type="radio" class="btn-check fhi-btn-group__check" name="glovesUsed-{{uuid}}" id="glovesUsed2-{{uuid}}" [disabled]="isReadonly || !isEditMode" [value]="false" [(ngModel)]="glovesUsed" />
-                                <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">No</label>
+                                <label class="btn fhi-btn-group__btn" for="glovesUsed2-{{uuid}}">{{"No" | translate}}</label>
                               </div>
                             </div>
                           </div>
@@ -80,7 +81,7 @@
               </ng-template>
             </li>
             <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes?.length">
-              <a ngbNavLink class="hh-glove-tabs__tab">Glove without indication</a>
+              <a ngbNavLink class="hh-glove-tabs__tab">{{"Glove without indication" | translate}}</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -99,6 +100,7 @@
                                     [disabled]="isReadonly || !isEditMode"
                                     [(ngModel)]="type.isSelected">
                             <i class="icon-check icon-lg" *ngIf="type.isSelected"></i>
+                            <i class="icon-x icon-lg"  *ngIf="!type.isSelected"></i>
                           </label>
                         </td>
                       </tr>
@@ -110,7 +112,7 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2 w-100"></div>
           <div class="w-100" *ngIf="glovesUsed">
-            <h2 class="h5">Hand hygiene after wearing gloves?</h2>
+            <h2 class="h5">{{"Hand hygiene after wearing gloves?" | translate}}</h2>
             <div class="btn-group btn-group-vertical btn-group-toggle d-flex">
               <div class="d-flex justify-content-center" *ngFor="let type of postGloveHandHygieneTypes">
                 <input type="radio" class="btn-check fhi-btn-group__check ms-1" id="btnradio-{{type.name}}" [disabled]="isReadonly || !isEditMode" [value]="type.code" [(ngModel)]="selectedHygieneAfterGloveUse" />
@@ -132,7 +134,7 @@
               </app-register-comment>
             </ng-container>
             <ng-container *ngIf="!isEditMode && observation.comment">
-              <label><small>Comment: <strong data-hj-suppress>{{observation.comment}}</strong></small></label>
+              <p class="ellipsis-10-chars"><small>{{"Comment" | translate }}: <strong data-hj-suppress>{{observation.comment}}</strong></small></p>
             </ng-container>
           </div>
         </div>

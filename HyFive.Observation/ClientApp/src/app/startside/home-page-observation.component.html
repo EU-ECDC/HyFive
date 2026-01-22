@@ -16,14 +16,14 @@
               }}</strong>
               <br />
             </ng-container>
-            <strong>Observer:</strong> {{ user?.name }}
+            <strong>{{"Observer" | translate }}:</strong> {{ user?.name }}
           </p>
         </div>
       </div>
     </div>
 
     <div class="col-md-6 mb-3">
-      <h2 class="h5">Healthcare Facility</h2>
+      <h2 class="h5">{{"Healthcare Facility" | translate}}</h2>
       <!-- <div class="form-group"> -->
         <!-- <select
           class="form-select"
@@ -46,9 +46,9 @@
             [items]="facilityOptions"
             bindLabel="name"
             bindValue="id"
-            placeholder="Select Facility"
-            clearAllText="Delete"
-            notFoundText="No results"
+            [placeholder]="'Select Facility' | translate"
+            [clearAllText]="'Delete' | translate"
+            [notFoundText]="'No results' | translate"
             [(ngModel)]="selectedFacilityOptionId"
             (ngModelChange)="selectedFacilityChanged()"
             >
@@ -57,16 +57,16 @@
     </div>
 
     <div class="col-md-6" *ngIf="facility">
-      <h2 class="h5">Department</h2>
+      <h2 class="h5">{{"Department" | translate}}</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
         class="hh-department-dropdown"
         [items]="facility?.departments"
           bindLabel="name"
           bindValue="id"
-          placeholder="Select department"
-          clearAllText="Delete"
-          notFoundText="No results"
+          [placeholder]="'Select department' | translate"
+          [clearAllText]="'Delete' | translate"
+          [notFoundText]="'No results' | translate"
           [(ngModel)]="selectedDepartmentId"
           (ngModelChange)="selectedDepartmentChanged()"
         >
@@ -78,7 +78,7 @@
   <div *ngIf="facility && selectedDepartmentId">
     <div class="row mb-5">
       <div class="col">
-        <h2 class="h5">Type observation</h2>
+        <h2 class="h5">{{"Type observation" | translate}}</h2>
         
         <div class="row">
           <div class="col-md-6 col-xl-3">
@@ -93,7 +93,7 @@
                 [value]="SessionType.FiveIndications"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FiveIndications">
-                <span class="fhi-form-check-tile__label-text">5 Indications</span>
+                <span class="fhi-form-check-tile__label-text">{{"5 Indications" | translate}}</span>
               </label>
             </div>
           </div>
@@ -110,7 +110,7 @@
                 [value]="SessionType.HandJewelry"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandJewelry">
-                <span class="fhi-form-check-tile__label-text">Jewelry, watches and nails</span>
+                <span class="fhi-form-check-tile__label-text">{{"Jewelry, watches and nails" | translate}}</span>
               </label>
             </div>
           </div>
@@ -127,7 +127,7 @@
                 [value]="SessionType.Gloves"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.Gloves">
-                <span class="fhi-form-check-tile__label-text">Gloves</span>
+                <span class="fhi-form-check-tile__label-text">{{"Gloves" | translate}}</span>
               </label>
             </div>
           </div>
@@ -144,7 +144,7 @@
                 [value]="SessionType.ProtectiveEquipment"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.ProtectiveEquipment">
-                <span class="fhi-form-check-tile__label-text">PPE</span>
+                <span class="fhi-form-check-tile__label-text">{{"PPE" | translate}}</span>
               </label>
             </div>
           </div> -->
@@ -162,26 +162,26 @@
       <div class="d-flex mt-n2 mb-5">
         <div class="d-flex mx-auto">
           <div class="me-6 me-sm-7" *ngIf="selectedSessionType != SessionType.Gloves">
-            <h2 class="h5 text-center">Time</h2>
+            <h2 class="h5 text-center">{{"Time" | translate}}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !time ? 'bold' : '' }">Off</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !time ? 'bold' : '' }">{{"Off" | translate}}</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="time" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': time ? 'bold' : '' }">On</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': time ? 'bold' : '' }">{{"On" | translate}}</span>
             </div>
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? "Glove Use" : "Hand Hygiene" }}</h2>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? gloveUseLabel.value : handHygieneLabel.value }}</h2>
             <div class="d-flex">
-              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">Off</span>
+              <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">{{"Off" | translate}}</span>
               <label class="hh-switch">
                 <input type="checkbox" checked [(ngModel)]="gloveUse" />
                 <span class="hh-switch__slider hh-switch__slider--round"></span>
               </label>
-              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">On</span>
+              <span class="ps-3" [ngStyle]="{ 'font-weight': gloveUse ? 'bold' : '' }">{{"On" | translate}}</span>
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@
     <ng-container *ngIf="roleSelected?.length">
       <div class="row mb-5">
         <div class="col">
-          <h2 class="h5">Select profession(s)</h2>
+          <h2 class="h5">{{"Select profession(s)" | translate}}</h2>
           <div class="row">
             <div class="col-4 col-md-3 text-center mb-3" *ngFor="let selection of roleSelected; let i = index;">
               <label [htmlFor]="'profession'+roleSelected.indexOf(selection)">
@@ -221,7 +221,7 @@
           (click)="startObservation()"
           [disabled]="canNotStartObservation()"
         >
-          Start observation
+          {{"Start observation" | translate}}
         </button>
       </div>
     </div>
@@ -235,17 +235,16 @@
   ></app-selection-for-protective-equipment>
 </ng-container> -->
 
-<app-help-text [title]="'Tips and trciks - start observation'">
+<app-help-text [title]="'Tips and trciks - start observation' | translate">
   <p>
-    Hello, and welcome to the observation module. To start observation, you need to
-    do the following:
+    {{ "Hello, and welcome to the observation module. To start observation, you need to do the following:" | translate }}
   </p>
   <ol>
-    <li>Select healthcare facility</li>
-    <li>Select department</li>
-    <li>Select type observation</li>
-    <li>Choose which professions you want to observe</li>
+    <li>{{"Select healthcare facility" | translate}}</li>
+    <li>{{"Select department" | translate}}</li>
+    <li>{{"Select type observation" | translate}}</li>
+    <li>{{"Choose which professions you want to observe" | translate}}</li>
   </ol>
-    When you are ready to start observing, you can click to
-    <b>Start observation</b>.
+    {{"When you are ready to start observing, you can click to" | translate}}
+    <b>{{"Start observation" | translate}}</b>.
 </app-help-text>

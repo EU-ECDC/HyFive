@@ -5,7 +5,7 @@
     <div class="ps-modal">
       <div class="ps-modal-content">
         <p>{{identityPseudonym}}</p>
-        <button (click)="showModal()">Close</button>
+        <button (click)="showModal()">{{"Close" | translate}}</button>
       </div>
     </div>
   </ng-container>  
@@ -14,8 +14,8 @@
       <div class="ps-modal-content">
         <input type="text" autocomplete="off" class="form-control mb-1" [(ngModel)]="identityPseudonym" name="identityPseudonym">
         <div class="modal-buttons">
-          <button (click)="showModal()">Cancel</button>
-          <button class="save-button" [disabled]="!isOk()" (click)="ok()">Save</button>
+          <button (click)="showModal()">{{"Cancel" | translate }}</button>
+          <button class="save-button" [disabled]="!isOk()" (click)="ok()">{{"Save" | translate }}</button>
         </div>
       </div>
     </div>
