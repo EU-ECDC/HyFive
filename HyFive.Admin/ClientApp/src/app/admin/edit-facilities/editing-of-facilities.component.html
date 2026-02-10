@@ -1,8 +1,5 @@
 <div class="container" *ngIf="facilityId == 0">
   <div class="row">
-    <h3>{{"Health Care Facility" | translate }}</h3>
-  </div>
-  <div class="row">
     <div class="col-md-4">
       <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="showCreateFacilityForm" (click)="toggleShowForm()">{{"Create Healthcare Facility" | translate }}</button>
     </div>
@@ -15,13 +12,15 @@
     <div class="col-12">
       <div class="row mb-5 mt-5">
         <div class="col-md-4">
-            <h5>{{"Search for Healthcare Facility" | translate }}</h5>
-            <input type="text" autocomplete="off" [placeholder]="'Search by (name/city)' | translate" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keyword" (ngModelChange)="filterFacilities()">
-        </div>
-        <div class="col-md-4">
-            <h5>{{"Search for Healthcare Facility on person" | translate }}</h5>
-            <input type="text" autocomplete="off" [placeholder]="'Search by (coordinator/observer)' | translate" autofocus="" class="form-control fhi-form__form-control mt-1" [(ngModel)]="keywordPerson" (ngModelChange)="filterPersonsAtFacilities()">
-        </div>
+        <input
+          type="text"
+          autocomplete="off"
+          [placeholder]="'Search by (name/city/coordinator/observer)' | translate"
+          autofocus=""
+          class="form-control fhi-form__form-control mt-1"
+          [(ngModel)]="keyword"
+          (ngModelChange)="filterFacilities()">
+      </div>
       </div>
     </div>
   </div>

@@ -1,10 +1,12 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn fhi-btn-primary mb-5" (click)="createToAdmin()">{{"Create Admin" | translate}}</button>
+    <button class="btn fhi-btn-primary mb-5" [disabled]="showCreateForm" (click)="toggleCreateForm()">{{"Create Admininistrator" | translate}}</button>
   </div>
 </div>
+<div *ngIf="showCreateForm">
+  <app-create-admin-form [users]="users" (CreateAdminEvent)="createAdmin($event)" (cancelCreateEvent)="cancelCreateEmitted()"></app-create-admin-form>
+</div>
 <div class="row" *ngIf="users">
-  <h3 class="col-12">{{"Administrators" | translate}}</h3>
   <p class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">{{"Did not find any Admin Users" | translate}}</p>
   
   <ng-container>
@@ -22,23 +24,6 @@
         </thead>
   
         <tbody>
-          <tr *ngIf="newFhiAdmin != null">
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newFhiAdmin.firstName" (ngModelChange)="newFhiAdmin.firstName = $event.trim()" name="firstName" [placeholder]="'First name' | translate"></td>
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newFhiAdmin.lastName" (ngModelChange)="newFhiAdmin.lastName = $event.trim()" name="lastName" [placeholder]="'Last name' | translate"></td>
-            <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="newFhiAdmin.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" name="email" [placeholder]="'Email' | translate"></td>
-            <td></td>
-            <td></td>
-
-            <td class="text-end py-0 align-middle">
-              <button class="btn fhi-btn-icon" type="button" [disabled]="canCreate() == false" (click)="createAdmin()">
-                <i class="icon-plus"></i><span class="btn__text">{{"Create" | translate}}</span>
-              </button>
-              <button class="btn fhi-btn-icon" type="button" (click)="cancelEdit($event)">
-                <i class="icon-x"></i><span class="btn__text">{{"Cancel" | translate }}</span>
-              </button>
-            </td>
-          </tr>
-
           <tr *ngFor="let fhiAdmin of filteredAdmins; index as i">
             <ng-container *ngIf="fhiAdminAsChanged?.id != fhiAdmin.id">
               <td>{{ fhiAdmin.firstName }}</td>

@@ -22,7 +22,6 @@ export class EditingOfFacilitiesComponent implements OnInit {
   filteredFacilities: FacilityReport[] = [];
   totalFacilities: FacilityReport[] = [];
   keyword: string = '';
-  keywordPerson: string = '';
   users: User[] = [];
   showCreateFacilityForm: boolean = false;
 
@@ -86,27 +85,35 @@ export class EditingOfFacilitiesComponent implements OnInit {
 
   deleteFacility(facilityId: number) {
     this.getFacilities();
-    this.toastrService.success('Deleted facility with id: ' + facilityId, 'Facility deleted');
+    this.toastrService.success(this.translate.instant('Facility deleted'));
     this.navigateToFacility(0);
   }
 
   filterFacilities(): void {
-    if (this.keyword.length >= 2)
-      this.filteredFacilities = this.facilities.filter(i => i.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        i.city?.name.toLowerCase().includes(this.keyword.toLowerCase()));
-    else if (this.keyword.length === 0)
-      this.filteredFacilities = this.facilities;
-  }
+    const term = (this.keyword || '').trim().toLowerCase();
 
-  filterPersonsAtFacilities(): void {
-    if (this.keywordPerson.length >= 2) {
-      this.filteredFacilities = this.facilities.filter(i => {
-        const persons = SearchHelper.filterUsers(this.keywordPerson, this.users);
-        return persons.some(p => p.facilityId === i.id);
-      });
-    } else if (this.keywordPerson.length === 0) {
+    if (term.length === 0) {
       this.filteredFacilities = this.facilities;
+      return;
     }
+
+    if (term.length < 2) {
+      // keep your existing behaviour
+      this.filteredFacilities = this.facilities;
+      return;
+    }
+
+    // persons matched by name (coordinator/observer)
+    const matchedPersons = SearchHelper.filterUsers(term, this.users);
+    const facilityIdsFromPersons = new Set(matchedPersons.map(p => p.facilityId));
+
+    this.filteredFacilities = this.facilities.filter(f => {
+      const nameMatch = (f.name || '').toLowerCase().includes(term);
+      const cityMatch = (f.city?.name || '').toLowerCase().includes(term);
+      const personMatch = facilityIdsFromPersons.has(f.id);
+
+      return nameMatch || cityMatch || personMatch;
+    });
   }
 
   sort($event: IColumnSortedEvent) {

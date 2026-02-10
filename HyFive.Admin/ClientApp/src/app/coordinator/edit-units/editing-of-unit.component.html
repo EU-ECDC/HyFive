@@ -9,7 +9,7 @@
     <app-create-unit (unitCreatedEvent)="getUnits()" (resetFormEvent)="toggleShowForm()" [facilityId]="facilityId" *ngIf="facilityId > 0 && unitId == 0"></app-create-unit>
   </div>
     <div class="row mb-5 mt-5">
-      <input type="text" autocomplete="off" [placeholder]="'Search for Unit ...' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterUnits()">
+      <input type="text" autocomplete="off" [placeholder]="'Search' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterUnits()">
       <ng-container>
         <div class="table-responsive">
           <table class="table" sortable-table (sorted)="sort($event)">

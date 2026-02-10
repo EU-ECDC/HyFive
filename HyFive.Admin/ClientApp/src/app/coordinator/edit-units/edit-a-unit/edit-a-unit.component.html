@@ -14,7 +14,7 @@
           <label [htmlFor]="'role'+departmentsSelection.indexOf(selection)" class="custom-control-label ms-2">
             <span>{{ selection.department.name }}</span>
           </label>
-          <fa-icon *ngIf="selection.isAlreadyAtUnit" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="Used by another unit!"></fa-icon>
+          <fa-icon *ngIf="selection.isAlreadyAtUnit" [icon]="fawarningicon" class="mx-1 fa-icon-warning" ngbTooltip="'Used unit!' | translate"></fa-icon>
         </div>
       </div>
     </div>

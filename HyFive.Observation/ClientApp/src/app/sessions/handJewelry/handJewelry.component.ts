@@ -86,15 +86,15 @@ export class HandJewelryComponent implements OnInit {
   sendToCoordinator() {
     this.sessionSentToServer = true;
     this.sessionService.sendToServer(this.session.id).subscribe(res => {
-      this.toastrService.success(this.translate.instant("Session was sent to coordinator"));
       this.sessionService.deleteSession(this.session.id);
+      this.toastrService.success(this.translate.instant("Session was sent to coordinator"));
       this.sessionIsSentToServer = true;
     },
-      error => {
-        const message = this.translate.instant("Something went wrong while sending session to coordinator:") + " " + (error?.error ? error.error.substr(0, 300)+'...' : error);
-        this.toastrService.error(message, '', { disableTimeOut: true});
-      },
-      () => {this.sessionSentToServer = false;});
+    error => {
+      const message = this.translate.instant("Something went wrong while sending session to coordinator:") + " " + (error?.error ? error.error.substr(0, 300)+'...' : error);
+      this.toastrService.error(message, '', { disableTimeOut: true});
+    },
+    () => {this.sessionSentToServer = false;});
   };
 
   navigateToSentSession() {

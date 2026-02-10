@@ -36,12 +36,12 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly sessionService: GloveSessionService,
-    private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly facilityService: FacilityService,
+    private readonly router: Router,
     private readonly toastrService: ToastrService,
-    private readonly translate: TranslateService) {
-    this.facilityService.getSelectedFacility()
+    private readonly translate: TranslateService,
+    private readonly facilityService: FacilityService,) {
+      this.facilityService.getSelectedFacility()
       .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 
@@ -49,8 +49,7 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
     this.route
       .queryParams
       .subscribe(params => {
-        const sessionId = params[Queryparameters.SessionId] || 0;
-        this.sessionView = this.sessionService.getSessionViewForSession(sessionId);
+        this.sessionView = this.sessionService.getSessionViewForSession(params[Queryparameters.SessionId] || 0);
         if (!this.sessionView) {
           this.router.navigate(['']);
         }
@@ -59,11 +58,12 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
         }
       });
 
-      if(this.sessionView.card?.length === 0)
+      if(this.sessionView.card?.length === 0) {
         this.showEmptyForShortText = true;
+      }
   }
   
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.toastrService.clear();
   }
 
@@ -73,27 +73,12 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
     this.loadSessionData();
   }
 
-  loadSessionData() {
-    this.sessionsdata = this.sessionService.getSession(this.sessionView.sessionId);
-  }
-
-  toggleRoleList() {
+    toggleRoleList() {
     this.showRoleList = !this.showRoleList;
   }
 
-  addNewCard(role: Role) {
-    this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
-    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true });
-    this.updateSessionView(this.sessionView);
-    this.toggleRoleList();
-  }
-
-  updateSessionView(sessionView: GloveSessionView) {
-    this.sessionView = this.sessionService.updateSessionViewForSession(sessionView);
-    if(this.sessionView.card?.length === 0)
-      this.showEmptyForShortText = true;
-    else 
-      this.showEmptyForShortText = false;
+  loadSessionData() {
+    this.sessionsdata = this.sessionService.getSession(this.sessionView.sessionId);
   }
 
   cardIsSelected(selectedCard: Card) {
@@ -105,13 +90,28 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
     this.sessionService.updateSessionViewForSession(this.sessionView);
   }
 
+  updateSessionView(sessionView: GloveSessionView) {
+    this.sessionView = this.sessionService.updateSessionViewForSession(sessionView);
+    if(this.sessionView.card?.length === 0)
+      this.showEmptyForShortText = true;
+    else 
+      this.showEmptyForShortText = false;
+  }
+
+  addNewCard(role: Role) {
+    this.sessionView.card = this.sessionView.card.map((k) => { k.isActive = false; return k })
+    this.sessionView.card.push({ id: Uuid.generateUUID(), role: role, isActive: true });
+    this.updateSessionView(this.sessionView);
+    this.toggleRoleList();
+  }
+
+  onDismissNewShortModal(reason) {
+  }
+
   onCloseNewCardModal(result) {
     if (result) {
       result.forEach(x => this.addNewCard(x));
     }
-  }
-
-  onDismissNewShortModal(reason) {
   }
 }
 

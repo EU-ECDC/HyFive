@@ -7,6 +7,7 @@ import { UrlPaths } from '../../../_common/constants/url-paths';
 import { DepartmentSelection } from '../../../models/code-work/departmentSelection.model';
 import { UnitService } from '../../../services/data/unit.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-a-unit',
@@ -28,7 +29,9 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
     private readonly facilityService: FacilityService,
     private readonly departmentService: DepartmentService,
     private readonly toastrService: ToastrService,
-    private readonly unitService: UnitService) { }
+
+    private readonly unitService: UnitService,
+    private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
     if (this.unit) {
@@ -117,7 +120,7 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
         this.unit.name = k.name;
         this.unit.facilityId = k.facilityId;
         this.unit.departments = k.departments;
-        this.toastrService.success('Unit updated');
+        this.toastrService.success(this.translate.instant('Unit updated'));
       },
       (err) => this.toastrService.error(`Technical error while updating: ${err?.error.message ? err.error.message : err}`, '', { disableTimeOut: true})
     );

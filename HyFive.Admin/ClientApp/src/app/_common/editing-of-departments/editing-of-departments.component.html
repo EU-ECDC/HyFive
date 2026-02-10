@@ -1,5 +1,6 @@
 <div class="container">
-  <div class="row">
+
+  <div class="row mb-3">
     <div class="col-md-4">
       <button class="btn fhi-btn-primary mt-1 w-100" [disabled]="showCreateDepartmentForm" (click)="toggleShowForm()">{{"Create Department" | translate }}</button>
     </div>
@@ -8,7 +9,7 @@
     <app-create-department (departmentCreatedEvent)="getDepartments()" [facilityId]="facilityId" [departments]="filteredDepartments" (resetFormEvent)="toggleShowForm()" *ngIf="canCreate()"></app-create-department>
   </div>
   <div class="row mb-5 mt-5" *ngIf="departments?.length > 0">
-    <input type="text" autocomplete="off" [placeholder]="'Search by name or department type...' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
+    <input type="text" autocomplete="off" [placeholder]="'Search' | translate" autofocus="" class="form-control fhi-form__form-control m-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterDepartments()">
   
     <ng-container>
       <div class="table-responsive">

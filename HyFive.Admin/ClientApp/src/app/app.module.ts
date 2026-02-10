@@ -85,6 +85,8 @@ import localeEn from '@angular/common/locales/en';
 import { CreateCoordinatorFormComponent } from './_common/edit-coordinators/create-coordinator-form/create-coordinator-form.component';
 import { CreateCoordinatorForCityFormComponent } from './coordinator/editing-of-coordinators/create-coordinator-for-city-form/create-coordinator-for-city-form.component';
 import { CreateObserverFormComponent } from './_common/edit-observers/create-observer-form/create-observer-form.component';
+import { CreateAdminFormComponent } from './admin/overview-admin/edit-admin/create-admin-form/create-admin-form.component';
+
 
 registerLocaleData(localeEl);
 registerLocaleData(localeEn);
@@ -172,7 +174,8 @@ export function getLocale(): string {
     LanguageSelectorComponent,
     CreateCoordinatorFormComponent,
     CreateCoordinatorForCityFormComponent,
-    CreateObserverFormComponent
+    CreateObserverFormComponent,
+    CreateAdminFormComponent
   ],
   imports: [
     BrowserModule,

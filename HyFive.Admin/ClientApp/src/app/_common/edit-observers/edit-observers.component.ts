@@ -67,7 +67,7 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     );
   }
 
-    toggleCreateForm() {
+  toggleCreateForm() {
     this.showCreateForm = !this.showCreateForm;
     this.observerAsChanged = null;
   }

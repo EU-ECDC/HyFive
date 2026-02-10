@@ -9,8 +9,7 @@
       <app-create-coordinator-for-city-form [coordinators]="coordinators" [facility]="facility" [facilitiesCity]="facilitiesCity" (CreateCoordinatorEvent)="createCoordinator($event)" (CancelEditEvent)="cancelEditEmitted()"></app-create-coordinator-for-city-form>
     </div>
     <div class="row" *ngIf="coordinators">
-      <h5 class="col-12">{{"Coordinators" | translate }}</h5>
-      <input type="text" autocomplete="off" [placeholder]="'Search for..' | translate" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterCoordinators()">
+      <input type="text" autocomplete="off" [placeholder]="'Search' | translate" autofocus="" class="form-control fhi-form__form-control my-3 ms-3" style="width: 350px;" [(ngModel)]="keyword" (ngModelChange)="filterCoordinators()">
       <p class="col-12" *ngIf="coordinators.length === 0">{{"Did not find any coordinators at this healthcare facility" | translate}}</p>
       <ng-container>
         <table class="table" *ngIf="coordinators.length > 0" sortable-table (sorted)="sort($event)">
