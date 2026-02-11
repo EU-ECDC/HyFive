@@ -6,7 +6,7 @@ trigger:
     - refs/tags/Hotfix*
 
 pool:
-  name: az_Ubuntu22.04 # Name of a pool.
+  name: az_vmss_ubuntu22.04 # Name of a pool.
   
 resources: 
   repositories:

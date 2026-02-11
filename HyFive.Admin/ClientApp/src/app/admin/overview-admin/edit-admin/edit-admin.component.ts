@@ -51,7 +51,6 @@ export class EditAdminComponent implements OnInit, OnDestroy {
     );
   }
 
-
   createAdmin(newAdmin: User): void {
     this.userService.createAdmin(newAdmin).subscribe({
       next: () => {

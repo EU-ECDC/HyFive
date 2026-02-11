@@ -87,7 +87,6 @@ import { CreateCoordinatorForCityFormComponent } from './coordinator/editing-of-
 import { CreateObserverFormComponent } from './_common/edit-observers/create-observer-form/create-observer-form.component';
 import { CreateAdminFormComponent } from './admin/overview-admin/edit-admin/create-admin-form/create-admin-form.component';
 
-
 registerLocaleData(localeEl);
 registerLocaleData(localeEn);
 

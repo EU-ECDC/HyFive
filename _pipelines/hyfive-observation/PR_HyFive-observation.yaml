@@ -1,7 +1,7 @@
 trigger: none
   
 pool:
-  name: az_Ubuntu22.04
+  name: az_vmss_ubuntu22.04
 
 resources: 
   repositories:
