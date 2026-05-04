@@ -22,36 +22,6 @@ namespace HyFive.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DepartmentRole", b =>
-                {
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RolesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("DepartmentsId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("DepartmentRole");
-                });
-
-            modelBuilder.Entity("DepartmentUnit", b =>
-                {
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UnitsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("DepartmentsId", "UnitsId");
-
-                    b.HasIndex("UnitsId");
-
-                    b.ToTable("DepartmentUnit");
-                });
-
             modelBuilder.Entity("FiveIndicationsObservationIndicationTypes", b =>
                 {
                     b.Property<int>("IndicationTypesId")
@@ -425,6 +395,46 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("IndicationType");
                 });
 
+            modelBuilder.Entity("HyFive.Domain.Observation.OrganisationUnitRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("OrganisationUnitId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("OrganisationUnitId", "RoleId")
+                        .IsUnique();
+
+                    b.ToTable("OrganisationUnitRole");
+                });
+
             modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.MisuseType", b =>
                 {
                     b.Property<int>("Id")
@@ -619,7 +629,7 @@ namespace HyFive.DataAccess.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.City", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -627,73 +637,40 @@ namespace HyFive.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                    b.Property<string>("City")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("City");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("DepartmentTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FacilityId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentTypeId");
-
-                    b.HasIndex("FacilityId");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("Department");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.DepartmentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("DepartmentType");
+                    b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Facility", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -702,42 +679,126 @@ namespace HyFive.DataAccess.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Abbreviation")
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("FacilityTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("HERId")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TypeId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Abbreviation");
+                    b.HasIndex("AddressId");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("LevelId");
 
-                    b.HasIndex("FacilityTypeId");
+                    b.HasIndex("TypeId");
 
-                    b.HasIndex("HERId");
+                    b.HasIndex("ParentId", "Name")
+                        .IsUnique();
 
-                    b.HasIndex("Name");
-
-                    b.ToTable("Facility");
+                    b.ToTable("OrganisationUnit");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.FacilityType", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnitAssociation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssociationType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceOrganisationUnitId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TargetOrganisationUnitId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TargetOrganisationUnitId");
+
+                    b.HasIndex("SourceOrganisationUnitId", "TargetOrganisationUnitId", "AssociationType")
+                        .IsUnique();
+
+                    b.ToTable("OrganisationUnitAssociation", (string)null);
+                });
+
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnitLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrganisationUnitLevel");
+                });
+
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnitType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -750,18 +811,37 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Name")
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("Name");
-
-                    b.ToTable("FacilityType");
+                    b.ToTable("OrganisationUnitType");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>
@@ -776,7 +856,7 @@ namespace HyFive.DataAccess.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<int>("FacilityId")
+                    b.Property<int>("OrganisationUnitId")
                         .HasColumnType("integer");
 
                     b.Property<int>("SessionType")
@@ -784,33 +864,9 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacilityId");
+                    b.HasIndex("OrganisationUnitId");
 
                     b.ToTable("PredefinedComment");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.Place.Unit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("FacilityId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FacilityId");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("Unit");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
@@ -826,9 +882,6 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(34)
@@ -837,25 +890,33 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<int?>("ObserverId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("OrganisationUnitId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("TransferStatusId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("TransferStatusTypeId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedDate");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("Discriminator");
 
                     b.HasIndex("ObserverId");
 
+                    b.HasIndex("OrganisationUnitId");
+
                     b.HasIndex("StartDate");
 
                     b.HasIndex("TransferStatusId");
+
+                    b.HasIndex("TransferStatusTypeId");
 
                     b.ToTable("Session");
 
@@ -902,27 +963,15 @@ namespace HyFive.DataAccess.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<int?>("FacilityId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
-
-                    b.Property<string>("HPRNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("IdentityPseudonym")
                         .HasMaxLength(100)
@@ -938,17 +987,141 @@ namespace HyFive.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacilityId");
-
-                    b.HasIndex("HPRNumber");
-
                     b.HasIndex("IdentityPseudonym");
 
                     b.ToTable("User");
+                });
 
-                    b.HasDiscriminator().HasValue("User");
+            modelBuilder.Entity("HyFive.Domain.User.UserIdentifier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                    b.UseTphMappingStrategy();
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserIdentifierTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdentifierTypeId");
+
+                    b.HasIndex("UserId", "UserIdentifierTypeId")
+                        .IsUnique();
+
+                    b.ToTable("UserIdentifier", (string)null);
+                });
+
+            modelBuilder.Entity("HyFive.Domain.User.UserIdentifierType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("UserIdentifierType", (string)null);
+                });
+
+            modelBuilder.Entity("HyFive.Domain.User.UserPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int?>("OrganisationUnitId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PermissionLevel")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganisationUnitId");
+
+                    b.HasIndex("UserId", "OrganisationUnitId")
+                        .IsUnique();
+
+                    b.ToTable("UserPermission");
                 });
 
             modelBuilder.Entity("MisuseTypeProtectiveEquipment", b =>
@@ -992,57 +1165,6 @@ namespace HyFive.DataAccess.Migrations
                     b.HasBaseType("HyFive.Domain.Session.Session");
 
                     b.HasDiscriminator().HasValue("ProtectiveEquipmentSession");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.User.Admin", b =>
-                {
-                    b.HasBaseType("HyFive.Domain.User.User");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.User.Coordinator", b =>
-                {
-                    b.HasBaseType("HyFive.Domain.User.User");
-
-                    b.HasDiscriminator().HasValue("Coordinator");
-                });
-
-            modelBuilder.Entity("HyFive.Domain.User.Observer", b =>
-                {
-                    b.HasBaseType("HyFive.Domain.User.User");
-
-                    b.HasDiscriminator().HasValue("Observer");
-                });
-
-            modelBuilder.Entity("DepartmentRole", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HyFive.Domain.Observation.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DepartmentUnit", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HyFive.Domain.Place.Unit", null)
-                        .WithMany()
-                        .HasForeignKey("UnitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FiveIndicationsObservationIndicationTypes", b =>
@@ -1171,6 +1293,25 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("HyFive.Domain.Observation.OrganisationUnitRole", b =>
+                {
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "OrganisationUnit")
+                        .WithMany("OrganisationUnitRoles")
+                        .HasForeignKey("OrganisationUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HyFive.Domain.Observation.Role", "Role")
+                        .WithMany("OrganisationUnitRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OrganisationUnit");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("HyFive.Domain.Observation.ProtectiveEquipment.MisuseType", b =>
                 {
                     b.HasOne("HyFive.Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentType", "ProtectiveEquipmentType")
@@ -1236,84 +1377,132 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("ProtectiveEquipmentType");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnit", b =>
                 {
-                    b.HasOne("HyFive.Domain.Place.DepartmentType", "DepartmentType")
+                    b.HasOne("HyFive.Domain.Place.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("DepartmentTypeId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("HyFive.Domain.Place.Facility", "Facility")
-                        .WithMany("Departments")
-                        .HasForeignKey("FacilityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnitLevel", "LevelRef")
+                        .WithMany()
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DepartmentType");
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Facility");
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnitType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Address");
+
+                    b.Navigation("LevelRef");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Facility", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnitAssociation", b =>
                 {
-                    b.HasOne("HyFive.Domain.Place.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "SourceOrganisationUnit")
+                        .WithMany("OutgoingAssociations")
+                        .HasForeignKey("SourceOrganisationUnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("HyFive.Domain.Place.FacilityType", "FacilityType")
-                        .WithMany()
-                        .HasForeignKey("FacilityTypeId");
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "TargetOrganisationUnit")
+                        .WithMany("IncomingAssociations")
+                        .HasForeignKey("TargetOrganisationUnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("City");
+                    b.Navigation("SourceOrganisationUnit");
 
-                    b.Navigation("FacilityType");
+                    b.Navigation("TargetOrganisationUnit");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Place.PredefinedComment", b =>
                 {
-                    b.HasOne("HyFive.Domain.Place.Facility", null)
-                        .WithMany("PredefinedComment")
-                        .HasForeignKey("FacilityId")
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "OrganisationUnit")
+                        .WithMany()
+                        .HasForeignKey("OrganisationUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Unit", b =>
-                {
-                    b.HasOne("HyFive.Domain.Place.Facility", "Facility")
-                        .WithMany("Units")
-                        .HasForeignKey("FacilityId");
-
-                    b.Navigation("Facility");
+                    b.Navigation("OrganisationUnit");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.Session", b =>
                 {
-                    b.HasOne("HyFive.Domain.Place.Department", "Department")
-                        .WithMany("Sessions")
-                        .HasForeignKey("DepartmentId");
-
                     b.HasOne("HyFive.Domain.User.User", "Observer")
                         .WithMany()
-                        .HasForeignKey("ObserverId");
+                        .HasForeignKey("ObserverId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "OrganisationUnit")
+                        .WithMany()
+                        .HasForeignKey("OrganisationUnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("HyFive.Domain.Session.TransferStatusType", "TransferStatus")
-                        .WithMany("Sessions")
-                        .HasForeignKey("TransferStatusId");
+                        .WithMany()
+                        .HasForeignKey("TransferStatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Department");
+                    b.HasOne("HyFive.Domain.Session.TransferStatusType", null)
+                        .WithMany("Sessions")
+                        .HasForeignKey("TransferStatusTypeId");
 
                     b.Navigation("Observer");
+
+                    b.Navigation("OrganisationUnit");
 
                     b.Navigation("TransferStatus");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.User.User", b =>
+            modelBuilder.Entity("HyFive.Domain.User.UserIdentifier", b =>
                 {
-                    b.HasOne("HyFive.Domain.Place.Facility", "Facility")
-                        .WithMany("Users")
-                        .HasForeignKey("FacilityId");
+                    b.HasOne("HyFive.Domain.User.User", "User")
+                        .WithMany("UserIdentifiers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Facility");
+                    b.HasOne("HyFive.Domain.User.UserIdentifierType", "UserIdentifierType")
+                        .WithMany()
+                        .HasForeignKey("UserIdentifierTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserIdentifierType");
+                });
+
+            modelBuilder.Entity("HyFive.Domain.User.UserPermission", b =>
+                {
+                    b.HasOne("HyFive.Domain.Place.OrganisationUnit", "OrganisationUnit")
+                        .WithMany()
+                        .HasForeignKey("OrganisationUnitId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HyFive.Domain.User.User", "User")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OrganisationUnit");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MisuseTypeProtectiveEquipment", b =>
@@ -1348,25 +1537,32 @@ namespace HyFive.DataAccess.Migrations
                     b.Navigation("ProtectiveEquipmentSettingTypeProtectiveEquipmentTypes");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Department", b =>
+            modelBuilder.Entity("HyFive.Domain.Observation.Role", b =>
                 {
-                    b.Navigation("Sessions");
+                    b.Navigation("OrganisationUnitRoles");
                 });
 
-            modelBuilder.Entity("HyFive.Domain.Place.Facility", b =>
+            modelBuilder.Entity("HyFive.Domain.Place.OrganisationUnit", b =>
                 {
-                    b.Navigation("Departments");
+                    b.Navigation("Children");
 
-                    b.Navigation("PredefinedComment");
+                    b.Navigation("IncomingAssociations");
 
-                    b.Navigation("Units");
+                    b.Navigation("OrganisationUnitRoles");
 
-                    b.Navigation("Users");
+                    b.Navigation("OutgoingAssociations");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.TransferStatusType", b =>
                 {
                     b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("HyFive.Domain.User.User", b =>
+                {
+                    b.Navigation("UserIdentifiers");
+
+                    b.Navigation("UserPermissions");
                 });
 
             modelBuilder.Entity("HyFive.Domain.Session.FiveIndicationsSession", b =>

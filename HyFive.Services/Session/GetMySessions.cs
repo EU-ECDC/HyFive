@@ -32,16 +32,22 @@ namespace HyFive.Services.Session
 
             public async Task<SearchSessionsResult> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sessions = await _context.Session
-                    .Include(s => s.Department)
-                    .Include(s => s.Observer).ThenInclude(obs => obs.Facility)
-                    .Where(s => !s.Observer.IsDeactivated &&
-                            s.Observer.Email == request.Email)
-                    .AsNoTracking()
-                    .ToListAsync(cancellationToken: cancellationToken);
+                var query = _context.Session
+                   .AsNoTracking()
+                   .Where(s => !s.Observer.IsDeactivated && s.Observer.Email == request.Email)
+                   .Include(s => s.Observer)
+                   .Include(s => s.OrganisationUnit)
+                       .ThenInclude(ou => ou.Parent)
+                           .ThenInclude(parent => parent.Parent);
 
-                int count = sessions.Count;
-                sessions = sessions.Skip(request.Search.Skip).Take(request.Search.Take).ToList(); 
+
+                var count = await query.CountAsync(cancellationToken);
+
+                var sessions = await query
+                    .OrderByDescending(s => s.StartDate) 
+                    .Skip(request.Search.Skip)
+                    .Take(request.Search.Take)
+                    .ToListAsync(cancellationToken);
 
                 var mapped = _mapper.Map<List<Domain.Session.Session>, List<SessionReport>>(sessions);
 

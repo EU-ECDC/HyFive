@@ -1,19 +1,19 @@
 
 export class Localstoragepaths {
 
-  public static FiveIndicationsSessions = "fiveIndicationsSessions";
-  public static FiveIndicationsSessionView = "fiveIndicationsSessionView";
+  public static readonly  HandHygieneSessions = "handHygieneSessions";
+  public static readonly  HandHygieneSessionView = "handHygieneSessionView";
 
-  public static HandJewelrySessions = "handJewelrySessions";
-  public static HandJewelrySessionViews = "handJewelrySessionView";
+  public static readonly  BareBelowElbowsSessions = "bareBelowElbowsSessions";
+  public static readonly  BareBelowElbowsSessionViews = "bareBelowElbowsSessionView";
 
-  public static GloveSessions = "gloveSessions";
-  public static GloveSessionViews = "GloveSessionView";
+  public static readonly  GloveSessions = "gloveSessions";
+  public static readonly  GloveSessionViews = "GloveSessionView";
 
-  public static ProtectiveEquipmentSessions = "protectiveEquipmentSessions";
-  public static ProtectiveEquipmentSessionViews = "protectiveEquipmentSessionViews";
+  public static readonly  ProtectiveEquipmentSessions = "protectiveEquipmentSessions";
+  public static readonly  ProtectiveEquipmentSessionViews = "protectiveEquipmentSessionViews";
 
-  public static SelectedFacility = "selectedFacility";
+  public static readonly  SelectedFacility = "selectedFacility";
 
-  public static LoggedInUserId = "uid";
+  public static readonly  LoggedInUserId = "uid";
 }

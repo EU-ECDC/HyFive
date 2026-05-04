@@ -1,9 +1,10 @@
 export class QueryParameters {
-  static id = 'id';
-  static SessionType = 'sessiontype';
-  static FromDate = 'from';
-  static ToDate = 'to';
-  static FacilityIdeas = 'facilityideas';
-  static DepartmentId = 'departmentid';
-  static facilityIdSearch = 'facilityIdSearch';
+  static readonly  id = 'id';
+  static readonly  SessionType = 'sessiontype';
+  static readonly  FromDate = 'from';
+  static readonly  ToDate = 'to';
+  static readonly  FacilityIdeas = 'facilityideas';
+  static readonly  DepartmentId = 'departmentid';
+  static readonly  UnitId = 'unitId';
+  static readonly  facilityIdSearch = 'facilityIdSearch';
 }

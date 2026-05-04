@@ -51,8 +51,7 @@ export class EmailComponent implements OnInit {
                             { name: '', 
                               id: null,
                               abbreviation: null,
-                              herId: null,
-                              facilityType: null,
+                              type: null,
                               city: null 
                             },
                             ...facilities
@@ -87,13 +86,13 @@ export class EmailComponent implements OnInit {
     this.filteredUserList = [];
 
     if (this.coordinatorsSelected) { 
-      this.filteredUserList = this.allUsersList.filter(user => this.coordinatorList.includes(user) && user.facilityId === this.facilityId);
+      this.filteredUserList = this.allUsersList.filter(user => this.coordinatorList.includes(user) && user.userPermissions.some(userPemr => userPemr.organisationUnitId === this.facilityId));
     }
     if (this.observerSelected) { 
-      this.filteredUserList = this.allUsersList.filter(user => this.observerList.includes(user) && user.facilityId === this.facilityId);
+      this.filteredUserList = this.allUsersList.filter(user => this.observerList.includes(user) && user.userPermissions.some(userPemr => userPemr.organisationUnitId === this.facilityId));
     }
     if (this.coordinatorsSelected && this.observerSelected) {
-      this.filteredUserList = this.allUsersList.filter(user => user.facilityId === this.facilityId);
+      this.filteredUserList = this.allUsersList.filter(user => user.userPermissions.some(userPemr => userPemr.organisationUnitId === this.facilityId));
       this.filteredUserList = this.filteredUserList.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
     }
   }

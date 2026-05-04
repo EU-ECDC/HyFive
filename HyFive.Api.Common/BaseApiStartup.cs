@@ -73,13 +73,42 @@ namespace HyFive.Api.Common
             // Retrieve application settings to use in configuring services
             var securitySettings = Configuration.Get<SecuritySettings>();
 
+            // Core services
             services.AddControllers();
             services.AddHttpContextAccessor();
-
             services.AddLocalization();
 
+            // Configure request localization (extracted)
+            ConfigureRequestLocalization(services);
+
+            // Config sections and project services
+            services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
+            services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPagesSettings"));
+            services.AddCors();
+            services.AddServices(Configuration, ApiTitle, ApiType);
+
+            // Database-context (extracted)
+            ConfigureDatabase(services);
+
+            // Authentication (cookies + OpenID Connect) (extracted)
+            ConfigureAuthentication(services, securitySettings);
+
+            // Application services and authorization (extracted)
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();
+            ConfigureAuthorizationPolicies(services);
+
+            // SPA static files
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+        }
+
+        private static void ConfigureRequestLocalization(IServiceCollection services)
+        {
             var supportedCultures = new[] { "el", "en" };
-            
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var cultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
@@ -92,28 +121,46 @@ namespace HyFive.Api.Common
                     new AcceptLanguageHeaderRequestCultureProvider()
                 };
             });
+        }
 
-            services.Configure<HandhygieneConfiguration>(_handHygieneConfigSection);
-            services.Configure<RedirectPagesSettings>(Configuration.GetSection("RedirectPagesSettings"));
-            services.AddCors();
-            services.AddServices(Configuration, ApiTitle, ApiType);
-
-            // Database-context
-            services.AddDbContext<HandHygieneContext>(dboptions => {
+        private void ConfigureDatabase(IServiceCollection services)
+        {
+            services.AddDbContext<HandHygieneContext>(dboptions =>
+            {
                 dboptions.UseNpgsql(Configuration.GetConnectionString(HandHygieneConnection),
-                    sqloptions => {
+                    sqloptions =>
+                    {
                         sqloptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
                     });
             });
+        }
+
+        private void ConfigureAuthentication(IServiceCollection services, SecuritySettings securitySettings)
+        {
+            SameSiteMode sameSiteMode = securitySettings.OpenIdConnect.SameSiteMode switch
+            {
+                "none" => SameSiteMode.None,
+                "lax" => SameSiteMode.Lax,
+                "strict" => SameSiteMode.Strict,
+                "unspecified" => SameSiteMode.Unspecified,
+                _ => SameSiteMode.None
+            };
+
+            CookieSecurePolicy cookiePolicy = securitySettings.OpenIdConnect.CookieSecurePolicy switch
+            {
+                "none" => CookieSecurePolicy.None,
+                "sameasrequest" => CookieSecurePolicy.SameAsRequest,
+                "always" => CookieSecurePolicy.Always,
+                _ => CookieSecurePolicy.Always
+            };
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = sameSiteMode;
+                    options.Cookie.SecurePolicy = cookiePolicy;
 
                     options.AccessDeniedPath = "/Forbidden";
-
                 })
                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
@@ -124,9 +171,10 @@ namespace HyFive.Api.Common
                     options.Authority = securitySettings.OpenIdConnect.Authority;
                     options.ClientId = securitySettings.OpenIdConnect.ClientId;
                     // Only disable https requirement on specifically "false" value
-                    options.RequireHttpsMetadata = Configuration["OpenIdConnect:RequireHttpsMetadata"] != "false";
+                    options.RequireHttpsMetadata = securitySettings.OpenIdConnect.RequireHttpsMetadata;
 
-                    if (Configuration["OpenIdConnect:SaveTokens"] == "true") {
+                    if (Configuration["OpenIdConnect:SaveTokens"] == "true")
+                    {
                         // Persist tokens so we can supply the id_token as an id_token_hint when signing out
                         options.SaveTokens = true;
                     }
@@ -135,7 +183,6 @@ namespace HyFive.Api.Common
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = securitySettings.ClaimTypes.RoleClaimType
-
                     };
                     options.Events = new OpenIdConnectEvents
                     {
@@ -186,16 +233,16 @@ namespace HyFive.Api.Common
                             }
                             catch
                             {
-                                // Silently continue on failure in case the 
+                                // Silently continue on failure in case the
                                 // provider accepts client_id.
                             }
                         }
                     };
                 });
+        }
 
-            services.AddScoped<IUserService, UserService>();
-
-            services.AddScoped<IAuthorizationHandler, UserTypeRequirementHandler>();
+        private static void ConfigureAuthorizationPolicies(IServiceCollection services)
+        {
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(HandhygienePolicy.Coordinator, policy =>
@@ -208,12 +255,6 @@ namespace HyFive.Api.Common
                 {
                     policy.Requirements.Add(new UserTypeRequirement(UserType.AdminOrCoordinator));
                 });
-
-            });
-
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
             });
         }
 
@@ -225,11 +266,6 @@ namespace HyFive.Api.Common
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
 
             InitializeDatabase(app);
             app.UseHttpsRedirection();
@@ -237,7 +273,7 @@ namespace HyFive.Api.Common
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
             provider.Mappings[".webmanifest"] = "application/manifest+json";
             var staticFileOptions = new StaticFileOptions() { ContentTypeProvider = provider };
-            if (_handHygieneConfiguration.CacheStaticAssets == false)
+            if (!_handHygieneConfiguration.CacheStaticAssets)
             {
                 staticFileOptions.OnPrepareResponse = (context) =>
                 {
@@ -286,7 +322,7 @@ namespace HyFive.Api.Common
                 .AllowAnyMethod()
             );
 
-            app.UseAuthentication();            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -309,7 +345,7 @@ namespace HyFive.Api.Common
             });
         }
 
-        protected void InitializeDatabase(IApplicationBuilder app)
+        protected static void InitializeDatabase(IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
             using var context = scope?.ServiceProvider.GetRequiredService<HandHygieneContext>();

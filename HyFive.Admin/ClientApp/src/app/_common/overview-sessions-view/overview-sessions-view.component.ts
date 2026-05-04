@@ -2,12 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
-import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { SessionType } from '../../models/api/SessionType';
 import { ObservationService } from '../../services/data/observation.service';
 import { ToastrService } from 'ngx-toastr';
 import {SessionService} from '../../services/data/session.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SessionOverviewReport } from 'src/app/models/api/SessionOverviewReport';
 
 @Component({
   selector: 'app-overview-sessions-view',
@@ -55,7 +55,7 @@ export class OverviewSessionsViewComponent implements OnDestroy {
 
   deleteSession(sessionOverviewReport: SessionOverviewReport) {
     const errorMessage = this.translate.instant("An error occurred while deleting session with id") + ` ${sessionOverviewReport.id}`;
-    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.department.facilityId).subscribe(
+    this.sessionService.deleteSession(sessionOverviewReport.id, sessionOverviewReport.facilityId).subscribe(
       (isDeleted) => {
         if (isDeleted){
           this.toastrService.success(this.translate.instant("Session with id") + ` ${sessionOverviewReport.id} ` + this.translate.instant("was deleted"));

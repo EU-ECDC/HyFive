@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,14 +31,50 @@ namespace HyFive.Services.Facility
 
             public async Task<Models.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.User
-                    .OfType<Domain.User.Observer>()
+                const string observerPermission = PermissionLevelConstants.Observer;
+
+                var userIdsQuery =
+                    from p in _context.UserPermission.AsNoTracking()
+                    join ou in _context.OrganisationUnit.AsNoTracking() on p.OrganisationUnitId equals ou.Id
+
+                    join parent in _context.OrganisationUnit.AsNoTracking()
+                        on ou.ParentId equals parent.Id into p1
+                    from parent in p1.DefaultIfEmpty()
+
+                    join grandParent in _context.OrganisationUnit.AsNoTracking()
+                        on parent.ParentId equals grandParent.Id into p2
+                    from grandParent in p2.DefaultIfEmpty()
+
+                    where p.PermissionLevel == observerPermission
+                          && (
+                              (ou.Id == request.FacilityId && ou.ParentId == null)
+                              ||
+                              (parent != null && parent.Id == request.FacilityId && parent.ParentId == null)
+                              ||
+                              (grandParent != null && grandParent.Id == request.FacilityId && grandParent.ParentId == null)
+                          )
+                    select p.UserId;
+
+                var userIds = await userIdsQuery
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
+
+                if (userIds.Count == 0)
+                    return Array.Empty<Models.V1.User.User>();
+
+                var users = await _context.User
                     .AsNoTracking()
-                    .Include(o => o.Facility)
-                    .Where(o => o.Facility.Id == request.FacilityId)
-                    .OrderBy(o => o.LastName)
-                    .ProjectTo<Models.V1.User.User>(_mapper.ConfigurationProvider)
-                    .ToArrayAsync();
+                    .Where(u => userIds.Contains(u.Id))
+                    .Include(u => u.UserPermissions)
+                        .ThenInclude(up => up.OrganisationUnit)
+                    .Include(u => u.UserIdentifiers)
+                    .OrderBy(u => u.LastName)
+                    .ThenBy(u => u.FirstName)
+                    .ToListAsync(cancellationToken);
+
+                return users
+                    .Select(x => _mapper.Map<Models.V1.User.User>(x))
+                    .ToArray();
             }
         }
     }

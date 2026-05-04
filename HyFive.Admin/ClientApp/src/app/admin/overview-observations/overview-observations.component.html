@@ -69,27 +69,28 @@
     </ng-template>
 
     <ng-template #contentFacilityOverviewReport let-item="item">
-      <h5>{{"Departments" | translate}}</h5>
       <ng-container>
         <div class="table-responsive">
           <table class="table" sortable-table (sorted)="sort($event)">
             <thead>
               <tr>
-                <th [sortable-column]="'Name' | translate"></th>
+                <th [sortable-column]="'Unit Name' | translate"></th>
+                <th>{{ "Department Name" }}</th>
                 <th>{{"Number of sessions" | translate}}</th>
                 <th>{{"Number of observations" | translate}}</th>
                 <th scope="col">{{"Action" | translate }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let department of item.departments">
-                <td>{{department.name}}</td>
-                <td>{{department.numberOfSessions}}</td>
-                <td>{{department.numberOfObservations}}</td>
+              <tr *ngFor="let unit of item.units">
+                <td>{{unit.name}}</td>
+                <td>{{unit.departmentName}}</td>
+                <td>{{unit.numberOfSessions}}</td>
+                <td>{{unit.numberOfObservations}}</td>
                 <td class="py-2">
                   <button class="btn fhi-btn-icon"
-                          (click)="navigateToObservationsForTheDepartment(department)"
-                          [disabled]="department.numberOfSessions === 0">
+                          (click)="navigateToObservationsForTheUnit(unit)"
+                          [disabled]="unit.numberOfSessions === 0">
                     {{"View sessions" | translate}}
                     <fa-icon [icon]="faArrowRight"></fa-icon>
                   </button>

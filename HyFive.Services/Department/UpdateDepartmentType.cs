@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,12 +13,12 @@ namespace HyFive.Services.Department
 {
     public class UpdateDepartmentType
     {
-        public class Command : IRequest<DepartmentType>
+        public class Command : IRequest<OrganisationUnitType>
         {
-            public DepartmentType DepartmentType { get; set; }
+            public OrganisationUnitType Type { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, DepartmentType>
+        public class Handler : IRequestHandler<Command, OrganisationUnitType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -29,20 +29,21 @@ namespace HyFive.Services.Department
                 _mapper = mapper;
             }
 
-            public async Task<DepartmentType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<OrganisationUnitType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var departmentType = await _context.DepartmentType.FirstOrDefaultAsync(a => a.Id == request.DepartmentType.Id);
-                if (departmentType != default(Domain.Place.DepartmentType))
-                {
-                    departmentType.Name = request.DepartmentType.Name;
+                var organisationUnitTypeEntity = await _context.OrganisationUnitType
+                .FirstOrDefaultAsync(x => x.Id == request.Type.Id, cancellationToken);
 
-                    _context.Update(departmentType);
-                    await _context.SaveChangesAsync();
+                if (organisationUnitTypeEntity == null)
+                    throw new DomainException("OrganisationUnitTypeNotFound");
 
-                    return _mapper.Map<Models.V1.Facility.DepartmentType>(departmentType);
-                }
+                organisationUnitTypeEntity.Code = request.Type.Code;
+                organisationUnitTypeEntity.Name = request.Type.Name?.Trim();
+                organisationUnitTypeEntity.Description = request.Type.Description?.Trim();
 
-                throw new DomainException("DepartmentTypeNotFound", request.DepartmentType.Id);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return _mapper.Map<OrganisationUnitType>(organisationUnitTypeEntity);
             }
         }
     }

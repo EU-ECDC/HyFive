@@ -27,7 +27,7 @@ namespace HyFive.Observation.Controllers.V1.Shared
             }
 
             // Validate facility access
-            if (!userService.IsObserverForFacility(session.Department.FacilityId))
+            if (!await userService.IsObserverForFacility(session.FacilityId))
                 return controller.Unauthorized();
 
             // Build the correct SaveSession.Command (FiveIndication, HandJewelry, ProtectiveEquipment...)

@@ -5,6 +5,7 @@ using HyFive.Domain.Observation.ProtectiveEquipment;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Session;
 using MediatR;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,125 +38,157 @@ namespace HyFive.Services.Report.Observations
 
             public async Task<bool> Handle(Query query, CancellationToken cancellationToken)
             {
+                if (query.FacilityIds == null || query.FacilityIds.Count == 0)
+                    return false;
+
                 var hasData = false;
 
                 var fromDateUtc = DateTime.SpecifyKind(query.FromDate.Date, DateTimeKind.Utc);
                 var toDateUtc = DateTime.SpecifyKind(query.ToDate.Date, DateTimeKind.Utc);
 
-                if (query.SessionType == (int)SessionType.FiveIndications)
+                var unitIds = await ResolveUnitIds(query.FacilityIds, query.DepartmentIds, cancellationToken);
+
+                if (unitIds.Count == 0)
+                    return false;
+
+                // 2) TransferStatus rule (adapt if Coordinator/Observer should differ)
+                var requireTransferredToAdmin = query.Role == AuthorizedRole.Administrator;
+
+                // 3) Query per type
+                return query.SessionType switch
                 {
-                    var queryable = _context.FiveIndicationsObservation
-                        .Include(p => p.FiveIndicationsSession).ThenInclude(p => p.Department).ThenInclude(p => p.Facility)
-                        .AsNoTracking();
-
-                    queryable = AddSearchParameters(queryable, query.FacilityIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
-
-                    hasData = await queryable.AnyAsync(cancellationToken);
-                }
-                else if (query.SessionType == (int)SessionType.HandJewelry)
-                {
-                    var queryable = _context.HandJewelryObservation
-                        .Include(p => p.HandJewelrySession).ThenInclude(p => p.Department).ThenInclude(a => a.Facility)
-                        .AsNoTracking();
-
-                    queryable = AddSearchParameters(queryable, query.FacilityIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
-
-                    hasData = await queryable.AnyAsync(cancellationToken);
-                }
-                else if (query.SessionType == (int)SessionType.Gloves)
-                {
-                    var queryable = _context.GloveObservation
-                        .Include(p => p.GloveSession).ThenInclude(p => p.Department).ThenInclude(a => a.Facility)
-                        .AsNoTracking();
-
-                    queryable = AddSearchParameters(queryable, query.FacilityIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
-
-                    hasData = await queryable.AnyAsync(cancellationToken);
-                }
-                else if (query.SessionType == (int)SessionType.ProtectiveEquipment)
-                {
-                    var queryable = _context.ProtectiveEquipmentObservation
-                        .Include(p => p.ProtectiveEquipmentSession).ThenInclude(p => p.Department).ThenInclude(a => a.Facility)
-                        .AsNoTracking();
-
-                    queryable = AddSearchParameters(queryable, query.FacilityIds, query.DepartmentIds, fromDateUtc, toDateUtc, query.Role);
-
-                    hasData = await queryable.AnyAsync(cancellationToken);
-                }
-
-                return hasData;
+                    (int)SessionType.FiveIndications => await HasFiveIndications(unitIds, fromDateUtc, toDateUtc, requireTransferredToAdmin, cancellationToken),
+                    (int)SessionType.HandJewelry => await HasHandJewelry(unitIds, fromDateUtc, toDateUtc, requireTransferredToAdmin, cancellationToken),
+                    (int)SessionType.Gloves => await HasGloves(unitIds, fromDateUtc, toDateUtc, requireTransferredToAdmin, cancellationToken),
+                    (int)SessionType.ProtectiveEquipment => await HasProtectiveEquipment(unitIds, fromDateUtc, toDateUtc, requireTransferredToAdmin, cancellationToken),
+                    _ => false
+                };
             }
 
-            private static IQueryable<FiveIndicationsObservation> AddSearchParameters(IQueryable<FiveIndicationsObservation> queryable, List<int> facilityIds, List<int>? departmentIds, 
-                DateTime fromDate, DateTime toDate, AuthorizedRole role)
+            // Returns OrganisationUnitIds for Units under the provided facilities and (optionally) departments.
+            private async Task<HashSet<int>> ResolveUnitIds(
+                List<int> facilityIds,
+                List<int>? departmentIds,
+                CancellationToken ct)
             {
+                // Load the minimal OU graph needed (Id, ParentId, Level)
+                // We fetch all OUs under the selected facilities (and optionally under selected departments)
+                // Since we have a tree, easiest is: load all OUs and compute descendants in-memory
+                // If huge, we can switch to a recursive CTE.
 
-                queryable = queryable.Where(p => facilityIds.Contains(p.FiveIndicationsSession.Department.FacilityId));
-                
-                if (departmentIds != null && departmentIds.Any())
-                    queryable = queryable.Where(p => departmentIds.Contains(p.FiveIndicationsSession.Department.Id));
+                var ous = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Select(o => new
+                    {
+                        o.Id,
+                        o.ParentId,
+                        Level = o.LevelRef.Level // relies on relationship; EF will translate if configured
+                    })
+                    .ToListAsync(ct);
 
-                queryable = queryable.Where(p => p.RegisteredTime >= fromDate);
-                queryable = queryable.Where(p => p.RegisteredTime <= toDate);
+                // Build lookup childrenByParent
+                var childrenByParent = ous
+                .Where(o => o.ParentId.HasValue)
+                .GroupBy(o => o.ParentId!.Value)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.Id).ToList());
 
-                if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
-                return queryable;
+                // If departments are provided, treat them as roots; otherwise facilities are roots
+                var roots = (departmentIds != null && departmentIds.Count > 0)
+                    ? departmentIds
+                    : facilityIds;
+
+                // Traverse descendants and keep only Unit-level
+                var unitIds = new HashSet<int>();
+                var visited = new HashSet<int>();
+                var stack = new Stack<int>(roots);
+
+                while (stack.Count > 0)
+                {
+                    var current = stack.Pop();
+                    if (!visited.Add(current))
+                        continue;
+
+                    var node = ous.FirstOrDefault(x => x.Id == current);
+                    if (node != null && node.Level == OrganisationUnitLevels.Unit)
+                        unitIds.Add(node.Id);
+
+                    if (childrenByParent.TryGetValue(current, out var children))
+                    {
+                        foreach (var childId in children)
+                            stack.Push(childId);
+                    }
+                }
+
+                return unitIds;
             }
 
-            private static IQueryable<HandJewelryObservation> AddSearchParameters(IQueryable<HandJewelryObservation> queryable, List<int> facilityIds, List<int>? departmentIds, 
-                DateTime fromDate, DateTime toDate, AuthorizedRole role)
+            private Task<bool> HasFiveIndications(
+           IReadOnlyCollection<int> unitIds,
+           DateTime fromUtc,
+           DateTime toUtc,
+           bool transferredToAdminOnly,
+           CancellationToken ct)
             {
+                var q = _context.FiveIndicationsObservation.AsNoTracking()
+                    .Where(o => unitIds.Contains(o.FiveIndicationsSession.OrganisationUnitId))
+                    .Where(o => o.RegisteredTime >= fromUtc && o.RegisteredTime <= toUtc);
 
-                queryable = queryable.Where(p => facilityIds.Contains(p.HandJewelrySession.Department.FacilityId));
-                
-                if (departmentIds != null && departmentIds.Any())
-                    queryable = queryable.Where(p => departmentIds.Contains(p.HandJewelrySession.Department.Id));
+                if (transferredToAdminOnly)
+                    q = q.Where(o => o.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
-
-                if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
-
-                return queryable;
+                return q.AnyAsync(ct);
             }
 
-            private static IQueryable<GloveObservation> AddSearchParameters(IQueryable<GloveObservation> queryable, List<int> facilityIds, List<int>? departmentIds, 
-                DateTime fromDate, DateTime toDate, AuthorizedRole role)
+            private Task<bool> HasHandJewelry(
+                IReadOnlyCollection<int> unitIds,
+                DateTime fromUtc,
+                DateTime toUtc,
+                bool transferredToAdminOnly,
+                CancellationToken ct)
             {
+                var q = _context.HandJewelryObservation.AsNoTracking()
+                    .Where(o => unitIds.Contains(o.HandJewelrySession.OrganisationUnitId))
+                    .Where(o => o.RegisteredTime >= fromUtc && o.RegisteredTime <= toUtc);
 
-                queryable = queryable.Where(p => facilityIds.Contains(p.GloveSession.Department.FacilityId));
+                if (transferredToAdminOnly)
+                    q = q.Where(o => o.HandJewelrySession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
-                if (departmentIds != null && departmentIds.Any())
-                    queryable = queryable.Where(p => departmentIds.Contains(p.GloveSession.Department.Id));
-
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
-
-                if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
-
-                return queryable;
+                return q.AnyAsync(ct);
             }
 
-            private static IQueryable<ProtectiveEquipmentObservation> AddSearchParameters(IQueryable<ProtectiveEquipmentObservation> queryable, List<int> facilityIds, List<int>? departmentIds, 
-                DateTime fromDate, DateTime toDate, AuthorizedRole role)
+            private Task<bool> HasGloves(
+                IReadOnlyCollection<int> unitIds,
+                DateTime fromUtc,
+                DateTime toUtc,
+                bool transferredToAdminOnly,
+                CancellationToken ct)
             {
+                var q = _context.GloveObservation.AsNoTracking()
+                    .Where(o => unitIds.Contains(o.GloveSession.OrganisationUnitId))
+                    .Where(o => o.RegisteredTime >= fromUtc && o.RegisteredTime <= toUtc);
 
-                queryable = queryable.Where(p => facilityIds.Contains(p.ProtectiveEquipmentSession.Department.FacilityId));
+                if (transferredToAdminOnly)
+                    q = q.Where(o => o.GloveSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
-                if (departmentIds != null && departmentIds.Any())
-                    queryable = queryable.Where(p => facilityIds.Contains(p.ProtectiveEquipmentSession.Department.Id));
+                return q.AnyAsync(ct);
+            }
 
-                queryable = queryable.Where(p => p.RegisteredTime.Date >= fromDate);
-                queryable = queryable.Where(p => p.RegisteredTime.Date <= toDate);
+            private Task<bool> HasProtectiveEquipment(
+                IReadOnlyCollection<int> unitIds,
+                DateTime fromUtc,
+                DateTime toUtc,
+                bool transferredToAdminOnly,
+                CancellationToken ct)
+            {
+                var q = _context.ProtectiveEquipmentObservation.AsNoTracking()
+                    .Where(o => unitIds.Contains(o.ProtectiveEquipmentSession.OrganisationUnitId))
+                    .Where(o => o.RegisteredTime >= fromUtc && o.RegisteredTime <= toUtc);
 
-                if (role == AuthorizedRole.Administrator)
-                    queryable = queryable.Where(p => p.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
+                if (transferredToAdminOnly)
+                    q = q.Where(o => o.ProtectiveEquipmentSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
 
-                return queryable;
+                return q.AnyAsync(ct);
             }
         }
     }

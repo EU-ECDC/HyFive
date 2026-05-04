@@ -1,0 +1,190 @@
+<div class="container">
+  <div class="row">
+    <div class="row align-items-start mb-4" *ngIf="canSelectFacility">
+
+      <div class="col-md-4">
+        <label for="facilitiesTypes">{{"Facility Types" | translate }}</label>
+          <ng-multiselect-dropdown [placeholder]="'Select' | translate"
+                                        [settings]="dropdownSettings"
+                                        [data]="facilityTypes"
+                                        [(ngModel)]="selectedFacilityTypes"
+                                        (ngModelChange)="filterFacilitiesByType()">
+              </ng-multiselect-dropdown>
+      </div>   
+      <div class="col-md-5">
+        <label for="facilities">{{"Healthcare facilities" | translate }}</label>
+        <div #dropdownRef>
+        <ng-multiselect-dropdown [placeholder]="'Select healthcare facilities' | translate"
+                                [settings]="dropdownSettings"
+                                [data]="facilities"
+                                [(ngModel)]="selectedFacilities"
+                                (ngModelChange)="onChangeModelFacility()">
+        </ng-multiselect-dropdown>
+        </div>
+    </div>           
+</div>
+<div class = "row mb-4">
+      <div class="col-md-2">
+        <label for="interval">{{"Interval" | translate }}</label>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="intervalsList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="interval"
+          (ngModelChange)="onChangeInterval()"
+          >
+        </ng-select>
+      </div>
+
+      <div class="col-md-2" *ngIf="interval=='quarter'">
+        <label for="fromQuarter">{{"From quarter" | translate }}</label>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="quartersList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="fromQuarter"
+          (ngModelChange)="validateQuarters()"
+          >
+        </ng-select>
+      </div>
+
+      <div class="col-md-2">
+        <label for="fromYear">{{"From year" | translate }}</label>
+        <input class="form-control" id="fromYear" type="number" pattern="^\d{4}$" [min]="1900" [max]="toYear" [(ngModel)]="fromYear" (ngModelChange)="validateIntervalYear(); validateFromYearDigits();" />
+      </div>
+
+      <div class="col-md-2" *ngIf="interval=='quarter'">
+        <label for="toQuarter">{{"To quarter" | translate }}</label>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="quartersList"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="toQuarter"
+          (ngModelChange)="validateQuarters()"
+          >
+        </ng-select>
+      </div>
+      <div class="col-md-2">
+        <label for="toYear">{{"To year" | translate}}</label>
+        <input class="form-control" id="toYear" type="number" pattern="^\d{4}$" [min]="fromYear" [(ngModel)]="toYear" (ngModelChange)="validateIntervalYear(); validateToYearDigits();" />
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="intervalYearError" style="color: #e0271a; margin: 0; margin-bottom: 1rem;" class="w-auto">{{"From year must be before To year" | translate }}</div>
+      <div *ngIf="showQuarterError" style="color: #e0271a; margin: 0; margin-bottom: 1rem;" class="w-auto">{{"From quarter must be before To quarter in the same year" | translate }}</div>
+      <div *ngIf="fromYearDigitsError" style="color: #e0271a; margin: 0; margin-bottom: 1rem;" class="w-auto">{{"From year must be after 1900" | translate }}</div>
+      <div *ngIf="toYearDigitsError" style="color: #e0271a; margin: 0; margin-bottom: 1rem;" class="w-auto">{{"to year must be after 1900" | translate }}</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row align-items-start mb-4">
+
+      <div class="col-md-3" >
+        <label for="departmentType">{{"Department Types" | translate }}</label>
+          <ng-multiselect-dropdown [placeholder]="'Select' | translate"
+                                    [settings]="dropdownSettings"
+                                    [data]="departmentTypes"
+                                    [(ngModel)]="selectedDepartmentTypes"
+                                    (ngModelChange)="filterDepartmentsByType()">
+          </ng-multiselect-dropdown>
+      </div>
+
+      <div class="col-md-4">
+        <label for="department">{{"Departments" | translate }}</label>
+            <ng-multiselect-dropdown [placeholder]="'Select departments' | translate"
+                                    [settings]="dropdownSettings"
+                                    [data]="departments"
+                                    [(ngModel)]="selectedDepartments"
+                                    (ngModelChange)="onDepartmentSelect()">
+            </ng-multiselect-dropdown>
+      </div>
+
+        <div class="col-md-4">
+        <label for="unit">{{"Units" | translate }}</label>
+            <ng-multiselect-dropdown [placeholder]="'Select units' | translate"
+                                    [settings]="dropdownSettings"
+                                    [data]="units"
+                                    [(ngModel)]="selectedUnits">
+            </ng-multiselect-dropdown>
+      </div>
+
+    </div>
+
+    <div class="row align-items-end mb-4">
+      <div class="col-md-3">
+        <label for="role">{{"Role" | translate }}</label>
+        <ng-multiselect-dropdown [placeholder]="'Select' | translate"
+                                    [settings]="dropdownSettings"
+                                    [data]="roles"
+                                    [(ngModel)]="selectedRoles">
+            </ng-multiselect-dropdown>
+      </div>
+            <div class="col-md-3" *ngIf="!canSelectFacility">
+        <label for="transferredTo">{{"Transferred to" | translate }}</label>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="TransferredLists"
+          bindLabel="name"
+          bindValue="value"
+          [(ngModel)]="transferredTo"
+          >
+        </ng-select>
+        
+      </div>
+      <div class="form-group col-12 col-md-4">
+        <label style="opacity:0;">-</label>
+        <br />
+        <button [disabled]="disableButtonGrpaph()" class="btn btn-sm fhi-btn-primary me-2" (click)="getComplianceForHandHygiene()">{{"Show graph" | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
+    <p><strong>{{"Facility" | translate }}:</strong> {{facility.name}}</p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
+  </div>
+
+  <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
+    <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
+  </div>
+
+  <div class="row" *ngIf="showGraph">
+    <div class="col-10">
+      <fhi-angular-highcharts [diagramOptions]="percentageDiagramOptions"></fhi-angular-highcharts>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
+    <p><strong>Facility:</strong> {{facility.name}}</p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
+  </div>
+
+  <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
+    <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
+    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
+  </div>
+
+  <div class="row" *ngIf="showGraph">
+    <div class="col-10">
+      <fhi-angular-highcharts [diagramOptions]="numberDiagramOptions"></fhi-angular-highcharts>
+    </div>
+  </div>
+
+  <div class="row showGraphErrorStyle" *ngIf="showGraphError">
+    <p>
+      {{"The chart type cannot be displayed with this filter selection. Choose a different chart type or modify the filter selection." | translate}}
+    </p>
+  </div>
+</div>

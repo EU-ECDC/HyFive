@@ -8,7 +8,7 @@ namespace HyFive.Models.V1.Constants
         [TsProperty(Constant = true)]
         public static string Disinfection = "DISINFECTION";
         [TsProperty(Constant = true)]
-        public static string Handwash = "HANDWASH";
+        public static string Handwash = "HAND_WASH";
         [TsProperty(Constant = true)]
         public static string NotPerformed = "NOT_PERFORMED";
         [TsProperty(Constant = true)]

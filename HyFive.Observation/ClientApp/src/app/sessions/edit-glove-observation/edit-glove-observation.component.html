@@ -43,7 +43,7 @@
                       <tr *ngFor="let type of gloveWithIndicationTypes">
                         <td class="hh-glove-tabs__label-td">
                           <label class="form-check-label" [for]="type.code">
-                            <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
+                            <!-- <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon> -->
                             <strong>{{type.name}}</strong>
                           </label>
                         </td>
@@ -81,7 +81,7 @@
               </ng-template>
             </li>
             <li ngbNavItem="without" [disabled]="observation.gloveWithIndicationTypes?.length">
-              <a ngbNavLink class="hh-glove-tabs__tab">{{"Glove without indication" | translate}}</a>
+              <a ngbNavLink class="hh-glove-tabs__tab">{{"Gloves without indication" | translate}}</a>
               <ng-template ngbNavContent>
                 <div class="table-responsive">
                   <table class="table table-sm w-100 mt-3">
@@ -89,7 +89,7 @@
                       <tr *ngFor="let type of gloveWithoutIndicationTypes">
                         <td class="hh-glove-tabs__label-td">
                           <label class="form-check-label" [for]="type.code">
-                            <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon>
+                            <!-- <fa-icon [icon]="faHandPaper" class="fa-2x me-2"></fa-icon> -->
                             <strong>{{type.name}}</strong>
                           </label>
                         </td>

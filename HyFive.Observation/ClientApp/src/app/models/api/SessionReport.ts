@@ -11,5 +11,6 @@ export interface SessionReport
 	startDate: any;
 	type: SessionType;
 	facilityName: string;
+	unitName: string;
 	isSelected?: boolean;
 }

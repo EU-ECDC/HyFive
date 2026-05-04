@@ -27,9 +27,11 @@ namespace HyFive.Services.Reports.FiveIndicators
             public int ToQuarter { get; set; }
             public List<int> RoleIds { get; set; } = new();
             public List<int> DepartmentIds { get; set; } = new();
-            public List<int> FacilityTypeIds { get; set; } = new();       // Optional: add if needed
+            public List<int> FacilityTypeIds { get; set; } = new();       
             public List<int> DepartmentTypeIds { get; set; } = new();
+            public List<int> UnitIds { get; set; } = new();
             public int TranferredTo { get; set; }
+            public AuthorizedRole RoleId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<GrafDto>>
@@ -68,41 +70,31 @@ namespace HyFive.Services.Reports.FiveIndicators
                     toDate = new DateTime(request.ToYear + 1, 1, 1, 0, 0, 0, DateTimeKind.Utc); // exclusive end
                 }
 
+                var unitIds = await ResolveUnitIdsForCompliance(request, cancellationToken);
+                if (unitIds.Count == 0)
+                    return new List<GrafDto>(); // or return empty graphs as you prefer
+
                 var fromDateUtc = DateTime.SpecifyKind(fromDate, DateTimeKind.Utc);
                 var toDateUtc = DateTime.SpecifyKind(toDate, DateTimeKind.Utc);
-                var observationsInCurrentTimePeriodQuery = _context.FiveIndicationsObservation.Include(f => f.Activity.ActivityType)
-                                                                                      .Include(f => f.IndicationTypes)
-                                                                                      .Include(f => f.Role)
-                                                                                      .AsNoTracking()
-                                                                                      .Where(f => f.RegisteredTime >= fromDateUtc &&
-                                                                                                  f.RegisteredTime < toDateUtc &&
-                                                                                                  request.FacilityIds.Contains(f.FiveIndicationsSession.Department.Facility.Id));
 
-                if (request.FacilityTypeIds?.Any() == true)
-                {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.FacilityTypeIds.Contains(x.FiveIndicationsSession.Department.Facility.FacilityType.Id));
-                }
+                var observationsInCurrentTimePeriodQuery = _context.FiveIndicationsObservation
+                    .AsNoTracking()
+                    .Include(f => f.Activity.ActivityType)
+                    .Include(f => f.IndicationTypes)
+                    .Include(f => f.Role)
+                    .Where(f => f.RegisteredTime >= fromDateUtc && f.RegisteredTime < toDateUtc)
+                    .Where(f => unitIds.Contains(f.FiveIndicationsSession.OrganisationUnitId));
 
                 if (request.RoleIds?.Any() == true)
                 {
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.RoleIds.Contains(x.Role.Id));
                 }
 
-                if (request.DepartmentIds?.Any() == true)
-                {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.DepartmentIds.Contains(x.FiveIndicationsSession.Department.Id));
-                }
-
-                if (request.DepartmentTypeIds?.Any() == true)
-                {
-                    observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => request.DepartmentTypeIds.Contains(x.FiveIndicationsSession.Department.DepartmentType.Id));
-                }
-
-                if (request.TranferredTo == 1)
+                if (request.TranferredTo == 1 || request.RoleId == AuthorizedRole.Administrator)
                 {
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
                 }
-                else if (request.TranferredTo == 2)
+                if (request.TranferredTo == 2)
                 {
                     observationsInCurrentTimePeriodQuery = observationsInCurrentTimePeriodQuery.Where(x => x.FiveIndicationsSession.TransferStatus.Code != TransferStatusTypeConstants.TransferredToAdmin);
                 }
@@ -114,7 +106,7 @@ namespace HyFive.Services.Reports.FiveIndicators
                 RemoveElementsWithNoRecordsAtEndOfSearchPeriod(complianceGraphData);
 
                 var graphPercentage = CreateGraph(complianceGraphData, "Compliance (%)", true);
-                var graphCount = CreateGraph(complianceGraphData, "Compliance (N)", false);
+                var graphCount = CreateGraph(complianceGraphData, "Indications (n)", false);
 
                 return new List<GrafDto> { graphPercentage, graphCount };
             }
@@ -348,6 +340,184 @@ namespace HyFive.Services.Reports.FiveIndicators
                     grafdata.Data.RemoveRange(index, numberOfElementsToBeRemoved);
                 }
             }
+
+            private sealed record OuRow(int Id, int? ParentId, string Level, int? TypeId);
+
+            private async Task<List<OuRow>> LoadOrgUnitsAsync(CancellationToken ct)
+            {
+                return await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Include(x => x.LevelRef)
+                    .Select(x => new OuRow(
+                        x.Id,
+                        x.ParentId,
+                        x.LevelRef.Level,   // "Facility" / "Department" / "Unit"
+                        x.TypeId
+                    ))
+                    .ToListAsync(ct);
+            }
+
+            private static Dictionary<int, List<int>> BuildChildrenByParent(List<OuRow> ous)
+            {
+                var dict = new Dictionary<int, List<int>>();
+                foreach (var ou in ous)
+                {
+                    if (!ou.ParentId.HasValue) continue;
+                    if (!dict.TryGetValue(ou.ParentId.Value, out var kids))
+                        dict[ou.ParentId.Value] = kids = new List<int>();
+                    kids.Add(ou.Id);
+                }
+                return dict;
+            }
+
+            private static List<int> GetDescendantsByLevel(
+                int rootId,
+                string targetLevel,
+                List<OuRow> ous,
+                Dictionary<int, List<int>> childrenByParent)
+            {
+                var levelById = ous.ToDictionary(x => x.Id, x => x.Level);
+
+                var result = new List<int>();
+                var stack = new Stack<int>();
+                stack.Push(rootId);
+
+                while (stack.Count > 0)
+                {
+                    var id = stack.Pop();
+
+                    if (levelById.TryGetValue(id, out var level) && level == targetLevel)
+                        result.Add(id);
+
+                    if (childrenByParent.TryGetValue(id, out var kids))
+                        foreach (var k in kids) stack.Push(k);
+                }
+
+                return result;
+            }
+
+            private async Task<HashSet<int>> ResolveUnitIdsForCompliance(Compliance.Query request, CancellationToken ct)
+            {
+                var ous = await LoadOrgUnitsAsync(ct);
+                var childrenByParent = BuildChildrenByParent(ous);
+
+                var facilityIds = FilterFacilityIdsByType(ous, request);
+                var unitIds = GetExplicitUnitIds(ous, request);
+                unitIds = MergeFacilityUnits(unitIds, facilityIds, ous, childrenByParent);
+                unitIds = MergeDepartmentUnits(unitIds, request, ous, childrenByParent);
+
+                return unitIds;
+            }
+
+            private static List<int> FilterFacilityIdsByType(
+                List<OuRow> ous,
+                Compliance.Query request)
+            {
+                var facilityIds = request.FacilityIds ?? new List<int>();
+
+                if (request.FacilityTypeIds == null || request.FacilityTypeIds.Count == 0)
+                    return facilityIds;
+
+                var allowedFacilities = ous
+                    .Where(o => o.Level == OrganisationUnitLevels.Facility
+                             && o.TypeId.HasValue
+                             && request.FacilityTypeIds.Contains(o.TypeId.Value))
+                    .Select(o => o.Id)
+                    .ToHashSet();
+
+                return facilityIds.Where(allowedFacilities.Contains).ToList();
+            }
+
+            private static HashSet<int> GetExplicitUnitIds(
+                List<OuRow> ous,
+                Compliance.Query request)
+            {
+                if (request.UnitIds == null || request.UnitIds.Count == 0)
+                    return new HashSet<int>();
+
+                return ous
+                    .Where(o => o.Level == OrganisationUnitLevels.Unit && request.UnitIds.Contains(o.Id))
+                    .Select(o => o.Id)
+                    .ToHashSet();
+            }
+
+            private static HashSet<int> MergeFacilityUnits(
+                HashSet<int> currentUnitIds,
+                List<int> facilityIds,
+                List<OuRow> ous,
+                Dictionary<int, List<int>> childrenByParent)
+            {
+                if (facilityIds == null || facilityIds.Count == 0)
+                    return currentUnitIds;
+
+                var facilityUnitIds = new HashSet<int>();
+
+                foreach (var facilityId in facilityIds)
+                {
+                    foreach (var unitId in GetDescendantsByLevel(
+                        facilityId,
+                        OrganisationUnitLevels.Unit,
+                        ous,
+                        childrenByParent))
+                    {
+                        facilityUnitIds.Add(unitId);
+                    }
+                }
+
+                return currentUnitIds.Count > 0
+                    ? currentUnitIds.Intersect(facilityUnitIds).ToHashSet()
+                    : facilityUnitIds;
+            }
+
+            private static HashSet<int> MergeDepartmentUnits(
+                HashSet<int> currentUnitIds,
+                Compliance.Query request,
+                List<OuRow> ous,
+                Dictionary<int, List<int>> childrenByParent)
+            {
+                if (request.DepartmentIds == null || request.DepartmentIds.Count == 0)
+                    return currentUnitIds;
+
+                var deptUnitIds = new HashSet<int>();
+
+                foreach (var deptId in request.DepartmentIds)
+                {
+                    if (!IsMatchingDepartmentType(deptId, request, ous))
+                        continue;
+
+                    foreach (var unitId in GetDescendantsByLevel(
+                        deptId,
+                        OrganisationUnitLevels.Unit,
+                        ous,
+                        childrenByParent))
+                    {
+                        deptUnitIds.Add(unitId);
+                    }
+                }
+
+                return currentUnitIds.Count > 0
+                    ? currentUnitIds.Intersect(deptUnitIds).ToHashSet()
+                    : deptUnitIds;
+            }
+
+            private static bool IsMatchingDepartmentType(
+                int deptId,
+                Compliance.Query request,
+                List<OuRow> ous)
+            {
+                if (request.DepartmentTypeIds == null || request.DepartmentTypeIds.Count == 0)
+                    return true;
+
+                var deptRow = ous.FirstOrDefault(x => x.Id == deptId);
+                if (deptRow is null)
+                    return false;
+
+                if (deptRow.Level != OrganisationUnitLevels.Department)
+                    return false;
+
+                return deptRow.TypeId.HasValue && request.DepartmentTypeIds.Contains(deptRow.TypeId.Value);
+            }
         }
+
     }
 }

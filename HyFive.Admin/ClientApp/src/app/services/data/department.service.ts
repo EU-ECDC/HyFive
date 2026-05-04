@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {Department} from '../../models/api/Department';
 import {CreateDepartmentRequest} from '../../models/api/CreateDepartmentRequest';
 import {Role} from "../../models/api/Role";
-import {DepartmentType} from "../../models/api/DepartmentType";
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
+import { UpdateDepartmentRequest } from 'src/app/models/api/UpdateDepartmentRequest';
 
 
 @Injectable({
@@ -15,34 +16,34 @@ export class DepartmentService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getDepartment(id: number): Observable<Department> {
+  getDepartment(id: number): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/department/${id}`;
-    return this.http.get<Department>(url);
+    return this.http.get<OrganisationUnit>(url);
   }
 
-  createDepartment(department: CreateDepartmentRequest): Observable<Department>{
+  createDepartment(department: CreateDepartmentRequest): Observable<OrganisationUnit>{
     const url = `${environment.apiBaseUrl}/v1/department/create`;
-    return this.http.post<Department>(url, department);
+    return this.http.post<OrganisationUnit>(url, department);
   }
 
-  updateDepartment(department: Department): Observable<Department> {
+  updateDepartment(department: UpdateDepartmentRequest): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/department/update`;
-    return this.http.put<Department>(url, department);
+    return this.http.put<OrganisationUnit>(url, department);
   }
 
-  getDepartmentTypes(): Observable<DepartmentType[]>{
+  getDepartmentTypes(): Observable<OrganisationUnitType[]>{
     const url = `${environment.apiBaseUrl}/v1/department/departmenttypes/`;
-    return this.http.get<DepartmentType[]>(url);
+    return this.http.get<OrganisationUnitType[]>(url);
   }
 
-  createDepartmentType(departmenttype: DepartmentType): Observable<DepartmentType>{
+  createDepartmentType(departmenttype: OrganisationUnitType): Observable<OrganisationUnitType>{
     const url = `${environment.apiBaseUrl}/v1/department/departmentType/create`;
-    return this.http.post<DepartmentType>(url, departmenttype);
+    return this.http.post<OrganisationUnitType>(url, departmenttype);
   }
 
-  updateDepartmentType(departmenttype: DepartmentType): Observable<DepartmentType> {
+  updateDepartmentType(departmenttype: OrganisationUnitType): Observable<OrganisationUnitType> {
     const url = `${environment.apiBaseUrl}/v1/department/departmenttypes/update`;
-    return this.http.put<DepartmentType>(url, departmenttype);
+    return this.http.put<OrganisationUnitType>(url, departmenttype);
   }
 
   getRole(id: number): Observable<Role[]> {

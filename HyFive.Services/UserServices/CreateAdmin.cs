@@ -1,18 +1,20 @@
 ﻿
 using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.User;
 using HyFive.Services.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Bruker = HyFive.Models.V1.User.User;
-using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.UserServices
 {
@@ -49,6 +51,7 @@ namespace HyFive.Services.UserServices
                 {
                     throw new ValidationException("EmailRequired");
                 }
+
                 try
                 {
                     var addr = new MailAddress(command.Request.Email);
@@ -61,7 +64,13 @@ namespace HyFive.Services.UserServices
                     throw new ValidationException("EmailNotValid", command.Request.Email);
                 }
 
-                var admin = new Admin()
+                var exists = await _context.User
+                    .AnyAsync(u => u.Email == command.Request.Email, cancellationToken);
+
+                if (exists)
+                    throw new ValidationException("EmailAlreadyUsed", command.Request.Email);
+
+                var admin = new HyFive.Domain.User.User
                 {
                     IdentityPseudonym = command.Request.IdentityPseudonym,
                     FirstName = command.Request.FirstName,
@@ -71,8 +80,18 @@ namespace HyFive.Services.UserServices
                     CreatedTime = DateTime.UtcNow,
                 };
 
+                admin.UserPermissions = new List<Domain.User.UserPermission>
+                {
+                    new Domain.User.UserPermission
+                    {
+                        PermissionLevel = PermissionLevelConstants.Administrator,
+                        OrganisationUnitId = null,
+                        CreatedAt = DateTime.UtcNow
+                    }
+                };
+
                 _context.User.Add(admin);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return _mapper.Map<Models.V1.User.User>(admin);
             }

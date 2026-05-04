@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +10,12 @@ namespace HyFive.Services.Facility
 {
     public class UpdateFacilityType
     {
-        public class Command : IRequest<FacilityType>
+        public class Command : IRequest<OrganisationUnitType>
         {
-            public FacilityType FacilityType { get; set; }
+            public OrganisationUnitType FacilityType { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, FacilityType>
+        public class Handler : IRequestHandler<Command, OrganisationUnitType>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,18 +26,17 @@ namespace HyFive.Services.Facility
                 _mapper = mapper;
             }
 
-            public async Task<FacilityType> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<OrganisationUnitType> Handle(Command request, CancellationToken cancellationToken)
             {
-                var facilityType = await _context.FacilityType
-                    .FirstOrDefaultAsync(i => i.Id == request.FacilityType.Id, cancellationToken);
+                var facilityType = await _context.OrganisationUnitType
+                .FirstOrDefaultAsync(i => i.Id == request.FacilityType.Id, cancellationToken);
 
                 facilityType.Name = request.FacilityType.Name;
 
-                _context.FacilityType.Update(facilityType);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 var mappedFacilityType =
-                    _mapper.Map<Domain.Place.FacilityType, FacilityType>(facilityType);
+                    _mapper.Map<Domain.Place.OrganisationUnitType, OrganisationUnitType>(facilityType);
 
                 return mappedFacilityType;
             }

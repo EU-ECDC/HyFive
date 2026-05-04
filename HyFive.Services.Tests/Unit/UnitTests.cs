@@ -1,10 +1,13 @@
 using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Unit;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HyFive.Services.Tests.Unit
@@ -15,461 +18,622 @@ namespace HyFive.Services.Tests.Unit
         public async Task GetUnitTest()
         {
             // Arrange
-            var getUnitHandler = new GetUnit.Handler(DatabaseContext, Mapper);
+            var getUnitHandler = new GetUnit.Handler(DatabaseContext);
 
-            var facility = new Domain.Place.Facility { Id = 9999 };
-            var unit = new Domain.Place.Unit { Id = 9999, Facility = facility };
-            DatabaseContext.Unit.Add(unit);
+            var unitLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Unit);
+
+            if (unitLevel == null)
+            {
+                unitLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Unit
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(unitLevel);
+                DatabaseContext.SaveChanges();
+            }
+
+            var facilityLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Facility);
+
+            if (facilityLevel == null)
+            {
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Facility
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
+                DatabaseContext.SaveChanges();
+            }
+
+            var facility = new Domain.Place.OrganisationUnit
+            {
+                Id = 9998,
+                Name = "Test Facility",
+                LevelId = facilityLevel.Id
+            };
+
+            var unit = new Domain.Place.OrganisationUnit
+            {
+                Id = 9999,
+                Name = "Test Unit",
+                ParentId = facility.Id,
+                LevelId = unitLevel.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(facility);
+            DatabaseContext.OrganisationUnit.Add(unit);
             DatabaseContext.SaveChanges();
 
             // Act
-            var query = new GetUnit.Query() { Id = 9999, FacilityId = facility.Id };
-            var res = await getUnitHandler.Handle(query, new System.Threading.CancellationToken());
+            var query = new GetUnit.Query
+            {
+                Id = unit.Id,
+                FacilityId = facility.Id
+            };
+
+            var res = await getUnitHandler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.That(unit.Id, Is.EqualTo(res.Id));
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Id, Is.EqualTo(unit.Id));
         }
 
         [Test]
         public async Task GetUnitsForFacilityTest()
         {
             // Arrange
-            var facility = new Domain.Place.Facility { Id = 9999 };
-            var unit = new Domain.Place.Unit { Id = 9999, Facility = facility };
-            var unit2 = new Domain.Place.Unit { Id = 99999, Facility = facility };
-            DatabaseContext.Facility.Add(facility);
-            DatabaseContext.Unit.Add(unit);
-            DatabaseContext.Unit.Add(unit2);
+            var facilityLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Facility);
 
-            var otherFacility = new Domain.Place.Facility { Id = 1111 };
-            var otherUnit = new Domain.Place.Unit { Id = 1111, Facility = otherFacility };
-            var otherUnit2 = new Domain.Place.Unit { Id = 11111, Facility = otherFacility };
-            DatabaseContext.Facility.Add(otherFacility);
-            DatabaseContext.Unit.Add(otherUnit);
-            DatabaseContext.Unit.Add(otherUnit2);
+            if (facilityLevel == null)
+            {
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Facility
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var unitLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Unit);
+
+            if (unitLevel == null)
+            {
+                unitLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Unit
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(unitLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var facility = new Domain.Place.OrganisationUnit
+            {
+                Id = 9999,
+                Name = "Facility A",
+                LevelId = facilityLevel.Id
+            };
+
+            var unit = new Domain.Place.OrganisationUnit
+            {
+                Id = 9998,
+                Name = "Unit A1",
+                ParentId = facility.Id,
+                LevelId = unitLevel.Id
+            };
+
+            var unit2 = new Domain.Place.OrganisationUnit
+            {
+                Id = 9997,
+                Name = "Unit A2",
+                ParentId = facility.Id,
+                LevelId = unitLevel.Id
+            };
+
+            var otherFacility = new Domain.Place.OrganisationUnit
+            {
+                Id = 1111,
+                Name = "Facility B",
+                LevelId = facilityLevel.Id
+            };
+
+            var otherUnit = new Domain.Place.OrganisationUnit
+            {
+                Id = 1112,
+                Name = "Unit B1",
+                ParentId = otherFacility.Id,
+                LevelId = unitLevel.Id
+            };
+
+            var otherUnit2 = new Domain.Place.OrganisationUnit
+            {
+                Id = 1113,
+                Name = "Unit B2",
+                ParentId = otherFacility.Id,
+                LevelId = unitLevel.Id
+            };
+
+            DatabaseContext.OrganisationUnit.AddRange(
+                facility, unit, unit2,
+                otherFacility, otherUnit, otherUnit2);
 
             await DatabaseContext.SaveChangesAsync();
 
             var getUnitsForFacility = new GetUnitsForFacility.Handler(DatabaseContext, Mapper);
-            var query = new GetUnitsForFacility.Query() { FacilityId = facility.Id };
+            var query = new GetUnitsForFacility.Query { FacilityId = facility.Id };
 
             // Act
-            var res = await getUnitsForFacility.Handle(query, new System.Threading.CancellationToken());
+            var res = (await getUnitsForFacility.Handle(query, CancellationToken.None)).ToList();
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(res.ToList(), Has.Count.EqualTo(2));
-                Assert.That(res, Has.All.Property(nameof(Models.V1.Facility.Unit.FacilityId)).EqualTo(facility.Id));
-                Assert.That(res.Any(x => x.Id == unit.Id));
-                Assert.That(res.Any(x => x.Id == unit2.Id));
+                Assert.That(res, Has.Count.EqualTo(2));
+                Assert.That(res.Any(x => x.Id == unit.Id), Is.True);
+                Assert.That(res.Any(x => x.Id == unit2.Id), Is.True);
+                Assert.That(res.All(x => x.FacilityId == facility.Id), Is.True);
             });
         }
 
         [Test]
         public async Task CreateUnitTest()
         {
-            // Arrange and Act
-            if (!await DatabaseContext.Facility.AnyAsync())
+            // Arrange
+            var facilityLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Facility);
+
+            if (facilityLevel == null)
             {
-                var departmentType = await DatabaseContext.DepartmentType
-                    .FirstOrDefaultAsync(d => d.Code == "GEN")
-                    ?? new Domain.Place.DepartmentType { Name = "General", Code = "GEN" };
-
-                var facilityType = await DatabaseContext.FacilityType
-                    .FirstOrDefaultAsync(f => f.Code == "HOSP")
-                    ?? new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
-
-                var city = await DatabaseContext.City
-                    .FirstOrDefaultAsync(c => c.Name == "Oslo")
-                    ?? new Domain.Place.City { Name = "Oslo" };
-
-                var facility = new Domain.Place.Facility
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Main Facility",
-                    Abbreviation = "MF",
-                    HERId = "HER001",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-                        {
-                            new Domain.Place.Department { Name = "Cardiology", DepartmentType = departmentType },
-                            new Domain.Place.Department { Name = "Surgery", DepartmentType = departmentType }
-                        }
+                    Level = OrganisationUnitLevels.Facility
                 };
-
-                DatabaseContext.Facility.Add(facility);
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
                 await DatabaseContext.SaveChangesAsync();
             }
 
-            var facilityFromDb = await DatabaseContext.Facility.Include(i => i.Departments).FirstAsync();
-            var createdUnit = await CreateUnit(facilityFromDb.Id);
-            var createdUnitFromDatabase = DatabaseContext.Unit
-                .Include(k => k.Facility)
-                .Include(k => k.Departments)
-                .FirstOrDefaultAsync(k => k.Id == createdUnit.Id);
+            var departmentLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Department);
+
+            if (departmentLevel == null)
+            {
+                departmentLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Department
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(departmentLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var unitLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Unit);
+
+            if (unitLevel == null)
+            {
+                unitLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Unit
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(unitLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var organisationUnitType = await DatabaseContext.OrganisationUnitType.FirstOrDefaultAsync();
+            if (organisationUnitType == null)
+            {
+                organisationUnitType = new Domain.Place.OrganisationUnitType
+                {
+                    Name = "General",
+                    Code = "GEN"
+                };
+                DatabaseContext.OrganisationUnitType.Add(organisationUnitType);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var facility = new Domain.Place.OrganisationUnit
+            {
+                Name = "Main Facility",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(facility);
+            await DatabaseContext.SaveChangesAsync();
+
+            var department = new Domain.Place.OrganisationUnit
+            {
+                Name = "Cardiology",
+                ParentId = facility.Id,
+                LevelId = departmentLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(department);
+            await DatabaseContext.SaveChangesAsync();
+
+            // Act
+            var createdUnit = await CreateUnit(facility.Id, department.Id);
+
+            var createdUnitFromDatabase = await DatabaseContext.OrganisationUnit
+                .Include(x => x.Parent)
+                .Include(x => x.LevelRef)
+                .FirstOrDefaultAsync(x => x.Id == createdUnit.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(createdUnit.Id, Is.GreaterThan(0));
-                Assert.That(createdUnit.Name, Is.EqualTo(createdUnitFromDatabase.Result.Name));
-                Assert.That(createdUnit.FacilityId, Is.EqualTo(createdUnitFromDatabase.Result.Facility.Id));
-                Assert.That(createdUnit.Departments.Select(a => a.Id).OrderBy(x => x).SequenceEqual(createdUnitFromDatabase.Result.Departments.Select(a => a.Id).OrderBy(x => x)));
-                Assert.That(createdUnit.Departments.Select(a => a.Id).OrderBy(x => x).SequenceEqual(facilityFromDb.Departments.Select(a => a.Id).OrderBy(x => x)));
+                Assert.That(createdUnitFromDatabase, Is.Not.Null);
+                Assert.That(createdUnit.Name, Is.EqualTo(createdUnitFromDatabase.Name));
+                Assert.That(createdUnitFromDatabase.ParentId, Is.EqualTo(department.Id));
+                Assert.That(createdUnitFromDatabase.LevelRef.Level, Is.EqualTo(OrganisationUnitLevels.Unit));
             });
         }
 
         [Test]
-        public void CreateUnitTest_NonExistentFacility()
+        public void CreateUnitTest_NonExistentDepartment()
         {
-            // Arrange 
-            var nonExistentFacilityId = 9999;
+            // Arrange
+            var nonExistentDepartmentId = 9999;
 
-            // Act and Assert
+            // Act & Assert
             Assert.ThrowsAsync(
-                Is.TypeOf<DomainException>().And.Message.Contains("FacilityNotFound"),
+                Is.TypeOf<DomainException>().And.Message.Contains("DepartmentNotFound"),
                 async () =>
                 {
-                    await CreateUnit(nonExistentFacilityId);
-                }
-            );
+                    await CreateUnit(
+                        facilityId: 1,
+                        departmentId: nonExistentDepartmentId);
+                });
         }
 
         [Test]
         public async Task CreateUnitTest_CannotCreateUnitWithDepartmentForAnotherFacility()
         {
             // Arrange
-            var deptType = await DatabaseContext.DepartmentType.FirstOrDefaultAsync()
-                ?? new Domain.Place.DepartmentType { Name = "General", Code = "GEN" };
+            var facilityLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Facility);
 
-            var facilityType = await DatabaseContext.FacilityType.FirstOrDefaultAsync()
-                ?? new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
-
-            var city = await DatabaseContext.City.FirstOrDefaultAsync()
-                ?? new Domain.Place.City { Name = "Oslo" };
-
-            // Ensure first facility
-            if (!await DatabaseContext.Facility.AnyAsync())
+            if (facilityLevel == null)
             {
-                var firstFacility = new Domain.Place.Facility
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Facility A",
-                    Abbreviation = "FA",
-                    HERId = "HER001",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-                    {
-                        new Domain.Place.Department { Name = "Dept A1", DepartmentType = deptType },
-                    }
+                    Level = OrganisationUnitLevels.Facility
                 };
-                DatabaseContext.Facility.Add(firstFacility);
-                await DatabaseContext.SaveChangesAsync();
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
+                DatabaseContext.SaveChanges();
             }
 
-            // Ensure second facility
-            if (await DatabaseContext.Facility.CountAsync() < 2)
+            var departmentLevel = DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefault(x => x.Level == OrganisationUnitLevels.Department);
+
+            if (departmentLevel == null)
             {
-                var secondFacility = new Domain.Place.Facility
+                departmentLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Facility B",
-                    Abbreviation = "FB",
-                    HERId = "HER002",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-                    {
-                        new Domain.Place.Department { Name = "Dept B1", DepartmentType = deptType },
-                    }
+                    Level = OrganisationUnitLevels.Department
                 };
-                DatabaseContext.Facility.Add(secondFacility);
-                await DatabaseContext.SaveChangesAsync();
+                DatabaseContext.OrganisationUnitLevel.Add(departmentLevel);
+                DatabaseContext.SaveChanges();
             }
 
-            // Retrieve both
-            var facilities = await DatabaseContext.Facility
-                .Include(i => i.Departments)
-                .OrderBy(f => f.Id)
-                .ToListAsync();
+            var organisationUnitType = DatabaseContext.OrganisationUnitType.FirstOrDefault();
+            if (organisationUnitType == null)
+            {
+                organisationUnitType = new Domain.Place.OrganisationUnitType
+                {
+                    Name = "General",
+                    Code = "GEN"
+                };
+                DatabaseContext.OrganisationUnitType.Add(organisationUnitType);
+                DatabaseContext.SaveChanges();
+            }
 
-            var facility = facilities.First();
-            var otherFacility2 = facilities.Skip(1).First();
+            var facilityA = new Domain.Place.OrganisationUnit
+            {
+                Name = "Facility A",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
 
-            // Act and Assert
+            var facilityB = new Domain.Place.OrganisationUnit
+            {
+                Name = "Facility B",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.AddRange(facilityA, facilityB);
+            DatabaseContext.SaveChanges();
+
+            var departmentOfFacilityB = new Domain.Place.OrganisationUnit
+            {
+                Name = "Dept B1",
+                ParentId = facilityB.Id,
+                LevelId = departmentLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(departmentOfFacilityB);
+            DatabaseContext.SaveChanges();
+
+            // Act + Assert
             Assert.ThrowsAsync(
                 Is.TypeOf<DomainException>().And.Message.Contains("DepartmentNotLinkedToFacility"),
-                (AsyncTestDelegate)(async () =>
+                async () =>
                 {
-                    await CreateUnit(facility.Id, otherFacility2.Departments.ToList());
-                })
-            );
+                    await CreateUnit(
+                        facilityId: facilityA.Id,
+                        departmentId: departmentOfFacilityB.Id);
+                });
         }
 
         [Test]
         public async Task UpdateUnitTest()
         {
             // Arrange
-            // Ensure prerequisite entities exist
-            var deptType = await DatabaseContext.DepartmentType.FirstOrDefaultAsync()
-                ?? new Domain.Place.DepartmentType { Name = "General", Code = "GEN" };
+            var facilityLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Facility);
 
-            var facilityType = await DatabaseContext.FacilityType.FirstOrDefaultAsync()
-                ?? new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
-
-            var city = await DatabaseContext.City.FirstOrDefaultAsync()
-                ?? new Domain.Place.City { Name = "Oslo" };
-
-            if (!await DatabaseContext.Facility.Include(f => f.Departments).AnyAsync())
+            if (facilityLevel == null)
             {
-                var facilitySeed = new Domain.Place.Facility
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Main Facility",
-                    Abbreviation = "MF",
-                    HERId = "HER001",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-            {
-                new Domain.Place.Department { Name = "Dept A", DepartmentType = deptType },
-                new Domain.Place.Department { Name = "Dept B", DepartmentType = deptType }
-            }
+                    Level = OrganisationUnitLevels.Facility
                 };
-                DatabaseContext.Facility.Add(facilitySeed);
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
                 await DatabaseContext.SaveChangesAsync();
             }
 
-            // Now safely retrieve
-            var facility = await DatabaseContext.Facility
-                .Include(i => i.Departments)
-                .FirstAsync();
+            var departmentLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Department);
 
-            var departments = facility.Departments.Take(1).ToList();
+            if (departmentLevel == null)
+            {
+                departmentLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Department
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(departmentLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
 
-            // Create the unit to update
-            var createdUnit = await CreateUnit(facility.Id);
+            var unitLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Unit);
+
+            if (unitLevel == null)
+            {
+                unitLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Unit
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(unitLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var organisationUnitType = await DatabaseContext.OrganisationUnitType.FirstOrDefaultAsync();
+            if (organisationUnitType == null)
+            {
+                organisationUnitType = new Domain.Place.OrganisationUnitType
+                {
+                    Name = "General",
+                    Code = "GEN"
+                };
+                DatabaseContext.OrganisationUnitType.Add(organisationUnitType);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var facility = new Domain.Place.OrganisationUnit
+            {
+                Name = "Main Facility",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(facility);
+            await DatabaseContext.SaveChangesAsync();
+
+            var department = new Domain.Place.OrganisationUnit
+            {
+                Name = "Dept A",
+                ParentId = facility.Id,
+                LevelId = departmentLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(department);
+            await DatabaseContext.SaveChangesAsync();
+
+            var unit = new Domain.Place.OrganisationUnit
+            {
+                Name = "Original Unit",
+                ParentId = department.Id,
+                LevelId = unitLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(unit);
+            await DatabaseContext.SaveChangesAsync();
 
             var updatedUnitHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
+
             var updateCommand = new UpdateUnit.Command
             {
-                Unit = new Models.V1.Facility.Unit
+                Request = new UpdateUnitRequest
                 {
-                    Id = createdUnit.Id,
+                    Id = unit.Id,
                     Name = "Leverpostei",
                     FacilityId = facility.Id,
-                    Departments = Mapper.Map<IEnumerable<Domain.Place.Department>, List<Models.V1.Facility.Department>>(departments)
+                    DepartmentIds = new List<int> { department.Id },
+                    Abbreviation = "LEV",
+                    Description = "Updated description"
                 }
             };
 
-
             // Act
-            var updateResults = await updatedUnitHandler.Handle(updateCommand, new System.Threading.CancellationToken());
+            var updateResults = await updatedUnitHandler.Handle(updateCommand, CancellationToken.None);
+
+            var updatedFromDb = await DatabaseContext.OrganisationUnit
+                .FirstOrDefaultAsync(x => x.Id == unit.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(updateResults.Id, Is.EqualTo(createdUnit.Id));
-                Assert.That(updateResults.Name, Is.Not.EqualTo(createdUnit.Name));
-                Assert.That(updateResults.FacilityId, Is.EqualTo(createdUnit.FacilityId));
-                Assert.That(updateResults.Departments.Count, Is.EqualTo(updateCommand.Unit.Departments.Count));
+                Assert.That(updateResults.Id, Is.EqualTo(unit.Id));
+                Assert.That(updateResults.Name, Is.EqualTo("Leverpostei"));
+                Assert.That(updatedFromDb, Is.Not.Null);
+                Assert.That(updatedFromDb.Name, Is.EqualTo("Leverpostei"));
+                Assert.That(updatedFromDb.ParentId, Is.EqualTo(department.Id));
+                Assert.That(updatedFromDb.Abbreviation, Is.EqualTo("LEV"));
+                Assert.That(updatedFromDb.Description, Is.EqualTo("Updated description"));
             });
-        }
-
-        [Test]
-        public async Task UpdateUnitTest_CannotUpdateFacilityIdOfUnit()
-        {
-            // Arrange
-            var deptType = await DatabaseContext.DepartmentType.FirstOrDefaultAsync()
-        ?? new Domain.Place.DepartmentType { Name = "General", Code = "GEN" };
-
-            var facilityType = await DatabaseContext.FacilityType.FirstOrDefaultAsync()
-                ?? new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
-
-            var city = await DatabaseContext.City.FirstOrDefaultAsync()
-                ?? new Domain.Place.City { Name = "Oslo" };
-
-            // Ensure first facility
-            if (!await DatabaseContext.Facility.Include(f => f.Departments).AnyAsync())
-            {
-                var firstFacility = new Domain.Place.Facility
-                {
-                    Name = "Facility A",
-                    Abbreviation = "FA",
-                    HERId = "HER001",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-            {
-                new Domain.Place.Department { Name = "Dept A", DepartmentType = deptType }
-            }
-                };
-                DatabaseContext.Facility.Add(firstFacility);
-                await DatabaseContext.SaveChangesAsync();
-            }
-
-            // Ensure second facility
-            if (await DatabaseContext.Facility.CountAsync() < 2)
-            {
-                var secondFacility = new Domain.Place.Facility
-                {
-                    Name = "Facility B",
-                    Abbreviation = "FB",
-                    HERId = "HER002",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-            {
-                new Domain.Place.Department { Name = "Dept B", DepartmentType = deptType }
-            }
-                };
-                DatabaseContext.Facility.Add(secondFacility);
-                await DatabaseContext.SaveChangesAsync();
-            }
-
-            // Retrieve both
-            var facilities = await DatabaseContext.Facility
-                .Include(i => i.Departments)
-                .OrderBy(f => f.Id)
-                .ToListAsync();
-
-            var facility = facilities.First();
-            var newFacility = facilities.Skip(1).First();
-
-            var departments = facility.Departments.Take(1).ToList();
-            var createdUnit = await CreateUnit(facility.Id);
-
-            var updatedUnitHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
-
-            var updateCommand = new UpdateUnit.Command
-            {
-                Unit = new Models.V1.Facility.Unit
-                {
-                    Id = createdUnit.Id,
-                    Name = "Leverpostei",
-                    FacilityId = newFacility.Id, // Trying to move to another facility
-                    Departments = Mapper.Map<IEnumerable<Domain.Place.Department>, List<Models.V1.Facility.Department>>(departments)
-                }
-            };
-
-            // Act and Assert
-            Assert.ThrowsAsync(
-                Is.TypeOf<DomainException>().And.Message.Contains("UnitNotLinkedToFacility"),
-                async () =>
-                {
-                    await updatedUnitHandler.Handle(updateCommand, new System.Threading.CancellationToken());
-                }
-            );
         }
 
         [Test]
         public async Task UpdateUnitTest_CannotUpdateUnitWithDepartmentForAnotherFacility()
         {
             // Arrange
-            var deptType = await DatabaseContext.DepartmentType.FirstOrDefaultAsync()
-        ?? new Domain.Place.DepartmentType { Name = "General", Code = "GEN" };
+            var facilityLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Facility);
 
-            var facilityType = await DatabaseContext.FacilityType.FirstOrDefaultAsync()
-                ?? new Domain.Place.FacilityType { Name = "Hospital", Code = "HOSP" };
-
-            var city = await DatabaseContext.City.FirstOrDefaultAsync()
-                ?? new Domain.Place.City { Name = "Oslo" };
-
-            // Ensure first facility
-            if (!await DatabaseContext.Facility.Include(f => f.Departments).AnyAsync())
+            if (facilityLevel == null)
             {
-                var firstFacility = new Domain.Place.Facility
+                facilityLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Facility A",
-                    Abbreviation = "FA",
-                    HERId = "HER001",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-            {
-                new Domain.Place.Department { Name = "Dept A", DepartmentType = deptType }
-            }
+                    Level = OrganisationUnitLevels.Facility
                 };
-                DatabaseContext.Facility.Add(firstFacility);
+                DatabaseContext.OrganisationUnitLevel.Add(facilityLevel);
                 await DatabaseContext.SaveChangesAsync();
             }
 
-            // Ensure second facility
-            if (await DatabaseContext.Facility.CountAsync() < 2)
+            var departmentLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Department);
+
+            if (departmentLevel == null)
             {
-                var secondFacility = new Domain.Place.Facility
+                departmentLevel = new Domain.Place.OrganisationUnitLevel
                 {
-                    Name = "Facility B",
-                    Abbreviation = "FB",
-                    HERId = "HER002",
-                    FacilityType = facilityType,
-                    City = city,
-                    Departments = new List<Domain.Place.Department>
-            {
-                new Domain.Place.Department { Name = "Dept B", DepartmentType = deptType }
-            }
+                    Level = OrganisationUnitLevels.Department
                 };
-                DatabaseContext.Facility.Add(secondFacility);
+                DatabaseContext.OrganisationUnitLevel.Add(departmentLevel);
                 await DatabaseContext.SaveChangesAsync();
             }
 
-            // Retrieve both
-            var facilities = await DatabaseContext.Facility
-                .Include(i => i.Departments)
-                .OrderBy(f => f.Id)
-                .ToListAsync();
+            var unitLevel = await DatabaseContext.OrganisationUnitLevel
+                .FirstOrDefaultAsync(x => x.Level == OrganisationUnitLevels.Unit);
 
-            var facility = facilities.First();
-            var otherFacility = facilities.Skip(1).First();
+            if (unitLevel == null)
+            {
+                unitLevel = new Domain.Place.OrganisationUnitLevel
+                {
+                    Level = OrganisationUnitLevels.Unit
+                };
+                DatabaseContext.OrganisationUnitLevel.Add(unitLevel);
+                await DatabaseContext.SaveChangesAsync();
+            }
 
-            // Create a Unit in the first facility
-            var createdUnit = await CreateUnit(facility.Id);
+            var organisationUnitType = await DatabaseContext.OrganisationUnitType.FirstOrDefaultAsync();
+            if (organisationUnitType == null)
+            {
+                organisationUnitType = new Domain.Place.OrganisationUnitType
+                {
+                    Name = "General",
+                    Code = "GEN"
+                };
+                DatabaseContext.OrganisationUnitType.Add(organisationUnitType);
+                await DatabaseContext.SaveChangesAsync();
+            }
+
+            var facilityA = new Domain.Place.OrganisationUnit
+            {
+                Name = "Facility A",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            var facilityB = new Domain.Place.OrganisationUnit
+            {
+                Name = "Facility B",
+                LevelId = facilityLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.AddRange(facilityA, facilityB);
+            await DatabaseContext.SaveChangesAsync();
+
+            var departmentA = new Domain.Place.OrganisationUnit
+            {
+                Name = "Dept A",
+                ParentId = facilityA.Id,
+                LevelId = departmentLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            var departmentB = new Domain.Place.OrganisationUnit
+            {
+                Name = "Dept B",
+                ParentId = facilityB.Id,
+                LevelId = departmentLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.AddRange(departmentA, departmentB);
+            await DatabaseContext.SaveChangesAsync();
+
+            var unit = new Domain.Place.OrganisationUnit
+            {
+                Name = "Unit A1",
+                ParentId = departmentA.Id,
+                LevelId = unitLevel.Id,
+                TypeId = organisationUnitType.Id
+            };
+
+            DatabaseContext.OrganisationUnit.Add(unit);
+            await DatabaseContext.SaveChangesAsync();
 
             var updateUnitHandler = new UpdateUnit.Handler(DatabaseContext, Mapper);
 
-            // Try to update it with departments from another facility
             var updateCommand = new UpdateUnit.Command
             {
-                Unit = new Models.V1.Facility.Unit
+                Request = new UpdateUnitRequest
                 {
-                    Id = createdUnit.Id,
+                    Id = unit.Id,
                     Name = "Leverpostei",
-                    FacilityId = facility.Id,
-                    Departments = Mapper.Map<IEnumerable<Domain.Place.Department>, List<Models.V1.Facility.Department>>(
-                        otherFacility.Departments)
+                    FacilityId = facilityA.Id,
+                    DepartmentIds = new List<int> { departmentB.Id },
                 }
             };
 
-            // Act and Assert
+            // Act + Assert
             Assert.ThrowsAsync(
                 Is.TypeOf<DomainException>().And.Message.Contains("DepartmentNotLinkedToFacility"),
                 async () =>
                 {
-                    await updateUnitHandler.Handle(updateCommand, new System.Threading.CancellationToken());
-                }
-            );
+                    await updateUnitHandler.Handle(updateCommand, CancellationToken.None);
+                });
         }
 
         #region Helper-methods
 
-        private async Task<Models.V1.Facility.Unit> CreateUnit(int facilitiesId, List<Domain.Place.Department> departments = null)
+        private async Task<Models.V1.OrganisationUnit.UnitResponse> CreateUnit(
+            int facilityId,
+            int departmentId)
         {
             var createUnitHandler = new CreateUnit.Handler(DatabaseContext, Mapper);
-            var departmentForFacility = departments ?? DatabaseContext.Facility
-                .Include(i => i.Departments)
-                .FirstOrDefault(x => x.Id == facilitiesId)?.Departments.ToList();
-            var departmentForFacilityModel =
-                Mapper.Map<List<Domain.Place.Department>, List<Models.V1.Facility.Department>>(departmentForFacility ?? new List<Domain.Place.Department>());
-            var createCommand = new CreateUnit.Command()
+
+            var createCommand = new CreateUnit.Command
             {
-                Unit = new Models.V1.Facility.Unit
+                Request = new CreateUnitRequest
                 {
                     Name = "Test",
-                    FacilityId = facilitiesId,
-                    Departments = departmentForFacilityModel
+                    FacilityId = facilityId,
+                    DepartmentIds = new List<int> { departmentId },
                 }
             };
 
-            var createResult = await createUnitHandler.Handle(createCommand, new System.Threading.CancellationToken());
+            var createResult = await createUnitHandler.Handle(createCommand, CancellationToken.None);
 
             return createResult;
         }

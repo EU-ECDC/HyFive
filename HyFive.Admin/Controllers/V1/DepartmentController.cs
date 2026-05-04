@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using HyFive.Models.V1.Facility;
+﻿using CsvHelper.Configuration.Attributes;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.OrganisationUnit;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Authentication.User;
 using HyFive.Services.Department;
+using HyFive.Services.Roles;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using HyFive.Models.V1.Observation;
-using HyFive.Services.Authentication.User;
-using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Roles;
 using System;
-using CsvHelper.Configuration.Attributes;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -34,10 +35,10 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "GetDepartment")]
-        [ProducesResponseType(typeof(Department), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Department>> GetDepartment(int id)
+        [ProducesResponseType(typeof(OrganisationUnit), StatusCodes.Status200OK)]
+        public async Task<ActionResult<OrganisationUnit>> GetDepartment(int id)
         {
-            if (_userService.IsCoordinatorForDepartmentOrAdmin(id))
+            if (await _userService.IsCoordinatorForDepartmentOrAdmin(id))
             {
                 return await _mediator.Send(new GetDepartment.Query() { Id = id });
             }
@@ -51,13 +52,13 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(Department), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Department>> CreateDepartment([FromBody] CreateDepartmentRequest request)
+        [ProducesResponseType(typeof(OrganisationUnit), StatusCodes.Status201Created)]
+        public async Task<ActionResult<OrganisationUnit>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
                 var result = await _mediator.Send(new CreateDepartment.Command() { Request = request });
-                return CreatedAtRoute("GetDepartment", new { id = result.FacilityId }, result);
+                return CreatedAtRoute("GetDepartment", new { id = result.Id }, result);
             }
             return Unauthorized();
         }
@@ -68,16 +69,17 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="department"></param>
         /// <returns></returns>
         [HttpPut("update")]
-        public async Task<ActionResult<Department>> UpdateDepartment([FromBody] Department department)
+        public async Task<ActionResult<OrganisationUnit>> UpdateDepartment([FromBody] UpdateDepartmentRequest department)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(department.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(department.FacilityId))
             {
                 var result = await _mediator.Send(new UpdateDepartment.Command()
                 {
                     Id = department.Id,
-                    DepartmentTypeId = department.DepartmentTypeId,
+                    FacilityId = department.FacilityId,
+                    OrganisationUnitTypeId = department.DepartmentTypeId,
                     Name = department.Name,
-                    Role = department.Roles
+                    RoleIds = department.Roles.Select(r => r.Id).ToList()
                 });
                 return Ok(result);
             }
@@ -85,7 +87,7 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         [HttpGet("departmentTypes")]
-        public async Task<ActionResult<List<DepartmentType>>> GetDepartmentTypes()
+        public async Task<ActionResult<List<OrganisationUnitType>>> GetDepartmentTypes()
         {
             var result = await _mediator.Send(new GetDepartmentTypes.Query() { });
             return Ok(result);
@@ -98,11 +100,11 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Admin)]
         [HttpPost("departmentType/create")]
-        [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status201Created)]
-        public async Task<ActionResult<DepartmentType>> CreateDepartmentType([FromBody] DepartmentType departmentType)
+        [ProducesResponseType(typeof(OrganisationUnitType), StatusCodes.Status201Created)]
+        public async Task<ActionResult<OrganisationUnitType>> CreateDepartmentType([FromBody] OrganisationUnitType departmentType)
         {
             
-            var result = await _mediator.Send(new CreateDepartmentType.Command() { DepartmentType = departmentType });
+            var result = await _mediator.Send(new CreateOrganisationUnitType.Command() { Type = departmentType });
 
             return Ok(result);
             
@@ -115,10 +117,10 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("departmentTypes/update")]
-        [ProducesResponseType(typeof(DepartmentType), StatusCodes.Status200OK)]
-        public async Task<ActionResult<DepartmentType>> UpdateDepartmentType([FromBody] DepartmentType departmentType)
+        [ProducesResponseType(typeof(OrganisationUnitType), StatusCodes.Status200OK)]
+        public async Task<ActionResult<OrganisationUnitType>> UpdateDepartmentType([FromBody] OrganisationUnitType departmentType)
         {
-            var result = await _mediator.Send(new UpdateDepartmentType.Command() { DepartmentType = departmentType });
+            var result = await _mediator.Send(new UpdateDepartmentType.Command() { Type = departmentType });
             return Ok(result);
         }
 
@@ -131,9 +133,9 @@ namespace HyFive.Admin.Controllers.V1
         [ProducesResponseType(typeof(Role), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Role>>> GetRoles(int id)
         {
-            if (_userService.IsCoordinatorForDepartmentOrAdmin(id))
+            if (await _userService.IsCoordinatorForDepartmentOrAdmin(id))
             {
-                return await _mediator.Send(new GetRolesForDepartment.Query { DepartmentId = id });
+                return await _mediator.Send(new GetRolesForDepartment.Query { OrganisationUnitId = id });
             }
             return Unauthorized();
 

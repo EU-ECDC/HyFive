@@ -12,16 +12,26 @@ namespace HyFive.Services.AutoMapperProfiler.V1
     {
         public ModelsToDomainV1()
         {
-            CreateMap<Models.V1.Facility.Facility, Domain.Place.Facility>(MemberList.None);
-            CreateMap<Models.V1.Facility.FacilityType, FacilityType>(MemberList.None);
+            CreateMap<Models.V1.OrganisationUnit.OrganisationUnit, Domain.Place.OrganisationUnit>(MemberList.None);
+            CreateMap<Models.V1.OrganisationUnit.OrganisationUnitType, OrganisationUnitType>(MemberList.None);
             CreateMap<Models.V1.User.User, Domain.User.User>(MemberList.None);
-            CreateMap<Models.V1.Facility.Department, Domain.Place.Department>(MemberList.None);
-            CreateMap<Models.V1.Facility.DepartmentType, Domain.Place.DepartmentType>(MemberList.None);
             CreateMap<Models.V1.Observation.Role, Domain.Observation.Role>(MemberList.None);
 
-            CreateMap<Models.V1.Session.FiveIndicationsSession, FiveIndicationsSession>(MemberList.None)
+            CreateMap<Models.V1.OrganisationUnit.OrganisationUnit, Domain.Place.OrganisationUnit>(MemberList.None)
+                .ForMember(dst => dst.Children, opt => opt.Ignore())
+                .ForMember(dst => dst.Parent, opt => opt.Ignore())
+                .ForMember(dst => dst.OrganisationUnitRoles, opt => opt.Ignore())
+                .ForMember(dst => dst.OutgoingAssociations, opt => opt.Ignore())
+                .ForMember(dst => dst.IncomingAssociations, opt => opt.Ignore());
+
+            CreateMap<Models.V1.Session.FiveIndicationsSession, Domain.Session.FiveIndicationsSession>(MemberList.None)
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-            .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate))
+                .ForMember(dst => dst.OrganisationUnit, opt => opt.Ignore())
+                .ForMember(dst => dst.Observer, opt => opt.Ignore())
+                .ForMember(dst => dst.TransferStatus, opt => opt.Ignore());
+
             CreateMap<Models.V1.Observation.FiveIndicatorsObservation, FiveIndicationsObservation>(MemberList
                 .None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
@@ -31,16 +41,24 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Observation.ActivityType, ActivityType>(MemberList.None);
 
             CreateMap<Models.V1.Session.HandJewelrySession, HandJewelrySession>(MemberList.None)
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate))
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
+                .ForMember(dst => dst.OrganisationUnit, opt => opt.Ignore())
+                .ForMember(dst => dst.Observer, opt => opt.Ignore())
+                .ForMember(dst => dst.TransferStatus, opt => opt.Ignore());
             CreateMap<Models.V1.Observation.HandJewelryObservation, HandJewelryObservation>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
                 .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<Models.V1.Observation.HandJewelryType, HandJewelryType>(MemberList.None);
 
             CreateMap<Models.V1.Session.ProtectiveEquipmentSession, Domain.Session.ProtectiveEquipmentSession>(MemberList.None)
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate))
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
+                .ForMember(dst => dst.OrganisationUnit, opt => opt.Ignore())
+                .ForMember(dst => dst.Observer, opt => opt.Ignore())
+                .ForMember(dst => dst.TransferStatus, opt => opt.Ignore());
             CreateMap<
                     Models.V1.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation, Domain.Observation.ProtectiveEquipment.ProtectiveEquipmentObservation>(MemberList.None)
                 .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
@@ -54,7 +72,12 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Models.V1.Observation.ProtectiveEquipment.MisuseType, MisuseType>(MemberList.None);
 
             CreateMap<Models.V1.Session.GloveSession, GloveSession>(MemberList.None)
-                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate));
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.StartDate, opt => opt.MapFrom(src => src.CreatedDate))
+                .ForMember(dst => dst.Comment, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Comment) ? null : src.Comment))
+                .ForMember(dst => dst.OrganisationUnit, opt => opt.Ignore())
+                .ForMember(dst => dst.Observer, opt => opt.Ignore())
+                .ForMember(dst => dst.TransferStatus, opt => opt.Ignore());
             CreateMap<Models.V1.Observation.Gloves.GloveObservation, GloveObservation>(MemberList.None)
                 .ForMember(dst => dst.RegisteredTime, opt => opt.MapFrom(src => src.RegisteredTime));
             CreateMap<Models.V1.Observation.Gloves.GloveWithIndicationType, GloveWithIndicationType>(MemberList

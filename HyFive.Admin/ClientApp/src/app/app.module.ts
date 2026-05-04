@@ -46,10 +46,10 @@ import { EditAdminComponent } from './admin/overview-admin/edit-admin/edit-admin
 import {AuthenticationFailedModalComponent} from './shared/authentication-failed-modal/authentication-failed-modal.component';
 import {AuthenticationFailedErrorInterceptor} from './http-interceptors/authentication-failed-error.interceptor';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {EditFiveIndicationsObservationsComponent} from "./coordinator/edit-observations/edit-five-indications-observations/edit-five-indications-observations.component";
+import {EditHandHygieneObservationsComponent} from "./coordinator/edit-observations/edit-five-indications-observations/edit-hand-hygiene-observations.component";
 import {EditHandjewelryObservationsComponent} from "./coordinator/edit-observations/edit-handjewelry-observations/edit-handjewelry-observations.component";
 import {EditGloveObservationsComponent} from "./coordinator/edit-observations/edit-glove-observations/edit-glove-observations.component";
-import {IndicationSelectionComponent} from "./coordinator/edit-observations/edit-five-indications-observations/indication-selection/indication-selection.component";
+import {HandHygieneSelectionComponent} from "./coordinator/edit-observations/edit-five-indications-observations/hand-hygiene-selection/hand-hygiene-selection.component";
 import {ActivityChoiceDropdownComponent} from "./coordinator/edit-observations/edit-five-indications-observations/activity-choice/activity-choice-dropdown.component";
 import { EditProtectiveEquipmentObservationsComponent } from "./coordinator/edit-observations/edit-protective-equipment-observations/edit-protective-equipment-observations.component";
 import { EditProtectiveEquipmentObservationComponent } from './coordinator/edit-observations/edit-protective-equipment-observations/edit-protective-equipment-observation/edit-protective-equipment-observation.component';
@@ -65,9 +65,9 @@ import { EmailComponent } from './admin/email/email.component';
 import { FhiAngularComponentsModule } from '@folkehelseinstituttet/angular-components';
 import { FhiAngularHighchartsModule } from '@folkehelseinstituttet/angular-highcharts';
 import { ReportComponent } from './coordinator/reports/report.component';
-import { ComplianceComponent } from './coordinator/reports/five-indications/compliance/compliance.component';
+import { ComplianceComponent } from './coordinator/reports/hand-hygiene/compliance/compliance.component';
 import { DownloadExcelComponent } from './coordinator/reports/download/download-excel.component';
-import { ComplianceFiveIndicationsPdfComponent } from './coordinator/reports/predefined/compliance-five-indications-pdf.component';
+import { ComplianceHandHygienePdfComponent } from './coordinator/reports/predefined/compliance-hand-hygiene-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/reports/predefined/compliance-handJewelry-pdf.component';
 import { CompliancePdfComponent } from './coordinator/reports/common/compliance-pdf.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -144,13 +144,13 @@ export function getLocale(): string {
     CreateUnitComponent,
     EditAUnitComponent,
     RoleSelectionDropdownComponent,
-    IndicationSelectionComponent,
+    HandHygieneSelectionComponent,
     ActivityChoiceDropdownComponent,
     EditingOfRolesComponent,
     OverviewAdminComponent,
     EditAdminComponent,
     AuthenticationFailedModalComponent,
-    EditFiveIndicationsObservationsComponent,
+    EditHandHygieneObservationsComponent,
     EditHandjewelryObservationsComponent,
     EditGloveObservationsComponent,
     EditProtectiveEquipmentObservationsComponent,
@@ -167,7 +167,7 @@ export function getLocale(): string {
     SortableColumnComponent,
     SortableTableDirective,
     DownloadExcelComponent,
-    ComplianceFiveIndicationsPdfComponent,
+    ComplianceHandHygienePdfComponent,
     ComplianceHandJewelryPdfComponent,
     CompliancePdfComponent,
     LanguageSelectorComponent,

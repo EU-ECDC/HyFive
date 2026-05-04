@@ -7,9 +7,14 @@ import { SessionType } from './SessionType';
 export interface SessionReport
 {
 	id: string;
+	unitId: number;
+	unitName: string;
+	departmentId: number;
 	departmentName: string;
+	facilityId: number;
+	facilityName: string;
 	startDate: any;
 	type: SessionType;
-	facilityName: string;
+	typeName: string;
 	isSelected?: boolean;
 }

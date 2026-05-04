@@ -5,9 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, take } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
-import { Department} from 'src/app/models/api/Department';
 import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
 import { FacilityReport } from 'src/app/models/api/FacilityReport';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
@@ -24,17 +24,17 @@ export class CompliancePdfComponent implements OnInit {
   @Input() sessionType: SessionType;
 
   selectedFacilityId: number;
-  // selectedFacilityTypes: FacilityType[] = [];
+  // selectedFacilityTypes: OrganisationUnitType[] = [];
   selectedFacilities: FacilityReport[] = [];
-  // selectedDepartmentTypes: DepartmentType[];
-  selectedDepartments: Department[] = [];
+  // selectedDepartmentTypes: OrganisationUnitType[];
+  selectedDepartments: OrganisationUnit[] = [];
   fromDate: Date = null;
   toDate: Date = null;
-  facility: FacilityReport;
-  // facilityTypes: FacilityType[];
-  departments: Department[] = [];
-  // departmentTypes: DepartmentType[] = [];
-  allDepartments: Department[] = [];
+  facility: OrganisationUnit;
+  // facilityTypes: OrganisationUnitType[];
+  departments: OrganisationUnit[] = [];
+  // departmentTypes: OrganisationUnitType[] = [];
+  allDepartments: OrganisationUnit[] = [];
   facilities: FacilityReport[] = [];
   allFacilities: FacilityReport[] = [];
   canSelectFacility = false;
@@ -131,7 +131,7 @@ export class CompliancePdfComponent implements OnInit {
       if (
         // this.departmentTypes.length > 0 && 
         this.allDepartments.length > 0) {
-        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.facilityId));
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.parentId));
         this.departments = this.allDepartments;
         // this.departmentTypes = Array.from(
         //                         new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
@@ -166,7 +166,7 @@ export class CompliancePdfComponent implements OnInit {
     this.selectedDepartments = [];
     this.selectedFacilities = [];
     // this.selectedDepartmentTypes = [];
-    this.departments = [];
+    // this.departments = [];
     this.fromDate = null;
     this.toDate = null;
     this.toastrService.clear();
@@ -256,7 +256,7 @@ export class CompliancePdfComponent implements OnInit {
   loadCoordinatorFacilityDepartments(facilityId: number) {
     this.facilityService.getFacility(facilityId).subscribe(
       facility => {
-        this.departments = facility.departments;
+        this.departments = facility.children;
         this.allDepartments = this.departments;
         // this.selectedFacilityTypes.push(facility.facilityType
       })

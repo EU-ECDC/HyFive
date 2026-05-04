@@ -68,7 +68,7 @@ namespace HyFive.Observation.Controllers.V1
         [HttpGet("myObservations")]
         public async Task<IEnumerable<HandJewelryObservationReport>> GetMyObservations(int facilityId, Guid? sessionId = null)
         {
-            var observerIdForFacility = _userService.GetObserverIdForFacility(facilityId);
+            var observerIdForFacility = await _userService.GetObserverIdIfHasAccessToFacility(facilityId);
             if (observerIdForFacility > 0)
             {
                 var query = new GetHandJewelryObservations.Query

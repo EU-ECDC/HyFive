@@ -2,7 +2,6 @@ import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Role } from '../../models/api/Role';
 import { Card } from '../../models/registration/card.model';
-import { Department } from '../../models/api/Department';
 import { BaseSessionService } from './base-session.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -12,6 +11,7 @@ import { GloveSessionView } from '../../models/registration/glove-session-view.m
 import { GloveSession } from '../../models/api/GloveSession';
 import { GloveObservation } from '../../models/api/GloveObservation';
 import { FacilityService } from './FacilityService';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +37,15 @@ export class GloveSessionService extends BaseSessionService<GloveSessionView, Gl
   public createSessionView(
     gloveUseMustBeRegistered: boolean,
     rolesAsObserved: Role[],
-    department: Department
+    department: OrganisationUnit,
+    unit: OrganisationUnit
   ): string {
     let id = Uuid.generateUUID();
 
     let gloveSessionView: GloveSessionView = {
       sessionId: id,
       department: department,
+      unit: unit,
       gloveUseMustBeRegistered: gloveUseMustBeRegistered,
       card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }

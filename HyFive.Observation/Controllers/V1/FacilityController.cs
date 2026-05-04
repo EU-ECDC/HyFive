@@ -1,4 +1,4 @@
-﻿using HyFive.Models.V1.Facility;
+﻿using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Models.V1.Session;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Facility;
@@ -27,7 +27,7 @@ namespace HyFive.Observation.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
-        public async Task<IEnumerable<Facility>> GetObserverFacilities()
+        public async Task<IEnumerable<OrganisationUnit>> GetObserverFacilities()
         {
             var result = await _mediator.Send(new GetFacilitiesForObserver.Query() { Email = _userService.GetEmail()});
             return result;
@@ -42,7 +42,7 @@ namespace HyFive.Observation.Controllers.V1
         [HttpGet("predefinedComments")]
         public async Task<ActionResult<IEnumerable<string>>> GetPredefinedComments([FromQuery] int facilityId, [FromQuery] SessionType sessionType)
         {
-            if (_userService.IsObserverForFacility(facilityId))
+            if (await _userService.IsObserverForFacility(facilityId))
             {
                 var result = await _mediator.Send(new GetPredefinedComments.Query
                 {

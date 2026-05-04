@@ -2,15 +2,18 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Department } from './Department';
 import { ObservationOverviewReport } from './ObservationOverviewReport';
 
 export interface SessionOverviewReport
 {
 	id: any;
 	type: string;
+	typeName: string;
 	observerName: string;
-	department: Department;
+	unitName: string;
+	departmentName: string;
+	departmentId: number;
+	facilityId: number;
 	startDate: any;
 	createdDate: any;
 	comment: string;

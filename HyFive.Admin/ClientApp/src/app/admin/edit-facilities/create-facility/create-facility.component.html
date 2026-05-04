@@ -3,7 +3,7 @@
     <div class="row mb-1">
       <div class="col-md-6">
         <label for="facilityName" class="mb-1">{{"Name" | translate }}</label>
-        <input type="text" autocomplete="new-password" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.facilityName" (ngModelChange)="newfacility.facilityName = $event.trim()">
+        <input type="text" autocomplete="new-password" id="facilityName" class="form-control" placeholder="e.g. Oslo University Hospital HF" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.name" (ngModelChange)="newfacility.name = $event.trim()">
       </div>
       <div class="col-md-2">
         <label for="abbreviation" class="mb-1">{{"Short Name" | translate }}</label>
@@ -19,11 +19,11 @@
           [items]="facilityTypes"
           bindLabel="name"
           bindValue="id"
-          [(ngModel)]="newfacility.facilityTypeId"
+          [(ngModel)]="newfacility.organisationUnitTypeId"
           >
         </ng-select>
       </div>
-      <div class="col-md-6">
+      <div *ngIf="newfacility  && listOfCities.length > 0" class="col-md-6">
         <label for="city" class="mb-1">{{"City" | translate }}</label>
         <ng-select
           [searchable]="false"
@@ -31,7 +31,7 @@
           [items]="listOfCities"
           bindLabel="name"
           bindValue="id"
-          [(ngModel)]="newfacility.cityId"
+          [(ngModel)]="newfacility.city"
           >
         </ng-select>
       </div>
@@ -40,15 +40,15 @@
       <h5 class="col-12">{{"Coordinator" | translate }}</h5>
       <div class="col-md-3">
         <label for="coordinatorfirstname" class="mb-1">{{"First Name" | translate }}</label>
-        <input type="text" autocomplete="new-password" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorFirstName" (ngModelChange)="newfacility.coordinatorFirstName = $event.trim()">
+        <input type="text" autocomplete="new-password" id="coordinatorfirstname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.firstName" (ngModelChange)="newfacility.firstName = $event.trim()">
       </div>
       <div class="col-md-3">
         <label for="coordinatorLastname" class="mb-1">{{"Last Name" | translate }}</label>
-        <input type="text" autocomplete="new-password" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.coordinatorLastName" (ngModelChange)="newfacility.coordinatorLastName = $event.trim()">
+        <input type="text" autocomplete="new-password" id="coordinatorlastname" class="form-control" (keypress)="omitSpecialChar($event)" [(ngModel)]="newfacility.lastName" (ngModelChange)="newfacility.lastName = $event.trim()">
       </div>
       <div class="col-md-4">
         <label for="coordinatorEmail" class="mb-1">{{"Email" | translate }}</label>
-        <input type="email" id="coordinatorEmail" autocomplete="email" class="form-control" [(ngModel)]="newfacility.coordinatorEmail" (ngModelChange)="newfacility.coordinatorEmail = $event.trim()" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [maxlength]="2147483647">
+        <input type="email" id="coordinatorEmail" autocomplete="email" class="form-control" [(ngModel)]="newfacility.email" (ngModelChange)="newfacility.email = $event.trim()" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [maxlength]="2147483647">
       </div>
     </div>
     <div class="row">

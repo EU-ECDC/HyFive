@@ -144,11 +144,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         routerLink: `/${UrlPaths.editingByObservers}`,
         roles: [AuthorizedRole.Coordinator]
       },
-      {
-        name: `Coding`,
-        routerLink: `/${UrlPaths.editingByCodeworks}`,
-        roles: [AuthorizedRole.Administrator]
-      },
+      // {
+      //   name: `Coding`,
+      //   routerLink: `/${UrlPaths.editingByCodeworks}`,
+      //   roles: [AuthorizedRole.Administrator]
+      // },
       {
         name: `Administrators`,
         routerLink: `/${UrlPaths.adminOverview}`,

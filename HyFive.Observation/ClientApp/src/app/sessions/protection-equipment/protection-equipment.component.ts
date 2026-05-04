@@ -48,7 +48,7 @@ export class ProtectiveEquipmentComponent implements OnInit {
       params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.session = this.sessionService.getSession(sessionId);
-        this.facilityid = this.session.department.facilityId;
+        this.facilityid = this.session.facilityId;
         if(!this.session) this.router.navigate(['']);
       }
     );

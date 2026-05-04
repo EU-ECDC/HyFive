@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Unit } from '../../../models/api/Unit';
 import { FacilityService } from '../../../services/data/facility.service';
 import { DepartmentService } from '../../../services/data/department.service';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +7,8 @@ import { DepartmentSelection } from '../../../models/code-work/departmentSelecti
 import { UnitService } from '../../../services/data/unit.service';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { TranslateService } from '@ngx-translate/core';
+import { UpdateUnitRequest } from 'src/app/models/api/UpdateUnitRequest';
+import { UnitResponse } from 'src/app/models/api/UnitResponse';
 
 @Component({
   selector: 'app-edit-a-unit',
@@ -15,13 +16,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EditAUnitComponent implements OnInit, OnDestroy {
 
-  @Input() unit: Unit;
-  @Input() units: Unit[] = [];
-  unitCopy: Unit;
+  @Input() unit: UnitResponse;
+  @Input() facilityId: number; 
+  @Input() units: UnitResponse[] = [];
+  unitCopy: UnitResponse;
   departmentsSelection: DepartmentSelection[];
   UrlPaths = UrlPaths;
 
-  unitsList: Unit[] = [];
+  unitsList: UnitResponse[] = [];
 
   fawarningicon = faExclamationTriangle;
 
@@ -49,10 +51,10 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
 
   loadDepartments() {
 
-    this.unitService.getUnitsForFacility(this.unitCopy.facilityId).subscribe((facility) => {
+    this.unitService.getUnitsForFacility(this.facilityId).subscribe((facility) => {
       this.unitsList = facility;
 
-      this.facilityService.getDepartments(this.unitCopy.facilityId).subscribe(
+      this.facilityService.getDepartments(this.facilityId).subscribe(
         (departments) => {
           this.departmentsSelection = departments.map(a => (
             {
@@ -114,7 +116,15 @@ export class EditAUnitComponent implements OnInit, OnDestroy {
     }
 
     this.unitCopy.departments = this.departmentsSelection.filter(m => m.isSelected).map(r => r.department);
-    this.unitService.updateUnit(this.unitCopy).subscribe(
+    const updateUnit: UpdateUnitRequest = {
+      id: this.unitCopy.id,
+      facilityId: this.facilityId,
+      departmentIds: this.unitCopy.departments.map(dep => dep.id),
+      name: this.unitCopy.name,
+      abbreviation: null,
+      description: null
+    }
+    this.unitService.updateUnit(updateUnit).subscribe(
       (k) => {
         // Must replace values ​​on the original object to support updating the list when navigating back to the unit overview
         this.unit.name = k.name;

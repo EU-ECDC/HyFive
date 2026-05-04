@@ -3,6 +3,8 @@
 //     the code is regenerated.
 
 import { FacilityReport } from './FacilityReport';
+import { UserIdentifier } from './UserIdentifier';
+import { UpdateUserIdentifierRequest } from './UpdateUserIdentifierRequest';
 
 export interface CityCoordinator
 {
@@ -12,9 +14,9 @@ export interface CityCoordinator
 	lastName: string;
 	email: string;
 	identityPseudonym: string;
-	isDisabled: boolean;
-	hprNumber: string;
+	isDeactivated: boolean;
 	facilities: FacilityReport[];
 	modifiedPseudonym?: string;
-	modifiedHPRNumber?: string;
+	userIdentifiers?: UserIdentifier[];
+	modifiedIdentifiers?: UpdateUserIdentifierRequest[];
 }

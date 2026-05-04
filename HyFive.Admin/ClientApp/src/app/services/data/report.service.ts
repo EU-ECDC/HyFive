@@ -10,7 +10,7 @@ import { ReportForSessionTypeHasDataModel } from "src/app/models/api/reportForSe
 export class ReportService {
   constructor(private readonly httpClient: HttpClient) { }
 
-  getComplianceForFiveIndications(payload: {
+  getComplianceForHandHygiene(payload: {
     facilityIds: number[];
     facilityTypeIds: number[];
     interval: string;
@@ -20,9 +20,11 @@ export class ReportService {
     toMonth: number;
     toYear: number;
     toQuarter: number;
+    role: number;
     roleIds: number[];
     departmentIds: number[];
     departmentTypeIds: number[];
+    unitIds: number[];
     transferredTo: number}): Observable<any[]> {
     const url = `${environment.apiBaseUrl}/v1/report/fiveIndications/compliance`;
 

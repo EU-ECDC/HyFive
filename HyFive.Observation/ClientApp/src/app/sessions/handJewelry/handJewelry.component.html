@@ -1,6 +1,6 @@
 <div class="container">
   <app-navigation-link (linkClicked)="navigateToRegistrationPageForHandJewelry(session.id)">{{"Back to observation" | translate}}</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Session: HandJewelry' | translate" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
+  <app-session-edit-header [session]="session" [header]="'Session: Bare Below Elbows' | translate" [sessionIsSentToServer]="sessionIsSentToServer"></app-session-edit-header>
 </div>
 <div *ngIf="sessionIsSentToServer == false" class="container">
   <div class="accordion-compact mb-4">

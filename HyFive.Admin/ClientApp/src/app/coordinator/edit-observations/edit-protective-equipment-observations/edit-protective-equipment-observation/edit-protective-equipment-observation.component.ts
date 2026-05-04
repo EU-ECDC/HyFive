@@ -4,7 +4,6 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProtectiveEquipment } from 'src/app/models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
-import { Department} from "src/app/models/api/Department";
 import { ProtectiveEquipmentMapper } from 'src/app/utils/protective-equipment-mapper';
 import {ToastrService} from "ngx-toastr";
 import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../protective-equipment-modal/protective-equipment-modal.component';
@@ -45,7 +44,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit {
   @Input() isReadonly: boolean = false;
   @Input() observationId: string;
 
-  @Input() department: Department;
+  @Input() departmentId: number;
   @Input() facilityId: number;
   @Input() sessionId: string;
   @Output() observationDeletedEvent = new EventEmitter();

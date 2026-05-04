@@ -1,4 +1,5 @@
 ﻿using HyFive.Models.V1.Authentication;
+using HyFive.Models.V1.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,39 +13,39 @@ namespace HyFive.Services.Authentication.User
 
         bool IsUserLoggedIn();
 
-        bool IsCoordinator(string email);
+        Task<bool> IsCoordinator(string email);
 
-        bool IsObserver(string email);
+        Task<bool> IsObserver(string email);
 
-        bool IsCoordinatorForFacility(int facilityId);
+        Task<bool> IsCoordinatorForFacility(int facilityOrgUnitId);
 
-        bool IsCoordinatorForFacilitiesOrAdmin(List<int> facilityIds);
+        Task<bool> IsCoordinatorForFacilitiesOrAdmin(List<int> facilityOrgUnitIds);
 
-        bool IsCoordinatorForDepartment(int departmentId);
+        Task<bool> IsCoordinatorForDepartment(int departmentOrgUnitId);
+        Task<bool> IsCoordinatorForUnit(int unitOrgUnitId);
 
-        bool IsAdminOrCoordinator(string email);
+        Task<bool> IsAdminOrCoordinator(string email);
 
-        bool IsAdmin(string email);
+        Task<bool> IsAdmin(string email);
 
-        bool IsAdmin();
+        Task<bool> IsAdmin();
 
-        bool IsCoordinatorForDepartmentOrAdmin(int departmentId);
+        Task<bool> IsCoordinatorForDepartmentOrAdmin(int departmentOrgUnitId);
 
-        bool IsObserverForFacility(int facilityId);
+        Task<bool> IsObserverForFacility(int facilityOrgUnitId);
 
-        bool IsCoordinatorForFacilityOrAdmin(int facilityId);
+        Task<bool> IsCoordinatorForFacilityOrAdmin(int facilityOrgUnitId);
 
-        bool IsCoordinatorForCityOrAdmin(int cityId);
+        Task<bool> IsCoordinatorForCityOrAdmin(string city);
 
-        string GetHprNumber();
         string GetEmail();
 
-        bool IsCoordinatorForSession(string sessionId);
+        Task<bool> IsCoordinatorForSession(string sessionId);
 
-        int GetObserverIdForFacility(int facilityId);
+        Task<int> GetObserverIdIfHasAccessToFacility(int facilityOrgUnitId);
 
         string GetPseudonym();
 
-        Expression<Func<TUser, bool>> HasEmailAndIsActive<TUser>(string email) where TUser : Domain.User.User;
+        Expression<Func<Domain.User.User, bool>> HasEmailAndIsActive(string email);
     }
 }

@@ -32,7 +32,7 @@
               <th [sortable-column]="'Name' | translate"></th>
               <th>{{"Short Name" | translate }}</th>
               <th>{{"Facility Type" | translate }}</th>
-              <th [sortable-column]="'City' | translate"></th>
+              <!-- <th [sortable-column]="'City' | translate"></th> -->
               <th class="text-center" scope="col">{{"Action" | translate }}</th>
             </tr>
     
@@ -41,8 +41,8 @@
             <tr *ngFor="let facility of filteredFacilities">
               <td>{{facility.name}}</td>
               <td>{{facility.abbreviation}}</td>
-              <td>{{facility.facilityType?.name}}</td>
-              <td>{{ facility.city?.name }}</td>
+              <td>{{facility.type?.name}}</td>
+              <!-- <td>{{ facility.city?.name }}</td> -->
               <td class="text-end py-2 align-middle">
                 <button class="btn fhi-btn-icon" (click)="navigateToFacility(facility.id)">
                     <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>

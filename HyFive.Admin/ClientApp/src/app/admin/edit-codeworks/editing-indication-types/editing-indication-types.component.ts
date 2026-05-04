@@ -37,7 +37,7 @@ export class EditingIndicationTypesComponent implements OnInit, OnDestroy {
   loadIndicationtypes() {
     this.indicationTypesService.getIndicationTypes().subscribe(
       (result) => this.indicationtypes = result,
-      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Indication Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Hand hygiene Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -50,10 +50,10 @@ export class EditingIndicationTypesComponent implements OnInit, OnDestroy {
     indicationtype.number = indicationtype.number.toString();
     this.indicationTypesService.updateIndicationTypes(indicationtype).subscribe(
       (updatedIndicationtype) => {
-        this.toastrService.success(this.translate.instant("Indications Type updated"));
+        this.toastrService.success(this.translate.instant("Hand Hygiene Type updated"));
         this.loadIndicationtypes();
       },
-      error => this.toastrService.error(this.translate.instant('An error occurred while updating Indications Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating Hand Hygiene Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.indicationtypeAsChanged = null
     );
   }

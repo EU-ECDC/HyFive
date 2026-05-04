@@ -44,7 +44,7 @@ namespace HyFive.Services.Tests.Glove
         //public async Task HentSesjonMedIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var department = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
+        //    var department = DatabaseContext.Department.Include(x => x.Unit).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await CreateSessionWithIndicationTypes(department);
         //    var hentetSesjonFraDatabase = await GetSession(opprettetSesjonGuid);
 
@@ -57,7 +57,7 @@ namespace HyFive.Services.Tests.Glove
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GlovesUsed, Is.EqualTo(true));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygieneType.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Ja));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(department.Roles.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.City, Is.EqualTo(department.Roles.First().City));
         //    });
         //}
 
@@ -65,7 +65,7 @@ namespace HyFive.Services.Tests.Glove
         //public async Task HentSesjonUtenIndikasjonTyperTest()
         //{
         //    //Arrange and act
-        //    var department = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
+        //    var department = DatabaseContext.Department.Include(x => x.Unit).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await CreateSessionWithoutIndicatorTypes(department);
         //    var hentetSesjonFraDatabase = await GetSession(opprettetSesjonGuid);
 
@@ -78,136 +78,10 @@ namespace HyFive.Services.Tests.Glove
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].GlovesUsed, Is.True);
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].PostGloveHandHygieneType.Code,
         //            Is.EqualTo(HandhygieneEtterHanskebrukTypeKonstanter.Nei));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(department.Roles.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.City, Is.EqualTo(department.Roles.First().City));
         //    });
         //}
-
-        private async Task<GloveSession> GetSession(Guid sessionGuidFromRequestGuid)
-        {
-            var getGloveSessionHandler = new GetGloveSession.Handler(DatabaseContext, Mapper, UserService);
-            var handJewelrySession = await getGloveSessionHandler.Handle(new GetGloveSession.Query()
-            {
-                Email = email,
-                SessionId = sessionGuidFromRequestGuid
-            }, CancellationToken.None);
-
-            return handJewelrySession;
-        }
-
-        private async Task<Guid> CreateSessionWithIndicationTypes(Domain.Place.Department department = null)
-        {
-            var logger = new Mock<ILogger<SaveSession.Handler>>();
-
-            var saveGloveSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var departmentModel = Mapper.Map<Models.V1.Facility.Department>(
-                department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
-            var facility = DatabaseContext.Facility.First(x => x.Id == departmentModel.FacilityId);
-            var gloveWithIndicationTypes = DatabaseContext.GloveWithIndicationType.ToList();
-            var handHygieneAfterGloveUseTypes = DatabaseContext.HandHygieneAfterGloveUseType.ToList();
-
-            var gloveSessionGuid = await saveGloveSessionHandler.Handle(new SaveSession.Command()
-            {
-                Session = new GloveSession()
-                {
-                    Id = sessionId.ToString(),
-                    Department = departmentModel,
-                    FacilityName = facility.Name,
-                    FacilityId = facility.Id,
-                    Observations = new List<GloveObservation>()
-                    {
-                        new GloveObservation()
-                        {
-                            Id = observationId.ToString(),
-                            Comment = "Observation comment",
-                            RegisteredTime = DateTime.UtcNow,
-                            Role = departmentModel.Roles.First(),
-                            SessionId = sessionId.ToString(),
-                            GloveWithIndicationTypes = new List<GloveWithIndicationType>()
-                            {
-                                new GloveWithIndicationType()
-                                {
-                                    IsSelected = true,
-                                    Id = gloveWithIndicationTypes.FirstOrDefault(x => x.Code == GloveWithIndicationTypeConstants.Transmission).Id
-                                },
-                                new GloveWithIndicationType()
-                                {
-                                    IsSelected = true,
-                                    Id = gloveWithIndicationTypes.FirstOrDefault(x => x.Code == GloveWithIndicationTypeConstants.BodyFluids).Id
-                                }
-                            },
-                            GlovesUsed = true,
-                            PostGloveHandHygieneType = new PostGloveHandHygieneType()
-                            {
-                                Id = handHygieneAfterGloveUseTypes.FirstOrDefault(x => x.Code == HandHygieneAfterGloveUseTypeConstants.Yes).Id
-                            }
-                        }
-                    },
-                    Comment = "Session Number",
-                    CreatedDate = DateTime.UtcNow
-                },
-                Email = email
-            }, CancellationToken.None);
-
-            return gloveSessionGuid;
-        }
-
-        private async Task<Guid> CreateSessionWithoutIndicatorTypes(Domain.Place.Department department = null)
-        {
-            var logger = new Mock<ILogger<SaveSession.Handler>>();
-
-            var saveGloveSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var departmentModel = Mapper.Map<Models.V1.Facility.Department>(
-                department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
-            var facility = DatabaseContext.Facility.First(x => x.Id == departmentModel.FacilityId);
-            var gloveWithoutIndicationTypes = DatabaseContext.GloveWithoutIndicationType.ToList();
-            var handHygieneAfterGloveUseTypes = DatabaseContext.HandHygieneAfterGloveUseType.ToList();
-
-            var gloveSessionGuid = await saveGloveSessionHandler.Handle(new SaveSession.Command()
-            {
-                Session = new GloveSession()
-                {
-                    Id = sessionId.ToString(),
-                    Department = departmentModel,
-                    FacilityName = facility.Name,
-                    FacilityId = facility.Id,
-                    Observations = new List<GloveObservation>()
-                    {
-                        new GloveObservation()
-                        {
-                            Id = observationId.ToString(),
-                            Comment = "Observation Comment",
-                            RegisteredTime = DateTime.UtcNow,
-                            Role = departmentModel.Roles.First(),
-                            SessionId = sessionId.ToString(),
-                            GloveWithoutIndicationTypes = new List<GloveWithoutIndicationType>()
-                            {
-                                new GloveWithoutIndicationType()
-                                {
-                                    IsSelected = true,
-                                    Id = gloveWithoutIndicationTypes.FirstOrDefault(x => x.Code == GloveWithoutIndicationTypeConstants.Food).Id
-                                },
-                                new GloveWithoutIndicationType()
-                                {
-                                    IsSelected = true,
-                                    Id = gloveWithoutIndicationTypes.FirstOrDefault(x => x.Code == GloveWithoutIndicationTypeConstants.CareWithoutBodyFluids).Id
-                                }
-                            },
-                            GlovesUsed = true,
-                            PostGloveHandHygieneType = new PostGloveHandHygieneType()
-                            {
-                                Id = handHygieneAfterGloveUseTypes.FirstOrDefault(x => x.Code == HandHygieneAfterGloveUseTypeConstants.No).Id
-                            }
-                        }
-                    },
-                    Comment = "Session comment",
-                    CreatedDate = DateTime.UtcNow
-                },
-                Email = email
-            }, CancellationToken.None);
-
-            return gloveSessionGuid;
-        }
-
+        
         #endregion
 
         #region GloveWithIndicatorType

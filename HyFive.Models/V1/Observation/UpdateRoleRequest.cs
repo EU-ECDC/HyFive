@@ -4,7 +4,7 @@ using Reinforced.Typings.Attributes;
 namespace HyFive.Models.V1.Observation
 {
     /// <summary>
-    /// Interface used to update roles from the Admin interface
+    /// Interface used to update roles from the Administrator interface
     /// </summary>
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class UpdateRoleRequest

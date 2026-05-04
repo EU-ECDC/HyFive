@@ -4,7 +4,6 @@ import { ProtectiveEquipmentSessionView } from '../../models/registration/protec
 import { ProtectiveEquipmentSession } from "src/app/models/api/ProtectiveEquipmentSession";
 import { ProtectiveEquipmentObservation } from "src/app/models/api/ProtectiveEquipmentObservation";
 import { Role } from "src/app/models/api/Role";
-import { Department } from "src/app/models/api/Department";
 import { Uuid } from "src/app/utils/uuid";
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { ProtectiveEquipmentCard } from "src/app/models/registration/protectiveEquipment-card.model";
@@ -15,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { FacilityService } from "./FacilityService";
 import {ProtectiveEquipmentType} from "../../models/api/ProtectiveEquipmentType";
 import {ProtectiveEquipment} from "../../models/api/ProtectiveEquipment";
+import { OrganisationUnit } from "src/app/models/api/OrganisationUnit";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class ProtectiveEquipmentSessionService extends BaseSessionService<Protec
 
   createSessionView(
     rolesAsObserved: Role[],
-    department: Department,
+    department: OrganisationUnit,
     setting: ProtectiveEquipmentSettingType): string {
     let id = Uuid.generateUUID();
 

@@ -1,0 +1,11 @@
+.transfer-sessions-width {
+    max-width: 100%;
+}
+
+.transfer-sessions-width-table {
+    min-width: 82%;
+
+    @media screen and (min-width: 1600px) {
+        min-width: 75%;
+    }
+}

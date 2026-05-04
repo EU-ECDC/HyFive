@@ -8,7 +8,7 @@ using HyFive.DataAccess;
 using HyFive.Domain.Place;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PredefinedComment = HyFive.Models.V1.Facility.PredefinedComment;
+using PredefinedComment = HyFive.Models.V1.OrganisationUnit.PredefinedComment;
 
 namespace HyFive.Services.Facility
 {
@@ -16,7 +16,7 @@ namespace HyFive.Services.Facility
     {
         public class Query : IRequest<List<PredefinedComment>>
         {
-            public int FacilityId { get; set; }
+            public int OrganisationUnitId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<PredefinedComment>>
@@ -33,7 +33,7 @@ namespace HyFive.Services.Facility
             {
                 var comments = await _context.PredefinedComment
                     .AsNoTracking()
-                    .Where(pk => pk.FacilityId == request.FacilityId && pk.SessionType == SessionType.ProtectiveEquipment)
+                    .Where(pk => pk.OrganisationUnitId == request.OrganisationUnitId && pk.SessionType == SessionType.ProtectiveEquipment)
                     .ProjectTo<PredefinedComment>(_mapper.ConfigurationProvider)
                     .OrderBy(pk => pk.Comment)
                     .ToListAsync(cancellationToken);

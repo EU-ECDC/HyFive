@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <th>{{"Role" | translate }}</th>
-          <th>{{"Hand jewelry" | translate }}</th>
+          <th>{{"Bare Below Elbows" | translate }}</th>
           <th>{{"Registered Date" | translate }}</th>
           <th>{{"Comment" | translate }}</th>
         </tr>
@@ -31,7 +31,7 @@
             </tr>
             <tr></tr>
             <tr>
-              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="department.id" (roleSelected)="selectRole($event)" [customClass]="''"></app-role-selection-dropdown></td>
+              <td><app-role-selection-dropdown [roleId]="handjewelryObservationAsChanged.role.id" [departmentId]="departmentId" (roleSelected)="selectRole($event)" [customClass]="''"></app-role-selection-dropdown></td>
               <td>
                 <ul *ngFor="let handJewelry of handJewelrySelection">
                   <div class="form-check">

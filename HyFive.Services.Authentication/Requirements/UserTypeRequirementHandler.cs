@@ -23,53 +23,40 @@ namespace HyFive.Services.Authentication.Requirements
             _context = handHygieneContext;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserTypeRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UserTypeRequirement requirement)
         {
-            var userType = requirement.UserType;
-            
             var email = GetEmail();
 
-
-            if (userType == UserType.Coordinator)
+            switch (requirement.UserType)
             {
-                var isCoordinator = _userService.IsCoordinator(email);
-                if (isCoordinator)
-                    context.Succeed(requirement);
+                case UserType.Coordinator:
+                    {
+                        if (await _userService.IsCoordinator(email))
+                            context.Succeed(requirement);
+                        break;
+                    }
+
+                case UserType.Observer:
+                    {
+                        if (await _userService.IsObserver(email))
+                            context.Succeed(requirement);
+                        break;
+                    }
+
+                case UserType.Admin:
+                    {
+                        if (await _userService.IsAdmin(email))
+                            context.Succeed(requirement);
+                        break;
+                    }
+
+                case UserType.AdminOrCoordinator:
+                    {
+                        if (await _userService.IsAdminOrCoordinator(email))
+                            context.Succeed(requirement);
+                        break;
+                    }
             }
-
-            if (userType == UserType.Observer)
-            {
-                var erObservator = _userService.IsObserver(email);
-                if (erObservator)
-                    context.Succeed(requirement);
-            }
-
-            if (userType == UserType.Admin)
-            {
-                var erFhiAdmin = _userService.IsAdmin(email);
-                if(erFhiAdmin)
-                    context.Succeed(requirement);
-            }
-            if (userType == UserType.AdminOrCoordinator)
-            {
-                var IsAdminOrCoordinator = _userService.IsAdminOrCoordinator(email);
-                if(IsAdminOrCoordinator)
-                    context.Succeed(requirement);
-            }
-            return Task.CompletedTask;
-        }
-
-        public string GetHprNumber()
-        {
-            var email = _httpContextAccessor.HttpContext?.User?
-            .FindFirst(ClaimTypes.Email)?.Value;
-
-            if (string.IsNullOrWhiteSpace(email))
-                return null;
-
-            var user = _context.User.FirstOrDefault(u => u.Email == email);
-
-            return user?.HPRNumber;
         }
 
         public string GetPseudonym()

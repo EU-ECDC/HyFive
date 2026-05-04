@@ -2,6 +2,8 @@
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,7 +17,7 @@ namespace HyFive.Services.User
     {
         public class Command : IRequest<Models.V1.User.User>
         {
-            public Models.V1.User.User User { get; set; }
+            public CreateUpdateUserRequest Request { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Models.V1.User.User>
@@ -32,14 +34,30 @@ namespace HyFive.Services.User
 
             public async Task<Models.V1.User.User> Handle(Command command, CancellationToken cancellationToken)
             {
-                await UserUpdateHelper.UpdateUserBaseFields<Observer>(
+                var observer = await UserUpdateHelper.UpdateUserBaseFields(
                     _context,
-                    command.User,
+                    command.Request,
+                    PermissionLevelConstants.Observer,
                     cancellationToken
                 );
 
-                return _mapper.Map<Models.V1.User.User>(
-                await _context.User.OfType<Observer>().FirstAsync(u => u.Id == command.User.Id, cancellationToken));
+                //ensure observer has permission for the facility OU
+                var hasPermission = await _context.UserPermission
+                    .AnyAsync(p => p.UserId == observer.Id && p.OrganisationUnitId == command.Request.FacilityId, cancellationToken);
+
+                if (!hasPermission)
+                {
+                    _context.UserPermission.Add(new Domain.User.UserPermission
+                    {
+                        UserId = observer.Id,
+                        OrganisationUnitId = command.Request.FacilityId,
+                        PermissionLevel = PermissionLevelConstants.Observer
+                    });
+                }
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return _mapper.Map<Models.V1.User.User>(observer);
             }
         }
     }

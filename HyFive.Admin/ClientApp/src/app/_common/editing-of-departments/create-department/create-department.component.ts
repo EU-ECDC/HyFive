@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
 import {CreateDepartmentRequest} from '../../../models/api/CreateDepartmentRequest';
 import {DepartmentService} from '../../../services/data/department.service';
-import {Department} from '../../../models/api/Department';
 import {ToastrService} from 'ngx-toastr';
 import {RoleSelected} from '../../../models/code-work/roleSelected.model';
-import {DepartmentType} from '../../../models/api/DepartmentType';
 import { Role } from '../../../models/api/Role';
 import { RoleService } from '../../../services/data/role.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 
 @Component({
   selector: 'app-create-department',
@@ -17,12 +17,12 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
 
   newDepartment: CreateDepartmentRequest;
   roleSelected: RoleSelected[] = [];
-  departmentTypes: DepartmentType[];
+  departmentTypes: OrganisationUnitType[];
   roles: Role[] = [];
 
   @Input() facilityId: number;
-  @Input() departments: Department[] = [];
-  @Output() departmentCreatedEvent: EventEmitter<Department> = new EventEmitter<Department>();
+  @Input() departments: OrganisationUnit[] = [];
+  @Output() departmentCreatedEvent: EventEmitter<OrganisationUnit> = new EventEmitter<OrganisationUnit>();
   @Output() resetFormEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
@@ -69,7 +69,7 @@ export class CreateDepartmentComponent implements OnInit, OnDestroy {
   loadDepartmentTypes() {
     this.departmentService.getDepartmentTypes().subscribe(
       (departmentTypes) => {
-        this.departmentTypes = [ { id: 0, code: '', name: this.translate.instant('Not selected') }, ...departmentTypes ];
+        this.departmentTypes = [ { id: 0, code: '', name: this.translate.instant('Not selected'), description: null }, ...departmentTypes ];
       },
       (err) => this.toastrService.error(this.translate.instant('Could not load roles:') + `${err?.error.message ? err?.error.message : err}`, this.translate.instant('Technical error'), { disableTimeOut: true})
     );

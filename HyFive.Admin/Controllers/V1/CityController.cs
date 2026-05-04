@@ -1,7 +1,7 @@
 ﻿using HyFive.Domain.User;
 using HyFive.Models.V1;
 using HyFive.Models.V1.User;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.City;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace HyFive.Admin.Controllers.V1
 {
     [Authorize(HandhygienePolicy.AdminOrCoordinator)]
-    [Route("api/v1/city")]
+    [Route("api/v1/cities")]
     [ApiController]
     public class CityController : ControllerBase
     {
@@ -30,100 +30,85 @@ namespace HyFive.Admin.Controllers.V1
 
         [Authorize(HandhygienePolicy.Admin)]
         [HttpGet]
-        [ProducesResponseType(typeof(List<City>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<City>>> GetAllCities()
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<string>>> GetAllCities()
         {
             var allCities = await _mediator.Send(new GetAllCities.Query());
             return Ok(allCities);
-        }
+        }        
 
-        [Authorize(HandhygienePolicy.Admin)]
-        [HttpPost("create")]
+        [HttpGet("{city}/coordinators")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> CreateCity([FromBody] CreateCityRequest cityRequest)
+        public async Task<ActionResult<CityCoordinator[]>> GetCoordinatorsForCity(string city)
         {
-            var isCreated = await _mediator.Send(new CreateCity.Command
-            {
-                City = cityRequest
-            });
-            return Ok(isCreated);
-        }
+            if (string.IsNullOrWhiteSpace(city))
+                return BadRequest("City is required.");
 
-        [Authorize(HandhygienePolicy.Admin)]
-        [HttpPut("update")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> UpdateCity([FromBody] City city)
-        {
-            var isUpdated = await _mediator.Send(new UpdateCity.Command
+            if (!await _userService.IsCoordinatorForCityOrAdmin(city))
+                return Unauthorized();
+
+            var coordinators = await _mediator.Send(new GetCoordinatorsForCity.Query
             {
                 City = city
             });
-            return Ok(isUpdated);
+
+            return Ok(coordinators);
         }
 
-        [HttpGet("{id}/coordinators")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<CityCoordinator[]>> GetCoordinatorsForCity(int id)
+        [HttpGet("{city}/Facilities")]
+        public async Task<ActionResult<FacilityReport[]>> GetFacilitiesForCity(string city)
         {
-            if (_userService.IsCoordinatorForCityOrAdmin(id))
+            if (string.IsNullOrWhiteSpace(city))
+                return BadRequest("City is required.");
+
+            if (!await _userService.IsCoordinatorForCityOrAdmin(city))
+                return Unauthorized();
+
+            var facilities = await _mediator.Send(new GetCity.Query
             {
-                var coordinatorsWithFacilitiesList = await _mediator.Send(new GetCoordinatorsForCity.Query
-                {
-                    CityId = id
-                });
-                return Ok(coordinatorsWithFacilitiesList);
-            }
+                City = city
+            });
 
-            return Unauthorized();
-        }
-
-        [HttpGet("{id}/Facilities")]
-        public async Task<ActionResult<FacilityReport[]>> GetFacilitiesForCity(int id)
-        {
-            if (_userService.IsCoordinatorForCityOrAdmin(id))
-            {
-                return await _mediator.Send(new GetCity.Query
-                {
-                    CityId = id
-                });
-            }
-
-            return Unauthorized();
+            return Ok(facilities);
         }
 
 
-        [HttpPut("{id}/updateCoordinator")]
+        [HttpPut("{city}/updateCoordinator")]
         [ProducesResponseType(typeof(Status), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Status>> UpdateCoordinator([FromBody] CityCoordinator coordinator, int id)
+        public async Task<ActionResult<Status>> UpdateCoordinator([FromBody] CityCoordinator coordinator, string city)
         {
-            if (_userService.IsCoordinatorForCityOrAdmin(id))
-            {
-                var updatedStatus = await _mediator.Send(new UpdateCoordinatorForCity.Command
-                {
-                    Coordinator = coordinator,
-                    CityId = id
-                });
-                return Ok(updatedStatus);
-            }
+            if (string.IsNullOrWhiteSpace(city))
+                return BadRequest("City is required.");
 
-            return Unauthorized();
+            if (!await _userService.IsCoordinatorForCityOrAdmin(city))
+                return Unauthorized();
+
+            var updatedStatus = await _mediator.Send(new UpdateCoordinatorForCity.Command
+            {
+                Coordinator = coordinator,
+                City = city
+            });
+
+            return Ok(updatedStatus);
         }
 
-        [HttpPost("{id}/createCoordinator")]
+        [HttpPost("{city}/createCoordinator")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Status>> CreateCoordinator([FromBody] CityCoordinator coordinator, int id)
+        public async Task<ActionResult<Status>> CreateCoordinator([FromBody] CityCoordinator coordinator, string city)
         {
-            if (_userService.IsCoordinatorForCityOrAdmin(id))
-            {
-                var createdStatus = await _mediator.Send(new CreateCoordinatorForCity.Command
-                {
-                    Coordinator = coordinator,
-                    CityId = id
-                });
-                return Ok(createdStatus);
-            }
+            if (string.IsNullOrWhiteSpace(city))
+                return BadRequest("City is required.");
 
-            return Unauthorized();
+            if (!await _userService.IsCoordinatorForCityOrAdmin(city))
+                return Unauthorized();
+
+            var createdStatus = await _mediator.Send(new CreateCoordinatorForCity.Command
+            {
+                Coordinator = coordinator,
+                City = city
+            });
+
+            return Ok(createdStatus);
         }
     }
 }

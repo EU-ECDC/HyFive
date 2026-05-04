@@ -2,13 +2,11 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { DepartmentOverviewReport } from './DepartmentOverviewReport';
-
 export interface FacilityOverviewReport
 {
 	id: number;
 	name: string;
 	numberOfSessions: number;
 	numberOfObservations: number;
-	departments: DepartmentOverviewReport[];
+	units: any[];
 }

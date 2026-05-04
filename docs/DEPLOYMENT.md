@@ -186,17 +186,20 @@ Note that this means that the initial administrator needs to be added "by hand"
 in the database.
 ex.
 ```SQL
-INSERT INTO "User" (
-    "InstitutionId", 
-    "Discriminator", 
-    "LastName", 
-    "FirstName", 
-    "CreatedTime", 
-    "IsDeactivated", 
-    "Email"
-    ) 
-    VALUES 
-    (NULL, N'Admin', N'Ada', N'Min', NOW(), FALSE, N'admin@hyfive.eu');
+DO $$
+DECLARE
+  adminId INTEGER; -- Variable to store the returned ID
+BEGIN
+  -- Insert user and capture the generated ID
+  INSERT INTO "User" ("LastName","FirstName","CreatedTime","IsDeactivated","Email")
+  VALUES ('Min', 'Ada', NOW(), FALSE, 'ad@m.in')
+	RETURNING "Id" INTO adminId;
+
+  -- Insert admin permission for user
+	INSERT INTO public."UserPermission" ("PermissionLevel", "UserId", "OrganisationUnitId", "CreatedAt", "CreatedBy", "LastModified", "LastModifiedBy") 
+	VALUES('Administrator', adminId, null, now(), 'db admin', now(), 'db admin');
+END;
+$$;
 ```
 
 #### Redirect pages

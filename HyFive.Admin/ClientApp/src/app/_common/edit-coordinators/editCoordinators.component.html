@@ -29,7 +29,7 @@
               <td>{{coordinator.lastName}} </td>
               <td>{{coordinator.email}}</td>
               <td>
-                <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDisabled" name="isDisabled" disabled="disabled">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="coordinator.isDeactivated" name="isDeactivated" disabled="disabled">
               </td>
               
               <td class="text-end py-2 align-middle">
@@ -51,7 +51,7 @@
               </td>
 
               <td>
-                <input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorIsChanged.isDisabled" name="isDisabled">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="coordinatorIsChanged.isDeactivated" name="isDeactivated">
               </td>
 
               <td class="text-end py-2 align-middle">

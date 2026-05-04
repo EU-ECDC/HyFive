@@ -1,6 +1,9 @@
+using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
+using HyFive.Services.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -18,11 +21,11 @@ namespace HyFive.Services.Session
             public DateTime? StartDate { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, UpdateSessionResponse>
+        public class Handler : BaseHandler, IRequestHandler<Command, UpdateSessionResponse>
         {
             private readonly HandHygieneContext _databaseContext;
 
-            public Handler(HandHygieneContext databaseContext)
+            public Handler(HandHygieneContext databaseContext, IMapper mapper) : base(databaseContext, mapper)
             {
                 _databaseContext = databaseContext;
             }
@@ -31,27 +34,33 @@ namespace HyFive.Services.Session
             {
                 var response = new UpdateSessionResponse();
 
-                var session = _databaseContext.Session.FirstOrDefault(s => s.Id == request.SessionId && s.Department.FacilityId == request.FacilityId);
+                // 1) Load session + its OU id (no Department anymore)
+                var session = await _databaseContext.Session
+                    .FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
 
                 if (session == null)
-                {
                     throw new DomainException("SessionNotFound", request.SessionId);
-                }
 
+                // 2) Verify session belongs to facility via OU tree (facility is ancestor of session OU)
+                var belongsToFacility = await IsAncestorAsync( _databaseContext,request.FacilityId, session.OrganisationUnitId,cancellationToken);
+                if (!belongsToFacility)
+                    throw new DomainException("SessionNotLinkedToFacility", request.SessionId, request.FacilityId);
+
+                // 3) Update fields
                 if (request.Comment != null)
-                {
                     session.Comment = request.Comment;
-                }
 
-                await _databaseContext.SaveChangesAsync();
+                await _databaseContext.SaveChangesAsync(cancellationToken);
+
                 response.Success = true;
                 return response;
             }
         }
-
-        public class UpdateSessionResponse
-        {
-            public bool Success { get; set; }
-        }
     }
+
+    public class UpdateSessionResponse
+    {
+        public bool Success { get; set; }
+    }
+    
 }

@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { FiveIndicationsSession } from '../../../models/api/FiveIndicationsSession';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { HandHygieneSession } from "src/app/models/api/HandHygieneSession";
 
 @Component({
   selector: 'app-sent-session-overview',
@@ -10,5 +10,5 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 export class SentSessionOverviewComponent {
 
   faCalendar = faCalendar;
-  @Input() session: FiveIndicationsSession;
+  @Input() session: HandHygieneSession;
 }

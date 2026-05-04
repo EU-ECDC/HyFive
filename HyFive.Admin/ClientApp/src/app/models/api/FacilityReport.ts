@@ -2,15 +2,13 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { FacilityType } from './FacilityType';
-import { City } from './City';
+import { OrganisationUnitType } from './OrganisationUnitType';
 
 export interface FacilityReport
 {
 	id: number;
 	name: string;
 	abbreviation: string;
-	herId: string;
-	facilityType: FacilityType;
-	city: City;
+	type: OrganisationUnitType;
+	city?: string;
 }

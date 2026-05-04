@@ -11,7 +11,7 @@
   <div class="row w-100">
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>{{ "Session Type" | translate }}</strong></div>
-      <span>{{item.type}}</span>
+      <span>{{item.typeName}}</span>
     </div>
     <div class="col mb-3 mb-lg-2">
       <div class="mb-2"><strong>{{ "Observer" | translate }}</strong></div>
@@ -33,28 +33,32 @@
 </ng-template>
 
 <ng-template #transferHeader let-item="item">
-  <div class="row w-100">
-    <div class="col-12 col-md-2 mb-3">
-      <div class="mb-2"><strong>{{"Department Name" | translate }}</strong></div>
-      <span>{{item.department.name}}</span>
+  <div class="flex-row row flex-nowrap justify-content-between w-100">
+    <div class="w-auto px-2">
+      <div class="mb-2"><strong>{{"Unit Name" | translate }}</strong></div>
+      <span>{{item.unitName}}</span>
     </div>
-    <div class="col-12 col-md-2 mb-3">
+    <div class="w-auto mb-3 px-2">
+      <div class="mb-2"><strong>{{"Department Name" | translate }}</strong></div>
+      <span>{{item.departmentName}}</span>
+    </div>
+    <div class="w-auto mb-3 px-2">
       <div class="mb-2"><strong>{{ "Observer" | translate }}</strong></div>
       <span>{{item.observerName}}</span>
     </div>
-    <div class="col-12 col-md-2 mb-3">
+    <div class="w-auto mb-3 px-2">
       <div class="mb-2"><strong>{{ "Session Type" | translate }}</strong></div>
-      <span>{{item.type}}</span>
+      <span>{{item.typeName}}</span>
     </div>
-    <div class="col-12 col-md-2 mb-3">
+    <div class="w-auto mb-3 px-2">
       <div class="mb-2"><strong>{{"Registered Date" | translate }}</strong></div>
       <span>{{item.createdDate | date:'dd.MM.yyyy HH:mm' }}</span>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-1" *ngIf="!isTransferToFhi(item.transferStatus.code)">
+    <div class="w-auto mb-1 px-2" style="min-width: 17rem;" *ngIf="!isTransferToFhi(item.transferStatus.code)">
       <div class="mb-2 me-2">
         <button class="btn btn-sm fhi-btn-primary col-md-12 px-1" (click)="transfer(item.id, $event)">
           <fa-icon [icon]="faPaperPlane"></fa-icon>
-          {{"Transfer to Admin" | translate }}
+          {{"Transfer to Administrator" | translate }}
         </button>
       </div>
       <div>
@@ -68,11 +72,11 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-3 mb-3" *ngIf="isTransferToFhi(item.transferStatus.code)"></div>
-    <div class="col-12 col-md-1">
-      <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator" class="mt-2">
+    <div class="w-auto mb-3" *ngIf="isTransferToFhi(item.transferStatus.code)"></div>
+    <div class="w-auto px-2">
+      <div *ngIf="item.transferStatus.code == transferstatusTypeConstants.TransferredToCoordinator" style="display: flex;" class="gap-1 align-items-center mt-2">
         <input type="checkbox" id="check" class="form-check-input" (click)="selectOverToFhi(item.id, $event)" [(ngModel)]="item.isSelected">
-        <label for="check">{{"Select" | translate }}</label>
+        <label for="check"> {{"Select" | translate }}</label>
       </div>
     </div>
   </div>
@@ -85,25 +89,25 @@
     <div class="pb-4">
       <app-edit-sessionsdata [session]="item"
                                [canEdit]="!isTransferToFhi(item.transferStatus.code)"
-                               [facilityId]="item.department.facilityId">
+                               [facilityId]="item.facilityId">
       </app-edit-sessionsdata>
     </div>
     <h3 class="text-dark mb-3"><strong>{{"Observations" | translate }}</strong></h3>
-    <!-- Five Indicatiobs -->
+    <!-- Hand Hygiene -->
     <ng-container *ngIf="item.type === SessionType[SessionType.FiveIndications]">
-      <app-edit-five-indications-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
+      <app-edit-hand-hygiene-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                                    (observationUpdatedEvent)="observationUpdatedEvent.emit(true)"
                                                    (observationDeletedEvent)="observationDeletedEvent.emit(true)"
-                                                   [department]="item.department"
+                                                   [departmentId]="item.departmentId"
                                                    [observations]="item.observations"
-                                                   [sessionId]="item.id"></app-edit-five-indications-observations>
+                                                   [sessionId]="item.id"></app-edit-hand-hygiene-observations>
     </ng-container>
-    <!-- HandJewelry -->
+    <!-- BareBelowElbows -->
     <ng-container *ngIf="item.type === SessionType[SessionType.HandJewelry]">
       <app-edit-handjewelry-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                             [sessionId]="item.id"
                                             [observations]="item.observations"
-                                            [department]="item.department"
+                                            [departmentId]="item.departmentId"
                                             (observationDeletedEvent)="observationDeletedEvent.emit()"
                                             (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-handjewelry-observations>
     </ng-container>
@@ -112,7 +116,7 @@
       <app-edit-glove-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                         [sessionId]="item.id"
                                         [observations]="item.observations"
-                                        [department]="item.department"
+                                        [departmentId]="item.departmentId"
                                         (observationDeletedEvent)="observationDeletedEvent.emit()"
                                         (observationUpdatedEvent)="observationUpdatedEvent.emit()"></app-edit-glove-observations>
     </ng-container>
@@ -121,7 +125,8 @@
       <app-edit-protective-equipment-observations [canEdit]="!isTransferToFhi(item.transferStatus.code)"
                                                     [sessionId]="item.id"
                                                     [observations]="item.observations"
-                                                    [department]="item.department"
+                                                    [departmentId]="item.departmentId"
+                                                    [facilityId]="item.facilityId"
                                                     (observationDeletedEvent)="observationDeletedEvent.emit()"
                                                     (observationUpdatedEvent)="observationUpdatedEvent.emit()">
       </app-edit-protective-equipment-observations>

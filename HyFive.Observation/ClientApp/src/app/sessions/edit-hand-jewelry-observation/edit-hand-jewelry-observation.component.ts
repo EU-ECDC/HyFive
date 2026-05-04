@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Department } from '../../models/api/Department';
 import { HandJewelryObservation } from '../../models/api/HandJewelryObservation';
 import { HandJewelryType } from '../../models/api/HandJewelryType';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +13,7 @@ import { Role } from '../../models/api/Role';
 import { HandJewelryTypeConstants } from '../../models/api/HandJewelryTypeConstants';
 import { HandJewelryTypeService } from '../../services/data/hand-jewelry-type.service';
 import { SessionType } from 'src/app/models/api/SessionType';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-edit-hand-jewelry-observation',
@@ -42,7 +42,7 @@ export class EditHandJewelryObservationComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observation: HandJewelryObservation;
-  @Input() department: Department;
+  @Input() department: OrganisationUnit;
   @Input() facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
 

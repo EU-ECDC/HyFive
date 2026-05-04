@@ -71,7 +71,7 @@ export class ProtectiveEquipmentObservationCardComponent extends BaseCardSwipe i
       this.updateProtectiveEquipmentSelection();
     })
     this.ProtectiveEquipmentSelection = ProtectiveEquipmentMapper.getProtectiveEquipmentSelection(this.sessionView.setting.equipmentTypes);
-    this.facilityid = this.sessionView.department.facilityId;
+    this.facilityid = this.sessionView.department.parentId;
   }
 
 

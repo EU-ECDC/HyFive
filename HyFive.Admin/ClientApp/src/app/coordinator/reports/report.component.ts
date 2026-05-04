@@ -33,28 +33,28 @@ export class ReportComponent implements OnInit {
   private getTreeviewNavigationItems(): FhiTreeViewNavigationItem[] {
     return [
       {
-        name: 'Five Indications',
+        name: 'Hand Hygiene',
         isExpanded: true,
         children: [
           {
             name: 'Compliance',
-            routerLink: UrlPaths.fiveIndicationsCompliance
+            routerLink: UrlPaths.handHygieneCompliance
           }
         ]
       },
-      {
-        name: 'Predefined (PDF)',
-        children: [
-          {
-            name: 'Compliance five indications',
-            routerLink: UrlPaths.fiveIndicationsCompliancePdf
-          },
-          {
-            name: 'Compliance handjewelry',
-            routerLink: UrlPaths.handjewelryCompliancePdf
-          }
-        ]
-      },
+      // {
+      //   name: 'Predefined (PDF)',
+      //   children: [
+      //     {
+      //       name: 'Compliance hand hygiene',
+      //       routerLink: UrlPaths.handHygieneCompliancePdf
+      //     },
+      //     {
+      //       name: 'Compliance bare below elbows',
+      //       routerLink: UrlPaths.barebelowelbowsCompliancePdf
+      //     }
+      //   ]
+      // },
       {
         name: 'Downloads (Excel)',
         routerLink: UrlPaths.downloadExcel

@@ -31,7 +31,7 @@ namespace HyFive.Services.Facility
                 
                 var predefinedComments = await _context.PredefinedComment
                     .Where(pk =>
-                        pk.FacilityId == request.FacilityId )
+                        pk.OrganisationUnitId == request.FacilityId)
                     .Select(pk => pk.Comment)
                     .ToListAsync(cancellationToken);
 

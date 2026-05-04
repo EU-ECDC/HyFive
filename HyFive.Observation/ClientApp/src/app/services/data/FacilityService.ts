@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Facility } from '../../models/api/Facility';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +13,23 @@ export class FacilityService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getFacility(id: number): Observable<Facility> {
-    return this.getFacilities().pipe(map((p: Facility[]) => p.find(x => x.id === id)));
+  getFacility(id: number): Observable<OrganisationUnit> {
+    return this.getFacilities().pipe(map((p: OrganisationUnit[]) => p.find(x => x.id === id)));
   }
 
-  getSelectedFacility(): Observable<Facility> {
+  getSelectedFacility(): Observable<OrganisationUnit> {
     let selectedFacilityId = this.getSelectedFacilityId();
     return this.getFacility(selectedFacilityId);
   }
 
-  getFacilities(): Observable<Facility[]> {
+  getFacilities(): Observable<OrganisationUnit[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/`;
-    return this.http.get<Facility[]>(url).pipe(
+    return this.http.get<OrganisationUnit[]>(url).pipe(
                                                 map(data => data.filter(x => x != null)),
                                                 map(data => {
                                                               let distinctSorted = [...new Map(data.map(item => [item.id, item])).values()]
                                                                           ?.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-                                                              distinctSorted.forEach(facility => facility.departments?.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })));
+                                                              distinctSorted.forEach(facility => facility.children?.sort((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })));
                                                               return distinctSorted;
                                                             }
                                                     )

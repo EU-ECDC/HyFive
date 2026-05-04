@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Facility;
@@ -31,11 +31,11 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet(Name = "GetPredefinedComments")]
         public async Task<ActionResult<List<PredefinedComment>>> GetPredefinedComments(int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 return await _mediator.Send(new GetPredefinedCommentsForCoordinator.Query
                 {
-                    FacilityId = facilityId
+                    OrganisationUnitId = facilityId
                 });
             }
             return Unauthorized();
@@ -52,12 +52,12 @@ namespace HyFive.Admin.Controllers.V1
             int facilityId,
             [FromBody] PredefinedComment predefinedComment)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var isUpdated = await _mediator.Send(new UpdatePredefinedComment.Command
                 {
                     PredefinedComment = predefinedComment,
-                    FacilityId = facilityId
+                    OrganisationUnitId = facilityId
                 });
                 return isUpdated;
             }
@@ -77,7 +77,7 @@ namespace HyFive.Admin.Controllers.V1
             int facilityId,
             [FromBody] CreatePredefinedCommentRequest newPredefinedComment)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var isCreated = await _mediator.Send(new CreatePredefinedComment.Command
                 {

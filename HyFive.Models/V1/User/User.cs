@@ -1,5 +1,6 @@
-﻿using System;
-using Reinforced.Typings.Attributes;
+﻿using Reinforced.Typings.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace HyFive.Models.V1.User
 {
@@ -7,14 +8,16 @@ namespace HyFive.Models.V1.User
     public class User
     {
         public int Id { get; set; }
-        public int FacilityId { get; set; }
         public DateTime CreatedTime { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string IdentityPseudonym { get; set; }
-        public bool IsDisabled { get; set; }
-        public string HPRNumber { get; set; }
-       
+        public bool IsDeactivated { get; set; }
+        [TsProperty(ForceNullable = true)]
+        public List<UserPermission> UserPermissions { get; set; }
+
+        [TsProperty(ForceNullable = true)]
+        public List<UserIdentifier> UserIdentifiers { get; set; }
     }
 }

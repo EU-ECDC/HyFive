@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
       if (this.isLoggedIn) {
         this.authorizationService.getUser().subscribe((user) => {
           this.user = user;
-          if (user.facilityIds?.length > 0) {
+          if (user.organisationUnits?.length > 0) {
             this.hasFacilities = true;
           } else {
             this.hasFacilities = false;

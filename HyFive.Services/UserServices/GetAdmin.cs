@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.User;
+using HyFive.Services.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -30,11 +32,23 @@ namespace HyFive.Services.UserServices
 
             public async Task<Models.V1.User.User[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.User
-                    .OfType<Domain.User.Admin>()
+                var users = await _context.User
                     .AsNoTracking()
-                    .ProjectTo<Models.V1.User.User>(_mapper.ConfigurationProvider)
-                    .ToArrayAsync();
+                    .WithPermission(PermissionLevelConstants.Administrator)
+                    .Include(u => u.UserPermissions)
+                        .ThenInclude(p => p.OrganisationUnit)
+                            .ThenInclude(ou => ou.Type)
+                    .Include(u => u.UserPermissions)
+                        .ThenInclude(p => p.OrganisationUnit)
+                            .ThenInclude(ou => ou.LevelRef)
+                    .Include(u => u.UserPermissions)
+                        .ThenInclude(p => p.OrganisationUnit)
+                            .ThenInclude(ou => ou.OrganisationUnitRoles)
+                                .ThenInclude(our => our.Role)
+                    .Include(u => u.UserIdentifiers)
+                    .ToListAsync(cancellationToken);
+
+                return _mapper.Map<Models.V1.User.User[]>(users);
             }
         }
     }

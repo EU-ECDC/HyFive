@@ -38,7 +38,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="unitAsEdited">
-    <app-edit-a-unit [unit]="unitAsEdited" [units]="units"></app-edit-a-unit>
+    <app-edit-a-unit [unit]="unitAsEdited" [facilityId]="facilityId" [units]="units"></app-edit-a-unit>
   </ng-container>
   <div class="row" *ngIf="!loading && units?.length == 0">
     <div class="col-12">

@@ -9,22 +9,20 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { HomePageForObservationComponent } from './startside/home-page-observation.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { RegisterFiveIndicationsComponent } from "./registrering/register-five-indications/register-five-indications.component";
-import { FiveIndicationsSessionService } from './services/data/five-indications-session.service';
 import { RegisterActivityComponent } from './registrering/register-activity/register-activity.component';
 import { MissedOpportunityComponent } from './registrering/missed-opportunity/missed-opportunity.component';
-import { FiveIndicationsObservationCardComponent } from './registrering/five-indications-observation-card/five-indications-observation-card.component';
+import { HandHygieneObservationCardComponent } from './registrering/hand-hygiene-observation-card/hand-hygiene-observation-card.component';
 import { IndicationSelectionComponent } from './registrering/indication-selection/indication-selection.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HandHygieneHammerJS } from '../hammerjsConfig';
 import { RegisterCommentComponent } from './registrering/register-comment/register-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RegisterHandjewelryComponent } from './registrering/register-hand-jewelry/register-hand-jewelry.component';
+import { RegisterBareBelowElbowsComponent } from './registrering/register-bare-below-elbows/register-bare-below-elbows.component';
 import { SaveShadowComponent } from './registrering/save-shadow/save-shadow.component';
 import { DeleteShadowComponent } from './registrering/delete-shadow/delete-shadow.component';
 import { HandJewelrySessionService } from './services/data/hand-Jewelry-session.service';
-import { HandJewelryObservationCardComponent } from './registrering/handjewelry-observation-card/handjewelry-observation-card.component';
+import { BareBelowElbowsObservationCardComponent } from './registrering/bare-below-elbows-observation-card/bare-below-elbows-observation-card.component';
 import { RoleSelectDropdownComponent } from './registrering/role-selection-dropdown/role-selection-dropdown.component';
 //import { FhiAccordionModule } from '@folkehelseinstituttet/ng-components';
 import { RegisterProtectiveEquipmentComponent } from './registrering/register-protective-equipment/register-protective-equipment.component';
@@ -54,8 +52,8 @@ import {HelpTextComponent} from "./shared/help-text/help-text.component";
 import { HelpTextSettingsComponent } from './shared/help-text-setting/help-text-setting.component';
 import { PseudonymComponent } from './shared/pseudonym-modal/pseudonym.component';
 import { NotSentSessionsComponent } from './sessions/not-sent-sessions/not-sent-sessions.component';
-import { EditFiveIndicationsObservationComponent } from './sessions/edit-five-indications-observation/edit-five-indications-observation.component';
-import { FiveIndicationsComponent } from './sessions/five-indications/five-indications.component';
+import { EditHandHygieneObservationComponent } from './sessions/edit-hand-hygiene-observation/edit-hand-hygiene-observation.component';
+import { HandHygieneComponent } from './sessions/hand-hygiene/hand-hygiene.component';
 import { DeleteConfirmationDialogComponent } from './sessions/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { HandJewelryComponent } from './sessions/handJewelry/handJewelry.component';
 import { EditHandJewelryObservationComponent } from './sessions/edit-hand-jewelry-observation/edit-hand-jewelry-observation.component';
@@ -63,12 +61,11 @@ import { SessionOverviewComponent } from './sessions/session-overview/session-ov
 import { SentSessionsComponent } from './sessions/sent-sessions/sent-sessions.component';
 import { ProtectiveEquipmentComponent } from './sessions/protection-equipment/protection-equipment.component';
 import { SessionEditHeaderComponent } from './sessions/session-edit-header/session-edit-header.component';
-import { SentFiveIndicationsSessionComponent } from './sessions/sent-sessions/sent-five-indications-session/sent-five-indications-session.component';
 import { EditProtectiveEquipmentObservationComponent } from './sessions/edit-protective-equipment-observation/edit-protective-equipment-observation.component';
 import { SentSessionOverviewComponent } from './sessions/sent-sessions/sent-session-overview/sent-session-overview.component';
 import { SentHandJewelrySessionComponent } from './sessions/sent-sessions/sent-hand-jewelry-session/sent-hand-jewelry-session.component';
 import { SentProtectiveEquipmentSessionComponent } from './sessions/sent-sessions/sent-protective-equipment-session/sent-protective-equipment-session.component';
-import { SessionStatisticsComponent } from './sessions/five-indications/session-statistics/session-statistics.component';
+import { SessionStatisticsComponent } from './sessions/hand-hygiene/session-statistics/session-statistics.component';
 import { GloveComponent } from './sessions/glove/glove.component';
 import { SentGloveSessionComponent } from './sessions/sent-sessions/sent-glove-session/sent-glove-session.component';
 import { EditGloveObservationComponent } from './sessions/edit-glove-observation/edit-glove-observation.component';
@@ -78,6 +75,9 @@ import { LanguageSelectorComponent } from './shared/language-selector/language-s
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 import localeEn from '@angular/common/locales/en';
+import { RegisterHandHygieneComponent } from './registrering/register-hand-hygiene/register-hand-hygiene.component';
+import { SentHandHygieneSessionComponent } from './sessions/sent-sessions/sent-hand-hygiene-session/sent-hand-hygiene-session.component';
+import { HandHygieneSessionService } from './services/data/hand-hygiene-session.service';
 
 registerLocaleData(localeEl);
 registerLocaleData(localeEn);
@@ -105,18 +105,18 @@ export function getLocale(): string {
         AppComponent,
         MainMenuComponent,
         HomePageForObservationComponent,
-        RegisterFiveIndicationsComponent,
-        FiveIndicationsObservationCardComponent,
+        RegisterHandHygieneComponent,
+        HandHygieneObservationCardComponent,
         RegisterActivityComponent,
         MissedOpportunityComponent,
         IndicationSelectionComponent,
         RegisterCommentComponent,
         NotSentSessionsComponent,
-        EditFiveIndicationsObservationComponent,
-        FiveIndicationsComponent,
+        EditHandHygieneObservationComponent,
+        HandHygieneComponent,
         DeleteConfirmationDialogComponent,
-        RegisterHandjewelryComponent,
-        HandJewelryObservationCardComponent,
+        RegisterBareBelowElbowsComponent,
+        BareBelowElbowsObservationCardComponent,
         SaveShadowComponent,
         DeleteShadowComponent,
         HandJewelryComponent,
@@ -134,7 +134,7 @@ export function getLocale(): string {
         EditProtectiveEquipmentObservationComponent,
         ProtectiveEquipmentModalComponent,
         NewCardModalComponent,
-        SentFiveIndicationsSessionComponent,
+        SentHandHygieneSessionComponent,
         SentSessionOverviewComponent,
         OfflineMessageComponent,
         SentHandJewelrySessionComponent,
@@ -182,7 +182,7 @@ export function getLocale(): string {
     ],
     bootstrap: [AppComponent],
     providers: [DatePipe,
-                FiveIndicationsSessionService,
+                HandHygieneSessionService,
                 HandJewelrySessionService,
                 HandHygieneHammerJS,
                 httpInterceptorProviders,

@@ -16,9 +16,8 @@ export class EditingOfObserversComponent implements OnInit {
     this.facilityService.getFacility(selectedFacilityId).subscribe((result) => {
       this.facilityReport = {
         id: result.id,
-        herId: result.herId,
         abbreviation: result.abbreviation,
-        facilityType: result.facilityType,
+        type: result.type,
         name: result.name
       } as FacilityReport;
     });

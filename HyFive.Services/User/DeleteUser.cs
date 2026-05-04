@@ -1,12 +1,14 @@
-﻿using System;
+﻿using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
+using HyFive.Domain.Session;
+using HyFive.Domain.User;
+using HyFive.Models.V1.Constants;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.DataAccess;
-using HyFive.Domain.User;
-using HyFive.Domain.Session;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace HyFive.Services.User
 {
@@ -29,20 +31,18 @@ namespace HyFive.Services.User
 
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                Domain.User.User user = null;
+                Domain.User.User user = await LoadUserByType(command.UserType, command.UserId, cancellationToken);
                 var type = command.UserType;
 
-                if (type == typeof(Coordinator))
-                {
-                    user = await _context.User.OfType<Coordinator>()
-                        .FirstOrDefaultAsync(i => i.Id == command.UserId, cancellationToken: cancellationToken);
-                }
-                else if (type == typeof(Observer))
-                {
-                    user = await _context.User.OfType<Observer>()
-                        .FirstOrDefaultAsync(i => i.Id == command.UserId, cancellationToken: cancellationToken);
+                if (user == null)
+                    throw new DomainException("UserNotFound", command.UserId);
 
-                    var hasUserSessions = await _context.Session.AnyAsync(s => s.Observer.Id == user.Id, cancellationToken);
+                //delete sessions/observations first (Session.ObserverId is Restrict)
+                if (command.UserType == typeof(Observer))
+                {
+                    var hasUserSessions = await _context.Session
+                        .AsNoTracking()
+                        .AnyAsync(s => s.ObserverId == user.Id, cancellationToken);
 
                     if (hasUserSessions)
                     {
@@ -50,10 +50,37 @@ namespace HyFive.Services.User
                     }
                 }
 
+                //delete UserPermissions first (UserPermission.UserId is Restrict)
+                var permissions = _context.UserPermission.Where(p => p.UserId == user.Id);
+                _context.UserPermission.RemoveRange(permissions);
+
                 _context.User.Remove(user);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return true;
+            }
+
+            private async Task<Domain.User.User> LoadUserByType(Type userType, int userId, CancellationToken ct)
+            {
+                if (userType == typeof(Coordinator))
+                {
+                    return await _context.User
+                    .FirstOrDefaultAsync(u =>
+                        u.Id == userId &&
+                        u.UserPermissions.Any(p => p.PermissionLevel == PermissionLevelConstants.Coordinator),
+                        ct);
+                }
+
+                if (userType == typeof(Observer))
+                {
+                    return await _context.User
+                     .FirstOrDefaultAsync(u =>
+                         u.Id == userId &&
+                         u.UserPermissions.Any(p => p.PermissionLevel == PermissionLevelConstants.Observer),
+                         ct);
+                }
+
+                throw new DomainException("UserTypeNotSupported", userType.Name);
             }
 
             private void DeleteSessionsAndObservations(int userId)
@@ -67,15 +94,17 @@ namespace HyFive.Services.User
             private void DeleteProtectiveEquipmentSessionsAndObservations(int userId)
             {
                 var sessions = _context.Session.OfType<ProtectiveEquipmentSession>()
-                    .Include(s => s.Observer)
                     .Include(s => s.Observations)
                     .ThenInclude(o => o.ProtectiveEquipmentList)
-                    .Where(s => s.Observer.Id == userId);
+                    .Where(s => s.ObserverId == userId);
 
                 foreach (var session in sessions)
                 {
-                    var protectiveEquipmentList = session.Observations.SelectMany(o => o.ProtectiveEquipmentList);
-                    _context.RemoveRange(protectiveEquipmentList);
+                    var protectiveEquipmentList = session.Observations.SelectMany(o => o.ProtectiveEquipmentList).ToList();
+                    
+                    if (protectiveEquipmentList.Any())
+                        _context.RemoveRange(protectiveEquipmentList);
+
                     _context.ProtectiveEquipmentObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
@@ -84,9 +113,8 @@ namespace HyFive.Services.User
             private void DeleteGloveSessionsAndObservations(int userId)
             {
                 var sessions = _context.Session.OfType<GloveSession>()
-                    .Include(s => s.Observer)
                     .Include(s => s.Observations)
-                    .Where(s => s.Observer.Id == userId);
+                    .Where(s => s.ObserverId == userId);
 
                 foreach (var session in sessions)
                 {
@@ -99,9 +127,8 @@ namespace HyFive.Services.User
             private void DeleteHandJewelrySessionsAndObservations(int userId)
             {
                 var sessions = _context.Session.OfType<HandJewelrySession>()
-                    .Include(s => s.Observer)
                     .Include(s => s.Observations)
-                    .Where(s => s.Observer.Id == userId).ToList();
+                    .Where(s => s.ObserverId == userId).ToList();
 
                 foreach (var session in sessions)
                 {
@@ -114,15 +141,13 @@ namespace HyFive.Services.User
             private void DeleteFourIndicatorsSessionsAndObservations(int userId)
             {
                 var sessions = _context.Session.OfType<FiveIndicationsSession>()
-                    .Include(s => s.Observer)
                     .Include(s => s.Observations)
                     .ThenInclude(o => o.Activity)
-                    .Where(s => s.Observer.Id == userId).ToList();
+                    .Where(s => s.ObserverId == userId).ToList();
 
                 foreach (var session in sessions)
                 {
-                    var activities =
-                        session.Observations.Select(o => o.Activity).ToList();
+                    var activities = session.Observations.Select(o => o.Activity).ToList();
 
                     _context.Activity.RemoveRange(activities);
                     _context.FiveIndicationsObservation.RemoveRange(session.Observations);

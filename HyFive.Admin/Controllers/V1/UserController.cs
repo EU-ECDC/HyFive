@@ -32,14 +32,14 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Updating an observer.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut("observer/update")]
-        public async Task<IActionResult> UpdateObserver([FromBody] User user)
+        public async Task<IActionResult> UpdateObserver([FromBody] CreateUpdateUserRequest request)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(user.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
-                var updatedObserver = await _mediator.Send(new UpdateObserver.Command() { User = user });
+                var updatedObserver = await _mediator.Send(new UpdateObserver.Command() { Request = request });
                 return Ok(updatedObserver);
             }
 
@@ -50,16 +50,16 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         ///Creating an observer.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("observer/create")]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateObserver([FromBody] User user)
+        public async Task<ActionResult<User>> CreateObserver([FromBody] CreateUpdateUserRequest request)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(user.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
-                var response = await _mediator.Send(new CreateObserver.Command() { User = user });
-                return CreatedAtRoute("GetObservers", new { id = response.FacilityId }, response);
+                var response = await _mediator.Send(new CreateObserver.Command() { Request = request });
+                return CreatedAtRoute("GetObservers", new { id = request.FacilityId }, response);
             }
 
             return Unauthorized();
@@ -74,7 +74,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("observer/delete")]
         public async Task<ActionResult<bool>> DeleteObserver([FromQuery] int observerId)
         {
-            if (_userService.IsAdmin())
+            if (await _userService.IsAdmin())
             {
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
@@ -87,13 +87,13 @@ namespace HyFive.Admin.Controllers.V1
             return Unauthorized();
         }
 
-        [Route("observer/HasTransferredSessionToFHI")]
+        [Route("observer/HasTransferredSessionToAdmin")]
         [HttpGet]
-        public async Task<IActionResult> HasTransferredSessionToFHI([FromQuery] int observatorId)
+        public async Task<IActionResult> HasTransferredSessionToAdmin([FromQuery] int observatorId)
         {
             var result = await _mediator.Send(new HasTransferredSessionToAdmin.Command
             {
-                ObservationId = observatorId
+                ObserverId = observatorId
             });
 
             return Ok(result);
@@ -106,16 +106,16 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Create Coordinator.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("coordinator/create")]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateCoordinator([FromBody] User user)
+        public async Task<ActionResult<User>> CreateCoordinator([FromBody] CreateUpdateUserRequest request)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(user.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
-                var response = await _mediator.Send(new CreateCoordinator.Command() { User = user });
-                return CreatedAtRoute("GetCoordinators", new { id = response.FacilityId }, response);
+                var response = await _mediator.Send(new CreateCoordinator.Command() { Request = request });
+                return CreatedAtRoute("GetCoordinators", new { id = request.FacilityId }, response);
             }
 
             return Unauthorized();
@@ -124,14 +124,14 @@ namespace HyFive.Admin.Controllers.V1
         /// <summary>
         /// Updating a Coordinator.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut("coordinator/update")]
-        public async Task<ActionResult<User>> UpdateCoordinator([FromBody] User user)
+        public async Task<ActionResult<User>> UpdateCoordinator([FromBody] CreateUpdateUserRequest request)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(user.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(request.FacilityId))
             {
-                var updatedUser = await _mediator.Send(new UpdateCoordinator.Command() { User = user });
+                var updatedUser = await _mediator.Send(new UpdateCoordinator.Command() { Request = request });
                 return updatedUser;
             }
 
@@ -148,7 +148,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("coordinator/delete")]
         public async Task<ActionResult<bool>> DeleteCoordinator([FromQuery] int coordinatorId)
         {
-            if (_userService.IsAdmin())
+            if (await _userService.IsAdmin())
             {
                 var result = await _mediator.Send(new DeleteUser.Command()
                 {
@@ -169,10 +169,10 @@ namespace HyFive.Admin.Controllers.V1
         /// Getting all FhiAdmins.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("fhiadmin")]
+        [HttpGet("admin")]
         [Authorize(HandhygienePolicy.Admin)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        public async Task<ActionResult<User>> GetFhiAdmin()
+        [ProducesResponseType(typeof(User[]), StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> GetAdmin()
         {
             var response = await _mediator.Send(new GetAdmin.Query() { });
             return Ok(response);
@@ -180,30 +180,28 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Creating an Admin.
+        /// Creating an Administrator.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("fhiadmin")]
+        [HttpPost("admin")]
         [Authorize(HandhygienePolicy.Admin)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> CreateFhiAdmin([FromBody] CreateAdminRequest request)
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> CreateAdmin([FromBody] CreateAdminRequest request)
         {
             var response = await _mediator.Send(new CreateAdmin.Command() { Request = request });
-            return Ok(response);
-            //return CreatedAtRoute("GetAdmin", new { id = response.CityId }, response);
-            
+            return Ok(response);            
         }
 
         /// <summary>
-        /// Updating a Admin.
+        /// Updating a Administrator.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPut("fhiadmin")]
+        [HttpPut("admin")]
         [Authorize(HandhygienePolicy.Admin)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<ActionResult<User>> UpdateFhiAdmin([FromBody] User user)
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public async Task<ActionResult<User>> UpdateAdmin([FromBody] User user)
         {
             var response = await _mediator.Send(new UpdateAdmin.Command() { User = user });
             return Ok(response);            

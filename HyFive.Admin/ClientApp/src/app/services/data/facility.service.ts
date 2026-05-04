@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map, Observable } from 'rxjs';
-import { Facility } from '../../models/api/Facility';
 import { CreateFacilityRequest } from '../../models/api/CreateFacilityRequest';
-import { FacilityType } from '../../models/api/FacilityType';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { User } from '../../models/api/User';
-import { Department} from "../../models/api/Department";
 import { Localstoragepaths } from '../../_common/constants/localstoragepaths';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
+import { UpdateFacilityRequest } from 'src/app/models/api/UpdateFacilityRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +19,14 @@ export class FacilityService {
 
   getFacilities(): Observable<FacilityReport[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/`;
-    return this.http.get<Facility[]>(url).pipe(
+    return this.http.get<FacilityReport[]>(url).pipe(
                                                 map(data => data.filter(x => x != null)),
                                                 map(data =>  [...new Map(data.map(item => [item.id, item])).values()])
                                               );
   }
 
 
-  getFacilitiesPaginated(offset, limit): Observable<FacilityReport[]> {
+  getFacilitiesPaginated(offset, limit): Observable<OrganisationUnit[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/getfacilitiesPaginated`;
 
     let params = new HttpParams();
@@ -37,27 +37,27 @@ export class FacilityService {
       params = params.append("limit", limit);
     }
 
-    return this.http.get<Facility[]>(url, { params: params });
+    return this.http.get<OrganisationUnit[]>(url, { params: params });
   }
 
-   getComplianceFacilities(facilityIds: number[]): Observable<Facility[]> {
+   getComplianceFacilities(facilityIds: number[]): Observable<OrganisationUnit[]> {
     const params = new HttpParams({
     fromObject: {
       facilityIds: facilityIds.map(id => id.toString()) // repeat the key
     }
   });
     const url = `${environment.apiBaseUrl}/v1/facility/getCompliancefacilities`;
-    return this.http.get<Facility[]>(url, { params });
+    return this.http.get<OrganisationUnit[]>(url, { params });
   }
 
   getFacilitiesForCoordinator(): Observable<FacilityReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/facility/getfacilitiesforcoordinator/`;
+    const url = `${environment.apiBaseUrl}/v1/facility`;
     return this.http.get<FacilityReport[]>(url);
   }
 
-  getFacility(id: number): Observable<Facility> {
+  getFacility(id: number): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/facility/${id}`;
-    return this.http.get<Facility>(url);
+    return this.http.get<OrganisationUnit>(url);
   }
 
   getSelectedFacilityId(): number | null {
@@ -80,30 +80,30 @@ export class FacilityService {
     return this.http.get<User[]>(url);
   }
 
-  getDepartments(id: number): Observable<Department[]> {
+  getDepartments(id: number): Observable<OrganisationUnit[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/${id}/departments/`;
-    return this.http.get<Department[]>(url);
+    return this.http.get<OrganisationUnit[]>(url);
   }
 
-  getDepartmentsByFacilities(ids: number[]): Observable<Department[]> {
+  getDepartmentsByFacilities(ids: number[]): Observable<OrganisationUnit[]> {
     const params = new HttpParams({ fromObject: { ids: ids.map(String) } });
     const url = `${environment.apiBaseUrl}/v1/facility/departments`;
-    return this.http.get<Department[]>(url, {params});
+    return this.http.get<OrganisationUnit[]>(url, {params});
   }
 
-  getFacilityTypes(): Observable<FacilityType[]> {
+  getFacilityTypes(): Observable<OrganisationUnitType[]> {
     const url = `${environment.apiBaseUrl}/v1/facility/types`;
-    return this.http.get<FacilityType[]>(url);
+    return this.http.get<OrganisationUnitType[]>(url);
   }
 
-  createFacility(request: CreateFacilityRequest): Observable<Facility> {
+  createFacility(request: CreateFacilityRequest): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/facility/create`;
-    return this.http.post<Facility>(url, request);
+    return this.http.post<OrganisationUnit>(url, request);
   }
 
-  updateFacility(facility: Facility): Observable<Facility> {
+  updateFacility(facility: UpdateFacilityRequest): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/facility/update`;
-    return this.http.put<Facility>(url, facility);
+    return this.http.put<OrganisationUnit>(url, facility);
   }
 
   deleteFacility(id: number): Observable<boolean> {

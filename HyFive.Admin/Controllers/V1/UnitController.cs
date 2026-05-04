@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Authentication.User;
 using HyFive.Services.Authentication.Requirements;
 using MediatR;
@@ -26,16 +26,16 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get Unit
+        /// Get Request
         /// </summary>
         /// <param name="id"></param>
         /// <param name="facilityId"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Models.V1.Facility.Unit>> GetUnit(int id, int facilityId)
+        [ProducesResponseType(typeof(UnitResponse), StatusCodes.Status200OK)]
+        public async Task<ActionResult<UnitResponse>> GetUnit(int id, int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 return await _mediator.Send(new GetUnit.Query() { Id = id, FacilityId = facilityId });
             }
@@ -44,15 +44,15 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get Units For Facility
+        /// Get Units For Unit
         /// </summary>
         /// <param name="facilityId"></param>
         /// <returns></returns>
         [HttpGet("facility/{facilityId}")]
-        [ProducesResponseType(typeof(IEnumerable<Models.V1.Facility.Unit>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Models.V1.Facility.Unit>>> GetUnitsForFacility(int facilityId)
+        [ProducesResponseType(typeof(IEnumerable<UnitResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<UnitResponse>>> GetUnitsForFacility(int facilityId)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(facilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(facilityId))
             {
                 var units = await _mediator.Send(new GetUnitsForFacility.Query() { FacilityId = facilityId });
                 return Ok(units);
@@ -66,12 +66,12 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Models.V1.Facility.Unit>> CreateUnit([FromBody] Models.V1.Facility.Unit unit)
+        [ProducesResponseType(typeof(OrganisationUnit), StatusCodes.Status201Created)]
+        public async Task<ActionResult<UnitResponse>> CreateUnit([FromBody] CreateUnitRequest unit)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
             {
-                return await _mediator.Send(new CreateUnit.Command() { Unit = unit });
+                return await _mediator.Send(new CreateUnit.Command() { Request = unit });
             }
 
             return Unauthorized();
@@ -82,12 +82,12 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPut("update")]
-        [ProducesResponseType(typeof(Models.V1.Facility.Unit), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Models.V1.Facility.Unit>> UpdateUnit([FromBody] Models.V1.Facility.Unit unit)
+        [ProducesResponseType(typeof(UnitResponse), StatusCodes.Status201Created)]
+        public async Task<ActionResult<UnitResponse>> UpdateUnit([FromBody] UpdateUnitRequest unit)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(unit.FacilityId))
             {
-                return await _mediator.Send(new UpdateUnit.Command() { Unit = unit });
+                return await _mediator.Send(new UpdateUnit.Command() { Request = unit });
             }
 
             return Unauthorized();

@@ -1,24 +1,25 @@
-﻿using System;
+﻿using AutoMapper;
+using HyFive.DataAccess;
+using HyFive.Domain.Place;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.Observation;
+using HyFive.Models.V1.OrganisationUnit;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.AutoMapperProfiler.V1;
+using HyFive.Services.Facility;
+using HyFive.Services.FiveIndication;
+using HyFive.Services.User;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using AutoMapper;
-using HyFive.DataAccess;
-using HyFive.Services.AutoMapperProfiler.V1;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Facility;
-using HyFive.Models.V1.Constants;
-using HyFive.Models.V1.Observation;
-using HyFive.Models.V1.Session;
-using HyFive.Services.User;
-using HyFive.Services.FiveIndication;
-using HyFive.Services.Facility;
-using Moq;
-using Microsoft.Extensions.Logging;
-using HyFive.Services.Authentication.User;
 
 namespace HyFive.Services.Tests
 {
@@ -35,6 +36,18 @@ namespace HyFive.Services.Tests
         {
             DatabaseContext = GetSQLiteInMemoryContext();
 
+            var defaults = DatabaseContext.Model
+                .GetEntityTypes()
+                .SelectMany(e => e.GetProperties()
+                    .Where(p => p.GetDefaultValueSql() != null)
+                    .Select(p => new
+                    {
+                        Entity = e.ClrType.Name,
+                        Property = p.Name,
+                        DefaultSql = p.GetDefaultValueSql()
+                    }))
+                .ToList();
+
             UserService = new Mock<IUserService>().Object;
 
             var config = new MapperConfiguration(cfg =>
@@ -45,13 +58,41 @@ namespace HyFive.Services.Tests
 
             Mapper = new Mapper(config);
 
-            var city = new HyFive.Domain.Place.City { Id = 666, Name = "Oslo" };
-            var facilityType = new HyFive.Domain.Place.FacilityType { Code = "HOSP", Name = "Hospital" };
-            var deptType = new HyFive.Domain.Place.DepartmentType { Code = "SURGERY", Name = "Surgery" };
+            // Seed Unit levels
+            if (!await DatabaseContext.OrganisationUnitLevel.AnyAsync())
+            {
+                DatabaseContext.OrganisationUnitLevel.AddRange(
+                    new HyFive.Domain.Place.OrganisationUnitLevel
+                    {
+                        Level = OrganisationUnitLevels.Facility
+                    },
+                    new HyFive.Domain.Place.OrganisationUnitLevel
+                    {
+                        Level = OrganisationUnitLevels.Department
+                    },
+                    new HyFive.Domain.Place.OrganisationUnitLevel
+                    {
+                        Level = OrganisationUnitLevels.Unit
+                    }
+                );
+            }
 
-            DatabaseContext.City.Add(city);
-            DatabaseContext.FacilityType.Add(facilityType);
-            DatabaseContext.DepartmentType.Add(deptType);
+            // Seed Unit types
+            if (!await DatabaseContext.OrganisationUnitType.AnyAsync())
+            {
+                DatabaseContext.OrganisationUnitType.AddRange(
+                    new HyFive.Domain.Place.OrganisationUnitType
+                    {
+                        Code = "HOSP",
+                        Name = "Hospital"
+                    },
+                    new HyFive.Domain.Place.OrganisationUnitType
+                    {
+                        Code = "GEN",
+                        Name = "General"
+                    }
+                );
+            }
 
             await DatabaseContext.SaveChangesAsync();
         }
@@ -75,43 +116,48 @@ namespace HyFive.Services.Tests
             return databaseContext;
         }
 
-        protected async Task<(Models.V1.Facility.Facility, Models.V1.User.User)> CreateFacility()
+        protected async Task<(Models.V1.OrganisationUnit.OrganisationUnit FacilityOu, Domain.User.User)> CreateFacility()
         {
-            var CreateInstitutionHandler = new CreateFacility.Handler(DatabaseContext, Mapper);
+            await EnsureOrganisationUnitLevel(OrganisationUnitLevels.Facility);
+            var facilityType = await EnsureOrganisationUnitType("HOSP", "Hospital");
 
-            DatabaseContext.Role.AddRange(new Domain.Observation.Role("Doctor"), new Domain.Observation.Role("Nurse"));
+            var handler = new CreateFacility.Handler(DatabaseContext, Mapper);
+
+            var facility = await handler.Handle(new CreateFacility.Command
+            {
+                Request = new CreateOrganisationUnitRequest
+                {
+                    Name = "FacilityTest",
+                    Abbreviation = "FT",
+                    OrganisationUnitTypeId = facilityType.Id,
+                    City = "Oslo",
+                    FirstName = "Coord",
+                    LastName = "User",
+                    Email = "coord@test.com"
+                }
+            }, CancellationToken.None);
+
+            // create observer user + permission
+            var observer = new Domain.User.User
+            {
+                FirstName = "Obs",
+                LastName = "User",
+                Email = "observer@test.com",
+                IsDeactivated = false,
+                CreatedTime = DateTime.UtcNow,
+                IdentityPseudonym = null
+            };
+
+            var obsPerm = new Domain.User.UserPermission
+            {
+                User = observer,
+                OrganisationUnitId = facility.Id,
+                PermissionLevel = PermissionLevelConstants.Observer
+            };
+
+            DatabaseContext.User.Add(observer);
+            DatabaseContext.UserPermission.Add(obsPerm);
             await DatabaseContext.SaveChangesAsync();
-
-            var facilityTypeId = (await DatabaseContext.FacilityType.FirstAsync()).Id;
-            var cityId = (await DatabaseContext.City.FirstAsync()).Id;
-
-            var facility = await CreateInstitutionHandler.Handle(new CreateFacility.Command()
-            {
-                Request = new CreateFacilityRequest()
-                {
-                    CoordinatorEmail = "test@gmail.com",
-                    CoordinatorLastName = "Test",
-                    CoordinatorFirstName = "User",
-                    Abbreviation = "test1",
-                    FacilityTypeId = facilityTypeId,
-                    FacilityName = "FacilityTest",
-                    CityId = cityId
-                }
-            }, CancellationToken.None);
-
-            var CreateObserverHandler = new CreateObserver.Handler(DatabaseContext, Mapper);
-
-            var observer = await CreateObserverHandler.Handle(new CreateObserver.Command()
-            {
-                User = new Models.V1.User.User()
-                {
-                    Email = "test@gmail.com",
-                    FacilityId = facility.Id,
-                    IsDisabled = false,
-                    LastName = "Stangeland",
-                    FirstName = "Stian Pål",
-                }
-            }, CancellationToken.None);
 
             return (facility, observer);
         }
@@ -119,7 +165,7 @@ namespace HyFive.Services.Tests
         protected async Task<Guid> CreateFiveIndicatorsSession(
             Guid sessionId,
             Guid observationId,
-            Domain.Place.Department department,
+            Domain.Place.OrganisationUnit department,
             string hprNumber,
             bool useDefaultActivity = true,
             Activity activity = null,
@@ -129,21 +175,28 @@ namespace HyFive.Services.Tests
         {
             var logger = new Mock<ILogger<SaveSession.Handler>>();
 
-            var departmentModel = Mapper.Map<Models.V1.Facility.Department>(
-                department ?? await DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).FirstAsync());
-            var institution = await DatabaseContext.Facility.FirstAsync(x => x.Id == departmentModel.FacilityId);
+            var domainOrganisationUnit = department
+                ?? await DatabaseContext.OrganisationUnit
+                    .Include(x => x.Parent)
+                    .Include(x => x.OrganisationUnitRoles)
+                        .ThenInclude(x => x.Role)
+                    .FirstAsync(x => x.ParentId != null);
+
+            var organisationUnitModel = Mapper.Map<Models.V1.OrganisationUnit.OrganisationUnit>(domainOrganisationUnit);
+
             var activityTypes = await DatabaseContext.ActivityType.ToListAsync();
             var indicationTypesList = await DatabaseContext.IndicationTypes.ToListAsync();
 
             var saveFiveIndicatorsSessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var observation = new FiveIndicatorsObservation()
+
+            var observation = new FiveIndicatorsObservation
             {
                 Activity = useDefaultActivity
-                    ? new Activity()
+                    ? new Activity
                     {
-                        ActivityType = new ActivityType()
+                        ActivityType = new ActivityType
                         {
-                            Id = activityTypes.FirstOrDefault(x => x.Code == ActivityTypeConstants.Handwash).Id
+                            Id = activityTypes.First(x => x.Code == ActivityTypeConstants.Handwash).Id
                         },
                         GlovesUsed = null,
                         SecondsUsed = 3,
@@ -151,37 +204,60 @@ namespace HyFive.Services.Tests
                     }
                     : activity,
                 Id = observationId.ToString(),
-                IndicationTypes = indicationTypes ?? new List<IndicationType>()
-                {
-                    new IndicationType()
-                    {
-                        Id = indicationTypesList.FirstOrDefault(x => x.Code == IndicationTypeConstants.AfterPatient).Id
-                    }
-                },
+                IndicationTypes = indicationTypes ?? new List<IndicationType>
+        {
+            new IndicationType
+            {
+                Id = indicationTypesList.First(x => x.Code == IndicationTypeConstants.AfterPatient).Id
+            }
+        },
                 Comment = "Cooment for observation",
                 RegisteredTime = DateTime.UtcNow,
-                Role = useDefaultRole ? departmentModel.Roles[0] : role,
+                Role = useDefaultRole ? organisationUnitModel.Roles.First() : role,
                 SessionId = sessionId.ToString()
             };
 
-            var fiveIndicatorsSessionGuid = await saveFiveIndicatorsSessionHandler.Handle(new SaveSession.Command()
-            {
-                Session = new FiveIndicationsSession
+            var fiveIndicatorsSessionGuid = await saveFiveIndicatorsSessionHandler.Handle(
+                new SaveSession.Command
                 {
-                    Id = sessionId.ToString(),
-                    Department = departmentModel,
-                    FacilityName = institution.Name,
-                    FacilityId = institution.Id,
-                    Observations = new List<FiveIndicatorsObservation>()
+                    Session = new FiveIndicationsSession
                     {
-                        observation
-                    },
-                    Comment = "Comment for Session",
-                    CreatedDate = DateTime.UtcNow
-                }
-            }, CancellationToken.None);
+                        Id = sessionId,
+                        UnitId = organisationUnitModel.Id,
+                        Unit = organisationUnitModel,
+                        Observations = new List<FiveIndicatorsObservation>
+                        {
+                    observation
+                        },
+                        Comment = "Comment for Session",
+                        CreatedDate = DateTime.UtcNow
+                    }
+                },
+                CancellationToken.None);
 
             return fiveIndicatorsSessionGuid;
+        }
+
+        private async Task<Domain.Place.OrganisationUnitLevel> EnsureOrganisationUnitLevel(string levelName)
+        {
+            var lvl = await DatabaseContext.OrganisationUnitLevel.FirstOrDefaultAsync(x => x.Level == levelName);
+            if (lvl != null) return lvl;
+
+            lvl = new Domain.Place.OrganisationUnitLevel { Level = levelName };
+            DatabaseContext.OrganisationUnitLevel.Add(lvl);
+            await DatabaseContext.SaveChangesAsync();
+            return lvl;
+        }
+
+        private async Task<Domain.Place.OrganisationUnitType> EnsureOrganisationUnitType(string code, string name)
+        {
+            var type = await DatabaseContext.OrganisationUnitType.FirstOrDefaultAsync(x => x.Code == code);
+            if (type != null) return type;
+
+            type = new Domain.Place.OrganisationUnitType { Code = code, Name = name };
+            DatabaseContext.OrganisationUnitType.Add(type);
+            await DatabaseContext.SaveChangesAsync();
+            return type;
         }
     }
 }

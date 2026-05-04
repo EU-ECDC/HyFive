@@ -1,13 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { FiveIndicationsSessionService } from "../services/data/five-indications-session.service";
-import { Facility } from "../models/api/Facility";
 import { RoleSelected } from "../models/registration/roleSelected.model";
 import { Urls } from "../constants/urls";
 import { faUserNurse, faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Colors } from "../utils/colors";
 import { HandJewelrySessionService } from "../services/data/hand-Jewelry-session.service";
-import { Department } from "../models/api/Department";
 import { SessionType } from "../models/api/SessionType";
 import { GloveSessionService } from "../services/data/glove-session.service";
 import { AuthorizationService } from "../services/data/authorization.service";
@@ -15,6 +12,8 @@ import { LoggedInUser } from "../models/api/LoggedInUser";
 import { FacilityService } from "../services/data/FacilityService";
 import { TranslateService } from "@ngx-translate/core";
 import { take } from "rxjs/operators";
+import { OrganisationUnit } from "../models/api/OrganisationUnit";
+import { HandHygieneSessionService } from "../services/data/hand-hygiene-session.service";
 
 @Component({
   selector: "app-home-page-observation",
@@ -27,23 +26,24 @@ export class HomePageForObservationComponent implements OnInit {
   gloveUse: boolean;
   roleSelected: RoleSelected[];
   selectedDepartmentId: string = null;
+  selectedUnitId: string = null;
   colors = Colors;
   showHomePage: boolean;
   showProtectiveEquipment: boolean;
   user: LoggedInUser;
-  facilityOptions: Facility[];
+  facilityOptions: OrganisationUnit[];
   selectedFacilityOptionId: number;
-  facility: Facility;
+  facility: OrganisationUnit;
 
   faCircle = faCircle;
   faUserNurse = faUserNurse;
   faCheck = faCheck;
-  gloveUseLabel = { name: "Glove use" ,value: "Glove use"};
+  gloveUseLabel = { name: "Gloves use" ,value: "Gloves use"};
   handHygieneLabel = { name: "Hand Hygiene", value: "Hand Hygiene" };
 
   constructor(
     private readonly router: Router,
-    private readonly fiveIndicationsSessionService: FiveIndicationsSessionService,
+    private readonly handHygieneSessionService: HandHygieneSessionService,
     private readonly handJewelrySessionService: HandJewelrySessionService,
     private readonly gloveSessionService: GloveSessionService,
     private readonly facilityService: FacilityService,
@@ -71,6 +71,7 @@ export class HomePageForObservationComponent implements OnInit {
     this.gloveUse = false;
     this.roleSelected = [];
     this.selectedDepartmentId = null;
+    this.selectedUnitId = null;
     this.showHomePage = true;
     this.showProtectiveEquipment = false;
     this.facilityOptions = [];
@@ -78,9 +79,9 @@ export class HomePageForObservationComponent implements OnInit {
     this.facility = null;
     this.facilityService
       .getFacilities()
-      .subscribe((facilities: Facility[]) => {
+      .subscribe((facilities: OrganisationUnit[]) => {
         this.facilityOptions = facilities;
-        let onlyFacility: Facility = null;
+        let onlyFacility: OrganisationUnit = null;
         if (this.facilityOptions?.length == 1) {
           onlyFacility = this.facilityOptions[0];
         }
@@ -113,6 +114,11 @@ export class HomePageForObservationComponent implements OnInit {
       return;
     }
 
+    if (!this.selectedUnitId) {
+      alert(this.translate.instant("Select a unit"));
+      return;
+    }
+
     if (!this.roleSelected.filter((r) => r.isSelected).length) {
       alert(this.translate.instant("Select one or more roles"));
       return;
@@ -122,8 +128,8 @@ export class HomePageForObservationComponent implements OnInit {
       case SessionType.NotSelected:
         alert(this.translate.instant("Select the sessionType you want to start"));
         break;
-      case SessionType.FiveIndications:
-        this.startFiveIndicationsSession();
+      case SessionType.HandHygiene:
+        this.startHandHygieneSession();
         break;
       case SessionType.HandJewelry:
         this.startHandJewelrySession();
@@ -145,15 +151,16 @@ export class HomePageForObservationComponent implements OnInit {
     }
   }
 
-  startFiveIndicationsSession() {
-    let sessionId = this.fiveIndicationsSessionService.createSessionView(
+  startHandHygieneSession() {
+    let sessionId = this.handHygieneSessionService.createSessionView(
       this.gloveUse,
       this.time,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.getSelectedDepartment()
+      this.getSelectedDepartment(),
+      this.getSelectedUnit()
     );
 
-    this.router.navigate([Urls.RegisterFiveIndicationsUrl], {
+    this.router.navigate([Urls.RegisterHandHygieneUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
@@ -161,9 +168,10 @@ export class HomePageForObservationComponent implements OnInit {
   startHandJewelrySession() {
     let sessionId = this.handJewelrySessionService.createSessionView(
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.getSelectedDepartment()
+      this.getSelectedDepartment(),
+      this.getSelectedUnit()
     );
-    this.router.navigate([Urls.RegisterHandJewelryUrl], {
+    this.router.navigate([Urls.RegisterBareBelowElbowsUrl], {
       queryParams: { sessionId: sessionId },
     });
   }
@@ -172,7 +180,8 @@ export class HomePageForObservationComponent implements OnInit {
     let sessionId = this.gloveSessionService.createSessionView(
       this.gloveUse,
       this.roleSelected.filter((r) => r.isSelected).map((r) => r.role),
-      this.getSelectedDepartment()
+      this.getSelectedDepartment(),
+      this.getSelectedUnit()
     );
 
     this.router.navigate([Urls.RegisterGloveUrl], {
@@ -191,18 +200,27 @@ export class HomePageForObservationComponent implements OnInit {
       (x) => x.id === this.selectedFacilityOptionId
     );
     this.selectedDepartmentId = null;
+    this.selectedUnitId = null;
     this.selectedSessionType = SessionType.NotSelected;
     this.selectedDepartmentChanged();
   }
 
-  getSelectedDepartment(): Department {
-    return this.facility.departments.find(
+  getSelectedDepartment(): OrganisationUnit {
+    return this.facility.children.find(
       (x) => x.id === Number.parseInt(this.selectedDepartmentId)
     );
   }
 
+  getSelectedUnit(): OrganisationUnit {
+    return this.getSelectedDepartment().children.find(
+      (x) => x.id === Number.parseInt(this.selectedUnitId)
+    );
+  }
+
   selectedDepartmentChanged() {
-    this.roleSelected = this.facility?.departments
+    this.selectedUnitId = null;
+    this.selectedSessionType = SessionType.NotSelected;
+    this.roleSelected = this.facility?.children
       .find((x) => x.id === Number.parseInt(this.selectedDepartmentId))
       ?.roles.map((role) => {
         return { role: role, isSelected: false } as RoleSelected;

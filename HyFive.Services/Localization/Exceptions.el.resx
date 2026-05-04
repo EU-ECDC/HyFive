@@ -216,4 +216,28 @@
   <data name="InstitutionAccessDenied" xml:space="preserve">
     <value>Δεν έχετε δικαίωμα πρόσβασης για να δείτε τις παρατηρήσεις αυτού του ιδρύματος.</value>
   </data>
+  <data name="CoordinatorNotFound" xml:space="preserve">
+    <value>Ο συντονιστής δεν βρέθηκε</value>
+  </data>
+  <data name="FacilitiesForCityNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν εγκαταστάσεις για την πόλη {0}.</value>
+  </data>
+  <data name="OrganisationUnitTypeNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε ο τύπος οργανισμού.</value>
+  </data>
+  <data name="OrganisationUnitIsNotFacility" xml:space="preserve">
+    <value>Ο οργανισμός με id {0} δεν είναι εγκατάσταση.</value>
+  </data>
+  <data name="OrganisationUnitIsNotDepartment" xml:space="preserve">
+    <value>Ο οργανισμός αυτός δεν είναι τμήμα.</value>
+  </data>
+  <data name="UnitNotFound" xml:space="preserve">
+    <value>Η μονάδα με id {0} δεν βρέθηκε.</value>
+  </data>
+  <data name="UserTypeNotSupported" xml:space="preserve">
+    <value>Ο τύπος χρήστη δεν υποστηρίζεται.</value>
+  </data>
+  <data name="SessionNotLinkedToFacility" xml:space="preserve">
+    <value>Η συνεδρία με ID {0} δεν είναι συνδεδεμένη με εγκατάσταση.</value>
+  </data>
 </root>

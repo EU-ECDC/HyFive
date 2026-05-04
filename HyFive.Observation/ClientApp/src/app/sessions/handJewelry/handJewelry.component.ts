@@ -5,7 +5,7 @@ import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import { HandJewelrySessionService } from '../../services/data/hand-Jewelry-session.service';
 import { faCircle, faAngleLeft, faClock, faClipboard, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Urls } from '../../constants/urls';
-import { FiveIndicationsObservation } from '../../models/api/FiveIndicationsObservation';
+import { HandHygieneObservation } from '../../models/api/HandHygieneObservation';
 import { DialogueTexts } from '../../constants/dialogueTexts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { HandJewelryType } from 'src/app/models/api/HandJewelryType';
@@ -54,7 +54,7 @@ export class HandJewelryComponent implements OnInit {
       .subscribe(params => {
         const sessionId = params[Queryparameters.SessionId] || 0;
         this.session = this.sessionService.getSession(sessionId);
-        this.facilityid = this.session.department.facilityId;
+        this.facilityid = this.session.facilityId;
         if (!this.session) this.router.navigate(['']);
       });
     this.handJewelryTypeService.getHandJewelryTypes().subscribe((handJewelryTypes) => {
@@ -68,10 +68,10 @@ export class HandJewelryComponent implements OnInit {
   }
 
   navigateToRegistrationPageForHandJewelry(sessionId: string) {
-    this.router.navigate([Urls.RegisterHandJewelryUrl], { queryParams: { sessionId: sessionId } });
+    this.router.navigate([Urls.RegisterBareBelowElbowsUrl], { queryParams: { sessionId: sessionId } });
   }
 
-  observationDeletedEventHandler($event: FiveIndicationsObservation) {
+  observationDeletedEventHandler($event: HandHygieneObservation) {
     this.session = this.sessionService.getSession(this.session.id);
   }
 
@@ -98,6 +98,6 @@ export class HandJewelryComponent implements OnInit {
   };
 
   navigateToSentSession() {
-    this.router.navigate(['/' + Urls.SentHandJewelrySessionUrl], { queryParams: { sessionId: this.session.id } })
+    this.router.navigate(['/' + Urls.SentBareBelowElbowsSessionUrl], { queryParams: { sessionId: this.session.id } })
   }
 }

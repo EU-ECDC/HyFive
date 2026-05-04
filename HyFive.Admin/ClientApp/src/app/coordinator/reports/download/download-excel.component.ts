@@ -5,9 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, take } from 'rxjs';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
-import { Department} from 'src/app/models/api/Department';
 import { DownloadExcelModel } from 'src/app/models/api/downloadExcelModel';
 import { FacilityReport } from 'src/app/models/api/FacilityReport';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 import { SessionType } from 'src/app/models/api/SessionType';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { ReportService } from 'src/app/services/data/report.service';
@@ -73,6 +73,15 @@ export class DownloadExcelComponent implements OnInit {
         itemsShowLimit: 3
       };
     });
+
+    this.translate.get(this.sessionTypes.map(item => item.name)).pipe(take(1)).subscribe(_res => {
+      this.sessionTypes = this.sessionTypes.map( session => {
+        return {
+          value: session.value,
+          name: this.translate.instant(session.name)
+        }
+      });
+    });
   }
 
   sessionTypes = [...SessionTypes.GetSessionTypes()];
@@ -81,18 +90,18 @@ export class DownloadExcelComponent implements OnInit {
   fromDate: Date = null;
   toDate: Date = null;
   
-  departments: Department[];
+  departments: OrganisationUnit[];
   facilities: FacilityReport[] = [];
   canSelectFacility = false;
   storedReport = false;
   selectedFacilityId: number;
   selectedFacilities: FacilityReport[] = [];
-  // selectedFacilityTypes: FacilityType[] = [];
-  // selectedDepartmentTypes: DepartmentType[];
-  selectedDepartments: Department[] = [];
-  // facilityTypes: FacilityType[];
-  // departmentTypes: DepartmentType[] = [];
-  allDepartments: Department[] = [];
+  // selectedFacilityTypes: OrganisationUnitType[] = [];
+  // selectedDepartmentTypes: OrganisationUnitType[];
+  selectedDepartments: OrganisationUnit[] = [];
+  // facilityTypes: OrganisationUnitType[];
+  // departmentTypes: OrganisationUnitType[] = [];
+  allDepartments: OrganisationUnit[] = [];
   allFacilities: FacilityReport[] = [];
   createFacilityReport = false;
 
@@ -125,7 +134,7 @@ export class DownloadExcelComponent implements OnInit {
       if (
         // this.departmentTypes.length > 0 && 
         this.allDepartments.length > 0) {
-        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.facilityId));
+        this.allDepartments = this.allDepartments.filter(dep => this.selectedFacilities.some(inst => inst.id == dep.parentId));
         this.departments = this.allDepartments;
         // this.departmentTypes = Array.from(
         //                         new Map(this.allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values());
@@ -247,7 +256,7 @@ export class DownloadExcelComponent implements OnInit {
   loadCoordinatorFacilityDepartments(facilityId: number) {
     this.facilityService.getFacility(facilityId).subscribe(
       facility => {
-        this.departments = facility.departments;
+        this.departments = facility.children;
         this.allDepartments = this.departments;
         // this.selectedFacilityTypes.push(facility.facilityType);
       })
@@ -260,7 +269,7 @@ export class DownloadExcelComponent implements OnInit {
   private getFacility(facilityId: number) {
     this.facilityService.getFacility(facilityId).subscribe(
       facility => {
-        this.departments = facility.departments;
+        this.departments = facility.children;
       })
   };
 }

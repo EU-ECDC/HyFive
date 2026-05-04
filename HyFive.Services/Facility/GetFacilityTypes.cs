@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using HyFive.DataAccess;
+using HyFive.Models.V1.OrganisationUnit;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using HyFive.DataAccess;
-using HyFive.Models.V1.Facility;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace HyFive.Services.Facility
 {
     public class GetFacilityTypes
     {
-        public class Query : IRequest<IEnumerable<FacilityType>>
+        public class Query : IRequest<IEnumerable<OrganisationUnitType>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<FacilityType>>
+        public class Handler : IRequestHandler<Query, IEnumerable<OrganisationUnitType>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,13 +28,14 @@ namespace HyFive.Services.Facility
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<FacilityType>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<OrganisationUnitType>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var facilityTypes = await _context.FacilityType.AsNoTracking()
-                    .OrderBy(i => i.Id)
-                    .ToListAsync(cancellationToken);
-                var mapped = _mapper.Map<List<FacilityType>>(facilityTypes);
-                return mapped;
+                return await _context.OrganisationUnitType
+                .AsNoTracking()
+                .Where(t => t.Code.StartsWith("F_"))
+                .OrderBy(t => t.Id)
+                .ProjectTo<OrganisationUnitType>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
             }
         }
     }

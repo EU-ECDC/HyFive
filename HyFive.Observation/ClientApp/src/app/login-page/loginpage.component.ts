@@ -29,7 +29,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if (isLoggedIn) {
         this.authorizationService.getUser().subscribe(user => {
           this.user = user;
-          if (user.facilityIds?.length > 0) {
+          if (user.organisationUnits?.length > 0) {
             this.hasFacilities = true;
           } else {
             this.hasFacilities = false;
@@ -49,12 +49,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  unregisterSw() : Promise<any> {
-    return navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      for(let registration of registrations) {
-        registration.unregister()
-      }}).catch(function(err) {
-    });
+  unregisterSw() : Promise<any> { 
+    if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
+      return navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+        } 
+      }).catch(function(_) {});
+    }
+    return Promise.resolve();
   }
 
   receivedInternetStatus(isOnline: boolean) {

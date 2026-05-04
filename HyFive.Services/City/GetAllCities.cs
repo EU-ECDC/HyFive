@@ -12,10 +12,10 @@ namespace HyFive.Services.City
 {
     public class GetAllCities
     {
-        public class Query : IRequest<List<Models.V1.Facility.City>>
+        public class Query : IRequest<List<string>>
         {  }
 
-        public class Handler : IRequestHandler<Query, List<Models.V1.Facility.City>>
+        public class Handler : IRequestHandler<Query, List<string>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -26,20 +26,21 @@ namespace HyFive.Services.City
                 _mapper = mapper;
             }
 
-            public async Task<List<Models.V1.Facility.City>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<string>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (await _context.City.AnyAsync(cancellationToken))
-                {
-                    var allCities = await _context.City
-                                                         .AsNoTracking()
-                                                         .OrderBy(h => h.Name)
-                                                         .ProjectTo<Models.V1.Facility.City>(_mapper.ConfigurationProvider)
-                                                         .ToListAsync();
+                // Distinct city names from facility/root organisation units (ParentId == null)
+                var cities = await
+                    (from ou in _context.OrganisationUnit.AsNoTracking()
+                     where ou.ParentId == null && ou.AddressId != null
+                     join a in _context.Address.AsNoTracking()
+                         on ou.AddressId equals a.Id
+                     where a.City != null && a.City != ""
+                     orderby a.City
+                     select a.City)
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
 
-                    return allCities;
-                }
-
-                return null;
+                return cities;
             }
         }
     }

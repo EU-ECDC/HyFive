@@ -1,0 +1,91 @@
+<div class="hh-card-slider">
+
+  <app-save-shadow [show]="showSaveShadow"></app-save-shadow>
+
+  <div [id]="card.id"
+       class="hh-card-slider__card"
+       [ngClass]="{ 'hh-card-slider__card--active': card.isActive }"
+       [style.transform]="transform"
+       [@swipeLeftRight]="animation"
+       (panmove)="onPanMove($event)"
+       (panend)="onPanEnd($event)"
+       (click)="cardIsSelected()"
+       [ngStyle]="card.isActive && {'background-color': colors.getFhiColorHexFromText(card.role.name)}">
+
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column justify-content-start">
+        <app-role-selection-dropdown *ngIf="roleSelected" [roleId]="card.role.id" [roleSelectedI]="roleSelected" (roleSelectedEvent)="selectRole($event)"></app-role-selection-dropdown>
+
+        <app-indication-selection (indicationSelectionChangedEvent)="indicationSelectionChanged($event)"
+                             [isActive]="card.isActive"
+                             [parentId]="card.id">
+        </app-indication-selection>
+
+        <div class="row mt-n3" *ngIf="activity?.secondsUsed > 0">
+          <div class="col-12 text-center mt-4">
+            <button class="btn hh-transparent-button hh-transparent-button--small" (click)="removeTimeRegistration()">
+              <span class="d-flex align-items-center"><fa-icon [icon]="faTrashAlt"></fa-icon>{{"Remove time registration" | translate}}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column justify-content-center">
+        <div class="d-flex justify-content-around">
+          <div class="hh-vertical-stadium-buttons">
+            <div class="hh-vertical-stadium-buttons__button">
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Disinfection)"
+                                       [isRegistered]="isRegistered(ActivityTypeConstants.Disinfection)"
+                                       [parentId]="card.id"
+                                       [seconds]="activity?.secondsUsed"
+                                       [time]="sessionView.timeShouldBeRegistred"
+                                       [activityType]="getActivityType(ActivityTypeConstants.Disinfection)"
+                                       [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
+                                       [icon]="faHandHoldingWater"
+                                       (activityRegisteredEvent)="registerActivity($event)">
+              </app-register-activity>
+            </div>
+            <div class="hh-vertical-stadium-buttons__button">
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.Handwash)"
+                                       [isRegistered]="isRegistered(ActivityTypeConstants.Handwash)"
+                                       [parentId]="card.id"
+                                       [seconds]="activity?.secondsUsed"
+                                       [time]="sessionView.timeShouldBeRegistred"
+                                       [activityType]="getActivityType(ActivityTypeConstants.Handwash)"
+                                       [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
+                                       [icon]="faHandsWash"
+                                       (activityRegisteredEvent)="registerActivity($event)">
+              </app-register-activity>
+            </div>
+            <div class="hh-vertical-stadium-buttons__button pt-0">
+              <app-register-activity [disabled]="ShouldActivityDeactivated(ActivityTypeConstants.NotPerformed)"
+                                      [isRegistered]="isRegistered(ActivityTypeConstants.NotPerformed)"
+                                      [parentId]="card.id"
+                                      [activityType]="getActivityType(ActivityTypeConstants.NotPerformed)"
+                                      [confirmationModalToShow]="sessionView.gloveUseMustBeRegistered"
+                                      [icon]="faTimesCircle"
+                                      (activityRegisteredEvent)="registerActivity($event)">
+              </app-register-activity>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class=" d-flex flex-row justify-content-around">
+      <app-register-comment [commentInput]="comment"
+                            [facilityid]="facilityid"
+                            [sessiontype]="handHygieneSessionType"
+                            (commentRegisteredEvent)="registerComment($event)">
+      </app-register-comment>
+      <button type="button" class="hh-transparent-button hh-transparent-button hh-transparent-button--small p-0" (click)="resetCard()">
+        <span class="d-flex align-items-center"><fa-icon class="mr-1" [icon]="faEraser"></fa-icon>{{"Clear card" | translate}}</span>
+      </button>
+    </div>
+
+  </div>
+
+  <app-delete-shadow [show]="showDeleteShadow"></app-delete-shadow>
+
+  <app-info-modal [modalText]="observationMissingText" [showInfoModal]="showInfoModal" (closeInfoModalEvent)="closeInfoModal($event)"></app-info-modal>
+</div>

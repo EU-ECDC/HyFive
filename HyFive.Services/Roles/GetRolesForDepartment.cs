@@ -14,7 +14,7 @@ namespace HyFive.Services.Roles
     {
         public class Query : IRequest<List<Models.V1.Observation.Role>>
         {
-            public int DepartmentId { get; set; }
+            public int OrganisationUnitId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<Models.V1.Observation.Role>>
@@ -30,13 +30,15 @@ namespace HyFive.Services.Roles
 
             public async Task<List<Models.V1.Observation.Role>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var roller = await _context.Department
-                    .Where(a => a.Id == request.DepartmentId)
-                    .SelectMany(a => a.Roles)
-                    .ProjectTo<Models.V1.Observation.Role>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                var roles = await _context.OrganisationUnitRole
+                .AsNoTracking()
+                .Where(link => link.OrganisationUnitId == request.OrganisationUnitId)
+                .Select(link => link.Role)
+                .OrderBy(r => r.Name)
+                .ProjectTo<Models.V1.Observation.Role>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-                return roller;
+                return roles;
             }
         }
     }

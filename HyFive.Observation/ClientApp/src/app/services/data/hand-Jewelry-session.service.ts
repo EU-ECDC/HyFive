@@ -2,7 +2,6 @@ import { Uuid } from '../../utils/uuid';
 import { Localstoragepaths } from '../../constants/localstoragepaths';
 import { Role } from '../../models/api/Role';
 import { Card } from '../../models/registration/card.model';
-import { Department } from '../../models/api/Department';
 import { BaseSessionService } from './base-session.service';
 import { HandJewelrySessionView } from '../../models/registration/handJewelry-session-view.model';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
@@ -12,14 +11,15 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { FacilityService } from './FacilityService';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HandJewelrySessionService extends BaseSessionService<HandJewelrySessionView, HandJewelrySession, HandJewelryObservation> {
 
-  sessionLocalStoragePath = Localstoragepaths.HandJewelrySessions;
-  sessionShowLocalStoragePath = Localstoragepaths.HandJewelrySessionViews;
+  sessionLocalStoragePath = Localstoragepaths.BareBelowElbowsSessions;
+  sessionShowLocalStoragePath = Localstoragepaths.BareBelowElbowsSessionViews;
 
   constructor(
     public facilityService: FacilityService,
@@ -36,13 +36,15 @@ export class HandJewelrySessionService extends BaseSessionService<HandJewelrySes
 
   public createSessionView(
     rolesAsObserved: Role[],
-    department: Department
+    department: OrganisationUnit,
+    unit: OrganisationUnit
   ): string {
     let id = Uuid.generateUUID();
 
     let handJewelrySessionView: HandJewelrySessionView = {
       sessionId: id,
       department: department,
+      unit: unit,
       card: rolesAsObserved.map((r, i) => { return { id: Uuid.generateUUID(), role: r, isActive: i == 0 } as Card }),
     }
     let sessionViews = this.getSessionViews();

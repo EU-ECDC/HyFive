@@ -43,7 +43,8 @@
           <article class="fhi-card h-100">
             <div class="fhi-card__content d-flex flex-column h-100">
               <h2 class="h4 mb-0">{{ sessionView.facilityName }}</h2>
-              <p>{{'Dep' | translate}}: {{ sessionView.departmentName }}</p>
+              <p class="mb-0">{{'Dep' | translate}}: {{ sessionView.departmentName }}</p>
+              <p>{{'Unit' | translate}}: {{sessionView.unitName}}</p>
 
               <p class="small">{{ sessionNameMap.get(sessionView.type) }}</p>
 

@@ -87,7 +87,7 @@ export class GloveObservationCardComponent extends BaseCardSwipe implements OnIn
       this.postGloveHandHygieneTypes = postGloveHandHygieneTypes.toSorted((a, b) => a.id - b.id);
     });
     this.uuid = Uuid.generateUUID();
-    this.facilityid = this.sessionView.department.facilityId;
+    this.facilityid = this.sessionView.department.parentId;
   }
 
   deleteCard() {

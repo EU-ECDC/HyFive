@@ -2,13 +2,16 @@
 using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
 using HyFive.Models.V1;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.User;
-using HyFive.Services.Localization;
+using HyFive.Services.Helpers;
 using HyFive.Services.User;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +23,7 @@ namespace HyFive.Services.City
         public class Command : IRequest<Status>
         {
             public CityCoordinator Coordinator { get; set; }
-            public int CityId { get; set; }
+            public string City { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Status>
@@ -35,53 +38,115 @@ namespace HyFive.Services.City
             }
             public async Task<Status> Handle(Command command, CancellationToken cancellationToken)
             {
-                
                 if (!CoordinatorForCityValidator.CanBeUpdated(command.Coordinator, out var errorCode, out var args))
                     throw new ValidationException(errorCode, args);
 
-                var facilityIds = command.Coordinator.Facilities.Select(x => x.Id);
+                if (string.IsNullOrWhiteSpace(command.City))
+                    throw new ValidationException("CityRequired");
 
-                foreach (var facilityId in facilityIds)
+                var city = command.City.Trim();
+
+                // 1) Allow only facilities that belong to this city (safety)
+                var allowedFacilityIds = await GetFacilityIdsInCity(city, cancellationToken);
+
+                var requestedFacilityIds = command.Coordinator.Facilities?
+                    .Select(x => x.Id)
+                    .Distinct()
+                    .ToHashSet() ?? new HashSet<int>();
+
+                requestedFacilityIds.IntersectWith(allowedFacilityIds);
+
+                if (requestedFacilityIds.Count == 0)
+                    throw new ValidationException("FacilitiesForCityNotFound", city);
+
+                // 2) Create or load ONE coordinator user (no more per-facility rows)
+                var coordinator = await _context.User
+                .WithPermission(PermissionLevelConstants.Coordinator)
+                .FirstOrDefaultAsync(u => u.Email == command.Coordinator.Email, cancellationToken);
+
+                if (coordinator == null)
                 {
-                    var coordinator = CoordinatorForCityHelper.GetCoordinator(_context, facilityId, command.Coordinator.Email);
-                    if (coordinator != null)
+                    coordinator = new Coordinator
                     {
-                        if (coordinator.IsDeactivated)
-                            coordinator.IsDeactivated = false;
-                    }
-                    else
-                    {
-                        var newCoordinator = CoordinatorForCityHelper.CreateCoordinatorForFacility(_context, command.Coordinator, facilityId);
-
-                        // Coordinator must also be an observer for the same facility
-                        var newObserver = CreateObserverForFacility(command.Coordinator, facilityId);
-
-                        _context.Add(newCoordinator);
-                        _context.Add(newObserver);
-                    }
+                        FirstName = command.Coordinator.FirstName,
+                        LastName = command.Coordinator.LastName,
+                        Email = command.Coordinator.Email,
+                        IdentityPseudonym = command.Coordinator.IdentityPseudonym,
+                        IsDeactivated = command.Coordinator.IsDeactivated
+                    };
+                    _context.Add(coordinator);
+                    await _context.SaveChangesAsync(cancellationToken); // get Id
                 }
+                else
+                {
+                    // Optional: update profile + reactivate
+                    coordinator.FirstName = command.Coordinator.FirstName;
+                    coordinator.LastName = command.Coordinator.LastName;
+                    coordinator.IdentityPseudonym = command.Coordinator.IdentityPseudonym;
+                    coordinator.IsDeactivated = command.Coordinator.IsDeactivated;
+                }
+
+                // 3) Ensure permissions:
+                // Coordinator must also be Observer => add BOTH levels for each facility
+                await EnsurePermissions(
+                    userId: coordinator.Id,
+                    organisationUnitIds: requestedFacilityIds,
+                    permissionLevels: new[] { "Coordinator", "Observer" },
+                    cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new Status { Success = true };
-            }            
+            }
+            private async Task<List<int>> GetFacilityIdsInCity(string city, CancellationToken ct)
+            {
+                return await
+                    (from f in _context.OrganisationUnit.AsNoTracking()
+                     join a in _context.Address.AsNoTracking() on f.AddressId equals a.Id
+                     where f.ParentId == null
+                           && a.City != null
+                           && EF.Functions.ILike(a.City, city)
+                     select f.Id)
+                    .Distinct()
+                    .ToListAsync(ct);
+            }
 
-            private Observer CreateObserverForFacility(CityCoordinator coordinator, int facilityId)
-            { 
-                var facility = _context.Facility.FirstOrDefault(i => i.Id == facilityId);
+            private async Task EnsurePermissions(
+                int userId,
+                HashSet<int> organisationUnitIds,
+                IEnumerable<string> permissionLevels,
+                CancellationToken ct)
+            {
+                var levels = permissionLevels.Distinct().ToList();
 
-                var observator = new Observer
+                var existing = await _context.UserPermission.AsNoTracking()
+                    .Where(p => p.UserId == userId
+                                && p.OrganisationUnitId.HasValue
+                                && organisationUnitIds.Contains(p.OrganisationUnitId.Value)
+                                && levels.Contains(p.PermissionLevel))
+                    .Select(p => new { p.OrganisationUnitId, p.PermissionLevel })
+                    .ToListAsync(ct);
+
+                var existingSet = existing
+                    .Select(x => (x.OrganisationUnitId, x.PermissionLevel))
+                    .ToHashSet();
+
+                foreach (var ouId in organisationUnitIds)
                 {
-                    FirstName = coordinator.FirstName,
-                    LastName = coordinator.LastName,
-                    Email = coordinator.Email,
-                    HPRNumber = coordinator.HPRNumber,
-                    IdentityPseudonym = coordinator.IdentityPseudonym,
-                    Facility = facility
-                };
+                    foreach (var level in levels)
+                    {
+                        if (existingSet.Contains((ouId, level)))
+                            continue;
 
-                return observator;
-            }                  
+                        _context.UserPermission.Add(new HyFive.Domain.User.UserPermission
+                        {
+                            UserId = userId,
+                            OrganisationUnitId = ouId,
+                            PermissionLevel = level
+                        });
+                    }
+                }
+            }
         }
     }
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FacilityService } from '../../services/data/facility.service';
-import { Facility } from '../../models/api/Facility';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { QueryParameters } from '../../_common/constants/queryparameters';
-import { FacilityReport } from '../../models/api/FacilityReport';
 import { User } from 'src/app/models/api/User';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SortHelper } from 'src/app/utils/sort-helper';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { FacilityReport } from 'src/app/models/api/FacilityReport';
 
 @Component({
   selector: 'app-editing-of-facilities',
@@ -79,8 +79,8 @@ export class EditingOfFacilitiesComponent implements OnInit {
       });
   }
 
-  updateFacility(facility: Facility) {
-    this.facilities[this.facilities.map(i => i.id).indexOf(facility.id)] = facility;
+  updateFacility(facility: OrganisationUnit) {
+    this.facilities[this.facilities.map(i => i.id).indexOf(facility.id)] = {...facility, city: null};
   }
 
   deleteFacility(facilityId: number) {
@@ -105,21 +105,20 @@ export class EditingOfFacilitiesComponent implements OnInit {
 
     // persons matched by name (coordinator/observer)
     const matchedPersons = SearchHelper.filterUsers(term, this.users);
-    const facilityIdsFromPersons = new Set(matchedPersons.map(p => p.facilityId));
+    const facilityIdsFromPersons = new Set(matchedPersons.flatMap(p => p.userPermissions.map(userP => userP.organisationUnitId)));
 
     this.filteredFacilities = this.facilities.filter(f => {
       const nameMatch = (f.name || '').toLowerCase().includes(term);
-      const cityMatch = (f.city?.name || '').toLowerCase().includes(term);
       const personMatch = facilityIdsFromPersons.has(f.id);
 
-      return nameMatch || cityMatch || personMatch;
+      return nameMatch || personMatch;
     });
   }
 
   sort($event: IColumnSortedEvent) {
     const userSortConfig = {
-      [this.translate.instant("Name")]: (x: Facility) => x.name,
-      [this.translate.instant("City")]: (x: Facility) => x.city?.name,
+      [this.translate.instant("Name")]: (x: FacilityReport) => x.name,
+      // [this.translate.instant("City")]: (x: OrganisationUnit) => x.city?.name,
     };
 
     this.filteredFacilities = SortHelper.sort(this.filteredFacilities, $event, userSortConfig);

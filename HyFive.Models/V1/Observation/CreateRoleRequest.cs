@@ -4,7 +4,7 @@ using Reinforced.Typings.Attributes;
 namespace HyFive.Models.V1.Observation
 {
     /// <summary>
-    /// Interface brukt for å opprette roller fra Admin-grensesnittet
+    /// Interface brukt for å opprette roller fra Administrator-grensesnittet
     /// </summary>
     [TsInterface(AutoI = false, IncludeNamespace = false)]
     public class CreateRoleRequest

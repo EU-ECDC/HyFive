@@ -57,8 +57,8 @@
                   <app-edit-protective-equipment-observation
                     (observationDeletedEvent)="this.observationDeletedEvent.emit()"
                     (observationUpdatedEvent)="updateObservationWithChangesFromMap($event)"
-                    [department]="department"
-                    [facilityId]="department.facilityId"
+                    [departmentId]="departmentId"
+                    [facilityId]="facilityId"
                     [isReadonly]="false"
                     [sessionId]="this.sessionId"
                     [observationId]="observation.id">

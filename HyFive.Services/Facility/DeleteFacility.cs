@@ -2,6 +2,7 @@
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
 using HyFive.Domain.Session;
+using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,85 +32,141 @@ namespace HyFive.Services.Facility
 
             public async Task<bool> Handle(Command command, CancellationToken cancellationToken)
             {
-                var facility = GetFacility(command.FacilityId);
+                var facility = await GetFacility(command.FacilityId, cancellationToken);
 
-                DeleteDepartmentWithRelatedData(facility);
-                DeleteUnits(facility.Id);
-                DeletePredefinedComments(facility.Id);
-                DeleteUsers(facility.Id);
-                DeleteFacility(facility);
+                // 1) Get all Unit ids under this facility (including facility)
+                var orgUnitIds = await GetDescendantOrganisationUnitIds(facility.Id, cancellationToken);
+
+                // Capture candidate users BEFORE deleting OUs/permissions
+                var candidateUserIds = await GetUserIdsForFacilityTree(orgUnitIds, cancellationToken);
+
+                // 2) Delete all sessions/observations for all these organisation units
+                // (Session -> Unit is Restrict, so this is REQUIRED)
+                foreach (var orgUnitId in orgUnitIds)
+                {
+                    DeleteFiveIndicationsSessionsAndObservations(orgUnitId);
+                    DeleteHandJewelrySessionsAndObservations(orgUnitId);
+                    DeleteGloveSessionsAndObservations(orgUnitId);
+                    DeleteProtectiveEquipmentSessionsAndObservations(orgUnitId);
+                }
+
+                // 3) PredefinedComment -> Unit is Cascade in the model
+                // so you can skip this. Keeping it explicit is OK though.
+                DeletePredefinedComments(orgUnitIds);
+
+                // 4) Delete organisation unit tree (children first because Parent->Children is Restrict)
+                await DeleteOrganisationUnitsBottomUp(orgUnitIds, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
+
+                await DeleteOrphanUsers(candidateUserIds, cancellationToken);
+
+                await _context.SaveChangesAsync(cancellationToken);
+
                 return true;
             }
 
-            private Domain.Place.Facility GetFacility(int facilityId)
+            private async Task<Domain.Place.OrganisationUnit> GetFacility(int facilityId, CancellationToken cancellationToken)
             {
-                var facility = _context.Facility
-                                .Include(i=>i.Departments)
-                                .FirstOrDefault(i=>i.Id == facilityId);
+                var facility = await _context.Set<Domain.Place.OrganisationUnit>()
+                    .Include(x => x.LevelRef)
+                    .FirstOrDefaultAsync(x => x.Id == facilityId, cancellationToken);
 
                 if (facility == null)
                 {
                     throw new DomainException("FacilityNotFound", facilityId);
                 }
 
+                if (facility.LevelRef?.Level != OrganisationUnitLevels.Facility || facility.ParentId != null)
+                    throw new DomainException("OrganisationUnitIsNotFacility", facilityId);
+
                 return facility;
             }
-
-            private void DeleteFacility(Domain.Place.Facility facility)
+          
+            //Returns all descendant OU ids including the root facility id.
+            private async Task<List<int>> GetDescendantOrganisationUnitIds(int rootId, CancellationToken cancellationToken)
             {
-                _context.Facility.Remove(facility);
-            }
+                var all = new HashSet<int> { rootId };
+                var frontier = new List<int> { rootId };
 
-            private void DeleteUsers(int facilityId)
-            {
-                var usersForFacility = _context.User.Where(b => b.Facility.Id == facilityId);
-                _context.User.RemoveRange(usersForFacility);
-            }
-
-            private void DeleteUnits(int facilityId)
-            {
-                var units = _context.Unit.Where(k => k.Facility.Id == facilityId);
-                _context.Unit.RemoveRange(units);
-            }
-
-            private void DeletePredefinedComments(int facilityId)
-            {
-                var predefinedComments = _context.PredefinedComment.Where(p => p.FacilityId == facilityId);
-                _context.PredefinedComment.RemoveRange(predefinedComments);
-            }
-
-            private void DeleteDepartmentWithRelatedData(Domain.Place.Facility facility)
-            {
-                var departmentIds = facility.Departments?.Select(d => d.Id).ToList() ?? new List<int>();
-
-                foreach (var departmentId in departmentIds)
+                while (frontier.Count > 0)
                 {
-                    DeleteFiveIndicationsSessionsAndObservations(departmentId);
-                    DeleteHandJewelrySessionsAndObservations(departmentId);
-                    DeleteGloveSessionsAndObservations(departmentId);
-                    DeleteProtectiveEquipmentSessionsAndObservations(departmentId);
+                    var children = await _context.Set<Domain.Place.OrganisationUnit>()
+                        .AsNoTracking()
+                        .Where(x => x.ParentId != null && frontier.Contains(x.ParentId.Value))
+                        .Select(x => x.Id)
+                        .ToListAsync(cancellationToken);
 
-                    DeleteDepartment(departmentId);
+                    frontier = children.Where(id => all.Add(id)).ToList();
+                }
+
+                return all.ToList();
+            }
+
+            //Deletes OUs in correct order (deepest children first) because Parent->Children is Restrict.
+            private async Task DeleteOrganisationUnitsBottomUp(List<int> organisationUnitIds, CancellationToken ct)
+            {
+                // Load the nodes we want to delete with their ParentId so we can order by depth.
+                var nodes = await _context.OrganisationUnit
+                    .Where(x => organisationUnitIds.Contains(x.Id))
+                    .Select(x => new { x.Id, x.ParentId })
+                    .ToListAsync(ct);
+
+                // Compute depth by walking parents inside the selected set
+                var parentMap = nodes.ToDictionary(x => x.Id, x => x.ParentId);
+
+                int Depth(int id)
+                {
+                    var depth = 0;
+                    var current = id;
+                    var seen = new HashSet<int>();
+
+                    while (parentMap.TryGetValue(current, out var parentId) && parentId.HasValue)
+                    {
+                        if (!seen.Add(current)) break; // safety against cycles (shouldn't happen)
+                        depth++;
+                        current = parentId.Value;
+                        if (!parentMap.ContainsKey(current)) break;
+                    }
+
+                    return depth;
+                }
+
+                var orderedIds = nodes
+                    .OrderByDescending(x => Depth(x.Id))
+                    .Select(x => x.Id)
+                    .ToList();
+
+                // Load entities and delete in that order
+                var entities = await _context.OrganisationUnit
+                    .Where(x => orderedIds.Contains(x.Id))
+                    .ToListAsync(ct);
+
+                // Ensure deletion order is respected
+                foreach (var id in orderedIds)
+                {
+                    var entity = entities.First(e => e.Id == id);
+                    _context.Remove(entity);
                 }
             }
 
-            private void DeleteDepartment(int departmentId)
+            private void DeletePredefinedComments(IEnumerable<int> organisationUnitIds)
             {
-                var department = _context.Department.Find(departmentId);
-                _context.Department.Remove(department);
+                var comments = _context.PredefinedComment
+                    .Where(p => organisationUnitIds.Contains(p.OrganisationUnitId));
+
+                _context.RemoveRange(comments);
             }
 
-            private void DeleteFiveIndicationsSessionsAndObservations(int departmentId)
+            private void DeleteFiveIndicationsSessionsAndObservations(int organisationUnitId)
             {
-                var sessionsForDepartment = _context.Session.OfType<FiveIndicationsSession>()
-                    .Include(s => s.Department)
-                    .Include(s => s.Observations)
-                    .ThenInclude(o=>o.Activity)
-                    .Where(s => s.Department.Id == departmentId).ToList();
+                var sessionsForOrgUnit = _context.Session.OfType<FiveIndicationsSession>()
+                .Include(s => s.Observations)
+                .ThenInclude(o => o.Activity)
+                .Where(s => s.OrganisationUnitId == organisationUnitId)
+                .ToList();
 
-                foreach (var session in sessionsForDepartment)
+                foreach (var session in sessionsForOrgUnit)
                 {
                     var activities = session.Observations.Select(o => o.Activity).ToList();
                     _context.Activity.RemoveRange(activities);
@@ -118,49 +175,90 @@ namespace HyFive.Services.Facility
                 }
             }
 
-            private void DeleteHandJewelrySessionsAndObservations(int departmentId)
+            private void DeleteHandJewelrySessionsAndObservations(int organisationUnitId)
             {
-                var sessionsForDepartment = _context.Session.OfType<HandJewelrySession>()
-                    .Include(s => s.Department)
+                var sessionsForOrgUnit = _context.Session.OfType<HandJewelrySession>()
                     .Include(s => s.Observations)
-                    .Where(s => s.Department.Id == departmentId).ToList();
+                    .Where(s => s.OrganisationUnitId == organisationUnitId)
+                    .ToList();
 
-                foreach (var session in sessionsForDepartment)
+                foreach (var session in sessionsForOrgUnit)
                 {
                     _context.HandJewelryObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
             }
 
-            private void DeleteGloveSessionsAndObservations(int departmentId)
+            private void DeleteGloveSessionsAndObservations(int organisationUnitId)
             {
-                var sessionsForDepartment = _context.Session.OfType<GloveSession>()
-                    .Include(s => s.Department)
+                var sessionsForOrgUnit = _context.Session.OfType<GloveSession>()
                     .Include(s => s.Observations)
-                    .Where(s => s.Department.Id == departmentId).ToList();
+                    .Where(s => s.OrganisationUnitId == organisationUnitId)
+                    .ToList();
 
-                foreach (var session in sessionsForDepartment)
+                foreach (var session in sessionsForOrgUnit)
                 {
                     _context.GloveObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
             }
 
-            private void DeleteProtectiveEquipmentSessionsAndObservations(int departmentId)
+            private void DeleteProtectiveEquipmentSessionsAndObservations(int organisationUnitId)
             {
-                var SessionsForDepartment = _context.Session.OfType<ProtectiveEquipmentSession>()
-                    .Include(s => s.Department)
-                    .Include(s => s.Observations)
-                    .ThenInclude(o=>o.ProtectiveEquipmentList)
-                    .Where(s => s.Department.Id == departmentId).ToList();
+                var sessionsForOrgUnit = _context.Session.OfType<ProtectiveEquipmentSession>()
+                .Include(s => s.Observations)
+                .ThenInclude(o => o.ProtectiveEquipmentList)
+                .Where(s => s.OrganisationUnitId == organisationUnitId)
+                .ToList();
 
-                foreach (var session in SessionsForDepartment)
+                foreach (var session in sessionsForOrgUnit)
                 {
                     var protectiveEquipmentList = session.Observations.SelectMany(o => o.ProtectiveEquipmentList).ToList();
                     _context.RemoveRange(protectiveEquipmentList);
                     _context.ProtectiveEquipmentObservation.RemoveRange(session.Observations);
                     _context.Session.Remove(session);
                 }
+            }
+
+            private async Task<List<int>> GetUserIdsForFacilityTree(List<int> organisationUnitIds, CancellationToken ct)
+            {
+                return await _context.UserPermission
+                .AsNoTracking()
+                .Where(up => up.OrganisationUnitId.HasValue
+                             && organisationUnitIds.Contains(up.OrganisationUnitId.Value))
+                .Select(up => up.UserId)
+                .Distinct()
+                .ToListAsync(ct);
+            }
+
+            private async Task DeleteOrphanUsers(List<int> candidateUserIds, CancellationToken ct)
+            {
+                if (!candidateUserIds.Any())
+                    return;
+
+                // Users that still have at least one permission anywhere
+                var stillReferencedUserIds = await _context.UserPermission
+                    .AsNoTracking()
+                    .Where(up => candidateUserIds.Contains(up.UserId))
+                    .Select(up => up.UserId)
+                    .Distinct()
+                    .ToListAsync(ct);
+
+                var orphanUserIds = candidateUserIds.Except(stillReferencedUserIds).ToList();
+                if (!orphanUserIds.Any())
+                    return;
+
+                // Delete identifiers first (cascade exists, but explicit is fine)
+                var identifiers = _context.UserIdentifier
+                    .Where(ui => orphanUserIds.Contains(ui.UserId));
+                
+                _context.RemoveRange(identifiers);
+
+                var users = await _context.User
+                    .Where(u => orphanUserIds.Contains(u.Id))
+                    .ToListAsync(ct);
+
+                _context.RemoveRange(users);
             }
         }
     }

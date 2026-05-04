@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angu
 import { FacilityService } from '../../../services/data/facility.service';
 import { ToastrService } from 'ngx-toastr';
 import { UnitService } from '../../../services/data/unit.service';
-import { Unit } from '../../../models/api/Unit';
 import { DepartmentSelection } from '../../../models/code-work/departmentSelection.model';
 import { DepartmentService } from '../../../services/data/department.service';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { CreateUnitRequest } from 'src/app/models/api/CreateUnitRequest';
+import { UnitResponse } from 'src/app/models/api/UnitResponse';
 
 @Component({
   selector: 'app-create-unit',
@@ -14,15 +16,15 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CreateUnitComponent implements OnInit, OnDestroy {
 
-  newUnit: Unit;
+  newUnit: UnitResponse;
   departmentsSelection: DepartmentSelection[] = [];
 
-  unitsList: Unit[] = [];
+  unitsList: UnitResponse[] = [];
 
   faInfoIcon = faInfoCircle;
 
   @Input() facilityId: number;
-  @Output() unitCreatedEvent: EventEmitter<Unit> = new EventEmitter<Unit>();
+  @Output() unitCreatedEvent: EventEmitter<OrganisationUnit> = new EventEmitter<OrganisationUnit>();
   @Output() resetFormEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
@@ -52,9 +54,16 @@ export class CreateUnitComponent implements OnInit, OnDestroy {
 
     this.newUnit.departments = this.departmentsSelection
       .filter(r => r.isSelected)
-      .map((r) => ({ id: r.department.id, departmentTypeId: 0, roles: null, facilityId: this.facilityId, name: null, departmentType: null }));
+      .map((r) => ({ id: r.department.id, roles: null, parentId: this.facilityId, parent: r.department, name: null, type: null, typeId: null, abbreviation: null, description: null, levelRef: null, levelId: null, addressId: null, address: null, children: null, hasObservations: false }));
 
-    this.unitService.createUnit(this.newUnit).subscribe((unit) => {
+    const createUnitRequest: CreateUnitRequest = {
+      facilityId: this.facilityId,
+      departmentIds: this.newUnit.departments.map(dep => dep.id),
+      name: this.newUnit.name,
+      abbreviation: null,
+      description: null
+    };
+    this.unitService.createUnit(createUnitRequest).subscribe((unit) => {
       this.toastrService.success(this.translate.instant('Unit created'), this.translate.instant('Unit with ID:') + ` ${unit.id} ` + this.translate.instant('created'));
       this.unitCreatedEvent.emit(unit);
 
@@ -67,7 +76,7 @@ export class CreateUnitComponent implements OnInit, OnDestroy {
 
   loadDepartments() {
 
-    this.unitService.getUnitsForFacility(this.facilityId).subscribe((result: Unit[]) => {
+    this.unitService.getUnitsForFacility(this.facilityId).subscribe((result: UnitResponse[]) => {
       this.unitsList = result;
 
       this.facilityService.getDepartments(this.facilityId).subscribe(
@@ -75,7 +84,8 @@ export class CreateUnitComponent implements OnInit, OnDestroy {
           this.departmentsSelection = departments.map(a =>
           ({
             department: a, isSelected: false,
-            isAlreadyAtUnit: this.unitsList.some(k => k.departments.some(av => av.id === a.id))
+            // isAlreadyAtUnit: this.unitsList.some(k => k.children.some(av => av.id === a.id))
+            isAlreadyAtUnit: false
           }));
         },
         (err) => this.toastrService.error(this.translate.instant('Could not load Units:') + ` ${err?.message ? err.message : err} `, this.translate.instant('Technical error'), { disableTimeOut: true})

@@ -26,13 +26,13 @@
             <tr *ngFor="let department of filteredDepartments">
               <ng-container *ngIf="!canEdit && departmentAsChanged?.id !== department.id">
                 <td>{{department.name}}</td>
-                <td>{{department.departmentType.name}}</td>
+                <td>{{department.type.name}}</td>
                 <td>{{getRoleDescriptions(department)}}</td>
               </ng-container>
               <ng-container>
                 <ng-container *ngIf="canEdit && departmentAsChanged?.id !== department.id">
                   <td>{{department.name}}</td>
-                  <td>{{department.departmentType.name}}</td>
+                  <td>{{department.type.name}}</td>
                   <td>{{getRoleDescriptions(department)}}</td>
                   <td class="text-end py-2 align-middle">
                     <button class="btn fhi-btn-icon" (click)="setDepartmentAsChanged(department)">
@@ -44,9 +44,9 @@
               <ng-container *ngIf="canEdit && departmentAsChanged?.id === department.id">
                 <td><input type="text" autocomplete="off" (keypress)="omitSpecialChar($event)" class="form-control" [(ngModel)]="departmentAsChanged.name" (ngModelChange)="departmentAsChanged.name = sanitizeDepartmentName($event)"></td>
                 <td>
-                  <select class="form-control" id="departmenttype" [(ngModel)]="departmentAsChanged.departmentTypeId">
+                  <select class="form-control" id="departmenttype" [(ngModel)]="departmentAsChanged.typeId">
                     <option value="0">{{"Not selected" | translate}}</option>
-                    <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="departmentAsChanged.departmentTypeId == type.id">{{type.name}}</option>
+                    <option *ngFor="let type of departmentTypes" [ngValue]="type.id" [selected]="departmentAsChanged.typeId== type.id">{{type.name}}</option>
                   </select>
                 </td>
                 <td>

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/api/User';
 import { CreateAdminRequest } from '../../models/api/CreateAdminRequest';
 import { CoordinatorForCity } from '../../models/api/CoordinatorForCity';
+import { CreateCoordinatorRequest } from 'src/app/models/api/CreateCoordinatorRequest';
+import { CreateObserverRequest } from 'src/app/models/api/CreateObserverRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +17,12 @@ export class UserService {
 
   // ---- Observator ----
 
-  createObserver(user: User): Observable<User> {
+  createObserver(user: CreateObserverRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/observer/create`;
     return this.http.post<User>(url, user);
   }
 
-  updateObserver(user: User): Observable<User> {
+  updateObserver(user: CreateObserverRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/observer/update`;
     return this.http.put<User>(url, user);
   }
@@ -31,18 +33,18 @@ export class UserService {
   }
 
   hasTransferredSessionToFHI(id: number): Observable<boolean> {
-    const url = `${environment.apiBaseUrl}/v1/user/observer/hasTransferredSessionToFHI?observerId=${id}`;
+    const url = `${environment.apiBaseUrl}/v1/user/observer/HasTransferredSessionToAdmin?observatorId=${id}`;
     return this.http.get<boolean>(url);
   }
 
   // ---- Coordinator ----
 
-  createCoordinator(user: User): Observable<User> {
+  createCoordinator(user: CreateCoordinatorRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/coordinator/create`;
     return this.http.post<User>(url, user);
   }
 
-  updateCoordinator(user: User): Observable<User> {
+  updateCoordinator(user: CreateCoordinatorRequest): Observable<User> {
     const url = `${environment.apiBaseUrl}/v1/user/coordinator/update`;
     return this.http.put<User>(url, user);
   }
@@ -52,29 +54,29 @@ export class UserService {
     return this.http.delete<boolean>(url);
   }
 
-  // ---- FhiAdmin ----
+  // ---- Admin ----
 
   getAdmin(): Observable<User[]> {
-    const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
+    const url = `${environment.apiBaseUrl}/v1/user/admin`;
     return this.http.get<User[]>(url);
   }
 
   createAdmin(user: CreateAdminRequest): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
+    const url = `${environment.apiBaseUrl}/v1/user/admin`;
     return this.http.post<User>(url, user);
   }
 
   updateAdmin(user: User): Observable<User> {
-    const url = `${environment.apiBaseUrl}/v1/user/fhiadmin`;
+    const url = `${environment.apiBaseUrl}/v1/user/admin`;
     return this.http.put<User>(url, user);
   }
 
   hasValidHprnumberOrPseudonym(user: User): boolean{
-    return user?.hprNumber != null || this.isValidPseudonym(user.identityPseudonym);
+    return this.isValidPseudonym(user.identityPseudonym);
   }
 
   hasCoordinatorValidHprnumberOrPseudonym(coordinator: CoordinatorForCity): boolean {
-    return coordinator?.hprNumber?.trim().length > 0 || this.isValidPseudonym(coordinator.identityPseudonym);
+    return this.isValidPseudonym(coordinator.identityPseudonym);
   }
 
   isValidPseudonym(pseudonym: string): boolean{

@@ -12,11 +12,11 @@ import { ToastrService } from "ngx-toastr";
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
-import { DepartmentOverviewReport } from 'src/app/models/api/DepartmentOverviewReport';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
 import { SortHelper } from 'src/app/utils/sort-helper';
 import { DateMomentHelper } from 'src/app/utils/date-moment-helper';
+import { UnitOverviewReport } from 'src/app/models/api/UnitOverviewReport';
 
 @Component({
   selector: 'app-overview-observations',
@@ -33,9 +33,9 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
   sessiontypes = [
     {name: 'All', value: null},
     // { name: 'Protective Equipment', value: SessionType.ProtectiveEquipment },
-    { name: 'Five Indications', value: SessionType.FiveIndications },
+    { name: 'Hand Hygiene', value: SessionType.FiveIndications },
     { name: 'Gloves', value: SessionType.Gloves },
-    { name: 'Hand Jewelry', value: SessionType.HandJewelry }
+    { name: 'Bare Below Elbows', value: SessionType.HandJewelry }
   ];
 
   selectedSessiontype: SessionType = null;
@@ -121,8 +121,7 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
                             { name: 'All', 
                               id: null,
                               abbreviation: null,
-                              herId: null,
-                              facilityType: null,
+                              type: null,
                               city: null 
                             },
                             ...facilities
@@ -162,10 +161,10 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
 
   }
 
-  navigateToObservationsForTheDepartment(department) {
-    this.router.navigate([`/${UrlPaths.observationsDepartment}`], {
+  navigateToObservationsForTheUnit(unit) {
+    this.router.navigate([`/${UrlPaths.observationsUnit}`], {
       queryParams: this.trim({
-        departmentid: department.id,
+        unitId: unit.id,
         sessiontype: this.selectedSessiontype,
         from: this.fromDate ? DateMomentHelper.dateTimeToDate(this.fromDate, "YYYY-MM-DD") : null,
         to: this.toDate ? DateMomentHelper.dateTimeToDate(this.toDate, "YYYY-MM-DD") : null,
@@ -194,9 +193,9 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     if (this.selectedSessiontype == SessionType.ProtectiveEquipment)
       return "Protective Equipment";
     if (this.selectedSessiontype == SessionType.FiveIndications)
-      return "Five Indications";
+      return "Hand Hygiene";
     if (this.selectedSessiontype == SessionType.HandJewelry)
-      return "Hand Jewelry";
+      return "Bare Below Elbows";
     if (this.selectedSessiontype == SessionType.Gloves)
       return "Gloves";
 
@@ -216,9 +215,9 @@ export class OverviewObservationsComponent implements OnInit, OnDestroy {
     let index = this.facilityOverviewReportList.findIndex(x => x.id == this.SelectedFacilityFromListId);
     if (index > -1) {
           const userSortConfig = {
-      [this.translate.instant("Name")]: (x: DepartmentOverviewReport) => x.name
+      [this.translate.instant("Unit Name")]: (x: UnitOverviewReport) => x.name
     };
-    this.facilityOverviewReportList[index].departments = SortHelper.sort(this.facilityOverviewReportList[index].departments, $event, userSortConfig);
+    this.facilityOverviewReportList[index].units = SortHelper.sort(this.facilityOverviewReportList[index].units, $event, userSortConfig);
     }
   }
 }

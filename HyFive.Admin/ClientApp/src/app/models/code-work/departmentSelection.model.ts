@@ -1,7 +1,7 @@
-import {Department} from '../api/Department';
+import { OrganisationUnit } from '../api/OrganisationUnit';
 
 export interface DepartmentSelection {
-    department: Department;
+    department: OrganisationUnit;
     isSelected: boolean;
     isAlreadyAtUnit: boolean;
 }

@@ -1,14 +1,16 @@
-﻿using System;
+﻿using HyFive.Models.V1.User;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace HyFive.Services.User
 {
     public class UserValidator
     {
-        public static bool HasNameAndEmail(Models.V1.User.User user)
+        public static bool HasNameAndEmail(CreateUpdateUserRequest request)
         {
-            return !string.IsNullOrEmpty(user.FirstName)
-                   && !string.IsNullOrEmpty(user.LastName)
-                   && (!string.IsNullOrEmpty(user.Email));
+            return !string.IsNullOrEmpty(request.FirstName)
+                   && !string.IsNullOrEmpty(request.LastName)
+                   && (!string.IsNullOrEmpty(request.Email));
         }
     }
 }

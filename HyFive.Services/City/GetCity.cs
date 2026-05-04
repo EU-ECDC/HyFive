@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace HyFive.Services.City
     {
         public class Query : IRequest<FacilityReport[]>
         {
-            public int CityId { get; set; }
+            public string City { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, FacilityReport[]>
@@ -30,11 +31,37 @@ namespace HyFive.Services.City
 
             public async Task<FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Facility.Where(x=>x.City.Id == request.CityId);
+                if (string.IsNullOrWhiteSpace(request.City))
+                    return Array.Empty<FacilityReport>();
 
-                var result = await query
-                    .ProjectTo<FacilityReport>(_mapper.ConfigurationProvider)
-                    .ToArrayAsync();
+                var city = request.City.Trim();
+
+                var result = await
+                    (from ou in _context.OrganisationUnit.AsNoTracking()
+                     where ou.ParentId == null
+                     join a in _context.Address.AsNoTracking()
+                         on ou.AddressId equals a.Id into a1
+                     from a in a1.DefaultIfEmpty()
+                     join t in _context.OrganisationUnitType.AsNoTracking()
+                         on ou.TypeId equals t.Id
+                     where a.City != null && EF.Functions.ILike(a.City, city)
+                     orderby ou.Name
+                     select new FacilityReport
+                     {
+                         Id = ou.Id,
+                         Name = ou.Name,
+                         Abbreviation = ou.Abbreviation,
+                         City = a.City,
+                         Type = new HyFive.Models.V1.OrganisationUnit.OrganisationUnitType
+                         {
+                             Id = t.Id,
+                             Code = t.Code,
+                             Name = t.Name,
+                             Description = t.Description
+                         }
+                     })
+                    .ToArrayAsync(cancellationToken);
+
                 return result;
             }
         }

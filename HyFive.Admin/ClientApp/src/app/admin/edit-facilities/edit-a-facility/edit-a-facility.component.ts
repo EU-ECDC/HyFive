@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FacilityService } from '../../../services/data/facility.service';
-import { Facility } from '../../../models/api/Facility';
-import { FacilityType } from '../../../models/api/FacilityType';
 import { ToastrService } from 'ngx-toastr';
 import { UrlPaths } from '../../../_common/constants/url-paths';
-import { City } from 'src/app/models/api/City';
 import { CityService } from 'src/app/services/data/City.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
+import { UpdateFacilityRequest } from 'src/app/models/api/UpdateFacilityRequest';
 
 @Component({
   selector: 'app-edit-a-facility',
@@ -19,19 +19,18 @@ export class EditFacilityComponent implements OnInit {
               private readonly cityService: CityService,
               private readonly translate: TranslateService) { }
 
-  facility: Facility = null;
-  facilityTypes: FacilityType[] = [];
+  facility: OrganisationUnit = null;
+  facilityTypes: OrganisationUnitType[] = [];
   facilitytypeId = 0;
-  listOfCities: City[] = [];
+  // listOfCities: City[] = [];
+  listOfCities: {id: string,name: string}[] = [];
 
   UrlPaths = UrlPaths;
-  cityId = 0;
-
 
   @Input() facilityId: number;
-  @Input() facilities: Facility[] = [];
+  @Input() facilities: OrganisationUnit[] = [];
   @Output() facilityDeletedEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() facilityUpdatedEvent: EventEmitter<Facility> = new EventEmitter<Facility>();
+  @Output() facilityUpdatedEvent: EventEmitter<OrganisationUnit> = new EventEmitter<OrganisationUnit>();
 
   ngOnInit(): void {
     if (this.facilityId === 0) {
@@ -40,17 +39,19 @@ export class EditFacilityComponent implements OnInit {
     }
     this.facilityService.getFacility(this.facilityId).subscribe((facility) => {
       this.facility = facility;
-      this.facilitytypeId = facility.facilityType.id;
-      this.cityId = facility.city?.id;
+      this.facilitytypeId = facility.type.id;
       
       this.facilityService.getFacilityTypes().subscribe((types) => {
         this.facilityTypes = types;
       });
     });
 
-    this.cityService.getAllCities().subscribe(
+        this.cityService.getAllCities().subscribe(
       (allCities) => {
-        this.listOfCities = [ { id: 0, name: null }, ...allCities];
+        // this.listOfCities = [ { id: 0, name: null }, ...allCities];
+        allCities.forEach(item => {
+        this.listOfCities.push({id: item, name: item})
+        });
     });
   }
 
@@ -66,13 +67,24 @@ export class EditFacilityComponent implements OnInit {
   }
 
   facilityTypeChanged() {
-    this.facility.city = null;
-    this.cityId = 0;
-    this.facility.facilityType = this.facilityTypes.find(i => i.id === this.facilitytypeId);
+    this.facility.type = this.facilityTypes.find(i => i.id === this.facilitytypeId);
   }
 
   saveFacility() {
-    this.facilityService.updateFacility(this.facility).subscribe(
+    const updateFacilityRequest: UpdateFacilityRequest = {
+        id: this.facilityId,
+        name: this.facility.name,
+        abbreviation: this.facility.abbreviation,
+        description: this.facility.description,
+        organisationUnitTypeId: this.facility.type.id,
+        address: {
+          	id: this.facility.address.id,
+            city: this.facility.address.city,
+            street: this.facility.address.street,
+            postalCode: this.facility.address.postalCode
+        }
+    }
+    this.facilityService.updateFacility(updateFacilityRequest).subscribe(
       (facility) => {
         this.toastrService.success(this.translate.instant('The facility was updated'));
         this.facilityUpdatedEvent.emit(facility);
@@ -80,18 +92,9 @@ export class EditFacilityComponent implements OnInit {
       (error) => this.toastrService.error(this.translate.instant('An error occurred:') +  ` ${error?.error.message}`, this.translate.instant('Error during update'), { disableTimeOut: true}));
   }
 
-  cityChanged() {
-      if (this.cityId == 0) {
-        this.facility.city = null;
-      } else {
-        this.facility.city = this.listOfCities.find(r => r.id === this.cityId);
-      }
-  }
-
   canNotSavefacility(): boolean {
-    if (this.facility.facilityType.id > 0 
+    if (this.facility.type.id > 0 
       && this.facility.name?.length > 0
-      && this.facility.city?.id > 0
       && !this.facilities.filter(i => i.id !== this.facility.id).some(i => i.name === this.facility.name)
     )
       return false;

@@ -37,7 +37,7 @@ export class EditingByHandjewelryTypeComponent implements OnInit, OnDestroy {
   loadHandJewelryTypes() {
     this.handJewelryTypeService.getHandJewelryTypes().subscribe(
       (result) => this.handJewelryTypes = result,
-      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Hand Jewelry Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
+      (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Bare Below Elbows Types:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
     );
   }
 
@@ -49,10 +49,10 @@ export class EditingByHandjewelryTypeComponent implements OnInit, OnDestroy {
   updateHandJewelryType(handjewelryType: HandJewelryType): void {
     this.handJewelryTypeService.updateHandJewelryType(handjewelryType).subscribe(
       (updateHandJewelryType) => {
-        this.toastrService.success(this.translate.instant("HandJewelry Type updated"));
+        this.toastrService.success(this.translate.instant("BareBelowElbows Type updated"));
         this.loadHandJewelryTypes();
       },
-      error => this.toastrService.error(this.translate.instant('An error occurred while updating HandJewelry Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
+      error => this.toastrService.error(this.translate.instant('An error occurred while updating BareBelowElbows Type:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
       () => this.handJewelryTypeAsChanged = null
     );
   }

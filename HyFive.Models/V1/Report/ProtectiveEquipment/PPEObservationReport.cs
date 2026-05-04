@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace HyFive.Models.V1.Report.Beskyttelsesutstyr
+namespace HyFive.Models.V1.Report.ProtectiveEquipment
+
 {
     public class PPEObservationReport
     {

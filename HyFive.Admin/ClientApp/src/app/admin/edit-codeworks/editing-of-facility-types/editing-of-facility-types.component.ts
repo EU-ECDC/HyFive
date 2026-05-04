@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FacilityType } from '../../../models/api/FacilityType';
 import { ToastrService } from 'ngx-toastr';
 import { FacilitiesTypesService } from '../../../services/data/FacilitiesTypes.service';
 import { CreateFacilityTypeRequest } from 'src/app/models/api/CreateFacilityTypeRequest';
 import { KeyEventService } from '../../../services/events/key-event.service';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 
 @Component({
   selector: 'app-editing-of-facility-types',
@@ -11,9 +11,9 @@ import { KeyEventService } from '../../../services/events/key-event.service';
 })
 export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
 
-  facilityTypes: FacilityType[] = [];
+  facilityTypes: OrganisationUnitType[] = [];
   newFacilityType: CreateFacilityTypeRequest = this.emptyRequest();
-  facilitytypeAsChanged: FacilityType = null;
+  facilitytypeAsChanged: OrganisationUnitType = null;
 
   constructor(
     private readonly FacilitiesTypesService: FacilitiesTypesService,
@@ -48,6 +48,9 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
   }
 
   createFacilityType(): void {
+    if (!this.newFacilityType.code.startsWith("F_")) {
+      this.newFacilityType = {...this.newFacilityType, code: 'F_' + this.newFacilityType.code};
+    }
     this.FacilitiesTypesService.createFacilityType(this.newFacilityType).subscribe(
       (createdFacilitytype) => this.toastrService.success(`Facility type created.`),
       error => this.toastrService.error(`An error occurred while creating the  type ${this.newFacilityType.name}. Error: "${error.error.message}"`, '', { disableTimeOut: true}),
@@ -55,13 +58,16 @@ export class EditingFacilityTypesComponent implements OnInit, OnDestroy {
     );
   }
 
-  selectedFacilitytype(facilitytype: FacilityType): void {
+  selectedFacilitytype(facilitytype: OrganisationUnitType): void {
     if (this.facilitytypeAsChanged?.id == facilitytype.id) return;
     this.facilitytypeAsChanged = structuredClone(facilitytype);
   }
 
-  updateFacilityType(facilitytype: FacilityType): void {
-    this.FacilitiesTypesService.updateFacilityType(facilitytype).subscribe(
+  updateFacilityType(facilityType: OrganisationUnitType): void {
+    if (!facilityType.code.startsWith("F_")) {
+      facilityType = {...facilityType, code: 'F_' + facilityType.code};
+    }
+    this.FacilitiesTypesService.updateFacilityType(facilityType).subscribe(
       (updatedFacilitytype) => {
         this.toastrService.success("Facility type updated");
         this.loadtFacilityTypes();

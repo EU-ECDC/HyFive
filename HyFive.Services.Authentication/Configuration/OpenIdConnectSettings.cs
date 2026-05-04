@@ -17,7 +17,11 @@ namespace HyFive.Services.Authentication.Configuration
 
         public bool AuthUse { get; set; }
 
-        public string RequireHttpsMetadata { get; set; }
+        public bool RequireHttpsMetadata { get; set; } = true;
+
+        public string CookieSecurePolicy { get; set; } = "Always";
+
+        public string SameSiteMode { get; set; } = "None";
 
         public string SaveTokens { get; set; }
     }

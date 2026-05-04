@@ -9,6 +9,6 @@ namespace HyFive.Models.V1.Session
         public Guid SessionId { get; set; }
         public int FacilityId { get; set; }
         public string Comment { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime StartDate { get; set; }
     }
 }

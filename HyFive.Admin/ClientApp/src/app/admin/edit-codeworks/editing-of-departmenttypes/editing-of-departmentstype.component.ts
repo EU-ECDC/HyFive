@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { DepartmentType } from '../../../models/api/DepartmentType';
 import { DepartmentService } from '../../../services/data/department.service';
 import { KeyEventService } from '../../../services/events/key-event.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 
 @Component({
   selector: 'app-editing-of-departmentstype',
@@ -11,9 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EditingOfDepartmentTypesComponent implements OnInit, OnDestroy {
 
-  departmentTypes: DepartmentType[] = [];
-  newDepartmentType: DepartmentType = this.emptyRequest();
-  departmentTypeAsChanged: DepartmentType = null;
+  departmentTypes: OrganisationUnitType[] = [];
+  newDepartmentType: OrganisationUnitType = this.emptyRequest();
+  departmentTypeAsChanged: OrganisationUnitType = null;
 
   constructor(
     private readonly departmentService: DepartmentService,
@@ -42,15 +42,19 @@ export class EditingOfDepartmentTypesComponent implements OnInit, OnDestroy {
     );
   }
 
-  emptyRequest(): DepartmentType {
+  emptyRequest(): OrganisationUnitType {
     return {
       id: 0,
       code: null,
-      name: null
+      name: null,
+      description: null
     };
   }
 
   createDepartmentType() {
+    if (!this.newDepartmentType.code.startsWith("D_")) {
+      this.newDepartmentType = {...this.newDepartmentType, code: 'D_' + this.newDepartmentType.code};
+    }
     this.departmentService.createDepartmentType(this.newDepartmentType).subscribe(
       (departmenttype) => this.toastrService.success(this.translate.instant('Department Type with name') + ' ' + `${departmenttype.name}` + ' ' +  this.translate.instant('was created')),
       error => this.toastrService.error(this.translate.instant('An error occurred while creating Department Type') + ' ' +  `${this.newDepartmentType.name}.` + this.translate.instant('Error: ') + `${error.error.message}`, '', { disableTimeOut: true}),
@@ -58,12 +62,15 @@ export class EditingOfDepartmentTypesComponent implements OnInit, OnDestroy {
     );
   }
 
-  selectedDepartmentType(departmenttype: DepartmentType): void {
+  selectedDepartmentType(departmenttype: OrganisationUnitType): void {
     if (this.departmentTypeAsChanged?.id == departmenttype.id) return;
     this.departmentTypeAsChanged = structuredClone(departmenttype);
   }
 
-  updateDepartmentType(departmenttype: DepartmentType): void {
+  updateDepartmentType(departmenttype: OrganisationUnitType): void {
+    if(!departmenttype.code.startsWith("D_")) {
+        departmenttype = {...departmenttype, code: 'D_' + departmenttype.code};
+    }
     this.departmentService.updateDepartmentType(departmenttype).subscribe(
       (result) => {
         this.toastrService.success(this.translate.instant('Department Type was updated'));

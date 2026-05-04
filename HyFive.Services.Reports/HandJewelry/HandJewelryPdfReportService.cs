@@ -281,7 +281,7 @@ namespace HyFive.Services.Reports.HandJewelry
         private static void FillOutHeader(JewelryReportForJewelryTypeAndRole report, PdfStamper pdfStamper)
         {
             pdfStamper.AcroFields.SetField("title", "Report on Observations of Transmission Prevention Measures");
-            pdfStamper.AcroFields.SetField("subtitle", "Module 2: Jewelry, Watches, and Nails");
+            pdfStamper.AcroFields.SetField("subtitle", "Module 2: Bare Below Elbows");
             pdfStamper.AcroFields.SetField("facility", $"Facility: {report.Facility}");
             pdfStamper.AcroFields.SetField("department", $"Department: {report.Department}");
             pdfStamper.AcroFields.SetField("time period", "Registered time period: " +

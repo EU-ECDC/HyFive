@@ -10,7 +10,7 @@ import {HandJewelryObservation} from "../../models/api/HandJewelryObservation";
 import {GloveObservation} from "../../models/api/GloveObservation";
 import {ProtectiveEquipmentObservation} from "../../models/api/ProtectiveEquipmentObservation";
 import { AuthorizedRole } from '../../_common/authorization/authorized-role';
-import { FiveIndicatorsObservation } from 'src/app/models/api/FiveIndicatorsObservation';
+import { HandHygieneObservation } from 'src/app/models/api/HandHygieneObservation';
 
 @Injectable({
   providedIn: 'root'
@@ -45,12 +45,12 @@ export class ObservationService {
                           );
   }
 
-  getSessionsForDepartment(departmentid: number, sessiontype: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<SessionOverviewReport[]> {
-    const url = `${environment.apiBaseUrl}/v1/observation/department`;
+  getSessionsForUnit(unitId: number, sessiontype: SessionType, fromDate: Date, toDate: Date, selectedRole: AuthorizedRole): Observable<SessionOverviewReport[]> {
+    const url = `${environment.apiBaseUrl}/v1/observation/unit`;
     let params = new HttpParams();
 
-    if (departmentid !== null)
-      params = params.append("departmentid", departmentid?.toString());
+    if (unitId !== null)
+      params = params.append("unitId", unitId?.toString());
 
     if (sessiontype && sessiontype.toString() !== 'null')
       params = params.append("sessiontype", sessiontype?.toString());
@@ -100,12 +100,12 @@ export class ObservationService {
     return this.http.get<SessionOverviewReport>(url, { params: params });
   }
 
-  updateFiveIndicationsObservation(observation: FiveIndicatorsObservation) : Observable<boolean>{
+  updateHandHygieneObservation(observation: HandHygieneObservation) : Observable<boolean>{
     const url = `${environment.apiBaseUrl}/v1/observation/fiveindications/update`;
     return this.http.put<boolean>(url, observation);
   }
 
-  deleteFiveIndicationsObservation(observationId: string, sessionId: string): Observable<boolean> {
+  deleteHandHygieneObservation(observationId: string, sessionId: string): Observable<boolean> {
     const url = `${environment.apiBaseUrl}/v1/observation/fiveindications/delete?observationId=${observationId}&sessionId=${sessionId}`;
     return this.http.delete<boolean>(url);
   }

@@ -41,8 +41,8 @@ export class RegisterGloveComponent implements OnInit, OnDestroy {
     private readonly toastrService: ToastrService,
     private readonly translate: TranslateService,
     private readonly facilityService: FacilityService,) {
-      this.facilityService.getSelectedFacility()
-      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
+    this.facilityService.getSelectedFacility()
+      .subscribe(i => this.roles = i.children.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 
   ngOnInit(): void {

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Unit } from '../../models/api/Unit';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { UpdateUnitRequest } from 'src/app/models/api/UpdateUnitRequest';
+import { CreateUnitRequest } from 'src/app/models/api/CreateUnitRequest';
+import { UnitResponse } from 'src/app/models/api/UnitResponse';
+import { OrganisationUnitResponse } from 'src/app/models/api/OrganisationUnitResponse';
 
 
 @Injectable({
@@ -12,23 +16,23 @@ export class UnitService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getUnit(id: number, facilityId: number): Observable<Unit> {
-    const url = `${environment.apiBaseUrl}/v1/unit/${id}?facilityId=${facilityId}`;
-    return this.http.get<Unit>(url);
+  getUnit(unitId: number, facilityId: number): Observable<OrganisationUnitResponse> {
+    const url = `${environment.apiBaseUrl}/v1/unit/${unitId}?facilityId=${facilityId}`;
+    return this.http.get<OrganisationUnitResponse>(url);
   }
 
-  getUnitsForFacility(facilityId: number): Observable<Unit[]> {
+  getUnitsForFacility(facilityId: number): Observable<UnitResponse[]> {
     const url = `${environment.apiBaseUrl}/v1/unit/facility/${facilityId}`;
-    return this.http.get<Unit[]>(url);
+    return this.http.get<UnitResponse[]>(url);
   }
 
-  createUnit(unit: Unit): Observable<Unit> {
+  createUnit(unit: CreateUnitRequest): Observable<OrganisationUnit> {
     const url = `${environment.apiBaseUrl}/v1/unit/create`;
-    return this.http.post<Unit>(url, unit);
+    return this.http.post<OrganisationUnit>(url, unit);
   }
 
-  updateUnit(unit: Unit): Observable<Unit> {
+  updateUnit(unit: UpdateUnitRequest): Observable<UnitResponse> {
     const url = `${environment.apiBaseUrl}/v1/unit/update`;
-    return this.http.put<Unit>(url, unit);
+    return this.http.put<UnitResponse>(url, unit);
   }
 }

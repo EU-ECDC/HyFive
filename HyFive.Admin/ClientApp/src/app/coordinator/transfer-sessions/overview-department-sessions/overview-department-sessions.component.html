@@ -2,10 +2,10 @@
   <app-navigation-bar (linkClicked)="navigateToObservationsForFacilities()">{{"Back to overview" | translate }}</app-navigation-bar>
 </div>
 
-<div class="container" *ngIf="department">
+<div class="container" *ngIf="unit">
   <div class="row mb-3">
     <div class="col">
-      <h4>{{"Department" | translate }}: {{department.name}}</h4>
+      <h4>{{"Department" | translate }}: {{unit.name}}</h4>
       <p>
         <span *ngIf="fromDate">{{ "From Date" | translate }}: {{showFormattedDate(fromDate)}}</span> <br />
         <span *ngIf="toDate">{{ "To Date" | translate }}: {{showFormattedDate(toDate)}}</span>
@@ -19,7 +19,7 @@
 <div class="container mt-5" *ngIf="!loading && !sessions.length">
   <div class="row">
     <div class="col text-center">
-      No sessions of the selected type found in this department
+      No sessions of the selected type found in this unit
     </div>
   </div>
 </div>
@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <tr class="row">
-            <td class="col-3"><p>{{item.type}}</p></td>
+            <td class="col-3"><p>{{item.typeName}}</p></td>
             <td class="col-3"><p>{{item.observerName}}</p></td>
             <td class="col-3"><p>{{showFormattedDateWithTime(item.startTime)}}</p></td>
             <td class="col-3"><p>{{showFormattedDate(item.createdTime)}}</p></td>
@@ -70,14 +70,14 @@
         </ul>
 
         <h6 class="text-dark mb-3"><strong>{{"Observations" | translate }}</strong></h6>
-        <!-- Fiveindications -->
-        <ng-container *ngIf="item.type === sessionTypeOptions[0].name">
+        <!-- Handhygiene -->
+        <ng-container *ngIf="item.typeName === sessionTypeOptions[0].name">
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
                 <tr>
                   <th>{{"Role" | translate }}</th>
-                  <th>{{"Indications" | translate }}</th>
+                  <th>{{"Hand Hygiene" | translate }}</th>
                   <th>{{"Activity" | translate }}</th>
                   <th>{{"Seconds used" | translate }}</th>
                   <th>{{"Gloves Used" | translate }}</th>
@@ -106,7 +106,7 @@
           </div>
           
         </ng-container>
-        <!-- HandJewelry -->
+        <!-- BareBelowElbows -->
         <ng-container *ngIf="item.type === sessionTypeOptions[1].name">
           <div class="table-responsive">
             <table class="table mb-0">

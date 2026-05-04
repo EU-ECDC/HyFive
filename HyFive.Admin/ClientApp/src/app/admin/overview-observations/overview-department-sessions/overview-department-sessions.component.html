@@ -2,10 +2,10 @@
   <app-navigation-bar (linkClicked)="navigateToObservationsForFacilities()">{{"Back to overview" | translate }}</app-navigation-bar>
 </div>
 
-<div class="container" *ngIf="department">
+<div class="container" *ngIf="unit">
   <div class="row mb-3">
     <div class="col">
-      <h4>{{"Department" | translate }}: {{department.name}}</h4>
+      <h4>{{"Unit" | translate }}: {{unit.name}}</h4>
       <p>
         <span *ngIf="fromDate">{{ "From Date" | translate }}: {{showFormattedDate(fromDate)}}</span> <br />
         <span *ngIf="toDate">{{ "To Date" | translate }}: {{showFormattedDate(toDate)}}</span>
@@ -19,7 +19,7 @@
 <div class="container mt-5" *ngIf="!loading && !session.length">
   <div class="row">
     <div class="col text-center">
-      No sessions of the selected type found in this department
+      {{"No sessions of the selected type found in this unit" | translate}}
     </div>
   </div>
 </div>
@@ -33,8 +33,8 @@
   </div>
 
   <app-overview-sessions-view [session]="session"
-                                 (observationUpdatedEvent)="getSessionsForDepartment()"
-                                 (observationDeletedEvent)="getSessionsForDepartment()">
+                                 (observationUpdatedEvent)="getSessionsForUnit()"
+                                 (observationDeletedEvent)="getSessionsForUnit()">
   </app-overview-sessions-view>
 
 </div>

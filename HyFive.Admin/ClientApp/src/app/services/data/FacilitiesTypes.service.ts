@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IndicationType } from '../../models/api/IndicationType';
 import { environment } from 'src/environments/environment';
-import { FacilityType } from '../../models/api/FacilityType';
 import { CreateFacilityTypeRequest } from '../../models/api/CreateFacilityTypeRequest';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 
 @Injectable({
   providedIn: 'root'
@@ -16,21 +16,21 @@ export class FacilitiesTypesService {
 
   }
 
-  getFacilityTypes(): Observable<FacilityType[]> {
+  getFacilityTypes(): Observable<OrganisationUnitType[]> {
     const url = `${environment.apiBaseUrl}/v1/facilitytypes`;
-    return this.httpClient.get<IndicationType[]>(url)
+    return this.httpClient.get<OrganisationUnitType[]>(url)
     .pipe();
   }
 
-  updateFacilityType(facilitytype: FacilityType): Observable<FacilityType> {
+  updateFacilityType(facilitytype: OrganisationUnitType): Observable<OrganisationUnitType> {
     const url = `${environment.apiBaseUrl}/v1/facilitytypes/update`;
-    return this.httpClient.put<FacilityType>(url, facilitytype)
+    return this.httpClient.put<OrganisationUnitType>(url, facilitytype)
     .pipe();
   }
 
-  createFacilityType(facilitytype: CreateFacilityTypeRequest): Observable<FacilityType> {
+  createFacilityType(facilitytype: CreateFacilityTypeRequest): Observable<OrganisationUnitType> {
     const url = `${environment.apiBaseUrl}/v1/facilitytypes/create`;
-    return this.httpClient.post<FacilityType>(url, facilitytype)
+    return this.httpClient.post<OrganisationUnitType>(url, facilitytype)
     .pipe();
   }
 

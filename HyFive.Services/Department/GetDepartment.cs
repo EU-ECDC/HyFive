@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace HyFive.Services.Department
 {
     public class GetDepartment
     {
-        public class Query : IRequest<Models.V1.Facility.Department>
+        public class Query : IRequest<Models.V1.OrganisationUnit.OrganisationUnit>
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.Facility.Department>
+        public class Handler : IRequestHandler<Query, Models.V1.OrganisationUnit.OrganisationUnit>
         {
 
             private readonly HandHygieneContext _context;
@@ -28,18 +29,26 @@ namespace HyFive.Services.Department
                 _mapper = mapper;
             }
 
-            public async Task<Models.V1.Facility.Department> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.OrganisationUnit.OrganisationUnit> Handle(Query request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Department
+                // Load Unit + Parent (facility) + Roles
+                var orgUnit = await _context.Set<Domain.Place.OrganisationUnit>()
                     .AsNoTracking()
-                    .Include(d => d.Facility)
-                    .Include(d => d.Roles)
-                    .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
+                    .Include(x => x.Parent)
+                    .Include(x => x.Children)
+                    .Include(x => x.LevelRef)
+                    .Include(x => x.OrganisationUnitRoles)
+                        .ThenInclude(our => our.Role)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                if (entity == null)
+                if (orgUnit == null)
                     return null;
 
-                return _mapper.Map<Models.V1.Facility.Department>(entity);
+                // Ensure it is actually a Department OU
+                if (orgUnit.LevelRef?.Level != "Department")
+                    throw new DomainException("OrganisationUnitIsNotDepartment");
+
+                return _mapper.Map<Models.V1.OrganisationUnit.OrganisationUnit>(orgUnit);
 
             }
         }

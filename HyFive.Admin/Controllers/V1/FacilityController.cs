@@ -1,15 +1,17 @@
-﻿using HyFive.Models.V1.User;
-using HyFive.Models.V1.Facility;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using HyFive.Models.V1.Constants;
+using HyFive.Models.V1.OrganisationUnit;
+using HyFive.Models.V1.User;
+using HyFive.Services.Authentication.Requirements;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Department;
 using HyFive.Services.Facility;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Services.Authentication.User;
-using HyFive.Services.Authentication.Requirements;
-using HyFive.Services.Department;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 
 namespace HyFive.Admin.Controllers.V1
 {
@@ -34,21 +36,15 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet]
         public async Task<IEnumerable<FacilityReport>> GetFacilities()
         {
-            if (_userService.IsAdmin())
-            {
+            if (await _userService.IsAdmin())
                 return await _mediator.Send(new GetFacilities.Query());
-            }
-            return await _mediator.Send(new GetFacilitiesForCoordinator.Query() {  CoordinatorEmail = _userService.GetEmail() });
+
+            return await _mediator.Send(new GetFacilitiesForCoordinator.Query
+            {
+                CoordinatorEmail = _userService.GetEmail()
+            });
         }
-
-        [Authorize(HandhygienePolicy.Coordinator)]
-        [HttpGet("getFacilitiesForCoordinator")]
-        public async Task<IEnumerable<FacilityReport>> GetFacilitiesForCoordinator()
-        {
-            return await _mediator.Send(new GetFacilitiesForCoordinator.Query() {CoordinatorEmail = _userService.GetEmail() });
-        }
-
-
+        
         /// <summary>
         /// Get facility
         /// </summary>
@@ -57,12 +53,11 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}", Name = "GetFacility")]
         public async Task<IActionResult> GetFacility(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
-            {
-                var result = await _mediator.Send(new GetFacility.Query() { FacilityId = id });
-                return Ok(result);
-            }
-            return Unauthorized();
+            if (!await _userService.IsCoordinatorForFacilityOrAdmin(id))
+                return Unauthorized();
+
+            var result = await _mediator.Send(new GetFacility.Query { FacilityId = id });
+            return Ok(result);
         }
 
         /// <summary>
@@ -73,12 +68,11 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("getComplianceFacilities")]
         public async Task<IActionResult> GetComplianceFacilities([FromQuery] List<int> facilityIds)
         {
-            if (_userService.IsCoordinatorForFacilitiesOrAdmin(facilityIds))
-            {
-                var result = await _mediator.Send(new GetComplianceFacilities.Query() { FacilityIds = facilityIds });
-                return Ok(result);
-            }
-            return Unauthorized();
+            if (!await _userService.IsCoordinatorForFacilitiesOrAdmin(facilityIds))
+                return Unauthorized();
+
+            var result = await _mediator.Send(new GetComplianceFacilities.Query { FacilityIds = facilityIds });
+            return Ok(result);
         }
 
 
@@ -89,14 +83,13 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/departments", Name = "GetDepartments")]
-        public async Task<ActionResult<IEnumerable<Department>>> GetDepartments(int id)
+        public async Task<ActionResult<IEnumerable<OrganisationUnit>>> GetDepartments(int id)
         {
-            if (!UserIsAuthorized(id))
+            if (!await UserIsAuthorized(id))
                 return Unauthorized();
-            
-                var result = await _mediator.Send(new GetDepartmentsForFacility.Query() { FacilityId = id });
-                return Ok(result);
-            
+
+            var result = await _mediator.Send(new GetDepartmentsForFacility.Query() { FacilityId = id });
+            return Ok(result);
         }
 
 
@@ -108,7 +101,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/observers", Name = "GetObservers")]
         public async Task<ActionResult<IEnumerable<User>>> GetObservators(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(id))
             {
                 var result = await _mediator.Send(new GetObserversForFacility.Query() { FacilityId = id });
                 return Ok(result);
@@ -127,7 +120,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("{id}/coordinators", Name = "GetCoordinators")]
         public async Task<ActionResult<IEnumerable<User>>> GetCoordinators(int id)
         {
-            if (_userService.IsCoordinatorForFacilityOrAdmin(id))
+            if (await _userService.IsCoordinatorForFacilityOrAdmin(id))
             {
                 var result = await _mediator.Send(new GetCoordinatorsForFacility.Query() { FacilityId = id });
                 return Ok(result);
@@ -140,8 +133,8 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Admin)]
-        [HttpGet("types")]
-        public async Task<IEnumerable<FacilityType>> GetFacilityTypes()
+        [HttpGet("types", Name = "GetFacilityTypes")]
+        public async Task<IEnumerable<OrganisationUnitType>> GetFacilityTypes()
         {
             var result = await _mediator.Send(new GetFacilityTypes.Query());
             return result;
@@ -154,8 +147,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Admin)]
         [HttpPost("create")]
-        [ProducesResponseType(typeof(Facility), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Facility>> CreateFacility([FromBody] CreateFacilityRequest request)
+        [ProducesResponseType(typeof(OrganisationUnit), StatusCodes.Status201Created)]
+        public async Task<ActionResult<OrganisationUnit>> CreateFacility([FromBody] CreateOrganisationUnitRequest request)
         {
             var result = await _mediator.Send(new CreateFacility.Command() { Request = request });
             return CreatedAtRoute("GetFacility", new { id = result.Id }, result);
@@ -168,9 +161,9 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Admin)]
         [HttpPut("update")]
-        public async Task<Facility> UpdateFacility([FromBody] Facility facility)
+        public async Task<OrganisationUnit> UpdateFacility([FromBody] UpdateOrganizationUnitRequest facility)
         {
-            var result = await _mediator.Send(new UpdateFacility.Command() { Facility = facility });
+            var result = await _mediator.Send(new UpdateFacility.Command() { Request = facility });
             return result;
         }
 
@@ -190,12 +183,12 @@ namespace HyFive.Admin.Controllers.V1
             return result;
         }
 
-        private bool UserIsAuthorized(int facilityId)
+        private async Task<bool> UserIsAuthorized(int facilityId)
         {
-            if (_userService.IsAdmin())
+            if (await _userService.IsAdmin())
                 return true;
 
-            if (_userService.IsCoordinatorForFacility(facilityId))
+            if (await _userService.IsCoordinatorForFacility(facilityId))
                 return true;
 
             return false;

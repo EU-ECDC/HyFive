@@ -2,15 +2,20 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-import { Department } from './Department';
+import { OrganisationUnit } from "./OrganisationUnit";
+
 
 export interface Session<TObservation>
 {
 	id: string;
-	department: Department;
+	facilityId: number;
+	facility: OrganisationUnit;
+	department: OrganisationUnit;
+	departmentId: number;
+	unitId: number;
+	facilityName: string;
+	unit: OrganisationUnit;
 	createdDate: Date;
 	observations?: TObservation[];
-	facilityName?: string;
-	facilityId?: number;
 	comment?: string;
 }

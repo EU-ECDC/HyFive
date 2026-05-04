@@ -1,16 +1,15 @@
 import {Component, EventEmitter, OnInit, Output, OnDestroy, Input} from '@angular/core';
-import { FacilityType } from '../../../models/api/FacilityType';
 import { CreateFacilityRequest } from '../../../models/api/CreateFacilityRequest';
 import { FacilityService } from '../../../services/data/facility.service';
 import { ToastrService } from 'ngx-toastr';
-import { Facility } from '../../../models/api/Facility';
-import { City } from 'src/app/models/api/City';
 import { CityService } from 'src/app/services/data/City.service';
 import { FacilityTypeConstants } from 'src/app/models/api/FacilityTypeConstants';
 import { User } from 'src/app/models/api/User';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-create-facility',
@@ -18,14 +17,16 @@ import { DialogMessageService } from 'src/app/services/data/dialog-message.servi
 })
 export class CreateFacilityComponent implements OnInit, OnDestroy {
 
-  facilityTypes: FacilityType[] = [];
+  facilityTypes: OrganisationUnitType[] = [];
   newfacility: CreateFacilityRequest = null;
-  listOfCities: City[] = [];
+  // listOfCities: City[] = [];
+  listOfCities: {id: string,name: string}[] = [];
+
   mailValidatorHelper;
 
-  @Input() facilities: Facility[] = [];
+  @Input() facilities: OrganisationUnit[] = [];
   @Input() coordinators: User[] = [];
-  @Output() facilityCreatedEvent: EventEmitter<Facility> = new EventEmitter<Facility>();
+  @Output() facilityCreatedEvent: EventEmitter<OrganisationUnit> = new EventEmitter<OrganisationUnit>();
   @Output() resetFormEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private readonly facilityService: FacilityService,
@@ -42,9 +43,12 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       this.newfacility = this.createDefaultFacility();
     });
 
-    this.cityService.getAllCities().subscribe(
+        this.cityService.getAllCities().subscribe(
       (allCities) => {
-        this.listOfCities = allCities;
+        // this.listOfCities = allCities;
+        allCities.forEach(item => {
+          this.listOfCities.push({id: item, name: item});
+        });
       }
     );
   }
@@ -55,7 +59,8 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
   }
 
   findDefaultFacilityType() {
-    return this.facilityTypes.find(p => p.code === FacilityTypeConstants.PrimaryCare);
+    // return this.facilityTypes.find(p => p.code === FacilityTypeConstants.PrimaryCare);
+    return this.facilityTypes[0];
   }
 
   createFacility() {
@@ -75,16 +80,17 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
  private createDefaultFacility(): CreateFacilityRequest {
     let defaultFacilityType = this.findDefaultFacilityType();
     return {
-      facilityName: null,
-      facilityTypeId: defaultFacilityType.id,
-      coordinatorLastName: null,
-      coordinatorFirstName: null,
-      coordinatorHPRNumber: null,
-      coordinatorEmail: null,
-      coordinatorPseudonym: null,
-      herId: null,
+      name: null,
       abbreviation: null,
-      cityId: 0
+      description: null,
+      organisationUnitTypeId: defaultFacilityType.id,
+      city: null,
+	    street: null,
+	    postalCode: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      pseudonym: null
     };    
   }
 
@@ -93,14 +99,14 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
   }
 
   canCreateFacility(): boolean{
-    return this.newfacility?.facilityName?.length > 0
-      && this.newfacility.cityId > 0
-      && this.newfacility?.coordinatorFirstName?.length > 0
-      && this.newfacility?.coordinatorLastName?.length > 0
-      && !this.coordinators.some(fc => fc.email == this.newfacility?.coordinatorEmail)
-      && this.newfacility?.coordinatorEmail?.length > 0
-      && this.mailValidatorHelper.validateMail(this.newfacility?.coordinatorEmail)
-      && !this.facilities.some(i => i.name === this.newfacility.facilityName);
+    return this.newfacility?.name?.length > 0
+      && this.newfacility.city !== null
+      && this.newfacility?.firstName?.length > 0
+      && this.newfacility?.lastName?.length > 0
+      // && !this.coordinators.some(fc => fc.email == this.newfacility?.email)
+      && this.newfacility?.email?.length > 0
+      && this.mailValidatorHelper.validateMail(this.newfacility?.email)
+      && !this.facilities.some(i => i.name === this.newfacility.name);
   }
 
   omitSpecialChar(event) {   

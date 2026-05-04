@@ -1,4 +1,5 @@
 ﻿using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,19 @@ namespace HyFive.Services.Department
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Department.Id == request.DepartmentId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
+                //enforce it is a Department OU
+                var isDepartment = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Include(ou => ou.LevelRef)
+                    .AnyAsync(ou => ou.Id == request.DepartmentId
+                                 && ou.LevelRef.Level == OrganisationUnitLevels.Department, cancellationToken);
 
-                return SessionsTransferredToFHI;
+                if (!isDepartment)
+                    throw new DomainException("OrganisationUnitIsNotDepartment");
+
+                var SessionsTransferredToAdmin = await _context.Session.Where(s => s.OrganisationUnitId == request.DepartmentId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
+
+                return SessionsTransferredToAdmin;
             }
         }
     }

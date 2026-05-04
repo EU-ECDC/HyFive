@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservationOverviewReport} from "../../../models/api/ObservationOverviewReport";
-import {Department} from "../../../models/api/Department";
 import {ObservationService} from "../../../services/data/observation.service";
 import {ToastrService} from "ngx-toastr";
 import {KeyEventService} from "../../../services/events/key-event.service";
@@ -17,7 +16,8 @@ export class EditProtectiveEquipmentObservationsComponent implements OnInit {
 
   @Input() observations: ObservationOverviewReport[]
   @Input() sessionId: string;
-  @Input() department: Department;
+  @Input() departmentId: number;
+  @Input() facilityId: number;
   @Input() canEdit = false;
 
   @Output() observationUpdatedEvent = new EventEmitter();

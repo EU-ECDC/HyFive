@@ -1,12 +1,11 @@
-import { Department } from "../models/api/Department";
-import { DepartmentType } from "../models/api/DepartmentType";
-import { Facility } from "../models/api/Facility";
+import { OrganisationUnit } from "../models/api/OrganisationUnit";
+import { OrganisationUnitType } from "../models/api/OrganisationUnitType";
 
 export class DownloadComplianceFacilitiesHelper {
-    public static handleUniqueDepartments(facilities: Facility[]) {
-        const allDepartments: Department[] = DownloadComplianceFacilitiesHelper.handleReducer(facilities);
+    public static handleUniqueDepartments(facilities: OrganisationUnit[]) {
+        const allDepartments: OrganisationUnit[] = DownloadComplianceFacilitiesHelper.handleReducer(facilities);
 
-        let uniqueDepartments: Department[] = Array.from(
+        let uniqueDepartments: OrganisationUnit[] = Array.from(
                 new Map(allDepartments.map(dep => [dep.id, dep])).values()
             );
 
@@ -14,18 +13,18 @@ export class DownloadComplianceFacilitiesHelper {
                     .toSorted((a,b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
     }
 
-    public static handleUniqueDepartmentTypes(facilities: Facility[]) {
-        const allDepartments: Department[] = DownloadComplianceFacilitiesHelper.handleReducer(facilities);
+    public static handleUniqueDepartmentTypes(facilities: OrganisationUnit[]) {
+        const allDepartments: OrganisationUnit[] = DownloadComplianceFacilitiesHelper.handleReducer(facilities);
 
-        const uniqueDepartmentTypes: DepartmentType[] = Array.from(
-        new Map(allDepartments.map(dep => [dep.departmentType.id, dep.departmentType])).values()
+        const uniqueDepartmentTypes: OrganisationUnitType[] = Array.from(
+        new Map(allDepartments.map(dep => [dep.type.id, dep.type])).values()
         );
         return uniqueDepartmentTypes;
     }
 
-    private static handleReducer(facilities: Facility[]) {
+    private static handleReducer(facilities: OrganisationUnit[]) {
         return facilities.reduce((all, inst) => {
-            return all.concat(inst.departments);
+            return all.concat(inst.children);
         }, []);
     }
 }

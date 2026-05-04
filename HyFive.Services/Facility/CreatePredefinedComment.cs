@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using HyFive.DataAccess;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Models.V1.Session;
 using MediatR;
 using PredefinedComment = HyFive.Domain.Place.PredefinedComment;
@@ -30,7 +30,7 @@ namespace HyFive.Services.Facility
             {
                 var comment = new PredefinedComment
                 {
-                    FacilityId = request.FacilityId,
+                    OrganisationUnitId = request.FacilityId,
                     Comment = request.NewPredefinedComment.Comment,
                     SessionType = (Domain.Place.SessionType)request.SessionType
                 };

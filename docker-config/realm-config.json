@@ -1,6 +1,7 @@
 {
   "realm": "hyfive",
   "enabled": true,
+  "sslRequired": "none",
   "users": [
     {
       "username": "admin",
@@ -52,19 +53,21 @@
       "clientId": "hyfive",
       "name": "HyFive",
       "description": "HyFive development and testing client.",
-      "rootUrl": "http://observation.localhost:8000",
+      "rootUrl": "http://observation.localhost:8080",
       "enabled": true,
       "implicitFlowEnabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "0tp5C8PgqbcsX3WrfS483rsiNgK0El8H",
       "redirectUris": [
-        "http://admin.localhost:8001/signin-oidc",
-        "http://observation.localhost:8000/signin-oidc"
+        "http://admin.localhost:8081/signin-oidc",
+        "http://observation.localhost:8080/signin-oidc",
+        "http://localhost:8081/signin-oidc",
+        "http://localhost:8080/signin-oidc"
       ],
       "protocol": "openid-connect",
       "attributes": {
         "request.object.signature.alg": "any",
-        "post.logout.redirect.uris": "http://observation.localhost:8000##http://admin.localhost:8001",
+        "post.logout.redirect.uris": "http://observation.localhost:8080##http://admin.localhost:8081",
         "oauth2.device.authorization.grant.enabled": "true"
       },
       "defaultClientScopes": [

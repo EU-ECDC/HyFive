@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Department } from '../../models/api/Department';
 import { faCheck, faCircle, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 import { faCommentDots, faHandPaper } from '@fortawesome/free-regular-svg-icons';
 import { DialogueTexts } from 'src/app/constants/dialogueTexts';
@@ -15,6 +14,7 @@ import { PostGloveHandHygieneType } from '../../models/api/PostGloveHandHygieneT
 import { GloveWithIndicationType } from '../../models/api/GloveWithIndicationType';
 import { Uuid } from 'src/app/utils/uuid';
 import { SessionType } from 'src/app/models/api/SessionType';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-edit-glove-observation',
@@ -51,7 +51,7 @@ export class EditGloveObservationComponent implements OnInit {
 
   @Input() isReadonly: boolean = false;
   @Input() observation: GloveObservation;
-  @Input() department: Department;
+  @Input() department: OrganisationUnit;
   @Input() facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
   showInfoModal = false;

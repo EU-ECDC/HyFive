@@ -7,5 +7,5 @@ export interface UpdateSessionRequest
 	sessionId: any;
 	facilityId: number;
 	comment: string;
-	startTime: any;
+	startDate: any;
 }

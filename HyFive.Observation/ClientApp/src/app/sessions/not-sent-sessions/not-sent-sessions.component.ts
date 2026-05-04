@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, Renderer2, Inject } from "@angular/core";
-import { FiveIndicationsSessionService } from "../../services/data/five-indications-session.service";
 import { Urls } from "../../constants/urls";
 import { HandJewelrySessionService } from "../../services/data/hand-Jewelry-session.service";
 import { Session } from "../../models/api/Session";
@@ -15,6 +14,7 @@ import { tap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 import { DOCUMENT } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
+import { HandHygieneSessionService } from "src/app/services/data/hand-hygiene-session.service";
 
 @Component({
   selector: "app-not-sent-sessions",
@@ -40,7 +40,7 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   pageSizeOptions = [25,30];
 
   constructor(
-    private readonly fiveIndicationsSessionService: FiveIndicationsSessionService,
+    private readonly handHygieneSessionService: HandHygieneSessionService,
     private readonly handJewelrySessionService: HandJewelrySessionService,
     private readonly gloveSessionService: GloveSessionService,
     private readonly protectiveEquipmentSessionService: ProtectiveEquipmentSessionService,
@@ -63,9 +63,9 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
   }
 
   loadSessions(offset, limit) {
-    this.sessions = this.fiveIndicationsSessionService
+    this.sessions = this.handHygieneSessionService
       .getSessions()
-      .map((f) => this.createSessionView(f, SessionType.FiveIndications))
+      .map((f) => this.createSessionView(f, SessionType.HandHygiene))
       .concat(
         this.handJewelrySessionService
           .getSessions()
@@ -132,20 +132,21 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
     sessionType: SessionType
   ): SessionReport {
     return {
-      departmentName: session.department?.name,
+      departmentName: session.department.name,
       startDate: session.createdDate,
       type: sessionType,
       id: session.id,
-      facilityName: session.facilityName,
+      facilityName: session.facility.name,
+      unitName: session.unit.name
     };
   }
 
   getSessionTypeUrl(sessionType: SessionType): string {
     switch (sessionType) {
-      case SessionType.FiveIndications:
-        return Urls.FiveIndicationsSessionUrl;
+      case SessionType.HandHygiene:
+        return Urls.HandHygieneSessionUrl;
       case SessionType.HandJewelry:
-        return Urls.HandJewelrySessionUrl;
+        return Urls.BareBelowElbowsSessionUrl;
       case SessionType.Gloves:
         return Urls.GloveSessionUrl;
       case SessionType.ProtectiveEquipment:
@@ -162,15 +163,15 @@ export class NotSentSessionsComponent implements OnInit, OnDestroy {
       if (s.isSelected) {
         let observable;
         switch (s.type) {
-          case SessionType.FiveIndications:
-            observable = this.fiveIndicationsSessionService
+          case SessionType.HandHygiene:
+            observable = this.handHygieneSessionService
               .sendToServer(s.id).pipe(
                 tap(() => {
                   const index = this.sessionsFiltered.findIndex((sf) => sf.id === s.id);
                   if (index > -1) {
                     this.sessionsFiltered.splice(index, 1);
                   }
-                  this.fiveIndicationsSessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
+                  this.handHygieneSessionService.deleteSessionPaginated(s.id, this.offset, this.pageSize);
                 })
               );
             break;

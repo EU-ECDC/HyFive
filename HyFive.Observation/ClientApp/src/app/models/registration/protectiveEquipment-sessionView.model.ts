@@ -1,10 +1,10 @@
-import {Department} from '../api/Department';
+import { OrganisationUnit } from '../api/OrganisationUnit';
 import {ProtectiveEquipmentSettingType} from '../api/ProtectiveEquipmentSettingType';
 import {ProtectiveEquipmentCard} from './protectiveEquipment-card.model';
 
 export class ProtectiveEquipmentSessionView {
   sessionId: string;
-  department: Department;
+  department: OrganisationUnit;
   setting: ProtectiveEquipmentSettingType;
   card: ProtectiveEquipmentCard[];
 }

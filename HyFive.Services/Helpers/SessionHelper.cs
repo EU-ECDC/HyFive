@@ -13,26 +13,48 @@ namespace HyFive.Services.Helpers
 {
     public static class SessionHelper
     {
-        public static async Task<Domain.Place.Department> GetDepartmentAsync(
-            HandHygieneContext context, int departmentId, CancellationToken cancellationToken)
+        public static async Task<Domain.Place.OrganisationUnit> GetOrganisationUnitAsync(
+            HandHygieneContext context, int unitId, CancellationToken cancellationToken)
         {
-            return await context.Department
-                .Include(d => d.Roles)
-                .FirstOrDefaultAsync(d => d.Id == departmentId, cancellationToken);
+                return await context.OrganisationUnit
+                    .Include(ou => ou.LevelRef)
+                    .Include(ou => ou.Parent)
+                        .ThenInclude(parent => parent.OrganisationUnitRoles)
+                            .ThenInclude(our => our.Role)
+                    .Include(ou => ou.Parent)
+                        .ThenInclude(parent => parent.Parent)
+                    .Include(ou => ou.OrganisationUnitRoles)
+                        .ThenInclude(our => our.Role)
+                    .FirstOrDefaultAsync(ou => ou.Id == unitId, cancellationToken);
         }
 
         public static async Task<ObserverUser> GetObserverAsync(
-            HandHygieneContext context, IUserService userService, string email, int facilityId, CancellationToken cancellationToken)
+            HandHygieneContext context, IUserService userService, string email, int organisationUnitId, CancellationToken cancellationToken)
         {
-            var facility = await context.Facility
-                .Include(f => f.Users)
-                .FirstOrDefaultAsync(f => f.Id == facilityId, cancellationToken);
+            var ou = await context.OrganisationUnit
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == organisationUnitId, cancellationToken);
 
-            if (facility == null)
-                throw new ArgumentException($"Did not find the specified facility with ID: {facilityId}");
+            if (ou == null)
+                throw new ArgumentException($"Did not find the specified organisation unit with ID: {organisationUnitId}");
 
-            return facility.Users
-                .FirstOrDefault(userService.HasEmailAndIsActive<ObserverUser>(email).Compile());
+            // Find observer user (active)
+            var observer = await context.User
+                .OfType<ObserverUser>()
+                .FirstOrDefaultAsync(u => u.Email == email && !u.IsDeactivated, cancellationToken);
+
+            if (observer == null)
+                return null;
+
+            // Check permissions: allow either direct OU or facility(parent) OU
+            var facilityId = ou.ParentId;
+
+            var hasAccess = await context.UserPermission.AnyAsync(p =>
+                p.UserId == observer.Id &&
+                (p.OrganisationUnitId == ou.Id || (facilityId != null && p.OrganisationUnitId == facilityId.Value)),
+                cancellationToken);
+
+            return hasAccess ? observer : null;
         }
 
         public static async Task<Domain.Session.TransferStatusType> GetDefaultTransferStatusAsync(

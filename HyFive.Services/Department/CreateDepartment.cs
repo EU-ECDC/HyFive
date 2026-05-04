@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Localization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +16,12 @@ namespace HyFive.Services.Department
 {
     public class CreateDepartment
     {
-        public class Command : IRequest<Models.V1.Facility.Department>
+        public class Command : IRequest<OrganisationUnit>
         {
             public CreateDepartmentRequest Request { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Models.V1.Facility.Department>
+        public class Handler : IRequestHandler<Command, OrganisationUnit>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -35,53 +35,89 @@ namespace HyFive.Services.Department
             }
 
 
-            public async Task<Models.V1.Facility.Department> Handle(Command command, CancellationToken cancellationToken)
+            public async Task<OrganisationUnit> Handle(Command command, CancellationToken cancellationToken)
             {
-                var facility = await _context
-                    .Facility
-                    .Include(i => i.Departments)
-                    .FirstOrDefaultAsync(i => i.Id == command.Request.FacilityId);
+                var req = command.Request;
+
+                var facility = await _context.OrganisationUnit
+                    .Include(x => x.LevelRef)
+                    .FirstOrDefaultAsync(x => x.Id == req.FacilityId, cancellationToken);
 
                 if (facility == null)
                 {
-                    throw new DomainException("FacilityNotFound", command.Request.FacilityId);
+                    throw new DomainException("FacilityNotFound", req.FacilityId);
                    
                 }
 
-                if (!command.Request.RoleIds.Any())
+                if (facility.LevelRef?.Level != "Facility" || facility.ParentId != null)
+                    throw new DomainException("OrganisationUnitIsNotFacility", req.FacilityId);
+
+                // Department level (server-side)
+                var deptLevel = await _context.OrganisationUnitLevel
+                    .FirstOrDefaultAsync(l => l.Level == "Department", cancellationToken);
+
+                // Department type (OU type)
+                var deptType = await _context.OrganisationUnitType
+                    .FirstOrDefaultAsync(t => t.Id == req.DepartmentTypeId, cancellationToken);
+
+                if (deptType == null)
+                    throw new DomainException("DepartmentTypeNotFound", req.DepartmentTypeId);
+
+                if (!req.RoleIds.Any())
                     throw new DomainException("EmptyRoleList");
 
-                var departmentType = await _context.DepartmentType.FirstOrDefaultAsync(a => a.Id == command.Request.DepartmentTypeId, cancellationToken);
-                if (departmentType == null)
-                {
-                    throw new DomainException("DepartmentTypeNotFound", command.Request.DepartmentTypeId);
-                }
-
-                var selectedRoles = await _context.Role
-                    .Where(r => command.Request.RoleIds.Contains(r.Id))
+                // Validate roles
+                var roleIds = req.RoleIds.Distinct().ToList();
+                var roles = await _context.Role
+                    .Where(r => roleIds.Contains(r.Id))
                     .ToListAsync(cancellationToken);
 
-                if (selectedRoles.Count == 0)
+                if (roles.Count == 0)
                     throw new ArgumentException("None of the provided Role IDs exist in the database.");
 
-                bool nameExists = await _context.Department
-                    .AnyAsync(d => d.Name == command.Request.Name && d.FacilityId == command.Request.FacilityId);
-                if(nameExists)
-                {
-                    throw new ValidationException("DepartmentNameExists", command.Request.Name);
-                }
+                // Unique name under same parent (matches your unique index)
+                var nameExists = await _context.OrganisationUnit
+                    .AnyAsync(x => x.ParentId == req.FacilityId && x.Name == req.Name, cancellationToken);
 
-                var department = new Domain.Place.Department()
+                if (nameExists)
+                    throw new ValidationException("DepartmentNameExists", req.Name);
+
+
+                
+
+                var departmentOrganizationUnit = new Domain.Place.OrganisationUnit()
                 {
-                    FacilityId = facility.Id,
-                    Name = command.Request.Name,
-                    Roles = selectedRoles,
-                    DepartmentType = departmentType
+                    ParentId = req.FacilityId,
+                    Name = req.Name.Trim(),
+                    LevelId = deptLevel.Id,
+                    TypeId = deptType.Id
+
                 };
 
-                _context.Department.Add(department);
+                _context.Add(departmentOrganizationUnit);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                // Join table OrganisationUnitRole
+                var links = roles.Select(r => new Domain.Observation.OrganisationUnitRole
+                {
+                    OrganisationUnitId = departmentOrganizationUnit.Id,
+                    RoleId = r.Id
+                }).ToList();
+
+                _context.OrganisationUnitRole.AddRange(links);
+
                 await _context.SaveChangesAsync();
-                return _mapper.Map<Models.V1.Facility.Department>(department);
+
+                var createdDepartment = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Include(x => x.Children)
+                    .Include(x => x.OrganisationUnitRoles)
+                        .ThenInclude(x => x.Role)
+                    .Include(x => x.Type)
+                    .Include(x => x.LevelRef)
+                    .FirstAsync(x => x.Id == departmentOrganizationUnit.Id, cancellationToken);
+
+                return _mapper.Map<OrganisationUnit>(createdDepartment);
             }
         }
     }

@@ -1,17 +1,20 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Constants;
+using HyFive.Services.Authentication.User;
+using HyFive.Services.Common;
+using HyFive.Services.Helpers;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ObserverUser = HyFive.Domain.User.User;
-using Microsoft.EntityFrameworkCore;
 using HandJewelrySession = HyFive.Models.V1.Session.HandJewelrySession;
-using HyFive.Models.V1.Constants;
-using HyFive.Services.Authentication.User;
-using Microsoft.Extensions.Logging;
-using HyFive.Domain.Exceptions;
+using ObserverUser = HyFive.Domain.User.User;
 
 namespace HyFive.Services.HandJewelry
 {
@@ -23,77 +26,55 @@ namespace HyFive.Services.HandJewelry
             public string Email { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Guid>
+        public class Handler : BaseHandler, IRequestHandler<Command, Guid>
         {
-            private readonly HandHygieneContext _context;
-            private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
             private readonly IUserService _userService;
 
-            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService userService)
+            public Handler(HandHygieneContext context, IMapper mapper, ILogger<Handler> logger, IUserService userService) : base(context, mapper)
             {
-                _context = context;
-                _mapper = mapper;
                 _logger = logger;
                 _userService = userService;
             }
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                // Verify that observer is an observer at the facility
-                var observer = await GetObserver(request);
-                if (observer == null)
-                    throw new DomainException("ObserverNotFoundAtFacility", request.Email, request.Session.Department.FacilityId);
+                var init = await InitializeSessionAsync<HandJewelrySession, Domain.Session.HandJewelrySession>(
+            request.Session,
+            request.Email,
+            request.Session.FacilityId,
+            request.Session.UnitId,
+            _userService,
+            _logger,
+            cancellationToken);
 
+                if (init == null)
+                    return _mapper.Map<Domain.Session.HandJewelrySession>(request.Session).Id;
+
+                var (session, unit) = init.Value;
+                var ouRoles = GetDepartmentRoles(unit);
                 var handJewelryTypes = await _context.HandJewelryType.ToListAsync(cancellationToken);
-                var session = _mapper.Map<Domain.Session.HandJewelrySession>(request.Session);
-                session.CreatedDate = DateTime.UtcNow;
-                session.StartDate = DateTime.UtcNow;
-                session.Department = await GetDepartment(request, cancellationToken);
 
-                // This is the way we want to handle the error if we try to save a session with a department that no longer exists
-                if (session.Department == null)
-                {
-                    _logger.LogWarning("Did not find department with ID: {DepartmentId}", request.Session.Department.Id);
-                    return session.Id;
-                }
-                    
-
-                session.Observer = observer;
                 foreach (var observation in session.Observations)
                 {
+                    var matchedRole = observation.Role == null
+                        ? null
+                        : ouRoles.FirstOrDefault(r => r.Id == observation.Role.Id);
+
                     observation.CreatedTime = DateTime.UtcNow;
                     observation.RegisteredTime = DateTime.UtcNow;
-                    observation.Role = session.Department.Roles.FirstOrDefault(r => r.Id == observation.Role.Id);
-                    observation.HandJewelries = handJewelryTypes.Where(ht => observation.HandJewelries.Select(oh => oh.Id).Contains(ht.Id)).ToList();
+                    observation.Role = matchedRole;
+                    observation.HandJewelries = handJewelryTypes
+                        .Where(ht => observation.HandJewelries.Select(oh => oh.Id).Contains(ht.Id))
+                        .ToList();
                     observation.Comment = string.IsNullOrEmpty(observation.Comment) ? null : observation.Comment;
                 }
 
-                var transferStatuses = await _context.TransferStatusType.ToListAsync(cancellationToken);
-                session.TransferStatus = transferStatuses.First(o => o.Code == TransferStatusTypeConstants.TransferredToCoordinator);
+                session.TransferStatus = await GetTransferredToCoordinatorStatusAsync(cancellationToken);
 
                 _context.Add(session);
                 await _context.SaveChangesAsync(cancellationToken);
                 return session.Id;
-            }
-
-            private async Task<Domain.Place.Department> GetDepartment(Command request, CancellationToken cancellationToken)
-            {
-                return await _context.Department.Include(a => a.Roles).FirstOrDefaultAsync(a => a.Id == request.Session.Department.Id, cancellationToken);
-            }
-
-            private async Task<ObserverUser> GetObserver(Command request)
-            {
-                var facility = await _context.Facility
-                    .Include(i => i.Users)
-                    .FirstOrDefaultAsync(i => i.Id == request.Session.Department.FacilityId);
-
-                if (facility == null)
-                    throw new DomainException("FacilityNotFound", request.Session.Department.FacilityId);
-
-                return facility
-                    .Users
-                    .FirstOrDefault(_userService.HasEmailAndIsActive<ObserverUser>(request.Email).Compile());
             }
         }
     }

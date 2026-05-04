@@ -48,7 +48,7 @@ export class RegisterProtectiveEquipmentComponent implements OnInit, OnDestroy {
     private readonly translate: TranslateService
   ) {
     this.facilityService.getSelectedFacility()
-      .subscribe(i => this.roles = i.departments.find(a => a.id === this.sessionView.department?.id)?.roles);
+      .subscribe(i => this.roles = i.children.find(a => a.id === this.sessionView.department?.id)?.roles);
   }
 
   ngOnInit(): void {

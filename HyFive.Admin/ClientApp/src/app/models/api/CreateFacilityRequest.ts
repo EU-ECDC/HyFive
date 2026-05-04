@@ -4,14 +4,15 @@
 
 export interface CreateFacilityRequest
 {
-	facilityName: string;
+	name: string;
 	abbreviation: string;
-	herId: string;
-	facilityTypeId: number;
-	coordinatorHPRNumber: string;
-	coordinatorPseudonym: string;
-	coordinatorFirstName: string;
-	coordinatorLastName: string;
-	coordinatorEmail: string;
-	cityId: number;
+	description: string;
+	organisationUnitTypeId: number;
+	city: string;
+	street: string;
+	postalCode: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	pseudonym: string;
 }

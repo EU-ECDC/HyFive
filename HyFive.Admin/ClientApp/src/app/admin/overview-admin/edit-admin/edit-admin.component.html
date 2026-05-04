@@ -3,15 +3,15 @@
     <button class="btn fhi-btn-primary mb-5" [disabled]="showCreateForm" (click)="toggleCreateForm()">{{"Create Admininistrator" | translate}}</button>
   </div>
 </div>
-<div *ngIf="showCreateForm">
+<div class="mb-4" *ngIf="showCreateForm">
   <app-create-admin-form [users]="users" (CreateAdminEvent)="createAdmin($event)" (cancelCreateEvent)="cancelCreateEmitted()"></app-create-admin-form>
 </div>
 <div class="row" *ngIf="users">
-  <p class="col-12" *ngIf="users.length === 0 && !newFhiAdmin">{{"Did not find any Admin Users" | translate}}</p>
+  <p class="col-12" *ngIf="users.length === 0">{{"Did not find any Admin Users" | translate}}</p>
   
   <ng-container>
     <div class="table-responsive">
-      <table class="table" *ngIf="users.length > 0 || newFhiAdmin" sortable-table (sorted)="sort($event)">
+      <table class="table" *ngIf="users.length > 0" sortable-table (sorted)="sort($event)">
         <thead>
           <tr>
             <th [sortable-column]="'First name' | translate" scope="col"></th>
@@ -24,25 +24,26 @@
         </thead>
   
         <tbody>
-          <tr *ngFor="let fhiAdmin of filteredAdmins; index as i">
-            <ng-container *ngIf="fhiAdminAsChanged?.id != fhiAdmin.id">
-              <td>{{ fhiAdmin.firstName }}</td>
-              <td>{{ fhiAdmin.lastName }}</td>
-              <td>{{fhiAdmin.email}}</td>
-              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdmin.isDisabled" name="isDisabled" disabled="disabled"></td>
+
+          <tr *ngFor="let admin of filteredAdmins; index as i">
+            <ng-container *ngIf="adminAsChanged?.id != admin.id">
+              <td>{{ admin.firstName }}</td>
+              <td>{{ admin.lastName }}</td>
+              <td>{{admin.email}}</td>
+              <td><input type="checkbox" class="form-check-input" [(ngModel)]="admin.isDeactivated" name="isDeactivated" disabled="disabled"></td>
             </ng-container>
-            <ng-container *ngIf="fhiAdminAsChanged?.id == fhiAdmin.id">
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="fhiAdminAsChanged.firstName" (ngModelChange)="fhiAdminAsChanged.firstName = $event.trim()" name="firstName" [placeholder]="'First name' | translate"></td>
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="fhiAdminAsChanged.lastName" (ngModelChange)="fhiAdminAsChanged.lastName = $event.trim()" name="lastName" [placeholder]="'Last name' | translate"></td>
-              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="fhiAdminAsChanged.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [disabled]="'true'" name="email" [placeholder]="'Email' | translate"></td>
-              <td><input type="checkbox" class="form-check-input" [(ngModel)]="fhiAdminAsChanged.isDisabled" name="isDisabled"></td>
+            <ng-container *ngIf="adminAsChanged?.id == admin.id">
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="adminAsChanged.firstName" (ngModelChange)="adminAsChanged.firstName = $event.trim()" name="firstName" [placeholder]="'First name' | translate"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="adminAsChanged.lastName" (ngModelChange)="adminAsChanged.lastName = $event.trim()" name="lastName" [placeholder]="'Last name' | translate"></td>
+              <td><input type="text" autocomplete="off" class="form-control" [(ngModel)]="adminAsChanged.email" (keypress)="mailValidatorHelper.validateMailCharacters($event)" [disabled]="'true'" name="email" [placeholder]="'Email' | translate"></td>
+              <td><input type="checkbox" class="form-check-input" [(ngModel)]="adminAsChanged.isDeactivated" name="isDeactivated"></td>
             </ng-container>
 
-            <td>{{ fhiAdmin.createdTime | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{ admin.createdTime | date:'dd.MM.yyyy HH:mm' }}</td>
           
             <td class="text-end py-0 align-middle">
-              <ng-container *ngIf="fhiAdmin.id == fhiAdminAsChanged?.id">
-                <button class="btn fhi-btn-icon" (click)="updateAdmin(fhiAdminAsChanged)" [disabled]="canChange(fhiAdminAsChanged) == false">
+              <ng-container *ngIf="admin.id == adminAsChanged?.id">
+                <button class="btn fhi-btn-icon" (click)="updateAdmin(adminAsChanged)" [disabled]="canChange(adminAsChanged) == false">
                   <i class="icon-pencil"></i><span class="btn__text">{{"Save" | translate }}</span>
                 </button>
                 <button class="btn fhi-btn-icon" (click)="cancelEdit($event)">
@@ -50,8 +51,8 @@
                 </button>
               </ng-container>
 
-              <ng-container *ngIf="fhiAdmin.id != fhiAdminAsChanged?.id">
-                <button class="btn fhi-btn-icon" type="button" (click)="setFhiAdminAsChanged(fhiAdmin)">
+              <ng-container *ngIf="admin.id != adminAsChanged?.id">
+                <button class="btn fhi-btn-icon" type="button" (click)="setAdminAsChanged(admin)">
                   <i class="icon-pencil"></i><span class="btn__text">{{"Edit" | translate }}</span>
                 </button>
               </ng-container>

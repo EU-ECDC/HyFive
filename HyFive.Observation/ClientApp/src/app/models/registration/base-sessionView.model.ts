@@ -1,7 +1,8 @@
-import {Department} from '../api/Department';
+import { OrganisationUnit } from "../api/OrganisationUnit";
 
 export interface BaseSessionView
 {
   sessionId: string;
-  department: Department;
+  department: OrganisationUnit;
+  unit?: OrganisationUnit;
 }

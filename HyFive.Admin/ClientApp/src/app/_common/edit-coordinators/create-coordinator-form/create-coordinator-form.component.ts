@@ -46,14 +46,15 @@ export class CreateCoordinatorFormComponent implements OnInit, OnDestroy {
   createEmptyCoordinator() {
     this.newCoordinator = {
       id: 0,
-      facilityId: this.facilityId,
+      // facilityId: this.facilityId,
       lastName: '',
       firstName: '',
       email: '',
-      hprNumber: null,
       identityPseudonym: null,
       createdTime: new Date(),
-      isDisabled: false,
+      isDeactivated: false,
+      userPermissions: null,
+      userIdentifiers: null
     };
   }
 

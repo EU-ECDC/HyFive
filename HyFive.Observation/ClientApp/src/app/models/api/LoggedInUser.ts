@@ -2,6 +2,8 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
+import { OrganisationUnit } from "./OrganisationUnit";
+
 export interface LoggedInUser
 {
 	id: string;
@@ -10,9 +12,8 @@ export interface LoggedInUser
 	isCoordinator: boolean;
 	isAdmin: boolean;
 	isObserver: boolean;
-	facilityIds: number[];
+	organisationUnits: OrganisationUnit[];
 	firstName: string;
 	lastName: string;
-	hprNumber: string;
 	email?: string;
 }

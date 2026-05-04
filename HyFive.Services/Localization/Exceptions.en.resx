@@ -216,4 +216,28 @@
   <data name="InstitutionAccessDenied" xml:space="preserve">
     <value>You do not have access to inquire about the observations for this institution.</value>
   </data>
+  <data name="CoordinatorNotFound" xml:space="preserve">
+    <value>Coordinator Not Found</value>
+  </data>
+  <data name="FacilitiesForCityNotFound" xml:space="preserve">
+    <value>Didn't find Facilities for city {0}</value>
+  </data>
+  <data name="OrganisationUnitTypeNotFound" xml:space="preserve">
+    <value>Organisation unit type not found.</value>
+  </data>
+  <data name="OrganisationUnitIsNotFacility" xml:space="preserve">
+    <value>Organization unit with id {0} is not a facility.</value>
+  </data>
+  <data name="OrganisationUnitIsNotDepartment" xml:space="preserve">
+    <value>This organization unit is not department</value>
+  </data>
+  <data name="UnitNotFound" xml:space="preserve">
+    <value>Unit with id {0} was not found.</value>
+  </data>
+  <data name="UserTypeNotSupported" xml:space="preserve">
+    <value>User type not supported</value>
+  </data>
+  <data name="SessionNotLinkedToFacility" xml:space="preserve">
+    <value>The session with ID {0} is not linked with any facility.</value>
+  </data>
 </root>

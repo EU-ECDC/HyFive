@@ -17,9 +17,9 @@ import { OverviewAdminComponent } from './admin/overview-admin/overview-admin.co
 import { EditingCoordinatorsComponent } from './coordinator/editing-of-coordinators/editing-of-coordinators.component';
 import { EmailComponent } from './admin/email/email.component';
 import { ReportComponent } from './coordinator/reports/report.component';
-import { ComplianceComponent } from './coordinator/reports/five-indications/compliance/compliance.component';
+import { ComplianceComponent } from './coordinator/reports/hand-hygiene/compliance/compliance.component';
 import { DownloadExcelComponent } from './coordinator/reports/download/download-excel.component';
-import { ComplianceFiveIndicationsPdfComponent } from './coordinator/reports/predefined/compliance-five-indications-pdf.component';
+import { ComplianceHandHygienePdfComponent } from './coordinator/reports/predefined/compliance-hand-hygiene-pdf.component';
 import { ComplianceHandJewelryPdfComponent } from './coordinator/reports/predefined/compliance-handJewelry-pdf.component';
 
 const defaultPath = `/${UrlPaths.homePage}`;
@@ -39,7 +39,7 @@ const routes: Routes = [
     component: OverviewObservationsComponent
   },
   {
-    path: UrlPaths.observationsDepartment,
+    path: UrlPaths.observationsUnit,
     component: OverviewDepartmentSessionsComponent
   },
   {
@@ -95,13 +95,13 @@ const routes: Routes = [
     component: ReportComponent,
     children: [
       {
-        path: UrlPaths.fiveIndicationsCompliance, component: ComplianceComponent
+        path: UrlPaths.handHygieneCompliance, component: ComplianceComponent
       },
       {
-        path: UrlPaths.fiveIndicationsCompliancePdf, component: ComplianceFiveIndicationsPdfComponent
+        path: UrlPaths.handHygieneCompliancePdf, component: ComplianceHandHygienePdfComponent
       },
       {
-        path: UrlPaths.handjewelryCompliancePdf, component: ComplianceHandJewelryPdfComponent
+        path: UrlPaths.barebelowelbowsCompliancePdf, component: ComplianceHandJewelryPdfComponent
       },
       {
         path: UrlPaths.downloadExcel, component: DownloadExcelComponent
@@ -109,7 +109,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: UrlPaths.fiveIndicationsCompliance
+        redirectTo: UrlPaths.handHygieneCompliance
       }
     ]
   },

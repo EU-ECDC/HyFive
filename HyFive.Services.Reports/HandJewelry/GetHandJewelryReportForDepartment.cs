@@ -34,19 +34,72 @@ namespace HyFive.Services.Reports.HandJewelry
 
             public async Task<JewelryReportForJewelryTypeAndRole> Handle(Query request, CancellationToken cancellationToken)
             {
-                var departmentReport = CreateDepartmentReport(request);
-                var facilityReport = CreateFacilityReport(request);
+                var fromUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
+                var toUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
 
-                var departments = _context.Department.AsNoTracking().Where(d => request.DepartmentIds.Contains(d.Id)).ToList();
-                var facilities = _context.Facility.AsNoTracking().Where(i => request.FacilityIds.Contains(i.Id)).ToList();
+                // 1) Load OU graph once
+                var nodes = await LoadOuNodesAsync(_context, cancellationToken);
+                var childrenByParent = BuildChildrenLookup(nodes);
 
-                var departmentNames = string.Join(", ", departments.Select(d => d.Name));
-                var facilityNames = string.Join(", ", facilities.Select(i => i.Name));
+                // 2) Resolve all unit ids for dept + facility filters (observations live at unit level)
+                var unitIds = ResolveUnitIds(
+                    request.FacilityIds,
+                    request.DepartmentIds,
+                    nodes,
+                    childrenByParent);
+
+                // If nothing resolved, return empty report
+                if (unitIds.Count == 0)
+                {
+                    return new JewelryReportForJewelryTypeAndRole
+                    {
+                        Department = "",
+                        Facility = "",
+                        FromDate = request.FromDateTime,
+                        ToDate = request.ToDateTime,
+                        ReportForDepartment = new ReportForUnit(),
+                        ReportForFacility = new ReportForUnit()
+                    };
+                }
+
+                // 3) Build 2 logical scopes:
+                //    - "department report" -> only unitIds under the provided DepartmentIds
+                //    - "facility report"   -> only unitIds under the provided FacilityIds
+                var deptUnitIds = ResolveUnitIds(
+                    facilityIds: Enumerable.Empty<int>(),
+                    departmentIds: request.DepartmentIds ?? new List<int>(),
+                    nodes,
+                    childrenByParent);
+
+                var facilityUnitIds = ResolveUnitIds(
+                    facilityIds: request.FacilityIds ?? new List<int>(),
+                    departmentIds: Enumerable.Empty<int>(),
+                    nodes,
+                    childrenByParent);
+
+
+                var departmentReport = await CreateUnitReportAsync(deptUnitIds, fromUtc, toUtc, request.Role, cancellationToken);
+                var facilityReport = await CreateUnitReportAsync(facilityUnitIds, fromUtc, toUtc, request.Role, cancellationToken);
+
+                // 4) Resolve names from Unit table (instead of old Department/Facility tables)
+                var deptNames = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Where(ou => request.DepartmentIds.Contains(ou.Id))
+                    .Where(ou => ou.LevelRef.Level == OrganisationUnitLevels.Department)
+                    .Select(ou => ou.Name)
+                    .ToListAsync(cancellationToken);
+
+                var facilityNames = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Where(ou => request.FacilityIds.Contains(ou.Id))
+                    .Where(ou => ou.LevelRef.Level == OrganisationUnitLevels.Facility)
+                    .Select(ou => ou.Name)
+                    .ToListAsync(cancellationToken);
 
                 var report = new JewelryReportForJewelryTypeAndRole
                 {
-                    Department = departmentNames,
-                    Facility = facilityNames,
+                    Department = string.Join(", ", deptNames),
+                    Facility = string.Join(", ", facilityNames),
                     FromDate = request.FromDateTime,
                     ToDate = request.ToDateTime,
                     ReportForDepartment = departmentReport,
@@ -56,112 +109,171 @@ namespace HyFive.Services.Reports.HandJewelry
                 return report;
             }
 
-            private ReportForUnit CreateDepartmentReport(Query request)
-            {
-                var fromDateUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
+            private sealed record OuNode(int Id, int? ParentId, string Name, string Level);
 
-                var sessions = _context.Session.OfType<HandJewelrySession>()
+            private static async Task<List<OuNode>> LoadOuNodesAsync(HandHygieneContext ctx, CancellationToken ct)
+            {
+                return await ctx.OrganisationUnit
                     .AsNoTracking()
-                    .Include(p => p.TransferStatus)
-                    .Include(s => s.Observations).ThenInclude(o => o.Role)
-                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
-                    .Where(s =>
-                        request.DepartmentIds.Contains(s.Department.Id)
-                        && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
-                        && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
-                    .ToList();
-
-                if (request.Role == AuthorizedRole.Administrator)
-                {
-                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
-                }
-
-                var reportForUnit = CreateUnitReport(sessions);
-
-                return reportForUnit;
+                    .Select(ou => new OuNode(
+                        ou.Id,
+                        ou.ParentId,
+                        ou.Name,
+                        ou.LevelRef.Level // Level is string in OrganisationUnitLevel
+                    ))
+                    .ToListAsync(ct);
             }
 
-            private ReportForUnit CreateFacilityReport(Query request)
+            private static Dictionary<int?, List<int>> BuildChildrenLookup(IEnumerable<OuNode> nodes) =>
+                nodes.GroupBy(n => n.ParentId)
+                     .ToDictionary(g => g.Key, g => g.Select(x => x.Id).ToList());
+
+            private static List<int> GetDescendantsByLevel(
+                int rootId,
+                string targetLevel,
+                IReadOnlyList<OuNode> nodes,
+                IReadOnlyDictionary<int?, List<int>> childrenByParent)
             {
-                var fromDateUtc = DateTime.SpecifyKind(request.FromDateTime.Date, DateTimeKind.Utc);
-                var toDateUtc = DateTime.SpecifyKind(request.ToDateTime.Date, DateTimeKind.Utc);
+                // Precompute node-by-id for level lookup
+                var byId = nodes.ToDictionary(n => n.Id);
 
-                var sessions = _context.Session.OfType<HandJewelrySession>()
-                   .AsNoTracking()
-                   .Include(p => p.TransferStatus)
-                   .Include(s => s.Observations).ThenInclude(o => o.Role)
-                   .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
-                   .Where(s =>
-                       request.FacilityIds.Contains(s.Department.FacilityId)
-                       && s.Observations.Any(o => o.RegisteredTime.Date >= fromDateUtc)
-                       && s.Observations.Any(o => o.RegisteredTime.Date <= toDateUtc))
-                   .ToList();
+                var result = new List<int>();
+                var stack = new Stack<int>();
+                stack.Push(rootId);
 
-                if (request.Role == AuthorizedRole.Administrator)
+                var safety = 0;
+                while (stack.Count > 0 && safety++ < 200_000)
                 {
-                    sessions = sessions.Where(p => p.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).ToList();
-                }
+                    var current = stack.Pop();
 
-                var unitReport = CreateUnitReport(sessions);
-
-                return unitReport;
-            }
-
-            private ReportForUnit CreateUnitReport(IEnumerable<HandJewelrySession> sessions)
-            {
-                var observations = sessions.SelectMany(p => p.Observations).ToList();
-
-                var jewelryTypeAndRoleList = new List<JewelryTypeAndRole>();
-                foreach (var observation in observations)
-                {
-                    foreach (var jewelryType in observation.HandJewelries)
+                    if (byId.TryGetValue(current, out var node) &&
+                        string.Equals(node.Level, targetLevel, StringComparison.OrdinalIgnoreCase))
                     {
-                        jewelryTypeAndRoleList.Add(new JewelryTypeAndRole
-                        {
-                            Role = observation.Role.Name,
-                            handJewelryType = jewelryType,
-                        });
+                        result.Add(current);
+                        // NOTE: still walk deeper, because we may have more nested levels later
+                    }
+
+                    if (childrenByParent.TryGetValue(current, out var kids))
+                    {
+                        foreach (var k in kids)
+                            stack.Push(k);
                     }
                 }
 
-                var jewelryTypes = _context.HandJewelryType.AsNoTracking().ToList();
+                return result;
+            }
 
-                var jewelryTypeAndCountForRoleList = new List<RoleCountForJewelryType>();
-                foreach (var jewelryTypeName in jewelryTypeAndRoleList.Select(p => p.handJewelryType.Name).Distinct())
+            private static List<int> ResolveUnitIds(
+                IEnumerable<int> facilityIds,
+                IEnumerable<int> departmentIds,
+                IReadOnlyList<OuNode> nodes,
+                IReadOnlyDictionary<int?, List<int>> childrenByParent)
+            {
+                var unitIds = new HashSet<int>();
+
+                // Facility -> (descendants Department) -> (descendants Unit)
+                foreach (var facilityId in facilityIds ?? Enumerable.Empty<int>())
                 {
-                    var roleListCount = jewelryTypeAndRoleList
-                        .Where(p => p.handJewelryType.Name == jewelryTypeName)
-                        .GroupBy(q => q.Role)
-                        .Select(r => new CountByRole { Count = r.Count(), Role = r.Key })
-                        .ToList();
+                    var deptIds = GetDescendantsByLevel(
+                        rootId: facilityId,
+                        targetLevel: OrganisationUnitLevels.Department,
+                        nodes: nodes,
+                        childrenByParent: childrenByParent);
 
-                    var jewelryType = jewelryTypes.First(p => p.Name == jewelryTypeName);
-                    jewelryTypeAndCountForRoleList.Add(new RoleCountForJewelryType
+                    foreach (var deptId in deptIds)
                     {
-                        JewelryType = jewelryType,
-                        CountByRoleList = roleListCount
-                    });
+                        var uIds = GetDescendantsByLevel(
+                            rootId: deptId,
+                            targetLevel: OrganisationUnitLevels.Unit,
+                            nodes: nodes,
+                            childrenByParent: childrenByParent);
+
+                        foreach (var u in uIds) unitIds.Add(u);
+                    }
                 }
 
-                var observationsForRoleList = observations
-                    .GroupBy(p => p.Role.Name)
-                    .Select(q => new ObservationsByRole { Count = q.Count(), Role = q.Key })
-                    .ToList();
+                // Department -> (descendants Unit)
+                foreach (var deptId in departmentIds ?? Enumerable.Empty<int>())
+                {
+                    var uIds = GetDescendantsByLevel(
+                        rootId: deptId,
+                        targetLevel: OrganisationUnitLevels.Unit,
+                        nodes: nodes,
+                        childrenByParent: childrenByParent);
 
-                var unitReport = new ReportForUnit
+                    foreach (var u in uIds) unitIds.Add(u);
+                }
+
+                return unitIds.ToList();
+            }
+
+            private async Task<ReportForUnit> CreateUnitReportAsync(
+            List<int> unitIds,
+            DateTime fromUtc,
+            DateTime toUtc,
+            AuthorizedRole role,
+            CancellationToken ct)
+            {
+                if (unitIds == null || unitIds.Count == 0)
+                    return new ReportForUnit();
+
+                var sessionsQ = _context.Session
+                    .OfType<HandJewelrySession>()
+                    .AsNoTracking()
+                    .Include(s => s.TransferStatus)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
+                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
+                    .Where(s => unitIds.Contains(s.OrganisationUnitId))
+                    .Where(s => s.Observations.Any(o => o.RegisteredTime.Date >= fromUtc.Date && o.RegisteredTime.Date <= toUtc.Date));
+
+                if (role == AuthorizedRole.Administrator)
+                {
+                    sessionsQ = sessionsQ.Where(s => s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin);
+                }
+                else if (role == AuthorizedRole.Observer)
+                {
+                    sessionsQ = sessionsQ.Where(s => s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToCoordinator);
+                }
+
+                var sessions = await sessionsQ.ToListAsync(ct);
+                return BuildReportFromSessions(sessions);
+            }
+
+            private ReportForUnit BuildReportFromSessions(IEnumerable<HandJewelrySession> sessions)
+            {
+                var observations = sessions.SelectMany(p => p.Observations).ToList();
+
+                // Build (JewelryTypeName, RoleName) pairs
+                var pairs = new List<(HandJewelryType Type, string RoleName)>();
+                foreach (var obs in observations)
+                {
+                    var roleName = obs.Role?.Name ?? "";
+                    foreach (var jt in obs.HandJewelries ?? new List<HandJewelryType>())
+                        pairs.Add((jt, roleName));
+                }
+
+                // Group by jewelry type then role
+                var jewelryTypeAndCountForRoleList =
+                    pairs.GroupBy(p => p.Type.Name)
+                         .Select(g => new RoleCountForJewelryType
+                         {
+                             JewelryType = g.First().Type,
+                             CountByRoleList = g.GroupBy(x => x.RoleName)
+                                               .Select(rr => new CountByRole { Role = rr.Key, Count = rr.Count() })
+                                               .ToList()
+                         })
+                         .ToList();
+
+                var observationsForRoleList =
+                    observations.GroupBy(o => o.Role?.Name ?? "")
+                                .Select(g => new ObservationsByRole { Role = g.Key, Count = g.Count() })
+                                .ToList();
+
+                return new ReportForUnit
                 {
                     RoleJewelrySummaryList = jewelryTypeAndCountForRoleList,
                     ListOfObservationsByRole = observationsForRoleList
                 };
-
-                return unitReport;
-            }
-
-            private class JewelryTypeAndRole
-            {
-                public HandJewelryType handJewelryType { get; set; }
-                public string Role { get; init; }
             }
         }
     }

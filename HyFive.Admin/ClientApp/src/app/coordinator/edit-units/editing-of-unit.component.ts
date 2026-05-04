@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FacilityService } from '../../services/data/facility.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Unit } from '../../models/api/Unit';
 import { UnitService } from '../../services/data/unit.service';
 import { QueryParameters } from "../../_common/constants/queryparameters";
-import { Facility } from '../../models/api/Facility';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { TranslateService } from '@ngx-translate/core';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { UnitResponse } from 'src/app/models/api/UnitResponse';
 
 @Component({
   selector: 'app-editing-of-unit',
@@ -14,12 +14,12 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EditingUnitsComponent implements OnInit {
 
-  units: Unit[] = [];
-  filteredUnits: Unit[] = [];
+  units: UnitResponse[] = [];
+  filteredUnits: UnitResponse[] = [];
   facilityName: string;
   facilityId: number;
   unitId = 0;
-  unitAsEdited: Unit;
+  unitAsEdited: UnitResponse;
   showCreateUnitForm: boolean = false;
   loading: boolean = false;
   keyword: string;
@@ -38,7 +38,7 @@ export class EditingUnitsComponent implements OnInit {
     this.showCreateUnitForm = false;
     this.loading = true;
     let selectedFacilityId = this.facilityService.getSelectedFacilityId();
-    this.facilityService.getFacility(selectedFacilityId).subscribe((result: Facility) => {
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result: OrganisationUnit) => {
       this.facilityName = result.name;
       this.facilityId = result.id;
       this.unitService.getUnitsForFacility(this.facilityId).subscribe(units => {
@@ -56,7 +56,7 @@ export class EditingUnitsComponent implements OnInit {
     });
   }
 
-  getDepartmentName(unit: Unit) {
+  getDepartmentName(unit: UnitResponse) {
     return unit.departments?.map(r => r.name).join(',');
   }
 
@@ -79,23 +79,22 @@ export class EditingUnitsComponent implements OnInit {
     this.showCreateUnitForm = !this.showCreateUnitForm;
   }
 
-  sort($event: IColumnSortedEvent) {
-    let propertyOf: (x: Unit) => any;
+    sort($event: IColumnSortedEvent) {
+    let propertyOf: (x: UnitResponse) => any;
     switch ($event.columnName) {
       case this.translate.instant("Name"):
-        propertyOf = (x: Unit) => x.name;
+        propertyOf = (x: UnitResponse) => x.name;
         break;
       case this.translate.instant("Departments"):
-        propertyOf = (x: Unit) => x.departments;
+        propertyOf = (x: UnitResponse) => x.departments;
         break;
       default:
         throw new Error(this.translate.instant("Invalid sort column"));
     }
     const sortOrder = $event.sortDirection === "asc" ? 1 : -1;
-    const sortFunc = (a: Unit, b: Unit) => {
+    const sortFunc = (a: UnitResponse, b: UnitResponse) => {
       if(typeof propertyOf(this.units[0]) === 'string') {
-        const state = (propertyOf(a) > propertyOf(b)) ? 1 : 0;
-        const result = (propertyOf(a) < propertyOf(b)) ? -1 : state;
+        const result = (propertyOf(a) < propertyOf(b)) ? -1 : (propertyOf(a) > propertyOf(b)) ? 1 : 0;
         return result * sortOrder;
       } else {
         const result = (propertyOf(a).map(p => p.name).join() < propertyOf(b).map(p => p.name).join()) ? -1 : (propertyOf(a).map(p => p.name).join() > propertyOf(b).map(p => p.name).join()) ? 1 : 0;
@@ -103,7 +102,7 @@ export class EditingUnitsComponent implements OnInit {
       }
     };
 
-    this.units = this.units.toSorted(sortFunc);
+    this.units.sort(sortFunc);
   }
 
     filterUnits() {

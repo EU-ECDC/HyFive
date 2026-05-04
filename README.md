@@ -3,6 +3,9 @@
 A tool for digital hand hygiene observation collection.
 The tool consists of two parts: Admin and Observation.
 
+If you have reached this repository through a public search, we strongly advise that you reach out to ECDC to get full integration support.
+If you are interested in the hyFive tool and would like to deploy it in your setting, please contact us at hyfive@ecdc.europa.eu. 
+
 ## Observation
 
 An interface where observers (Observer) can log in with using Single Sign-On.

@@ -56,12 +56,12 @@
       </div>
     </div>
 
-    <div class="col-md-6" *ngIf="facility">
+    <div class="col-md-6 mb-3" *ngIf="facility">
       <h2 class="h5">{{"Department" | translate}}</h2>
       <div class="fhi-ng-select-wrapper fhi-autosuggest">
         <ng-select
         class="hh-department-dropdown"
-        [items]="facility?.departments"
+        [items]="facility?.children"
           bindLabel="name"
           bindValue="id"
           [placeholder]="'Select department' | translate"
@@ -73,9 +73,26 @@
         </ng-select>
       </div>
     </div>
+
+    <div *ngIf="facility && selectedDepartmentId" class="col-md-6">
+      <h2 class="h5">{{"Unit" | translate}}</h2>
+      <div class="fhi-ng-select-wrapper fhi-autosuggest">
+        <ng-select
+        class="hh-department-dropdown"
+        [items]="getSelectedDepartment()?.children"
+          bindLabel="name"
+          bindValue="id"
+          [placeholder]="'Select Unit' | translate"
+          [clearAllText]="'Delete' | translate"
+          [notFoundText]="'No results' | translate"
+          [(ngModel)]="selectedUnitId"
+        >
+        </ng-select>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="facility && selectedDepartmentId">
+  <div *ngIf="facility && selectedDepartmentId && selectedUnitId">
     <div class="row mb-5">
       <div class="col">
         <h2 class="h5">{{"Type observation" | translate}}</h2>
@@ -87,13 +104,13 @@
                 class="fhi-form-check-tile__input form-check-input"
                 type="radio"
                 name="observationTypes"
-                [id]="SessionType.FiveIndications" 
+                [id]="SessionType.HandHygiene" 
                 [(ngModel)]="selectedSessionType"
-                [checked]="selectedSessionType == SessionType.FiveIndications"
-                [value]="SessionType.FiveIndications"
+                [checked]="selectedSessionType == SessionType.HandHygiene"
+                [value]="SessionType.HandHygiene"
               >
-              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.FiveIndications">
-                <span class="fhi-form-check-tile__label-text">{{"5 Indications" | translate}}</span>
+              <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandHygiene">
+                <span class="fhi-form-check-tile__label-text">{{"Hand hygiene" | translate}}</span>
               </label>
             </div>
           </div>
@@ -110,7 +127,7 @@
                 [value]="SessionType.HandJewelry"
               >
               <label class="fhi-form-check-tile__label form-check-label" [for]="SessionType.HandJewelry">
-                <span class="fhi-form-check-tile__label-text">{{"Jewelry, watches and nails" | translate}}</span>
+                <span class="fhi-form-check-tile__label-text">{{"Bare below elbows" | translate}}</span>
               </label>
             </div>
           </div>
@@ -155,7 +172,7 @@
     <ng-container
       *ngIf="
         selectedSessionType === SessionType.InOut ||
-        selectedSessionType === SessionType.FiveIndications ||
+        selectedSessionType === SessionType.HandHygiene ||
         selectedSessionType === SessionType.Gloves
       "
     >
@@ -174,7 +191,7 @@
           </div>
 
           <div>
-            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.FiveIndications ? gloveUseLabel.value : handHygieneLabel.value }}</h2>
+            <h2 class="h5 text-center">{{ selectedSessionType == SessionType.HandHygiene ? gloveUseLabel.value : handHygieneLabel.value }}</h2>
             <div class="d-flex">
               <span class="pe-3" [ngStyle]="{ 'font-weight': !gloveUse ? 'bold' : '' }">{{"Off" | translate}}</span>
               <label class="hh-switch">

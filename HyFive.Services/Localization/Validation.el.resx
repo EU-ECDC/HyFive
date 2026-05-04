@@ -210,4 +210,16 @@
   <data name="EmailAlreadyUsed" xml:space="preserve">
     <value>Το email "{0}" χρησιμοποιείται ήδη.</value>
   </data>
+  <data name="CityRequired" xml:space="preserve">
+    <value>Η πόλη είναι υποχρεωτική.</value>
+  </data>
+  <data name="AddressNotFound" xml:space="preserve">
+    <value>Η διεύθυνση δεν βρέθηκε.</value>
+  </data>
+  <data name="FacilityNameExists" xml:space="preserve">
+    <value>Η εγκατάσταση αυτή υπάρχει ήδη.</value>
+  </data>
+  <data name="UnitNameExists" xml:space="preserve">
+    <value>Η μονάδα με όνομα {0} υπάρχει ήδη.</value>
+  </data>
 </root>

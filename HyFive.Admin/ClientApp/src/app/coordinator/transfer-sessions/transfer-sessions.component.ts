@@ -8,13 +8,14 @@ import { SessionOverviewReport } from '../../models/api/SessionOverviewReport';
 import { User } from '../../models/api/User';
 import { ToastrService } from 'ngx-toastr';
 import { TransferStatusTypeConstants } from '../../models/api/TransferStatusTypeConstants';
-import { Facility } from '../../models/api/Facility';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-transfer-sessions',
-  templateUrl: './transfer-sessions.component.html'
+  templateUrl: './transfer-sessions.component.html',
+  styleUrls: ['transfer-sessions.component.scss']
 })
 export class TransferSessionsComponent implements OnInit, OnDestroy {
 
@@ -24,15 +25,15 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   sessionTypeOptions = [
     { name: "All", value: null },
     //{ name: "Protective Equipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
-    { name: "Five Indications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
+    { name: "Hand Hygiene", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
-    { name: "Hand Jewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
+    { name: "Bare Below Elbows", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
   ];
 
   transferStatusOptions = [
     { name: 'All', value: null },
-    { name: 'Transferred to Admin', value: TransferStatusTypeConstants.TransferredToAdmin },
-    { name: 'Transferred to Coordinator', value:  TransferStatusTypeConstants.TransferredToCoordinator },
+    { name: 'Transferred to Administrator', value: TransferStatusTypeConstants.TransferredToAdmin },
+    { name: 'Not transferred to Administrator', value:  TransferStatusTypeConstants.TransferredToCoordinator },
   ];
 
 
@@ -65,14 +66,22 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let selectedFacilityId = this.facilityService.getSelectedFacilityId();
-    this.facilityService.getFacility(selectedFacilityId).subscribe((result: Facility) => {
+    this.facilityService.getFacility(selectedFacilityId).subscribe((result: OrganisationUnit) => {
       this.facility = {
         id: result.id,
-        herId: result.herId,
         abbreviation: result.abbreviation,
-        facilityType: result.facilityType,
+        type: result.type,
         name: result.name,
       } as FacilityReport;
+
+      this.translate.get(this.transferStatusOptions.map(it => it.name)).pipe(take(1)).subscribe(() => {
+        this.transferStatusOptions = this.transferStatusOptions.map(opt => {
+          return {
+            ...opt,
+            name: this.translate.instant(opt.name)
+          }
+        })
+      });
 
       this.translate.get(this.sessionTypeOptions.map(it => it.name)).pipe(take(1)).subscribe(() => {
         this.sessionTypeOptions = this.sessionTypeOptions.map(opt => {
@@ -87,7 +96,7 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
         let editedObservers = [];
         for (const obs of observers) {
         let firstLast = `${obs.firstName} ${obs.lastName}`;
-        if (obs.isDisabled) {
+        if (obs.isDeactivated) {
           firstLast += this.translate.instant(' (disabled user)');
         }
         const o = {...obs, firstLast}; 
@@ -106,8 +115,8 @@ export class TransferSessionsComponent implements OnInit, OnDestroy {
   }
   
   showDisabledObserversBottom(observers): User[] {
-    let observersList = observers.filter(o => o.isDisabled === false);
-    let observersWhoAreDisabled = observers.filter(o => o.isDisabled);
+    let observersList = observers.filter(o => o.isDeactivated === false);
+    let observersWhoAreDisabled = observers.filter(o => o.isDeactivated);
     observersList.push.apply(observersList, observersWhoAreDisabled);
     return observersList;
   }

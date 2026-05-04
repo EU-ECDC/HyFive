@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Department} from '../../models/api/Department';
 import { FacilityService } from '../../services/data/facility.service';
-import { DepartmentType } from "../../models/api/DepartmentType";
 import { AuthorizationService } from 'src/app/_common/services/authorization.service';
 import { AuthorizedRole } from 'src/app/_common/authorization/authorized-role';
 import { DepartmentService } from 'src/app/services/data/department.service';
@@ -13,6 +11,9 @@ import { KeyEventService } from 'src/app/services/events/key-event.service';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SortHelper } from 'src/app/utils/sort-helper';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
+import { UpdateDepartmentRequest } from 'src/app/models/api/UpdateDepartmentRequest';
 @Component({
 selector: 'app-editing-of-departments',
   templateUrl: './editing-of-departments.component.html'
@@ -21,11 +22,11 @@ export class EditingDepartmentsComponent implements OnInit {
   
   @Input() facilityId: number;
 
-  departments: Department[] = [];
-  filteredDepartments: Department[] = [];
+  departments: OrganisationUnit[] = [];
+  filteredDepartments: OrganisationUnit[] = [];
   departmentId = 0;
-  departmentAsChanged: Department;
-  departmentTypes: DepartmentType[];
+  departmentAsChanged: OrganisationUnit;
+  departmentTypes: OrganisationUnitType[];
   roles: Role[];
   selectedRoles: Role[] = [];
   canEdit: boolean;
@@ -82,7 +83,7 @@ export class EditingDepartmentsComponent implements OnInit {
       (facility) => {
         this.facilityName = facility.name;
         this.facilityId = facility.id;
-        this.departments = facility.departments;
+        this.departments = facility.children;
         this.filteredDepartments = this.departments;
       },
       (error) => {
@@ -114,20 +115,20 @@ export class EditingDepartmentsComponent implements OnInit {
     return (this.facilityId > 0 && this.departmentId == 0 && this.canEdit);
   }
 
-  getRoleDescriptions(department: Department) {
+  getRoleDescriptions(department: OrganisationUnit) {
     return department.roles?.map(r => r.name).join(', ');
   }
 
   filterDepartments() {
     if(this.keyword.length >= 2) {
       this.filteredDepartments = this.departments.filter(a => a.name.toLowerCase().includes(this.keyword.toLowerCase()) || 
-                                                            a.departmentType.name.toLowerCase().includes(this.keyword.toLowerCase()));
+                                                            a.type.name.toLowerCase().includes(this.keyword.toLowerCase()));
     }
     else if(this.keyword.length === 0)
       this.filteredDepartments = this.departments;
   }
 
-  setDepartmentAsChanged(department: Department){
+  setDepartmentAsChanged(department: OrganisationUnit){
     if(!this.canEdit || this.departmentAsChanged?.id === department.id) return;
 
     this.resetSelectedRoles();
@@ -141,15 +142,21 @@ export class EditingDepartmentsComponent implements OnInit {
     this.selectedRoles.splice(0, this.selectedRoles.length);
   }
 
-  updateDepartment(department: Department): void {
+  updateDepartment(department: OrganisationUnit): void {
     department.name = this.sanitizeDepartmentName(department.name);
 
     if (!department.name) {
       return;
     }
-    
     department.roles = this.selectedRoles;
-    this.departmentService.updateDepartment(department).subscribe(
+    const updateDepartment: UpdateDepartmentRequest = {
+      id: department.id,
+      facilityId: this.facilityId,
+      name: department.name,
+      departmentTypeId: department.typeId,
+      roles: department.roles
+    }
+    this.departmentService.updateDepartment(updateDepartment).subscribe(
       () => {
         this.departmentAsChanged = null;
         this.getDepartments();
@@ -161,7 +168,7 @@ export class EditingDepartmentsComponent implements OnInit {
     );
   }
 
-  deleteDepartment(department: Department): void {
+  deleteDepartment(department: OrganisationUnit): void {
     this.departmentService.hasTransferredSessionToFHI(department.id).subscribe(
       (result) => {
         if (result) 
@@ -189,7 +196,7 @@ export class EditingDepartmentsComponent implements OnInit {
   canBeSaved(): boolean {
     if(this.departmentAsChanged?.name.length > 0
       && !this.filteredDepartments.filter(dep => dep.id !== this.departmentAsChanged.id).some(dep => dep.name == this.departmentAsChanged.name)
-      && this.departmentAsChanged?.departmentTypeId > 0 
+      && this.departmentAsChanged?.type.id > 0 
       && this.selectedRoles?.length > 0)
       return true;
     else
@@ -204,8 +211,8 @@ export class EditingDepartmentsComponent implements OnInit {
 
   sort($event: IColumnSortedEvent) {
     const userSortConfig = {
-      [this.translate.instant("Name")]: (x: Department) => x.name,
-      [this.translate.instant("Department Type")]: (x: Department) => x.departmentType.name,
+      [this.translate.instant("Name")]: (x: OrganisationUnit) => x.name,
+      [this.translate.instant("Department Type")]: (x: OrganisationUnit) => x.type.name,
     };
 
     this.filteredDepartments = SortHelper.sort(this.filteredDepartments, $event, userSortConfig);

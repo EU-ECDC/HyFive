@@ -16,7 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\HyFive.Domain\HyFive.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
 </Project>

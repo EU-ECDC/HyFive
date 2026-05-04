@@ -3,13 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { SessionReport } from '../../models/api/SessionReport';
-import { FiveIndicationsSession } from '../../models/api/FiveIndicationsSession';
 import { HandJewelrySession } from '../../models/api/HandJewelrySession';
 import {ProtectiveEquipmentSession} from '../../models/api/ProtectiveEquipmentSession';
 import { GloveSession } from '../../models/api/GloveSession';
 import {map} from 'rxjs/operators';
 import { PaginationRequest } from 'src/app/models/api/PaginationRequest';
 import { SessionsPaginatedResponse } from 'src/app/models/api/SessionsPaginatedResponse';
+import { HandHygieneSession } from 'src/app/models/api/HandHygieneSession';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +28,10 @@ export class SentSessionsService {
     return this.httpClient.post<SessionsPaginatedResponse>(url, paginationRequest);
   }
 
-  getFiveIndicationsSession(sessionId : string): Observable<FiveIndicationsSession> {
+  getHandHygieneSession(sessionId : string): Observable<HandHygieneSession> {
     let params = new HttpParams();
     params = params.append("sessionId", sessionId);
-    return this.httpClient.get<FiveIndicationsSession>(`${environment.apiBaseUrl}/v1/session/fiveIndications`, {params});
+    return this.httpClient.get<HandHygieneSession>(`${environment.apiBaseUrl}/v1/session/fiveIndications`, {params});
   }
 
   getHandJewelrySession(sessionId: string): Observable<HandJewelrySession> {
@@ -58,7 +58,7 @@ export class SentSessionsService {
     return this.downloadSessionAsExcelNew(url, "Glove");
   }
 
-  public downloadFiveIndicationsSessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
+  public downloadHandHygieneSessionAsExcel(facilityId: number, sessionId: string) : Observable<any> {
     const url = `${environment.apiBaseUrl}/v1/fiveindications/myobservations/excel?facilityid=${facilityId}&sessionid=${sessionId}`;
     return this.downloadSessionAsExcelNew(url, "FiveIndications");
   }

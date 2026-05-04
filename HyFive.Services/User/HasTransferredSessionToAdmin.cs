@@ -12,7 +12,7 @@ namespace HyFive.Services.User
     {
         public class Command : IRequest<bool>
         {
-            public int ObservationId { get; set; }
+            public int ObserverId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, bool>
@@ -26,9 +26,12 @@ namespace HyFive.Services.User
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                var SessionsTransferredToFHI = await _context.Session.Where(s => s.Observer.Id == request.ObservationId && s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin).AnyAsync();
-
-                return SessionsTransferredToFHI;
+                return await _context.Session
+                    .AsNoTracking()
+                    .AnyAsync(
+                        s => s.ObserverId == request.ObserverId &&
+                             s.TransferStatus.Code == TransferStatusTypeConstants.TransferredToAdmin,
+                        cancellationToken);
             }
         }
     }

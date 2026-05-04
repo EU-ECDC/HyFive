@@ -8,7 +8,6 @@
     <None Remove="Assets\Fonts\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\FHI-five-indications-report-template.pdf" />
     <EmbeddedResource Include="Assets\Fonts\Roboto-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

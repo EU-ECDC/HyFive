@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using HyFive.Models.V1.Facility;
+using HyFive.Domain.Place;
 
 namespace HyFive.Api.Common.ExtensionMethods
 {
@@ -51,7 +51,7 @@ namespace HyFive.Api.Common.ExtensionMethods
                 var xmlApiCommentFullPath = Path.Combine(AppContext.BaseDirectory + xmlApiCommentFil);
                 setupAction.IncludeXmlComments(xmlApiCommentFullPath);
 
-                var xmlModellerCommentFil = $"{Assembly.GetAssembly(typeof(Facility)).GetName().Name}.xml";
+                var xmlModellerCommentFil = $"{Assembly.GetAssembly(typeof(OrganisationUnit)).GetName().Name}.xml";
                 var xmlModellerCommentFullPath = Path.Combine(AppContext.BaseDirectory + xmlModellerCommentFil);
                 setupAction.IncludeXmlComments(xmlModellerCommentFullPath);
             });

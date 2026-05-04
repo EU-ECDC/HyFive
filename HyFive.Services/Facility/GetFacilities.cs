@@ -11,11 +11,11 @@ namespace HyFive.Services.Facility
 {
     public class GetFacilities
     {
-        public class Query : IRequest<Models.V1.Facility.FacilityReport[]>
+        public class Query : IRequest<Models.V1.OrganisationUnit.FacilityReport[]>
         {
         }
 
-        public class Handler : IRequestHandler<Query, Models.V1.Facility.FacilityReport[]>
+        public class Handler : IRequestHandler<Query, Models.V1.OrganisationUnit.FacilityReport[]>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -27,14 +27,15 @@ namespace HyFive.Services.Facility
             }
 
 
-            public async Task<Models.V1.Facility.FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Models.V1.OrganisationUnit.FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Facility
+                return await _context.OrganisationUnit
                     .AsNoTracking()
-                    .Include(i => i.FacilityType)
-                    .ProjectTo<Models.V1.Facility.FacilityReport>(_mapper.ConfigurationProvider)
-                    .OrderBy(i => i.Name)
-                    .ToArrayAsync(cancellationToken: cancellationToken);
+                    .Where(ou => ou.ParentId == null)              // facility roots
+                    .Include(ou => ou.Type)                        // replaces FacilityType
+                    .ProjectTo<Models.V1.OrganisationUnit.FacilityReport>(_mapper.ConfigurationProvider)
+                    .OrderBy(ou => ou.Name)
+                    .ToArrayAsync(cancellationToken);
             }
         }
     }

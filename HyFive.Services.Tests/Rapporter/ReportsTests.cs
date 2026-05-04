@@ -54,7 +54,7 @@ namespace HyFive.Services.Tests.Reports
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
         //        RegisteredTime = DateTime.UtcNow,
-        //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
+        //        Roles = enAvdeling.Roles.First(r => r.City == rolleSomTestes),
         //    };
             
         //    var ikkeEtterlevdObservasjonKombinasjonA = new FiveIndicationsObservation()
@@ -72,7 +72,7 @@ namespace HyFive.Services.Tests.Reports
         //            indikasjonstyper.First(i => i.Code == IndikasjonTypeKonstanter.AsepticProcedures)
         //        },
         //        RegisteredTime = DateTime.UtcNow,
-        //        Roles = enAvdeling.Roles.First(r => r.Name == rolleSomTestes),
+        //        Roles = enAvdeling.Roles.First(r => r.City == rolleSomTestes),
         //    };
 
 
@@ -99,7 +99,7 @@ namespace HyFive.Services.Tests.Reports
         //    var rapportHandler = new GetFiveIndicatorsReportForDepartment.Handler(DatabaseContext);
         //    var lagRapportQuery = new GetFiveIndicatorsReportForDepartment.Query()
         //    {
-        //        DepartmentId = enAvdeling.Id, 
+        //        OrganisationUnitId = enAvdeling.Id, 
         //        FromDate = DateTime.UtcNow.AddDays(-1),
         //        ToDate = DateTime.UtcNow.AddDays(1),
         //        Roles = AuthorizedRole.Coordinator,
@@ -109,9 +109,9 @@ namespace HyFive.Services.Tests.Reports
         //    var kombinasjonArapport = rapport
         //        .Department
         //        .Roles
-        //        .First(r => r.Name == rolleSomTestes)
+        //        .First(r => r.City == rolleSomTestes)
         //        .Combinations
-        //        .First(k => k.Name == "A");
+        //        .First(k => k.City == "A");
             
         //    // Assert
         //    Assert.Multiple(() =>

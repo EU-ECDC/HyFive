@@ -2,15 +2,18 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
+import { UserPermission } from './UserPermission';
+import { UserIdentifier } from './UserIdentifier';
+
 export interface User
 {
 	id: number;
-	facilityId: number;
 	createdTime: any;
 	firstName: string;
 	lastName: string;
 	email: string;
 	identityPseudonym: string;
-	isDisabled: boolean;
-	hprNumber: string;
+	isDeactivated: boolean;
+	userPermissions?: UserPermission[];
+	userIdentifiers?: UserIdentifier[];
 }

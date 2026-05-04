@@ -1,13 +1,16 @@
 using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.User;
 using HyFive.Services.UserServices;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bruker = HyFive.Models.V1.User.User;
 
@@ -29,21 +32,25 @@ namespace HyFive.Services.Tests.UserServices
         public async Task GetAdmin_Test()
         {
             // Arrange
-            var Admin = await CreateAdmin("testEmail@gmail.com");
-
+            var adminUser = await CreateAdmin("testEmail@gmail.com");
             var getAdminHandler = new GetAdmin.Handler(DatabaseContext, Mapper);
-            var query = new GetAdmin.Query() { };
-            var adminIdsFromDatabase = DatabaseContext.Admin.OrderBy(x => x.Id).Select(x => x.Id).ToList();
+            var query = new GetAdmin.Query();
+
+            var expectedIds = DatabaseContext.User
+                .Where(u => u.UserPermissions.Any(p => p.PermissionLevel == PermissionLevelConstants.Administrator))
+                .OrderBy(x => x.Id)
+                .Select(x => x.Id)
+                .ToList();
 
             // Act
-            var res = await getAdminHandler.Handle(query, new System.Threading.CancellationToken());
+            var res = await getAdminHandler.Handle(query, CancellationToken.None);
             var resIds = res.OrderBy(x => x.Id).Select(x => x.Id).ToList();
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(resIds, Contains.Item(Admin.Id));
-                Assert.That(resIds.SequenceEqual(adminIdsFromDatabase));
+                Assert.That(resIds, Contains.Item(adminUser.Id));
+                Assert.That(resIds.SequenceEqual(expectedIds));
             });
         }
 
@@ -51,16 +58,24 @@ namespace HyFive.Services.Tests.UserServices
         public async Task CreateAdmin_Test()
         {
             // Arrange and Act
-            var createAdmin = await CreateAdmin("testEmail@gmail.com");
-            var createAdminFromDatabase = DatabaseContext.Admin.FirstOrDefault(r => r.Id == createAdmin.Id);
+            var createdAdmin = await CreateAdmin("testEmail@gmail.com");
+
+            var createdAdminFromDatabase = DatabaseContext.User
+                .Include(u => u.UserPermissions)
+                .FirstOrDefault(r => r.Id == createdAdmin.Id);
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(createAdmin.Id, Is.GreaterThan(0));
-                Assert.That(createAdmin.Email, Is.EqualTo(createAdminFromDatabase.Email));
-                Assert.That(createAdmin.FirstName, Is.EqualTo(createAdminFromDatabase.FirstName));
-                Assert.That(createAdmin.LastName, Is.EqualTo(createAdminFromDatabase.LastName));
+                Assert.That(createdAdmin.Id, Is.GreaterThan(0));
+                Assert.That(createdAdminFromDatabase, Is.Not.Null);
+                Assert.That(createdAdmin.Email, Is.EqualTo(createdAdminFromDatabase.Email));
+                Assert.That(createdAdmin.FirstName, Is.EqualTo(createdAdminFromDatabase.FirstName));
+                Assert.That(createdAdmin.LastName, Is.EqualTo(createdAdminFromDatabase.LastName));
+
+                Assert.That(createdAdminFromDatabase.UserPermissions, Is.Not.Null);
+                Assert.That(createdAdminFromDatabase.UserPermissions.Any(p =>
+                    p.PermissionLevel == PermissionLevelConstants.Administrator), Is.True);
             });
         }
 
@@ -82,6 +97,7 @@ namespace HyFive.Services.Tests.UserServices
         {
             // Arrange
             var createAdmin = await CreateAdmin("testEmail@gmail.com");
+
             var updateAdminHandler = new UpdateAdmin.Handler(DatabaseContext, Mapper);
             var command = new UpdateAdmin.Command()
             {
@@ -91,13 +107,16 @@ namespace HyFive.Services.Tests.UserServices
                     FirstName = "Da",
                     LastName = "Vinci",
                     Email = _email,
-                    IsDisabled = false
+                    IsDeactivated = false
                 }
             };
 
             // Act
-            var updateAdmin = await updateAdminHandler.Handle(command, new System.Threading.CancellationToken());
-            var updatedAdminFromDatabase = DatabaseContext.Admin.First(x => x.Id == createAdmin.Id);
+            var updateAdmin = await updateAdminHandler.Handle(command, CancellationToken.None);
+
+            var updatedAdminFromDatabase = await DatabaseContext.User
+                .Include(u => u.UserPermissions)
+                .FirstAsync(x => x.Id == createAdmin.Id);
 
             // Assert
             Assert.Multiple(() =>
@@ -110,7 +129,10 @@ namespace HyFive.Services.Tests.UserServices
                 Assert.That(updatedAdminFromDatabase.Email, Is.EqualTo(command.User.Email));
                 Assert.That(updatedAdminFromDatabase.FirstName, Is.EqualTo(command.User.FirstName));
                 Assert.That(updatedAdminFromDatabase.LastName, Is.EqualTo(command.User.LastName));
-                Assert.That(updatedAdminFromDatabase.IsDeactivated, Is.EqualTo(command.User.IsDisabled));
+                Assert.That(updatedAdminFromDatabase.IsDeactivated, Is.EqualTo(command.User.IsDeactivated));
+
+                Assert.That(updatedAdminFromDatabase.UserPermissions.Any(p =>
+                    p.PermissionLevel == PermissionLevelConstants.Administrator), Is.True);
             });
         }
 
@@ -127,7 +149,7 @@ namespace HyFive.Services.Tests.UserServices
                     FirstName = "Da",
                     LastName = "Vinci",
                     Email = _email,
-                    IsDisabled = false
+                    IsDeactivated = false
                 }
             };
 
@@ -157,7 +179,7 @@ namespace HyFive.Services.Tests.UserServices
                     FirstName = "Da",
                     LastName = "Vinci",
                     Email = user1.Email,
-                    IsDisabled = false
+                    IsDeactivated = false
                 }
             };
 

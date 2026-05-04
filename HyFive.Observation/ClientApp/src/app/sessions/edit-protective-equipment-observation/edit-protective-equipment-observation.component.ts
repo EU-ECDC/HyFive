@@ -5,13 +5,13 @@ import { ProtectiveEquipmentMapper } from 'src/app/utils/protectiveEquipment-map
 import { Colors } from '../../utils/colors';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ProtectiveEquipmentObservation } from '../../models/api/ProtectiveEquipmentObservation';
-import { Department } from '../../models/api/Department';
 import { ProtectiveEquipment } from '../../models/api/ProtectiveEquipment';
 import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProtectiveEquipmentModalComponent, ProtectiveEquipmentModalComponentConfig } from '../../registrering/protective-equipment-modal/protective-equipment-modal.component';
 import { SessionType } from 'src/app/models/api/SessionType';
 import {ToastrService} from "ngx-toastr";
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-edit-protective-equipment-observation',
@@ -42,7 +42,7 @@ export class EditProtectiveEquipmentObservationComponent implements OnInit, OnDe
 
   @Input() isReadonly: boolean = false;
   @Input() observation: ProtectiveEquipmentObservation;
-  @Input() department: Department;
+  @Input() department: OrganisationUnit;
   @Input() facilityid: number;
   @Output() observationDeletedEvent = new EventEmitter();
 

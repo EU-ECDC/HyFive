@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HyFive.Models.V1.Facility;
+using HyFive.Models.V1.OrganisationUnit;
 using HyFive.Services.Authentication.Requirements;
 using HyFive.Services.Facility;
 using MediatR;
@@ -30,7 +30,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<FacilityType>> GetFacilityTypes()
+        public async Task<IEnumerable<OrganisationUnitType>> GetFacilityTypes()
         {
             var facilityTypes = await _mediator.Send(new GetFacilityTypes.Query());
             return facilityTypes;
@@ -41,7 +41,7 @@ namespace HyFive.Admin.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPut("update")]
-        public async Task<FacilityType> UpdateFacilityType([FromBody] FacilityType facilityType)
+        public async Task<OrganisationUnitType> UpdateFacilityType([FromBody] OrganisationUnitType facilityType)
         {
             return await _mediator.Send(new UpdateFacilityType.Command()
             {
@@ -56,8 +56,8 @@ namespace HyFive.Admin.Controllers.V1
         /// <param name="facilityType"></param>
         /// <returns></returns>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(FacilityType), StatusCodes.Status201Created)]
-        public async Task<ActionResult<FacilityType>> CreateFacilityType([FromBody] CreateFacilityTypeRequest facilityType)
+        [ProducesResponseType(typeof(OrganisationUnitType), StatusCodes.Status201Created)]
+        public async Task<ActionResult<OrganisationUnitType>> CreateFacilityType([FromBody] CreateOrganisationUnitTypeRequest facilityType)
         {
             
             var response = await _mediator.Send(new CreateFacilityType.Command()

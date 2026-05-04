@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
-import { LoggedInUser } from '../../models/api/LoggedInUser';
+import { LoggedInUser } from '../../models/api/LoggedinUser';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { CoordinatorForCity } from '../../models/api/CoordinatorForCity';
 import { CityService } from '../../services/data/City.service';
@@ -77,7 +77,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
   }
 
   loadCoordinators(): void {
-    this.cityService.getCoordinators(this.facility.city.id).subscribe({
+    this.cityService.getCoordinatorsForCity(this.facility.city).subscribe({
       next: (coordinators) => {
         this.coordinators = coordinators;
         this.filteredCoordinators = this.coordinators;
@@ -93,7 +93,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
   }
 
   loadFacilities() {
-    this.cityService.getFacilities(this.facility.city.id).subscribe(
+    this.cityService.getFacilitiesForCity(this.facility.city).subscribe(
       (facilities) => {
         this.facilitiesCity = facilities
       },
@@ -114,7 +114,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
     }
 
     this.cityService
-      .createCoordinator(this.facility.city.id, newCoordinator)
+      .createCoordinatorForCity(this.facility.city, newCoordinator)
       .subscribe({
         next: (status) => {
           this.showCreateForm = false;
@@ -176,7 +176,7 @@ export class EditCoordinatorsForCityComponent implements OnInit, OnDestroy {
     coordinator.facilities = this.selectedFacilities;
     let CurrentFacilityIsStillSelected = this.selectedFacilities.some(i => i.id == this.facility.id);
     let isCoordinatorAsChangedLikeLoggedInUser = this.isCoordinatorAsChangedLikeLoggedInUser(coordinator);
-    this.cityService.updateCoordinator(this.facility.city.id, coordinator).subscribe(
+    this.cityService.updateCoordinatorForCity(this.facility.city, coordinator).subscribe(
       (status) => {
         if (status.success) {
           this.toastrService.success(this.translate.instant('Coordinator updated'));

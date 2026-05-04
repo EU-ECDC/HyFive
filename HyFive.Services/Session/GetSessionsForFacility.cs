@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HyFive.DataAccess;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Overview;
 using HyFive.Models.V1.Session;
 using MediatR;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,127 +37,210 @@ namespace HyFive.Services.Session
                 _mapper = mapper;
             }
 
+            private sealed class OrganisationUnitNode
+            {
+                public int Id { get; init; }
+                public int? ParentId { get; init; }
+                public string Level { get; init; } = "";
+            }
+
             public async Task<List<SessionOverviewReport>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var sessionOverviewReport = new List<SessionOverviewReport>();
-                
-                if (request.SessionType == null || request.SessionType.Value == SessionType.FiveIndications)
-                {
-                    var fiveIndicationsSessionsReport= await CreateFiveIndicationsSessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(fiveIndicationsSessionsReport); 
-                }
-                if (request.SessionType == null || request.SessionType.Value == SessionType.HandJewelry)
-                {
-                    var handJewelrySessionsReport = await CreateHandJewelrySessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(handJewelrySessionsReport);
-                }
-                if (request.SessionType == null || request.SessionType.Value == SessionType.Gloves)
-                {
-                    var gloveSessionsReport = await CreateGloveSessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(gloveSessionsReport);
-                }
-                if (request.SessionType == null || request.SessionType.Value == SessionType.ProtectiveEquipment)
-                {
-                    var protectiveEquipmentSessionsReport = await CreateProtectiveEquipmentSessionsReport(request, cancellationToken);
-                    sessionOverviewReport.AddRange(protectiveEquipmentSessionsReport);
-                }
+                var fromDateUtc = request.FromDate?.Date.ToUniversalTime();
+                var toDateUtc = request.ToDate?.Date.ToUniversalTime();
 
-                sessionOverviewReport = sessionOverviewReport.OrderByDescending(s => s.CreatedDate).ToList();
-                sessionOverviewReport.ForEach(s =>
-                {
+                // 1) Resolve all Unit ids under this facility
+                var unitIds = await GetUnitIdsUnderFacility(request.FacilityId, cancellationToken);
+                if (unitIds.Count == 0)
+                    return new List<SessionOverviewReport>();
+
+                // 3) Fetch per session type
+                var results = new List<SessionOverviewReport>();
+
+                if (request.SessionType == null || request.SessionType == SessionType.FiveIndications)
+                    results.AddRange(await LoadFiveIndications(unitIds, request, fromDateUtc, toDateUtc, cancellationToken));
+
+                if (request.SessionType == null || request.SessionType == SessionType.HandJewelry)
+                    results.AddRange(await LoadHandJewelry(unitIds, request, fromDateUtc, toDateUtc, cancellationToken));
+
+                if (request.SessionType == null || request.SessionType == SessionType.Gloves)
+                    results.AddRange(await LoadGloves(unitIds, request, fromDateUtc, toDateUtc, cancellationToken));
+
+                if (request.SessionType == null || request.SessionType == SessionType.ProtectiveEquipment)
+                    results.AddRange(await LoadProtectiveEquipment(unitIds, request, fromDateUtc, toDateUtc, cancellationToken));
+
+                return results
+                .OrderByDescending(s => s.CreatedDate)
+                .Select(SortObservationsInsideSession)
+                .ToList();
+            }
+
+            private static SessionOverviewReport SortObservationsInsideSession(SessionOverviewReport s)
+            {
+                if (s.Observations != null)
                     s.Observations = s.Observations.OrderByDescending(o => o.RegisteredTime).ToList();
-                });
-
-                return sessionOverviewReport;
+                return s;
             }
 
-            private async Task<List<SessionOverviewReport>> CreateFiveIndicationsSessionsReport(Query request, CancellationToken cancellationToken)
+            private async Task<List<int>> GetUnitIdsUnderFacility(int facilityId, CancellationToken ct)
             {
-                var fiveIndicationsSessions = await _context.FiveIndicationsSession
-                                     .Include(s => s.Department)
-                                     .Include(s => s.Observer)
-                                     .Include(s => s.TransferStatus)
-                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
-                                     .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
-                                     .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
-                                     .Where(s => s.Department.FacilityId == request.FacilityId)
-                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
-                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
-                                            || s.TransferStatus.Code == request.TransferStatus)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .AsNoTracking()
-                                     .ToListAsync(cancellationToken);
-                var fiveIndicationsSessionsReport = _mapper.Map<List<Domain.Session.FiveIndicationsSession>, List<SessionOverviewReport>>(fiveIndicationsSessions);
+                // Load minimal OU graph (Id, ParentId, Level)
+                var nodes = await _context.OrganisationUnit
+                    .AsNoTracking()
+                    .Include(x => x.LevelRef)
+                    .Select(x => new OrganisationUnitNode
+                    {
+                        Id = x.Id,
+                        ParentId = x.ParentId,
+                        Level = x.LevelRef.Level
+                    })
+                    .ToListAsync(ct);
 
-                return fiveIndicationsSessionsReport;
+                var childrenByParent = nodes
+                .Where(n => n.ParentId.HasValue)
+                .GroupBy(n => n.ParentId!.Value)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.Id).ToList());
+
+                var nodesById = nodes.ToDictionary(x => x.Id);
+
+                // BFS from facilityId; collect Unit-level nodes
+                var result = new List<int>();
+                var q = new Queue<int>();
+                var visited = new HashSet<int>();
+
+                q.Enqueue(facilityId);
+                visited.Add(facilityId);
+
+                while (q.Count > 0)
+                {
+                    var current = q.Dequeue();
+                    if (!childrenByParent.TryGetValue(current, out var children)) continue;
+
+                    foreach (var childId in children)
+                    {
+                        if (!visited.Add(childId)) continue;
+
+                        if (nodesById.TryGetValue(childId, out var node) &&
+                            node.Level == OrganisationUnitLevels.Unit)
+                        {
+                            result.Add(childId);
+                        }
+
+                        q.Enqueue(childId);
+                    }
+                }
+
+                return result;
             }
 
-            private async Task<List<SessionOverviewReport>> CreateHandJewelrySessionsReport(Query request, CancellationToken cancellationToken)
+            private static IQueryable<TSession> ApplyCommonFilters<TSession>(
+            IQueryable<TSession> q,
+            List<int> unitIds,
+            Query request,
+            DateTime? fromUtc,
+            DateTime? toUtc)
+            where TSession : Domain.Session.Session
             {
-                var handJewelrySessions = await _context.HandJewelrySession
-                                     .Include(s => s.Department)
-                                     .Include(s => s.Observer)
-                                     .Include(s => s.TransferStatus)
-                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
-                                     .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
-                                     .Where(s => s.Department.FacilityId == request.FacilityId)
-                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
-                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
-                                            || s.TransferStatus.Code == request.TransferStatus)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .AsNoTracking()
-                                     .ToListAsync(cancellationToken);
-                var handJewelrySessionsReport = _mapper.Map<List<Domain.Session.HandJewelrySession>, List<SessionOverviewReport>>(handJewelrySessions);
+                q = q.Where(s => unitIds.Contains(s.OrganisationUnitId));
 
-                return handJewelrySessionsReport;
+                if (request.ObservatorId.HasValue)
+                    q = q.Where(s => s.ObserverId == request.ObservatorId.Value);
+
+                if (!string.IsNullOrWhiteSpace(request.TransferStatus))
+                    q = q.Where(s => s.TransferStatus.Code == request.TransferStatus);
+
+                if (fromUtc.HasValue)
+                    q = q.Where(s => s.CreatedDate >= fromUtc.Value);
+
+                if (toUtc.HasValue)
+                    q = q.Where(s => s.CreatedDate <= toUtc.Value);
+
+                return q;
             }
 
-            private async Task<List<SessionOverviewReport>> CreateGloveSessionsReport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LoadFiveIndications(
+            List<int> unitIds, Query request, DateTime? fromUtc, DateTime? toUtc, CancellationToken ct)
             {
-                var gloveSessions = await _context.GloveSession
-                                     .Include(s => s.Department)
-                                     .Include(s => s.Observer)
-                                     .Include(s => s.TransferStatus)
-                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
-                                     .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
-                                     .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
-                                     .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
-                                     .Where(s => s.Department.FacilityId == request.FacilityId)
-                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
-                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
-                                            || s.TransferStatus.Code == request.TransferStatus)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .AsNoTracking()
-                                     .ToListAsync(cancellationToken);
-                var gloveSessionsReport = _mapper.Map<List<Domain.Session.GloveSession>, List<SessionOverviewReport>>(gloveSessions);
+                var q = _context.FiveIndicationsSession
+                    .AsNoTracking()
+                    .Include(s => s.Observer)
+                    .Include(s => s.TransferStatus)
+                    .Include(s => s.OrganisationUnit)
+                        .ThenInclude(ou => ou.Parent)
+                           .ThenInclude(parent => parent.Parent)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
+                    .Include(s => s.Observations).ThenInclude(o => o.IndicationTypes)
+                    .Include(s => s.Observations).ThenInclude(o => o.Activity.ActivityType)
+                    .AsQueryable();
 
-                return gloveSessionsReport;
+                q = ApplyCommonFilters(q, unitIds, request, fromUtc, toUtc);
+
+                var sessions = await q.ToListAsync(ct);
+                return _mapper.Map<List<Domain.Session.FiveIndicationsSession>, List<SessionOverviewReport>>(sessions);
             }
 
-            private async Task<List<SessionOverviewReport>> CreateProtectiveEquipmentSessionsReport(Query request, CancellationToken cancellationToken)
+            private async Task<List<SessionOverviewReport>> LoadHandJewelry(
+                List<int> unitIds, Query request, DateTime? fromUtc, DateTime? toUtc, CancellationToken ct)
             {
-                var protectiveEquipmentSessions = await _context.ProtectiveEquipmentSession
-                                     .Include(s => s.Department)
-                                     .Include(s => s.Observer)
-                                     .Include(s => s.TransferStatus)
-                                     .Include(s => s.Observations).ThenInclude(o => o.Role)
-                                     .Include(s => s.Observations).ThenInclude(o => o.SettingType)
-                                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
-                                     .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
-                                     .Where(s => s.Department.FacilityId == request.FacilityId)
-                                     .Where(s => request.ObservatorId == null || s.Observer.Id == request.ObservatorId)
-                                     .Where(s => string.IsNullOrEmpty(request.TransferStatus)
-                                            || s.TransferStatus.Code == request.TransferStatus)
-                                     .Where(s => request.FromDate == null || s.CreatedDate.Date >= request.FromDate.Value.Date)
-                                     .Where(s => request.ToDate == null || s.CreatedDate.Date <= request.ToDate.Value.Date)
-                                     .AsNoTracking()
-                                     .ToListAsync(cancellationToken);
-                var protectiveEquipmentSessionsReport = _mapper.Map<List<Domain.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(protectiveEquipmentSessions);
+                var q = _context.HandJewelrySession
+                    .AsNoTracking()
+                    .Include(s => s.Observer)
+                    .Include(s => s.TransferStatus)
+                    .Include(s => s.OrganisationUnit)
+                        .ThenInclude(ou => ou.Parent)
+                           .ThenInclude(parent => parent.Parent)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
+                    .Include(s => s.Observations).ThenInclude(o => o.HandJewelries)
+                    .AsQueryable();
 
-                return protectiveEquipmentSessionsReport;
+                q = ApplyCommonFilters(q, unitIds, request, fromUtc, toUtc);
+
+                var sessions = await q.ToListAsync(ct);
+                return _mapper.Map<List<Domain.Session.HandJewelrySession>, List<SessionOverviewReport>>(sessions);
+            }
+
+            private async Task<List<SessionOverviewReport>> LoadGloves(
+                List<int> unitIds, Query request, DateTime? fromUtc, DateTime? toUtc, CancellationToken ct)
+            {
+                var q = _context.GloveSession
+                    .AsNoTracking()
+                    .Include(s => s.Observer)
+                    .Include(s => s.TransferStatus)
+                    .Include(s => s.OrganisationUnit)
+                        .ThenInclude(ou => ou.Parent)
+                           .ThenInclude(parent => parent.Parent)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
+                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithIndicationTypes)
+                    .Include(s => s.Observations).ThenInclude(o => o.GloveWithoutIndicationTypes)
+                    .Include(s => s.Observations).ThenInclude(o => o.PostGloveHandHygieneType)
+                    .AsQueryable();
+
+                q = ApplyCommonFilters(q, unitIds, request, fromUtc, toUtc);
+
+                var sessions = await q.ToListAsync(ct);
+                return _mapper.Map<List<Domain.Session.GloveSession>, List<SessionOverviewReport>>(sessions);
+            }
+
+            private async Task<List<SessionOverviewReport>> LoadProtectiveEquipment(
+                List<int> unitIds, Query request, DateTime? fromUtc, DateTime? toUtc, CancellationToken ct)
+            {
+                var q = _context.ProtectiveEquipmentSession
+                    .AsNoTracking()
+                    .Include(s => s.Observer)
+                    .Include(s => s.TransferStatus)
+                    .Include(s => s.OrganisationUnit)
+                        .ThenInclude(ou => ou.Parent)
+                           .ThenInclude(parent => parent.Parent)
+                    .Include(s => s.Observations).ThenInclude(o => o.Role)
+                    .Include(s => s.Observations).ThenInclude(o => o.SettingType)
+                    .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.EquipmentType)
+                    .Include(s => s.Observations).ThenInclude(o => o.ProtectiveEquipmentList).ThenInclude(b => b.MisuseTypes)
+                    .AsQueryable();
+
+                q = ApplyCommonFilters(q, unitIds, request, fromUtc, toUtc);
+
+                var sessions = await q.ToListAsync(ct);
+                return _mapper.Map<List<Domain.Session.ProtectiveEquipmentSession>, List<SessionOverviewReport>>(sessions);
             }
         }
     }

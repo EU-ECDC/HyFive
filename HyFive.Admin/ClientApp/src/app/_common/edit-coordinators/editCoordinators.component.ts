@@ -11,6 +11,7 @@ import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
 import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
+import { CreateCoordinatorRequest } from 'src/app/models/api/CreateCoordinatorRequest';
 
 @Component({
   selector: 'app-edit-coordinators',
@@ -78,7 +79,17 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
       newCoordinator.identityPseudonym = null;
     }
 
-    this.userService.createCoordinator(newCoordinator).subscribe({
+    const createCoordinatorRequest: CreateCoordinatorRequest= {
+        id: newCoordinator.id,
+        facilityId: this.facilityId,
+        firstName: newCoordinator.firstName,
+        lastName: newCoordinator.lastName,
+        email: newCoordinator.email,
+        identityPseudonym: newCoordinator.identityPseudonym,
+        isDeactivated: newCoordinator.isDeactivated
+    }
+
+    this.userService.createCoordinator(createCoordinatorRequest).subscribe({
       next: () => {
         this.toastrService.success(
           this.translate.instant('Coordinator and observer created')
@@ -111,7 +122,16 @@ export class EditCoordinatorsComponent implements OnInit, OnDestroy {
     if (coordinator.identityPseudonym == "") {
         coordinator.identityPseudonym = null;
     }
-    this.userService.updateCoordinator(coordinator).subscribe(
+    const updateCoordinatorRequest: CreateCoordinatorRequest= {
+      id: coordinator.id,
+      facilityId: this.facilityId,
+      firstName: coordinator.firstName,
+      lastName: coordinator.lastName,
+      email: coordinator.email,
+      identityPseudonym: coordinator.identityPseudonym,
+      isDeactivated: coordinator.isDeactivated
+    }
+    this.userService.updateCoordinator(updateCoordinatorRequest).subscribe(
       (updateUser) => {
         this.toastrService.success(this.translate.instant('Coordinator updated'));
         this.loadCoordinators();

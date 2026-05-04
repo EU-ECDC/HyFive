@@ -43,7 +43,7 @@ namespace HyFive.Services.Tests.HandJewelry
         //public async Task HentSesjonTest()
         //{
         //    //Arrange and act
-        //    var department = DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First();
+        //    var department = DatabaseContext.Department.Include(x => x.Unit).Include(x => x.Roles).First();
         //    var opprettetSesjonGuid = await CreateSession(department);
         //    var hentetSesjonFraDatabase = await GetSession(opprettetSesjonGuid);
 
@@ -52,7 +52,7 @@ namespace HyFive.Services.Tests.HandJewelry
         //        Assert.That(hentetSesjonFraDatabase?.Id, Is.Not.Null);
         //        Assert.That(hentetSesjonFraDatabase.Observations.Count, Is.EqualTo(1));
         //        Assert.That(hentetSesjonFraDatabase.Observations[0].HandJewelries.Count, Is.EqualTo(1));
-        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.Name, Is.EqualTo(department.Roles.First().Name));
+        //        Assert.That(hentetSesjonFraDatabase.Observations[0].Roles.City, Is.EqualTo(department.Roles.First().City));
         //    });
         //}
 
@@ -66,50 +66,6 @@ namespace HyFive.Services.Tests.HandJewelry
             }, CancellationToken.None);
 
             return HandJewelrySession;
-        }
-
-        private async Task<Guid> CreateSession(Domain.Place.Department department = null)
-        {
-            var logger = new Mock<ILogger<SaveSession.Handler>>();
-
-            var departmentModel = Mapper.Map<Models.V1.Facility.Department>(department ?? DatabaseContext.Department.Include(x => x.Facility).Include(x => x.Roles).First());
-            var facility = DatabaseContext.Facility.First(x => x.Id == departmentModel.FacilityId);
-            var handJewelryTypes = DatabaseContext.HandJewelryType.ToList();
-
-            var saveHandJewelrySessionHandler = new SaveSession.Handler(DatabaseContext, Mapper, logger.Object, UserService);
-            var handJewelrySessionGuid = await saveHandJewelrySessionHandler.Handle(new SaveSession.Command()
-            {
-                Session = new HandJewelrySession()
-                {
-                    Id = sessionId.ToString(),
-                    Department = departmentModel,
-                    FacilityName = facility.Name,
-                    FacilityId = facility.Id,
-                    Observations = new List<HandJewelryObservation>()
-                    {
-                        new HandJewelryObservation()
-                        {
-                            Id = observationId.ToString(),
-                            Comment = "Observation comment",
-                            RegisteredTime = DateTime.UtcNow,
-                            Role = departmentModel.Roles.First(),
-                            SessionId = sessionId.ToString(),
-                            HandJewelries = new List<HandJewelryType>()
-                            {
-                                new HandJewelryType()
-                                {
-                                    Id = handJewelryTypes.FirstOrDefault(x => x.Code == HandJewelryTypeConstants.WatchBracelet).Id
-                                }
-                            }
-                        }
-                    },
-                    Comment = "Session comment",
-                    CreatedDate = DateTime.UtcNow
-                },
-                Email = hprnumber
-            }, CancellationToken.None);
-
-            return handJewelrySessionGuid;
         }
 
         #endregion

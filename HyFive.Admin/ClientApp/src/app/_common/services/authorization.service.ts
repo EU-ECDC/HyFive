@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthorizedRole } from '../authorization/authorized-role';
 import { map, tap } from 'rxjs/operators';
 import { Localstoragepaths } from '../constants/localstoragepaths';
-import { LoggedInUser } from 'src/app/models/api/LoggedInUser';
+import { LoggedInUser } from 'src/app/models/api/LoggedinUser';
 @Injectable({
   providedIn: 'root'
 })

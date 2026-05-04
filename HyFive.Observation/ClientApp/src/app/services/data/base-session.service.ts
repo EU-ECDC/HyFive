@@ -2,7 +2,6 @@ import { Session } from '../../models/api/Session';
 import { BaseSessionView } from '../../models/registration/base-sessionView.model';
 import { Observation } from '../../models/api/Observation';
 import { FacilityService } from './FacilityService';
-import {AjaxResponse} from 'rxjs/ajax';
 import { DateHelper } from 'src/app/utils/datehelper';
 
 export abstract class BaseSessionService<TSessionView extends BaseSessionView, TSession extends Session<TObservation>, TObservation extends Observation>  {
@@ -128,13 +127,18 @@ export abstract class BaseSessionService<TSessionView extends BaseSessionView, T
   protected async createSessionWithObservation(observation: TObservation) {
     let sessionView = this.getSessionViewForSession(observation.sessionId);
     let sessions = this.getSessions();
-    let facility = await this.facilityService.getFacility(sessionView.department.facilityId).toPromise();
+    let facility = await this.facilityService.getFacility(sessionView.department.parentId).toPromise();
     let newSession = {
       id: observation.sessionId,
       observations: [observation],
       createdDate: new Date(),
       department: sessionView.department,
-      facilityName: facility.name
+      departmentId: sessionView.department.id,
+      unitId: sessionView.unit.id,
+      facilityName: facility.name,
+      unit: sessionView.unit,
+      facility: facility,
+      facilityId: facility.id
     } as TSession;
     sessions.push(newSession);
     this.saveSessions(sessions);

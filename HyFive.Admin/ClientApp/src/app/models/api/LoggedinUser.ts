@@ -10,9 +10,8 @@ export interface LoggedInUser
 	isCoordinator: boolean;
 	isAdmin: boolean;
 	isObserver: boolean;
-	facilityIds: number[];
+	organisationUnits: any[];
 	firstName: string;
 	lastName: string;
-	hprNumber: string;
 	email: string;
 }

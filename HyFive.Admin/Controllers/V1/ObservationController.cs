@@ -56,13 +56,19 @@ namespace HyFive.Admin.Controllers.V1
             if (role == AuthorizedRole.Administrator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
-                if (!_userService.IsAdmin())
+                if (!await _userService.IsAdmin())
                     return Forbid();
             }
             else if (role == AuthorizedRole.Coordinator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToCoordinator;
-                if (!_userService.IsCoordinatorForFacility(facilityid.Value))
+                if (!await _userService.IsCoordinatorForFacility(facilityid.Value))
+                    return Forbid();
+
+                if (!facilityid.HasValue)
+                    return BadRequest("facilityId is required for Coordinator role.");
+
+                if (!await _userService.IsCoordinatorForFacility(facilityid.Value))
                     return Forbid();
             }
             else
@@ -89,13 +95,13 @@ namespace HyFive.Admin.Controllers.V1
         }
 
         /// <summary>
-        /// Get all sessions for a department. <see cref="SessionOverviewReport"/>
+        /// Get all sessions for a unit. <see cref="SessionOverviewReport"/>
         /// </summary>
         /// <returns></returns>
 
-        [HttpGet("department")]
-        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> GetSessionsForDepartment(
-            [FromQuery] int departmentId,
+        [HttpGet("unit")]
+        public async Task<ActionResult<IEnumerable<SessionOverviewReport>>> GetSessionsForUnit(
+            [FromQuery] int unitId,
             [FromQuery] SessionType? sessionType,
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate,
@@ -105,13 +111,13 @@ namespace HyFive.Admin.Controllers.V1
             if (role == AuthorizedRole.Administrator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToAdmin;
-                if (!_userService.IsAdmin())
+                if (!await _userService.IsAdmin())
                     return Forbid();
             }
             else if (role == AuthorizedRole.Coordinator)
             {
                 transferStatusType = TransferStatusTypeConstants.TransferredToCoordinator;
-                if (!_userService.IsCoordinatorForDepartment(departmentId))
+                if (!await _userService.IsCoordinatorForUnit(unitId))
                     return Forbid();
             }
             else
@@ -119,11 +125,11 @@ namespace HyFive.Admin.Controllers.V1
                 return Forbid();
             }
 
-            if (_userService.IsCoordinatorForDepartment(departmentId) || _userService.IsAdmin())
+            if (await _userService.IsCoordinatorForUnit(unitId) || await _userService.IsAdmin())
             {
-                var result = await _mediator.Send(new GetSessionsForDepartmentOverview.Query()
+                var result = await _mediator.Send(new GetSessionsForUnitOverview.Query()
                 {
-                    DepartmentId = departmentId,
+                    UnitId = unitId,
                     SessionType = sessionType,
                     FromDate = fromDate,
                     ToDate = toDate,
@@ -149,7 +155,7 @@ namespace HyFive.Admin.Controllers.V1
             [FromQuery] DateTime? fromDate,
             [FromQuery] DateTime? toDate)
         {
-            if (_userService.IsCoordinatorForFacility(facilityId))
+            if (await _userService.IsCoordinatorForFacility(facilityId))
             {
                 var results = await _mediator.Send(new GetSessionsForFacility.Query()
                 {
@@ -172,17 +178,18 @@ namespace HyFive.Admin.Controllers.V1
         /// <returns></returns>
         [Authorize(HandhygienePolicy.Coordinator)]
         [HttpGet("transfer")]
-        public async Task<ActionResult<SessionOverviewReport>> TransferSessionToFhi(
+        public async Task<ActionResult<SessionOverviewReport>> TransferSessionToAdmin(
             [FromQuery] int facilityId,
             [FromQuery] Guid sessionId)
         {
-            if (_userService.IsCoordinatorForFacility(facilityId))
+            if (await _userService.IsCoordinatorForFacility(facilityId))
             {
-                var resultat = await _mediator.Send(new TransferSessionToAdmin.Query()
+                var results = await _mediator.Send(new TransferSessionToAdmin.Query()
                 {
-                    SessionId = sessionId
+                    SessionId = sessionId,
+                    FacilityId = facilityId
                 });
-                return Ok(resultat);
+                return Ok(results);
             }
 
             return Unauthorized();
@@ -192,7 +199,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("fiveIndications/update")]
         public async Task<ActionResult<bool>> UpdateFiveIndicationsObservation([FromBody] FiveIndicatorsObservation observation)
         {
-            if (_userService.IsCoordinatorForSession(observation.SessionId))
+            if (await _userService.IsCoordinatorForSession(observation.SessionId))
             {
                 
                 var result = await _mediator.Send(new UpdateFiveIndicationsObservation.Command
@@ -212,7 +219,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("fiveIndications/delete")]
         public async Task<ActionResult<bool>> DeleteFiveIndicationsObservation([FromQuery] string observtionId, [FromQuery] string sessionId)
         {
-            if (_userService.IsCoordinatorForSession(sessionId))
+            if (await _userService.IsCoordinatorForSession(sessionId))
             {
                 var result = await _mediator.Send(new DeleteFiveIndicationObservation.Command
                 {
@@ -232,7 +239,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("handJewelry/update")]
         public async Task<ActionResult<bool>> UpdateHandJewelryObservation([FromBody] HandJewelryObservation observation)
         {
-            if (_userService.IsCoordinatorForSession(observation.SessionId))
+            if (await _userService.IsCoordinatorForSession(observation.SessionId))
             {
                 var result = await _mediator.Send(new UpdateHandJewelryObservation.Command
                 {
@@ -250,7 +257,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("handJewelry/delete")]
         public async Task<ActionResult<bool>> DeleteHandJewelryObservation([FromQuery] string observationId, [FromQuery] string sessionId)
         {
-            if (_userService.IsCoordinatorForSession(sessionId))
+            if (await _userService.IsCoordinatorForSession(sessionId))
             {
                 
                 var result = await _mediator.Send(new DeleteHandJewelryObservation.Command
@@ -270,7 +277,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("glove/update")]
         public async Task<ActionResult<bool>> UpdateGloveObservation([FromBody] GloveObservation observation)
         {
-            if (_userService.IsCoordinatorForSession(observation.SessionId))
+            if (await _userService.IsCoordinatorForSession(observation.SessionId))
             {
                 
                 var result = await _mediator.Send(new UpdateGloveObservation.Command
@@ -288,7 +295,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("glove/delete")]
         public async Task<ActionResult<bool>> DeleteGloveObservation([FromQuery] string observationId, [FromQuery] string sessionId)
         {
-            if (_userService.IsCoordinatorForSession(sessionId))
+            if (await _userService.IsCoordinatorForSession(sessionId))
             {
                 var result = await _mediator.Send(new DeleteGloveObservation.Command
                 {
@@ -307,7 +314,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpPut("protectiveEquipment/update")]
         public async Task<ActionResult<bool>> UpdateProtectiveEquipmentObservation([FromBody] ProtectiveEquipmentObservation observation)
         {
-            if (_userService.IsCoordinatorForSession(observation.SessionId))
+            if (await _userService.IsCoordinatorForSession(observation.SessionId))
             {
                 var result = await _mediator.Send(new UpdateProtectiveEquipmentObservation.Command
                 {
@@ -325,7 +332,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpDelete("protectiveEquipment/delete")]
         public async Task<ActionResult<bool>> DeleteProtectiveEquipmentObservation([FromQuery] string observationId, [FromQuery] string sessionId)
         {
-            if (_userService.IsCoordinatorForSession(sessionId))
+            if (await _userService.IsCoordinatorForSession(sessionId))
             {
                 
                 var result = await _mediator.Send(new DeleteProtectiveEquipmentObservation.Command
@@ -345,7 +352,7 @@ namespace HyFive.Admin.Controllers.V1
         [HttpGet("protectiveEquipment")]
         public async Task<ActionResult<ProtectiveEquipmentObservation>> GetProtectiveEquipment([FromQuery] string observationId, [FromQuery] string sessionId)
         {
-            if (_userService.IsCoordinatorForSession(sessionId))
+            if (await _userService.IsCoordinatorForSession(sessionId))
             {
                 
                 var result = await _mediator.Send(new GetProtectiveEquipmentObservation.Query()

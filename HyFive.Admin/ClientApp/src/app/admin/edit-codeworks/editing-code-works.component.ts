@@ -27,11 +27,11 @@ export class EditingCodeworkComponent implements OnInit {
     { name: 'Department Types', isActive: false, component: EditingOfDepartmentTypesComponent },
     // { name: 'Protective Equipment Types', isActive: false, component: EditingProtectiveEquipmentTypeComponent },
     //{ name: 'Protective Equipment Setting Types', isActive: false, component: EditingOfProtectiveEquipmentSettingTypesComponent },
-    { name: 'Hand Jewelry Types', isActive: false, component: EditingByHandjewelryTypeComponent },
-    { name: 'Glove with Indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
-    { name: 'Glove without Indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
+    { name: 'Bare Below Elbows Types', isActive: false, component: EditingByHandjewelryTypeComponent },
+    { name: 'Gloves with Indication - Types', isActive: false, component: EditingGlovesWithIndicationTypesComponent },
+    { name: 'Gloves without Indication - Types', isActive: false, component: EditingGlovewithoutindicationtypesComponent },
     { name: 'Hand Hygiene after wearing Gloves - Types', isActive: false, component: EditingHandHygieneAfterGloveUseTypesComponent },
-    { name: 'Indication Types', isActive: false, component: EditingIndicationTypesComponent },
+    { name: 'Hand Hygiene Types', isActive: false, component: EditingIndicationTypesComponent },
     { name: 'Facility Types', isActive: false, component: EditingFacilityTypesComponent },
     { name: 'Roles', isActive: false, component: EditingOfRolesComponent }
   ] as CodeworksSidemenuModel[];

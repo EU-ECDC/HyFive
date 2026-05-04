@@ -38,7 +38,7 @@
                   >
                 </ng-select>
               </div>
-              <div class="form-group col-12 col-md-3">
+              <div *ngIf="facility && listOfCities.length > 0" class="form-group col-12 col-md-3">
                 <label for="city">{{"City" | translate }}</label>
                 <ng-select
                   [searchable]="false"
@@ -46,8 +46,7 @@
                   [items]="listOfCities"
                   bindLabel="name"
                   bindValue="id"
-                  [(ngModel)]="cityId"
-                  (ngModelChange)="cityChanged()"
+                  [(ngModel)]="facility.address.city"
                   >
                 </ng-select>
               </div>

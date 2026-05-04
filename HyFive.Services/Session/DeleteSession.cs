@@ -1,12 +1,14 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using HyFive.DataAccess;
+using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.Session;
+using HyFive.Services.Common;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HyFive.DataAccess;
-using HyFive.Models.V1.Session;
-using Microsoft.EntityFrameworkCore;
-using HyFive.Domain.Exceptions;
 
 namespace HyFive.Services.Session
 {
@@ -19,11 +21,11 @@ namespace HyFive.Services.Session
             public string TransferStatusCode { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, DeleteSessionResponse>
+        public class Handler : BaseHandler, IRequestHandler<Command, DeleteSessionResponse>
         {
             private readonly HandHygieneContext _databaseContext;
 
-            public Handler(HandHygieneContext databaseContext)
+            public Handler(HandHygieneContext databaseContext, IMapper mapper) : base(databaseContext, mapper)
             {
                 _databaseContext = databaseContext;
             }
@@ -31,27 +33,37 @@ namespace HyFive.Services.Session
             public async Task<DeleteSessionResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 var response = new DeleteSessionResponse();
-                var sessionAndType = await _databaseContext.Session
+                
+                // 1) Load minimal info needed for validation + branching
+                var sessionInfo = await _databaseContext.Session
                     .AsNoTracking()
-                    .Include(s => s.Department).ThenInclude(a => a.Facility)
-                    .Select(s => new {s.Id, s.Discriminator, TransferStatusCode = s.TransferStatus.Code, FacilityId = s.Department.Facility.Id})
-                    .FirstOrDefaultAsync(s => 
-                        s.Id == request.SessionId
-                        && s.TransferStatusCode == request.TransferStatusCode
-                        && s.FacilityId == request.FacilityId
-                    );
+                    .Where(s => s.Id == request.SessionId)
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.Discriminator,
+                        s.OrganisationUnitId,
+                        TransferStatusCode = s.TransferStatus.Code
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
 
-                if (sessionAndType == null)
-                {
+                if (sessionInfo == null)
+                    throw new DomainException("SessionNotFound", request.SessionId);
+
+                if (sessionInfo.TransferStatusCode != request.TransferStatusCode)
                     throw new DomainException("SessionWithTransferStatusNotFound", request.SessionId, request.TransferStatusCode);
-                }
 
-                var sessionType = SessionHelper.GetSessionType(sessionAndType.Discriminator);
+                // 2) Verify the session OU belongs to the facility (facility is ancestor of the session's OU)
+                var belongsToFacility = await IsAncestorAsync(_databaseContext, request.FacilityId, sessionInfo.OrganisationUnitId, cancellationToken);
+                if (!belongsToFacility)
+                    throw new DomainException("SessionNotLinkedToFacility", request.SessionId, request.FacilityId);
+
+                var sessionType = SessionHelper.GetSessionType(sessionInfo.Discriminator);
 
                 switch (sessionType)
                 {
                     case SessionType.FiveIndications:
-                        response.Success = DeleteSessionFourIndicators(request.SessionId);
+                        response.Success = DeleteSessionFiveIndicators(request.SessionId);
                         break;
                     case SessionType.HandJewelry:
                         response.Success = DeleteSessionHandJewelry(request.SessionId);
@@ -68,54 +80,64 @@ namespace HyFive.Services.Session
 
                 return response;
             }
-
-            private bool DeleteSessionFourIndicators(Guid sessionIdToDelete)
+            
+            private bool DeleteSessionFiveIndicators(Guid sessionIdToDelete)
             {
-                var session = _databaseContext.FiveIndicationsSession
-                    .Include(s => s.Observations)
-                    .FirstOrDefault(s => s.Id == sessionIdToDelete);
-                _databaseContext.RemoveRange(session.Observations);
-                _databaseContext.Remove(session);
-                _databaseContext.SaveChanges();
-                return true;
+                return DeleteSessionWithObservations<HyFive.Domain.Session.FiveIndicationsSession>(
+                sessionIdToDelete,
+                query => query.Include(s => s.Observations),
+                session => _databaseContext.RemoveRange(session.Observations));
             }
 
             private bool DeleteSessionHandJewelry(Guid sessionIdToDelete)
             {
-                var session = _databaseContext.HandJewelrySession
-                    .Include(s => s.Observations)
-                    .FirstOrDefault(s => s.Id == sessionIdToDelete);
-                _databaseContext.RemoveRange(session.Observations);
-                _databaseContext.Remove(session);
-                _databaseContext.SaveChanges();
-                return true;
+                return DeleteSessionWithObservations<HyFive.Domain.Session.HandJewelrySession>(
+                sessionIdToDelete,
+                query => query.Include(s => s.Observations),
+                session => _databaseContext.RemoveRange(session.Observations));
             }
 
             private bool DeleteSessionGloves(Guid sessionIdToDelete)
             {
-                var session = _databaseContext.GloveSession
-                    .Include(s => s.Observations)
-                    .FirstOrDefault(s => s.Id == sessionIdToDelete);
-                _databaseContext.RemoveRange(session.Observations);
-                _databaseContext.Remove(session);
-                _databaseContext.SaveChanges();
-                return true;
+                return DeleteSessionWithObservations<HyFive.Domain.Session.GloveSession>(
+                sessionIdToDelete,
+                query => query.Include(s => s.Observations),
+                session => _databaseContext.RemoveRange(session.Observations));
             }
 
             private bool DeleteSessionProtectiveEquipment(Guid sessionIdToDelete)
             {
-                var session = _databaseContext.ProtectiveEquipmentSession
-                    .Include(s => s.Observations).ThenInclude(b => b.ProtectiveEquipmentList)
-                    .FirstOrDefault(s => s.Id == sessionIdToDelete);
-                if (session.Observations.Any())
+                return DeleteSessionWithObservations<HyFive.Domain.Session.ProtectiveEquipmentSession>(
+                sessionIdToDelete,
+                query => query.Include(s => s.Observations)
+                              .ThenInclude(o => o.ProtectiveEquipmentList),
+                session =>
                 {
-                    var equipment = session.Observations.SelectMany(o => o.ProtectiveEquipmentList);
-                    if (equipment.Any())
+                    if (session.Observations.Any())
                     {
-                        _databaseContext.RemoveRange(equipment);
+                        var equipment = session.Observations.SelectMany(o => o.ProtectiveEquipmentList).ToList();
+                        if (equipment.Any())
+                            _databaseContext.RemoveRange(equipment);
+
+                        _databaseContext.RemoveRange(session.Observations);
                     }
-                    _databaseContext.RemoveRange(session.Observations);
-                }
+                });
+            }
+
+            private bool DeleteSessionWithObservations<TSession>(
+                Guid sessionIdToDelete,
+                Func<IQueryable<TSession>, IQueryable<TSession>> includeQuery,
+                Action<TSession> deleteChildren)
+                where TSession : class
+            {
+                var session = includeQuery(_databaseContext.Set<TSession>())
+                    .FirstOrDefault(s => EF.Property<Guid>(s, "Id") == sessionIdToDelete);
+
+                if (session == null)
+                    return false;
+
+                deleteChildren(session);
+
                 _databaseContext.Remove(session);
                 _databaseContext.SaveChanges();
                 return true;

@@ -6,20 +6,21 @@ import { ObservationService } from '../../../services/data/observation.service';
 import { SessionOverviewReport } from '../../../models/api/SessionOverviewReport';
 import { UrlPaths } from '../../../_common/constants/url-paths';
 import { DatePipe } from '@angular/common';
-import { DepartmentService } from '../../../services/data/department.service';
-import { Department} from '../../../models/api/Department';
 import { AuthorizedRole } from '../../../_common/authorization/authorized-role';
 import { AuthorizationService } from '../../../_common/services/authorization.service';
 import { FacilityService } from 'src/app/services/data/facility.service';
 import { forkJoin } from 'rxjs';
+import { UnitService } from 'src/app/services/data/unit.service';
+import { OrganisationUnitResponse } from 'src/app/models/api/OrganisationUnitResponse';
 
 @Component({
   selector: 'app-overview-department-sessions',
-  templateUrl: './overview-department-sessions.component.html'
+  templateUrl: './overview-department-sessions.component.html',
+  styleUrls: ['./overview-department-sessions.component.scss']
 })
 export class OverviewDepartmentSessionsComponent implements OnInit {
 
-  departmentid: number;
+  unitId: number;
   selectedSessiontype: SessionType = null;
   fromDate: Date;
   toDate: Date;
@@ -27,13 +28,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   facilityIdSearch: number;
 
   sessionTypeOptions = [
-    { name: "FiveIndications", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
-    { name: "HandJewelry", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
+    { name: "HandHygiene", value: SessionType.FiveIndications, type: SessionType[SessionType.FiveIndications] },
+    { name: "BareBelowElbows", value: SessionType.HandJewelry, type: SessionType[SessionType.HandJewelry] },
     { name: "Gloves", value: SessionType.Gloves, type: SessionType[SessionType.Gloves] },
     { name: "ProtectiveEquipment", value: SessionType.ProtectiveEquipment, type: SessionType[SessionType.ProtectiveEquipment] },
   ];
 
-  department: Department;
+  unit: OrganisationUnitResponse;
   session: SessionOverviewReport[] = [];
   loading: boolean;
   selectedRole: AuthorizedRole;
@@ -41,7 +42,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly departmentService: DepartmentService,
+    private readonly unitService: UnitService,
     private readonly observationService: ObservationService,
     private readonly datepipe: DatePipe,
     private readonly authorizationService: AuthorizationService,
@@ -57,19 +58,19 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        if (!params[QueryParameters.DepartmentId]) this.router.navigate([`/${UrlPaths.observations}`]);
+        if (!params[QueryParameters.UnitId]) this.router.navigate([`/${UrlPaths.observations}`]);
 
         this.selectedSessiontype = Number.parseInt(params[QueryParameters.SessionType]) || null;
         this.fromDate = params[QueryParameters.FromDate] || null;
         this.toDate = params[QueryParameters.ToDate] || null;
         this.facilityIdSearch = params[QueryParameters.facilityIdSearch] || null;
-        this.departmentid = Number.parseInt(params[QueryParameters.DepartmentId]) || null;
+        this.unitId = Number.parseInt(params[QueryParameters.UnitId]) || null;
       });
 
       const departmentSessionsRequest = [
-        this.departmentService.getDepartment(this.departmentid),
-        this.observationService.getSessionsForDepartment(
-          this.departmentid,
+        this.unitService.getUnit(this.unitId, this.selectedFacilityId),
+        this.observationService.getSessionsForUnit(
+          this.unitId,
           this.selectedSessiontype ? this.selectedSessiontype : null,
           this.fromDate,
           this.toDate,
@@ -79,7 +80,7 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
 
       forkJoin(departmentSessionsRequest).subscribe((result) => {
         let i = 0;
-        this.department = result[i++] as Department;
+        this.unit = result[i++] as OrganisationUnitResponse;
         this.session = result[i++] as SessionOverviewReport[];
 
         this.loading = false;
@@ -89,8 +90,8 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
           this.router.navigate([`/${UrlPaths.observations}`], {
             queryParams: {
               sessiontype: null,
-              fra: null,
-              til: null,
+              from: null,
+              to: null,
             }
             });
         }
@@ -104,13 +105,13 @@ export class OverviewDepartmentSessionsComponent implements OnInit {
   }
 
   isCoordinatorChangedFacility() {
-    return this.department.facilityId !== this.selectedFacilityId && this.selectedRole == AuthorizedRole.Coordinator;
+    return this?.unit?.facilityId !== this?.selectedFacilityId && this.selectedRole == AuthorizedRole.Coordinator;
   }
 
-  getSessionsForDepartment() {
+  getSessionsForUnit() {
     
-    this.observationService.getSessionsForDepartment(
-      this.departmentid,
+    this.observationService.getSessionsForUnit(
+      this.unitId,
       this.selectedSessiontype ? this.selectedSessiontype : null,
       this.fromDate,
       this.toDate,

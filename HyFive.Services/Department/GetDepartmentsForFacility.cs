@@ -12,12 +12,12 @@ namespace HyFive.Services.Department
 {
     public class GetDepartmentsForFacility
     {
-        public class Query : IRequest<IEnumerable<Models.V1.Facility.Department>>
+        public class Query : IRequest<IEnumerable<Models.V1.OrganisationUnit.OrganisationUnit>>
         {
             public int FacilityId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Models.V1.Facility.Department>>
+        public class Handler : IRequestHandler<Query, IEnumerable<Models.V1.OrganisationUnit.OrganisationUnit>>
         {
             private readonly HandHygieneContext _context;
             private readonly IMapper _mapper;
@@ -28,16 +28,54 @@ namespace HyFive.Services.Department
                 _mapper = mapper;
             }
 
-            public async Task<IEnumerable<Models.V1.Facility.Department>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Models.V1.OrganisationUnit.OrganisationUnit>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Department
-                    .Include(a => a.Roles)
-                    .Include(a => a.DepartmentType)
+                // 1) Load department org units under facility
+                var departments = await _context.OrganisationUnit
                     .AsNoTracking()
-                    .Where(a => a.FacilityId == request.FacilityId)
-                    .OrderBy(a => a.Name)
-                    .ProjectTo<Models.V1.Facility.Department>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
+                    .Include(o => o.LevelRef)
+                    .Include(o => o.Type)
+                    .Include(o => o.Address)
+                    .Where(o => o.ParentId == request.FacilityId
+                                && o.LevelRef.Level == "Department")
+                    .OrderBy(o => o.Name)
+                    .ToListAsync(cancellationToken);
+
+                if (departments.Count == 0)
+                    return new List<Models.V1.OrganisationUnit.OrganisationUnit>();
+
+                var deptIds = departments.Select(d => d.Id).ToList();
+
+                // 2) Load roles for these departments via join table
+                var roleRows = await
+                    (from our in _context.OrganisationUnitRole.AsNoTracking()
+                     join r in _context.Role.AsNoTracking() on our.RoleId equals r.Id
+                     where deptIds.Contains(our.OrganisationUnitId)
+                     select new { our.OrganisationUnitId, Role = r })
+                    .ToListAsync(cancellationToken);
+
+                var rolesByDept = roleRows
+                    .GroupBy(x => x.OrganisationUnitId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(x => _mapper.Map<Models.V1.Observation.Role>(x.Role)).ToList()
+                    );
+
+                // 3) Map to DTOs and attach Roles
+                var result = departments
+                    .Select(d =>
+                    {
+                        var dto = _mapper.Map<Models.V1.OrganisationUnit.OrganisationUnit>(d);
+
+                        dto.Roles = rolesByDept.TryGetValue(d.Id, out var roles)
+                            ? roles
+                            : new List<Models.V1.Observation.Role>();
+
+                        return dto;
+                    })
+                    .ToList();
+
+                return result;
             }
         }
     }

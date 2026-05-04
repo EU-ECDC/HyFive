@@ -50,7 +50,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -66,7 +66,7 @@ namespace HyFive.Admin.Controllers.V1
             };
 
             var reportData = await _mediator.Send(query);
-            var file = await this.ExcelFileContentResult(reportData, "GloveObservations.");
+            var file = await this.ExcelFileContentResult(reportData, "ECDC hyFive Gloves.");
 
             return file;
         }
@@ -81,7 +81,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -97,7 +97,7 @@ namespace HyFive.Admin.Controllers.V1
             };
 
             var reportData = await _mediator.Send(query);
-            var file = await this.ExcelFileContentResult(reportData, "HandJewelryObservations");
+            var file = await this.ExcelFileContentResult(reportData, "hyFive Bare Below Elbows");
 
             return file;
         }
@@ -112,7 +112,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -143,7 +143,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -159,7 +159,7 @@ namespace HyFive.Admin.Controllers.V1
             };
 
             var reportData = await _mediator.Send(query);
-            var file = await this.ExcelFileContentResult(reportData, "FiveIndicationsObservations");
+            var file = await this.ExcelFileContentResult(reportData, "hyFive Hand Hygiene");
 
             return file;
         }
@@ -174,7 +174,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -184,7 +184,7 @@ namespace HyFive.Admin.Controllers.V1
             {
                 FromDate = request.FromDate,
                 ToDate = request.ToDate,
-                DepartmentIds = request.DepartmentIds,
+                OrganisationUnitIds = request.DepartmentIds,
                 Role = role
             };
 
@@ -205,7 +205,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -237,7 +237,7 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach (var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
 
@@ -263,9 +263,11 @@ namespace HyFive.Admin.Controllers.V1
         {
             foreach(var facilityId in request.FacilityIds)
             {
-                if (!UserIsAuthorized(facilityId))
+                if (!await UserIsAuthorized(facilityId))
                     return Unauthorized();
             }
+
+            var role = (AuthorizedRole)request.Role;
 
             var query = new Compliance.Query
             {
@@ -281,19 +283,21 @@ namespace HyFive.Admin.Controllers.V1
                 DepartmentIds = request.DepartmentIds,
                 DepartmentTypeIds = request.DepartmentTypeIds,
                 FacilityTypeIds = request.FacilityTypeIds,
-                TranferredTo = request.TransferredTo
+                UnitIds = request.UnitIds,
+                TranferredTo = request.TransferredTo,
+                RoleId = role
             };
 
             var graphList = await _mediator.Send(query);
             return Ok(graphList);
         }
 
-        private bool UserIsAuthorized(int facilityId)
+        private async Task<bool> UserIsAuthorized(int facilityId)
         {
-            if (_userService.IsAdmin())
+            if (await _userService.IsAdmin())
                 return true;
 
-            if (_userService.IsCoordinatorForFacility(facilityId))
+            if (await _userService.IsCoordinatorForFacility(facilityId))
                 return true;
 
             return false;

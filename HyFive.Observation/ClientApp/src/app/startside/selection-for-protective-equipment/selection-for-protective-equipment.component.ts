@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProtectiveEquipmentCodingService } from '../../services/data/protectiveEquipment-coding-service';
 import { ProtectiveEquipmentSettingType } from '../../models/api/ProtectiveEquipmentSettingType';
 import { ProtectiveEquipmentSessionService } from '../../services/data/protectiveEquipment-session.service';
-import { Department } from '../../models/api/Department';
 import { Urls } from '../../constants/urls';
 import { Router } from '@angular/router';
 import { ProtectiveEquipmentSettingMapper } from '../../utils/ProtectiveEquipment-setting-mapper';
@@ -11,6 +10,7 @@ import { RoleSelected } from '../../models/registration/roleSelected.model';
 import { ProtectiveEquipmentSessionView } from '../../models/registration/protectiveEquipment-sessionView.model';
 import { ProtectiveEquipmentType } from '../../models/api/ProtectiveEquipmentType';
 import { ProtectiveEquipmentTypeConstants } from '../../models/api/ProtectiveEquipmentTypeConstants';
+import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 
 @Component({
   selector: 'app-selection-for-protective-equipment',
@@ -27,7 +27,7 @@ export class SelectionForProtectiveEquipmentComponent implements OnInit {
 
   @Input() sessionView: ProtectiveEquipmentSessionView = null;
   @Input() roles: RoleSelected[];
-  @Input() department: Department;
+  @Input() department: OrganisationUnit;
   @Output() settingEquipmentWasChanged: EventEmitter<ProtectiveEquipmentSessionView> = new EventEmitter<ProtectiveEquipmentSessionView>();
 
   constructor(

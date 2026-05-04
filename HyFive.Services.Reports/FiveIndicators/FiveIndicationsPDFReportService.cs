@@ -168,7 +168,7 @@ namespace HyFive.Services.Reports.FiveIndicators
         }
         private static PdfResult CreatePdfReport(FiveIndicatorsReport report, string label)
         {
-            var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.FHI-five-indications-report-template.pdf");
+            var copyOfDepartmentTemplate = Helpers.ReadCopyOfPdfTemplateFromFile("HyFive.Services.Reports.Assets.Hand Hygiene-report-template.pdf");
            
             using var pdfMemoryStream = new MemoryStream();
 
@@ -229,7 +229,7 @@ namespace HyFive.Services.Reports.FiveIndicators
             var pdfResult = new PdfResult
             {
                 Content = pdfMemoryStream.ToArray(),
-                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-ECDC hyFive Five Indications.pdf"
+                Filename = $"{DateTime.UtcNow.ToString(Helpers.FileNamePrefix)}-ECDC hyFive hand hygiene.pdf"
             };
 
             return pdfResult;

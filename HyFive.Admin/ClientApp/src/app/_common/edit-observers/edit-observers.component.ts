@@ -4,7 +4,7 @@ import { UserService } from '../../services/data/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/api/User';
 import { KeyEventService } from '../../services/events/key-event.service';
-import { LoggedInUser } from '../../models/api/LoggedInUser';
+import { LoggedInUser } from '../../models/api/LoggedinUser';
 import { AuthorizationService } from '../services/authorization.service';
 import { SearchHelper } from 'src/app/utils/searchHelper';
 import { IColumnSortedEvent } from 'src/app/shared/sorting/sort.service';
@@ -12,6 +12,7 @@ import { MailValidatorHelper } from 'src/app/utils/mail-validator-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
 import { SortHelper } from 'src/app/utils/sort-helper';
+import { CreateObserverRequest } from 'src/app/models/api/CreateObserverRequest';
 
 @Component({
   selector: 'app-edit-observers',
@@ -72,11 +73,20 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     this.observerAsChanged = null;
   }
 
-  createObserver(newObserver) {
+  createObserver(newObserver: User) {
     if (newObserver.identityPseudonym == "") {
       newObserver.identityPseudonym = null;
     }
-    this.userService.createObserver(newObserver).subscribe({
+    const createObserverRequest: CreateObserverRequest = {
+      id: newObserver.id,
+      facilityId: this.facilityId,
+      firstName: newObserver.firstName,
+      lastName: newObserver.lastName,
+      email: newObserver.email,
+      identityPseudonym: newObserver.identityPseudonym,
+      isDeactivated: newObserver.isDeactivated 
+    };
+    this.userService.createObserver(createObserverRequest).subscribe({
       next: () => {
         this.toastrService.success(
           this.translate.instant('Observer created')
@@ -108,7 +118,16 @@ export class EditObserversComponent implements OnInit, OnDestroy {
     if (observer.identityPseudonym == "") {
       observer.identityPseudonym = null;
     }
-    this.userService.updateObserver(observer).subscribe(
+    const updateObserverRequest: CreateObserverRequest = {
+      id: observer.id,
+      facilityId: this.facilityId,
+      firstName: observer.firstName,
+      lastName: observer.lastName,
+      email: observer.email,
+      identityPseudonym: observer.identityPseudonym,
+      isDeactivated: observer.isDeactivated 
+    };
+    this.userService.updateObserver(updateObserverRequest).subscribe(
       (oppdatertBruker) => {
         this.toastrService.success(this.translate.instant('Observer updated'));
         this.loadObservers();

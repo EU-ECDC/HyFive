@@ -2,7 +2,7 @@
 using HyFive.Domain.Exceptions;
 using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.ProtectiveEquipment;
-using HyFive.Models.V1.Report.Beskyttelsesutstyr;
+using HyFive.Models.V1.Report.ProtectiveEquipment;
 using HyFive.Models.V1.Session;
 using HyFive.Observation.Controllers.V1.Shared;
 using HyFive.Services;
@@ -71,7 +71,7 @@ namespace HyFive.Observation.Controllers.V1
         [HttpGet("myObservations.")]
         public async Task<IEnumerable<PPEObservationReport>> GetMyObservations(int facilityId, Guid? sessionId = null)
         {
-            var observerIdForFacility = _userService.GetObserverIdForFacility(facilityId);
+            var observerIdForFacility = await _userService.GetObserverIdIfHasAccessToFacility(facilityId);
             if (observerIdForFacility > 0)
             {
                 var query = new GetProtectiveEquipmentObservations.Query()

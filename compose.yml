@@ -10,27 +10,29 @@ services:
         condition: service_healthy
     restart: on-failure
     environment:
-      ASPNETCORE_URLS: http://+:8001 # Add ;https://+:8443 for https support
+      ASPNETCORE_URLS: http://+:8081 # Add ;https://+:8443 for https support
       Serilog__WriteTo__0__Name: "Console"
       Serilog__WriteTo__0__Args__outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
       ConnectionStrings__HandhygieneConnection: Server=postgres; Database=HandHygiene; Username=handhygiene; Password=SomeB4DSecur1ty; SSLMode=disable
-      OpenIdConnect__RequireHttpsMetadata: "false"
-      OpenIdConnect__SaveTokens: "true"
-      OpenIdConnect__Authority: http://auth.localhost:8080/realms/hyfive
+      OpenIdConnect__RequireHttpsMetadata: false
+      OpenIdConnect__CookieSecurePolicy: "Lax" # Valid options are "None", "Always", and "SameAsRequest"
+      OpenIdConnect__SameSiteMode: "None" # Valid options are "None", "Lax", "Strict", and "Unspecified"
+      OpenIdConnect__Authority: http://auth.localhost:8000/realms/hyfive
       OpenIdConnect__ClientId: hyfive
       OpenIdConnect__ClientSecret: 0tp5C8PgqbcsX3WrfS483rsiNgK0El8H
-      RedirectPagesSettings__RedirectLogOutUri: http://admin.localhost:8001
-      RedirectPagesSettings__RedirectLogInUri: http://admin.localhost:8001/signin-oidc
+      OpenIdConnect__SaveTokens: "true"
+      RedirectPagesSettings__RedirectLogOutUri: http://admin.localhost:8081
+      RedirectPagesSettings__RedirectLogInUri: http://admin.localhost:8081/signin-oidc
       RedirectPagesSettings__LoggedOut: /
       RedirectPagesSettings__LoggedIn: /dashboard
     networks:
       hyfive:
         aliases:
-          - admin.localhost 
+          - admin.localhost
     extra_hosts:
       - "admin.localhost:host-gateway"
     ports:
-     - 8001:8001
+     - 8081:8081
 
   hyfive.observation:
     image: ${DOCKER_REGISTRY-}hyfive-observation
@@ -42,34 +44,36 @@ services:
         condition: service_healthy
     restart: on-failure
     environment:
-      ASPNETCORE_URLS: http://+:8000 # Add ;https://+:8443 for https support
+      ASPNETCORE_URLS: http://+:8080 # Add ;https://+:8443 for https support
       Serilog__WriteTo__0__Name: "Console"
       Serilog__WriteTo__0__Args__outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
       ConnectionStrings__HandhygieneConnection: Server=postgres; Database=HandHygiene; Username=handhygiene; Password=SomeB4DSecur1ty; SSLMode=disable
-      OpenIdConnect__RequireHttpsMetadata: "false"
-      OpenIdConnect__SaveTokens: "true"
-      OpenIdConnect__Authority: http://auth.localhost:8080/realms/hyfive
+      OpenIdConnect__RequireHttpsMetadata: false
+      OpenIdConnect__CookieSecurePolicy: "Lax" # Valid options are "None", "Always", and "SameAsRequest"
+      OpenIdConnect__SameSiteMode: "None" # Valid options are "None", "Lax", "Strict", and "Unspecified"
+      OpenIdConnect__Authority: http://auth.localhost:8000/realms/hyfive
       OpenIdConnect__ClientId: hyfive
       OpenIdConnect__ClientSecret: 0tp5C8PgqbcsX3WrfS483rsiNgK0El8H
-      RedirectPagesSettings__RedirectLogOutUri: http://observation.localhost:8000 
-      RedirectPagesSettings__RedirectLogInUri: http://observation.localhost:8000/signin-oidc
+      OpenIdConnect__SaveTokens: "true"
+      RedirectPagesSettings__RedirectLogOutUri: http://observation.localhost:8080
+      RedirectPagesSettings__RedirectLogInUri: http://observation.localhost:8080/signin-oidc
       RedirectPagesSettings__LoggedOut: /
       RedirectPagesSettings__LoggedIn: /dashboard
     networks:
       hyfive:
         aliases:
-          - observation.localhost 
+          - observation.localhost
     extra_hosts:
       - "observation.localhost:host-gateway"
     ports:
-     - 8000:8000
+     - 8080:8080
 
   postgres:
     image: docker.io/postgres:17.2
     environment:
       POSTGRES_DB: HandHygiene
       POSTGRES_USER: handhygiene
-      POSTGRES_PASSWORD: SomeB4DSecur1ty 
+      POSTGRES_PASSWORD: SomeB4DSecur1ty
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -88,6 +92,9 @@ services:
   auth:
     image: quay.io/keycloak/keycloak:26.4.5
     environment:
+      KC_PROXY: edge
+      KC_HTTP_PORT: 8000
+      KC_HOSTNAME: http://auth.localhost:8000
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KEYCLOAK_IMPORT: /opt/keycloak/data/import/realm-config.json
@@ -95,11 +102,11 @@ services:
     networks:
       hyfive:
         aliases:
-          - auth.localhost 
+          - auth.localhost
     extra_hosts:
       - "auth.localhost:host-gateway"
     ports:
-      - "8080:8080"
+      - "8000:8000"
     volumes:
      - ./docker-config/realm-config.json:/opt/keycloak/data/import/realm-config.json
      - keycloak_data:/opt/keycloak/data

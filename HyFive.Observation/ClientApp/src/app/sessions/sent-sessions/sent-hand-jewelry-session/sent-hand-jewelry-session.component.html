@@ -2,7 +2,7 @@
 <app-offline-message (hasInternetEvent)="isOnline = $event"></app-offline-message>
 <div class="container" *ngIf='isOnline'>
   <app-navigation-link (linkClicked)="navigateToSentSessions()">{{"Back" | translate }}</app-navigation-link>
-  <app-session-edit-header [session]="session" [header]="'Sent sessions - HandJewelry' | translate"></app-session-edit-header>
+  <app-session-edit-header [session]="session" [header]="'Sent sessions - Bare Below Elbows' | translate"></app-session-edit-header>
 </div>
 
 <div class="container" *ngIf='isOnline'>

@@ -16,7 +16,7 @@ import { SortHelper } from 'src/app/utils/sort-helper';
 export class EditAdminComponent implements OnInit, OnDestroy {
 
   users: User[];
-  fhiAdminAsChanged: User = null;
+  adminAsChanged: User = null;
   filteredAdmins: User[] = [];
   mailValidatorHelper;
   showCreateForm: boolean = false;
@@ -43,8 +43,8 @@ export class EditAdminComponent implements OnInit, OnDestroy {
 
   loadAdmin() {
     this.userService.getAdmin().subscribe(
-      (fhiAdmins) => {
-        this.users = fhiAdmins;
+      (admins) => {
+        this.users = admins;
         this.filteredAdmins = this.users;
       },
       (error) => this.toastrService.error(this.translate.instant('An error occurred while loading Admin:') + ' ' + error?.error.message, '', { disableTimeOut: true}),
@@ -72,14 +72,14 @@ export class EditAdminComponent implements OnInit, OnDestroy {
     });
   }
 
-  setFhiAdminAsChanged(fhiAdmin: User) {
+  setAdminAsChanged(admin: User) {
     this.cancelEdit();
-    if (this.fhiAdminAsChanged?.id == fhiAdmin.id) return;
-    this.fhiAdminAsChanged = structuredClone(fhiAdmin);
+    if (this.adminAsChanged?.id == admin.id) return;
+    this.adminAsChanged = structuredClone(admin);
   }
 
-  updateAdmin(fhiAdmin: User): void {
-    this.userService.updateAdmin(fhiAdmin).subscribe({
+  updateAdmin(admin: User): void {
+    this.userService.updateAdmin(admin).subscribe({
       next: (updatedUser) => {
         this.toastrService.success(
           this.translate.instant('Admin updated')
@@ -96,19 +96,19 @@ export class EditAdminComponent implements OnInit, OnDestroy {
         );
       },
       complete: () => {
-        this.fhiAdminAsChanged = null;
+        this.adminAsChanged = null;
       }
     });
   }
 
-  canChange(fhiAdmin: User) {
-    return fhiAdmin.firstName.length > 0
-      && fhiAdmin.lastName.length > 0
-      // && fhiAdmin.email?.length > 0
+  canChange(admin: User) {
+    return admin.firstName.length > 0
+      && admin.lastName.length > 0
+      // && admin.email?.length > 0
       //       && this.users
-      //                   .filter(fc => fc.id !== fhiAdmin.id)
-      //                   .find(fc => fc.email == fhiAdmin?.email) == undefined
-      // && this.mailValidatorHelper.validateMail(fhiAdmin?.email)
+      //                   .filter(fc => fc.id !== admin.id)
+      //                   .find(fc => fc.email == admin?.email) == undefined
+      // && this.mailValidatorHelper.validateMail(admin?.email)
   }
 
   cancelEdit($event: Event = null) {
@@ -117,7 +117,7 @@ export class EditAdminComponent implements OnInit, OnDestroy {
       $event.preventDefault();
     }
     this.showCreateForm = false;
-    this.fhiAdminAsChanged = null;
+    this.adminAsChanged = null;
   }
 
   cancelCreateEmitted() {
@@ -126,7 +126,7 @@ export class EditAdminComponent implements OnInit, OnDestroy {
 
   toggleCreateForm() {
     this.showCreateForm = !this.showCreateForm;
-    this.fhiAdminAsChanged = null;
+    this.adminAsChanged = null;
   }
 
     sort($event: IColumnSortedEvent) {

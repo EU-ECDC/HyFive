@@ -47,7 +47,7 @@ export class GloveComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
         this.session = this.sessionService.getSession(params[Queryparameters.SessionId] || 0);
-        this.facilityid = this.session.department.facilityId;
+        this.facilityid = this.session.facilityId;
         if (!this.session) {
           this.router.navigate(['']);
         } 

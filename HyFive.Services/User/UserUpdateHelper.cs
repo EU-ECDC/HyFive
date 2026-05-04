@@ -1,5 +1,6 @@
 ﻿using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
+using HyFive.Models.V1.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,29 +13,31 @@ namespace HyFive.Services.User
 {
     public static class UserUpdateHelper
     {
-        public static async Task UpdateUserBaseFields<TEntity>(
+        public static async Task<Domain.User.User> UpdateUserBaseFields(
             HandHygieneContext context,
-            Models.V1.User.User model,
+            CreateUpdateUserRequest request,
+            string requiredPermissionLevel,
             CancellationToken cancellationToken
-        ) where TEntity : Domain.User.User
+            )
         {
-            if (!UserValidator.HasNameAndEmail(model))
+            if (!UserValidator.HasNameAndEmail(request))
                 throw new ValidationException("ObserverMissingDetails");
 
-            // Load entity
-            var user = await context.User.OfType<TEntity>()
-                .FirstOrDefaultAsync(u => u.Id == model.Id, cancellationToken);
+            var user = await context.User
+                .Include(u => u.UserPermissions)
+                .FirstOrDefaultAsync(
+                    u => u.Id == request.Id &&
+                         u.UserPermissions.Any(p => p.PermissionLevel == requiredPermissionLevel),
+                    cancellationToken);
 
             if (user == null)
-                throw new DomainException("UserNotFound", model.Id);
+                throw new DomainException("UserNotFound", request.Id);
 
-            // Update fields common to all user types
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.IsDeactivated = model.IsDisabled;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.IsDeactivated = request.IsDeactivated;
 
-            context.User.Update(user);
-            await context.SaveChangesAsync(cancellationToken);
+            return user;
         }
     }
 }

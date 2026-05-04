@@ -2,6 +2,7 @@
 using HyFive.DataAccess;
 using HyFive.Domain.Exceptions;
 using HyFive.Domain.User;
+using HyFive.Models.V1.Constants;
 using HyFive.Services.User;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -55,30 +56,34 @@ namespace HyFive.Services.UserServices
                 }
                 catch (FormatException)
                 {
-                    throw new DomainException("UserNotFound", command.User.Id);
+                    throw new DomainException("EmailNotValid", command.User.Email);
                 }
 
 
-                var user = await _context.User.OfType<Admin>().FirstOrDefaultAsync(i => i.Id == command.User.Id);
-                    if (user == null)
+                var user = await _context.User
+                    .Where(u => u.Id == command.User.Id)
+                    .Where(u => u.UserPermissions.Any(p => p.PermissionLevel == PermissionLevelConstants.Administrator))
+                    .FirstOrDefaultAsync(cancellationToken);
+                if (user == null)
                         throw new DomainException("UserNotFound", command.User.Id);
 
                 if (!string.Equals(user.Email, command.User.Email, StringComparison.OrdinalIgnoreCase))
                 {
-                    var emailInUse = await _context.User.OfType<Admin>()
-                        .AnyAsync(x => x.Email == command.User.Email && x.Id != user.Id, cancellationToken);
+                    var emailInUse = await _context.User
+                        .Where(u => u.Id != user.Id)
+                        .Where(u => u.UserPermissions.Any(p => p.PermissionLevel == PermissionLevelConstants.Administrator))
+                        .AnyAsync(u => u.Email == command.User.Email, cancellationToken);
 
                     if (emailInUse)
                         throw new ValidationException("EmailAlreadyUsed", command.User.Email);
                 }
 
-                user.FirstName = command.User.FirstName;
-                user.LastName = command.User.LastName;
-                user.Email = command.User.Email;
-                user.IsDeactivated = command.User.IsDisabled;
+                user.FirstName = command.User.FirstName.Trim();
+                user.LastName = command.User.LastName.Trim();
+                user.Email = command.User.Email.Trim();
+                user.IsDeactivated = command.User.IsDeactivated;
 
-                _context.User.Update(user);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 var mapped = _mapper.Map<Models.V1.User.User>(user);
                 return mapped;

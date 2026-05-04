@@ -22,5 +22,6 @@ namespace HyFive.Models.V1.Session
                     return SessionType.NotSelected;
             }
         }
+
     }
 }

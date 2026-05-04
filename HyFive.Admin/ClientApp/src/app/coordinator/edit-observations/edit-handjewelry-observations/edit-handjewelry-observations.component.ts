@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ObservationOverviewReport} from "../../../models/api/ObservationOverviewReport";
 import {HandJewelryObservation} from "../../../models/api/HandJewelryObservation";
-import {Department} from "../../../models/api/Department";
 import {KeyEventService} from "../../../services/events/key-event.service";
 import {Role} from "../../../models/api/Role";
 import {ObservationService} from "../../../services/data/observation.service";
@@ -20,7 +19,7 @@ export class EditHandjewelryObservationsComponent implements OnInit {
 
   @Input() observations: ObservationOverviewReport[]
   @Input() sessionId: string;
-  @Input() department: Department;
+  @Input() departmentId: number;
   @Input() canEdit = false;
 
   @Output() observationUpdatedEvent = new EventEmitter();
