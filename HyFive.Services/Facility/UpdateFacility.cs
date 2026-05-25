@@ -69,7 +69,7 @@ namespace HyFive.Services.Facility
                         orgUnit.Address = new Domain.Place.Address();
                     }
 
-                    orgUnit.Address.City = req.Address.City?.Trim() ?? orgUnit.Address.City;
+                    orgUnit.Address.CityId = req.Address.CityId > 0 ? req.Address.CityId : orgUnit.Address.CityId;
                     orgUnit.Address.Street = req.Address.Street?.Trim() ?? orgUnit.Address.Street;
                     orgUnit.Address.PostalCode = req.Address.PostalCode?.Trim() ?? orgUnit.Address.PostalCode;
                 }

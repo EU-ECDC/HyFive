@@ -1,6 +1,6 @@
 {
-  "name": "ECDC-HyFive",
-  "short_name": "HyFive",
+  "name": "ECDC-hyFive",
+  "short_name": "hyFive",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

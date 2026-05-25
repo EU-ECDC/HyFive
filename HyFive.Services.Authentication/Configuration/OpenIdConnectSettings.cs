@@ -19,9 +19,9 @@ namespace HyFive.Services.Authentication.Configuration
 
         public bool RequireHttpsMetadata { get; set; } = true;
 
-        public string CookieSecurePolicy { get; set; } = "Always";
+        public string CookieSecurePolicy { get; set; } = "SameAsRequest";
 
-        public string SameSiteMode { get; set; } = "None";
+        public string SameSiteMode { get; set; } = "Lax";
 
         public string SaveTokens { get; set; }
     }

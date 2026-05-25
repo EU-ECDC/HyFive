@@ -507,6 +507,7 @@ namespace HyFive.Services.Tests.Facility
             // Arrange
             await EnsureOrganisationUnitLevel(OrganisationUnitLevels.Facility);
             var facilityType = await EnsureOrganisationUnitType(code: "HOSP", name: "Hospital");
+            var city = await EnsureCity("Oslo");
 
             var handler = new CreateFacility.Handler(DatabaseContext, Mapper);
 
@@ -519,7 +520,7 @@ namespace HyFive.Services.Tests.Facility
                     Abbreviation = "test1",
                     Description = null,
                     OrganisationUnitTypeId = facilityType.Id,
-                    City = "Oslo",
+                    CityId = city.Id,
 
                     FirstName = "User",
                     LastName = "Test",
@@ -544,7 +545,7 @@ namespace HyFive.Services.Tests.Facility
                 Assert.That(ou.Abbreviation, Is.EqualTo("test1"));
                 Assert.That(ou.TypeId, Is.EqualTo(facilityType.Id));
                 Assert.That(ou.Address, Is.Not.Null);
-                Assert.That(ou.Address.City, Is.EqualTo("Oslo"));
+                Assert.That(ou.Address.City.Name, Is.EqualTo("Oslo"));
             });
 
             // Assert: coordinator permission exists
@@ -674,6 +675,20 @@ namespace HyFive.Services.Tests.Facility
             DatabaseContext.OrganisationUnitType.Add(type);
             await DatabaseContext.SaveChangesAsync();
             return type;
+        }
+
+        private async Task<Domain.Place.City> EnsureCity(string name)
+        {
+            var city = await DatabaseContext.City.FirstOrDefaultAsync(c => c.Name == name);
+
+            if (city != null)
+                return city;
+
+            city = new Domain.Place.City { Name = name };
+            DatabaseContext.City.Add(city);
+            await DatabaseContext.SaveChangesAsync();
+
+            return city;
         }
 
         #endregion

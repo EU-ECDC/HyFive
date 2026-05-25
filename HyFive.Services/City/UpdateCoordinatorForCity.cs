@@ -22,7 +22,7 @@ namespace HyFive.Services.City
         public class Command : IRequest<Status>
         {
             public CityCoordinator Coordinator { get; set; }
-            public string City { get; set; }
+            public int CityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Status>
@@ -41,7 +41,7 @@ namespace HyFive.Services.City
                 if (!CoordinatorForCityValidator.CanBeUpdated(command.Coordinator, out var errorCode, out var args))
                     throw new ValidationException(errorCode, args);
 
-                var city = command.City.Trim();
+                var cityId = command.CityId;
                 var dto = command.Coordinator;
 
                 // 1) load coordinator user (single row)
@@ -53,7 +53,7 @@ namespace HyFive.Services.City
                 UpdateCoordinatorProfile(coordinator, dto);
 
                 // 3) facilities allowed for this city (safety: prevent cross-city assignments)
-                var allowedFacilityIds = await GetFacilityIdsInCity(city, cancellationToken);
+                var allowedFacilityIds = await GetFacilityIdsInCity(cityId, cancellationToken);
 
                 // 4) requested facility ids (intersect allowed)
                 var requestedFacilityIds = GetRequestedFacilityIds(dto, allowedFacilityIds);
@@ -85,14 +85,14 @@ namespace HyFive.Services.City
                 coordinator.IsDeactivated = dto.IsDeactivated;
             }
 
-            private async Task<List<int>> GetFacilityIdsInCity(string city, CancellationToken ct)
+            private async Task<List<int>> GetFacilityIdsInCity(int cityId, CancellationToken ct)
             {
                 return await
                     (from f in _context.OrganisationUnit.AsNoTracking()
                      join a in _context.Address.AsNoTracking() on f.AddressId equals a.Id
                      where f.ParentId == null
                            && a.City != null
-                           && EF.Functions.ILike(a.City, city)
+                           && a.CityId == cityId
                      select f.Id)
                     .Distinct()
                     .ToListAsync(ct);

@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
 import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 import { UpdateFacilityRequest } from 'src/app/models/api/UpdateFacilityRequest';
+import { City } from 'src/app/models/api/City';
 
 @Component({
   selector: 'app-edit-a-facility',
@@ -22,8 +23,7 @@ export class EditFacilityComponent implements OnInit {
   facility: OrganisationUnit = null;
   facilityTypes: OrganisationUnitType[] = [];
   facilitytypeId = 0;
-  // listOfCities: City[] = [];
-  listOfCities: {id: string,name: string}[] = [];
+  listOfCities: City[] = [];
 
   UrlPaths = UrlPaths;
 
@@ -50,7 +50,7 @@ export class EditFacilityComponent implements OnInit {
       (allCities) => {
         // this.listOfCities = [ { id: 0, name: null }, ...allCities];
         allCities.forEach(item => {
-        this.listOfCities.push({id: item, name: item})
+        this.listOfCities.push({id: item.id, name: item.name})
         });
     });
   }
@@ -79,7 +79,8 @@ export class EditFacilityComponent implements OnInit {
         organisationUnitTypeId: this.facility.type.id,
         address: {
           	id: this.facility.address.id,
-            city: this.facility.address.city,
+            city: this.listOfCities.find(city => city.id == this.facility.address.cityId),
+            cityId: this.facility.address.cityId,
             street: this.facility.address.street,
             postalCode: this.facility.address.postalCode
         }
@@ -89,7 +90,8 @@ export class EditFacilityComponent implements OnInit {
         this.toastrService.success(this.translate.instant('The facility was updated'));
         this.facilityUpdatedEvent.emit(facility);
       },
-      (error) => this.toastrService.error(this.translate.instant('An error occurred:') +  ` ${error?.error.message}`, this.translate.instant('Error during update'), { disableTimeOut: true}));
+      (error) => this.toastrService.error(this.translate.instant('An error occurred:') +  ` ${error?.error.message}`, this.translate.instant('Error during update'), { disableTimeOut: true})
+    );
   }
 
   canNotSavefacility(): boolean {

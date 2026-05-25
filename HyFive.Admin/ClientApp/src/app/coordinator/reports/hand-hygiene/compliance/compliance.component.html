@@ -148,13 +148,15 @@
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
     <p><strong>{{"Facility" | translate }}:</strong> {{facility.name}}</p>
-    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='year'"><strong>{{"Period" | translate }}</strong>: {{ showFromYear == showToYear ? showToYear : showFromYear + ' - ' + showToYear }}</p>
+    <p *ngIf="interval=='month'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[showToMonth-1].description}} {{showToYear}}</p>   
     <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
     <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
-    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='year'"><strong>{{"Period" | translate }}</strong>: {{ showFromYear == showToYear ? showToYear : showFromYear + ' - ' + showToYear }}</p>
+    <p *ngIf="interval=='month'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
     <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
@@ -166,13 +168,15 @@
 
   <div class="row" *ngIf="showGraph && selectedRole === AuthorizedRole.Coordinator">
     <p><strong>Facility:</strong> {{facility.name}}</p>
-    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
+    <p *ngIf="interval=='year'"><strong>{{"Period" | translate }}</strong>: {{ showFromYear == showToYear ? showToYear : showFromYear + ' - ' + showToYear }}</p>
+    <p *ngIf="interval=='month'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>   
     <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 
   <div *ngIf="showGraph && selectedRole === AuthorizedRole.Administrator">
     <p *ngIf="showSelectedFacilities.length>0"><strong>{{"Healthcare facilities" | translate }}:</strong> <span *ngFor="let inst of showSelectedFacilities; index as i">{{inst.name}}<span *ngIf="i < showSelectedFacilities.length-1">, </span> </span> </p>
-    <p *ngIf="interval!=='quarter'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
+    <p *ngIf="interval=='year'"><strong>{{"Period" | translate }}</strong>: {{ showFromYear == showToYear ? showToYear : showFromYear + ' - ' + showToYear }}</p>
+    <p *ngIf="interval=='month'"><strong>{{"Period" | translate }}</strong>: {{months[showFromMonth-1].description}} {{showFromYear}} - {{months[toMonth-1].description}} {{showToYear}}</p>      
     <p *ngIf="interval=='quarter'"><strong>{{"Quarters" | translate }}</strong>: {{showFromQuarter}} {{"qrt of" | translate }} {{showFromYear}} -  {{showToQuarter}} {{"qrt of" | translate }} {{showToYear}}</p>   
   </div>
 

@@ -15,7 +15,7 @@ namespace HyFive.Services.City
     {
         public class Query : IRequest<FacilityReport[]>
         {
-            public string City { get; set; }
+            public int CityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, FacilityReport[]>
@@ -31,10 +31,10 @@ namespace HyFive.Services.City
 
             public async Task<FacilityReport[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrWhiteSpace(request.City))
+                if (request.CityId <= 0)
                     return Array.Empty<FacilityReport>();
 
-                var city = request.City.Trim();
+                var cityId = request.CityId;
 
                 var result = await
                     (from ou in _context.OrganisationUnit.AsNoTracking()
@@ -44,14 +44,14 @@ namespace HyFive.Services.City
                      from a in a1.DefaultIfEmpty()
                      join t in _context.OrganisationUnitType.AsNoTracking()
                          on ou.TypeId equals t.Id
-                     where a.City != null && EF.Functions.ILike(a.City, city)
+                     where a.City != null && a.CityId == cityId
                      orderby ou.Name
                      select new FacilityReport
                      {
                          Id = ou.Id,
                          Name = ou.Name,
                          Abbreviation = ou.Abbreviation,
-                         City = a.City,
+                         City = a.City.Name,
                          Type = new HyFive.Models.V1.OrganisationUnit.OrganisationUnitType
                          {
                              Id = t.Id,

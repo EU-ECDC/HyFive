@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { FacilityReport } from '../../models/api/FacilityReport';
 import { CoordinatorForCity } from '../../models/api/CoordinatorForCity';
 import { Status } from 'src/app/models/api/Status';
+import { City } from 'src/app/models/api/City';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,9 @@ export class CityService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getAllCities() : Observable<string[]> {
+  getAllCities() : Observable<City[]> {
     const url = `${environment.apiBaseUrl}/v1/cities`;
-    return this.httpClient.get<string[]>(url);
+    return this.httpClient.get<City[]>(url);
   }
 
   getCoordinatorsForCity(city: string): Observable<CoordinatorForCity[]> {

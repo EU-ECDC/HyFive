@@ -2,8 +2,17 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
+<<<<<<<< HEAD:HyFive.Admin/ClientApp/src/app/models/api/Address.ts
+export interface Address
+{
+	id: number;
+	city: string;
+	street: string;
+	postalCode: string;
+========
 export interface UpdateUserIdentifierRequest
 {
 	userIdentifierTypeId: number;
 	value: string;
+>>>>>>>> development:HyFive.Admin/ClientApp/src/app/models/api/UpdateUserIdentifierRequest.ts
 }

@@ -16,7 +16,7 @@ namespace HyFive.Services.City
     {
         public class Query : IRequest<CityCoordinator[]>
         {
-            public string City { get; set; }
+            public int CityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, CityCoordinator[]>
@@ -31,12 +31,12 @@ namespace HyFive.Services.City
 
             public async Task<CityCoordinator[]> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrWhiteSpace(request.City))
+                if (request.CityId <= 0)
                     return Array.Empty<CityCoordinator>();
 
-                var city = request.City.Trim();
+                var cityId = request.CityId;
 
-                var facilityIdsInCity = await GetFacilityIdsInCity(city, cancellationToken);
+                var facilityIdsInCity = await GetFacilityIdsInCity(cityId, cancellationToken);
                 if (facilityIdsInCity.Count == 0)
                     return Array.Empty<CityCoordinator>();
 
@@ -50,14 +50,14 @@ namespace HyFive.Services.City
                 return result.ToArray();
             }
 
-            private async Task<List<int>> GetFacilityIdsInCity(string city, CancellationToken ct)
+            private async Task<List<int>> GetFacilityIdsInCity(int cityId, CancellationToken ct)
             {
                 return await
                     (from f in _context.OrganisationUnit.AsNoTracking()
                      join a in _context.Address.AsNoTracking() on f.AddressId equals a.Id
                      where f.ParentId == null
                            && a.City != null
-                           && EF.Functions.ILike(a.City, city)
+                           && a.CityId == cityId
                      select f.Id)
                     .Distinct()
                     .ToListAsync(ct);
@@ -121,7 +121,7 @@ namespace HyFive.Services.City
                          Id = f.Id,
                          Name = f.Name,
                          Abbreviation = f.Abbreviation,
-                         City = a.City,
+                         City = a.City.Name,
                          Type = new Models.V1.OrganisationUnit.OrganisationUnitType
                          {
                              Id = t.Id,

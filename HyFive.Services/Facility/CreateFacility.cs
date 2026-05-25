@@ -58,7 +58,7 @@ namespace HyFive.Services.Facility
 
                 var address = new Domain.Place.Address
                 {
-                    City = request.City                    
+                    CityId = request.CityId                    
                 };
 
                 //Create Coordinator Request

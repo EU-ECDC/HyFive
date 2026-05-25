@@ -35,14 +35,14 @@ namespace HyFive.Services.City
                     throw new ValidationException("AddressNotFound");
 
                 // Normalize
-                var city = command.Address.City?.Trim();
+                var cityId = command.Address.CityId;
                 var street = command.Address.Street?.Trim();
                 var postal = command.Address.PostalCode?.Trim();
 
-                if (string.IsNullOrWhiteSpace(city))
+                if (cityId <= 0)
                     throw new ValidationException("CityRequired");
 
-                address.City = city!;
+                address.CityId = cityId;
                 address.Street = street;
                 address.PostalCode = postal;
 

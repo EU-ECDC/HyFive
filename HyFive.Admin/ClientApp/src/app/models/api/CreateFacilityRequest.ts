@@ -8,7 +8,7 @@ export interface CreateFacilityRequest
 	abbreviation: string;
 	description: string;
 	organisationUnitTypeId: number;
-	city: string;
+	cityId: number;
 	street: string;
 	postalCode: string;
 	firstName: string;

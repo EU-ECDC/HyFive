@@ -36,7 +36,7 @@ export class ComplianceComponent implements OnInit, AfterViewChecked  {
   fromYear: number = this.d.getFullYear();
   toYear: number = this.d.getFullYear();
   fromMonth: number = 1;
-  toMonth: number = 1;
+  toMonth: number = 12;
   fromQuarter: number = 1;
   toQuarter: number = 1;
   showFromMonth: number = 1;

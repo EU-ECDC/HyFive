@@ -111,8 +111,8 @@ namespace HyFive.Services.Authentication.User
         public Task<bool> IsCoordinatorForFacility(int facilityOrgUnitId)
             => IsRoleForFacility(GetEmail(), facilityOrgUnitId, PermissionLevelConstants.Coordinator);
 
-        public Task<bool> IsCoordinatorForCity(string city)
-            => IsCoordinatorForCity(GetEmail(), city, PermissionLevelConstants.Coordinator);
+        public Task<bool> IsCoordinatorForCity(int cityId)
+            => IsCoordinatorForCity(GetEmail(), cityId, PermissionLevelConstants.Coordinator);
 
         public Task<bool> IsCoordinatorForFacilities(List<int> facilityOrgUnitIds)
             => IsRoleForFacilities(facilityOrgUnitIds, PermissionLevelConstants.Coordinator);
@@ -179,12 +179,12 @@ namespace HyFive.Services.Authentication.User
             return await IsCoordinatorForFacilities(facilityOrgUnitIds);
         }
 
-        public async Task<bool> IsCoordinatorForCityOrAdmin(string city)
+        public async Task<bool> IsCoordinatorForCityOrAdmin(int cityId)
         {
             if (await IsAdmin())
                 return true;
 
-            return await IsCoordinatorForCity(city);
+            return await IsCoordinatorForCity(cityId);
         }
 
         public string GetEmail()
@@ -329,7 +329,7 @@ namespace HyFive.Services.Authentication.User
                 .AnyAsync(id => id == facilityOrgUnitId);
         }
 
-        private async Task<bool> IsCoordinatorForCity(string email, string city, string level)
+        private async Task<bool> IsCoordinatorForCity(string email, int cityId, string level)
         {
             // 1) Find Coordinator user id
             var coordinatorId = await _context.User.AsNoTracking()
@@ -374,17 +374,17 @@ namespace HyFive.Services.Authentication.User
                  // Case 1: permission is directly on root Unit (ou is root)
                  (ou.ParentId == null
                      && addrOu != null
-                     && EF.Functions.ILike(addrOu.City!, city))
+                     && addrOu.CityId == cityId)
 
                  // Case 2: permission on Department (parent is root Unit)
                  || (parent != null && parent.ParentId == null
                      && addrParent != null
-                     && EF.Functions.ILike(addrParent.City!, city))
+                     && addrParent.CityId == cityId)
 
                  // Case 3: permission on Unit (grandParent is root Unit)
                  || (grandParent != null && grandParent.ParentId == null
                      && addrGrand != null
-                     && EF.Functions.ILike(addrGrand.City!, city))
+                     && addrGrand.CityId == cityId)
 
                  select p.Id
                 )

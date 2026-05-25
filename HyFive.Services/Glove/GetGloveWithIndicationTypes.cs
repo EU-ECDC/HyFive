@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using HyFive.DataAccess;
+using HyFive.Models.V1.Constants;
 using HyFive.Models.V1.Observation.Gloves;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
-using System.Linq;
 
 namespace HyFive.Services.Glove
 {
@@ -30,6 +31,7 @@ namespace HyFive.Services.Glove
             {
                 var gloveWithIndicationTypes = await _context.GloveWithIndicationType
                     .AsNoTracking()
+                    .Where(x => x.Code != GloveWithIndicationTypeConstants.Other)
                     .ProjectTo<GloveWithIndicationType>(_mapper.ConfigurationProvider)
                     .OrderBy(h => h.Name)
                     .ToListAsync(cancellationToken);

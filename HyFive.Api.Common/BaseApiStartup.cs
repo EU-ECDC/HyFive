@@ -164,10 +164,10 @@ namespace HyFive.Api.Common
                 })
                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.CorrelationCookie.SameSite = SameSiteMode.None;
-                    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
-                    options.NonceCookie.SameSite = SameSiteMode.None;
-                    options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.CorrelationCookie.SameSite = sameSiteMode;
+                    options.CorrelationCookie.SecurePolicy = cookiePolicy;
+                    options.NonceCookie.SameSite = sameSiteMode;
+                    options.NonceCookie.SecurePolicy = cookiePolicy;
                     options.Authority = securitySettings.OpenIdConnect.Authority;
                     options.ClientId = securitySettings.OpenIdConnect.ClientId;
                     // Only disable https requirement on specifically "false" value

@@ -102,7 +102,7 @@ namespace HyFive.Observation.Controllers.V1
                 return observations;
             }
 
-            throw new DomainException("InstitutionAccessDenied");
+            throw new DomainException("FacilityAccessDenied");
         }
 
         [HttpGet("myObservations/excel")]

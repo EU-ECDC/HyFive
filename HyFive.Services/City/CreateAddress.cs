@@ -26,16 +26,16 @@ namespace HyFive.Services.City
             }
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var city = request.Address.City?.Trim();
+                var cityId = request.Address.CityId;
                 var street = request.Address.Street?.Trim();
                 var postal = request.Address.PostalCode?.Trim();
 
-                if (string.IsNullOrWhiteSpace(city))
+                if (cityId <= 0)
                     throw new ValidationException("CityRequired");
 
                 var address = new Domain.Place.Address
                 {
-                    City = city!,
+                    CityId = cityId,
                     Street = street,
                     PostalCode = postal
                 };

@@ -4,7 +4,7 @@
 
 export interface UpdateAddressRequest
 {
-	city: string;
+	cityId: number;
 	street: string;
 	postalCode: string;
 }

@@ -36,7 +36,7 @@ namespace HyFive.Services.Authentication.User
 
         Task<bool> IsCoordinatorForFacilityOrAdmin(int facilityOrgUnitId);
 
-        Task<bool> IsCoordinatorForCityOrAdmin(string city);
+        Task<bool> IsCoordinatorForCityOrAdmin(int cityId);
 
         string GetEmail();
 

@@ -23,7 +23,7 @@ namespace HyFive.Services.City
         public class Command : IRequest<Status>
         {
             public CityCoordinator Coordinator { get; set; }
-            public string City { get; set; }
+            public int CityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Status>
@@ -41,13 +41,13 @@ namespace HyFive.Services.City
                 if (!CoordinatorForCityValidator.CanBeUpdated(command.Coordinator, out var errorCode, out var args))
                     throw new ValidationException(errorCode, args);
 
-                if (string.IsNullOrWhiteSpace(command.City))
+                if (command.CityId <= 0)
                     throw new ValidationException("CityRequired");
 
-                var city = command.City.Trim();
+                var cityId = command.CityId;
 
                 // 1) Allow only facilities that belong to this city (safety)
-                var allowedFacilityIds = await GetFacilityIdsInCity(city, cancellationToken);
+                var allowedFacilityIds = await GetFacilityIdsInCity(cityId, cancellationToken);
 
                 var requestedFacilityIds = command.Coordinator.Facilities?
                     .Select(x => x.Id)
@@ -57,7 +57,7 @@ namespace HyFive.Services.City
                 requestedFacilityIds.IntersectWith(allowedFacilityIds);
 
                 if (requestedFacilityIds.Count == 0)
-                    throw new ValidationException("FacilitiesForCityNotFound", city);
+                    throw new ValidationException("FacilitiesForCityNotFound", cityId);
 
                 // 2) Create or load ONE coordinator user (no more per-facility rows)
                 var coordinator = await _context.User
@@ -98,14 +98,13 @@ namespace HyFive.Services.City
 
                 return new Status { Success = true };
             }
-            private async Task<List<int>> GetFacilityIdsInCity(string city, CancellationToken ct)
+            private async Task<List<int>> GetFacilityIdsInCity(int cityId, CancellationToken ct)
             {
                 return await
                     (from f in _context.OrganisationUnit.AsNoTracking()
                      join a in _context.Address.AsNoTracking() on f.AddressId equals a.Id
                      where f.ParentId == null
-                           && a.City != null
-                           && EF.Functions.ILike(a.City, city)
+                           && a.CityId == cityId
                      select f.Id)
                     .Distinct()
                     .ToListAsync(ct);

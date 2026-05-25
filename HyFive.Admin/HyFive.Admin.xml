@@ -4,6 +4,54 @@
         <name>HyFive.Admin</name>
     </assembly>
     <members>
+        <member name="M:HyFive.Admin.Controllers.V1.CityController.GetCoordinatorsForCity(System.Int32)">
+            <summary>
+            Retrieves the coordinators for the specified city.
+            </summary>
+            <param name="cityId">The identifier of the city. Must be greater than zero.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Mvc.ActionResult`1"/> containing the coordinators:
+            - 200 OK with an array of <see cref="T:HyFive.Models.V1.User.CityCoordinator"/> when successful.
+            - 400 Bad Request when <paramref name="cityId"/> is invalid.
+            - 401 Unauthorized when the caller is not authorized to access coordinators for the city.
+            </returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.CityController.GetFacilitiesForCity(System.Int32)">
+            <summary>
+            Retrieves the facilities report for the specified city.
+            </summary>
+            <param name="cityId">The identifier of the city. Must be greater than zero.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Mvc.ActionResult`1"/> containing the facility reports:
+            - 200 OK with an array of <see cref="T:HyFive.Models.V1.OrganisationUnit.FacilityReport"/> when successful.
+            - 400 Bad Request when <paramref name="cityId"/> is invalid.
+            - 401 Unauthorized when the caller is not authorized to access facilities for the city.
+            </returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.CityController.UpdateCoordinator(HyFive.Models.V1.User.CityCoordinator,System.Int32)">
+            <summary>
+            Updates a coordinator for the specified city.
+            </summary>
+            <param name="coordinator">The coordinator details from the request body.</param>
+            <param name="cityId">The identifier of the city. Must be greater than zero.</param>
+            <returns>
+            - 200 OK with <see cref="T:HyFive.Models.V1.Status"/> when update succeeds.
+            - 400 Bad Request when inputs are invalid.
+            - 401 Unauthorized when the caller is not authorized to update coordinators for the city.
+            </returns>
+        </member>
+        <member name="M:HyFive.Admin.Controllers.V1.CityController.CreateCoordinator(HyFive.Models.V1.User.CityCoordinator,System.Int32)">
+            <summary>
+            Creates a coordinator for the specified city.
+            </summary>
+            <param name="coordinator">The coordinator details from the request body.</param>
+            <param name="cityId">The identifier of the city. Must be greater than zero.</param>
+            <returns>
+            - 200 OK with a <see cref="T:HyFive.Models.V1.Status"/> when creation succeeds.
+            - 400 Bad Request when inputs are invalid.
+            - 401 Unauthorized when the caller is not authorized to create coordinators for the city.
+            </returns>
+        </member>
         <member name="M:HyFive.Admin.Controllers.V1.ActivityTypeController.GetAllActivityTypes">
             <summary>
             Get all available activity types <see cref="T:HyFive.Models.V1.Observation.ActivityType"/>

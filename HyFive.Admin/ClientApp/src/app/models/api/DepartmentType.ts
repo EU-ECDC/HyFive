@@ -2,10 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface Address
+export interface DepartmentType
 {
 	id: number;
-	street: string;
-	postalCode: string;
->>>>>>>> main:HyFive.Admin/ClientApp/src/app/models/api/Address.ts
+	code: string;
+	name: string;
 }

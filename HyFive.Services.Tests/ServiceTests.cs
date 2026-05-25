@@ -120,6 +120,7 @@ namespace HyFive.Services.Tests
         {
             await EnsureOrganisationUnitLevel(OrganisationUnitLevels.Facility);
             var facilityType = await EnsureOrganisationUnitType("HOSP", "Hospital");
+            var city = await EnsureCity("Oslo");
 
             var handler = new CreateFacility.Handler(DatabaseContext, Mapper);
 
@@ -130,7 +131,7 @@ namespace HyFive.Services.Tests
                     Name = "FacilityTest",
                     Abbreviation = "FT",
                     OrganisationUnitTypeId = facilityType.Id,
-                    City = "Oslo",
+                    CityId = city.Id,
                     FirstName = "Coord",
                     LastName = "User",
                     Email = "coord@test.com"
@@ -258,6 +259,19 @@ namespace HyFive.Services.Tests
             DatabaseContext.OrganisationUnitType.Add(type);
             await DatabaseContext.SaveChangesAsync();
             return type;
+        }
+        private async Task<Domain.Place.City> EnsureCity(string name)
+        {
+            var city = await DatabaseContext.City.FirstOrDefaultAsync(c => c.Name == name);
+
+            if (city != null)
+                return city;
+
+            city = new Domain.Place.City { Name = name };
+            DatabaseContext.City.Add(city);
+            await DatabaseContext.SaveChangesAsync();
+
+            return city;
         }
     }
 }

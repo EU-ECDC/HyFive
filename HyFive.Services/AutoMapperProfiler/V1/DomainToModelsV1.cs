@@ -36,6 +36,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             CreateMap<Domain.Place.OrganisationUnitLevel, Models.V1.OrganisationUnit.OrganisationUnitLevel>(MemberList.None);
             CreateMap<HyFive.Domain.Place.OrganisationUnitType, HyFive.Models.V1.OrganisationUnit.OrganisationUnitType>(MemberList.None);
             CreateMap<HyFive.Domain.Place.Address, HyFive.Models.V1.OrganisationUnit.Address>(MemberList.None);
+            CreateMap<HyFive.Domain.Place.City, Models.V1.OrganisationUnit.City>(MemberList.None);
             CreateMap<HyFive.Domain.User.UserPermission, HyFive.Models.V1.User.UserPermission>(MemberList.None);
             CreateMap<HyFive.Domain.User.UserIdentifier, HyFive.Models.V1.User.UserIdentifier>(MemberList.None);
             CreateMap<HyFive.Domain.User.UserIdentifierType, HyFive.Models.V1.User.UserIdentifierType>(MemberList.None);
@@ -352,7 +353,7 @@ namespace HyFive.Services.AutoMapperProfiler.V1
             => GetFacility(session)?.Type?.Name;
 
         private static string GetFacilityCity(Domain.Session.Session session)
-            => GetFacility(session)?.Address?.City;
+            => GetFacility(session)?.Address?.City?.Name;
 
         public static string GetSessionTypeDisplayNameFromDiscriminator(string discriminator)
         {

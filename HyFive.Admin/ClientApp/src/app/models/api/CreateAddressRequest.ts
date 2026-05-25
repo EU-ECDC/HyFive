@@ -2,9 +2,16 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
+<<<<<<<< HEAD:HyFive.Admin/ClientApp/src/app/models/api/CreateOrganisationUnitLevelRequest.ts
+export interface CreateOrganisationUnitLevelRequest
+{
+	level: string;
+	description: string;
+========
 export interface CreateAddressRequest
 {
-	city: string;
+	cityId: number;
 	street: string;
 	postalCode: string;
+>>>>>>>> development:HyFive.Admin/ClientApp/src/app/models/api/CreateAddressRequest.ts
 }

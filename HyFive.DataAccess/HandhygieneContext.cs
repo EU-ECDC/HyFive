@@ -29,6 +29,7 @@ namespace HyFive.DataAccess
         public DbSet<OrganisationUnitLevel> OrganisationUnitLevel { get; set; }
         public DbSet<OrganisationUnitAssociation> OrganisationUnitAssociation { get; set; }
         public DbSet<Address> Address { get; set; }
+        public DbSet<City> City { get; set; }
         public DbSet<PredefinedComment> PredefinedComment { get; set; }
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<HandJewelryType> HandJewelryType { get; set; }
@@ -294,9 +295,14 @@ namespace HyFive.DataAccess
 
             mb.Entity<Address>(e =>
             {
-                e.Property(x => x.City).HasMaxLength(150);
+                e.Property(x => x.CityId).IsRequired();
                 e.Property(x => x.Street).HasMaxLength(250);
                 e.Property(x => x.PostalCode).HasMaxLength(30);
+
+                e.HasOne(x => x.City)
+                    .WithMany(c => c.Addresses)
+                    .HasForeignKey(x => x.CityId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.Property(x => x.CreatedAt)
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");

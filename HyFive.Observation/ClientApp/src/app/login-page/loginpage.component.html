@@ -1,8 +1,7 @@
 
-<div class="container">
+<div class="container position-relative" style="bottom: 35px;">
   <div class="row">
     <div class="col-12">
-      <!-- <h3>ECDC</h3> -->
     </div>
     <app-offline-message (hasInternetEvent)="receivedInternetStatus($event)"></app-offline-message>
     <div class="col-12" *ngIf="!receivedUserStatusFromServer">
@@ -10,32 +9,28 @@
       <app-spinner> </app-spinner>
     </div>
 
-    <div class="col-12" *ngIf="user?.name && isOnline">
-      <p class="mb-2">{{'Hello' | translate}}, {{user.name}}. </p>
-      <p>{{"Welcome to the ECDC hyFive Hand Hygiene Monitoring Tool." | translate }}</p>
+    <div class="col-12 flex flex-column justify-content-center align-items-center" *ngIf="user?.name && isOnline">
+      <img class="d-block m-auto" src="../../assets/icons/icon-128x128.png" alt="ECDC-Logo">
+      <p class="mb-2 text-center">{{'Hello' | translate}}, {{user.name}}. </p>
     </div>
   </div>
 
   <ng-container *ngIf="receivedUserStatusFromServer">
-    <div class="row" *ngIf="isOnline && isLoggedIn == false">
+    <div class="row d-flex justify-content-center" *ngIf="isOnline && isLoggedIn == false">
       <div class="col-lg-4">
-        <p *ngIf="isLoggedIn == false">{{"You are not logged in." | translate}} <br />
+        <img class="d-block m-auto" src="../../assets/icons/icon-128x128.png" alt="ECDC-Logo">
+        <p class="text-center" *ngIf="isLoggedIn == false">{{"You are not logged in." | translate}} <br />
         <b>{{"Log in" | translate }}</b> {{"to access ECDC." | translate}}</p>
-        <a href="/account/login" class="btn fhi-btn-primary">
+        <a href="/account/login" class="btn fhi-btn-primary d-block m-auto">
           {{"Log in" | translate }}
         </a>
       </div>
     </div>
     <ng-container *ngIf="isOnline && isLoggedIn">
-      <div class="row mt-3 word">
-        <div class="col">
-          <p>{{"Find more information about ECDC hyFive at" | translate}} <a href="https://www.ecdc.europa.eu/hyfive" target="_blank">https://www.ecdc.europa.eu/hyfive</a>. {{"Questions or inquiries can be directed to" | translate}} <a href="mailto:hyfive@ecdc.europa.eu​">hyfive&#64;ecdc.europa.eu</a>.</p>
-        </div>
+      <div class="row h-50 w-100 mb-3 m-auto">
+        <app-language-selector class="d-flex justify-content-center"></app-language-selector>
       </div>
-      <div class="row h-50 w-100 mb-3">
-        <app-language-selector></app-language-selector>
-      </div>
-      <div *ngIf="hasFacilities; else noFacilities" class="row">
+      <div *ngIf="hasFacilities; else noFacilities" class="row d-flex justify-content-center">
         <div class="col-lg-8">
           <a [routerLink]="'/register'" class="btn fhi-btn-primary w-100">
             {{"Start observation" | translate}}
@@ -48,9 +43,13 @@
       
     </ng-container>
   </ng-container>
-  <div class="row" *ngIf="isLoggedIn">
-    <div class="col-lg-4 mt-3">
+  <div class="row justify-content-center" *ngIf="isLoggedIn">
+    <div class="col-lg-4 mt-3 text-center">
       <button class="btn fhi-btn-primary" (click)="logout()">{{"Log out" | translate}}</button>
     </div>
+  </div>
+  <div class="mt-7 d-flex flex-row flex-nowrap w-auto align-items-center justify-content-center">
+    <img class="p-2" style="height: 80px; width: auto;" src="../../assets/icons/ECDC-sphere.png" alt="ECDC-sphere">
+    <p class="p-0" style="font-size: small;">{{"Find more information about ECDC hyFive at" | translate}} <a href="https://www.ecdc.europa.eu/hyfive" target="_blank">https://www.ecdc.europa.eu/hyfive</a>. {{"Questions or inquiries can be directed to" | translate}} <a href="mailto:hyfive@ecdc.europa.eu​">hyfive&#64;ecdc.europa.eu</a>.</p>
   </div>
 </div>
