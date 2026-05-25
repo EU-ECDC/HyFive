@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogMessageService } from 'src/app/services/data/dialog-message.service';
 import { OrganisationUnitType } from 'src/app/models/api/OrganisationUnitType';
 import { OrganisationUnit } from 'src/app/models/api/OrganisationUnit';
+import { City } from 'src/app/models/api/City';
+
 
 @Component({
   selector: 'app-create-facility',
@@ -19,8 +21,8 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   facilityTypes: OrganisationUnitType[] = [];
   newfacility: CreateFacilityRequest = null;
-  // listOfCities: City[] = [];
-  listOfCities: {id: string,name: string}[] = [];
+  listOfCities: City[] = [];
+  // listOfCities: {id: string,name: string}[] = [];
 
   mailValidatorHelper;
 
@@ -47,7 +49,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       (allCities) => {
         // this.listOfCities = allCities;
         allCities.forEach(item => {
-          this.listOfCities.push({id: item, name: item});
+          this.listOfCities.push({id: item.id, name: item.name});
         });
       }
     );
@@ -84,7 +86,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
       abbreviation: null,
       description: null,
       organisationUnitTypeId: defaultFacilityType.id,
-      city: null,
+      cityId: null,
 	    street: null,
 	    postalCode: null,
       firstName: null,
@@ -100,7 +102,7 @@ export class CreateFacilityComponent implements OnInit, OnDestroy {
 
   canCreateFacility(): boolean{
     return this.newfacility?.name?.length > 0
-      && this.newfacility.city !== null
+      && this.newfacility.cityId !== null
       && this.newfacility?.firstName?.length > 0
       && this.newfacility?.lastName?.length > 0
       // && !this.coordinators.some(fc => fc.email == this.newfacility?.email)
